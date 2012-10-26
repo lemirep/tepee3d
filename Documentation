@@ -1,0 +1,45 @@
+
+
+
+	  Plugin
+	/	 \
+    C++ Plugin   Qml Plugin
+
+
+
+Plugin compilé sous forme de library
+-> doit hériter de PluginInterface et QObject
+-> doit se déclarer à QT : 
+---> dans le header utiliser les MACRO Q_OBJECT et Q_INTERFACES
+---> dans le c++ utiliser Q_EXPORT_PLUGIN2 (Qt 4) et Q_PLUGIN_METADATA (pour Qt5 et se met sous la macro Q_OBJECT)
+
+
+! Differents changements de noms de classes sous Qt5 et des includes
+
+
+Un QPlugin doit hériter de QObject mais l'interface du plugin ne peut pas et on ne peut du coup pas définir les signaux dans l'interface. Cependant on peut ajouter une methode getObject dans l'interface qui returne un QObject (this car la classe herite de QObject) permettant de faire la connection. Toutefois les signaux devront être clairement définis dans la documentation;
+
+Comme on doit implementer un plugin QML, le plugin heritera de QDeclarativeExtensionPlugin (QQmlExtensionPlugin Qt5) qui herite de QObject.
+
+QDeclarativeExtensionPlugin permet de definir en plus des proprietes custom pour un object qml par exemple ajouter une variable heure pour une horloge....
+Le plugin doit avoir une methode qui nous renvoit le nom d'un ou plusieur qml que l'on pourra alors charger dynamiquement dans l'application
+
+En plus de la classe implementant l'interface du plugin, un plugin peut contenir d'autres classes qui definissents les qml et les models de donnees.
+
+
+Definir Interface du Plugin C++ (PluginInterface)
+-> Declarer l'interface à Qt avec Q_DECLARE_INTERFACE
+-> Charger les plugins au démarrage depuis dossier dans l'application (/plugins par exemple) en utilisant QPluginLoader
+-> Enregistrer Plugins dans QList de PluginInterface *
+-> Effectuer Connexion des signaux Qt si nécessaires
+-> Exposer les fichiers QML du plugin au QmlEngine de l'application
+-> Exposer les models de données du plugin Qml au QmlContext de l'application
+
+Remarques :
+
+Les fichiers qml d'un plugin ne sont pas compilés dans la library, il faut les incorporer dans le répertoire qml de l'application.
+Réfléchir à un mécanisme permettant d'automatiser le proceder (.pro custom ?) et éviter des conflits de noms de fichiers (ajouter nomduplugin_ devant les fichiers ?).
+
+Pour chaque plugin définir 2 QML : un de vue depuis une room et un de la vue custom du plugin
+
+Mettre à jour les plugins : boucler sur les plugins actuellement affiché et appeler une méthode d'update ou chaque plugin se gère lui même ?

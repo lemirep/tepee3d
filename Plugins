@@ -1,0 +1,6 @@
+Each Plugin has a unique Id
+
+-> Plugin in use (one that is present in a room)
+-> Plugin available (one that you have in your local plugin folder and that you can load in a room)
+
+Logic Management is only available for Plugins in use
