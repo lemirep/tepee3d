@@ -7,10 +7,12 @@ Item
     width: minMenuWidth
     height: minMenuHeight
 
+
     property bool isShown : false
     property int  minMenuWidth : mainWindow.width / 10
     property int  maxMenuWidth : mainWindow.width / 3
-    property int  minMenuHeight : mainWindow.height / 2
+    //    property int  minMenuHeight : mainWindow.height / 2
+    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
@@ -33,17 +35,10 @@ Item
     function dragEnd()
     {
         if ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
-        {
-            if (menuLeftMain.isShown)
-                menuLeftMain.isShown = false;
             menuLeftMain.isShown = true;
-        }
         else
-        {
-            if (!menuLeftMain.isShown)
-                menuLeftMain.isShown = true;
             menuLeftMain.isShown = false;
-        }
+//        console.log(menuLeftMain.isShown)
     }
 
     states :     [
@@ -58,14 +53,15 @@ Item
             PropertyChanges
             {
                 target: menuLeftRec
+                width : maxMenuWidth
+                height : maxMenuHeight
                 opacity : mainWindow.menu_opacity_deployed
             }
             PropertyChanges
             {
-                target : room_menu
-                visible : true
+                target : room_list_view
+                opacity : 1
             }
-
             when: menuLeftMain.isShown
         },
         State {
@@ -78,40 +74,74 @@ Item
             }
             PropertyChanges {
                 target: menuLeftRec
+                width : minMenuWidth
+                height : minMenuHeight
                 opacity : 0
             }
             PropertyChanges
             {
-                target : room_menu
-                visible : false;
+                target : room_list_view
+                opacity : 0
             }
             when: !menuLeftMain.isShown
         }]
+
+    transitions :    [
+        Transition
+        {
+            from: "menuHidden"
+            to: "menuShown"
+            NumberAnimation
+            {
+                target : menuLeftRec
+                properties : "width, opacity"
+                duration : 200
+            }
+            NumberAnimation
+            {
+                target : room_list_view
+                properties : "opacity"
+                duration : 250
+            }
+
+        },
+        Transition
+        {
+            from: "menuShown"
+            to: "menuHidden"
+            NumberAnimation
+            {
+                target : menuLeftRec
+                properties : "width, opacity"
+                duration : 200
+            }
+            NumberAnimation
+            {
+                target : room_list_view
+                properties: "opacity"
+                duration : 150
+            }
+        }
+    ]
+
 
     Rectangle
     {
         id : menuLeftRec
         height : parent.height
-        width : menuLeftMain.width
+        width : parent.width
         color : mainWindow.menu_background_color
         opacity : 0
-        Behavior on width {NumberAnimation {duration: 100}}
-        Behavior on opacity {NumberAnimation {duration: 500}}
-        Behavior on height {PropertyAnimation { properties: "height"; easing.type: Easing.OutBounce; duration : 500 }}
-    }
-
-    Item
-    {
-        id : room_menu
-        anchors.fill: parent
 
         ListView
         {
+            id : room_list_view
+
             property real delegate_width :  menuLeftMain.width / 2;
             property real delegate_height : menuLeftMain.width / 3;
 
-
-            id : room_list_view
+            opacity : 0
+            enabled : (opacity == 1)
             clip: true
             anchors
             {

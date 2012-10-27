@@ -13,7 +13,8 @@ Item
     property int  maxMenuWidth : mainWindow.width / 3
     property int  minMenuX : mainWindow.width - minMenuWidth
     property int  maxMenuX : mainWindow.width - maxMenuWidth
-    property int  minMenuHeight : mainWindow.height / 2
+//    property int  minMenuHeight : mainWindow.height / 2
+    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
@@ -81,6 +82,31 @@ Item
             when: !menuRightMain.isShown
         }]
 
+    transitions :    [
+        Transition
+        {
+            from: "menuHidden"
+            to: "menuShown"
+            NumberAnimation
+            {
+                target : menuRightRec
+                properties : "width, opacity"
+                duration : 200
+            }
+        },
+        Transition
+        {
+            from: "menuShown"
+            to: "menuHidden"
+            NumberAnimation
+            {
+                target : menuRightRec
+                properties : "width, opacity"
+                duration : 200
+            }
+        }
+    ]
+
     Rectangle
     {
         id : menuRightRec
@@ -88,8 +114,8 @@ Item
         height : parent.height
         color : mainWindow.menu_background_color
         opacity : 0.2
-        Behavior on x {NumberAnimation {duration: 100}}
-        Behavior on opacity {NumberAnimation {duration: 500}}
-        Behavior on height {PropertyAnimation { properties: "height"; easing.type: Easing.OutBounce; duration : 500 }}
+//        Behavior on x {NumberAnimation {duration: 100}}
+//        Behavior on opacity {NumberAnimation {duration: 500}}
+//        Behavior on height {PropertyAnimation { properties: "height"; easing.type: Easing.OutBounce; duration : 500 }}
     }
 }

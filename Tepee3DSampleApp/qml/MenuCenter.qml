@@ -17,6 +17,7 @@ Item
             savedX = mouseX;
             savedY = mouseY;
             obj = null;
+
             // CHECK ON WHICH MENU WE CLICKED
             if (savedX >= topMenu.x && savedX <= (topMenu.x + topMenu.width) &&
                     savedY >= topMenu.y && savedY <= (topMenu.y + topMenu.height))
@@ -42,6 +43,7 @@ Item
                 var offsetY = mouseY - savedY;
                 var offsetX = mouseX - savedX;
                 obj.dragMoved(offsetX, offsetY);
+//                console.log("Moved");
                 obj.dragEnd();
             }
         }
