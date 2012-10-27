@@ -59,7 +59,7 @@ Item
             }
             PropertyChanges
             {
-                target : room_list_view
+                target : rooms_list_view
                 opacity : 1
             }
             when: menuLeftMain.isShown
@@ -80,7 +80,7 @@ Item
             }
             PropertyChanges
             {
-                target : room_list_view
+                target : rooms_list_view
                 opacity : 0
             }
             when: !menuLeftMain.isShown
@@ -99,7 +99,7 @@ Item
             }
             NumberAnimation
             {
-                target : room_list_view
+                target : rooms_list_view
                 properties : "opacity"
                 duration : 250
             }
@@ -117,7 +117,7 @@ Item
             }
             NumberAnimation
             {
-                target : room_list_view
+                target : rooms_list_view
                 properties: "opacity"
                 duration : 150
             }
@@ -135,7 +135,7 @@ Item
 
         ListView
         {
-            id : room_list_view
+            id : rooms_list_view
 
             property real delegate_width :  menuLeftMain.width / 2;
             property real delegate_height : menuLeftMain.width / 3;
@@ -155,7 +155,7 @@ Item
 
             Component.onCompleted:
             {
-                room_list_view.currentIndex = -1;
+                rooms_list_view.currentIndex = -1;
             }
         }
 
@@ -165,8 +165,8 @@ Item
             Item
             {
                 id : item_room_del
-                width : room_list_view.delegate_width
-                height : room_list_view.delegate_height
+                width : rooms_list_view.delegate_width
+                height : rooms_list_view.delegate_height
                 anchors.horizontalCenter: parent.horizontalCenter
                 scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
 
@@ -176,9 +176,9 @@ Item
                     anchors.fill : parent
                     onClicked :
                     {
-                        room_list_view.currentIndex = index;
+                        rooms_list_view.currentIndex = index;
                         console.log(index);
-                        console.log(room_list_view.currentIndex);
+                        console.log(rooms_list_view.currentIndex);
                         console.log("xc " + model.roomPosition.x + " yc " + model.roomPosition.y + " zc " + model.roomPosition.z);
                         // MOVE TO THE SELECTED ROOM
                         //camera.moveTo(model.roomPosition.x, model.roomPosition.y, model.roomPosition.z);
@@ -200,6 +200,10 @@ Item
                         roomManager.setCurrentRoom(model.roomId);
                         console.log(model.roomId);
 
+
+                        // SET MENU RIGHT PLUGIN MODEL
+                        rightMenu.currentRoomModel = null;
+
                         menuLeftMain.isShown = false;
 
                     }
@@ -207,7 +211,7 @@ Item
 
                 Rectangle
                 {
-                    color : (room_list_view.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
+                    color : (rooms_list_view.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
                     anchors.fill: parent
 
                 }

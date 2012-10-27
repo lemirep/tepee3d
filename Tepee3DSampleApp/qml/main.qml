@@ -12,6 +12,8 @@ Viewport
     property color menu_background_color : "#0066ff";
     property color room_list_component_color : "#0099dd";
     property color room_list_selected_component_color : "#0066cc";
+    property color plugin_list_component_color : "#0099dd";
+    property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
 
 

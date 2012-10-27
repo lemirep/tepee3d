@@ -7,6 +7,8 @@
 #include <PluginBase.h>
 #include "PluginLoader.h"
 #include "QmlContentExposerInterface.h"
+#include "ListModel.h"
+#include "PluginModelItem.h"
 
 namespace Plugins
 {
@@ -25,6 +27,7 @@ public:
 private:
     QSignalMapper   *signalMapper;
     QHash<PluginBase *, int>   loadedPlugins;
+    ListModel*      availablePluginsModel;
 
 };
 }

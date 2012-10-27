@@ -4,6 +4,9 @@
 #include "ListItem.h"
 #include "RoomBase.h"
 
+namespace   Room
+{
+
 class RoomModelItem : public ListItem
 {
     Q_OBJECT
@@ -34,4 +37,5 @@ private:
 
 };
 
+}
 #endif // ROOMMODELITEM_H

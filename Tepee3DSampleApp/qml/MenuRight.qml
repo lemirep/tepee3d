@@ -8,6 +8,7 @@ Item
     height: minMenuHeight
     x : minMenuX
 
+    property variant currentRoomModel : null
     property bool isShown : false
     property int  minMenuWidth : mainWindow.width / 10
     property int  maxMenuWidth : mainWindow.width / 3
@@ -60,9 +61,15 @@ Item
                 height : maxMenuHeight
                 x: maxMenuX
             }
-            PropertyChanges {
+            PropertyChanges
+            {
                 target: menuRightRec
                 opacity : mainWindow.menu_opacity_deployed
+            }
+            PropertyChanges
+            {
+                target : plugins_list_view
+                opacity : 1
             }
             when: menuRightMain.isShown
         },
@@ -75,8 +82,14 @@ Item
                 height : minMenuHeight
                 width : minMenuWidth
             }
-            PropertyChanges {
+            PropertyChanges
+            {
                 target: menuRightRec
+                opacity : 0
+            }
+            PropertyChanges
+            {
+                target : plugins_list_view
                 opacity : 0
             }
             when: !menuRightMain.isShown
@@ -93,6 +106,12 @@ Item
                 properties : "width, opacity"
                 duration : 200
             }
+            NumberAnimation
+            {
+                target : plugins_list_view
+                properties : "opacity"
+                duration : 250
+            }
         },
         Transition
         {
@@ -104,6 +123,12 @@ Item
                 properties : "width, opacity"
                 duration : 200
             }
+            NumberAnimation
+            {
+                target : plugins_list_view
+                properties : "opacity"
+                duration : 150
+            }
         }
     ]
 
@@ -113,9 +138,72 @@ Item
         width : parent.width
         height : parent.height
         color : mainWindow.menu_background_color
-        opacity : 0.2
-//        Behavior on x {NumberAnimation {duration: 100}}
-//        Behavior on opacity {NumberAnimation {duration: 500}}
-//        Behavior on height {PropertyAnimation { properties: "height"; easing.type: Easing.OutBounce; duration : 500 }}
+        opacity : 0
+
+        ListView
+        {
+            id : plugins_list_view
+
+            property real delegate_width :  menuRightMain.width / 2;
+            property real delegate_height : menuRightMain.width / 3;
+
+            opacity : 0
+            enabled : (opacity == 1)
+            clip: true
+            anchors
+            {
+                fill: parent
+                margins : menuRightMain.width / 8
+            }
+            orientation: ListView.Vertical
+            model : (currentRoomModel) ? currentRoomModel : availablePluginsModel
+            delegate: plugin_list_delegate
+            spacing: 10
+        }
+
+        Component
+        {
+            id : plugin_list_delegate
+
+            Item
+            {
+                id : item_plugin_del
+                width : plugins_list_view.delegate_width
+                height : plugins_list_view.delegate_height
+                anchors.horizontalCenter: parent.horizontalCenter
+                scale : plugin_delegate_mouse_area.pressed ? 0.9 : 1.0
+
+                MouseArea
+                {
+                    id : plugin_delegate_mouse_area
+                    anchors.fill : parent
+                    onClicked :
+                    {
+                        plugins_list_view.currentIndex = index;
+                    }
+                }
+
+                Rectangle
+                {
+                    color : (plugins_list_view.currentIndex == index) ? mainWindow.plugin_list_selected_component_color: mainWindow.plugin_list_component_color
+                    anchors.fill: parent
+                }
+
+                Text
+                {
+                    id: plugin_title
+                    text: model.pluginName
+                    anchors
+                    {
+                        horizontalCenter : parent.horizontalCenter
+                        bottom : parent.bottom
+                        margins : 10
+                    }
+                    color :  "white"
+                }
+            }
+
+        }
+
     }
 }

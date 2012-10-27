@@ -1,20 +1,20 @@
 #include "RoomModelItem.h"
 
-RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : ListItem(parent)
+Room::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : ListItem(parent)
 {
     this->room = room;
 }
 
-RoomModelItem::~RoomModelItem()
+Room::RoomModelItem::~RoomModelItem()
 {
 }
 
-int         RoomModelItem::id() const
+int         Room::RoomModelItem::id() const
 {
     return this->room->getRoomId();
 }
 
-QVariant    RoomModelItem::data(int role) const
+QVariant    Room::RoomModelItem::data(int role) const
 {
     switch (role)
     {
@@ -33,7 +33,7 @@ QVariant    RoomModelItem::data(int role) const
     }
 }
 
-QHash<int, QByteArray>  RoomModelItem::roleNames()  const
+QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
 {
     QHash<int, QByteArray>  roles;
 
@@ -46,7 +46,7 @@ QHash<int, QByteArray>  RoomModelItem::roleNames()  const
     return roles;
 }
 
-Room::RoomBase*   RoomModelItem::getRoom()    const
+Room::RoomBase*   Room::RoomModelItem::getRoom()    const
 {
     return this->room;
 }

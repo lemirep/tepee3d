@@ -4,7 +4,7 @@
 
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
-    this->roomModel = new ListModel(new RoomModelItem(NULL, NULL));
+    this->roomModel = new ListModel(new Room::RoomModelItem(NULL, NULL));
     this->roomUpdateTimer = new QTimer();
     this->currentRoom = NULL;
     this->loadRoomLibrary();
