@@ -38,9 +38,9 @@ public:
 
     virtual QList<Plugins::PluginBase *>     getWidgetsList()   const = 0;
 
-    virtual void                    setScale(QVector3D scale)         = 0;
-    virtual void                    setRoomName(QString name)         = 0;
-    virtual void                    setPosition(QVector3D position)   = 0;
+    virtual void                    setScale(const QVector3D& scale)         = 0;
+    virtual void                    setRoomName(const QString& name)         = 0;
+    virtual void                    setPosition(const QVector3D& position)   = 0;
     virtual void                    addWidgetToRoom(Plugins::PluginBase *) = 0;
 
 signals :

@@ -46,9 +46,9 @@ public:
     QQuickItem*                 getRoomQmlObject()  const;
     QList<Plugins::PluginBase*>          getWidgetsList()    const;
 
-    void                        setScale(QVector3D scale);
-    void                        setRoomName(QString name);
-    void                        setPosition(QVector3D position);
+    void                        setScale(const QVector3D& scale);
+    void                        setRoomName(const QString& name);
+    void                        setPosition(const QVector3D& position);
     void                        addWidgetToRoom(Plugins::PluginBase *);
 
     Room::RoomBase*             createNewInstance();

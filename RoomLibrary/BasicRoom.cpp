@@ -48,7 +48,7 @@ QVector3D BasicRoom::getPosition() const
     return this->position;
 }
 
-void    BasicRoom::setPosition(QVector3D position)
+void    BasicRoom::setPosition(const QVector3D& position)
 {
     this->position = position;
     this->updateRoomCenter();
@@ -60,7 +60,7 @@ QVector3D BasicRoom::getScale() const
     return this->scale;
 }
 
-void    BasicRoom::setScale(QVector3D scale)
+void    BasicRoom::setScale(const QVector3D &scale)
 {
     this->scale = scale;
     this->updateRoomCenter();
@@ -83,7 +83,7 @@ QString BasicRoom::getRoomName() const
     return this->roomName;
 }
 
-void    BasicRoom::setRoomName(QString name)
+void    BasicRoom::setRoomName(const QString& name)
 {
     this->roomName = name;
 }
