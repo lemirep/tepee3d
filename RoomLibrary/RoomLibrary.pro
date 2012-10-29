@@ -21,5 +21,7 @@ HEADERS += BasicRoom.h  \
 
 DESTDIR = ../libraries/room_library
 
+include(../DeveloperAPIFiles/DevelopmentFiles.pri)
+
 INCLUDEPATH += ../Tepee3DSampleApp/Room
-INCLUDEPATH += ../DeveloperAPIFiles/Plugins
+

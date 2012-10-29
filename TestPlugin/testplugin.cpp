@@ -38,9 +38,14 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void   TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
 {
     qDebug() << "Received Result From SQL Query Plugin";
+}
+
+void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
+{
+    qDebug() << "Received Network Reply";
 }
 
 //void        TestPlugin::resultFromSQL()

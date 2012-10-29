@@ -9,6 +9,7 @@
 #include <QSqlRecord>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QHttpMultiPart>
 #include <QSignalMapper>
 #include "ServiceInterface.h"
 #include "QmlContentExposerInterface.h"
@@ -43,7 +44,8 @@ private:
 
 signals :
     void executeSQLQuery(const QString &query, QObject *sender);
-    void executeHttpRequest(QNetworkRequest *, QObject *sender);
+    void executeHttpRequest(const QNetworkRequest &request, int requestType,
+                            QHttpMultiPart *multiPart, QObject *sender);
 };
 
 }

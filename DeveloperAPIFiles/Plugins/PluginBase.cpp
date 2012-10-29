@@ -1,10 +1,10 @@
 #include "PluginBase.h"
 //DEBUG
-#include <iostream>
+#include <QDebug>
 
 Plugins::PluginBase::PluginBase()
 {
-    std::cout << "NEW PLUGINBASE INSTANCE CREATED " << std::endl;
+    qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
 }
 
 Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
@@ -14,5 +14,26 @@ Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
 
 void    Plugins::PluginBase::resultFromSQL()
 {
-    std::cout << "PLUGIN BASE RESULT FROM SQL" << std::endl;
+    qDebug() << "PLUGIN BASE RESULT FROM SQL";
 }
+
+void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request)
+{
+    emit execHttpRequest(request, GET, NULL, this);
+}
+
+void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request)
+{
+    emit execHttpRequest(request, DELETE, NULL, this);
+}
+
+void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
+{
+    emit execHttpRequest(request, POST, multiPart, this);
+}
+
+void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
+{
+    emit execHttpRequest(request, PUT, multiPart, this);
+}
+

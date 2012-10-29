@@ -17,9 +17,11 @@ TARGET = WebServiceManagerLibrary
 
 DEFINES += WEBSERVICEMANAGERLIBRARY_LIBRARY
 
-SOURCES += WebServiceManager.cpp
+SOURCES += WebServiceManager.cpp \
+    NetworkReplyRepeater.cpp
 
-HEADERS += WebServiceManager.h
+HEADERS += WebServiceManager.h \
+    NetworkReplyRepeater.h
 
 DESTDIR = ../../libraries/services_lib
 
