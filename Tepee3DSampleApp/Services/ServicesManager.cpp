@@ -6,11 +6,28 @@
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
     this->loadServicesLibraries();
+
+    // Test SQL
+//    emit executeSQLQuery("SELECT * FROM toto", this);
+    this->executeSQLQuery("SELECT * FROM toto", this);
+
 }
 
 void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 {
 
+}
+
+void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
+{
+    QObject::connect(serviceUser, SIGNAL(executeSQLQuery(const QString &, QObject *)),
+                     this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
+}
+
+void    Services::ServicesManager::disconnectObjectFromServices(QObject *serviceUser)
+{
+    QObject::disconnect(serviceUser, SIGNAL(executeSQLQuery(const QString &, QObject *)),
+                     this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
 }
 
 bool    Services::ServicesManager::loadServicesLibraries()

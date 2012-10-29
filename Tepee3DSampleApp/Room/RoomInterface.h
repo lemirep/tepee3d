@@ -1,12 +1,6 @@
 #ifndef ROOMINTERFACE_H
 #define ROOMINTERFACE_H
 
-#include <QString>
-#include <QList>
-#include <QtQuick/QQuickItem>
-#include <stdlib.h>
-#include <QVector>
-
 namespace  Room
 {
 

@@ -6,7 +6,7 @@
 #include "QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "RoomModelItem.h"
-
+#include "DatabaseServiceUserInterface.h"
 
 // CREATES ROOM MODEL, RESTORE AND SAVE ROOMS AND EXPOSE THEM TO QML
 
@@ -15,8 +15,7 @@
 
 namespace   Room
 {
-
-class RoomManager : public QObject, public QmlContentExposerInterface
+class RoomManager : public QObject, public QmlContentExposerInterface, public DatabaseServiceUserInterface
 {
     Q_OBJECT
 public:
@@ -28,8 +27,10 @@ public:
 
     RoomBase*       getCurrentRoom()    const;
     void            setCurrentRoom(RoomBase *room);
-
+    // QmlContentExposer
     void            exposeContentToQml(QQmlContext *context);
+    // DatabaseUser
+    void            receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
 
 
 // METHODS THAT CAN BE CALLED FROM QML
@@ -44,6 +45,9 @@ private:
     QTimer          *roomUpdateTimer;
 
     void            loadRoomLibrary();
+
+signals:
+    void executeSQLQuery(const QString &query, QObject *sender);
 };
 
 }

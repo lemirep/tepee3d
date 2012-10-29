@@ -1,4 +1,6 @@
 #include "PluginManager.h"
+// DEBUG
+#include <QDebug>
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
@@ -24,7 +26,15 @@ void Plugins::PluginManager::loadLocalPlugins()
     else
         this->availablePluginsModel->clear();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())
+    {
         this->availablePluginsModel->appendRow(new Plugins::PluginModelItem(plugin, this));
+        // DO PLUGIN CONNECTION TO SIGNAL MAPPER FOR SERVICES HERE
+    }
+}
+
+void    Plugins::PluginManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+{
+    qDebug() << "PluginManager Received Result";
 }
 
 QList<Plugins::PluginBase *> Plugins::PluginManager::getAvailablePlugins() const

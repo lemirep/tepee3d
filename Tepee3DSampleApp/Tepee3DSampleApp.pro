@@ -56,6 +56,8 @@ SOURCES += main.cpp \
     QmlViewManager.cpp \
     ListModel.cpp
 
+# Include Shared Development Files
+include(../DeveloperAPIFiles/DevelopmentFiles.pri)
 # Include Room Sources
 include(Room/Room.pri)
 # Include Services Sources

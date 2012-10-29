@@ -1,7 +1,7 @@
 #include "testplugin.h"
 #include "widgetmodel.h"
 #include <iostream>
-
+#include <QDebug>
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
@@ -36,6 +36,11 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 Plugins::PluginBase* TestPlugin::createNewInstance()
 {
     return new TestPlugin();
+}
+
+void   TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+{
+    qDebug() << "Received Result From SQL Query Plugin";
 }
 
 //void        TestPlugin::resultFromSQL()

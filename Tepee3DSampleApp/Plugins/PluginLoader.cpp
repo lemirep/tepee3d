@@ -1,6 +1,6 @@
 #include "PluginLoader.h"
 // DEBUG
-#include <iostream>
+#include <QDebug>
 
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
@@ -24,20 +24,19 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
     // LOOP THROUGH EACH FILE OF THE PLUGIN DIR AND LOAD THE PLUGINS
     foreach (QString fileName, pluginsDir.entryList(QDir::Files))
     {
-        std::cout << "NEW PLUGIN FOUND " << fileName.toStdString() << " ABSOLUTE PATH " << pluginsDir.absoluteFilePath(fileName).toStdString() << std::endl;
+        qDebug() << "NEW PLUGIN FOUND " << fileName << " ABSOLUTE PATH " << pluginsDir.absoluteFilePath(fileName);
         QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
         Plugins::PluginInterface *plugin = qobject_cast<PluginInterface *>(pluginLoader.instance());
         if (plugin)
         {
-            std::cout << "WIDGET PLUGIN LOADED" << std::endl;
+            qDebug() << "WIDGET PLUGIN LOADED";
             widgetPlugins.append(plugin->getPluginBase());
-            plugin->getPluginBase()->resultFromSQL();
         }
         else
         {
            // qDebug("WIDGET PLUGIN FAILED TO LxxxxxxxxxxxxxxOAD");
-            std::cout << "FAILED TO LOADE " << fileName.toStdString() << std::endl;
-            std::cout << pluginLoader.errorString().toStdString() << std::endl;
+            qDebug() << "FAILED TO LOAD " << fileName;
+            qDebug() << pluginLoader.errorString();
         }
     }
 }

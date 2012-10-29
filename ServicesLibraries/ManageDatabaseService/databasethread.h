@@ -4,6 +4,7 @@
 #include <QThread>
 #include "ServiceInterface.h"
 #include "managebdd.h"
+#include "DatabaseServiceUserInterface.h"
 
 
 class DatabaseThread : public QThread, Services::ServiceInterface
@@ -21,9 +22,10 @@ public:
     void        initLibraryConnection(QObject *parent);
     QObject*    getLibraryQObject();
 
+private slots:
+    void        transmitSQLResult(const QList<QSqlRecord>& result, QObject *receiver);
 signals:
-    void        resultQuery(QList<QSqlRecord>, int);
-    void        queryToExec(QString Query, int);
+    void        executeSQLQuery(const QString& query, QObject *sender);
 };
 
 #endif // DATABASETHREAD_H

@@ -1,4 +1,7 @@
 #include "managebdd.h"
+// DEBUG
+#include <QDebug>
+
 
 ManageBDD::ManageBDD() : QObject()
 {
@@ -42,17 +45,17 @@ bool ManageBDD::openDatabase(QString dbname)
 }
 
 //execute a query in database and send the result by a signal
-void ManageBDD::queryToExec(QString query, int type)
+void ManageBDD::executeSQLQuery(const QString& query, QObject *sender)
 {
     if (this->dataBase.open())
     {
-        std::cout << "Receive query :" << query.toStdString() << std::endl;
-        QSqlQuery Q(query, this->dataBase);
+        qDebug() << "Received query : " << query;
+        QSqlQuery q(query, this->dataBase);
         QList<QSqlRecord> results;
-        results.push_back(Q.record());
-        while (Q.next())
-            results.push_back(Q.record());
-        emit (resultQuery(results, type));
+        results.push_back(q.record());
+        while (q.next())
+            results.push_back(q.record());
+        emit resultFromSQLQuery(results, sender);
     }
 }
 

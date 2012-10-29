@@ -2,26 +2,21 @@
 //This class launch ManageBDD in a thread
 //DEBUG
 #include <iostream>
+#include <QDebug>
 
 DatabaseThread::DatabaseThread() : QThread()
 {
-//    std::cout << "thread database lib created" << std::endl;
 }
 
 DatabaseThread::~DatabaseThread()
 {
+    this->stop();
 }
 
 void            DatabaseThread::initLibraryConnection(QObject *parent)
 {
+    this->setParent(parent);
     this->start();
-/*    parent->DBThread = new DatabaseThread();
-    qRegisterMetaType< QList<QSqlRecord> >("QList<QSqlRecord>");
-    qRegisterMetaType< QRegExp >("QRegExp");
-    QObject::connect(parent->DBThread, SIGNAL(resultQuery(QList<QSqlRecord>,int)), parent, SIGNAL(resultQuery(QList<QSqlRecord>,int)));
-    QObject::connect(parent, SIGNAL(queryToExec(QString,int)), parent->DBThread, SIGNAL(queryToExec(QString,int)));
-    parent->DBThread->start();
-*/
 }
 
 QObject*        DatabaseThread::getLibraryQObject()
@@ -33,16 +28,33 @@ QObject*        DatabaseThread::getLibraryQObject()
 //initialize manage bdd and connect signal to transfert sql query from application to the manage bdd
 void DatabaseThread::run()
 {
-    std::cout << "thread database lib is running" << std::endl;
+    qDebug()<< "thread database lib is running";
     ManageBDD MB;
 
     qRegisterMetaType< QList<QSqlRecord> >("QList<QSqlRecord>");
-    qRegisterMetaType< QRegExp >("QRegExp");
-//    QObject::connect(this, SIGNAL(queryToExec(QString,int)), &MB, SLOT(queryToExec(QString,int)));
-//    QObject::connect(&MB, SIGNAL(resultQuery(QList<QSqlRecord>,int)), this, SIGNAL(resultQuery(QList<QSqlRecord>,int)));
-    std::cout << "Manager BDD Initialized" << std::endl;
+    QObject::connect(this->parent(), SIGNAL(executeSQLQuery(const QString &, QObject *)),
+                     &MB, SLOT(executeSQLQuery(const QString&, QObject*)), Qt::QueuedConnection);
+    QObject::connect(&MB, SIGNAL(resultFromSQLQuery(const QList<QSqlRecord>&, QObject *)),
+                     this, SLOT(transmitSQLResult(const QList<QSqlRecord>&, QObject*)), Qt::QueuedConnection);
+    qDebug() << "Manager BDD Initialized";
     this->exec();
-    std::cout << "Thread event loop launched" << std::endl;
+    qDebug() << "Thread event loop launched";
+}
+
+
+void    DatabaseThread::transmitSQLResult(const QList<QSqlRecord> &result, QObject *receiver)
+{
+    qDebug() << "SQL Query Result Received";
+    // TO RECEIVE RESULT OBJECT MUST IMPLEMENT
+    DatabaseServiceUserInterface * user;
+    if (receiver != NULL && (user = dynamic_cast<DatabaseServiceUserInterface *>(receiver)) != NULL)
+    {
+        qDebug() << "Transmitting results";
+        user->receiveResultFromSQLQuery(result);
+        qDebug() << "Results transmitted";
+    }
+    else
+        qDebug() << "Object is not an instance of DatabaseUserInterface";
 }
 
 //stop the thread

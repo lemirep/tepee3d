@@ -20,7 +20,6 @@ public:
     PluginBase*             getPluginBase();
     virtual PluginBase*     createNewInstance()         = 0;
 
-
 // Define all signals that a plugin can emit or receive
 signals :
     void    execSqlQuery(QString query);

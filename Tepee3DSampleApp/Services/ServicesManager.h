@@ -27,10 +27,13 @@ namespace Services
 
 class ServicesManager : public QObject, public QmlContentExposerInterface
 {
+    Q_OBJECT
 public:
     ServicesManager(QObject *parent = 0);
 
     void    exposeContentToQml(QQmlContext *context);
+    void    connectObjectToServices(QObject *serviceUser);
+    void    disconnectObjectFromServices(QObject *serviceUser);
 
 private:
 
@@ -39,12 +42,8 @@ private:
 
 
 signals :
-    void executeSQLQuery(QString query, QObject *sender);
-// wiil send to sender ->  void resultFromSQLQuery(QList<QSqlRecord>, int pluginId);
-
+    void executeSQLQuery(const QString &query, QObject *sender);
     void executeHttpRequest(QNetworkRequest *, QObject *sender);
-// will send to sender ->  void resultFromHttpRequest(QNetworkReply *);
-
 };
 
 }

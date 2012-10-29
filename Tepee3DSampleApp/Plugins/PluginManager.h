@@ -9,10 +9,11 @@
 #include "QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "PluginModelItem.h"
+#include "DatabaseServiceUserInterface.h"
 
 namespace Plugins
 {
-class PluginManager : public QObject, public QmlContentExposerInterface
+class PluginManager : public QObject, public QmlContentExposerInterface, public DatabaseServiceUserInterface
 {
     Q_OBJECT
 public:
@@ -24,11 +25,14 @@ public:
     void                       loadLocalPlugins();
 
     void                       exposeContentToQml(QQmlContext *context);
+
+    void                       receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
 private:
     QSignalMapper   *signalMapper;
     QHash<PluginBase *, int>   loadedPlugins;
     ListModel*      availablePluginsModel;
-
+signals :
+    void executeSQLQuery(const QString &query, QObject *sender);
 };
 }
 

@@ -11,19 +11,17 @@ qml_folder.target = ./
  TEMPLATE        = lib
  CONFIG         += qt plugin
  QT             += quick
- QT             +=
- INCLUDEPATH    += ../Tepee3DSampleApp/Plugins
-
-#PluginBase.h and PluginBase.cpp have to be included as sources as qmake performs custom Qt code insertion
 
  HEADERS         = \
     widgetmodel.h \
-    testplugin.h    \
-    ../Tepee3DSampleApp/Plugins/PluginBase.h
+    testplugin.h
  SOURCES         = \
     widgetmodel.cpp \
-    testplugin.cpp  \
-../Tepee3DSampleApp/Plugins/PluginBase.cpp
+    testplugin.cpp
+
+#include development files
+include (../DeveloperAPIFiles/DevelopmentFiles.pri)
+
  TARGET          = qmltestplugin                    #NAME OF THE PLUGIN LIBRAY
  DESTDIR         = ../widget_plugins                   #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder

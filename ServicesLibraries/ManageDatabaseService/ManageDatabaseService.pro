@@ -25,5 +25,4 @@ HEADERS +=   managebdd.h \
 
 DESTDIR = ../../libraries/services_lib
 
-INCLUDEPATH += ../../Tepee3DSampleApp/Services
-
+INCLUDEPATH += ../../DeveloperAPIFiles/Services

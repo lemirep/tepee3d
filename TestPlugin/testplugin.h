@@ -1,11 +1,12 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
-#include <Qt/qobject.h>
-#include <Qt/qplugin.h>
+#include <QObject>
+#include <QtPlugin>
 #include "PluginBase.h"
+#include "DatabaseServiceUserInterface.h"
 
-class TestPlugin : public Plugins::PluginBase
+class TestPlugin : public Plugins::PluginBase, public DatabaseServiceUserInterface
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.testplugin")
@@ -22,6 +23,7 @@ public:
     QString                         getPluginDescription();
     PluginBase*                     getPluginBase();
     PluginBase*                     createNewInstance();
+    void                            receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
 
 public slots:
 //    void                    resultFromSQL();

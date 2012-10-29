@@ -1,7 +1,6 @@
 
 SOURCES += $$PWD/ServicesManager.cpp
 
-HEADERS += $$PWD/ServicesManager.h \
-           $$PWD/ServiceInterface.h
+HEADERS += $$PWD/ServicesManager.h
 
-INCLUDEPATH += $$PWD	
+INCLUDEPATH += $$PWD

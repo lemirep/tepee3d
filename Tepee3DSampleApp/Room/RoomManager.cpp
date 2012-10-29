@@ -1,6 +1,7 @@
 #include "RoomManager.h"
 // DEBUG
-#include <iostream>
+#include <QDebug>
+
 
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
@@ -20,6 +21,12 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 {
     context->setContextProperty("roomModel", this->roomModel);
     context->setContextProperty("roomManager", this);
+    emit (executeSQLQuery("SELECT * FROM TATA;", this));
+}
+
+void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+{
+    qDebug() << "RoomManager receive SQL Result";
 }
 
 ListModel*  Room::RoomManager::getRoomModel() const
@@ -36,7 +43,7 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 {
     if (room == this->currentRoom)
         return ;
-    std::cout << "SETTING NEW ROOM" << std::endl;
+    qDebug() << "SETTING NEW ROOM";
     this->roomUpdateTimer->stop();
     if (this->currentRoom != NULL)
         QObject::disconnect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
@@ -53,7 +60,7 @@ void        Room::RoomManager::setCurrentRoom(int roomId)
 {
     RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
-    std::cout << "CALLING SET ROOM" << std::endl;
+    qDebug() << "CALLING SET ROOM";
     if ((roomItem = (RoomModelItem *)this->roomModel->find(roomId)))
         room = roomItem->getRoom();
     // IN ANY CASE WE SET IT SO THAT WE STOP UPDATING IF ROOM IS NULL
@@ -79,7 +86,7 @@ void        Room::RoomManager::loadRoomLibrary()
     roomDirectory.cdUp();
     roomDirectory.cd(ROOM_LIBRARY_DIRECTORY);
 
-    std::cout << "ROOM DIR " << roomDirectory.absolutePath().toStdString() << std::endl;
+    qDebug() << "ROOM DIR " << roomDirectory.absolutePath();
 
     // LOAD ROOM LIBRARY
     foreach (QString filename, roomDirectory.entryList(QDir::Files))
@@ -89,13 +96,13 @@ void        Room::RoomManager::loadRoomLibrary()
         if (roomInt)
         {
             this->roomPrototype = roomInt->getRoomBase();
-            std::cout << "LIBRARY INITIALIZED" << std::endl;
+            qDebug() << "LIBRARY INITIALIZED";
             break;
         }
         else
         {
-            std::cout << "ERRORS : "<< loader.errorString().toStdString() << std::endl;
-            std::cout << "FAILED TO LOAD LIBRARY ROOM" << std::endl;
+            qDebug() << "ERRORS : "<< loader.errorString();
+            qDebug() << "FAILED TO LOAD LIBRARY ROOM";
         }
     }
 }

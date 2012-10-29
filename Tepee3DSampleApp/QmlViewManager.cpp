@@ -13,6 +13,10 @@ QmlViewManager::QmlViewManager(QApplication *app) : QObject()
     this->servicesManager = new Services::ServicesManager(this);
     this->pluginsManager  = new Plugins::PluginManager(this);
 
+    // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
+    this->servicesManager->connectObjectToServices(this->roomManager);
+    // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
+    this->servicesManager->connectObjectToServices(this->pluginsManager);
     // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
     this->registerComponentsToQml();
 }

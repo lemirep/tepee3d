@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QVector3D>
+#include <QQuickItem>
 #include "PluginBase.h"
 #include "RoomInterface.h"
 
