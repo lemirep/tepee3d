@@ -22,4 +22,4 @@ HEADERS += BasicRoom.h  \
 DESTDIR = ../libraries/room_library
 
 INCLUDEPATH += ../Tepee3DSampleApp/Room
-INCLUDEPATH += ../Tepee3DSampleApp/Plugins
+INCLUDEPATH += ../DeveloperAPIFiles/Plugins
