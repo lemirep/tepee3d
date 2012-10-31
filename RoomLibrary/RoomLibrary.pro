@@ -12,16 +12,13 @@ TARGET = RoomLibrary
 
 DEFINES += ROOMLIBRARY_LIBRARY
 
-SOURCES += BasicRoom.cpp \
-           ../Tepee3DSampleApp/Room/RoomBase.cpp
+SOURCES += BasicRoom.cpp
 
 
-HEADERS += BasicRoom.h  \
-           ../Tepee3DSampleApp/Room/RoomBase.h
+HEADERS += BasicRoom.h
 
 DESTDIR = ../libraries/room_library
 
 include(../DeveloperAPIFiles/DevelopmentFiles.pri)
 
-INCLUDEPATH += ../Tepee3DSampleApp/Room
 

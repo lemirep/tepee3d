@@ -46,7 +46,7 @@ protected:
 // Define all signals that a plugin can emit or receive
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender);
-    void    execHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
+    void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
 
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary

@@ -15,6 +15,8 @@ int TestPlugin::getPluginId()
 void TestPlugin::initPlugin()
 {
     std::cout << " INITIALIZING PLUGINS " << std::endl;
+    emit (PluginBase::executeSQLQuery("SELECT *", this));
+    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
 }
 
 QString TestPlugin::getPluginName()
@@ -40,12 +42,13 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
 
 void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
 {
-    qDebug() << "Received Result From SQL Query Plugin";
+    qDebug() << "TestPlugin::Received Result From SQL Query Plugin";
 }
 
 void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
 {
-    qDebug() << "Received Network Reply";
+    qDebug() << "TestPlugin::Received Network Reply";
+    qDebug() << reply->readAll();
 }
 
 //void        TestPlugin::resultFromSQL()

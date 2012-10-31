@@ -12,6 +12,8 @@
 #include <QHttpMultiPart>
 #include <QSignalMapper>
 #include "ServiceInterface.h"
+#include "DatabaseServiceUserInterface.h"
+#include "WebServiceUserInterface.h"
 #include "QmlContentExposerInterface.h"
 
 // THIS CLASS WILL BE THE INTERMEDIARY BETWEEN ALL SERVICES (APART FROM STATIC FUNCTIONS)

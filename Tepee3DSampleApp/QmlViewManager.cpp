@@ -83,6 +83,10 @@ bool    QmlViewManager::initView()
 //    }
 //    std::cout << "-----3-----" << std::endl;
 
+    Plugins::PluginBase* testPlugin = this->pluginsManager->getAvailablePlugins().at(0)->createNewInstance();
+    this->servicesManager->connectObjectToServices(testPlugin);
+    testPlugin->initPlugin();
+
     return true;
 }
 

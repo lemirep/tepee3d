@@ -34,7 +34,7 @@ private:
     QHash<int, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*)>       httpMethods;
 
 private slots:
-    void executeHttpRequest(QNetworkRequest &request, int requestType,
+    void executeHttpRequest(QNetworkRequest request, int requestType,
                             QHttpMultiPart *multiPart, QObject *sender);
 signals:
 };

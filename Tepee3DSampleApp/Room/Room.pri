@@ -1,12 +1,9 @@
 
 SOURCES += $$PWD/RoomModelItem.cpp \
-           $$PWD/RoomManager.cpp \
-           $$PWD/RoomBase.cpp
+           $$PWD/RoomManager.cpp
 
-HEADERS += $$PWD/RoomInterface.h \
-           $$PWD/RoomModelItem.h \
-           $$PWD/RoomManager.h \
-           $$PWD/RoomBase.h
+HEADERS += $$PWD/RoomModelItem.h \
+           $$PWD/RoomManager.h
 
 INCLUDEPATH += $$PWD
 
