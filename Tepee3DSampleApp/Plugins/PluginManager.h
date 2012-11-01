@@ -11,6 +11,15 @@
 #include "PluginModelItem.h"
 #include "DatabaseServiceUserInterface.h"
 
+// PLUGINS IN THE LOCAL DIRECTORY ARE ALL LOADED ON STARTUP
+// WHEN ADDING A PLUGIN TO ROOM : -> NEW PLUGIN OF A GIVEN INSTANCE IS CREATED
+// ADD TO ROOM'S PLUGINS LIST THE NEW INSTANCE
+// RETRIEVE ROOM'S QQUICKITEM
+// INSERT ITEM IN THE ROOM'S QQUICKITEM
+
+// LATER ROOM POSITIONING MENU TO EASILY SCALE ROTATE AND PLACE QML ITEM
+
+
 namespace Plugins
 {
 class PluginManager : public QObject, public QmlContentExposerInterface, public DatabaseServiceUserInterface
@@ -20,17 +29,16 @@ public:
     explicit PluginManager(QObject *parent = 0);
     ~PluginManager();
 
-    QHash<PluginBase *, int>   getPluginsHash()  const;
-    QList<PluginBase *>        getAvailablePlugins() const;
     void                       loadLocalPlugins();
-
     void                       exposeContentToQml(QQmlContext *context);
-
     void                       receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
+
+    static PluginBase*         getNewInstanceOfPlugin(int pluginModelItemId);
+    static PluginBase*         getNewInstanceOfPlugin(PluginBase* plugin);
+
 private:
-    QSignalMapper   *signalMapper;
-    QHash<PluginBase *, int>   loadedPlugins;
-    ListModel*      availablePluginsModel;
+    QSignalMapper              *signalMapper;
+    static ListModel*           availablePluginsModel;
 signals :
     void executeSQLQuery(const QString &query, QObject *sender);
 };

@@ -1,6 +1,6 @@
 #include "BasicRoom.h"
 //DEBUG
-#include <iostream>
+#include <QDebug>
 
 
 int BasicRoom::nextId = 0;
@@ -115,5 +115,9 @@ void    BasicRoom::addWidgetToRoom(Plugins::PluginBase *plugin)
 
 void    BasicRoom::updateRoom()
 {
-//    std::cout << "updating " << this->getRoomName().toStdString() << std::endl;
+    qDebug() << "Updating " << this->getRoomName();
+    foreach (Plugins::PluginBase* plugin, this->widgets)
+    {
+        qDebug() << "Updating " << plugin->getPluginName();
+    }
 }

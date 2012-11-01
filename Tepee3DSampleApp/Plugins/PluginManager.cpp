@@ -2,10 +2,11 @@
 // DEBUG
 #include <QDebug>
 
+
+ListModel* Plugins::PluginManager::availablePluginsModel = NULL;
+
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
-    this->loadedPlugins = QHash<PluginBase *, int>();
-    this->availablePluginsModel = NULL;
     this->loadLocalPlugins();
     // THE SIGNAL MAPPER WILL BE USED TO MANAGE CONNECTIONS BETWEEN
     // PLUGINS AND THE SERVICE MANAGER, AUTOMATICALLY PASSING THE PLUGIN
@@ -21,13 +22,13 @@ Plugins::PluginManager::~PluginManager()
 void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();
-    if (this->availablePluginsModel == NULL)
-        this->availablePluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
+    if (Plugins::PluginManager::availablePluginsModel == NULL)
+        Plugins::PluginManager::availablePluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     else
-        this->availablePluginsModel->clear();
+        Plugins::PluginManager::availablePluginsModel->clear();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())
     {
-        this->availablePluginsModel->appendRow(new Plugins::PluginModelItem(plugin, this));
+        Plugins::PluginManager::availablePluginsModel->appendRow(new Plugins::PluginModelItem(plugin, this));
         // DO PLUGIN CONNECTION TO SIGNAL MAPPER FOR SERVICES HERE
     }
 }
@@ -37,14 +38,21 @@ void    Plugins::PluginManager::receiveResultFromSQLQuery(const QList<QSqlRecord
     qDebug() << "PluginManager Received Result";
 }
 
-QList<Plugins::PluginBase *> Plugins::PluginManager::getAvailablePlugins() const
+Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(PluginBase *plugin)
 {
-    return PluginLoader::getWidgetPlugins();
+    if (plugin == NULL)
+        return NULL;
+    return plugin->createNewInstance();
 }
 
-QHash<Plugins::PluginBase *, int>   Plugins::PluginManager::getPluginsHash() const
+Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginModelItemId)
 {
-    return this->loadedPlugins;
+    Plugins::PluginModelItem*   pluginModelItem = NULL;
+    Plugins::PluginBase *pluginBase = NULL;
+    if ((pluginModelItem = (Plugins::PluginModelItem*)Plugins::PluginManager::availablePluginsModel->find(pluginModelItemId)) != NULL)
+        pluginBase = pluginModelItem->getPlugin();
+
+    return Plugins::PluginManager::getNewInstanceOfPlugin(pluginBase);
 }
 
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)

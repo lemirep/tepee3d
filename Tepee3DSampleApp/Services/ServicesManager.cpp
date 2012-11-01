@@ -1,7 +1,7 @@
 #include "ServicesManager.h"
 
 // FOR DEBUG
-#include <iostream>
+#include <QDebug>
 
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
@@ -14,6 +14,7 @@ void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 
 void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
 {
+    qDebug() << "Connecting object to services";
     // SQL
     if (dynamic_cast<DatabaseServiceUserInterface*>(serviceUser) != NULL)
         QObject::connect(serviceUser, SIGNAL(executeSQLQuery(const QString &, QObject *)),
@@ -21,11 +22,12 @@ void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
     // HTTP
     if (dynamic_cast<WebServiceUserInterface*>(serviceUser) != NULL)
         QObject::connect(serviceUser, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
-                         this,        SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)));
+                         this, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)));
 }
 
 void    Services::ServicesManager::disconnectObjectFromServices(QObject *serviceUser)
 {
+    qDebug() << "Disconnecting object from services";
     // SQL
     if (dynamic_cast<DatabaseServiceUserInterface*>(serviceUser) != NULL)
         QObject::disconnect(serviceUser, SIGNAL(executeSQLQuery(const QString &, QObject *)),
@@ -55,23 +57,23 @@ bool    Services::ServicesManager::loadServicesLibraries()
     serviceDirectory.cdUp();
     serviceDirectory.cd(SERVICE_LIBRARIES_DIRECTORY);
 
-    std::cout << "SERVICE DIR " << serviceDirectory.absolutePath().toStdString() << std::endl;
+    qDebug() << "SERVICE DIR " << serviceDirectory.absolutePath();
     // LOAD ALL SERVICES LIBRARIES FOUND IN DIRECTORY
 
     foreach (QString filename, serviceDirectory.entryList(QDir::Files))
     {
-        std::cout << "SERVICE LIBRARY " << filename.toStdString() << std::endl;
+        qDebug() << "SERVICE LIBRARY " << filename;
         QPluginLoader loader(serviceDirectory.absoluteFilePath(filename));
         ServiceInterface* service = qobject_cast<ServiceInterface *>(loader.instance());
         if (service)
         {
             service->initLibraryConnection(this);
-            std::cout << "LIBRARY INITIALIZED" << std::endl;
+            qDebug() << "LIBRARY INITIALIZED";
         }
         else
         {
-            std::cout << "ERRORS : "<< loader.errorString().toStdString() << std::endl;
-            std::cout << "FAILED TO LOAD LIBRARY" << std::endl;
+            qDebug() << "ERRORS : "<< loader.errorString();
+            qDebug() << "FAILED TO LOAD LIBRARY";
         }
     }
     return true;

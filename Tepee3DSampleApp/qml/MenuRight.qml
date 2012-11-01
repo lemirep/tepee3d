@@ -180,6 +180,7 @@ Item
                     onClicked :
                     {
                         plugins_list_view.currentIndex = index;
+                        roomManager.addNewPluginToCurrentRoom(model.pluginId)
                     }
                 }
 

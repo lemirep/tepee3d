@@ -2,7 +2,7 @@
 #define ROOMMANAGER_H
 
 #include <QTimer>
-#include <PluginLoader.h>
+#include <PluginManager.h>
 #include "QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "RoomModelItem.h"
@@ -12,6 +12,14 @@
 
 #define ROOM_UPDATE_TIME 500
 #define ROOM_LIBRARY_DIRECTORY "libraries/room_library"
+
+
+// WHEN CHANGING ROOM IN QML : -> STOP ALL ANIMATION OF CURRENT ROOM'S WIDGETS AND LIVE WIDGET VIEW IF IN IT
+//                             -> HIDE ALL ROOM WIDGET
+//                             -> SWITCH TO SELECTED ROOM
+//                             -> IF THE ROOM'S WIDGETS WERE NOT LOADED BEFORE LOAD THEM AND INITIALIZE THEM
+//                             -> SHOW ALL ROOM WIDGET
+//                             -> UPDATA ALL OF THE ROOM'S WIDGET
 
 namespace   Room
 {
@@ -33,21 +41,25 @@ public:
     void            receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
 
 
-// METHODS THAT CAN BE CALLED FROM QML
-Q_INVOKABLE    void     setCurrentRoom(int roomId);
-
+    // METHODS THAT CAN BE CALLED FROM QML
+    Q_INVOKABLE    void     setCurrentRoom(int roomModelId);
+    Q_INVOKABLE    void     addNewRoom();
+    Q_INVOKABLE    void     addNewPluginToCurrentRoom(int pluginModelId);
 
 
 private:
     ListModel       *roomModel;
-    RoomBase        *roomPrototype;
-    RoomBase        *currentRoom;
-    QTimer          *roomUpdateTimer;
+    ListModel       *currentRoomPluginsModel;
+    RoomBase        *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
+    RoomBase        *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
+    QTimer          *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
 
     void            loadRoomLibrary();
 
 signals:
-    void executeSQLQuery(const QString &query, QObject *sender);
+    void    executeSQLQuery(const QString &query, QObject *sender);
+    void    connectObjectToServices(QObject *serviceUser);
+    void    disconnectObjectFromServices(QObject *serviceUser);
 };
 
 }

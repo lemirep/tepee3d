@@ -45,6 +45,8 @@ public:
 
     void    registerComponentsToQml();
 
+signals:
+
 };
 
 #endif // QMLVIEWMANAGER_H

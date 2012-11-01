@@ -51,6 +51,7 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
     this->currentRoom = room;
     if (this->currentRoom != NULL)
     {
+        // LOAD PLUGINS MODEL TO SHOW IN LEFT MENU
         QObject::connect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
         this->roomUpdateTimer->start(ROOM_UPDATE_TIME);
     }
@@ -58,13 +59,33 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 
 void        Room::RoomManager::setCurrentRoom(int roomId)
 {
-    RoomModelItem *roomItem = NULL;
+    Room::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
     qDebug() << "CALLING SET ROOM";
-    if ((roomItem = (RoomModelItem *)this->roomModel->find(roomId)))
+    if ((roomItem = (Room::RoomModelItem *)this->roomModel->find(roomId)))
         room = roomItem->getRoom();
     // IN ANY CASE WE SET IT SO THAT WE STOP UPDATING IF ROOM IS NULL
     this->setCurrentRoom(room);
+}
+
+void        Room::RoomManager::addNewRoom()
+{
+    // ADD DEFAULT EMPTY ROOM IN THE MODEL
+}
+
+void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
+{
+    Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
+    if (newPlugin != NULL)
+    {
+        // MAKE ALL PLUGINS CONNECTION HERE
+        emit connectObjectToServices(newPlugin);
+        qDebug() << "Adding new plugin to Room";
+        if (this->currentRoom != NULL)
+            this->currentRoom->addWidgetToRoom(newPlugin);
+    }
+    else
+        qDebug() << "plugin Instance is NULL, cannot be added to room";
 }
 
 void        Room::RoomManager::loadRoomLibrary()

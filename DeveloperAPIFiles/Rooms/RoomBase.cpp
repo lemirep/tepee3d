@@ -1,6 +1,6 @@
 #include "RoomBase.h"
 // DEBUG
-#include <iostream>
+#include <QDebug>
 
 int Room::RoomBase::id = 0;
 
@@ -16,7 +16,7 @@ Room::RoomBase*   Room::RoomBase::getRoomBase()
 
 void        Room::RoomBase::updateRoom()
 {
-    std::cout << "Room is updated" << std::endl;
+    qDebug() << "Room is updated -> but should you should have implemented this method in the room subclass";
 }
 
 int         Room::RoomBase::getRoomId() const

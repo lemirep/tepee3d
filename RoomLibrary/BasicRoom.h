@@ -31,30 +31,29 @@ private:
     static  int                 nextId;
 
 public:
-//    explicit BasicRoom(QQuickItem* parentQmlObject = 0, QQmlEngine* engine = 0, QString roomName = "", QVector3D position = QVector3D(), QVector3D scale = QVector3D());
     BasicRoom();
     ~BasicRoom();
 
-    QString                     getRoomQml()        const;
-    QString                     getRoomName()       const;
+    QString                         getRoomQml()        const;
+    QString                         getRoomName()       const;
 
-    QVector3D                   getPosition()       const;
-    QVector3D                   getScale()          const;
-    QVector3D                   getRoomCenter()     const;
+    QVector3D                       getPosition()       const;
+    QVector3D                       getScale()          const;
+    QVector3D                       getRoomCenter()     const;
 
-    QObject*                    getObject();
-    QQuickItem*                 getRoomQmlObject()  const;
-    QList<Plugins::PluginBase*>          getWidgetsList()    const;
+    QObject*                        getObject();
+    QQuickItem*                     getRoomQmlObject()  const;
+    QList<Plugins::PluginBase*>     getWidgetsList()    const;
 
-    void                        setScale(const QVector3D& scale);
-    void                        setRoomName(const QString& name);
-    void                        setPosition(const QVector3D& position);
-    void                        addWidgetToRoom(Plugins::PluginBase *);
+    void                            setScale(const QVector3D& scale);
+    void                            setRoomName(const QString& name);
+    void                            setPosition(const QVector3D& position);
+    void                            addWidgetToRoom(Plugins::PluginBase *);
 
-    Room::RoomBase*             createNewInstance();
+    Room::RoomBase*                 createNewInstance();
 
 public slots:
-    void                        updateRoom();
+    void                            updateRoom();
 
 private:
 
