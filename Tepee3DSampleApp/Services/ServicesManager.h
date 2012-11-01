@@ -45,9 +45,9 @@ public slots:
     void    disconnectObjectFromServices(QObject *serviceUser);
 
 signals :
-    void    executeSQLQuery(const QString &query, QObject *sender);
-    void    executeHttpRequest(const QNetworkRequest &request, int requestType,
-                            QHttpMultiPart *multiPart, QObject *sender);
+//    void    executeSQLQuery(const QString &query, QObject *sender);
+//    void    executeHttpRequest(const QNetworkRequest &request, int requestType,
+//                            QHttpMultiPart *multiPart, QObject *sender);
 };
 
 }

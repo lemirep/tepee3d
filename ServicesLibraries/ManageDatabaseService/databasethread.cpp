@@ -51,7 +51,7 @@ void DatabaseThread::run()
     ManageBDD MB;
 
     qRegisterMetaType< QList<QSqlRecord> >("QList<QSqlRecord>");
-    QObject::connect(this->parent(), SIGNAL(executeSQLQuery(const QString &, QObject *)),
+    QObject::connect(this, SIGNAL(executeSQLQuery(const QString &, QObject *)),
                      &MB, SLOT(executeSQLQuery(const QString&, QObject*)), Qt::QueuedConnection);
     QObject::connect(&MB, SIGNAL(resultFromSQLQuery(const QList<QSqlRecord>&, QObject *)),
                      this, SLOT(transmitSQLResult(const QList<QSqlRecord>&, QObject*)), Qt::QueuedConnection);
