@@ -70,7 +70,10 @@ void        Room::RoomManager::setCurrentRoom(int roomId)
 
 void        Room::RoomManager::addNewRoom()
 {
+    qDebug() << "Adding New Room";
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
+    // ROOM IS CREATED A A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND SQUARED
+    // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
 }
 
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
@@ -85,7 +88,7 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
             this->currentRoom->addWidgetToRoom(newPlugin);
     }
     else
-        qDebug() << "plugin Instance is NULL, cannot be added to room";
+        qWarning() << "plugin Instance is NULL, cannot be added to room";
 }
 
 void        Room::RoomManager::loadRoomLibrary()
@@ -122,8 +125,8 @@ void        Room::RoomManager::loadRoomLibrary()
         }
         else
         {
-            qDebug() << "ERRORS : "<< loader.errorString();
-            qDebug() << "FAILED TO LOAD LIBRARY ROOM";
+            qWarning() << "ERRORS : "<< loader.errorString();
+            qWarning() << "FAILED TO LOAD LIBRARY ROOM";
         }
     }
 }

@@ -1,7 +1,6 @@
 #include "databasethread.h"
 //This class launch ManageBDD in a thread
 //DEBUG
-#include <iostream>
 #include <QDebug>
 
 DatabaseThread::DatabaseThread() : QThread()
@@ -24,6 +23,26 @@ QObject*        DatabaseThread::getLibraryQObject()
     return this;
 }
 
+bool            DatabaseThread::connectServiceToUser(QObject *user)
+{
+    qDebug() << "Connecting user to DatabaseServices";
+    // SQL
+    if (dynamic_cast<DatabaseServiceUserInterface*>(user) != NULL)
+        return QObject::connect(user, SIGNAL(executeSQLQuery(const QString &, QObject *)),
+                         this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
+    qWarning() << "Object does not implement DatabaseServiceUserInterface";
+    return false;
+}
+
+bool            DatabaseThread::disconnectServiceFromUser(QObject *user)
+{
+    // SQL
+    if (dynamic_cast<DatabaseServiceUserInterface*>(user) != NULL)
+       return QObject::disconnect(user, SIGNAL(executeSQLQuery(const QString &, QObject *)),
+                            this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
+    qWarning() << "Object does not implement DatabaseServiceUserInterface";
+    return false;
+}
 
 //initialize manage bdd and connect signal to transfert sql query from application to the manage bdd
 void DatabaseThread::run()

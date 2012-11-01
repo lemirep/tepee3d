@@ -25,6 +25,8 @@ public:
     virtual QString         getPluginDescription()      = 0;
     PluginBase*             getPluginBase();
     virtual PluginBase*     createNewInstance()         = 0;
+    virtual bool            needsUpdating() const;                    // BY DEFAULT RETURNS FALSE
+
 
 
     // SQL

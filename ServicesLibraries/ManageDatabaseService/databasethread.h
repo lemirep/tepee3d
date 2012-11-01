@@ -20,6 +20,8 @@ public:
     void        stop();
 
     void        initLibraryConnection(QObject *parent);
+    bool        connectServiceToUser(QObject *user);
+    bool        disconnectServiceFromUser(QObject *user);
     QObject*    getLibraryQObject();
 
 private slots:

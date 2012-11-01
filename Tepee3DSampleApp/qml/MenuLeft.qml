@@ -159,6 +159,35 @@ Item
             }
         }
 
+        Image
+        {
+            id : add_room_button
+            width : 50
+            height : 50
+            smooth : true
+            scale : add_room_button_ma.pressed ? 0.9 : 1.0
+            anchors
+            {
+                bottom : parent.bottom
+                horizontalCenter : parent.horizontalCenter
+            }
+            MouseArea
+            {
+                id : add_room_button_ma
+                anchors
+                {
+                    fill : parent
+                }
+                onClicked :
+                {
+                    roomManager.addNewRoom();
+                }
+            }
+
+            source : "Resources/Pictures/add_button.svg"
+        }
+
+
         Component
         {
             id : room_list_delegate

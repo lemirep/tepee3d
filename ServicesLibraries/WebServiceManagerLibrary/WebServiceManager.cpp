@@ -49,6 +49,27 @@ void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multi
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
 
+bool  WebServiceManager::connectServiceToUser(QObject *user)
+{
+    qDebug() << "Connecting user to WebServices";
+    // HTTP
+    if (dynamic_cast<WebServiceUserInterface*>(user) != NULL)
+        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
+                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
+    qWarning() << "Object does not implement WebServiceUserInterface";
+    return false;
+}
+
+bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
+{
+    // HTTP
+    if (dynamic_cast<WebServiceUserInterface*>(user) != NULL)
+        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
+                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
+    qWarning() << "Object does not implement WebServiceUserInterface";
+    return false;
+}
+
 QJsonObject*    WebServiceManager::QJsonFromReply(QNetworkReply *reply)
 {
     return new QJsonObject(QJsonDocument::fromJson(reply->readAll()).object());

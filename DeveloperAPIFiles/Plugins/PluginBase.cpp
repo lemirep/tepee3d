@@ -37,3 +37,7 @@ void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &reques
     emit executeHttpRequest(request, PUT, multiPart, this);
 }
 
+bool    Plugins::PluginBase::needsUpdating() const
+{
+    return false;
+}

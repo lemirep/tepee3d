@@ -36,6 +36,8 @@ public:
     void    exposeContentToQml(QQmlContext *context);
 
 private:
+    QList<ServiceInterface*>    services;
+
     bool    loadServicesLibraries();
 
 public slots:

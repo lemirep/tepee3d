@@ -12,6 +12,8 @@ class ServiceInterface
 
 public :
     virtual void        initLibraryConnection(QObject *parent) = 0;
+    virtual bool        connectServiceToUser(QObject *user) = 0;
+    virtual bool        disconnectServiceFromUser(QObject *user) = 0;
     virtual QObject*    getLibraryQObject() = 0;
 };
 

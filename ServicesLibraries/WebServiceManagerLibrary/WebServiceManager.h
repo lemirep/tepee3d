@@ -26,7 +26,10 @@ public:
     static  QJsonObject*    QJsonFromReply(QNetworkReply* reply);
 
     void                            initLibraryConnection(QObject *parent);
+    bool                            connectServiceToUser(QObject *user);
+    bool                            disconnectServiceFromUser(QObject *user);
     QObject*                        getLibraryQObject();
+
 
 private:
     static  QNetworkAccessManager*  instance;
