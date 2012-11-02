@@ -47,14 +47,11 @@ greaterThan(QT_MAJOR_VERSION, 4)   { # FOR QT5
 # CONFIG += qt-components
 
 HEADERS += QmlViewManager.h \
-    ListModel.h \
-    ListItem.h \
-    QmlContentExposerInterface.h
+           QmlContentExposerInterface.h
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \
-    QmlViewManager.cpp \
-    ListModel.cpp
+    QmlViewManager.cpp
 
 # Include Shared Development Files
 include(../DeveloperAPIFiles/DevelopmentFiles.pri)
@@ -90,7 +87,8 @@ OTHER_FILES += \
     qml/MenuCenter.qml \
     qml/MainRoom.qml \
     qml/qmldir \
-    qml/main.qml
+    qml/main.qml \
+    qml/RoomLoader.qml
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

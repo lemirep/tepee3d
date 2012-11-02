@@ -6,6 +6,7 @@
 #include <iostream>
 #include "RoomBase.h"
 
+#define BASICROOM_QML_FILE "Room.qml"
 
 class BasicRoom : public Room::RoomBase
 {
@@ -14,42 +15,13 @@ class BasicRoom : public Room::RoomBase
 
 private:
 
-    QQuickItem*                 roomQmlItem;
-    QQuickItem*                 parentQmlItem;
-    QQmlEngine*                 engine;
-
-    QString                     roomName;
-    QString                     qmlFile;
-    QList<Plugins::PluginBase*>          widgets;
-
-    QVector3D                   position;
-    QVector3D                   scale;
-    QVector3D                   roomCenter;
-
-    void                        updateRoomCenter();
-
-    static  int                 nextId;
-
 public:
     BasicRoom();
     ~BasicRoom();
 
-    QString                         getRoomQml()        const;
-    QString                         getRoomName()       const;
-
-    QVector3D                       getPosition()       const;
-    QVector3D                       getScale()          const;
-    QVector3D                       getRoomCenter()     const;
 
     QObject*                        getObject();
     QQuickItem*                     getRoomQmlObject()  const;
-    QList<Plugins::PluginBase*>     getWidgetsList()    const;
-
-    void                            setScale(const QVector3D& scale);
-    void                            setRoomName(const QString& name);
-    void                            setPosition(const QVector3D& position);
-    void                            addWidgetToRoom(Plugins::PluginBase *);
-
     Room::RoomBase*                 createNewInstance();
 
 public slots:

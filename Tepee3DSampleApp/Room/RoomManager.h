@@ -46,7 +46,6 @@ public:
     Q_INVOKABLE    void     addNewRoom();
     Q_INVOKABLE    void     addNewPluginToCurrentRoom(int pluginModelId);
 
-
 private:
     ListModel       *roomModel;
     ListModel       *currentRoomPluginsModel;

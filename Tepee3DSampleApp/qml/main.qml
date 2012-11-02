@@ -105,14 +105,11 @@ Viewport
     Room
     {
         id : room
-        //            x : 20 * index;
         x : 150;
         y : 150.0;
         z : 150.0;
 
-        //            position : roomPosition;
         transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
-        //            transform : [ Scale3D { scale : roomScale}]
 
         onClicked :
         {
@@ -135,19 +132,13 @@ Viewport
     {                           // https://bugreports.qt-project.org/browse/QTBUG-27444
         id : roomDelegate
 
-        Room
-        {
-            enabled : (index != -1)
-            position : model.roomPosition;
-            transform : [ Scale3D { scale : roomScale}]
-
-
-            // SET THE ROOM'S WIDGETS MODEL FOR widget_repeater HERE
-
-            Component.onCompleted :
-            {
-                console.log("Room Completed pos : " + position + "  scale : " + scale);
-            }
+        RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
+        {                       // QT BUG NOT WORKING YET
+            id : room_loader
+            roomPosition : model.roomPosition
+            roomScale : model.roomScale
+            widgetsModel : null
+//            source : "Room.qml"
         }
     }  
 

@@ -1,5 +1,4 @@
 #include "ListModel.h"
-
 // DEBUG
 #include <iostream>
 

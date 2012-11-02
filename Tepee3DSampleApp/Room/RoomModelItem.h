@@ -18,7 +18,8 @@ public:
         roomPosition,
         roomScale,
         roomName,
-        roomCenter
+        roomCenter,
+        roomQmlFile
     };
 
 

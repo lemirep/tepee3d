@@ -28,6 +28,8 @@ QVariant    Room::RoomModelItem::data(int role) const
         return this->room->getScale();
     case roomCenter :
         return this->room->getRoomCenter();
+    case roomQmlFile :
+        return this->room->getRoomQmlFile();
     default :
         return QVariant();
     }
@@ -42,6 +44,7 @@ QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
     roles[roomScale]    = "roomScale";
     roles[roomCenter]   = "roomCenter";
     roles[roomPosition] = "roomPosition";
+    roles[roomQmlFile]  = "roomQmlFile";
 
     return roles;
 }

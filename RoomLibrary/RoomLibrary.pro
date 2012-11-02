@@ -1,19 +1,16 @@
 TEMPLATE = lib
 
-QT       -= gui
+QT -= gui
 QT += quick
 QT += 3dquick
 
 CONFIG += qt plugin
 
-
 TARGET = RoomLibrary
-
 
 DEFINES += ROOMLIBRARY_LIBRARY
 
 SOURCES += BasicRoom.cpp
-
 
 HEADERS += BasicRoom.h
 

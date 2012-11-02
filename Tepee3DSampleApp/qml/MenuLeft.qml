@@ -231,7 +231,6 @@ Item
 
 
                         // SET MENU RIGHT PLUGIN MODEL
-                        rightMenu.currentRoomModel = null;
 
                         menuLeftMain.isShown = false;
 

@@ -41,8 +41,6 @@ bool    QmlViewManager::initView()
 
     if (localFile.isValid())
         std::cout << "Local file is valid " << localFile.isEmpty() << std::endl;
-    this->viewer->setSource(localFile);
-    this->viewer->show();
 
 
     QStringList paths = this->qmlEngine->importPathList();
@@ -89,6 +87,10 @@ bool    QmlViewManager::initView()
     //    Plugins::PluginBase* testPlugin = Plugins::PluginManager::getAvailablePlugins().at(0)->createNewInstance();
     //    this->servicesManager->connectObjectToServices(testPlugin);
     //    testPlugin->initPlugin();
+
+    this->roomManager->addRoomToModel();
+    this->viewer->setSource(localFile);
+    this->viewer->show();
 
     return true;
 }

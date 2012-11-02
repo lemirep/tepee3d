@@ -6,6 +6,8 @@
 #include <QQuickItem>
 #include "PluginBase.h"
 #include "RoomInterface.h"
+#include "ListModel.h"
+#include "PluginModelItem.h"
 
 namespace Room
 {
@@ -16,33 +18,43 @@ class RoomBase : public QObject, Room::RoomInterface
     Q_INTERFACES(Room::RoomInterface)
 
 protected:
-    static int                      id;
+    static int                      nextId;
+
     int                             roomId;
+    QString                         roomName;
+    QString                         roomQmlFile;
+    QVector3D                       position;
+    QVector3D                       scale;
+    QVector3D                       roomCenter;
+
+    QList<Plugins::PluginBase*>     widgets;
+
+    void                            updateRoomCenter();
 
 public:
     RoomBase();
 
-    RoomBase*                       getRoomBase();
 
-    int                             getRoomId()        const;
+    int                                     getRoomId()        const;
+    RoomBase*                               getRoomBase();
+
+    virtual QString                         getRoomName()      const;
+    virtual QString                         getRoomQmlFile()   const;
+
+    virtual QVector3D                       getPosition()      const;
+    virtual QVector3D                       getScale()         const;
+    virtual QVector3D                       getRoomCenter()    const;
+
+    virtual void                            setScale(const QVector3D& scale);
+    virtual void                            setRoomName(const QString& name);
+    virtual void                            setPosition(const QVector3D& position);
+    virtual void                            setRoomQmlFile(const QString &file);
+    virtual void                            addWidgetToRoom(Plugins::PluginBase *widget);
+    virtual QList<Plugins::PluginBase *>    getWidgetsList()   const;
 
     virtual RoomBase*               createNewInstance()      = 0;
-    virtual QString                 getRoomName()      const = 0;
-    virtual QString                 getRoomQml()       const = 0;
-
-    virtual QVector3D               getPosition()      const = 0;
-    virtual QVector3D               getScale()         const = 0;
-    virtual QVector3D               getRoomCenter()    const = 0;
-
     virtual QObject*                getObject()              = 0;
     virtual QQuickItem*             getRoomQmlObject() const = 0;
-
-    virtual QList<Plugins::PluginBase *>     getWidgetsList()   const = 0;
-
-    virtual void                    setScale(const QVector3D& scale)         = 0;
-    virtual void                    setRoomName(const QString& name)         = 0;
-    virtual void                    setPosition(const QVector3D& position)   = 0;
-    virtual void                    addWidgetToRoom(Plugins::PluginBase *) = 0;
 
 signals :
 

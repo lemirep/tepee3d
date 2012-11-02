@@ -8,8 +8,8 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomModel = new ListModel(new Room::RoomModelItem(NULL, NULL));
     this->roomUpdateTimer = new QTimer();
     this->currentRoom = NULL;
+    this->currentRoomPluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     this->loadRoomLibrary();
-    this->addRoomToModel();
 }
 
 Room::RoomManager::~RoomManager()
@@ -21,7 +21,7 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 {
     context->setContextProperty("roomModel", this->roomModel);
     context->setContextProperty("roomManager", this);
-    emit (executeSQLQuery("SELECT * FROM TATA;", this));
+    context->setContextProperty("currentRoomPluginsModel", this->currentRoomPluginsModel);
 }
 
 void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
@@ -52,6 +52,15 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
     if (this->currentRoom != NULL)
     {
         // LOAD PLUGINS MODEL TO SHOW IN LEFT MENU
+        // WE COPY THE PLUGINS OF THE ROOM IN THE LEFT MENU
+        this->currentRoomPluginsModel->clear();
+        QList<Plugins::PluginBase *> plugins = this->currentRoom->getWidgetsList();
+        qDebug() << "Clearing Room Plugins Model";
+        foreach (Plugins::PluginBase *plugin, plugins)
+        {
+            qDebug() << "Appending Plugins Item to Plugins Model";
+            this->currentRoomPluginsModel->appendRow(new Plugins::PluginModelItem(plugin));
+        }
         QObject::connect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
         this->roomUpdateTimer->start(ROOM_UPDATE_TIME);
     }
@@ -158,10 +167,10 @@ bool        Room::RoomManager::addRoomToModel()
     room4->setScale(QVector3D(30, 20, 30));
 
 
-    this->roomModel->appendRow(new RoomModelItem(room1));
-    this->roomModel->appendRow(new RoomModelItem(room2));
-    this->roomModel->appendRow(new RoomModelItem(room3));
-    this->roomModel->appendRow(new RoomModelItem(room4));
+    this->roomModel->appendRow(new Room::RoomModelItem(room1));
+    this->roomModel->appendRow(new Room::RoomModelItem(room2));
+    this->roomModel->appendRow(new Room::RoomModelItem(room3));
+    this->roomModel->appendRow(new Room::RoomModelItem(room4));
     //    this->roomModel->appendRow(new RoomModelItem(room5));
 
     return true;

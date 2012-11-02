@@ -1,11 +1,8 @@
 
 SOURCES +=  $$PWD/PluginLoader.cpp    \
-            $$PWD/PluginManager.cpp \
-            $$PWD/PluginModelItem.cpp
-
+            $$PWD/PluginManager.cpp
 
 HEADERS +=  $$PWD/PluginLoader.h      \
-            $$PWD/PluginManager.h \
-            $$PWD/PluginModelItem.h
+            $$PWD/PluginManager.h
 
 INCLUDEPATH += $$PWD

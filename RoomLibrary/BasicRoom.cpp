@@ -3,8 +3,6 @@
 #include <QDebug>
 
 
-int BasicRoom::nextId = 0;
-
 BasicRoom::BasicRoom() : RoomBase()
 {
 
@@ -40,77 +38,20 @@ BasicRoom::~BasicRoom()
 
 Room::RoomBase*  BasicRoom::createNewInstance()
 {
-    return new BasicRoom();
+    BasicRoom* room = new BasicRoom();
+    room->setRoomQmlFile(BASICROOM_QML_FILE);
+    return room;
 }
 
-QVector3D BasicRoom::getPosition() const
-{
-    return this->position;
-}
-
-void    BasicRoom::setPosition(const QVector3D& position)
-{
-    this->position = position;
-    this->updateRoomCenter();
-}
-
-
-QVector3D BasicRoom::getScale() const
-{
-    return this->scale;
-}
-
-void    BasicRoom::setScale(const QVector3D &scale)
-{
-    this->scale = scale;
-    this->updateRoomCenter();
-}
-
-QVector3D BasicRoom::getRoomCenter() const
-{
-    return this->roomCenter;
-}
-
-void    BasicRoom::updateRoomCenter()
-{
-    this->roomCenter.setX((this->position.x() * this->scale.x()) / 2);
-    this->roomCenter.setY((this->position.y() * this->scale.y()) / 2);
-    this->roomCenter.setZ((this->position.z() * this->scale.z()) / 2);
-}
-
-QString BasicRoom::getRoomName() const
-{
-    return this->roomName;
-}
-
-void    BasicRoom::setRoomName(const QString& name)
-{
-    this->roomName = name;
-}
-
-QString BasicRoom::getRoomQml() const
-{
-    return this->qmlFile;
-}
-
-QList<Plugins::PluginBase*>  BasicRoom::getWidgetsList() const
-{
-    return this->widgets;
-}
 
 QQuickItem*   BasicRoom::getRoomQmlObject() const
 {
-    return roomQmlItem;
+    return NULL;
 }
 
 QObject*    BasicRoom::getObject()
 {
     return this;
-}
-
-void    BasicRoom::addWidgetToRoom(Plugins::PluginBase *plugin)
-{
-    widgets.push_front(plugin);
 }
 
 void    BasicRoom::updateRoom()
