@@ -4,6 +4,7 @@
 
 
 ListModel* Plugins::PluginManager::availablePluginsModel = NULL;
+Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
@@ -12,11 +13,18 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
     // PLUGINS AND THE SERVICE MANAGER, AUTOMATICALLY PASSING THE PLUGIN
     // INSTANCE TO SERVICE SIGNALS SO THAT THE SERVICE AUTOMATICALLY RESPONDS TO THE PLUGIN
     // WHO MADE THE REQUEST
-    this->signalMapper = new QSignalMapper(this);
+//    this->signalMapper = new QSignalMapper(this);
 }
 
 Plugins::PluginManager::~PluginManager()
 {
+}
+
+Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
+{
+    if (Plugins::PluginManager::instance == NULL)
+        Plugins::PluginManager::instance = new Plugins::PluginManager(parent);
+    return Plugins::PluginManager::instance;
 }
 
 void Plugins::PluginManager::loadLocalPlugins()
