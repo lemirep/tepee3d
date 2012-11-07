@@ -2,6 +2,7 @@
 // DEBUG
 #include <QDebug>
 
+Room::RoomManager* Room::RoomManager::instance = NULL;
 
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
@@ -10,6 +11,13 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->currentRoom = NULL;
     this->currentRoomPluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     this->loadRoomLibrary();
+}
+
+Room::RoomManager* Room::RoomManager::getInstance(QObject *parent)
+{
+    if (Room::RoomManager::instance == NULL)
+        Room::RoomManager::instance = new Room::RoomManager(parent);
+    return Room::RoomManager::instance;
 }
 
 Room::RoomManager::~RoomManager()

@@ -32,11 +32,14 @@ class ServicesManager : public QObject, public QmlContentExposerInterface
 {
     Q_OBJECT
 public:
-    ServicesManager(QObject *parent = 0);
     void    exposeContentToQml(QQmlContext *context);
+    static  ServicesManager*      getInstance(QObject *parent = 0);
+
 
 private:
+    ServicesManager(QObject *parent = 0);
     QList<ServiceInterface*>    services;
+    static ServicesManager            *instance;
 
     bool    loadServicesLibraries();
 

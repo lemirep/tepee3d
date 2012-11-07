@@ -27,8 +27,9 @@ class RoomManager : public QObject, public QmlContentExposerInterface, public Da
 {
     Q_OBJECT
 public:
-    RoomManager(QObject *parent = 0);
+    static RoomManager* getInstance(QObject *parent = NULL);
     ~RoomManager();
+
 
     ListModel*      getRoomModel() const;
     bool            addRoomToModel();
@@ -47,6 +48,9 @@ public:
     Q_INVOKABLE    void     addNewPluginToCurrentRoom(int pluginModelId);
 
 private:
+    RoomManager(QObject *parent = 0);
+    static RoomManager     *instance;
+
     ListModel       *roomModel;
     ListModel       *currentRoomPluginsModel;
     RoomBase        *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE

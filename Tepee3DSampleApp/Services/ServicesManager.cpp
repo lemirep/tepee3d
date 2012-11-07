@@ -3,15 +3,25 @@
 // FOR DEBUG
 #include <QDebug>
 
+Services::ServicesManager* Services::ServicesManager::instance = NULL;
+
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
     this->services = QList<ServiceInterface*>();
     this->loadServicesLibraries();
 }
 
+Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *parent)
+{
+    if (ServicesManager::instance == NULL)
+        ServicesManager::instance = new Services::ServicesManager(parent);
+    return ServicesManager::instance;
+}
+
 void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 {
 }
+
 
 void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
 {
@@ -19,17 +29,6 @@ void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
 
     foreach (ServiceInterface* service, this->services)
         service->connectServiceToUser(serviceUser);
-
-//        service->
-
-//    // SQL
-//    if (dynamic_cast<DatabaseServiceUserInterface*>(serviceUser) != NULL)
-//        QObject::connect(serviceUser, SIGNAL(executeSQLQuery(const QString &, QObject *)),
-//                         this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
-//    // HTTP
-//    if (dynamic_cast<WebServiceUserInterface*>(serviceUser) != NULL)
-//        QObject::connect(serviceUser, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
-//                         this, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)));
 }
 
 void    Services::ServicesManager::disconnectObjectFromServices(QObject *serviceUser)
@@ -38,14 +37,6 @@ void    Services::ServicesManager::disconnectObjectFromServices(QObject *service
 
     foreach (ServiceInterface* service, this->services)
         service->disconnectServiceFromUser(serviceUser);
-//    // SQL
-//    if (dynamic_cast<DatabaseServiceUserInterface*>(serviceUser) != NULL)
-//        QObject::disconnect(serviceUser, SIGNAL(executeSQLQuery(const QString &, QObject *)),
-//                            this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
-    // HTTP
-//    if (dynamic_cast<WebServiceUserInterface*>(serviceUser) != NULL)
-//        QObject::connect(serviceUser, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
-//                         this, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)));
 }
 
 bool    Services::ServicesManager::loadServicesLibraries()

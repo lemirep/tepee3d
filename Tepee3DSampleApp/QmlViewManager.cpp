@@ -9,9 +9,9 @@ QmlViewManager::QmlViewManager(QApplication *app) : QObject()
     this->qmlContext = this->viewer->rootContext();      //USED TO SET PROPERTIES TO QML FOR MODELS
     this->desktopWidget = QApplication::desktop();       //USED TO RETRIEVE SCREEN SIZE
 
-    this->servicesManager = new Services::ServicesManager(this);
-    this->roomManager = new Room::RoomManager(this);
-    this->pluginsManager  = new Plugins::PluginManager(this);
+    this->servicesManager = Services::ServicesManager::getInstance(this);
+    this->roomManager = Room::RoomManager::getInstance(this);
+    this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 
     QObject::connect(this->roomManager, SIGNAL(connectObjectToServices(QObject*)), this->servicesManager, SLOT(connectObjectToServices(QObject*)));
     QObject::connect(this->roomManager, SIGNAL(disconnectObjectFromServices(QObject*)), this->servicesManager, SLOT(disconnectObjectFromServices(QObject*)));
