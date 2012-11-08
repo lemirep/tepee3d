@@ -9,7 +9,7 @@
 #include <Qt3DQuick/QQuickViewport>
 #include <Qt3DQuick/qquickviewport.h>
 #include <Qt/qqmlcontext.h>
-#include <QmlContentExposerInterface.h>
+#include "QmlContentExposerInterface.h"
 #include "PluginManager.h"
 #include "RoomManager.h"
 #include "ServicesManager.h"
