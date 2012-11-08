@@ -1,4 +1,6 @@
 #include "PluginModelItem.h"
+// DEBUG
+#include <QDebug>
 
 Plugins::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *parent) : ListItem(parent)
 {
@@ -7,6 +9,7 @@ Plugins::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *
 
 Plugins::PluginModelItem::~PluginModelItem()
 {
+    qDebug() << "DELETING PLUGIN MODEL ITEM";
 }
 
 int     Plugins::PluginModelItem::id()  const

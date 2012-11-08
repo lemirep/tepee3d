@@ -64,11 +64,11 @@ Viewport
     {
         id : camera_timer
         running : true
-        interval : 5000
+        interval : 40
         repeat : true
         onTriggered:
         {
-            camera.angle += 20
+            camera.angle += 0.05
             if (camera.angle >= 360)
                 camera.angle -= 360;
             camera.xCam = 100 * Math.cos(camera.angle)

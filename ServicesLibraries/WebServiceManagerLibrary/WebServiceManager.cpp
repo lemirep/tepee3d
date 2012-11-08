@@ -17,6 +17,9 @@ QNetworkAccessManager*  WebServiceManager::getInstance()
     return instance;
 }
 
+// NETWORK REPLYREPEATER HAS TO BE DELETED IN PLUGIN
+// QNETWORKREPLY HAS TO BE DELETED USING DELETELATER
+
 void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*, QObject *sender)
 {
     qDebug() << "Executing HttpGetRequest";

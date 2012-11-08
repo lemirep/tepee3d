@@ -10,7 +10,7 @@ Camera  // OPENGL CAMERA
     property real xCamCenter : xCam;
     property real yCamCenter : yCam;
 //    property real yCamCenter : 15;
-    property real zCamCenter : zCam + 100;
+    property real zCamCenter : zCam + 200;
 //    property real zCamCenter : 0;
 
 
@@ -20,7 +20,7 @@ Camera  // OPENGL CAMERA
     upVector :   Qt.vector3d(0, 1, 0)
     fieldOfView : 60
     farPlane : 1000 // FARTHEST VISIBLE VIEW DISTANCE DEF : 1000
-    nearPlane : 5 // NEAREST VISIBLE DISTANCE DEF : 5
+    nearPlane : 1 // NEAREST VISIBLE DISTANCE DEF : 5
     eyeSeparation : 0 // FOR STEREO RENDERING AKA 3D
 
     Behavior on xCam    {SmoothedAnimation {velocity: 200;}}

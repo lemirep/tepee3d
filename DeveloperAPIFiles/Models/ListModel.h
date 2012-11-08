@@ -16,7 +16,7 @@ public:
     ~ListModel();
 
     // REIMPLEMENTED METHODS
-    int         rowCount(const QModelIndex &parent) const;
+    int         rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant    data(const QModelIndex &index, int role) const;
     QModelIndex indexFromItem(ListItem *item) const;
 
@@ -27,8 +27,8 @@ public:
     QHash<int, QByteArray>        roleNames() const;
 
 
-    bool        removeRow(int row, const QModelIndex &parent);
-    bool        removeRows(int row, int count, const QModelIndex &parent);
+    bool        removeRow(int row, const QModelIndex &parent = QModelIndex());
+    bool        removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
     void        clear();
 
     int         getRowFromItem(ListItem *item) const;

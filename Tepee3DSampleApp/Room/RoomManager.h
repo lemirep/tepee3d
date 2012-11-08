@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <PluginManager.h>
+#include <QVector3D>
 #include "QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "RoomModelItem.h"
@@ -27,42 +28,47 @@ class RoomManager : public QObject, public QmlContentExposerInterface, public Da
 {
     Q_OBJECT
 public:
-    static RoomManager* getInstance(QObject *parent = NULL);
     ~RoomManager();
+    static RoomManager*     getInstance(QObject *parent = NULL);
 
 
-    ListModel*      getRoomModel() const;
-    bool            addRoomToModel();
+    ListModel*              getRoomModel() const;
+    bool                    addRoomToModel();
 
-    RoomBase*       getCurrentRoom()    const;
-    void            setCurrentRoom(RoomBase *room);
+    RoomBase*               getCurrentRoom()    const;
+    void                    setCurrentRoom(RoomBase *room);
+
     // QmlContentExposer
-    void            exposeContentToQml(QQmlContext *context);
+    void                    exposeContentToQml(QQmlContext *context);
     // DatabaseUser
-    void            receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
-
+    void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
 
     // METHODS THAT CAN BE CALLED FROM QML
     Q_INVOKABLE    void     setCurrentRoom(int roomModelId);
-    Q_INVOKABLE    void     addNewRoom();
     Q_INVOKABLE    void     addNewPluginToCurrentRoom(int pluginModelId);
+    Q_INVOKABLE    void     removePluginFromCurrentRoom(int pluginModelId);
+    Q_INVOKABLE    void     addNewRoom(QString roomName = "RoomTest-");
+    Q_INVOKABLE    void     deleteRoom(int roomModelId);
+    Q_INVOKABLE    void     editRoom(int roomModelId, QString roomName, QVector3D roomPosition, QVector3D roomScale);
 
 private:
     RoomManager(QObject *parent = 0);
-    static RoomManager     *instance;
+    static RoomManager      *instance;
 
-    ListModel       *roomModel;
-    ListModel       *currentRoomPluginsModel;
-    RoomBase        *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
-    RoomBase        *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
-    QTimer          *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
+    ListModel               *roomModel;
+    ListModel               *currentRoomPluginsModel;
+    RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
+    RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
+    QTimer                  *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
 
-    void            loadRoomLibrary();
+    void                    loadRoomLibrary();
+    void                    placeRoomsInSpace();
+    void                    reloadCurrentRoomPluginsModel();
 
 signals:
-    void    executeSQLQuery(const QString &query, QObject *sender);
-    void    connectObjectToServices(QObject *serviceUser);
-    void    disconnectObjectFromServices(QObject *serviceUser);
+    void                    executeSQLQuery(const QString &query, QObject *sender);
+    void                    connectObjectToServices(QObject *serviceUser);
+    void                    disconnectObjectFromServices(QObject *serviceUser);
 };
 
 }

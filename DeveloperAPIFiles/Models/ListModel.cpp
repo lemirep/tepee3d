@@ -1,11 +1,10 @@
 #include "ListModel.h"
 // DEBUG
-#include <iostream>
+#include <QDebug>
 
 ListModel::ListModel(ListItem *prototype, QObject *parent) : QAbstractListModel(parent)
 {
     this->prototype = prototype;
-    std::cout << "prototype set" << std::endl;
 }
 
 ListModel::~ListModel()
@@ -34,15 +33,21 @@ QHash<int, QByteArray>  ListModel::roleNames() const
 
 void        ListModel::appendRow(ListItem *item)
 {
-    std::cout << "Row appended" << std::endl;
-    QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
-    this->items.append(item);
+    this->appendRows(QList<ListItem *>() << item);
 }
 
 void        ListModel::appendRows(QList<ListItem *> &items)
 {
+    // NEEDED TO UPDATE VIEW
+    this->beginInsertRows(QModelIndex(), this->rowCount(), this->rowCount() + items.size() - 1);
     foreach(ListItem *item, items)
-        this->appendRow(item);
+    {
+        QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
+        this->items.append(item);
+        qDebug() << "Row appended";
+    }
+    // NEEDED TO UPDATE VIEW
+    this->endInsertRows();
 }
 
 void        ListModel::insertRow(int row, ListItem *item)
@@ -53,11 +58,11 @@ void        ListModel::insertRow(int row, ListItem *item)
     this->endInsertRows();
 }
 
-bool        ListModel::removeRow(int row, const QModelIndex &)
+bool        ListModel::removeRow(int row, const QModelIndex &index)
 {
     if (row >= 0 && row < this->items.size())
     {
-        beginRemoveRows(QModelIndex(), row, row);
+        beginRemoveRows(index, row, row);
         delete this->items.takeAt(row);
         endRemoveRows();
         return true;
@@ -65,13 +70,14 @@ bool        ListModel::removeRow(int row, const QModelIndex &)
     return false;
 }
 
-bool        ListModel::removeRows(int row, int count, const QModelIndex &)
+bool        ListModel::removeRows(int row, int count, const QModelIndex &index)
 {
-    if (row >= 0 && (row + count) < this->items.size())
+    if (row >= 0 && (row + count) <= this->items.size())
     {
-        beginRemoveRows(QModelIndex(), row, row);
+        beginRemoveRows(index, row, row + count - 1);
         for (int i = 0; i < count; i++)
-            delete this->items.takeAt(row + i);
+            delete this->items.takeAt(row);
+        qDebug() << "REMOVED ROWS";
         endRemoveRows();
         return true;
     }
@@ -79,9 +85,10 @@ bool        ListModel::removeRows(int row, int count, const QModelIndex &)
 }
 
 void        ListModel::clear()
-{
-    qDeleteAll(this->items);
-    this->items.clear();
+{    
+    qDebug() << "Clearing model";
+    this->removeRows(0, this->items.size());
+    qDebug() << "ListMode size " << this->items.size();
 }
 
 QModelIndex ListModel::indexFromItem(ListItem *item) const
@@ -105,9 +112,10 @@ ListItem *  ListModel::find(int itemId) const
 
 int         ListModel::getRowFromItem(ListItem *item) const
 {
-    for (int i = 0; i < this->items.size(); i++)
-        if (this->items.at(i) == item)
-            return i;
+    if (item != NULL)
+        for (int i = 0; i < this->items.size(); i++)
+            if (this->items.at(i) == item)
+                return i;
     return -1;
 }
 
@@ -118,7 +126,7 @@ QList<ListItem *>   ListModel::toList() const
 
 void        ListModel::updateItem()
 {
-    std::cout << "row updated" << std::endl;
+    qDebug() << "Row updated";
     ListItem *item = static_cast<ListItem *>(sender());
     QModelIndex index = this->indexFromItem(item);
     if (index.isValid())

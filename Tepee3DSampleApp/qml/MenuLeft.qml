@@ -139,6 +139,7 @@ Item
 
             property real delegate_width :  menuLeftMain.width / 2;
             property real delegate_height : menuLeftMain.width / 3;
+            property int  currentRoomId : -1;
 
             opacity : 0
             enabled : (opacity == 1)
@@ -186,77 +187,92 @@ Item
 
             source : "Resources/Pictures/add_button.svg"
         }
+    }
 
 
-        Component
+
+
+
+
+
+    Component
+    {
+        id : room_list_delegate
+        Item
         {
-            id : room_list_delegate
-            Item
+            id : item_room_del
+            width : rooms_list_view.delegate_width
+            height : rooms_list_view.delegate_height
+            anchors.horizontalCenter: parent.horizontalCenter
+            scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
+
+            MouseArea
             {
-                id : item_room_del
-                width : rooms_list_view.delegate_width
-                height : rooms_list_view.delegate_height
-                anchors.horizontalCenter: parent.horizontalCenter
-                scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
-
-                MouseArea
+                id : room_delegate_mouse_area
+                anchors.fill : parent
+                onClicked :
                 {
-                    id : room_delegate_mouse_area
-                    anchors.fill : parent
-                    onClicked :
-                    {
-                        rooms_list_view.currentIndex = index;
-                        console.log(index);
-                        console.log(rooms_list_view.currentIndex);
-                        console.log("xc " + model.roomPosition.x + " yc " + model.roomPosition.y + " zc " + model.roomPosition.z);
-                        // MOVE TO THE SELECTED ROOM
-                        //camera.moveTo(model.roomPosition.x, model.roomPosition.y, model.roomPosition.z);
+//                    ListView.view.currentIndex = index
+                    rooms_list_view.currentIndex = index
+                    console.log(index);
+                    console.log(rooms_list_view.currentIndex);
+                    console.log("xc " + model.roomPosition.x + " yc " + model.roomPosition.y + " zc " + model.roomPosition.z);
+                    // MOVE TO THE SELECTED ROOM
+                    //camera.moveTo(model.roomPosition.x, model.roomPosition.y, model.roomPosition.z);
 
-                        camera_timer.stop();
+                    camera_timer.stop();
 
 
-                        console.log("eyex " + model.roomPosition.x + " eyey " + model.roomPosition.y + " eyez " + model.roomPosition.z);
-                        console.log("centerx " + model.roomCenter.x + " centery " + model.roomCenter.y + " centerz " + model.roomCenter.z);
+                    console.log("eyex " + model.roomPosition.x + " eyey " + model.roomPosition.y + " eyez " + model.roomPosition.z);
+                    console.log("centerx " + model.roomCenter.x + " centery " + model.roomCenter.y + " centerz " + model.roomCenter.z);
 
-                        camera.xCam = model.roomPosition.x;
-                        camera.yCam = model.roomPosition.y;
-                        camera.zCam = model.roomPosition.z - model.roomScale.z;
+                    camera.xCam = model.roomPosition.x;
+                    camera.yCam = model.roomPosition.y;
+                    camera.zCam = model.roomPosition.z - model.roomScale.z;
 
-                        camera.xCamCenter = model.roomPosition.x;
-                        camera.yCamCenter = model.roomPosition.y;
-                        camera.zCamCenter = model.roomPosition.z;
+                    camera.xCamCenter = model.roomPosition.x;
+                    camera.yCamCenter = model.roomPosition.y;
+                    camera.zCamCenter = model.roomPosition.z;
 
-                        roomManager.setCurrentRoom(model.roomId);
-                        console.log(model.roomId);
+                    rooms_list_view.currentRoomId = model.roomId;
+                    roomManager.setCurrentRoom(rooms_list_view.currentRoomId);
+                    console.log(model.roomId);
 
 
-                        // SET MENU RIGHT PLUGIN MODEL
-
-                        menuLeftMain.isShown = false;
-
-                    }
+                    // SET MENU RIGHT PLUGIN MODEL
+                    menuLeftMain.isShown = false;
+                }
+                onPressAndHold:
+                {
+                    if (rooms_list_view.currentRoomId == model.roomId)
+                        rooms_list_view.currentIndex = -1;
+                    roomManager.deleteRoom(model.roomId)
                 }
 
-                Rectangle
-                {
-                    color : (rooms_list_view.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
-                    anchors.fill: parent
+            }
 
-                }
+            Rectangle
+            {
+                color : (rooms_list_view.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
+                anchors.fill: parent
 
-                Text
+            }
+
+            Text
+            {
+                id: room_title
+                text: model.roomName
+                anchors
                 {
-                    id: room_title
-                    text: model.roomName
-                    anchors
-                    {
-                        horizontalCenter : parent.horizontalCenter
-                        bottom : parent.bottom
-                        margins : 10
-                    }
-                    color :  "white"
+                    horizontalCenter : parent.horizontalCenter
+                    bottom : parent.bottom
+                    margins : 10
                 }
+                color :  "white"
             }
         }
     }
+
+
+
 }
