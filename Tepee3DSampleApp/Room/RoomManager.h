@@ -5,6 +5,7 @@
 #include <PluginManager.h>
 #include <QVector3D>
 #include "QmlContentExposerInterface.h"
+//#include "../QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"

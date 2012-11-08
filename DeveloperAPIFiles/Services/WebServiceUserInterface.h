@@ -5,17 +5,11 @@
 #include <QHttpMultiPart>
 #include <QNetworkRequest>
 // YOU NEED TO IMPLEMENT THIS INTERFACE IN ORDER TO RECEIVE NETWORK REPLIES
+
 class   WebServiceUserInterface
 {
 public :
-    enum    WebServiceRequestType
-    {
-        GET = 1,
-        POST,
-        DELETE,
-        PUT
-    };
-
+    enum WebServiceRequestType{Get = 1, Post, Delete, Put};
     virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
     virtual void executeHttpGetRequest(const QNetworkRequest& request) = 0;
     virtual void executeHttpDeleteRequest(const QNetworkRequest& request) = 0;

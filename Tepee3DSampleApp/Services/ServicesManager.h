@@ -14,7 +14,7 @@
 #include "ServiceInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
-#include "QmlContentExposerInterface.h"
+#include "../QmlContentExposerInterface.h"
 
 // THIS CLASS WILL BE THE INTERMEDIARY BETWEEN ALL SERVICES (APART FROM STATIC FUNCTIONS)
 // IT WILL CONNECT ALL THE NECESSARY SIGNAL

@@ -19,22 +19,22 @@ void    Plugins::PluginBase::resultFromSQL()
 
 void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request)
 {
-    emit executeHttpRequest(request, GET, NULL, this);
+    emit executeHttpRequest(request, Get, NULL, this);
 }
 
 void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request)
 {
-    emit executeHttpRequest(request, DELETE, NULL, this);
+    emit executeHttpRequest(request, Delete, NULL, this);
 }
 
 void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
-    emit executeHttpRequest(request, POST, multiPart, this);
+    emit executeHttpRequest(request, Post, multiPart, this);
 }
 
 void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
-    emit executeHttpRequest(request, PUT, multiPart, this);
+    emit executeHttpRequest(request, Put, multiPart, this);
 }
 
 bool    Plugins::PluginBase::needsUpdating() const
