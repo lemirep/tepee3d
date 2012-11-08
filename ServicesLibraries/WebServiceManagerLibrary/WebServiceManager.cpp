@@ -4,10 +4,10 @@
 
 WebServiceManager::WebServiceManager() : QObject()
 {
-    this->httpMethods[WebServiceUserInterface::GET] = &WebServiceManager::httpGet;
-    this->httpMethods[WebServiceUserInterface::DELETE] = &WebServiceManager::httpDelete;
-    this->httpMethods[WebServiceUserInterface::POST] = &WebServiceManager::httpPost;
-    this->httpMethods[WebServiceUserInterface::PUT] = &WebServiceManager::httpPut;
+    this->httpMethods[WebServiceUserInterface::Get] = &WebServiceManager::httpGet;
+    this->httpMethods[WebServiceUserInterface::Delete] = &WebServiceManager::httpDelete;
+    this->httpMethods[WebServiceUserInterface::Post] = &WebServiceManager::httpPost;
+    this->httpMethods[WebServiceUserInterface::Put] = &WebServiceManager::httpPut;
 }
 
 QNetworkAccessManager*  WebServiceManager::getInstance()
