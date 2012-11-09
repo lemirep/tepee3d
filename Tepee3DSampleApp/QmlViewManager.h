@@ -36,10 +36,13 @@ private:
     // PLUGIN MANAGER
     Plugins::PluginManager      *pluginsManager;
 
+private :
 
+    static  QmlViewManager      *instance;
+    explicit QmlViewManager(QApplication *app);
 
 public:
-    explicit QmlViewManager(QApplication *app);
+    static  QmlViewManager*     getInstance(QApplication *app);
     ~QmlViewManager();
     bool    initView();
 

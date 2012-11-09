@@ -2,6 +2,8 @@
 // DEBUG
 #include <iostream>
 
+QmlViewManager* QmlViewManager::instance = NULL;
+
 QmlViewManager::QmlViewManager(QApplication *app) : QObject()
 {
     this->viewer = new QQuickView();                     //USED TO DISPLAY QML
@@ -24,6 +26,13 @@ QmlViewManager::QmlViewManager(QApplication *app) : QObject()
 QmlViewManager::~QmlViewManager()
 {
     delete this->viewer;
+}
+
+QmlViewManager* QmlViewManager::getInstance(QApplication *application)
+{
+    if (QmlViewManager::instance == NULL)
+        QmlViewManager::instance = new QmlViewManager(application);
+    return QmlViewManager::instance;
 }
 
 bool    QmlViewManager::initView()

@@ -25,8 +25,9 @@ public:
     virtual QString         getPluginDescription()      = 0;
     PluginBase*             getPluginBase();
     virtual PluginBase*     createNewInstance()         = 0;
-    virtual bool            needsUpdating() const;                    // BY DEFAULT RETURNS FALSE
-
+    virtual bool            needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
+    virtual QString         getRoomPluginQmlFile()      const = 0;
+    virtual QString         getFocusedPluginQmlFile()   const = 0;
 
 
     // SQL

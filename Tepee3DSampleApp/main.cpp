@@ -6,8 +6,8 @@
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QApplication *app = new QApplication(argc, argv);
-    QmlViewManager manager(app);
-    manager.initView();
+    QmlViewManager* manager = QmlViewManager::getInstance(app);
+    manager->initView();
 
 
 

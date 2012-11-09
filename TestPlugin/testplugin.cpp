@@ -35,6 +35,16 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
     return this;
 }
 
+QString TestPlugin::getRoomPluginQmlFile() const
+{
+    return "";
+}
+
+QString TestPlugin::getFocusedPluginQmlFile() const
+{
+    return "";
+}
+
 Plugins::PluginBase* TestPlugin::createNewInstance()
 {
     return new TestPlugin();
