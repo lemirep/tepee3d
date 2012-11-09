@@ -4,7 +4,7 @@
 
 QmlViewManager* QmlViewManager::instance = NULL;
 
-QmlViewManager::QmlViewManager(QApplication *app) : QObject()
+QmlViewManager::QmlViewManager() : QObject()
 {
     this->viewer = new QQuickView();                     //USED TO DISPLAY QML
     this->qmlEngine = this->viewer->engine();            //RETRIEVED FROM THE VIEWER USED TO INSTANCIATE AND INSERT NEW QML COMPONENTS FROM PLUGINS
@@ -28,10 +28,10 @@ QmlViewManager::~QmlViewManager()
     delete this->viewer;
 }
 
-QmlViewManager* QmlViewManager::getInstance(QApplication *application)
+QmlViewManager* QmlViewManager::getInstance()
 {
     if (QmlViewManager::instance == NULL)
-        QmlViewManager::instance = new QmlViewManager(application);
+        QmlViewManager::instance = new QmlViewManager();
     return QmlViewManager::instance;
 }
 

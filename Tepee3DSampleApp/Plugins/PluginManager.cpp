@@ -3,7 +3,8 @@
 #include <QDebug>
 
 
-ListModel* Plugins::PluginManager::availablePluginsModel = NULL;
+ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
+ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
@@ -30,13 +31,13 @@ Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
 void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();
-    if (Plugins::PluginManager::availablePluginsModel == NULL)
-        Plugins::PluginManager::availablePluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
+    if (Plugins::PluginManager::locallyAvailablePluginsModel == NULL)
+        Plugins::PluginManager::locallyAvailablePluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     else
-        Plugins::PluginManager::availablePluginsModel->clear();
+        Plugins::PluginManager::locallyAvailablePluginsModel->clear();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())
     {
-        Plugins::PluginManager::availablePluginsModel->appendRow(new Plugins::PluginModelItem(plugin, this));
+        Plugins::PluginManager::locallyAvailablePluginsModel->appendRow(new Plugins::PluginModelItem(plugin, this));
         // DO PLUGIN CONNECTION TO SIGNAL MAPPER FOR SERVICES HERE
     }
 }
@@ -57,7 +58,7 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
 {
     Plugins::PluginModelItem*   pluginModelItem = NULL;
     Plugins::PluginBase *pluginBase = NULL;
-    if ((pluginModelItem = (Plugins::PluginModelItem*)Plugins::PluginManager::availablePluginsModel->find(pluginModelItemId)) != NULL)
+    if ((pluginModelItem = (Plugins::PluginModelItem*)Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginModelItemId)) != NULL)
         pluginBase = pluginModelItem->getPlugin();
 
     return Plugins::PluginManager::getNewInstanceOfPlugin(pluginBase);
@@ -65,5 +66,5 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
 
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {
-    context->setContextProperty("availablePluginsModel", this->availablePluginsModel);
+    context->setContextProperty("availablePluginsModel", this->locallyAvailablePluginsModel);
 }

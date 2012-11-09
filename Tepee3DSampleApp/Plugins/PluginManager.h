@@ -20,6 +20,10 @@
 // LATER ROOM POSITIONING MENU TO EASILY SCALE ROTATE AND PLACE QML ITEM
 
 
+// THE WEB STORE WITH A RESTFUL API WILL PROVIDE INFORMATION ABOUT PLUGINS AVAILABLE
+// THEY INFORMATION PROVIDED BY THE STREAM WILL BE USED TO BUILD A MODEL OF PLUGINS
+
+
 namespace Plugins
 {
 class PluginManager : public QObject, public QmlContentExposerInterface, public DatabaseServiceUserInterface
@@ -38,7 +42,8 @@ public:
 
 private:
     static PluginManager*       instance;
-    static ListModel*           availablePluginsModel;
+    static ListModel*           locallyAvailablePluginsModel;
+    static ListModel*           onlineAvailablePluginsModel;
     explicit PluginManager(QObject *parent = 0);
 
 //    QSignalMapper              *signalMapper;

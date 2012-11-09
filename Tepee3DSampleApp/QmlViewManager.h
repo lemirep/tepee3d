@@ -15,6 +15,8 @@
 #include "ServicesManager.h"
 
 
+// DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
+
 class QmlViewManager : public QObject
 {
     Q_OBJECT
@@ -37,16 +39,14 @@ private:
     Plugins::PluginManager      *pluginsManager;
 
 private :
-
-    static  QmlViewManager      *instance;
-    explicit QmlViewManager(QApplication *app);
+    explicit QmlViewManager();
+    static   QmlViewManager      *instance;
 
 public:
-    static  QmlViewManager*     getInstance(QApplication *app);
     ~QmlViewManager();
-    bool    initView();
-
-    void    registerComponentsToQml();
+    static  QmlViewManager*     getInstance();
+    bool                        initView();
+    void                        registerComponentsToQml();
 
 signals:
 

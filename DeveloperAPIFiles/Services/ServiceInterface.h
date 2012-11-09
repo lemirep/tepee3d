@@ -4,6 +4,13 @@
 #include <QObject>
 #include <QtPlugin>
 
+// LIBRARIES OF SERVICES AVAILABLE FOR
+// DATABASE
+// WEBSERVICES
+// LOCATION AND PLACES (opt)
+// DEVICE SENSORS (opt)
+// CAMERA (opt)
+
 namespace Services
 {
 
