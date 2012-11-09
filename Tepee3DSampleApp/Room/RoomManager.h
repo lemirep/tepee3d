@@ -9,6 +9,7 @@
 #include "ListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
+#include "ServicesManager.h"
 
 // CREATES ROOM MODEL, RESTORE AND SAVE ROOMS AND EXPOSE THEM TO QML
 

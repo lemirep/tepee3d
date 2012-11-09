@@ -28,21 +28,22 @@ class PluginManager : public QObject, public QmlContentExposerInterface, public 
 public:
     ~PluginManager();
 
-    void                       loadLocalPlugins();
-    void                       exposeContentToQml(QQmlContext *context);
-    void                       receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
+    void                        loadLocalPlugins();
+    void                        exposeContentToQml(QQmlContext *context);
+    void                        receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
 
-    static PluginManager*      getInstance(QObject *parent = 0);
-    static PluginBase*         getNewInstanceOfPlugin(int pluginModelItemId);
-    static PluginBase*         getNewInstanceOfPlugin(PluginBase* plugin);
+    static PluginManager*       getInstance(QObject *parent = 0);
+    static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
+    static PluginBase*          getNewInstanceOfPlugin(PluginBase* plugin);
 
 private:
-    static PluginManager*   instance;
-    explicit PluginManager(QObject *parent = 0);
-//    QSignalMapper              *signalMapper;
+    static PluginManager*       instance;
     static ListModel*           availablePluginsModel;
+    explicit PluginManager(QObject *parent = 0);
+
+//    QSignalMapper              *signalMapper;
 signals :
-    void executeSQLQuery(const QString &query, QObject *sender);
+    void                        executeSQLQuery(const QString &query, QObject *sender);
 };
 }
 

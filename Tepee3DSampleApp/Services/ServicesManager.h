@@ -33,24 +33,21 @@ class ServicesManager : public QObject, public QmlContentExposerInterface
     Q_OBJECT
 public:
     void    exposeContentToQml(QQmlContext *context);
-    static  ServicesManager*      getInstance(QObject *parent = 0);
-
+    static  ServicesManager*        getInstance(QObject *parent = 0);
+    static  void                    connectObjectToServices(QObject *serviceUser);
+    static  void                    disconnectObjectFromServices(QObject *serviceUser);
 
 private:
     ServicesManager(QObject *parent = 0);
-    QList<ServiceInterface*>    services;
-    static ServicesManager            *instance;
+    QList<ServiceInterface*>        services;
+    static ServicesManager          *instance;
 
-    bool    loadServicesLibraries();
+    bool                            loadServicesLibraries();
 
-public slots:
-    void    connectObjectToServices(QObject *serviceUser);
-    void    disconnectObjectFromServices(QObject *serviceUser);
+public slots :
+    void                            connectObjectToServicesSlot(QObject *serviceUser);
+    void                            disconnectObjectFromServicesSlot(QObject *serviceUser);
 
-signals :
-//    void    executeSQLQuery(const QString &query, QObject *sender);
-//    void    executeHttpRequest(const QNetworkRequest &request, int requestType,
-//                            QHttpMultiPart *multiPart, QObject *sender);
 };
 
 }

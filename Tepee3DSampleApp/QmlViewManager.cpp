@@ -13,13 +13,10 @@ QmlViewManager::QmlViewManager(QApplication *app) : QObject()
     this->roomManager = Room::RoomManager::getInstance(this);
     this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 
-    QObject::connect(this->roomManager, SIGNAL(connectObjectToServices(QObject*)), this->servicesManager, SLOT(connectObjectToServices(QObject*)));
-    QObject::connect(this->roomManager, SIGNAL(disconnectObjectFromServices(QObject*)), this->servicesManager, SLOT(disconnectObjectFromServices(QObject*)));
-
     // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
-    this->servicesManager->connectObjectToServices(this->roomManager);
+    Services::ServicesManager::connectObjectToServices(this->roomManager);
     // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
-    this->servicesManager->connectObjectToServices(this->pluginsManager);
+    Services::ServicesManager::connectObjectToServices(this->pluginsManager);
     // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
     this->registerComponentsToQml();
 }

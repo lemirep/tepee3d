@@ -35,7 +35,7 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 
 void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
 {
-    qDebug() << "RoomManager receive SQL Result";
+    qDebug() << "RoomManager received SQL Result";
 }
 
 ListModel*  Room::RoomManager::getRoomModel() const
@@ -153,11 +153,13 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
     Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
     if (newPlugin != NULL)
     {
-        // MAKE ALL PLUGINS CONNECTION HERE
-        emit connectObjectToServices(newPlugin);
-        qDebug() << "Adding new plugin to Room";
         if (this->currentRoom != NULL)
+        {
+            qDebug() << "Adding new plugin to Room";
+            // MAKE ALL PLUGINS CONNECTION HERE
+            Services::ServicesManager::connectObjectToServices(newPlugin);
             this->currentRoom->addWidgetToRoom(newPlugin);
+        }
         this->reloadCurrentRoomPluginsModel();
     }
     else
@@ -171,6 +173,7 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
     if (pluginItem != NULL)
     {
         Plugins::PluginBase* plugin = pluginItem->getPlugin();
+        Services::ServicesManager::disconnectObjectFromServices(plugin);
         this->currentRoomPluginsModel->removeRow(this->currentRoomPluginsModel->getRowFromItem(pluginItem));
         delete plugin;
     }

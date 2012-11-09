@@ -22,8 +22,17 @@ void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 {
 }
 
-
 void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
+{
+ Services::ServicesManager::getInstance()->connectObjectToServicesSlot(serviceUser);
+}
+
+void    Services::ServicesManager::disconnectObjectFromServices(QObject *serviceUser)
+{
+    Services::ServicesManager::getInstance()->disconnectObjectFromServicesSlot(serviceUser);
+}
+
+void    Services::ServicesManager::connectObjectToServicesSlot(QObject *serviceUser)
 {
     qDebug() << "Connecting object to services";
 
@@ -31,7 +40,7 @@ void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
         service->connectServiceToUser(serviceUser);
 }
 
-void    Services::ServicesManager::disconnectObjectFromServices(QObject *serviceUser)
+void    Services::ServicesManager::disconnectObjectFromServicesSlot(QObject *serviceUser)
 {
     qDebug() << "Disconnecting object from services";
 
