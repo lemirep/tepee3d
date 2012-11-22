@@ -1,6 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-import "testWalls.js" as Walls;
+import "js/Walls.js" as Walls;
 
 Item
 {
@@ -212,15 +212,9 @@ Item
     {
         Walls.idx = 0;
         Walls.currentWall = 0;
-        Walls.walls = [];
-        Walls.walls.push(model.roomNorthWallPosition);
-        Walls.walls.push(model.roomSouthWallPosition);
-        Walls.walls.push(model.roomEastWallPosition);
-        Walls.walls.push(model.roomWestWallPosition);
-        Walls.walls.push(model.roomUpWallPosition);
-        Walls.walls.push(model.roomDownWallPosition);
         Walls.roomCenter = model.roomPosition;
         Walls.roomScale = model.roomScale;
+        Walls.preComputeWalls();
         Walls.preComputeCenters();
     }
 

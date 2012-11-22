@@ -16,12 +16,6 @@ public:
     {
         roomId  =   Qt::UserRole + 1,
         roomPosition,
-        roomNorthWallPosition,
-        roomSouthWallPosition,
-        roomEastWallPosition,
-        roomWestWallPosition,
-        roomUpWallPosition,
-        roomDownWallPosition,
         roomScale,
         roomName,
         roomCenter,

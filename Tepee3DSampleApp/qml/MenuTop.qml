@@ -1,6 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-import "testWalls.js" as Walls;
+import "js/Walls.js" as Walls;
 
 Item
 {
@@ -23,6 +23,7 @@ Item
     function generateFaceModel()
     {
         Walls.generateWallFacesModel(room_faces_model);
+        room_faces_listview.currentIndex = Walls.currentWall;
     }
 
     function startDrag(xPos, yPos)
@@ -99,42 +100,42 @@ Item
             when: !menuTopMain.isShown
         }]
 
-//    transitions :[
-//        Transition
-//        {
-//            from: "menuHidden"
-//            to: "menuShown"
-//            NumberAnimation
-//            {
-//                target : menuTopRec
-//                properties : "width, height, opacity"
-//                duration : 200
-//            }
-//            NumberAnimation
-//            {
-//                target : room_faces_listview
-//                properties : "opacity"
-//                duration : 250
-//            }
-//        },
-//        Transition
-//        {
-//            from: "menuHidden"
-//            to: "menuShown"
-//            NumberAnimation
-//            {
-//                target : menuTopRec
-//                properties : "width, height, opacity"
-//                duration : 200
-//            }
-//            NumberAnimation
-//            {
-//                target : room_faces_listview
-//                properties : "opacity"
-//                duration : 250
-//            }
-//        }
-//    ]
+    //    transitions :[
+    //        Transition
+    //        {
+    //            from: "menuHidden"
+    //            to: "menuShown"
+    //            NumberAnimation
+    //            {
+    //                target : menuTopRec
+    //                properties : "width, height, opacity"
+    //                duration : 200
+    //            }
+    //            NumberAnimation
+    //            {
+    //                target : room_faces_listview
+    //                properties : "opacity"
+    //                duration : 250
+    //            }
+    //        },
+    //        Transition
+    //        {
+    //            from: "menuHidden"
+    //            to: "menuShown"
+    //            NumberAnimation
+    //            {
+    //                target : menuTopRec
+    //                properties : "width, height, opacity"
+    //                duration : 200
+    //            }
+    //            NumberAnimation
+    //            {
+    //                target : room_faces_listview
+    //                properties : "opacity"
+    //                duration : 250
+    //            }
+    //        }
+    //    ]
 
     Rectangle
     {
@@ -143,27 +144,38 @@ Item
         height : parent.height
         color : mainWindow.menu_background_color
         opacity : 0
-//        Behavior on height {NumberAnimation {duration: 100}}
-//        Behavior on width {PropertyAnimation { properties: "width"; easing.type: Easing.OutBounce; duration : 500 }}
-//        Behavior on opacity {NumberAnimation {duration: 500}}
+        //        Behavior on height {NumberAnimation {duration: 100}}
+        //        Behavior on width {PropertyAnimation { properties: "width"; easing.type: Easing.OutBounce; duration : 500 }}
+        //        Behavior on opacity {NumberAnimation {duration: 500}}
 
-        ListView
+        GridView
         {
+//            Rectangle
+//            {
+//                anchors.fill: parent
+//                color : "green"
+//            }
+
             id : room_faces_listview
-            property real delegate_width :  menuTopMain.height / 2;
-            property real delegate_height : menuTopMain.height / 3;
+            cellWidth: width / 3
+            cellHeight: cellWidth
+//            property real delegate_width :  menuTopMain.height / 10;
+//            property real delegate_height : menuTopMain.height / 12;
 
             clip : true
             opacity :  0
             enabled : (opacity == 1)
             Behavior on opacity {NumberAnimation {duration : 500}}
+
             anchors
             {
-                fill : parent
+                left : parent.left
+                top : parent.top
+                bottom : parent.bottom
+                right : parent.horizontalCenter
                 margins : menuTopRec.height / 8
             }
-            orientation : ListView.Horizontal
-            spacing : 10
+
             delegate : room_face_view_delegate
             model : room_faces_model
             Component.onCompleted:
@@ -180,11 +192,10 @@ Item
             Item
             {
                 id : room_face_del_item
-                width : room_faces_listview.delegate_width
-                height : room_faces_listview.delegate_height
-                anchors.verticalCenter: parent.verticalCenter
+                width : room_faces_listview.cellWidth
+                height : room_faces_listview.cellHeight
+               // anchors.verticalCenter: parent.verticalCenter
                 scale : room_face_delegate_mouse_area.pressed ? 0.9 : 1.0
-
                 MouseArea
                 {
                     id : room_face_delegate_mouse_area
@@ -201,6 +212,7 @@ Item
                 {
                     color : (room_faces_listview.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
                     anchors.fill: parent
+                    anchors.margins: 10
 
                 }
 
