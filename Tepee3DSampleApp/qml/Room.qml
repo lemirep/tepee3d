@@ -31,6 +31,11 @@ Cube
         Loader
         {
             id : widget_loader
+            source : model.pluginRoomQmlFile
+            onLoaded:
+            {
+                console.log("Plugin Model Loaded");
+            }
         }
     }
 }

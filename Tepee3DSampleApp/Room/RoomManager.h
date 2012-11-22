@@ -66,6 +66,11 @@ private:
     void                    loadRoomLibrary();
     void                    placeRoomsInSpace();
     void                    reloadCurrentRoomPluginsModel();
+    void                    saveRoomsToDatabase();
+    void                    restoreRoomsFromDatabase();
+
+
+
 
 signals:
     void                    executeSQLQuery(const QString &query, QObject *sender);

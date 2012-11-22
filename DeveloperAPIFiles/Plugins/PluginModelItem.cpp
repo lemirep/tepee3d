@@ -25,6 +25,10 @@ QVariant    Plugins::PluginModelItem::data(int role)    const
         return this->id();
     case pluginName :
         return this->plugin->getPluginName();
+    case pluginRoomQmlFile :
+        return this->plugin->getRoomPluginQmlFile();
+    case pluginFocusedQmlFile :
+        return this->plugin->getFocusedPluginQmlFile();
     default :
         return QVariant();
     }
@@ -36,6 +40,8 @@ QHash<int, QByteArray>  Plugins::PluginModelItem::roleNames()   const
 
     roles[pluginId]   = "pluginId";
     roles[pluginName] = "pluginName";
+    roles[pluginRoomQmlFile] = "pluginRoomQmlFile";
+    roles[pluginFocusedQmlFile] = "pluginFocusedQmlFile";
 
     return roles;
 }

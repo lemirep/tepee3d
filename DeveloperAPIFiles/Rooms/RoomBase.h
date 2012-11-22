@@ -45,6 +45,13 @@ public:
     virtual QVector3D                       getScale()         const;
     virtual QVector3D                       getRoomCenter()    const;
 
+    virtual QVector3D                       getRoomNorthWallPosition()  const;
+    virtual QVector3D                       getRoomSouthWallPosition()  const;
+    virtual QVector3D                       getRoomEastWallPosition()   const;
+    virtual QVector3D                       getRoomWestWallPosition()   const;
+    virtual QVector3D                       getRoomUpWallPosition()     const;
+    virtual QVector3D                       getRoomDownWallPosition()   const;
+
     virtual void                            setScale(const QVector3D& scale);
     virtual void                            setRoomName(const QString& name);
     virtual void                            setPosition(const QVector3D& position);

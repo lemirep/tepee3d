@@ -1,7 +1,7 @@
 #ifndef BASICROOM_H
 #define BASICROOM_H
 
-#include <Qt/qqmlengine.h>
+#include <QQmlEngine>
 #include <Qt/qvector3d.h>
 #include <iostream>
 #include "RoomBase.h"

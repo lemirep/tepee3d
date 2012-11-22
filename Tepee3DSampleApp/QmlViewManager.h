@@ -3,12 +3,11 @@
 
 #include <Qt/qapplication.h>
 #include <Qt/qdesktopwidget.h>
-#include <Qt/qglcamera.h>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
 #include <Qt3DQuick/QQuickViewport>
 #include <Qt3DQuick/qquickviewport.h>
-#include <Qt/qqmlcontext.h>
+#include <QQmlContext>
 #include "QmlContentExposerInterface.h"
 #include "PluginManager.h"
 #include "RoomManager.h"

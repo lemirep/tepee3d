@@ -37,12 +37,12 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
-    return "";
+    return QString("Widget.qml");
 }
 
 QString TestPlugin::getFocusedPluginQmlFile() const
 {
-    return "";
+    return QString("Widget.qml");
 }
 
 Plugins::PluginBase* TestPlugin::createNewInstance()

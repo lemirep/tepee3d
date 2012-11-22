@@ -88,7 +88,8 @@ OTHER_FILES += \
     qml/MainRoom.qml \
     qml/qmldir \
     qml/main.qml \
-    qml/RoomLoader.qml
+    qml/RoomLoader.qml \
+    testWalls.js
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

@@ -1,7 +1,7 @@
 #ifndef BUFFEREDTEXTURESOURCEQMLPLUGIN_H
 #define BUFFEREDTEXTURESOURCEQMLPLUGIN_H
 
-#include <Qt/qqmlextensionplugin.h>
+#include <QQmlExtensionPlugin>
 #include <iostream>
 #include "BufferedTextureSource.h"
 

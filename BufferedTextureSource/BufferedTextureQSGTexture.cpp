@@ -120,7 +120,7 @@ void    BufferedTextureQSGTexture::setItem(QQuickItem *item)
         std::cout << "Setting Source Item in Texture" << std::endl;
         this->mItem = item;
         // SET mItem AS ELEMENT TO RENDER IN RENDER BY SETTING THE RENDERER'S ROOT ITEM AS ITS PARENT
-        this->mItem->setParentItem(this->textureRenderer->rootItem());
+//        this->mItem->setParentItem(this->textureRenderer->rootItem());
         markDirtyTexture();
     }
 }

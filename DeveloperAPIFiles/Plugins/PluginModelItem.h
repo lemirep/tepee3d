@@ -17,7 +17,9 @@ public:
     enum    PluginModelItemRoles
     {
         pluginId    =   Qt::UserRole + 1,
-        pluginName
+        pluginName,
+        pluginRoomQmlFile,
+        pluginFocusedQmlFile
     };
 
     explicit PluginModelItem(Plugins::PluginBase *plugin, QObject *parent = 0);

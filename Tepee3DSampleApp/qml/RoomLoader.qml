@@ -16,5 +16,13 @@ Item3D
         function getPosition() {return room_loader_item.roomPosition}
         function getScale()    {return room_loader_item.roomScale}
         function getWidgetsModel() {return room_loader_item.widgetsModel}
+        onLoaded:
+        {
+            console.log("Room Loaded");
+        }
+        onProgressChanged:
+        {
+            console.log("-----------Progress Changed");
+        }
     }
 }

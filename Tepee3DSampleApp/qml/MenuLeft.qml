@@ -1,5 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
+import "testWalls.js" as Walls;
 
 Item
 {
@@ -16,6 +17,7 @@ Item
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
+    property int  idx : 0;
 
     function startDrag(xPos, yPos)
     {
@@ -38,7 +40,7 @@ Item
             menuLeftMain.isShown = true;
         else
             menuLeftMain.isShown = false;
-//        console.log(menuLeftMain.isShown)
+        //        console.log(menuLeftMain.isShown)
     }
 
     states :     [
@@ -133,6 +135,7 @@ Item
         color : mainWindow.menu_background_color
         opacity : 0
 
+
         ListView
         {
             id : rooms_list_view
@@ -157,6 +160,20 @@ Item
             Component.onCompleted:
             {
                 rooms_list_view.currentIndex = -1;
+            }
+
+            Timer
+            {
+                id : room_test_timer
+                running : false
+                interval : 1500
+                repeat : true
+                onTriggered:
+                {
+                    Walls.moveCameraToWall(camera, Walls.idx);
+                    Walls.idx++;
+                    Walls.idx %= Walls.walls.length;
+                }
             }
         }
 
@@ -191,6 +208,21 @@ Item
 
 
 
+    function setWalls(model)
+    {
+        Walls.idx = 0;
+        Walls.currentWall = 0;
+        Walls.walls = [];
+        Walls.walls.push(model.roomNorthWallPosition);
+        Walls.walls.push(model.roomSouthWallPosition);
+        Walls.walls.push(model.roomEastWallPosition);
+        Walls.walls.push(model.roomWestWallPosition);
+        Walls.walls.push(model.roomUpWallPosition);
+        Walls.walls.push(model.roomDownWallPosition);
+        Walls.roomCenter = model.roomPosition;
+        Walls.roomScale = model.roomScale;
+        Walls.preComputeCenters();
+    }
 
 
 
@@ -206,39 +238,26 @@ Item
             anchors.horizontalCenter: parent.horizontalCenter
             scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
 
+
             MouseArea
             {
                 id : room_delegate_mouse_area
                 anchors.fill : parent
                 onClicked :
                 {
-//                    ListView.view.currentIndex = index
+                    // SET CURRENT ROOM SELECTION
                     rooms_list_view.currentIndex = index
-                    console.log(index);
-                    console.log(rooms_list_view.currentIndex);
-                    console.log("xc " + model.roomPosition.x + " yc " + model.roomPosition.y + " zc " + model.roomPosition.z);
-                    // MOVE TO THE SELECTED ROOM
-                    //camera.moveTo(model.roomPosition.x, model.roomPosition.y, model.roomPosition.z);
-
-                    camera_timer.stop();
-
-
-                    console.log("eyex " + model.roomPosition.x + " eyey " + model.roomPosition.y + " eyez " + model.roomPosition.z);
-                    console.log("centerx " + model.roomCenter.x + " centery " + model.roomCenter.y + " centerz " + model.roomCenter.z);
-
-                    camera.xCam = model.roomPosition.x;
-                    camera.yCam = model.roomPosition.y;
-                    camera.zCam = model.roomPosition.z - model.roomScale.z;
-
-                    camera.xCamCenter = model.roomPosition.x;
-                    camera.yCamCenter = model.roomPosition.y;
-                    camera.zCamCenter = model.roomPosition.z;
-
                     rooms_list_view.currentRoomId = model.roomId;
                     roomManager.setCurrentRoom(rooms_list_view.currentRoomId);
+                    // LOAD WALLS DATA IN WALLS.js AND SET TOP MENU
+                    camera_timer.stop();
+                    setWalls(model);
+                    topMenu.generateFaceModel();
+                    // MOVE TO THE SELECTED ROOM
+                    Walls.moveCameraToWall(camera, Walls.idx);
+//                    room_test_timer.start();
+
                     console.log(model.roomId);
-
-
                     // SET MENU RIGHT PLUGIN MODEL
                     menuLeftMain.isShown = false;
                 }

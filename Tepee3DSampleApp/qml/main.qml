@@ -71,8 +71,7 @@ Viewport
             camera.angle += 0.05
             if (camera.angle >= 360)
                 camera.angle -= 360;
-            camera.xCam = 100 * Math.cos(camera.angle)
-            camera.zCam = 100 * Math.sin(camera.angle)
+            camera.setCameraEye(Qt.vector3d(100 * Math.cos(camera.angle), camera.eyeY, 100 * Math.sin(camera.angle)));
         }
     }
 
@@ -137,8 +136,8 @@ Viewport
             id : room_loader
             roomPosition : model.roomPosition
             roomScale : model.roomScale
-            widgetsModel : null
-//            source : "Room.qml"
+            widgetsModel : currentRoomPluginsModel
+            source : "Room.qml"
         }
     }  
 

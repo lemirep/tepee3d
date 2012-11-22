@@ -56,9 +56,9 @@ QObject*    BasicRoom::getObject()
 
 void    BasicRoom::updateRoom()
 {
-    qDebug() << "Updating " << this->getRoomName();
+   // qDebug() << "Updating " << this->getRoomName();
     foreach (Plugins::PluginBase* plugin, this->widgets)
     {
-        qDebug() << "Updating " << plugin->getPluginName();
+      //  qDebug() << "Updating " << plugin->getPluginName();
     }
 }

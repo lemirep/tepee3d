@@ -2,8 +2,8 @@
 #define PLUGININTERFACE_H
 #include <Qt/qobject.h>
 #include <Qt/qstring.h>
-#include <Qt/qqmlextensionplugin.h>
-#include <Qt/qqmlengine.h>
+#include <QQmlExtensionPlugin>
+#include <QQmlEngine>
 
 
 namespace Plugins

@@ -40,6 +40,48 @@ QVector3D   Room::RoomBase::getScale() const
     return this->scale;
 }
 
+QVector3D   Room::RoomBase::getRoomNorthWallPosition()  const
+{
+    QVector3D   northWall = this->position;
+    northWall.setZ(northWall.z() + this->scale.z());
+    return northWall;
+}
+
+QVector3D   Room::RoomBase::getRoomSouthWallPosition()  const
+{
+    QVector3D   southWall = this->position;
+    southWall.setZ(southWall.z() - this->scale.z());
+    return southWall;
+}
+
+QVector3D   Room::RoomBase::getRoomEastWallPosition()   const
+{
+    QVector3D   eastWall = this->position;
+    eastWall.setX(eastWall.x() + this->scale.x());
+    return eastWall;
+}
+
+QVector3D   Room::RoomBase::getRoomWestWallPosition()   const
+{
+    QVector3D   westWall = this->position;
+    westWall.setX(westWall.x() - this->scale.x());
+    return westWall;
+}
+
+QVector3D   Room::RoomBase::getRoomUpWallPosition() const
+{
+    QVector3D   upWall = this->position;
+    upWall.setY(upWall.y() + this->scale.y());
+    return upWall;
+}
+
+QVector3D   Room::RoomBase::getRoomDownWallPosition()   const
+{
+    QVector3D   downWall = this->position;
+    downWall.setY(downWall.y() - this->scale.y());
+    return downWall;
+}
+
 void        Room::RoomBase::updateRoomCenter()
 {
     this->roomCenter.setX((this->position.x() * this->scale.x()) / 2);
