@@ -32,6 +32,7 @@ public:
     QHash<int, QByteArray>  roleNames()         const;
 
     Room::RoomBase               *getRoom()  const;
+    void                         triggerItemUpdate();
 
 private:
     Room::RoomBase               *room;

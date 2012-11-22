@@ -17,7 +17,17 @@ class PluginBase : public QObject,
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)
+
 public:
+
+    enum    PluginState
+    {
+        pluginIdleState = 0,
+        pluginSelectedState,
+        pluginFocusedState
+    };
+
+
     PluginBase();
     virtual int             getPluginId()               = 0;
     virtual void            initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
@@ -50,10 +60,13 @@ protected:
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
+    void    askForFocusState(PluginState requestedState, QObject *sender);
+
 
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
+    virtual void    setFocusState(PluginState requestedState);
 };
 
 }

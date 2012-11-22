@@ -20,6 +20,21 @@ Room::RoomBase*   Room::RoomBase::getRoomBase()
     return this;
 }
 
+double            Room::RoomBase::getRoomVolume() const
+{
+    return this->scale.x() * this->scale.y() * this->scale.z();
+}
+
+bool            Room::RoomBase::operator <(RoomBase *room) const
+{
+    return this->getRoomVolume() < room->getRoomVolume();
+}
+
+bool            Room::RoomBase::operator >(RoomBase *room) const
+{
+    return this->getRoomVolume() > room->getRoomVolume();
+}
+
 QString     Room::RoomBase::getRoomName() const
 {
     return this->roomName;

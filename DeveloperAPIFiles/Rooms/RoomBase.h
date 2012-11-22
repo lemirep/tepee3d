@@ -36,6 +36,10 @@ public:
     int                                     getRoomId()        const;
     RoomBase*                               getRoomBase();
 
+    virtual bool                            operator >(RoomBase *room) const;
+    virtual bool                            operator <(RoomBase *room) const;
+    virtual double                          getRoomVolume()    const;
+
     virtual QString                         getRoomName()      const;
     virtual QString                         getRoomQmlFile()   const;
 

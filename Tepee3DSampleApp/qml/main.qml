@@ -112,7 +112,7 @@ Viewport
 
         onClicked :
         {
-            console.log("toto");
+            console.log("RoomPress");
         }
 
         onPositionChanged :
@@ -130,7 +130,6 @@ Viewport
     Component                   // NOT WORKING YET -> Qt5 Bug should be resolved by release version
     {                           // https://bugreports.qt-project.org/browse/QTBUG-27444
         id : roomDelegate
-
         RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
         {                       // QT BUG NOT WORKING YET
             id : room_loader

@@ -12,6 +12,11 @@ Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
     return this;
 }
 
+void    Plugins::PluginBase::setFocusState(PluginState requestedState)
+{
+    qDebug() << "Setting Focus State " << requestedState;
+}
+
 void    Plugins::PluginBase::resultFromSQL()
 {
     qDebug() << "PLUGIN BASE RESULT FROM SQL";

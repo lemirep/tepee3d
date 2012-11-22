@@ -53,3 +53,8 @@ Room::RoomBase*   Room::RoomModelItem::getRoom()    const
 {
     return this->room;
 }
+
+void            Room::RoomModelItem::triggerItemUpdate()
+{
+    emit dataChanged();
+}

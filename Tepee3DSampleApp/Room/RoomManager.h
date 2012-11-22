@@ -56,7 +56,7 @@ public:
 private:
     RoomManager(QObject *parent = 0);
     static RoomManager      *instance;
-
+    static int              roomInstances;
     ListModel               *roomModel;
     ListModel               *currentRoomPluginsModel;
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
@@ -64,12 +64,10 @@ private:
     QTimer                  *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
 
     void                    loadRoomLibrary();
-    void                    placeRoomsInSpace();
+    void                    placeNewRoomInSpace(RoomBase *room);
     void                    reloadCurrentRoomPluginsModel();
     void                    saveRoomsToDatabase();
     void                    restoreRoomsFromDatabase();
-
-
 
 
 signals:

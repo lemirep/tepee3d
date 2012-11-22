@@ -3,13 +3,14 @@
 #include <QDebug>
 
 Room::RoomManager* Room::RoomManager::instance = NULL;
+int                Room::RoomManager::roomInstances = 0;
 
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
-    this->roomModel = new ListModel(new Room::RoomModelItem(NULL, NULL));
-    this->roomUpdateTimer = new QTimer();
     this->currentRoom = NULL;
     this->roomPrototype = NULL;
+    this->roomUpdateTimer = new QTimer();
+    this->roomModel = new ListModel(new Room::RoomModelItem(NULL, NULL));
     this->currentRoomPluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     this->loadRoomLibrary();
 }
@@ -48,9 +49,27 @@ Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
     return this->currentRoom;
 }
 
-void        Room::RoomManager::placeRoomsInSpace()
+void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
 {
     // PLACES THE ROOM IN SPACE SO THAT THEY WON'T COLLIDE ...
+    QList<ListItem *> roomModelItems = this->roomModel->toList();
+    QList<Room::RoomBase *> rooms;
+    foreach (ListItem *item, roomModelItems)
+        rooms << ((Room::RoomModelItem*)item)->getRoom();
+
+    // DEFAULT PLACEMENT POSITION
+    // SORT ROOMS BY SIZE FROM THE LARGEST TO THE SMALLEST
+    // PLACE BIGGEST IN THE CENTER
+    // PLACE ALL THE OTHER ROOMS FROM BIGGEST TO SMALLEST ACCORDING THE ROOM IN THE CENTER
+
+    // SORT ROOM BY SIZE
+    foreach (Room::RoomBase* roomSaved, rooms)
+    {
+        Room::RoomBase* lastRoom = rooms.last();
+        if (lastRoom > roomSaved)
+            rooms.swap(rooms.indexOf(lastRoom), rooms.indexOf(roomSaved));
+    }
+    qDebug() << "Placing room in space";
 }
 
 void        Room::RoomManager::reloadCurrentRoomPluginsModel()
@@ -103,19 +122,18 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 {
     qDebug() << "Adding New Room";
 
-    static int i = 0;
-    Room::RoomBase *room4 = this->roomPrototype->createNewInstance();
-    room4->setRoomName(roomName + QString::number(i++));
-    room4->setParent(NULL);
-    room4->setPosition(QVector3D(150, 150, 150));
-    room4->setScale(QVector3D(30, 20, 30));
+    Room::RoomBase *room = this->roomPrototype->createNewInstance();
+    room->setRoomName(roomName + QString::number(Room::RoomManager::roomInstances++));
+    room->setParent(NULL);
+    room->setPosition(QVector3D(150, 150, 150));
+    room->setScale(QVector3D(30, 20, 30));
 
-    qDebug() << room4->getRoomName();
+    qDebug() << room->getRoomName();
 
-    this->roomModel->appendRow(new Room::RoomModelItem(room4));
-    this->placeRoomsInSpace();
+    this->roomModel->appendRow(new Room::RoomModelItem(room));
+    this->placeNewRoomInSpace(room);
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
-    // ROOM IS CREATED A A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND SQUARED
+    // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND SQUARED
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
 }
 
@@ -128,9 +146,9 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
     this->roomModel->removeRow(this->roomModel->getRowFromItem(roomItem), QModelIndex());
     if (deletedRoom != NULL)
     {
+        Room::RoomManager::roomInstances--;
         // CLEAR ALL THE ROOM'S CONTENT BEFORE DELETING IT
         // REPLACE ALL THE ROOMS IF NECESSARY
-        this->placeRoomsInSpace();
     }
 }
 

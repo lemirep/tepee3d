@@ -43,7 +43,6 @@ Item
                 var offsetY = mouseY - savedY;
                 var offsetX = mouseX - savedX;
                 obj.dragMoved(offsetX, offsetY);
-//                console.log("Moved");
                 obj.dragEnd();
             }
         }
