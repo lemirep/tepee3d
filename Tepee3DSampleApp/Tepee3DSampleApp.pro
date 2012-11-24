@@ -35,6 +35,7 @@ greaterThan(QT_MAJOR_VERSION, 4)   { # FOR QT5
     QT += widgets
     QT += 3dquick
     QT += sql
+    QT += testlib
 
 } else           {                     # FOR QT4 AND OTHER VERSIONS MEEGO MAEMO
 
@@ -85,7 +86,6 @@ OTHER_FILES += \
     qml/MenuRight.qml \
     qml/MenuLeft.qml \
     qml/MenuCenter.qml \
-    qml/MainRoom.qml \
     qml/qmldir \
     qml/main.qml \
     qml/RoomLoader.qml \

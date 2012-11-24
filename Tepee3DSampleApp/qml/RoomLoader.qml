@@ -13,9 +13,10 @@ Item3D
     Loader
     {
         id : room_loader
-        function getPosition() {return room_loader_item.roomPosition}
-        function getScale()    {return room_loader_item.roomScale}
+        function getPosition() {console.log("----++RoomPosition");return room_loader_item.roomPosition}
+        function getScale()    {console.log("====++RoomScale");return room_loader_item.roomScale}
         function getWidgetsModel() {return room_loader_item.widgetsModel}
+
         onLoaded:
         {
             console.log("Room Loaded");

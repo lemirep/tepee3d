@@ -15,6 +15,7 @@ Viewport
     property color plugin_list_component_color : "#0099dd";
     property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
+    property int   camera_movement_duration : 100;
 
 
 
@@ -101,13 +102,18 @@ Viewport
         source : "sky15"
     }
 
+//    RoomLoader // DOESN'T WORK, SAME BUG AS REPEATER IT SEEMS
+//    {
+//        id : room_loader_test
+//        roomPosition : Qt.vector3d(150, 150, 150)
+//        roomScale : Qt.vector3d(30, 20, 30)
+//        source : "Room.qml";
+//    }
+
     Room
     {
         id : room
-        x : 150;
-        y : 150.0;
-        z : 150.0;
-
+        position : Qt.vector3d(150, 150, 150)
         transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
 
         onClicked :
@@ -121,11 +127,11 @@ Viewport
         }
     }
 
-    Repeater
-    {
-        model : roomModel
-        delegate : roomDelegate
-    }
+//    Repeater
+//    {
+//        model : roomModel
+//        delegate : roomDelegate
+//    }
 
     Component                   // NOT WORKING YET -> Qt5 Bug should be resolved by release version
     {                           // https://bugreports.qt-project.org/browse/QTBUG-27444

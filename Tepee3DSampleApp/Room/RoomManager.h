@@ -55,8 +55,14 @@ public:
 
 private:
     RoomManager(QObject *parent = 0);
+
     static RoomManager      *instance;
     static int              roomInstances;
+    static QString          selectRoomsQuery;
+    static QString          insertRoomQuery;
+    static QString          updateRoomQuery;
+    static QString          deleteRoomQuery;
+
     ListModel               *roomModel;
     ListModel               *currentRoomPluginsModel;
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
@@ -66,9 +72,11 @@ private:
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace(RoomBase *room);
     void                    reloadCurrentRoomPluginsModel();
-    void                    saveRoomsToDatabase();
-    void                    restoreRoomsFromDatabase();
 
+    void                    restoreRoomsFromDatabase();
+    void                    insertNewRoomToDatabase(RoomBase *room);
+    void                    updateRoomModificationsToDatabase(RoomBase *room);
+    void                    deleteRoomFromDatabase(RoomBase *room);
 
 signals:
     void                    executeSQLQuery(const QString &query, QObject *sender);

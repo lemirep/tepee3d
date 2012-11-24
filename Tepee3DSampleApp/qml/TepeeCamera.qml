@@ -21,12 +21,12 @@ Camera  // OPENGL CAMERA
     nearPlane : 1 // NEAREST VISIBLE DISTANCE DEF : 5
     eyeSeparation : 0 // FOR STEREO RENDERING AKA 3D
 
-    Behavior on eyeX      {SmoothedAnimation {velocity: 200;}}
-    Behavior on eyeY      {SmoothedAnimation {velocity: 200;}}
-    Behavior on eyeZ      {SmoothedAnimation {velocity: 200;}}
-    Behavior on centerX    {SmoothedAnimation {velocity : 200;}}
-    Behavior on centerY    {SmoothedAnimation {velocity : 200;}}
-    Behavior on centerZ    {SmoothedAnimation {velocity : 200;}}
+    Behavior on eyeX      {SmoothedAnimation {velocity: mainWindow.camera_movement_duration}}
+    Behavior on eyeY      {SmoothedAnimation {velocity: mainWindow.camera_movement_duration}}
+    Behavior on eyeZ      {SmoothedAnimation {velocity: mainWindow.camera_movement_duration}}
+    Behavior on centerX    {SmoothedAnimation {velocity : mainWindow.camera_movement_duration}}
+    Behavior on centerY    {SmoothedAnimation {velocity : mainWindow.camera_movement_duration}}
+    Behavior on centerZ    {SmoothedAnimation {velocity : mainWindow.camera_movement_duration}}
 
 
     function setCameraCenter(centerVector)

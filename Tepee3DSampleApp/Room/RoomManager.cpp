@@ -5,6 +5,11 @@
 Room::RoomManager* Room::RoomManager::instance = NULL;
 int                Room::RoomManager::roomInstances = 0;
 
+QString            Room::RoomManager::selectRoomsQuery = "";
+QString            Room::RoomManager::insertRoomQuery = "";
+QString            Room::RoomManager::updateRoomQuery = "";
+QString            Room::RoomManager::deleteRoomQuery = "";
+
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
     this->currentRoom = NULL;
@@ -75,7 +80,7 @@ void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
 void        Room::RoomManager::reloadCurrentRoomPluginsModel()
 {
     // LOAD PLUGINS MODEL TO SHOW IN LEFT MENU
-    // WE COPY THE PLUGINS OF THE ROOM IN THE LEFT MENU
+    // WE COPY THE PLUGINS OF THE CURRENT ROOM IN THE LEFT MENU
     this->currentRoomPluginsModel->clear();
     if (this->currentRoom == NULL)
         return ;

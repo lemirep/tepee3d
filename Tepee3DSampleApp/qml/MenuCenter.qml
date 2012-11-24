@@ -34,7 +34,13 @@ Item
                 obj.startDrag(savedX, savedY)
             }
             else
+            {
                 mouse.accepted = false;
+                // CLOSE ANY MENU THAT MIGHT BE OPEN
+                topMenu.isShown = false;
+                rightMenu.isShown = false;
+                leftMenu.isShown = false;
+            }
         }
         onPositionChanged:
         {
@@ -52,7 +58,6 @@ Item
                 obj.dragEnd();
         }
     }
-
 
     MenuTop // TOP MENU
     {

@@ -3,7 +3,8 @@ SUBDIRS     =  BufferedTextureSource \
                TestPlugin \
                Tepee3DSampleApp \
                ServicesLibraries \
-               RoomLibrary
+               RoomLibrary       \
+               UnitTests
 
 OTHER_FILES += \
     qtc_packaging/debian_harmattan/rules \

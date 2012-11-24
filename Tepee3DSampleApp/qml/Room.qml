@@ -15,8 +15,8 @@ Cube
         useLighting : true
     }
 
-//    position : room_loader.getPosition()
-//    transform : [Scale3D {scale : room_loader.getScale()}]
+   // position : room_loader.getPosition()
+   // transform : [Scale3D {scale : room_loader.getScale()}]
 
 
     Repeater        // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT

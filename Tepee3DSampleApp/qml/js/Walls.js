@@ -19,10 +19,10 @@ function preComputeCenters()
         var factor = 1;
         computedCenters[0] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z - (roomScale.z * factor));
         computedCenters[1] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z + (roomScale.z * factor));
-        computedCenters[2] = Qt.vector3d(roomCenter.x  - (roomScale.x * factor), roomCenter.y, roomCenter.z);
-        computedCenters[3] = Qt.vector3d(roomCenter.x  + (roomScale.x * factor), roomCenter.y, roomCenter.z);
-        computedCenters[4] = Qt.vector3d(roomCenter.x, roomCenter.y  - (roomScale.y * factor / 0.8), roomCenter.z);
-        computedCenters[5] = Qt.vector3d(roomCenter.x, roomCenter.y  + (roomScale.y * factor / 0.8), roomCenter.z);
+        computedCenters[2] = Qt.vector3d(roomCenter.x  + (roomScale.x * factor), roomCenter.y, roomCenter.z);
+        computedCenters[3] = Qt.vector3d(roomCenter.x  - (roomScale.x * factor), roomCenter.y, roomCenter.z);
+        computedCenters[4] = Qt.vector3d(roomCenter.x, roomCenter.y  - (roomScale.y * factor), roomCenter.z);
+        computedCenters[5] = Qt.vector3d(roomCenter.x, roomCenter.y  + (roomScale.y * factor), roomCenter.z);
     }
 }
 
@@ -33,8 +33,8 @@ function preComputeWalls()
     {
         walls[0] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z + roomScale.z);
         walls[1] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z - roomScale.z);
-        walls[2] = Qt.vector3d(roomCenter.x + roomScale.x, roomCenter.y, roomCenter.z);
-        walls[3] = Qt.vector3d(roomCenter.x - roomScale.x, roomCenter.y, roomCenter.z);
+        walls[2] = Qt.vector3d(roomCenter.x - roomScale.x, roomCenter.y, roomCenter.z);
+        walls[3] = Qt.vector3d(roomCenter.x + roomScale.x, roomCenter.y, roomCenter.z);
         walls[4] = Qt.vector3d(roomCenter.x, roomCenter.y + roomScale.y, roomCenter.z);
         walls[5] = Qt.vector3d(roomCenter.x, roomCenter.y - roomScale.y, roomCenter.z);
     }
@@ -46,7 +46,7 @@ function moveCameraToWall(camera, wallIdx)
     console.log("eye " + computedCenters[currentWall] + " center " + walls[currentWall])
     var upVec = Qt.vector3d(0, 1, 0);
     if (wallIdx > 3)
-        upVec = Qt.vector3d(1, 0, 0);
+        upVec = Qt.vector3d(0, 0, 1);
     camera.upVector = upVec;
     camera.setCameraCenter(walls[currentWall])
     camera.setCameraEye(computedCenters[currentWall])

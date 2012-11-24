@@ -56,7 +56,6 @@ public:
 
     virtual RoomBase*               createNewInstance()      = 0;
     virtual QObject*                getObject()              = 0;
-    virtual QQuickItem*             getRoomQmlObject() const = 0;
 
 signals :
 
