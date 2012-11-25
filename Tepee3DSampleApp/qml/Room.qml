@@ -14,9 +14,10 @@ Cube
         texture : "Resources/Textures/blue_wall.jpg"
         useLighting : true
     }
-
-   // position : room_loader.getPosition()
-   // transform : [Scale3D {scale : room_loader.getScale()}]
+//            position : Qt.vector3d(150, 150, 150)
+//            transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
+//        position : room_loader.getPosition()
+//        transform : [Scale3D {scale : room_loader.getScale()}]
 
 
     Repeater        // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT

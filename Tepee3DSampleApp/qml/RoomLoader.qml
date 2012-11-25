@@ -10,6 +10,7 @@ Item3D
     property vector3d roomPosition : Qt.vector3d(0, 0, 0)
     property vector3d roomScale : Qt.vector3d(0, 0, 0)
 
+
     Loader
     {
         id : room_loader
@@ -26,4 +27,20 @@ Item3D
             console.log("-----------Progress Changed");
         }
     }
+//        Room
+//        {
+//            id : room
+//            position : room_loader_item.roomPosition
+//            transform : [ Scale3D { scale : room_loader_item.roomScale}]
+
+//            onClicked :
+//            {
+//                console.log("RoomPress");
+//            }
+
+//            onPositionChanged :
+//            {
+//                console.log(position);
+//            }
+//        }
 }

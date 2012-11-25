@@ -102,6 +102,12 @@ Viewport
         source : "sky15"
     }
 
+
+//    Loader
+//    {
+//        source : "Room.qml";
+//    }
+
 //    RoomLoader // DOESN'T WORK, SAME BUG AS REPEATER IT SEEMS
 //    {
 //        id : room_loader_test
@@ -127,23 +133,30 @@ Viewport
         }
     }
 
-//    Repeater
-//    {
-//        model : roomModel
-//        delegate : roomDelegate
-//    }
+    Repeater
+    {
+        model : roomModel
+        delegate : roomDelegate
+    }
 
     Component                   // NOT WORKING YET -> Qt5 Bug should be resolved by release version
     {                           // https://bugreports.qt-project.org/browse/QTBUG-27444
         id : roomDelegate
-        RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
-        {                       // QT BUG NOT WORKING YET
-            id : room_loader
-            roomPosition : model.roomPosition
-            roomScale : model.roomScale
-            widgetsModel : currentRoomPluginsModel
-            source : "Room.qml"
-        }
+//        RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
+//        {                       // QT BUG NOT WORKING YET
+//            id : room_loader
+//            roomPosition : model.roomPosition
+//            roomScale : model.roomScale
+//            widgetsModel : currentRoomPluginsModel
+//            source : "Room.qml"
+//        }
+            Room
+            {
+                id : room
+                position : model.roomPosition
+                transform : [ Scale3D { scale : model.roomScale}]
+            }
+
     }  
 
     MenuCenter
