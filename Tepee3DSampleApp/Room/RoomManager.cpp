@@ -246,23 +246,23 @@ bool        Room::RoomManager::addRoomToModel()
 {
     // ROOMS ARE RESTORED FROM DATABASE HERE
 
-//    Room::RoomBase *room1 = this->roomPrototype->createNewInstance();
-//    room1->setRoomName(QString("RoomTest1"));
-//    room1->setParent(NULL);
-//    room1->setPosition(QVector3D(0, 15, 150));
-//    room1->setScale(QVector3D(30, 20, 30));
+    Room::RoomBase *room1 = this->roomPrototype->createNewInstance();
+    room1->setRoomName(QString("RoomTest1"));
+    room1->setParent(NULL);
+    room1->setPosition(QVector3D(0, 15, 150));
+    room1->setScale(QVector3D(30, 20, 30));
 
-//    Room::RoomBase *room2 = this->roomPrototype->createNewInstance();
-//    room2->setRoomName("RoomTest2");
-//    room2->setParent(NULL);
-//    room2->setPosition(QVector3D(0, 150, 150));
-//    room2->setScale(QVector3D(30, 20, 30));
+    Room::RoomBase *room2 = this->roomPrototype->createNewInstance();
+    room2->setRoomName("RoomTest2");
+    room2->setParent(NULL);
+    room2->setPosition(QVector3D(0, 150, 150));
+    room2->setScale(QVector3D(30, 20, 30));
 
-//    Room::RoomBase *room3 = this->roomPrototype->createNewInstance();
-//    room3->setRoomName("RoomTest3");
-//    room3->setParent(NULL);
-//    room3->setPosition(QVector3D(150, -150, 150));
-//    room3->setScale(QVector3D(30, 20, 30));
+    Room::RoomBase *room3 = this->roomPrototype->createNewInstance();
+    room3->setRoomName("RoomTest3");
+    room3->setParent(NULL);
+    room3->setPosition(QVector3D(150, -150, 150));
+    room3->setScale(QVector3D(30, 20, 30));
 
     Room::RoomBase *room4 = this->roomPrototype->createNewInstance();
     room4->setRoomName("RoomTest4");
@@ -270,9 +270,9 @@ bool        Room::RoomManager::addRoomToModel()
     room4->setPosition(QVector3D(150, 150, 150));
     room4->setScale(QVector3D(30, 20, 30));
 
-//    this->roomModel->appendRow(new Room::RoomModelItem(room1));
-//    this->roomModel->appendRow(new Room::RoomModelItem(room2));
-//    this->roomModel->appendRow(new Room::RoomModelItem(room3));
+    this->roomModel->appendRow(new Room::RoomModelItem(room1));
+    this->roomModel->appendRow(new Room::RoomModelItem(room2));
+    this->roomModel->appendRow(new Room::RoomModelItem(room3));
     this->roomModel->appendRow(new Room::RoomModelItem(room4));
 
     return true;

@@ -9,35 +9,37 @@ Cube
 
     property bool bounce : false;
     property variant widgetModel : null
+//    objectName : "RoomInner"
+
+
 
     effect : Effect {
         texture : "Resources/Textures/blue_wall.jpg"
         useLighting : true
     }
-//            position : Qt.vector3d(150, 150, 150)
-//            transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
-//        position : room_loader.getPosition()
-//        transform : [Scale3D {scale : room_loader.getScale()}]
+
+    position : room_loader.getPosition()
+    transform : [Scale3D {scale : room_loader.getScale()}]
 
 
-    Repeater        // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT
-    {
-        id : widget_repeater
-        model : widgetModel
-    }
+//    Repeater        // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT
+//    {
+//        id : widget_repeater
+//        model : widgetModel
+//    }
 
-    Component
-    {
-        id : widget_component
-        Loader
-        {
-            id : widget_loader
-            source : model.pluginRoomQmlFile
-            onLoaded:
-            {
-                console.log("Plugin Model Loaded");
-            }
-        }
-    }
+//    Component
+//    {
+//        id : widget_component
+//        Loader
+//        {
+//            id : widget_loader
+//            source : model.pluginRoomQmlFile
+//            onLoaded:
+//            {
+//                console.log("Plugin Model Loaded");
+//            }
+//        }
+//    }
 }
 

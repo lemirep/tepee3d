@@ -19,15 +19,15 @@ Viewport
 
 
 
-    width: 1024
-    height: 768
+    width: 1680
+    height: 1050
 
     navigation : false
 
     picking : true      // TO ALLOW MOUSE EVENTS ON 3D ITEMS
     //blending : true     // ALLOW TRANSPARENCY
     //    showPicking : true  // FOR DEBUG PURPOSES ONLY
-    objectName : "viewport"
+    objectName : "viewportPaul"
 
     //               y ^  _
     //                 |  /| z
@@ -57,7 +57,7 @@ Viewport
 
 
 
-    camera: TepeeCamera {
+    camera: TepeeCamera     {
         id : camera
     }
 
@@ -102,62 +102,31 @@ Viewport
         source : "sky15"
     }
 
-
-//    Loader
-//    {
-//        source : "Room.qml";
-//    }
-
-//    RoomLoader // DOESN'T WORK, SAME BUG AS REPEATER IT SEEMS
-//    {
-//        id : room_loader_test
-//        roomPosition : Qt.vector3d(150, 150, 150)
-//        roomScale : Qt.vector3d(30, 20, 30)
-//        source : "Room.qml";
-//    }
-
-    Room
+    RoomsContainer
     {
-        id : room
-        position : Qt.vector3d(150, 150, 150)
-        transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
-
-        onClicked :
-        {
-            console.log("RoomPress");
-        }
-
-        onPositionChanged :
-        {
-            console.log(position);
-        }
+        id : roomContainer
     }
 
-    Repeater
-    {
-        model : roomModel
-        delegate : roomDelegate
-    }
+    //    Room
+    //    {
+    //        id : room
+    ////        position : Qt.vector3d(150, 150, 150)
+    ////        transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
 
-    Component                   // NOT WORKING YET -> Qt5 Bug should be resolved by release version
-    {                           // https://bugreports.qt-project.org/browse/QTBUG-27444
-        id : roomDelegate
-//        RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
-//        {                       // QT BUG NOT WORKING YET
-//            id : room_loader
-//            roomPosition : model.roomPosition
-//            roomScale : model.roomScale
-//            widgetsModel : currentRoomPluginsModel
-//            source : "Room.qml"
-//        }
-            Room
-            {
-                id : room
-                position : model.roomPosition
-                transform : [ Scale3D { scale : model.roomScale}]
-            }
+    //        objectName : "RoomMain"
+    //    }
 
-    }  
+    //        onClicked :
+    //        {
+    //            console.log("RoomPress");
+    //        }
+
+    //        onPositionChanged :
+    //        {
+    //            console.log(position);
+    //        }
+    //    }
+
 
     MenuCenter
     {

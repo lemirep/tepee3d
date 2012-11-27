@@ -10,6 +10,7 @@ Item3D
     property vector3d roomPosition : Qt.vector3d(0, 0, 0)
     property vector3d roomScale : Qt.vector3d(0, 0, 0)
 
+//    objectName : "item3dOfRoomLoader"
 
     Loader
     {
