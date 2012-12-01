@@ -47,16 +47,26 @@ defineTest(copyToDestDir) {
         QMAKE_POST_LINK  += mkdir ../plugins_qml/$$TARGET $$escape_expand(\\n\\t)
     }
     win32 {
-        DDIR = ../plugins_qml/$$TARGET/
-        DDIR ~= s,/,\\,g
-        QMAKE_POST_LINK +=$$quote(cmd /c rmdir /y $${DDIR}escape_expand(\n\t))
-        QMAKE_POST_LINK +=$$quote(cmd /c mkdir /y $${DDIR}escape_expand(\n\t))
+        DDIR = ../plugins_qml/$${TARGET}
+        DESTDIR_WIN = $${DDIR}
+        DESTDIR_WIN ~= s,/,\\,g
+       QMAKE_POST_LINK +=$$quote(cmd /c del /s /f  /q  $${DESTDIR_WIN}$$escape_expand(\n\t))
+     #   QMAKE_POST_LINK +=$$quote(cmd /c mkdir /y $${DDIR}escape_expand(\n\t))
     }
     for(FILE, files) {
          DDIR = ../plugins_qml/$$TARGET/
         # Replace slashes in paths with backslashes for Windows
-        win32:FILE ~= s,/,\\,g
-        win32:DDIR ~= s,/,\\,g
+        win32{
+        DDIR = ../plugins_qml/$${TARGET}
+        DESTDIR_WIN = $${DDIR}
+        DESTDIR_WIN ~= s,/,\\,g
+        PWD_WIN = $${PWD}
+        PWD_WIN ~= s,/,\\,g
+        for(FILE, OTHER_FILES){
+            QMAKE_POST_LINK += $$quote(cmd /c copy /y $${PWD_WIN}\\$${FILE} $${DESTDIR_WIN}$$escape_expand(\\n\\t))
+    }
+}
+
         unix:QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DDIR) $$escape_expand(\\n\\t)
         win32:QMAKE_POST_LINK +=$$quote(cmd /c copy /y $${FILE} $${DDIR}$$escape_expand(\n\t))
 
