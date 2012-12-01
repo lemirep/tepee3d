@@ -42,15 +42,24 @@ OTHER_FILES += \
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
     files = $$1
-    QMAKE_POST_LINK  += mkdir ../plugins_qml $$escape_expand(\\n\\t)
+    unix {
+        QMAKE_POST_LINK  += rm -fr ../plugins_qml/$$TARGET $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK  += mkdir ../plugins_qml/$$TARGET $$escape_expand(\\n\\t)
+    }
+    win32 {
+        DDIR = ../plugins_qml/$$TARGET/
+        DDIR ~= s,/,\\,g
+        QMAKE_POST_LINK +=$$quote(cmd /c rmdir /y $${DDIR}escape_expand(\n\t))
+        QMAKE_POST_LINK +=$$quote(cmd /c mkdir /y $${DDIR}escape_expand(\n\t))
+    }
     for(FILE, files) {
-        DDIR = $$DESTDIRQML
-        message("FILE : ")
-        message($$FILE)
+         DDIR = ../plugins_qml/$$TARGET/
         # Replace slashes in paths with backslashes for Windows
         win32:FILE ~= s,/,\\,g
         win32:DDIR ~= s,/,\\,g
-        QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DDIR) $$escape_expand(\\n\\t)
+        unix:QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DDIR) $$escape_expand(\\n\\t)
+        win32:QMAKE_POST_LINK +=$$quote(cmd /c copy /y $${FILE} $${DDIR}$$escape_expand(\n\t))
+
     }
     message($$QMAKE_POST_LINK)
     export(QMAKE_POST_LINK)
@@ -92,6 +101,4 @@ qnx {
 
 
 # deploy qml files to correct dir
-# copyToDestDir($$OTHER_FILES)
-
-
+copyToDestDir($$OTHER_FILES)
