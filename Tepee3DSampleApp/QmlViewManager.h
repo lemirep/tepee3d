@@ -1,12 +1,10 @@
 #ifndef QMLVIEWMANAGER_H
 #define QMLVIEWMANAGER_H
 
-#include <Qt/qapplication.h>
-#include <Qt/qdesktopwidget.h>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
-#include <Qt3DQuick/QQuickViewport>
-#include <Qt3DQuick/qquickviewport.h>
 #include <QQmlContext>
 #include "QmlContentExposerInterface.h"
 #include "PluginManager.h"

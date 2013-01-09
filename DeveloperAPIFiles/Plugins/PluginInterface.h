@@ -1,7 +1,7 @@
 #ifndef PLUGININTERFACE_H
 #define PLUGININTERFACE_H
-#include <Qt/qobject.h>
-#include <Qt/qstring.h>
+#include <QObject>
+#include <QString>
 #include <QQmlExtensionPlugin>
 #include <QQmlEngine>
 

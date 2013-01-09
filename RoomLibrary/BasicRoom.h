@@ -2,7 +2,7 @@
 #define BASICROOM_H
 
 #include <QQmlEngine>
-#include <Qt/qvector3d.h>
+#include <QVector3D>
 #include <iostream>
 #include "RoomBase.h"
 
