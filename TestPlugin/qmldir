@@ -1,3 +1,3 @@
 # TELL THE QML ENGINE WHICH FILE TO LOOK FOR FROM THE QML PLUGIN
- Widget 1.0 Widget.qml
- plugin qmltestplugin
+# Widget 1.0 Widget.qml
+# plugin qmltestplugin

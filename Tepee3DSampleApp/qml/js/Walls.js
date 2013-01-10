@@ -43,7 +43,7 @@ function preComputeWalls()
 function moveCameraToWall(camera, wallIdx)
 {
     currentWall = wallIdx;
-    console.log("eye " + computedCenters[currentWall] + " center " + walls[currentWall])
+    //console.log("eye " + computedCenters[currentWall] + " center " + walls[currentWall])
     var upVec = Qt.vector3d(0, 1, 0);
     if (wallIdx > 3)
         upVec = Qt.vector3d(0, 0, 1);

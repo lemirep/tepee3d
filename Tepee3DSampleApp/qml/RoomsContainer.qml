@@ -7,7 +7,6 @@ Item3D
     {
         model : roomModel
         delegate : roomDelegate
-        objectName : "repeaterMain"
     }
 
     Component                   // NOT WORKING YET -> Qt5 Bug should be resolved by release version

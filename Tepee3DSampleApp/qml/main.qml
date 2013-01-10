@@ -19,8 +19,8 @@ Viewport
 
 
 
-    width: 1680
-    height: 1050
+    width: 1024
+    height: 768
 
     navigation : false
 
@@ -106,27 +106,6 @@ Viewport
     {
         id : roomContainer
     }
-
-    //    Room
-    //    {
-    //        id : room
-    ////        position : Qt.vector3d(150, 150, 150)
-    ////        transform : [ Scale3D { scale : Qt.vector3d(30, 20, 30)}]
-
-    //        objectName : "RoomMain"
-    //    }
-
-    //        onClicked :
-    //        {
-    //            console.log("RoomPress");
-    //        }
-
-    //        onPositionChanged :
-    //        {
-    //            console.log(position);
-    //        }
-    //    }
-
 
     MenuCenter
     {

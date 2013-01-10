@@ -96,8 +96,8 @@ bool    QmlViewManager::initView()
 
     this->roomManager->addRoomToModel();
     this->viewer->setSource(localFile);
-//    this->viewer->show();
-    this->viewer->showFullScreen();
+    this->viewer->show();
+//    this->viewer->showFullScreen();
 
     return true;
 }
