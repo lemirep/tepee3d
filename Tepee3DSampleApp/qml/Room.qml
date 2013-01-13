@@ -2,21 +2,20 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 
+// IN THE LONG TERM THE CUBE WILL BE REPLACED BY A HOME MADE MODEL
+// THIS WAY EACH FACE WILL HAVE A ON PRESS METHOD
+// AND THE VIEW WILL CHANGE TO THE CORRESPONDING WALL ON THAT PRESS
+
 Cube
 {
     id : room_elem
 
-//    property int roomId : room_loader.getRoomId();
     property bool bounce : false;
     property variant widgetModel : room_loader.getWidgetsModel()
     property string texturePath : "Resources/Textures/blue_wall.jpg"
 
     cullFaces : "CullFrontFaces"
-
-    effect : Effect {
-        texture : texturePath
-        useLighting : true
-    }
+    effect : leaveEffect
 
 
     Effect
@@ -36,59 +35,30 @@ Cube
 
 
     position : room_loader.getPosition()
-//    scale : 10
     transform : [Scale3D {scale : room_loader.getScale()}]
 
     onHoverEnter:
     {
-        effect = hoverEffect;
+//        effect = hoverEffect;
+//        console.log("Room Name = " + room_properties.roomName);
     }
 
-    onHoverLeave :
-    {
-        effect = leaveEffect;
-       // texturePath = "Resources/Textures/blue_wall.jpg"
-    }
+//    onHoverLeave :
+//    {
+//        effect = leaveEffect;
+//       // texturePath = "Resources/Textures/blue_wall.jpg"
+//    }
 
-    ListView     // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT
+    Repeater   // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT
     {
         id : widget_repeater
         model : widgetModel
         delegate : widget_component
-        //        onModelChanged :
-        //        {
-        //            console.log("Model Changed");
-        //            if (!model)
-        //                console.log("Model is null");
-        //        }
-        //        onItemAdded :
-        //        {
-        //            console.log("Item added at " + index)
-        //        }
-        //        onItemRemoved :
-        //        {
-        //            console.log("Item removed at " + index)
-        //            if (item)
-        //            {
-        //                console.log("Destroying Item >>>>>>>>>>")
-        //                item.enabled = false;
-        //            }
-        //        }
     }
 
     Component
     {
         id : widget_component
-
-        //        Cube
-        //        {
-        //            property real zRot : 0;
-        //            property real yRot : 0;
-
-        //            scale : 0.3
-        //            position : Qt.vector3d(0, 0, 0)
-        //            effect: Effect {color : "red"}
-        //        }
 
         Item3D
         {

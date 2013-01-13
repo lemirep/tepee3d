@@ -11,25 +11,21 @@
 class BasicRoom : public Room::RoomBase
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "com.tepee3d.Room.basicroom")
+    Q_PLUGIN_METADATA(IID "com.tepee3d.Room.BasicRoom")
 
 private:
 
 public:
+
     BasicRoom();
     ~BasicRoom();
 
 
     QObject*                        getObject();
-    QQuickItem*                     getRoomQmlObject()  const;
     Room::RoomBase*                 createNewInstance();
 
 public slots:
     void                            updateRoom();
-
-private:
-
-
 
 };
 

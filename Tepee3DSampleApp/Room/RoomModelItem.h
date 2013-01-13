@@ -1,13 +1,13 @@
 #ifndef ROOMMODELITEM_H
 #define ROOMMODELITEM_H
 
-#include "ListItem.h"
+#include "SubListedListItem.h"
 #include "RoomBase.h"
 
 namespace   Room
 {
 
-class RoomModelItem : public ListItem
+class RoomModelItem : public SubListedListItem
 {
     Q_OBJECT
 public:
@@ -18,7 +18,6 @@ public:
         roomPosition,
         roomScale,
         roomName,
-        roomCenter,
         roomQmlFile
     };
 
@@ -33,6 +32,7 @@ public:
 
     Room::RoomBase               *getRoom()  const;
     void                         triggerItemUpdate();
+    ListModel*                  submodel()  const;
 
 private:
     Room::RoomBase               *room;

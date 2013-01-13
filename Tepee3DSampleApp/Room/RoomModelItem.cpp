@@ -1,6 +1,6 @@
 #include "RoomModelItem.h"
 
-Room::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : ListItem(parent)
+Room::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : SubListedListItem(parent)
 {
     this->room = room;
 }
@@ -26,8 +26,6 @@ QVariant    Room::RoomModelItem::data(int role) const
         return this->room->getPosition();
     case roomScale :
         return this->room->getScale();
-    case roomCenter :
-        return this->room->getRoomCenter();
     case roomQmlFile :
         return this->room->getRoomQmlFile();
     default :
@@ -42,7 +40,6 @@ QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
     roles[roomId]       = "roomId";
     roles[roomName]     = "roomName";
     roles[roomScale]    = "roomScale";
-    roles[roomCenter]   = "roomCenter";
     roles[roomPosition] = "roomPosition";
     roles[roomQmlFile]  = "roomQmlFile";
 
@@ -57,4 +54,9 @@ Room::RoomBase*   Room::RoomModelItem::getRoom()    const
 void            Room::RoomModelItem::triggerItemUpdate()
 {
     emit dataChanged();
+}
+
+ListModel*      Room::RoomModelItem::submodel() const
+{
+    return this->room->getRoomPluginsModel();
 }

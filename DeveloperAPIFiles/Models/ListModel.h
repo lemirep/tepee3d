@@ -35,13 +35,12 @@ public:
     ListItem*   find(int itemId) const;
     QList<ListItem *>   toList() const;
 
-private:
+protected:
     ListItem *prototype;
     QList<ListItem *> items;
 
 private slots :
     void        updateItem();
-
 
 };
 

@@ -242,6 +242,7 @@ Item
                     // SET CURRENT ROOM SELECTION
                     rooms_list_view.currentIndex = index
                     rooms_list_view.currentRoomId = model.roomId;
+                    mainWindow.currentRoomId = model.roomId;
                     roomManager.setCurrentRoom(rooms_list_view.currentRoomId);
                     // LOAD WALLS DATA IN WALLS.js AND SET TOP MENU
                     camera_timer.stop();

@@ -10,12 +10,15 @@ QString            Room::RoomManager::insertRoomQuery = "";
 QString            Room::RoomManager::updateRoomQuery = "";
 QString            Room::RoomManager::deleteRoomQuery = "";
 
+// ASSIGN A UNIQUE ID FOR EACH PLUGIN TYPE (Ex TestPlugin = 1)
+// THAT WAY WHEN RELOADING FROM THE DATABASE WE KNOW WE HAVE LOADED THE RIGHT PLUGIN
+
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
     this->currentRoom = NULL;
     this->roomPrototype = NULL;
     this->roomUpdateTimer = new QTimer();
-    this->roomModel = new ListModel(new Room::RoomModelItem(NULL, NULL));
+    this->roomModel = new SubListedListModel(new Room::RoomModelItem(NULL, NULL));
     this->currentRoomPluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     this->loadRoomLibrary();
 }
@@ -84,13 +87,14 @@ void        Room::RoomManager::reloadCurrentRoomPluginsModel()
     this->currentRoomPluginsModel->clear();
     if (this->currentRoom == NULL)
         return ;
-    QList<Plugins::PluginBase *> plugins = this->currentRoom->getWidgetsList();
-    qDebug() << "Clearing Room Plugins Model";
-    foreach (Plugins::PluginBase *plugin, plugins)
-    {
-        qDebug() << "Appending Plugins Item to Plugins Model";
-        this->currentRoomPluginsModel->appendRow(new Plugins::PluginModelItem(plugin));
-    }
+    qDebug() << "plop>>>>>>>>>>>>>>>";
+//    QList<Plugins::PluginBase *> plugins = this->currentRoom->getWidgetsList();
+//    qDebug() << "Clearing Room Plugins Model";
+//    foreach (Plugins::PluginBase *plugin, plugins)
+//    {
+//        qDebug() << "Appending Plugins Item to Plugins Model";
+//        this->currentRoomPluginsModel->appendRow(new Plugins::PluginModelItem(plugin));
+//    }
 }
 
 void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
@@ -231,7 +235,7 @@ void        Room::RoomManager::loadRoomLibrary()
         if (roomInt)
         {
             this->roomPrototype = roomInt->getRoomBase();
-            qDebug() << "LIBRARY INITIALIZED";
+            qDebug() << "ROOM LIBRARY INITIALIZED";
             break;
         }
         else

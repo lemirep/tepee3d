@@ -18,7 +18,7 @@ Item3D
             id : room_loader
             roomPosition : model.roomPosition
             roomScale : model.roomScale
-            widgetsModel : currentRoomPluginsModel
+            widgetsModel : roomModel.subModelFromId(model.roomId)
             source : "Room.qml"
         }
     }

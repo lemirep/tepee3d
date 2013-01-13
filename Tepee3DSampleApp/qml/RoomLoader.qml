@@ -10,8 +10,6 @@ Item3D
     property vector3d roomPosition : Qt.vector3d(0, 0, 0)
     property vector3d roomScale : Qt.vector3d(0, 0, 0)
 
-//    objectName : "item3dOfRoomLoader"
-
     Loader
     {
         id : room_loader
@@ -19,29 +17,8 @@ Item3D
         function getScale()    {return room_loader_item.roomScale}
         function getWidgetsModel() {return room_loader_item.widgetsModel}
 
-        onLoaded:
-        {
-            console.log("Room Loaded");
-        }
-        onProgressChanged:
-        {
-            console.log("-----------Progress Changed");
-        }
+        onLoaded:        {}
+        onProgressChanged:        {}
     }
-//        Room
-//        {
-//            id : room
-//            position : room_loader_item.roomPosition
-//            transform : [ Scale3D { scale : room_loader_item.roomScale}]
-
-//            onClicked :
-//            {
-//                console.log("RoomPress");
-//            }
-
-//            onPositionChanged :
-//            {
-//                console.log(position);
-//            }
-//        }
 }
+

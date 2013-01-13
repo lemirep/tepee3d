@@ -1,3 +1,4 @@
 # QMLDIR File for BufferedTextureSourcePlugin
 #module BufferedTextureSource
 plugin BufferedTextureSource ../../qml_extension_plugins/
+#plugin RoomLibrary ../../libraries/room_library/

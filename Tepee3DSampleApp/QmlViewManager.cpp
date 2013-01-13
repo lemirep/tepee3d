@@ -104,6 +104,10 @@ bool    QmlViewManager::initView()
 
 void    QmlViewManager::registerComponentsToQml()
 {
+    // REGISTER THE LISTMODEL TYPE TO THE QML ENGINE SO THAT WE CAN USE MODEL AS PROPERTIES OF QML OBJECTS
+//    qmlRegisterType<ListModel>("Model", 1, 0, "ListModel");
+//    qmlRegisterType<Room::RoomProperties>("Room", 1, 0, "RoomProperties");
+
     // THIS CAST ENSURE THAT THE OBJECT IMPLEMENT THE QmlContextExposerInterface SO THAT IT CAN REGISTER DATA
     if (dynamic_cast<QmlContentExposerInterface *>(this->roomManager))
         this->roomManager->exposeContentToQml(this->qmlContext);

@@ -202,7 +202,7 @@ Item
                 margins : menuRightMain.width / 8
             }
             orientation: ListView.Vertical
-            model : currentRoomPluginsModel
+            model : roomModel.subModelFromId(mainWindow.currentRoomId);
             delegate: plugin_list_delegate
             spacing: 10
         }

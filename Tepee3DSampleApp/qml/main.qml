@@ -16,6 +16,7 @@ Viewport
     property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
     property int   camera_movement_duration : 100;
+    property int   currentRoomId : 0;
 
 
 

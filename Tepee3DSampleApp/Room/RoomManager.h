@@ -6,7 +6,7 @@
 #include <QVector3D>
 #include "QmlContentExposerInterface.h"
 //#include "../QmlContentExposerInterface.h"
-#include "ListModel.h"
+#include "SubListedListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
 #include "ServicesManager.h"
@@ -63,7 +63,7 @@ private:
     static QString          updateRoomQuery;
     static QString          deleteRoomQuery;
 
-    ListModel               *roomModel;
+    SubListedListModel      *roomModel;
     ListModel               *currentRoomPluginsModel;
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
     RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE

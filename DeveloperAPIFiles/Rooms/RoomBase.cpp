@@ -4,10 +4,10 @@
 
 int Room::RoomBase::nextId = 0;
 
-Room::RoomBase::RoomBase() : QObject()
+Room::RoomBase::RoomBase() : QQuickItem()
 {
     this->roomId = Room::RoomBase::nextId++;
-    this->widgets = QList<Plugins::PluginBase*>();
+    this->roomProperties = new Room::RoomProperties(this);
 }
 
 int         Room::RoomBase::getRoomId() const
@@ -22,7 +22,9 @@ Room::RoomBase*   Room::RoomBase::getRoomBase()
 
 double            Room::RoomBase::getRoomVolume() const
 {
-    return this->scale.x() * this->scale.y() * this->scale.z();
+    QVector3D scale = this->getScale();
+
+    return scale.x() * scale.y() * scale.z();
 }
 
 bool            Room::RoomBase::operator <(RoomBase *room) const
@@ -37,7 +39,7 @@ bool            Room::RoomBase::operator >(RoomBase *room) const
 
 QString     Room::RoomBase::getRoomName() const
 {
-    return this->roomName;
+    return this->roomProperties->getRoomName();
 }
 
 QString     Room::RoomBase::getRoomQmlFile() const
@@ -47,32 +49,32 @@ QString     Room::RoomBase::getRoomQmlFile() const
 
 QVector3D   Room::RoomBase::getPosition() const
 {
-    return this->position;
+    return this->roomProperties->getPosition();
 }
 
 QVector3D   Room::RoomBase::getScale() const
 {
-    return this->scale;
+    return this->roomProperties->getScale();
 }
 
-QVector3D   Room::RoomBase::getRoomCenter() const
+ListModel*  Room::RoomBase::getRoomPluginsModel()   const
 {
-    return this->roomCenter;
+    return this->roomProperties->getRoomPluginsModel();
 }
 
 void        Room::RoomBase::setScale(const QVector3D &scale)
 {
-    this->scale = scale;
+    this->roomProperties->setScale(scale);
 }
 
 void        Room::RoomBase::setRoomName(const QString &name)
 {
-    this->roomName = name;
+    this->roomProperties->setRoomName(name);
 }
 
 void        Room::RoomBase::setPosition(const QVector3D &position)
 {
-    this->position = position;
+    this->roomProperties->setPosition(position);
 }
 
 void        Room::RoomBase::setRoomQmlFile(const QString &file)
@@ -82,12 +84,7 @@ void        Room::RoomBase::setRoomQmlFile(const QString &file)
 
 void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 {
-    this->widgets.push_front(widget);
-}
-
-QList<Plugins::PluginBase*> Room::RoomBase::getWidgetsList() const
-{
-    return this->widgets;
+    this->roomProperties->getRoomPluginsModel()->appendRow(new Plugins::PluginModelItem(widget));
 }
 
 void        Room::RoomBase::updateRoom()
@@ -95,3 +92,7 @@ void        Room::RoomBase::updateRoom()
     qDebug() << "Room is updated -> but should you should have implemented this method in the room subclass";
 }
 
+Room::RoomProperties*    Room::RoomBase::getRoomProperties() const
+{
+    return this->roomProperties;
+}
