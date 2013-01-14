@@ -12,8 +12,8 @@ Item
     property bool isShown : false
     property int  minMenuWidth : mainWindow.width / 10
     property int  maxMenuWidth : mainWindow.width / 3
-    //    property int  minMenuHeight : mainWindow.height / 2
-    property int  minMenuHeight : mainWindow.height
+        property int  minMenuHeight : mainWindow.height / 2
+//    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
@@ -78,7 +78,7 @@ Item
                 target: menuLeftRec
                 width : minMenuWidth
                 height : minMenuHeight
-                opacity : 0
+                opacity : 0.3
             }
             PropertyChanges
             {
@@ -242,6 +242,7 @@ Item
                     // SET CURRENT ROOM SELECTION
                     rooms_list_view.currentIndex = index
                     rooms_list_view.currentRoomId = model.roomId;
+                    mainWindow.onRoomSwitch();
                     mainWindow.currentRoomId = model.roomId;
                     roomManager.setCurrentRoom(rooms_list_view.currentRoomId);
                     // LOAD WALLS DATA IN WALLS.js AND SET TOP MENU

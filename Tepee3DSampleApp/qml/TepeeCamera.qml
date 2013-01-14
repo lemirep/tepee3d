@@ -18,15 +18,15 @@ Camera  // OPENGL CAMERA
     upVector :   Qt.vector3d(0, 1, 0)
     fieldOfView : 60
     farPlane : 1000 // FARTHEST VISIBLE VIEW DISTANCE DEF : 1000
-    nearPlane : 1 // NEAREST VISIBLE DISTANCE DEF : 5
+    nearPlane : 0.1 // NEAREST VISIBLE DISTANCE DEF : 5
     eyeSeparation : 0 // FOR STEREO RENDERING AKA 3D
 
-    Behavior on eyeX      {SmoothedAnimation {velocity: mainWindow.camera_movement_duration}}
-    Behavior on eyeY      {SmoothedAnimation {velocity: mainWindow.camera_movement_duration}}
-    Behavior on eyeZ      {SmoothedAnimation {velocity: mainWindow.camera_movement_duration}}
-    Behavior on centerX    {SmoothedAnimation {velocity : mainWindow.camera_movement_duration}}
-    Behavior on centerY    {SmoothedAnimation {velocity : mainWindow.camera_movement_duration}}
-    Behavior on centerZ    {SmoothedAnimation {velocity : mainWindow.camera_movement_duration}}
+    Behavior on eyeX      {SmoothedAnimation {duration : mainWindow.camera_movement_duration}}
+    Behavior on eyeY      {SmoothedAnimation {duration : mainWindow.camera_movement_duration}}
+    Behavior on eyeZ      {SmoothedAnimation {duration : mainWindow.camera_movement_duration}}
+    Behavior on centerX    {SmoothedAnimation {duration : mainWindow.camera_movement_duration}}
+    Behavior on centerY    {SmoothedAnimation {duration : mainWindow.camera_movement_duration}}
+    Behavior on centerZ    {SmoothedAnimation {duration : mainWindow.camera_movement_duration}}
 
 
     function setCameraCenter(centerVector)

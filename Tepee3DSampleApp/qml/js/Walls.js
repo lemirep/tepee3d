@@ -50,7 +50,6 @@ function moveCameraToWall(camera, wallIdx)
     camera.upVector = upVec;
     camera.setCameraCenter(walls[currentWall])
     camera.setCameraEye(computedCenters[currentWall])
-
 }
 
 function generateWallFacesModel(listModel)

@@ -13,8 +13,8 @@ Item
     property int  maxMenuWidth : mainWindow.width / 3
     property int  minMenuX : mainWindow.width - minMenuWidth
     property int  maxMenuX : mainWindow.width - maxMenuWidth
-    //    property int  minMenuHeight : mainWindow.height / 2
-    property int  minMenuHeight : mainWindow.height
+        property int  minMenuHeight : mainWindow.height / 2
+//    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
@@ -84,7 +84,7 @@ Item
             PropertyChanges
             {
                 target: menuRightRec
-                opacity : 0
+                opacity : 0.3
             }
             PropertyChanges
             {

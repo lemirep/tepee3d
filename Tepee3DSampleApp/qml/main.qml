@@ -15,18 +15,16 @@ Viewport
     property color plugin_list_component_color : "#0099dd";
     property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
-    property int   camera_movement_duration : 100;
+    property int   camera_movement_duration : 500;
     property int   currentRoomId : 0;
-
-
+    property int   currentRoomFaceId : 0; // NORTH FACE BY DEFAULT, USE FOR CULLING
 
     width: 1024
     height: 768
-
+    focus : true
     navigation : false
-
     picking : true      // TO ALLOW MOUSE EVENTS ON 3D ITEMS
-    //blending : true     // ALLOW TRANSPARENCY
+    blending : true     // ALLOW TRANSPARENCY
     //    showPicking : true  // FOR DEBUG PURPOSES ONLY
     objectName : "viewportPaul"
 
@@ -39,6 +37,18 @@ Viewport
     //               / |
     //              /  |
     //
+
+    function    onRoomSwitch()
+    {
+        camera_movement_duration = 1000;
+        currentRoomFaceId = 0;
+    }
+
+    function    onRoomFaceSwitch()
+    {
+        camera_movement_duration = 500;
+    }
+
 
     lightModel : LightModel {
         //        model : "TwoSided"
@@ -55,8 +65,6 @@ Viewport
         position : Qt.vector3d(10, 10, 100)
         linearAttenuation : 0
     }
-
-
 
     camera: TepeeCamera     {
         id : camera
@@ -78,7 +86,6 @@ Viewport
     }
 
 
-    focus : true
 
     Keys.onLeftPressed:
     {
@@ -108,8 +115,15 @@ Viewport
         id : roomContainer
     }
 
+//    BufferedTextureSource
+//    {
+//        sourceItem : menu_center
+
+//    }
+
     MenuCenter
     {
+        id : menu_center
         anchors.fill : parent
     }
 }

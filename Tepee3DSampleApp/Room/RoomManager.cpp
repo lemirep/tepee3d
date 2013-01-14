@@ -254,7 +254,7 @@ bool        Room::RoomManager::addRoomToModel()
     room1->setRoomName(QString("RoomTest1"));
     room1->setParent(NULL);
     room1->setPosition(QVector3D(0, 15, 150));
-    room1->setScale(QVector3D(30, 20, 30));
+    room1->setScale(QVector3D(50, 20, 30));
 
     Room::RoomBase *room2 = this->roomPrototype->createNewInstance();
     room2->setRoomName("RoomTest2");

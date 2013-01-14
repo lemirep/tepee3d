@@ -56,6 +56,14 @@ Item
         }
     }
 
+    function    moveToFace(faceIdx)
+    {
+        mainWindow.onRoomFaceSwitch();
+        mainWindow.currentRoomFaceId = faceIdx;
+        menuTopMain.isShown = false;
+        Walls.moveCameraToWall(camera, faceIdx);
+    }
+
     states :     [
         State     {
             name: "menuShown"
@@ -90,7 +98,7 @@ Item
             PropertyChanges
             {
                 target: menuTopRec
-                opacity : 0
+                opacity : 0.3
             }
             PropertyChanges
             {
@@ -203,8 +211,7 @@ Item
                     onClicked :
                     {
                         room_faces_listview.currentIndex = index
-                        menuTopMain.isShown = false;
-                        Walls.moveCameraToWall(camera, model.idx);
+                        moveToFace(model.idx)
                     }
                 }
 
@@ -213,7 +220,6 @@ Item
                     color : (room_faces_listview.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
                     anchors.fill: parent
                     anchors.margins: 10
-
                 }
 
                 Text
