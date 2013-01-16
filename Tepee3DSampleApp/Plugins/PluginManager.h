@@ -9,6 +9,7 @@
 #include "../QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "PluginModelItem.h"
+#include "PluginQmlPluginProperties.h"
 #include "DatabaseServiceUserInterface.h"
 
 // PLUGINS IN THE LOCAL DIRECTORY ARE ALL LOADED ON STARTUP

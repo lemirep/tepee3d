@@ -10,60 +10,68 @@ import Qt3D.Shapes 2.0
 //    mesh : Mesh {source:"Resources/Models/dog.3ds"}
 //}
 
-Cube
+Item3D
 {
-    id : cube_plugin
     property real zRot : 0;
     property real yRot : 0;
     property color col : "red"
 
-    scale : 0.3
-    position : Qt.vector3d(0, 0, 0)
-    effect: Effect {color :col}
-    transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
-                Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
 
-
-    Timer
-    {
-        running : true
-        repeat: true
-        interval: 25
-        onTriggered:
-        {
-            zRot += 1
-            yRot += 1
-        }
-    }
-
-
-    onHoverEnter :
-    {
-      col = "orange"
-      console.log("Hover");
-    }
-
-    onHoverLeave :
-    {
-        col = "red"
-    }
-
-    onPressed :
-    {
-        var oldPos = position;
-        console.log("pressed");
-    }
-
-//    onClicked :
+//    Carousel
 //    {
-//        console.log("Plugin picked");
+//        id : carousel
+//        scale : 5
+//        radius : 3
 //    }
 
-}
+    Cube
+    {
+        id : cube_plugin
 
-//Rectangle
-//{
-//    width : 50
-//    height: 50
-//    color : "red"
-//}
+        scale : 5
+        position : Qt.vector3d(0, 0, 0)
+        effect: Effect {color :col}
+//        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
+//            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
+
+
+
+
+
+        //    Timer
+        //    {
+        //        running : true
+        //        repeat: true
+        //        interval: 25
+        //        onTriggered:
+        //        {
+        //            zRot += 1
+        //            yRot += 1
+        //        }
+        //    }
+
+
+        onHoverEnter :
+        {
+            col = "orange"
+            console.log("Hover");
+        }
+
+        onHoverLeave :
+        {
+            col = "red"
+        }
+
+        onPressed :
+        {
+            var oldPos = position;
+            console.log("pressed");
+        }
+
+        //    onClicked :
+        //    {
+        //        console.log("Plugin picked");
+        //    }
+
+    }
+}

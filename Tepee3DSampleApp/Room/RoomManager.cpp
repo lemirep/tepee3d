@@ -19,7 +19,6 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomPrototype = NULL;
     this->roomUpdateTimer = new QTimer();
     this->roomModel = new SubListedListModel(new Room::RoomModelItem(NULL, NULL));
-    this->currentRoomPluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
     this->loadRoomLibrary();
 }
 
@@ -37,9 +36,9 @@ Room::RoomManager::~RoomManager()
 
 void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 {
+    qDebug() << " RoomManager Exposing Content >>>>>>>>>>>>";
     context->setContextProperty("roomModel", this->roomModel);
     context->setContextProperty("roomManager", this);
-    context->setContextProperty("currentRoomPluginsModel", this->currentRoomPluginsModel);
 }
 
 void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
@@ -80,23 +79,6 @@ void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
     qDebug() << "Placing room in space";
 }
 
-void        Room::RoomManager::reloadCurrentRoomPluginsModel()
-{
-    // LOAD PLUGINS MODEL TO SHOW IN LEFT MENU
-    // WE COPY THE PLUGINS OF THE CURRENT ROOM IN THE LEFT MENU
-    this->currentRoomPluginsModel->clear();
-    if (this->currentRoom == NULL)
-        return ;
-    qDebug() << "plop>>>>>>>>>>>>>>>";
-//    QList<Plugins::PluginBase *> plugins = this->currentRoom->getWidgetsList();
-//    qDebug() << "Clearing Room Plugins Model";
-//    foreach (Plugins::PluginBase *plugin, plugins)
-//    {
-//        qDebug() << "Appending Plugins Item to Plugins Model";
-//        this->currentRoomPluginsModel->appendRow(new Plugins::PluginModelItem(plugin));
-//    }
-}
-
 void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 {
     if (room == this->currentRoom)
@@ -107,7 +89,6 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
         QObject::disconnect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
 
     this->currentRoom = room;
-    this->reloadCurrentRoomPluginsModel();
 
     if (this->currentRoom != NULL)
     {
@@ -185,9 +166,10 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
             qDebug() << "Adding new plugin to Room";
             // MAKE ALL PLUGINS CONNECTION HERE
             Services::ServicesManager::connectObjectToServices(newPlugin);
+            // CHECK IF ASYNCHRONOUS CALL IS WORKING OR NOT
+            emit (exposeContentToQml(newPlugin));
             this->currentRoom->addWidgetToRoom(newPlugin);
         }
-        this->reloadCurrentRoomPluginsModel();
     }
     else
         qWarning() << "plugin Instance is NULL, cannot be added to room";
@@ -195,13 +177,13 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 
 void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 {
-    Plugins::PluginModelItem* pluginItem = (Plugins::PluginModelItem*)this->currentRoomPluginsModel->find(pluginModelId);
+    Plugins::PluginModelItem* pluginItem = (Plugins::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
 
     if (pluginItem != NULL)
     {
         Plugins::PluginBase* plugin = pluginItem->getPlugin();
         Services::ServicesManager::disconnectObjectFromServices(plugin);
-        this->currentRoomPluginsModel->removeRow(this->currentRoomPluginsModel->getRowFromItem(pluginItem));
+        this->currentRoom->getRoomPluginsModel()->removeRow(this->currentRoom->getRoomPluginsModel()->getRowFromItem(pluginItem));
         delete plugin;
     }
 }

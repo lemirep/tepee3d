@@ -13,7 +13,6 @@ Item3D
 
     position : room_loader.getPosition()
     property variant widgetModel : room_loader.getWidgetsModel()
-    transform : [Scale3D {scale : room_loader.getScale()}]
 
 
     function    moveToFace(faceIdx)
@@ -23,96 +22,102 @@ Item3D
         Walls.moveCameraToWall(camera, faceIdx);
     }
 
-    Quad
+    Item3D
     {
-        id : north_wall
-        scale : 1
-        position : Qt.vector3d(0, 0, 0)
-        enabled : (mainWindow.currentRoomFaceId != 1)
-        effect : face_effect
-        transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
-                     Translation3D {translate : Qt.vector3d(0, 0, 0.5)}]
-        onClicked :
-        {
-            console.log("North")
-            moveToFace(0)
-        }
-    }
+        transform : [Scale3D {scale : room_loader.getScale()}]
 
-    Quad
-    {
-        id : south_wall
-        scale : 1
-        position : Qt.vector3d(0, 0, 0)
-        enabled : (mainWindow.currentRoomFaceId != 0)
-        effect : face_effect
-        transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
-                     Translation3D {translate : Qt.vector3d(0, 0, -0.5)}]
-        onClicked :
+        Quad
         {
-            console.log("South")
-            moveToFace(1)
+            id : north_wall
+            scale : 1
+            position : Qt.vector3d(0, 0, 0)
+            enabled : (mainWindow.currentRoomFaceId != 1)
+            effect : face_effect
+            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
+                Translation3D {translate : Qt.vector3d(0, 0, 0.5)}]
+            onClicked :
+            {
+                console.log("North")
+                moveToFace(0)
+            }
         }
-    }
 
-    Quad
-    {
-        id : west_wall
-        scale : 1
-        position : Qt.vector3d(0, 0, 0)
-        enabled : (mainWindow.currentRoomFaceId != 2)
-        effect : face_effect
-        transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
-            Translation3D {translate : Qt.vector3d(0.5, 0, 0)}]
-        onClicked :
+        Quad
         {
-            console.log("West")
-            moveToFace(3)
+            id : south_wall
+            scale : 1
+            position : Qt.vector3d(0, 0, 0)
+            enabled : (mainWindow.currentRoomFaceId != 0)
+            effect : face_effect
+            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
+                Translation3D {translate : Qt.vector3d(0, 0, -0.5)}]
+            onClicked :
+            {
+                console.log("South")
+                moveToFace(1)
+            }
         }
-    }
 
-    Quad
-    {
-        id : east_wall
-        scale : 1
-        position : Qt.vector3d(0, 0, 0)
-        enabled : (mainWindow.currentRoomFaceId != 3)
-        effect : face_effect
-        transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
-            Translation3D {translate : Qt.vector3d(-0.5, 0, 0)}]
-        onClicked :
+        Quad
         {
-            console.log("East")
-            moveToFace(2)
+            id : west_wall
+            scale : 1
+            position : Qt.vector3d(0, 0, 0)
+            enabled : (mainWindow.currentRoomFaceId != 2)
+            effect : face_effect
+            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
+                Translation3D {translate : Qt.vector3d(0.5, 0, 0)}]
+            onClicked :
+            {
+                console.log("West")
+                moveToFace(3)
+            }
         }
-    }
 
-    Quad
-    {
-        id : up_wall
-        scale : 1
-        position : Qt.vector3d(0, 0.5, 0)
-        enabled : (mainWindow.currentRoomFaceId != 5)
-        effect : face_effect
-        onClicked :
+        Quad
         {
-            console.log("Up")
-            moveToFace(4)
+            id : east_wall
+            scale : 1
+            position : Qt.vector3d(0, 0, 0)
+            enabled : (mainWindow.currentRoomFaceId != 3)
+            effect : face_effect
+            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
+                Translation3D {translate : Qt.vector3d(-0.5, 0, 0)}]
+            onClicked :
+            {
+                console.log("East")
+                moveToFace(2)
+            }
         }
-    }
 
-    Quad
-    {
-        id : down_wall
-        scale : 1
-        position : Qt.vector3d(0, -0.5, 0)
-        enabled : (mainWindow.currentRoomFaceId != 4)
-        effect : face_effect
-        onClicked :
+        Quad
         {
-            console.log("Down")
-            moveToFace(5)
+            id : up_wall
+            scale : 1
+            position : Qt.vector3d(0, 0.5, 0)
+            enabled : (mainWindow.currentRoomFaceId != 5)
+            effect : face_effect
+            onClicked :
+            {
+                console.log("Up")
+                moveToFace(4)
+            }
         }
+
+        Quad
+        {
+            id : down_wall
+            scale : 1
+            position : Qt.vector3d(0, -0.5, 0)
+            enabled : (mainWindow.currentRoomFaceId != 4)
+            effect : face_effect
+            onClicked :
+            {
+                console.log("Down")
+                moveToFace(5)
+            }
+        }
+
     }
 
     Effect
@@ -135,34 +140,13 @@ Item3D
     {
         id : widget_component
 
-        Item3D
+        PluginBase
         {
-
-            //            SequentialAnimation
-            //            {
-            //                     id : shaking
-            //                     running : widget_loader.item.pressed
-            //                     NumberAnimation { target: widget_loader.item; property: "x"; to: 1.0; duration: 200}
-            //                     NumberAnimation { target: widget_loader.item; property: "y"; to: 1.0; duration: 200}
-            //                     NumberAnimation { target: widget_loader.item; property: "x"; to: 0.0; duration: 200}
-            //                     NumberAnimation { target: widget_loader.item; property: "y"; to: 0.0; duration: 200}
-            //            }
-
-            Loader
-            {
-                id : widget_loader
-                source : "../../plugins_qml/" + model.pluginName + "/" + model.pluginRoomQmlFile
-                onProgressChanged:
-                {
-                    // console.log("source " + source);
-                }
-                onLoaded:
-                {
-                    console.log("Plugin Model Loaded");
-                }
-            }
+             pluginId : model.pluginId
+             pluginName : model.pluginName
+             roomQmlFile : model.pluginRoomQmlFile
+             focusedQmlFile : model.pluginFocusedQmlFile
         }
 
     }
-
 }

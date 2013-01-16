@@ -4,7 +4,6 @@ import Qt3D.Shapes 2.0
 import Qt3D 2.0
 import BufferedTextureSourcePlugin 1.0
 
-
 Viewport
 {
     id : mainWindow
@@ -26,7 +25,7 @@ Viewport
     picking : true      // TO ALLOW MOUSE EVENTS ON 3D ITEMS
     blending : true     // ALLOW TRANSPARENCY
     //    showPicking : true  // FOR DEBUG PURPOSES ONLY
-    objectName : "viewportPaul"
+    objectName : "viewport"
 
     //               y ^  _
     //                 |  /| z

@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QNetworkRequest>
+#include <QQmlExtensionPlugin>
+#include "PluginEnums.h"
 #include "PluginInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
@@ -11,33 +13,33 @@ namespace Plugins
 {
 
 class PluginBase : public QObject,
-                   Plugins::PluginInterface,
-                   public DatabaseServiceUserInterface,
-                   public WebServiceUserInterface
+Plugins::PluginInterface,
+public DatabaseServiceUserInterface,
+public WebServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)
 
 public:
 
-    enum    PluginState
-    {
-        pluginIdleState = 0,
-        pluginSelectedState,
-        pluginFocusedState
-    };
 
 
     PluginBase();
-    virtual int             getPluginId()               = 0;
-    virtual void            initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
-    virtual QString         getPluginName()             = 0;
-    virtual QString         getPluginDescription()      = 0;
-    PluginBase*             getPluginBase();
-    virtual PluginBase*     createNewInstance()         = 0;
-    virtual bool            needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
-    virtual QString         getRoomPluginQmlFile()      const = 0;
-    virtual QString         getFocusedPluginQmlFile()   const = 0;
+    virtual int                 getPluginId()               = 0;
+    virtual void                initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
+    virtual QString             getPluginName()             = 0;
+    virtual QString             getPluginDescription()      = 0;
+    PluginBase*                 getPluginBase();
+    virtual PluginBase*         createNewInstance()         = 0;
+    virtual bool                needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
+    virtual QString             getRoomPluginQmlFile()      const = 0;
+    virtual QString             getFocusedPluginQmlFile()   const = 0;
+    PluginEnums::PluginState    getFocusState()             const;
+
+    // VARIABLES
+
+protected:
+    PluginEnums::PluginState            focusState;
 
 
     // SQL
@@ -56,17 +58,17 @@ protected:
     virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
 
 
-// Define all signals that a plugin can emit or receive
+    // Define all signals that a plugin can emit or receive
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
-    void    askForFocusState(PluginState requestedState, QObject *sender);
+    void    askForFocusState(PluginEnums::PluginState requestedState, QObject *sender);
 
 
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
-    virtual void    setFocusState(PluginState requestedState);
+    virtual void    setFocusState(PluginEnums::PluginState requestedState);
 };
 
 }

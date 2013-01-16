@@ -40,11 +40,11 @@ private :
     static   QmlViewManager      *instance;
 
 public:
-    ~QmlViewManager();
     static  QmlViewManager*     getInstance();
+    ~QmlViewManager();
     bool                        initView();
-    void                        registerComponentsToQml();
-
+private slots :
+    void                        exposeContentToQml(QObject* exposer);
 signals:
 
 };

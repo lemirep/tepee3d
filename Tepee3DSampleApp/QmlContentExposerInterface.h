@@ -5,6 +5,7 @@
 
 class   QmlContentExposerInterface
 {
+public :
     virtual void    exposeContentToQml(QQmlContext *context) = 0;
 };
 

@@ -79,7 +79,6 @@ OTHER_FILES += \
     icon.png \
     bar-descriptor.xml \
     qml/TepeeCamera.qml \
-    qml/Widget.qml \
     qml/Room.qml \
     qml/MenuTop.qml \
     qml/MenuRight.qml \
@@ -89,7 +88,8 @@ OTHER_FILES += \
     qml/main.qml \
     qml/RoomLoader.qml \
     qml/js/Walls.js \
-    qml/RoomsContainer.qml
+    qml/RoomsContainer.qml \
+    qml/PluginLoader.qml
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

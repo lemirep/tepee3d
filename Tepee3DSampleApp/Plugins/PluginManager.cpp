@@ -67,4 +67,6 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {
     context->setContextProperty("availablePluginsModel", this->locallyAvailablePluginsModel);
+    qmlRegisterType<Plugins::PluginEnums>("Plugins", 1, 0, "PluginEnums");
+    qmlRegisterType<Plugins::PluginQmlPluginProperties>("Plugins", 1, 0, "PluginProperties");
 }

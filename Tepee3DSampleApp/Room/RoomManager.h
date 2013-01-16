@@ -64,14 +64,12 @@ private:
     static QString          deleteRoomQuery;
 
     SubListedListModel      *roomModel;
-    ListModel               *currentRoomPluginsModel;
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
     RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
     QTimer                  *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace(RoomBase *room);
-    void                    reloadCurrentRoomPluginsModel();
 
     void                    restoreRoomsFromDatabase();
     void                    insertNewRoomToDatabase(RoomBase *room);
@@ -82,6 +80,7 @@ signals:
     void                    executeSQLQuery(const QString &query, QObject *sender);
     void                    connectObjectToServices(QObject *serviceUser);
     void                    disconnectObjectFromServices(QObject *serviceUser);
+    void                    exposeContentToQml(QObject *);
 };
 
 }

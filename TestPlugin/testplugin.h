@@ -19,7 +19,6 @@ public:
     TestPlugin();
     int                     getPluginId();
     void                    initPlugin();
-    void                    registerTypes(const char *uri); // NECESSARY FOR QEXTENSION PLUGIN
     QString                 getPluginName();
     QString                 getPluginDescription();
     PluginBase*             getPluginBase();

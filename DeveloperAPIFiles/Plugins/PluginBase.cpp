@@ -2,9 +2,10 @@
 //DEBUG
 #include <QDebug>
 
-Plugins::PluginBase::PluginBase()
+Plugins::PluginBase::PluginBase() : QObject(NULL)
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
+    this->focusState = Plugins::PluginEnums::pluginIdleState;
 }
 
 Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
@@ -12,9 +13,10 @@ Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
     return this;
 }
 
-void    Plugins::PluginBase::setFocusState(PluginState requestedState)
+void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
     qDebug() << "Setting Focus State " << requestedState;
+    this->focusState = requestedState;
 }
 
 void    Plugins::PluginBase::resultFromSQL()
@@ -45,4 +47,9 @@ void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &reques
 bool    Plugins::PluginBase::needsUpdating() const
 {
     return false;
+}
+
+Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   const
+{
+    return this->focusState;
 }

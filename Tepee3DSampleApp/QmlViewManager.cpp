@@ -1,6 +1,6 @@
 #include "QmlViewManager.h"
 // DEBUG
-#include <iostream>
+#include <QDebug>
 
 QmlViewManager* QmlViewManager::instance = NULL;
 
@@ -12,15 +12,11 @@ QmlViewManager::QmlViewManager() : QObject()
     this->desktopWidget = QApplication::desktop();       //USED TO RETRIEVE SCREEN SIZE
 
     this->servicesManager = Services::ServicesManager::getInstance(this);
-    this->roomManager = Room::RoomManager::getInstance(this);
-    this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 
-    // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
-    Services::ServicesManager::connectObjectToServices(this->roomManager);
-    // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
-    Services::ServicesManager::connectObjectToServices(this->pluginsManager);
-    // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
-    this->registerComponentsToQml();
+    this->roomManager = Room::RoomManager::getInstance(this);
+    QObject::connect(this->roomManager, SIGNAL(exposeContentToQml(QObject*)), this, SLOT(exposeContentToQml(QObject*)));
+
+    this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 }
 
 QmlViewManager::~QmlViewManager()
@@ -37,83 +33,49 @@ QmlViewManager* QmlViewManager::getInstance()
 
 bool    QmlViewManager::initView()
 {
+
+    // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
+    Services::ServicesManager::connectObjectToServices(this->roomManager);
+    // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
+    Services::ServicesManager::connectObjectToServices(this->pluginsManager);
+    //    // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
+    QmlViewManager::exposeContentToQml(this->roomManager);
+    QmlViewManager::exposeContentToQml(this->servicesManager);
+    QmlViewManager::exposeContentToQml(this->pluginsManager);
+
+    // REGISTER THE LISTMODEL TYPE TO THE QML ENGINE SO THAT WE CAN USE MODEL AS PROPERTIES OF QML OBJECTS
+    //    qmlRegisterType<ListModel>("Model", 1, 0, "ListModel");
+    //    qmlRegisterType<Room::RoomProperties>("Room", 1, 0, "RoomProperties");
+
+
     // SET STARTING QML FILE
-
-
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
     QDir applicationDir = QApplication::applicationDirPath();
-    std::cout << "application path " << applicationDir.absolutePath().toStdString() << std::endl;
+    qDebug() << "application path " << applicationDir.absolutePath();
     QUrl localFile = QUrl::fromLocalFile(applicationDir.absolutePath() + "/qml/main.qml");
 
     if (localFile.isValid())
-        std::cout << "Local file is valid " << localFile.isEmpty() << std::endl;
-
+        qDebug() << "Local file is valid " << localFile.isEmpty();
 
     QStringList paths = this->qmlEngine->importPathList();
     foreach (QString p, paths)
     {
-        std::cout << "Import Path " << p.toStdString() << std::endl;
+        qDebug() << "Import Path " << p;
     }
-
-
-    //      //CONTROLLER BETWEEN QML VIEW AND MODELS
-    //    this->viewer->rootContext()->setContextProperty("controller", this);
-    //    // GET ROOT QML OBJECT
-    //    this->rootQmlObject = this->viewer->rootObject();
-    //    std::cout << "-----1.4-----" << std::endl;
-    //    // SET SCREESIZE IN ROOT OBJECT
-    //    this->rootQmlObject->setProperty("width", this->desktopWidget->screenGeometry(-1).width());
-    //    this->rootQmlObject->setProperty("height", this->desktopWidget->screenGeometry(-1).height());
-    //    std::cout << "-----1.6-----" << std::endl;
-    //    // SHOW QML FILE IN FULLSCREEN
-    //    std::cout << "-----2-----" << std::endl;
-    //    QObject *tmpObj;
-    //    if ((tmpObj = this->rootQmlObject->findChild<QObject *>("viewport")))
-    //    {
-    //        this->viewport = (QQuickItem*)tmpObj;
-    //        std::cout << "ViewPort found" << std::endl;
-    //    }
-    //    if ((tmpObj = this->rootQmlObject->findChild<QObject  *>("root3dObject")))
-    //    {
-    //        this->root3dObject = (QQuickItem*)tmpObj;
-    //        std::cout << "Root3dObject found" << std::endl;
-    //    }
-    //    if ((tmpObj = this->rootQmlObject->findChild<QObject  *>("glCamera")))
-    //    {
-    //        //        if ((this->camera = qobject_cast<QGLCamera*>(tmpObj)))
-    //        //        {
-    //        //            std::cout << "Camera found" << std::endl;
-    //        //        std::cout << this->camera->nearPlane() << std::endl;
-    //        // WHEN AVALAIBLE SAVE VIEWPORT OBJ AS VIEWPORT SO THAT WE
-    //        // CAN RETRIEVE THE CAMERA AND SAVE IT IN THE CAMERA OBJ
-    //        //        }
-    //    }
-    //    std::cout << "-----3-----" << std::endl;
-
-    //    Plugins::PluginBase* testPlugin = Plugins::PluginManager::getAvailablePlugins().at(0)->createNewInstance();
-    //    this->servicesManager->connectObjectToServices(testPlugin);
-    //    testPlugin->initPlugin();
 
     this->roomManager->addRoomToModel();
     this->viewer->setSource(localFile);
     this->viewer->show();
-//    this->viewer->showFullScreen();
+    //    this->viewer->showFullScreen();
 
     return true;
 }
 
-void    QmlViewManager::registerComponentsToQml()
+void    QmlViewManager::exposeContentToQml(QObject *exposer)
 {
-    // REGISTER THE LISTMODEL TYPE TO THE QML ENGINE SO THAT WE CAN USE MODEL AS PROPERTIES OF QML OBJECTS
-//    qmlRegisterType<ListModel>("Model", 1, 0, "ListModel");
-//    qmlRegisterType<Room::RoomProperties>("Room", 1, 0, "RoomProperties");
+    QmlContentExposerInterface* interface = NULL;
 
-    // THIS CAST ENSURE THAT THE OBJECT IMPLEMENT THE QmlContextExposerInterface SO THAT IT CAN REGISTER DATA
-    if (dynamic_cast<QmlContentExposerInterface *>(this->roomManager))
-        this->roomManager->exposeContentToQml(this->qmlContext);
-    if (dynamic_cast<QmlContentExposerInterface *>(this->servicesManager))
-        this->servicesManager->exposeContentToQml(this->qmlContext);
-    if (dynamic_cast<QmlContentExposerInterface *>(this->pluginsManager))
-        this->pluginsManager->exposeContentToQml(this->qmlContext);
+    if ((interface = dynamic_cast<QmlContentExposerInterface *>(exposer)) != NULL)
+        interface->exposeContentToQml(QmlViewManager::getInstance()->qmlContext);
 }
 
