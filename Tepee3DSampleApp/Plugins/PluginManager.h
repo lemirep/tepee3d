@@ -6,7 +6,7 @@
 #include <QHash>
 #include <PluginBase.h>
 #include "PluginLoader.h"
-#include "../QmlContentExposerInterface.h"
+#include "QmlContentExposerInterface.h"
 #include "ListModel.h"
 #include "PluginModelItem.h"
 #include "PluginQmlPluginProperties.h"

@@ -7,10 +7,11 @@ Item3D
 {
     id : plugin_base
 
-    property int pluginId : widget_loader.getPluginId()
-    property string roomQmlFile : widget_loader.getPluginRoomQmlFile()
-    property string focusedQmlFile : widget_loader.getPluginFocusedQmlFile()
-    property string pluginName : widget_loader.getPluginName()
+    property int pluginId : -1
+    property int pluginRoomId :-1
+    property string roomQmlFile : ""
+    property string focusedQmlFile : ""
+    property string pluginName : ""
 
     // TO ASK FOR A GIVEN FOCUS STATE CALL
     // plugin_base.askForFocusState(State)
@@ -20,7 +21,11 @@ Item3D
     {
         id : plugin_properties
         pluginId : plugin_base.pluginId
+        pluginRoomId: plugin_base.pluginRoomId
+
         onPluginIdChanged :        {}
+
+        onPluginRoomIdChanged: {console.log("RoomId " + pluginRoomId)}
 
         onFocusStateChanged:
         {

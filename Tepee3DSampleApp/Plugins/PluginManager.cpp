@@ -28,6 +28,7 @@ Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
     return Plugins::PluginManager::instance;
 }
 
+// REFRESH LOCALLY AVAILABLE PLUGINS ON A REGULAR BASIC TO ALWAYS BE UP TO DATE
 void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();

@@ -12,6 +12,7 @@ Item3D
 {
 
     position : room_loader.getPosition()
+    property int pluginRoomID   : room_loader.getRoomId();
     property variant widgetModel : room_loader.getWidgetsModel()
 
 
@@ -142,6 +143,7 @@ Item3D
 
         PluginBase
         {
+             pluginRoomId: pluginRoomID
              pluginId : model.pluginId
              pluginName : model.pluginName
              roomQmlFile : model.pluginRoomQmlFile

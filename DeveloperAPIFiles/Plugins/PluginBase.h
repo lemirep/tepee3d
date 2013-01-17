@@ -63,12 +63,14 @@ signals :
     void    executeSQLQuery(const QString& query, QObject *sender);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
     void    askForFocusState(PluginEnums::PluginState requestedState, QObject *sender);
+    void    focusStateChanged(QVariant focusState);
 
 
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
-    virtual void    setFocusState(PluginEnums::PluginState requestedState);
+
+    void    setFocusState(PluginEnums::PluginState requestedState);
 };
 
 }

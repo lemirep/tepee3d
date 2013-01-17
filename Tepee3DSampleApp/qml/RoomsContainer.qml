@@ -16,8 +16,9 @@ Item3D
         RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
         {                       // QT BUG NOT WORKING YET
             id : room_loader
-            roomPosition : model.roomPosition
+            roomId : model.roomId
             roomScale : model.roomScale
+            roomPosition : model.roomPosition
             widgetsModel : roomModel.subModelFromId(model.roomId)
             source : "Room.qml"
         }

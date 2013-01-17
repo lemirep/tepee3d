@@ -56,6 +56,20 @@ Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
     return this->currentRoom;
 }
 
+
+Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int pluginId)
+{
+    Room::RoomModelItem *roomItem = NULL;
+    Room::RoomBase *room = NULL;
+    Plugins::PluginModelItem* pluginItem = NULL;
+
+    if ((roomItem = (Room::RoomModelItem*)Room::RoomManager::getInstance()->getRoomModel()->find(roomId)) != NULL
+            && (room = roomItem->getRoom()) != NULL
+            && (pluginItem =  (Plugins::PluginModelItem*)room->getRoomPluginsModel()->find(pluginId)) != NULL)
+                return pluginItem->getPlugin();
+    return NULL;
+}
+
 void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
 {
     // PLACES THE ROOM IN SPACE SO THAT THEY WON'T COLLIDE ...
@@ -123,7 +137,7 @@ void        Room::RoomManager::addNewRoom(QString roomName)
     this->roomModel->appendRow(new Room::RoomModelItem(room));
     this->placeNewRoomInSpace(room);
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
-    // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND SQUARED
+    // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
 }
 
@@ -166,8 +180,8 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
             qDebug() << "Adding new plugin to Room";
             // MAKE ALL PLUGINS CONNECTION HERE
             Services::ServicesManager::connectObjectToServices(newPlugin);
-            // CHECK IF ASYNCHRONOUS CALL IS WORKING OR NOT
-            emit (exposeContentToQml(newPlugin));
+            // EXPOSE PLUGIN CONTENT TO QML IF IT NEEDS IT
+            View::QmlViewProperties::exposeContentToQml(newPlugin);
             this->currentRoom->addWidgetToRoom(newPlugin);
         }
     }

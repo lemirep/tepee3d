@@ -6,6 +6,7 @@
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
 #include <QQmlContext>
+#include "QmlViewProperties.h"
 #include "QmlContentExposerInterface.h"
 #include "PluginManager.h"
 #include "RoomManager.h"
@@ -13,21 +14,15 @@
 
 
 // DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
-
+namespace View
+{
 class QmlViewManager : public QObject
 {
     Q_OBJECT
 
 private:
-    QQuickView                  *viewer;
-    QQmlEngine                  *qmlEngine;
-    QQmlContext                 *qmlContext;
-    QDesktopWidget              *desktopWidget;
-    QQuickItem                  *rootQmlObject;
-    QQuickItem                  *viewport;
-    QQuickItem                  *root3dObject;
-
-
+    // QML VIEW PROPERTIES
+    QmlViewProperties           *viewProperties;
     // ROOM MANAGER
     Room::RoomManager           *roomManager;
     // SERVICESMANAGER
@@ -43,10 +38,9 @@ public:
     static  QmlViewManager*     getInstance();
     ~QmlViewManager();
     bool                        initView();
-private slots :
-    void                        exposeContentToQml(QObject* exposer);
+
 signals:
 
 };
-
+}
 #endif // QMLVIEWMANAGER_H

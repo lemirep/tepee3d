@@ -4,8 +4,7 @@
 #include <QTimer>
 #include <PluginManager.h>
 #include <QVector3D>
-#include "QmlContentExposerInterface.h"
-//#include "../QmlContentExposerInterface.h"
+#include "QmlViewProperties.h"
 #include "SubListedListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
@@ -37,8 +36,10 @@ public:
     ListModel*              getRoomModel() const;
     bool                    addRoomToModel();
 
-    RoomBase*               getCurrentRoom()    const;
+    static Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId);
+
     void                    setCurrentRoom(RoomBase *room);
+    RoomBase*               getCurrentRoom()    const;
 
     // QmlContentExposer
     void                    exposeContentToQml(QQmlContext *context);
@@ -63,6 +64,7 @@ private:
     static QString          updateRoomQuery;
     static QString          deleteRoomQuery;
 
+
     SubListedListModel      *roomModel;
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
     RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
@@ -70,6 +72,7 @@ private:
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace(RoomBase *room);
+
 
     void                    restoreRoomsFromDatabase();
     void                    insertNewRoomToDatabase(RoomBase *room);

@@ -45,7 +45,7 @@ Viewport
 
     function    onRoomFaceSwitch()
     {
-        camera_movement_duration = 500;
+        camera_movement_duration = 5000;
     }
 
 

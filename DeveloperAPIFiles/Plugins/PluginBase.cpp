@@ -17,6 +17,7 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
 {
     qDebug() << "Setting Focus State " << requestedState;
     this->focusState = requestedState;
+    emit (focusStateChanged(QVariant(requestedState)));
 }
 
 void    Plugins::PluginBase::resultFromSQL()

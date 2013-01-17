@@ -47,15 +47,15 @@ greaterThan(QT_MAJOR_VERSION, 4)   { # FOR QT5
 # Add dependency to Symbian components
 # CONFIG += qt-components
 
-HEADERS += QmlViewManager.h \
-           QmlContentExposerInterface.h
+#HEADERS +=
 
 # The .cpp file which was generated for your project. Feel free to hack it.
-SOURCES += main.cpp \
-    QmlViewManager.cpp
+SOURCES += main.cpp
 
 # Include Shared Development Files
 include(../DeveloperAPIFiles/DevelopmentFiles.pri)
+# Include QmlViewManagement
+include(View/View.pri)
 # Include Room Sources
 include(Room/Room.pri)
 # Include Services Sources

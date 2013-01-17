@@ -5,6 +5,7 @@ import Qt3D.Shapes 2.0
 Item3D
 {
     id : room_loader_item
+    property int roomId : -1
     property alias source : room_loader.source
     property variant widgetsModel : null
     property vector3d roomPosition : Qt.vector3d(0, 0, 0)
@@ -13,6 +14,7 @@ Item3D
     Loader
     {
         id : room_loader
+        function getRoomId()   {return room_loader_item.roomId}
         function getPosition() {return room_loader_item.roomPosition}
         function getScale()    {return room_loader_item.roomScale}
         function getWidgetsModel() {return room_loader_item.widgetsModel}

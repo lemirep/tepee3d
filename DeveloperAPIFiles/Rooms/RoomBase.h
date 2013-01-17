@@ -17,9 +17,6 @@ class RoomBase : public QQuickItem, Room::RoomInterface
 {
     Q_OBJECT
     Q_INTERFACES(Room::RoomInterface)
-    Q_PROPERTY (QString roomName READ getRoomName WRITE setRoomName)
-    Q_PROPERTY (int     roomId   READ getRoomId)
-//    Q_PROPERTY (ListModel* roomPluginsModel READ getRoomPluginsModel)
 
 protected:
     static int                      nextId;
@@ -52,22 +49,17 @@ public:
     virtual void                            setRoomQmlFile(const QString &file);
     virtual void                            addWidgetToRoom(Plugins::PluginBase *widget);
 
-//    virtual QList<Plugins::PluginBase *>    getWidgetsList()   const;
-
     virtual ListModel*                      getRoomPluginsModel() const;
+    virtual Room::RoomProperties*           getRoomProperties() const;
 
-    virtual Room::RoomProperties*            getRoomProperties() const;
-
-
-
-    virtual RoomBase*               createNewInstance() = 0;
-    virtual QObject*                getObject()         = 0;
+    virtual RoomBase*                       createNewInstance() = 0;
+    virtual QObject*                        getObject()         = 0;
 
 signals :
 
 
 public slots :
-    virtual void                    updateRoom();
+    virtual void                            updateRoom();
 
 
 };
