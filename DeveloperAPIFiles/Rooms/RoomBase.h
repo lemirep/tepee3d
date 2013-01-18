@@ -63,8 +63,8 @@ public:
 
 signals :
 
-    void                                    onRoomEntered();
-    void                                    onRoomLeft();
+    void                                    roomEntered();
+    void                                    roomLeft();
 
 public slots :
     virtual void                            updateRoom();

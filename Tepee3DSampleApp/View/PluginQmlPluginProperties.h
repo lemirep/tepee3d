@@ -45,6 +45,8 @@ signals:
     void    pluginIdChanged();
     void    focusStateChanged(QVariant newFocusStateValue);
     void    pluginRoomIdChanged();
+    void    roomEntered();
+    void    roomLeft();
 };
 }
 #endif // PLUGINQMLPLUGINPROPERTIES_H

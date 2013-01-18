@@ -51,7 +51,7 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &)
 {
     qDebug() << "TestPlugin::Received Result From SQL Query Plugin";
 }

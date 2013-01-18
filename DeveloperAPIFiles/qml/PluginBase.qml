@@ -44,6 +44,16 @@ Item3D
                 break;
             }
         }
+
+        onRoomEntered :
+        {
+            console.log("Room Entered ???");
+        }
+
+        onRoomLeft :
+        {
+            console.log("Room Left ????");
+        }
     }
 
     Loader

@@ -55,14 +55,3 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
     return this->focusState;
 }
 
-void    Plugins::PluginBase::onRoomEntered()
-{
-    qDebug() << "Plugin : RoomEntered";
-    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
-}
-
-void    Plugins::PluginBase::onRoomLeft()
-{
-    qDebug() << "Plugin : RoomLeft";
-    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
-}

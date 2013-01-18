@@ -89,15 +89,15 @@ void        Room::RoomBase::setRoomQmlFile(const QString &file)
 
 void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 {
-    QObject::connect(this, SIGNAL(onRoomEntered()), widget, SLOT(onRoomEntered()));
-    QObject::connect(this, SIGNAL(onRoomLeft()), widget, SLOT(onRoomLeft()));
+    QObject::connect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
+    QObject::connect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
     this->roomProperties->getRoomPluginsModel()->appendRow(new Plugins::PluginModelItem(widget));
 }
 
 void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
 {
-    QObject::disconnect(this, SIGNAL(onRoomEntered()), widget, SLOT(onRoomEntered()));
-    QObject::disconnect(this, SIGNAL(onRoomLeft()), widget, SLOT(onRoomLeft()));
+    QObject::disconnect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
+    QObject::disconnect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
 }
 
 void        Room::RoomBase::updateRoom()
@@ -123,10 +123,10 @@ Plugins::PluginBase*    Room::RoomBase::getPluginFromRoom(int pluginId) const
 
 void        Room::RoomBase::enterRoom()
 {
-    emit (onRoomEntered());
+    emit (roomEntered());
 }
 
 void        Room::RoomBase::leaveRoom()
 {
-    emit (onRoomLeft());
+    emit (roomLeft());
 }

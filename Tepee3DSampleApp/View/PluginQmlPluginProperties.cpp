@@ -19,9 +19,6 @@ void    Plugins::PluginQmlPluginProperties::setPluginId(int id)
     this->pluginId = id;
     this->findPluginForRoomAndPluginId();
     emit (pluginIdChanged());
-//    emit focusStateChanged(Plugins::PluginEnums::pluginIdleState);
-//    emit focusStateChanged(Plugins::PluginEnums::pluginFocusedState);
-//    emit focusStateChanged(Plugins::PluginEnums::pluginSelectedState);
 }
 
 int     Plugins::PluginQmlPluginProperties::getPluginId() const
@@ -64,6 +61,8 @@ void    Plugins::PluginQmlPluginProperties::findPluginForRoomAndPluginId()
         qDebug() << "Plugin and roomId are valid";
         this->plugin = View::ViewToModelMapper::getPluginFromRoom(this->pluginRoomId, this->pluginId);
         QObject::connect(this->plugin, SIGNAL(focusStateChanged(QVariant)), this, SIGNAL(focusStateChanged(QVariant)));
+        QObject::connect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
+        QObject::connect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
         this->plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
     }
 }

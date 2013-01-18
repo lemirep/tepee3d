@@ -58,13 +58,13 @@ signals :
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
     void    askForFocusState(PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState);
+    void    roomEntered();
+    void    roomLeft();
 
 
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
-    virtual void    onRoomEntered();
-    virtual void    onRoomLeft();
 
     void    setFocusState(PluginEnums::PluginState requestedState);
 };
