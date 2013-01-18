@@ -5,7 +5,7 @@
 Plugins::PluginBase::PluginBase() : QObject(NULL)
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
-    this->focusState = Plugins::PluginEnums::pluginIdleState;
+    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
 }
 
 Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
@@ -53,4 +53,16 @@ bool    Plugins::PluginBase::needsUpdating() const
 Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   const
 {
     return this->focusState;
+}
+
+void    Plugins::PluginBase::onRoomEntered()
+{
+    qDebug() << "Plugin : RoomEntered";
+    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
+}
+
+void    Plugins::PluginBase::onRoomLeft()
+{
+    qDebug() << "Plugin : RoomLeft";
+    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
 }

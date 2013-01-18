@@ -11,6 +11,9 @@
 #include "PluginModelItem.h"
 #include "PluginQmlPluginProperties.h"
 #include "DatabaseServiceUserInterface.h"
+#include "QmlViewProperties.h"
+#include "ServicesManager.h"
+
 
 // PLUGINS IN THE LOCAL DIRECTORY ARE ALL LOADED ON STARTUP
 // WHEN ADDING A PLUGIN TO ROOM : -> NEW PLUGIN OF A GIVEN INSTANCE IS CREATED
@@ -40,6 +43,7 @@ public:
     static PluginManager*       getInstance(QObject *parent = 0);
     static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
     static PluginBase*          getNewInstanceOfPlugin(PluginBase* plugin);
+    static void                 initRoomPlugin(PluginBase* roomPlugin);
 
 private:
     static PluginManager*       instance;

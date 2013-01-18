@@ -22,8 +22,6 @@ public WebServiceUserInterface
 
 public:
 
-
-
     PluginBase();
     virtual int                 getPluginId()               = 0;
     virtual void                initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
@@ -37,16 +35,12 @@ public:
     PluginEnums::PluginState    getFocusState()             const;
 
     // VARIABLES
-
 protected:
     PluginEnums::PluginState            focusState;
 
-
     // SQL
-
 protected:
     virtual void receiveResultFromSQLQuery(const QList<QSqlRecord> &result) = 0;
-
 
     // WEB SERVICES
 protected:
@@ -58,7 +52,7 @@ protected:
     virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
 
 
-    // Define all signals that a plugin can emit or receive
+    // Defines all signals that a plugin can emit or receive
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
@@ -69,6 +63,8 @@ signals :
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
+    virtual void    onRoomEntered();
+    virtual void    onRoomLeft();
 
     void    setFocusState(PluginEnums::PluginState requestedState);
 };

@@ -4,11 +4,9 @@
 #include <QTimer>
 #include <PluginManager.h>
 #include <QVector3D>
-#include "QmlViewProperties.h"
 #include "SubListedListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
-#include "ServicesManager.h"
 
 // CREATES ROOM MODEL, RESTORE AND SAVE ROOMS AND EXPOSE THEM TO QML
 
@@ -36,7 +34,7 @@ public:
     ListModel*              getRoomModel() const;
     bool                    addRoomToModel();
 
-    static Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId);
+    Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId) const;
 
     void                    setCurrentRoom(RoomBase *room);
     RoomBase*               getCurrentRoom()    const;
@@ -81,9 +79,6 @@ private:
 
 signals:
     void                    executeSQLQuery(const QString &query, QObject *sender);
-    void                    connectObjectToServices(QObject *serviceUser);
-    void                    disconnectObjectFromServices(QObject *serviceUser);
-    void                    exposeContentToQml(QObject *);
 };
 
 }

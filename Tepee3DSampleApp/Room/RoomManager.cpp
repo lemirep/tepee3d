@@ -41,7 +41,7 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomManager", this);
 }
 
-void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &)
 {
     qDebug() << "RoomManager received SQL Result";
 }
@@ -57,16 +57,14 @@ Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
 }
 
 
-Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int pluginId)
+Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int pluginId) const
 {
     Room::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
-    Plugins::PluginModelItem* pluginItem = NULL;
 
-    if ((roomItem = (Room::RoomModelItem*)Room::RoomManager::getInstance()->getRoomModel()->find(roomId)) != NULL
-            && (room = roomItem->getRoom()) != NULL
-            && (pluginItem =  (Plugins::PluginModelItem*)room->getRoomPluginsModel()->find(pluginId)) != NULL)
-                return pluginItem->getPlugin();
+    if ((roomItem = (Room::RoomModelItem*)this->getRoomModel()->find(roomId)) != NULL
+            && (room = roomItem->getRoom()) != NULL)
+        return room->getPluginFromRoom(pluginId);
     return NULL;
 }
 
@@ -100,12 +98,15 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
     qDebug() << "SETTING NEW ROOM";
     this->roomUpdateTimer->stop();
     if (this->currentRoom != NULL)
+    {
         QObject::disconnect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
-
+        this->currentRoom->leaveRoom();
+    }
     this->currentRoom = room;
 
     if (this->currentRoom != NULL)
     {
+        this->currentRoom->enterRoom();
         QObject::connect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
         this->roomUpdateTimer->start(ROOM_UPDATE_TIME);
     }
@@ -173,17 +174,12 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 {
     Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
-    if (newPlugin != NULL)
+    if (newPlugin != NULL && this->currentRoom != NULL)
     {
-        if (this->currentRoom != NULL)
-        {
-            qDebug() << "Adding new plugin to Room";
-            // MAKE ALL PLUGINS CONNECTION HERE
-            Services::ServicesManager::connectObjectToServices(newPlugin);
-            // EXPOSE PLUGIN CONTENT TO QML IF IT NEEDS IT
-            View::QmlViewProperties::exposeContentToQml(newPlugin);
-            this->currentRoom->addWidgetToRoom(newPlugin);
-        }
+        qDebug() << "Adding new plugin to Room";
+        // INITIALIZE PLUGIN SERVICES ...
+        Plugins::PluginManager::initRoomPlugin(newPlugin);
+        this->currentRoom->addWidgetToRoom(newPlugin);
     }
     else
         qWarning() << "plugin Instance is NULL, cannot be added to room";

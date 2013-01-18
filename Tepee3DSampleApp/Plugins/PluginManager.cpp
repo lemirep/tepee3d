@@ -43,7 +43,7 @@ void Plugins::PluginManager::loadLocalPlugins()
     }
 }
 
-void    Plugins::PluginManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &result)
+void    Plugins::PluginManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &)
 {
     qDebug() << "PluginManager Received Result";
 }
@@ -63,6 +63,14 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
         pluginBase = pluginModelItem->getPlugin();
 
     return Plugins::PluginManager::getNewInstanceOfPlugin(pluginBase);
+}
+
+void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
+{
+    // CONNECT OBJECT TO SERVICES
+    Services::ServicesManager::connectObjectToServices(roomPlugin);
+    // EXPOSE QML CONTENT FROM PLUGIN
+    View::QmlViewProperties::exposeContentToQml(roomPlugin);
 }
 
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)

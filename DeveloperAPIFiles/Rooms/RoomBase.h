@@ -27,10 +27,21 @@ protected:
 
 public:
     RoomBase();
-
+    ~RoomBase();
 
     int                                     getRoomId()        const;
     RoomBase*                               getRoomBase();
+
+    void                                    setRoomQmlFile(const QString &file);
+    void                                    addWidgetToRoom(Plugins::PluginBase *widget);
+    void                                    removeWidgetFromRoom(Plugins::PluginBase *widget);
+
+    void                                    enterRoom();
+    void                                    leaveRoom();
+
+    ListModel*                              getRoomPluginsModel() const;
+    Plugins::PluginBase*                    getPluginFromRoom(int pluginId) const;
+    Room::RoomProperties*                   getRoomProperties() const;
 
     virtual bool                            operator >(RoomBase *room) const;
     virtual bool                            operator <(RoomBase *room) const;
@@ -46,17 +57,14 @@ public:
     virtual void                            setRoomName(const QString& name);
     virtual void                            setPosition(const QVector3D& position);
 
-    virtual void                            setRoomQmlFile(const QString &file);
-    virtual void                            addWidgetToRoom(Plugins::PluginBase *widget);
-
-    virtual ListModel*                      getRoomPluginsModel() const;
-    virtual Room::RoomProperties*           getRoomProperties() const;
-
     virtual RoomBase*                       createNewInstance() = 0;
     virtual QObject*                        getObject()         = 0;
 
+
 signals :
 
+    void                                    onRoomEntered();
+    void                                    onRoomLeft();
 
 public slots :
     virtual void                            updateRoom();

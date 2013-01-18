@@ -42,9 +42,9 @@ private:
     void                findPluginForRoomAndPluginId();
 
 signals:
-    void pluginIdChanged();
-    void focusStateChanged(QVariant newFocusStateValue);
-    void pluginRoomIdChanged();
+    void    pluginIdChanged();
+    void    focusStateChanged(QVariant newFocusStateValue);
+    void    pluginRoomIdChanged();
 };
 }
 #endif // PLUGINQMLPLUGINPROPERTIES_H

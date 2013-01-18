@@ -10,6 +10,11 @@ Room::RoomBase::RoomBase() : QQuickItem()
     this->roomProperties = new Room::RoomProperties(this);
 }
 
+Room::RoomBase::~RoomBase()
+{
+
+}
+
 int         Room::RoomBase::getRoomId() const
 {
     return this->roomId;
@@ -84,15 +89,44 @@ void        Room::RoomBase::setRoomQmlFile(const QString &file)
 
 void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 {
+    QObject::connect(this, SIGNAL(onRoomEntered()), widget, SLOT(onRoomEntered()));
+    QObject::connect(this, SIGNAL(onRoomLeft()), widget, SLOT(onRoomLeft()));
     this->roomProperties->getRoomPluginsModel()->appendRow(new Plugins::PluginModelItem(widget));
+}
+
+void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
+{
+    QObject::disconnect(this, SIGNAL(onRoomEntered()), widget, SLOT(onRoomEntered()));
+    QObject::disconnect(this, SIGNAL(onRoomLeft()), widget, SLOT(onRoomLeft()));
 }
 
 void        Room::RoomBase::updateRoom()
 {
-    qDebug() << "Room is updated -> but should you should have implemented this method in the room subclass";
+    // FOR LOGICAL UPDATE ONLY HAPPENS EVERY HALF SECONDS
+    // IF YOU NEED TO UPDATE THE VIEW, USE A TIMER IN YOUR PLUGIN WITH A 50MS DURATION
+    qDebug() << "Room is updated -> but you should should have implemented this method in the room subclass";
 }
 
 Room::RoomProperties*    Room::RoomBase::getRoomProperties() const
 {
     return this->roomProperties;
+}
+
+Plugins::PluginBase*    Room::RoomBase::getPluginFromRoom(int pluginId) const
+{
+    Plugins::PluginModelItem* pluginItem = NULL;
+
+    if ((pluginItem = (Plugins::PluginModelItem *)this->roomProperties->getRoomPluginsModel()->find(pluginId)) != NULL)
+        return pluginItem->getPlugin();
+    return NULL;
+}
+
+void        Room::RoomBase::enterRoom()
+{
+    emit (onRoomEntered());
+}
+
+void        Room::RoomBase::leaveRoom()
+{
+    emit (onRoomLeft());
 }
