@@ -9,6 +9,9 @@ class   DatabaseServiceUserInterface
 {
 public :
     virtual void receiveResultFromSQLQuery(const QList<QSqlRecord> &result) = 0;
+// SIGNAL
+    //void        executeSQLQuery(const QString& query, QObject *sender);
+
 };
 
 

@@ -15,6 +15,8 @@ public :
     virtual void executeHttpDeleteRequest(const QNetworkRequest& request) = 0;
     virtual void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart) = 0;
     virtual void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart) = 0;
+// SIGNAL
+//void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender);
 };
 
 #endif // WEBSERVICEUSERINTERFACE_H
