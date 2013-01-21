@@ -1,5 +1,6 @@
 .pragma library
 
+
 // THERE ARE 6 WALLS WHICH WHICH BE SAVED IN THE FOLLOWING ORDER
 // NORTH, SOUTH, EAST, WEST, UP, DOWN
 
@@ -47,6 +48,7 @@ function moveCameraToWall(camera, wallIdx)
     var upVec = Qt.vector3d(0, 1, 0);
     if (wallIdx > 3)
         upVec = Qt.vector3d(0, 0, 1);
+
     camera.upVector = upVec;
     camera.setCameraCenter(walls[currentWall])
     camera.setCameraEye(computedCenters[currentWall])

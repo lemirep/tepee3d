@@ -21,7 +21,9 @@ Viewport
     property int   currentRoomFaceId : 0; // NORTH FACE BY DEFAULT, USE FOR CULLING
 
     width: 1024
+//    width: 1680
     height: 768
+//    height: 1050
     focus : true
     navigation : false
     picking : true      // TO ALLOW MOUSE EVENTS ON 3D ITEMS

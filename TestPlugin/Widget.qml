@@ -17,6 +17,54 @@ Item3D
     property color col : "red"
 
 
+    // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
+    function focusStateChanged(focusStateValue)
+    {
+        console.log("<<<<<<<<<<<<<<<<<<<<<FocusStateChanged " + focusStateValue);
+        switch (focusStateValue)
+        {
+        case 0:
+            switchToIdleFocusView();
+            break;
+        case 1:
+            switchToSelectedFocusView();
+            break;
+        case 2:
+            switchToFocusedView();
+            break;
+        default:
+            break;
+        }
+    }
+
+    // HAS TO BE IMPLEMENTED
+    function roomEntered()
+    {
+
+    }
+
+    // HAS TO BE IMPLEMENTED
+    function roomLeft()
+    {
+
+    }
+
+
+    function switchToIdleFocusView()
+    {
+
+    }
+
+    function switchToSelectedFocusView()
+    {
+
+    }
+
+    function switchToFocusedView()
+    {
+
+    }
+
     //    Carousel
     //    {
     //        id : carousel

@@ -31,6 +31,7 @@ INCLUDEPATH += $$PWD/Rooms
 INCLUDEPATH += $$PWD/View
 
 OTHER_FILES +=  $$PWD/qml/Carousel.qml \
-                $$PWD/qml/PluginBase.qml
+                $$PWD/qml/PluginBase.qml \
+                $$PWD/js/CameraManagement.js
 
 QT += sql

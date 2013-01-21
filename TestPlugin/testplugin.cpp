@@ -38,7 +38,7 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 QString TestPlugin::getRoomPluginQmlFile() const
 {
     qDebug() << " CALLING getRoomPluginQmlFile";
-    return QString("WidgetRoom.qml");
+    return QString("Widget.qml");
 }
 
 QString TestPlugin::getFocusedPluginQmlFile() const
