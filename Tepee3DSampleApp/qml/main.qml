@@ -8,6 +8,8 @@ Viewport
 {
     id : mainWindow
 
+
+
     property color menu_background_color : "#0066ff";
     property color room_list_component_color : "#0099dd";
     property color room_list_selected_component_color : "#0066cc";
@@ -120,9 +122,17 @@ Viewport
 
 //    }
 
+
     MenuCenter
     {
         id : menu_center
         anchors.fill : parent
     }
+
+//    Notification
+//    {
+//        id : notification
+//    }
+
+
 }

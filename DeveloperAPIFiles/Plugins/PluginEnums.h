@@ -18,6 +18,22 @@ public :
         pluginSelectedState,
         pluginFocusedState
     };
+
+
+    static PluginState valueOf(int value)
+    {
+        switch (value)
+        {
+        case 0 :
+            return pluginIdleState;
+        case 1 :
+            return pluginSelectedState;
+        case 2:
+            return pluginFocusedState;
+        default :
+            return pluginIdleState;
+        }
+    }
 };
 
 }

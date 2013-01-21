@@ -68,7 +68,7 @@ signals :
 
 public slots :
     virtual void                            updateRoom();
-
+    virtual void                            focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*);
 
 };
 

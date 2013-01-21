@@ -17,12 +17,12 @@ Item3D
     property color col : "red"
 
 
-//    Carousel
-//    {
-//        id : carousel
-//        scale : 5
-//        radius : 3
-//    }
+    //    Carousel
+    //    {
+    //        id : carousel
+    //        scale : 5
+    //        radius : 3
+    //    }
 
     Cube
     {
@@ -30,11 +30,14 @@ Item3D
 
         scale : 5
         position : Qt.vector3d(0, 0, 0)
-        effect: Effect {color :col}
-//        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
-//            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
+        effect: Effect {color :col; useLighting : true}
+        //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
+        //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
 
-
+        onDoubleClicked :
+        {
+            plugin_base.askForFocusedFocusState();
+        }
 
 
 

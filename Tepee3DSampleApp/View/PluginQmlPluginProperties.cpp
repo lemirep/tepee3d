@@ -9,9 +9,11 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
 }
 
 
-void    Plugins::PluginQmlPluginProperties::askForFocusState(Plugins::PluginEnums::PluginState focusState)
+void    Plugins::PluginQmlPluginProperties::askForFocusState(int focusState)
 {
     qDebug() << "PluginQmlProperties askForFocusState";
+    if (this->plugin)
+        this->plugin->askForFocusState(Plugins::PluginEnums::valueOf(focusState));
 }
 
 void    Plugins::PluginQmlPluginProperties::setPluginId(int id)

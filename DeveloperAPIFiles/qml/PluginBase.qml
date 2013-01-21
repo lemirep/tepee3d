@@ -17,6 +17,16 @@ Item3D
     // plugin_base.askForFocusState(State)
     // IF CHANGE ACCEPTED, onFocusStateChanged will be called
 
+    function askForFocusedFocusState()
+    {
+        plugin_properties.askForFocusState(2)
+    }
+
+    function askForRoomFocusState()
+    {
+        PluginProperties.askForFocusState(0)
+    }
+
     PluginProperties
     {
         id : plugin_properties
@@ -38,7 +48,8 @@ Item3D
             case 1 : //PluginEnums.pluginSelectedState:
                 break;
             case 2 : //PluginEnums.pluginFocusedState :
-                plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + focusedQmlFile;
+//                plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + focusedQmlFile;
+                plugin_loader.source =  "";
                 break;
             default:
                 break;
@@ -59,6 +70,11 @@ Item3D
     Loader
     {
         id : plugin_loader
+
+        onSourceChanged:
+        {
+            console.log("source changed " + source)
+        }
     }
 
 }

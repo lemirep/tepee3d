@@ -91,6 +91,8 @@ void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 {
     QObject::connect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
     QObject::connect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
+    QObject::connect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
+                     this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
     this->roomProperties->getRoomPluginsModel()->appendRow(new Plugins::PluginModelItem(widget));
 }
 
@@ -98,6 +100,8 @@ void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
 {
     QObject::disconnect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
     QObject::disconnect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
+    QObject::disconnect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
+                     this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
 }
 
 void        Room::RoomBase::updateRoom()
@@ -129,4 +133,22 @@ void        Room::RoomBase::enterRoom()
 void        Room::RoomBase::leaveRoom()
 {
     emit (roomLeft());
+}
+
+void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::PluginState requestedState, QObject* sender)
+{
+    Plugins::PluginBase*   plugin = NULL;
+    bool                   requestAccepted = true;
+
+    foreach (ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
+    {
+        plugin = ((Plugins::PluginModelItem*)(pluginItem))->getPlugin();
+        if (plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
+        {
+            requestAccepted = false;
+            break;
+        }
+    }
+    if (requestAccepted)
+        ((Plugins::PluginBase*)(sender))->setFocusState(requestedState);
 }

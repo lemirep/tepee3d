@@ -23,7 +23,7 @@ class PluginQmlPluginProperties : public QQuickItem
 public:
     PluginQmlPluginProperties();
 
-    Q_INVOKABLE void askForFocusState(PluginEnums::PluginState);
+    Q_INVOKABLE void askForFocusState(int);
 
     int     getPluginId()   const;
     void    setPluginId(int id);

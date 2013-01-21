@@ -33,7 +33,7 @@ public:
     virtual QString             getRoomPluginQmlFile()      const = 0;
     virtual QString             getFocusedPluginQmlFile()   const = 0;
     PluginEnums::PluginState    getFocusState()             const;
-
+    void                        askForFocusState(PluginEnums::PluginState requestedState);
     // VARIABLES
 protected:
     PluginEnums::PluginState            focusState;
@@ -56,7 +56,7 @@ protected:
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
-    void    askForFocusState(PluginEnums::PluginState requestedState, QObject *sender);
+    void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState);
     void    roomEntered();
     void    roomLeft();
@@ -66,7 +66,7 @@ public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
 
-    void    setFocusState(PluginEnums::PluginState requestedState);
+    void    setFocusState(Plugins::PluginEnums::PluginState requestedState);
 };
 
 }

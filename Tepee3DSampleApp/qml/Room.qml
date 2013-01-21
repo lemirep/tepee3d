@@ -14,7 +14,7 @@ Item3D
     position : room_loader.getPosition()
     property int pluginRoomID   : room_loader.getRoomId();
     property variant widgetModel : room_loader.getWidgetsModel()
-
+    property real faceIndicatorDistance : 0.01
 
     function    moveToFace(faceIdx)
     {
@@ -36,6 +36,18 @@ Item3D
             effect : face_effect
             transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
                 Translation3D {translate : Qt.vector3d(0, 0, 0.5)}]
+
+            Quad
+            {
+                scale : 0.5
+                position : Qt.vector3d(0, -faceIndicatorDistance, 0)
+                effect : Effect {
+                    color : "yellow"
+                    blending : true
+
+                }
+            }
+
             onClicked :
             {
                 console.log("North")
@@ -52,6 +64,19 @@ Item3D
             effect : face_effect
             transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
                 Translation3D {translate : Qt.vector3d(0, 0, -0.5)}]
+
+            Quad
+            {
+                scale : 0.5
+                position : Qt.vector3d(0, faceIndicatorDistance, 0)
+                effect : Effect {
+                    color : "yellow"
+                    blending : true
+
+                }
+            }
+
+
             onClicked :
             {
                 console.log("South")
@@ -68,6 +93,18 @@ Item3D
             effect : face_effect
             transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
                 Translation3D {translate : Qt.vector3d(0.5, 0, 0)}]
+
+            Quad
+            {
+                scale : 0.5
+                position : Qt.vector3d(0, faceIndicatorDistance, 0)
+                effect : Effect {
+                    color : "yellow"
+                    blending : true
+
+                }
+            }
+
             onClicked :
             {
                 console.log("West")
@@ -84,6 +121,18 @@ Item3D
             effect : face_effect
             transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
                 Translation3D {translate : Qt.vector3d(-0.5, 0, 0)}]
+
+            Quad
+            {
+                scale : 0.5
+                position : Qt.vector3d(0, -faceIndicatorDistance, 0)
+                effect : Effect {
+                    color : "yellow"
+                    blending : true
+
+                }
+            }
+
             onClicked :
             {
                 console.log("East")
@@ -98,6 +147,18 @@ Item3D
             position : Qt.vector3d(0, 0.5, 0)
             enabled : (mainWindow.currentRoomFaceId != 5)
             effect : face_effect
+
+            Quad
+            {
+                scale : 0.5
+                position : Qt.vector3d(0, -faceIndicatorDistance, 0)
+                effect : Effect {
+                    color : "yellow"
+                    blending : true
+
+                }
+            }
+
             onClicked :
             {
                 console.log("Up")
@@ -112,6 +173,17 @@ Item3D
             position : Qt.vector3d(0, -0.5, 0)
             enabled : (mainWindow.currentRoomFaceId != 4)
             effect : face_effect
+
+            Quad
+            {
+                scale : 0.5
+                position : Qt.vector3d(0, faceIndicatorDistance, 0)
+                effect : Effect {
+                    color : "yellow"
+                    blending : true
+                }
+            }
+
             onClicked :
             {
                 console.log("Down")

@@ -20,6 +20,11 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
     emit (focusStateChanged(QVariant(requestedState)));
 }
 
+void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState)
+{
+    emit askForFocusState(requestedState, this);
+}
+
 void    Plugins::PluginBase::resultFromSQL()
 {
     qDebug() << "PLUGIN BASE RESULT FROM SQL";
@@ -54,4 +59,3 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
 {
     return this->focusState;
 }
-
