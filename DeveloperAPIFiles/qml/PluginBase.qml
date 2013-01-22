@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import Qt3D 2.0
 import Plugins 1.0
-
+import "../js/CameraManagement.js" as CameraManagement
 
 Item3D
 {
@@ -17,15 +17,10 @@ Item3D
     // plugin_base.askForFocusState(State)
     // IF CHANGE ACCEPTED, onFocusStateChanged will be called
 
-    function askForFocusedFocusState()
-    {
-        plugin_properties.askForFocusState(2)
-    }
-
-    function askForRoomFocusState()
-    {
-        PluginProperties.askForFocusState(0)
-    }
+    function askForRoomFocusState()            {PluginProperties.askForFocusState(0)}
+    function askForRoomSelectedFocusState()    {PluginProperties.askForFocusState(1)}
+    function askForFocusedFocusState()         {plugin_properties.askForFocusState(2)}
+    function moveCamera(eye, center, up)       {CameraManagement.moveCamera(camera, eye, center, up)}
 
     PluginProperties
     {
@@ -89,10 +84,7 @@ Item3D
     {
         id : plugin_loader
 
-        onLoaded:
-        {
-//            plugin_loader.item.
-        }
+        onLoaded: {        }
     }
 
 }

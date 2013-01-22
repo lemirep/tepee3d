@@ -3,6 +3,7 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 
+
 //Item3D
 //{
 //    scale:0.2
@@ -15,7 +16,6 @@ Item3D
     property real zRot : 0;
     property real yRot : 0;
     property color col : "red"
-
 
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     function focusStateChanged(focusStateValue)
@@ -38,32 +38,13 @@ Item3D
     }
 
     // HAS TO BE IMPLEMENTED
-    function roomEntered()
-    {
-
-    }
-
+    function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
-    function roomLeft()
-    {
+    function roomLeft()    {}
 
-    }
-
-
-    function switchToIdleFocusView()
-    {
-
-    }
-
-    function switchToSelectedFocusView()
-    {
-
-    }
-
-    function switchToFocusedView()
-    {
-
-    }
+    function switchToIdleFocusView()    {plugin_base.moveCamera()}
+    function switchToSelectedFocusView()    {}
+    function switchToFocusedView()    {plugin_base.moveCamera()}
 
     //    Carousel
     //    {
@@ -71,6 +52,10 @@ Item3D
     //        scale : 5
     //        radius : 3
     //    }
+
+    Behavior on x { NumberAnimation {duration : 200}}
+    Behavior on y { NumberAnimation {duration : 200}}
+    Behavior on z { NumberAnimation {duration : 200}}
 
     Cube
     {
@@ -81,13 +66,6 @@ Item3D
         effect: Effect {color :col; useLighting : true}
         //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
         //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
-
-        onDoubleClicked :
-        {
-            plugin_base.askForFocusedFocusState();
-        }
-
-
 
         //    Timer
         //    {
@@ -101,28 +79,12 @@ Item3D
         //        }
         //    }
 
+        property real pressedTime : 0;
 
-        onHoverEnter :
-        {
-            col = "orange"
-            console.log("Hover");
-        }
-
-        onHoverLeave :
-        {
-            col = "red"
-        }
-
-        onPressed :
-        {
-            var oldPos = position;
-            console.log("pressed");
-        }
-
-        //    onClicked :
-        //    {
-        //        console.log("Plugin picked");
-        //    }
-
+        onHoverEnter :    {col = "orange";console.log("Hover");}
+        onHoverLeave :    {col = "red"}
+        onPressed :    {console.log("pressed"); pressedTime = new Date().getTime()}
+        onReleased :   {if (new Date().getTime() - pressedTime > 2000) {col = "blue"; pressedTime = 0;}}
+        onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);plugin_base.askForFocusedFocusState();}
     }
 }

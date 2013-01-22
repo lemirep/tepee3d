@@ -24,14 +24,14 @@ public:
 
     PluginBase();
     virtual int                 getPluginId()               = 0;
+    virtual bool                needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
     virtual void                initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
     virtual QString             getPluginName()             = 0;
     virtual QString             getPluginDescription()      = 0;
-    PluginBase*                 getPluginBase();
-    virtual PluginBase*         createNewInstance()         = 0;
-    virtual bool                needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
     virtual QString             getRoomPluginQmlFile()      const = 0;
     virtual QString             getFocusedPluginQmlFile()   const = 0;
+    virtual PluginBase*         createNewInstance()         = 0;
+    PluginBase*                 getPluginBase();
     PluginEnums::PluginState    getFocusState()             const;
     void                        askForFocusState(PluginEnums::PluginState requestedState);
     // VARIABLES
@@ -65,8 +65,7 @@ signals :
 public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
-
-    void    setFocusState(Plugins::PluginEnums::PluginState requestedState);
+    void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
 };
 
 }
