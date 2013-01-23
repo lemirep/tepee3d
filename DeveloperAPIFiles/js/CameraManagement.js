@@ -3,9 +3,10 @@
 function moveCamera(camera, eye, center, up)
 {
     console.log("CameraManagement : moveCamera");
-    if (camera && eye && center && up)
+    if (camera && eye && center)
     {
-        camera.upVector = up;
+        if (up)
+            camera.upVector = up;
         camera.setCameraCenter(center);
         camera.setCameraEye(eye);
     }

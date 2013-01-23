@@ -10,11 +10,12 @@ import "js/Walls.js" as Walls;
 
 Item3D
 {
-
+    id : room_item
     position : room_loader.getPosition()
     property int pluginRoomID   : room_loader.getRoomId();
-    property variant widgetModel : room_loader.getWidgetsModel()
     property real faceIndicatorDistance : 0.01
+    property variant widgetModel : room_loader.getWidgetsModel()
+    property vector3d roomScale :  room_loader.getScale()
 
     function    moveToFace(faceIdx)
     {
@@ -25,7 +26,7 @@ Item3D
 
     Item3D
     {
-        transform : [Scale3D {scale : room_loader.getScale()}]
+        transform : [Scale3D {scale : roomScale}]
 
         Quad
         {

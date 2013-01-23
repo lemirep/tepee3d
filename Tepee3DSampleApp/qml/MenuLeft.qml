@@ -10,7 +10,7 @@ Item
 
 
     property bool isShown : false
-    property int  minMenuWidth : mainWindow.width / 10
+    property int  minMenuWidth : mainWindow.menuMinimumWidth
     property int  maxMenuWidth : mainWindow.width / 3
         property int  minMenuHeight : mainWindow.height / 2
 //    property int  minMenuHeight : mainWindow.height

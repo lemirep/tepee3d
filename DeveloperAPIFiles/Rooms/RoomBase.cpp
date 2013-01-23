@@ -101,7 +101,7 @@ void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
     QObject::disconnect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
     QObject::disconnect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
     QObject::disconnect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
-                     this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
+                        this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
 }
 
 void        Room::RoomBase::updateRoom()
@@ -138,17 +138,23 @@ void        Room::RoomBase::leaveRoom()
 void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::PluginState requestedState, QObject* sender)
 {
     Plugins::PluginBase*   plugin = NULL;
+    Plugins::PluginBase*   requester = (Plugins::PluginBase*)sender;
     bool                   requestAccepted = true;
 
+    // IF THERE IS ANOTHER ITEM IN SELECTED -> ACCEPT AND SET OTHER ITEM TO IDLE
+    // IF THERE IS ANOTHER ITEM IN FOCUS -> REFUSE AND DO NOT MODIFY ANY WIDGET
     foreach (ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
     {
         plugin = ((Plugins::PluginModelItem*)(pluginItem))->getPlugin();
-        if (plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
+        if (plugin != requester && plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
         {
-            requestAccepted = false;
+            if (plugin->getFocusState() == Plugins::PluginEnums::pluginFocusedState)
+                plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
+            else if (plugin->getFocusState() == Plugins::PluginEnums::pluginSelectedState)
+                requestAccepted = false;
             break;
         }
     }
     if (requestAccepted)
-        ((Plugins::PluginBase*)(sender))->setFocusState(requestedState);
+        requester->setFocusState(requestedState);
 }

@@ -2,22 +2,17 @@
 import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
-
-
-//Item3D
-//{
-//    scale:0.2
-//    position:Qt.vector3d(0,1.5,6)
-//    mesh : Mesh {source:"Resources/Models/dog.3ds"}
-//}
+import QtQuick.Particles 2.0
 
 Item3D
 {
+    id : testplugin_container
     property real zRot : 0;
     property real yRot : 0;
     property color col : "red"
 
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
+    // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
     function focusStateChanged(focusStateValue)
     {
         console.log("<<<<<<<<<<<<<<<<<<<<<FocusStateChanged " + focusStateValue);
@@ -44,7 +39,15 @@ Item3D
 
     function switchToIdleFocusView()    {plugin_base.moveCamera()}
     function switchToSelectedFocusView()    {}
-    function switchToFocusedView()    {plugin_base.moveCamera()}
+
+    function switchToFocusedView()
+    {
+        console.log("Room Pos " + plugin_base.getRoomPosition())
+
+        var eye = plugin_base.getRoomPosition();
+        var center = plugin_base.getRoomScale();
+        plugin_base.moveCamera(eye, center);
+    }
 
     //    Carousel
     //    {
@@ -53,9 +56,23 @@ Item3D
     //        radius : 3
     //    }
 
-    Behavior on x { NumberAnimation {duration : 200}}
-    Behavior on y { NumberAnimation {duration : 200}}
-    Behavior on z { NumberAnimation {duration : 200}}
+    states : [
+        State {
+            name : "idle"
+            PropertyChanges {target: testplugin_container; col : "grey"}
+            when : plugin_base.getFocusState() == 0
+        },
+        State {
+            name : "selected"
+            PropertyChanges {target: testplugin_container; col : "grey"}
+            when : plugin_base.getFocusState() == 1
+        },
+        State {
+            name : "focused"
+            PropertyChanges {target: testplugin_container; col : "grey"}
+            when : plugin_base.getFocusState() == 2
+        }
+    ]
 
     Cube
     {
@@ -80,11 +97,29 @@ Item3D
         //    }
 
         property real pressedTime : 0;
+        onClicked :
+        {
+            // IF WE ARE IDLING ON CLICK ASK FOR SELECTED
+            if (plugin_base.getFocusState() == 0)
+            {
+                console.log("Asking for selected");
+                plugin_base.askForRoomSelectedFocusState();
+            } // IF WE ARE SELECTED ASK FOR FOCUS
+            else if (plugin_base.getFocusState() == 1)
+            {
+                console.log("Asking for focused");
+                plugin_base.askForFocusedFocusState();
+            }
+            else    // FOCUSED STATE
+            {
 
-        onHoverEnter :    {col = "orange";console.log("Hover");}
-        onHoverLeave :    {col = "red"}
+            }
+        }
+
+        //onHoverEnter :    {col = "orange";console.log("Hover");}
+        //onHoverLeave :    {col = "red"}
         onPressed :    {console.log("pressed"); pressedTime = new Date().getTime()}
         onReleased :   {if (new Date().getTime() - pressedTime > 2000) {col = "blue"; pressedTime = 0;}}
-        onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);plugin_base.askForFocusedFocusState();}
+        onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);}
     }
 }

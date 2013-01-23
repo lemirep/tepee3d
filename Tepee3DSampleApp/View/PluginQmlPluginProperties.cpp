@@ -11,7 +11,7 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
 
 void    Plugins::PluginQmlPluginProperties::askForFocusState(int focusState)
 {
-    qDebug() << "PluginQmlProperties askForFocusState";
+    qDebug() << "PluginQmlProperties askForFocusState " << focusState;
     if (this->plugin)
         this->plugin->askForFocusState(Plugins::PluginEnums::valueOf(focusState));
 }

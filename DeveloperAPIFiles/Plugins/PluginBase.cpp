@@ -22,6 +22,7 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
 
 void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
+    // ASK THE ROOM FOR A NEW FOCUS STATE
     emit askForFocusState(requestedState, this);
 }
 

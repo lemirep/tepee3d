@@ -17,10 +17,13 @@ Item3D
     // plugin_base.askForFocusState(State)
     // IF CHANGE ACCEPTED, onFocusStateChanged will be called
 
-    function askForRoomFocusState()            {PluginProperties.askForFocusState(0)}
-    function askForRoomSelectedFocusState()    {PluginProperties.askForFocusState(1)}
+    function askForRoomFocusState()            {plugin_properties.askForFocusState(0)}
+    function askForRoomSelectedFocusState()    {plugin_properties.askForFocusState(1)}
     function askForFocusedFocusState()         {plugin_properties.askForFocusState(2)}
+    function getFocusState()                   {return plugin_properties.focusState}
     function moveCamera(eye, center, up)       {CameraManagement.moveCamera(camera, eye, center, up)}
+    function getRoomPosition()                 {return room_item.position}
+    function getRoomScale()                    {return room_item.roomScale}
 
     PluginProperties
     {

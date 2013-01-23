@@ -18,11 +18,12 @@ Viewport
     property real  menu_opacity_deployed : 1.0;
     property int   camera_movement_duration : 500;
     property int   currentRoomId : 0;
+    property int   menuMinimumWidth : 40
     property int   currentRoomFaceId : 0; // NORTH FACE BY DEFAULT, USE FOR CULLING
 
     width: 1024
 //    width: 1680
-    height: 768
+    height: 728
 //    height: 1050
     focus : true
     navigation : false

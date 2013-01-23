@@ -8,7 +8,7 @@ Item
     width: minMenuWidth
     height: minMenuHeight
     property bool isShown : false
-    property int  minMenuHeight : mainWindow.height / 10
+    property int  minMenuHeight : mainWindow.menuMinimumWidth
     property int  maxMenuHeight : mainWindow.height / 2
     property int  minMenuWidth : mainWindow.width / 2
     property int  maxMenuWidth : mainWindow.width
