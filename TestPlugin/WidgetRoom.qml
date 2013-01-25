@@ -2,79 +2,48 @@
 import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
-
-//Item3D
-//{
-//    scale:0.2
-//    position:Qt.vector3d(0,1.5,6)
-//    mesh : Mesh {source:"Resources/Models/dog.3ds"}
-//}
+/*
+Item3D
+{
+    scale:0.2
+    position:Qt.vector3d(0,1.5,6)
+    mesh : Mesh {source:"Resources/Models/dog.3ds"}
+}
+*/
 
 Item3D
 {
-    property real zRot : 0;
-    property real yRot : 0;
-    property color col : "red"
+id: cubecontent
 
-
-    //    Carousel
-    //    {
-    //        id : carousel
-    //        scale : 5
-    //        radius : 3
-    //    }
-
+Item3D {
     Cube
     {
-        id : cube_plugin
-
-        scale : 5
-        position : Qt.vector3d(0, 0, 0)
-        effect: Effect {color :col; useLighting : true}
-        //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
-        //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
-
-        onDoubleClicked :
-        {
-            plugin_base.askForFocusedFocusState();
-        }
-
-
-
-        //    Timer
-        //    {
-        //        running : true
-        //        repeat: true
-        //        interval: 25
-        //        onTriggered:
-        //        {
-        //            zRot += 1
-        //            yRot += 1
-        //        }
-        //    }
-
-
-        onHoverEnter :
-        {
-            col = "orange"
-            console.log("Hover");
-        }
-
-        onHoverLeave :
-        {
-            col = "red"
-        }
-
-        onPressed :
-        {
-            var oldPos = position;
-            console.log("pressed");
-        }
-
-        //    onClicked :
-        //    {
-        //        console.log("Plugin picked");
-        //    }
+        id : cube_orange
+        effect: Effect {color: "orange"}
+        scale : 2
+        position : Qt.vector3d(-10, -5, -5)
+         onDoubleClicked  : console.log("pouet1")
 
     }
+    Cube
+    {
+        id : cube_blue
+        effect: Effect {color: "blue"}
+        scale : 2
+        position : Qt.vector3d(0, -5, -5)
+        onDoubleClicked  : console.log("pouet3")
+
+    }
+    Cube
+    {
+        id : cube_red
+        effect: Effect {
+        color: "red"}
+        scale : 2
+        position : Qt.vector3d(10, -5, -5)
+        onDoubleClicked  : console.log("pouet4")
+    }
+    }
+    position: Qt.vector3d(0, 0, 0)
 }
+
