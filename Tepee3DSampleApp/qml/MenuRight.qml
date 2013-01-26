@@ -13,8 +13,8 @@ Item
     property int  maxMenuWidth : mainWindow.width / 3
     property int  minMenuX : mainWindow.width - minMenuWidth
     property int  maxMenuX : mainWindow.width - maxMenuWidth
-        property int  minMenuHeight : mainWindow.height / 2
-//    property int  minMenuHeight : mainWindow.height
+    property int  minMenuHeight : mainWindow.height / 2
+    //    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
@@ -70,6 +70,11 @@ Item
                 target : room_plugins_list_view
                 opacity : 1
             }
+            PropertyChanges
+            {
+                target : add_plugin_button
+                opacity : 1
+            }
             when: menuRightMain.isShown
         },
         State {
@@ -85,6 +90,11 @@ Item
             {
                 target: menuRightRec
                 opacity : 0.3
+            }
+            PropertyChanges
+            {
+                target : add_plugin_button
+                opacity : 0
             }
             PropertyChanges
             {
@@ -131,14 +141,21 @@ Item
         }
     ]
 
-    Rectangle
+    BorderImage
     {
         id : menuRightRec
         width : parent.width
         height : parent.height
-        color : mainWindow.menu_background_color
+        //        color : mainWindow.menu_background_color
+        source : "Resources/Pictures/panel_bg2.png"
         property bool add_plugins : false;
         opacity : 0
+
+        border
+        {
+            left : 2
+            bottom : 1
+        }
 
 
         states : [
@@ -203,7 +220,11 @@ Item
             }
             orientation: ListView.Vertical
             model : roomModel.subModelFromId(mainWindow.currentRoomId);
-            delegate: plugin_list_delegate
+            delegate: RoomPluginDelegate {
+                width : menuRightMain.width / 2
+                height : menuRightMain.width / 3
+                pluginName: model.pluginName
+            }
             spacing: 10
         }
 
@@ -213,7 +234,7 @@ Item
             width : parent.width
             height : parent.height
 
-            color : "red"
+            color : "transparent"
 
             anchors
             {
@@ -223,27 +244,24 @@ Item
             ListView
             {
                 id : available_plugins_list_view
-
-                property real delegate_width :  menuRightMain.width / 2;
-                property real delegate_height : menuRightMain.width / 3;
-
-
                 opacity : 1
                 enabled : (parent.opacity == 1)
                 clip: true
+                spacing: 10
                 anchors
                 {
                     fill: parent
                     left : parent.right
                     margins : menuRightMain.width / 8
                 }
-
                 orientation: ListView.Vertical
                 model : availablePluginsModel
-                delegate: plugin_list_delegate
-                spacing: 10
+                delegate: NewPluginDelegate {
+                    width : menuRightMain.width / 2
+                    height : menuRightMain.width / 3
+                    pluginName: model.pluginName
+                }
             }
-
         }
 
         Image
@@ -264,57 +282,17 @@ Item
                 anchors.fill : parent
                 onClicked :
                 {
-                  menuRightRec.add_plugins = !menuRightRec.add_plugins
+                    menuRightRec.add_plugins = !menuRightRec.add_plugins
                 }
             }
 
             source : "Resources/Pictures/add_button.svg"
         }
 
-        Component
-        {
-            id : plugin_list_delegate
-
-            Item
-            {
-                id : item_plugin_del
-                width : room_plugins_list_view.delegate_width
-                height :room_plugins_list_view.delegate_height
-                anchors.horizontalCenter: parent.horizontalCenter
-                scale : plugin_delegate_mouse_area.pressed ? 0.9 : 1.0
-
-                MouseArea
-                {
-                    id : plugin_delegate_mouse_area
-                    anchors.fill : parent
-                    onClicked :
-                    {
-                        room_plugins_list_view.currentIndex = index;
-                        roomManager.addNewPluginToCurrentRoom(model.pluginId)
-                    }
-                }
-
-                Rectangle
-                {
-                    color : (room_plugins_list_view.currentIndex == index) ? mainWindow.plugin_list_selected_component_color: mainWindow.plugin_list_component_color
-                    anchors.fill: parent
-                }
-
-                Text
-                {
-                    id: plugin_title
-                    text: model.pluginName
-                    anchors
-                    {
-                        horizontalCenter : parent.horizontalCenter
-                        bottom : parent.bottom
-                        margins : 10
-                    }
-                    color :  "white"
-                }
-            }
-
-        }
+        //        Component
+        //        {
+        //            id : plugin_list_delegate
+        //        }
 
     }
 }

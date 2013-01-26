@@ -90,7 +90,12 @@ OTHER_FILES += \
     qml/js/Walls.js \
     qml/RoomsContainer.qml \
     qml/PluginLoader.qml \
-    qml/Notification.qml
+    qml/Notification.qml \
+    qml/FpsCounter.qml \
+    qml/RoomDelegate.qml \
+    qml/js/RoomManagement.js \
+    qml/NewPluginDelegate.qml \
+    qml/RoomPluginDelegate.qml
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

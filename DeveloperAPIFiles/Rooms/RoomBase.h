@@ -45,6 +45,7 @@ public:
 
     virtual bool                            operator >(RoomBase *room) const;
     virtual bool                            operator <(RoomBase *room) const;
+    virtual bool                            collides(RoomBase *room) const;
     virtual double                          getRoomVolume()    const;
 
     virtual QString                         getRoomName()      const;
@@ -52,6 +53,8 @@ public:
 
     virtual QVector3D                       getPosition()      const;
     virtual QVector3D                       getScale()         const;
+    virtual QVector3D                       getMinBoundingPoint()   const;
+    virtual QVector3D                       getMaxBoundingPoint()   const;
 
     virtual void                            setScale(const QVector3D& scale);
     virtual void                            setRoomName(const QString& name);

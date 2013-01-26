@@ -11,7 +11,9 @@ import "js/Walls.js" as Walls;
 Item3D
 {
     id : room_item
+
     position : room_loader.getPosition()
+    property int currentFaceId : Walls.idx
     property int pluginRoomID   : room_loader.getRoomId();
     property real faceIndicatorDistance : 0.01
     property variant widgetModel : room_loader.getWidgetsModel()
@@ -19,10 +21,11 @@ Item3D
 
     function    moveToFace(faceIdx)
     {
-        mainWindow.onRoomFaceSwitch();
         mainWindow.currentRoomFaceId = faceIdx;
-        Walls.moveCameraToWall(camera, faceIdx);
     }
+
+    function getRoomPosition()    {return Qt.vector3d(x, y, z)}
+    function getRoomScale()    {return Qt.vector3d(roomScale.x, roomScale.y, roomScale.z)}
 
     Item3D
     {
@@ -48,12 +51,8 @@ Item3D
 
                 }
             }
-
-            onClicked :
-            {
-                console.log("North")
-                moveToFace(0)
-            }
+            onHoverEnter : {console.log("North")}
+            onClicked : {mainWindow.currentRoomFaceId = 0}
         }
 
         Quad
@@ -71,18 +70,13 @@ Item3D
                 scale : 0.5
                 position : Qt.vector3d(0, faceIndicatorDistance, 0)
                 effect : Effect {
-                    color : "yellow"
+                    color : "blue"
                     blending : true
 
                 }
             }
-
-
-            onClicked :
-            {
-                console.log("South")
-                moveToFace(1)
-            }
+            onHoverEnter :{console.log("South")}
+            onClicked : {mainWindow.currentRoomFaceId = 1}
         }
 
         Quad
@@ -100,17 +94,13 @@ Item3D
                 scale : 0.5
                 position : Qt.vector3d(0, faceIndicatorDistance, 0)
                 effect : Effect {
-                    color : "yellow"
+                    color : "red"
                     blending : true
 
                 }
             }
-
-            onClicked :
-            {
-                console.log("West")
-                moveToFace(3)
-            }
+            onHoverEnter :{console.log("West")}
+            onClicked : {mainWindow.currentRoomFaceId = 3}
         }
 
         Quad
@@ -128,17 +118,13 @@ Item3D
                 scale : 0.5
                 position : Qt.vector3d(0, -faceIndicatorDistance, 0)
                 effect : Effect {
-                    color : "yellow"
+                    color : "orange"
                     blending : true
 
                 }
             }
-
-            onClicked :
-            {
-                console.log("East")
-                moveToFace(2)
-            }
+            onHoverEnter : {console.log("East")}
+            onClicked : {mainWindow.currentRoomFaceId = 2}
         }
 
         Quad
@@ -146,7 +132,7 @@ Item3D
             id : up_wall
             scale : 1
             position : Qt.vector3d(0, 0.5, 0)
-            enabled : (mainWindow.currentRoomFaceId != 5)
+            enabled : (mainWindow.currentRoomFaceId != 4)
             effect : face_effect
 
             Quad
@@ -154,17 +140,13 @@ Item3D
                 scale : 0.5
                 position : Qt.vector3d(0, -faceIndicatorDistance, 0)
                 effect : Effect {
-                    color : "yellow"
+                    color : "green"
                     blending : true
 
                 }
             }
-
-            onClicked :
-            {
-                console.log("Up")
-                moveToFace(4)
-            }
+            onHoverEnter : {console.log("Up")}
+            onClicked :{mainWindow.currentRoomFaceId = 4}
         }
 
         Quad
@@ -172,7 +154,7 @@ Item3D
             id : down_wall
             scale : 1
             position : Qt.vector3d(0, -0.5, 0)
-            enabled : (mainWindow.currentRoomFaceId != 4)
+            enabled : (mainWindow.currentRoomFaceId != 5)
             effect : face_effect
 
             Quad
@@ -180,24 +162,21 @@ Item3D
                 scale : 0.5
                 position : Qt.vector3d(0, faceIndicatorDistance, 0)
                 effect : Effect {
-                    color : "yellow"
+                    color : "cyan"
                     blending : true
                 }
             }
 
-            onClicked :
-            {
-                console.log("Down")
-                moveToFace(5)
-            }
+            onHoverEnter : {console.log("Down")}
+            onClicked :{mainWindow.currentRoomFaceId = 5}
         }
-
     }
 
     Effect
     {
         id : face_effect
         texture : "Resources/Textures/blue_wall.jpg"
+//        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true
     }
 

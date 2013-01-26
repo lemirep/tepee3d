@@ -66,6 +66,7 @@ public slots :
     // Define slots as virtual so that developpers can subclass them if necessary
     virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
     void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
+    void            onRoomEntered();
 };
 
 }

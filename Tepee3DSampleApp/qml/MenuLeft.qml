@@ -12,12 +12,19 @@ Item
     property bool isShown : false
     property int  minMenuWidth : mainWindow.menuMinimumWidth
     property int  maxMenuWidth : mainWindow.width / 3
-        property int  minMenuHeight : mainWindow.height / 2
-//    property int  minMenuHeight : mainWindow.height
+    property int  minMenuHeight : mainWindow.height / 2
+//    property int  minMenuHeight : mainWindow.height / 2
+//    property int  minMenuHeight : mainWindow.height / 2
+    //    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
     property int  idx : 0;
+
+    Component.onCompleted:
+    {
+        mainWindow.roomChanged.connect(setListIndex);
+    }
 
     function startDrag(xPos, yPos)
     {
@@ -43,6 +50,12 @@ Item
         //        console.log(menuLeftMain.isShown)
     }
 
+    function setListIndex(roomId)
+    {
+        var idx = roomModel.rowIndexFromId(roomId);
+        rooms_list_view.currentIndex = idx;
+    }
+
     states :     [
         State     {
             name: "menuShown"
@@ -58,6 +71,11 @@ Item
                 width : maxMenuWidth
                 height : maxMenuHeight
                 opacity : mainWindow.menu_opacity_deployed
+            }
+            PropertyChanges {
+                target: add_room_button
+                opacity : 1
+
             }
             PropertyChanges
             {
@@ -78,7 +96,11 @@ Item
                 target: menuLeftRec
                 width : minMenuWidth
                 height : minMenuHeight
-                opacity : 0.3
+                opacity : 0.5
+            }
+            PropertyChanges {
+                target: add_room_button
+                opacity : 0
             }
             PropertyChanges
             {
@@ -126,27 +148,29 @@ Item
         }
     ]
 
-
-    Rectangle
+    BorderImage
     {
         id : menuLeftRec
         height : parent.height
         width : parent.width
-        color : mainWindow.menu_background_color
+        //        color : mainWindow.menu_background_color
         opacity : 0
+        source : "Resources/Pictures/panel_bg2.png"
 
+        border
+        {
+            left : 2
+
+            bottom : 1
+        }
 
         ListView
         {
             id : rooms_list_view
-
-            property real delegate_width :  menuLeftMain.width / 2;
-            property real delegate_height : menuLeftMain.width / 3;
-            property int  currentRoomId : -1;
-
             opacity : 0
             enabled : (opacity == 1)
             clip: true
+            spacing: 10
             anchors
             {
                 fill: parent
@@ -154,27 +178,17 @@ Item
             }
             orientation: ListView.Vertical
             model : roomModel
-            delegate: room_list_delegate
-            spacing: 10
-
-            Component.onCompleted:
-            {
-                rooms_list_view.currentIndex = -1;
+            delegate: RoomDelegate {
+                width : menuLeftMain.width / 2;
+                height : menuLeftMain.width / 3;
+                roomId : model.roomId
+                roomName : model.roomName
+                roomScale : model.roomScale
+                roomPosition : model.roomPosition
             }
 
-            Timer
-            {
-                id : room_test_timer
-                running : false
-                interval : 1500
-                repeat : true
-                onTriggered:
-                {
-                    Walls.moveCameraToWall(camera, Walls.idx);
-                    Walls.idx++;
-                    Walls.idx %= Walls.walls.length;
-                }
-            }
+            Component.onCompleted:{rooms_list_view.currentIndex = -1}
+
         }
 
         Image
@@ -205,89 +219,4 @@ Item
             source : "Resources/Pictures/add_button.svg"
         }
     }
-
-
-
-    function setWalls(model)
-    {
-        Walls.idx = 0;
-        Walls.currentWall = 0;
-        Walls.roomCenter = model.roomPosition;
-        Walls.roomScale = model.roomScale;
-        Walls.preComputeWalls();
-        Walls.preComputeCenters();
-    }
-
-
-
-
-    Component
-    {
-        id : room_list_delegate
-        Item
-        {
-            id : item_room_del
-            width : rooms_list_view.delegate_width
-            height : rooms_list_view.delegate_height
-            anchors.horizontalCenter: parent.horizontalCenter
-            scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
-
-
-            MouseArea
-            {
-                id : room_delegate_mouse_area
-                anchors.fill : parent
-                onClicked :
-                {
-                    // SET CURRENT ROOM SELECTION
-                    rooms_list_view.currentIndex = index
-                    rooms_list_view.currentRoomId = model.roomId;
-                    mainWindow.onRoomSwitch();
-                    mainWindow.currentRoomId = model.roomId;
-                    roomManager.setCurrentRoom(rooms_list_view.currentRoomId);
-                    // LOAD WALLS DATA IN WALLS.js AND SET TOP MENU
-                    camera_timer.stop();
-                    setWalls(model);
-                    topMenu.generateFaceModel();
-                    // MOVE TO THE SELECTED ROOM
-                    Walls.moveCameraToWall(camera, Walls.idx);
-//                    room_test_timer.start();
-
-                    console.log(model.roomId);
-                    // SET MENU RIGHT PLUGIN MODEL
-                    menuLeftMain.isShown = false;
-                }
-                onPressAndHold:
-                {
-                    if (rooms_list_view.currentRoomId == model.roomId)
-                        rooms_list_view.currentIndex = -1;
-                    roomManager.deleteRoom(model.roomId)
-                }
-
-            }
-
-            Rectangle
-            {
-                color : (rooms_list_view.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
-                anchors.fill: parent
-
-            }
-
-            Text
-            {
-                id: room_title
-                text: model.roomName
-                anchors
-                {
-                    horizontalCenter : parent.horizontalCenter
-                    bottom : parent.bottom
-                    margins : 10
-                }
-                color :  "white"
-            }
-        }
-    }
-
-
-
 }

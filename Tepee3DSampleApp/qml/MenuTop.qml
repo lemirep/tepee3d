@@ -15,16 +15,12 @@ Item
     property int  ySaved;
     property int  savedHeight;
 
-    ListModel
+
+    Component.onCompleted:
     {
-        id : room_faces_model
+        mainWindow.roomFaceIdChanged.connect(setListIndex)
     }
 
-    function generateFaceModel()
-    {
-        Walls.generateWallFacesModel(room_faces_model);
-        room_faces_listview.currentIndex = Walls.currentWall;
-    }
 
     function startDrag(xPos, yPos)
     {
@@ -56,12 +52,10 @@ Item
         }
     }
 
-    function    moveToFace(faceIdx)
+    function setListIndex(wallId)
     {
-        mainWindow.onRoomFaceSwitch();
-        mainWindow.currentRoomFaceId = faceIdx;
-        menuTopMain.isShown = false;
-        Walls.moveCameraToWall(camera, faceIdx);
+        console.log("Wall ID <><><><><><><><> " + wallId)
+        room_faces_listview.currentIndex = wallId;
     }
 
     states :     [
@@ -108,53 +102,24 @@ Item
             when: !menuTopMain.isShown
         }]
 
-    //    transitions :[
-    //        Transition
-    //        {
-    //            from: "menuHidden"
-    //            to: "menuShown"
-    //            NumberAnimation
-    //            {
-    //                target : menuTopRec
-    //                properties : "width, height, opacity"
-    //                duration : 200
-    //            }
-    //            NumberAnimation
-    //            {
-    //                target : room_faces_listview
-    //                properties : "opacity"
-    //                duration : 250
-    //            }
-    //        },
-    //        Transition
-    //        {
-    //            from: "menuHidden"
-    //            to: "menuShown"
-    //            NumberAnimation
-    //            {
-    //                target : menuTopRec
-    //                properties : "width, height, opacity"
-    //                duration : 200
-    //            }
-    //            NumberAnimation
-    //            {
-    //                target : room_faces_listview
-    //                properties : "opacity"
-    //                duration : 250
-    //            }
-    //        }
-    //    ]
-
-    Rectangle
+    BorderImage
     {
         id : menuTopRec
         width : parent.width
         height : parent.height
-        color : mainWindow.menu_background_color
+        source : "Resources/Pictures/panel_bg2.png"
+        //        color : mainWindow.menu_background_color
         opacity : 0
         //        Behavior on height {NumberAnimation {duration: 100}}
         //        Behavior on width {PropertyAnimation { properties: "width"; easing.type: Easing.OutBounce; duration : 500 }}
         //        Behavior on opacity {NumberAnimation {duration: 500}}
+
+        border
+        {
+            left : 2
+            bottom : 1
+        }
+
 
         GridView
         {
@@ -165,7 +130,7 @@ Item
 //            }
 
             id : room_faces_listview
-            cellWidth: width / 3
+            cellWidth: width / 6
             cellHeight: cellWidth
 //            property real delegate_width :  menuTopMain.height / 10;
 //            property real delegate_height : menuTopMain.height / 12;
@@ -180,12 +145,12 @@ Item
                 left : parent.left
                 top : parent.top
                 bottom : parent.bottom
-                right : parent.horizontalCenter
+                right : parent.right
                 margins : menuTopRec.height / 8
             }
 
             delegate : room_face_view_delegate
-            model : room_faces_model
+            model : currentRoomFacesModel
             Component.onCompleted:
             {
                 room_faces_listview.currentIndex = -1;
@@ -211,7 +176,8 @@ Item
                     onClicked :
                     {
                         room_faces_listview.currentIndex = index
-                        moveToFace(model.idx)
+//                        moveToFace(model.idx)
+                        mainWindow.currentRoomFaceId = index;
                     }
                 }
 

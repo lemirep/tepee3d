@@ -71,6 +71,7 @@ Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int plu
 void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
 {
     // PLACES THE ROOM IN SPACE SO THAT THEY WON'T COLLIDE ...
+    // ROOMS ALREADY LOADED CANNOT BE MOVED SO THE NEW ROOM HAS TO BE ADDED AT THE RIGHT PLACE
     QList<ListItem *> roomModelItems = this->roomModel->toList();
     QList<Room::RoomBase *> rooms;
     foreach (ListItem *item, roomModelItems)
@@ -88,6 +89,13 @@ void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
         if (lastRoom > roomSaved)
             rooms.swap(rooms.indexOf(lastRoom), rooms.indexOf(roomSaved));
     }
+
+    // INIT ROOM POSITION
+//    room->setPosition(QVector3D(0, 0, 0));
+//    foreach (Room::RoomBase* roomSaved, rooms)
+//    {
+//        if (room->collides(roomSaved))
+//    }
     qDebug() << "Placing room in space";
 }
 
@@ -135,8 +143,8 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 
     qDebug() << room->getRoomName();
 
-    this->roomModel->appendRow(new Room::RoomModelItem(room));
     this->placeNewRoomInSpace(room);
+    this->roomModel->appendRow(new Room::RoomModelItem(room));
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
     // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
@@ -174,6 +182,8 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 {
     Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
+    if (this->currentRoom == NULL)
+        qWarning() << "Current Room is Null";
     if (newPlugin != NULL && this->currentRoom != NULL)
     {
         qDebug() << "Adding new plugin to Room";

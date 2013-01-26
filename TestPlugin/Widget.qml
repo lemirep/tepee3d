@@ -10,6 +10,7 @@ Item3D
     property real zRot : 0;
     property real yRot : 0;
     property color col : "red"
+    position : Qt.vector3d(-10, 0, 0)
 
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
@@ -42,10 +43,16 @@ Item3D
 
     function switchToFocusedView()
     {
-        console.log("Room Pos " + plugin_base.getRoomPosition())
-
+//        var eye = camera.eye;
         var eye = plugin_base.getRoomPosition();
-        var center = plugin_base.getRoomScale();
+        var center = plugin_base.getRoomPosition();
+        eye.z += (-10)
+        center.x += testplugin_container.x
+        center.y += testplugin_container.y
+        center.z += testplugin_container.z
+
+
+
         plugin_base.moveCamera(eye, center);
     }
 
@@ -78,7 +85,8 @@ Item3D
     {
         id : cube_plugin
 
-        scale : 5
+//        scale : 5
+        transform : [Scale3D {scale : Qt.vector3d(5, 10, 5)} ]
         position : Qt.vector3d(0, 0, 0)
         effect: Effect {color :col; useLighting : true}
         //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},

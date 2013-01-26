@@ -12,7 +12,6 @@ Room::RoomBase::RoomBase() : QQuickItem()
 
 Room::RoomBase::~RoomBase()
 {
-
 }
 
 int         Room::RoomBase::getRoomId() const
@@ -42,6 +41,20 @@ bool            Room::RoomBase::operator >(RoomBase *room) const
     return this->getRoomVolume() > room->getRoomVolume();
 }
 
+bool            Room::RoomBase::collides(RoomBase *room) const
+{
+    QVector3D   minRoomA = this->getMinBoundingPoint();
+    QVector3D   maxRoomA = this->getMaxBoundingPoint();
+    QVector3D   minRoomB = room->getMinBoundingPoint();
+    QVector3D   maxRoomB = room->getMaxBoundingPoint();
+
+    if (minRoomA.x() < maxRoomB.x() && maxRoomA.x() > minRoomB.x()
+            && minRoomA.y() < maxRoomB.y() && maxRoomA.y() > minRoomB.y()
+            && minRoomA.z() < maxRoomB.z() && maxRoomA.z() > minRoomB.z())
+        return true;
+    return false;
+}
+
 QString     Room::RoomBase::getRoomName() const
 {
     return this->roomProperties->getRoomName();
@@ -60,6 +73,26 @@ QVector3D   Room::RoomBase::getPosition() const
 QVector3D   Room::RoomBase::getScale() const
 {
     return this->roomProperties->getScale();
+}
+
+QVector3D   Room::RoomBase::getMinBoundingPoint() const
+{
+    // POSITION IS THE CENTER OF THE ROOM
+    QVector3D pos = this->roomProperties->getPosition();
+    QVector3D scale = this->roomProperties->getScale();
+    return QVector3D(pos.x() - (scale.x() / 2),
+                     pos.y() - (scale.y() / 2),
+                     pos.z() - (scale.z() / 2));
+}
+
+QVector3D   Room::RoomBase::getMaxBoundingPoint() const
+{
+    // POSITION IS THE CENTER OF THE ROOM
+    QVector3D pos = this->roomProperties->getPosition();
+    QVector3D scale = this->roomProperties->getScale();
+    return QVector3D(pos.x() + (scale.x() / 2),
+                     pos.y() + (scale.y() / 2),
+                     pos.z() + (scale.z() / 2));
 }
 
 ListModel*  Room::RoomBase::getRoomPluginsModel()   const

@@ -6,11 +6,17 @@ Plugins::PluginBase::PluginBase() : QObject(NULL)
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
+    QObject::connect(this, SIGNAL(roomLeft()), this, SLOT(onRoomEntered()));
 }
 
 Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
 {
     return this;
+}
+
+void    Plugins::PluginBase::onRoomEntered()
+{
+    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
 }
 
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)

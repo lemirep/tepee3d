@@ -13,7 +13,6 @@ ListModel::~ListModel()
     this->clear();
 }
 
-
 int         ListModel::rowCount(const QModelIndex &) const
 {
     return this->items.size();
@@ -34,6 +33,7 @@ QHash<int, QByteArray>  ListModel::roleNames() const
 void        ListModel::appendRow(ListItem *item)
 {
     this->appendRows(QList<ListItem *>() << item);
+    emit (countChanged(this->rowCount()));
 }
 
 void        ListModel::appendRows(QList<ListItem *> &items)
@@ -48,6 +48,7 @@ void        ListModel::appendRows(QList<ListItem *> &items)
     }
     // NEEDED TO UPDATE VIEW
     this->endInsertRows();
+    emit (countChanged(this->rowCount()));
 }
 
 void        ListModel::insertRow(int row, ListItem *item)
@@ -56,6 +57,7 @@ void        ListModel::insertRow(int row, ListItem *item)
     QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
     this->items.insert(row, item);
     this->endInsertRows();
+    emit (countChanged(this->rowCount()));
 }
 
 bool        ListModel::removeRow(int row, const QModelIndex &index)
@@ -65,6 +67,7 @@ bool        ListModel::removeRow(int row, const QModelIndex &index)
         beginRemoveRows(index, row, row);
         delete this->items.takeAt(row);
         endRemoveRows();
+        emit (countChanged(this->rowCount()));
         return true;
     }
     return false;
@@ -79,6 +82,7 @@ bool        ListModel::removeRows(int row, int count, const QModelIndex &index)
             delete this->items.takeAt(row);
         qDebug() << "REMOVED ROWS";
         endRemoveRows();
+        emit (countChanged(this->rowCount()));
         return true;
     }
     return false;
@@ -89,6 +93,7 @@ void        ListModel::clear()
     qDebug() << "Clearing model";
     this->removeRows(0, this->items.size());
     qDebug() << "ListMode size " << this->items.size();
+    emit (countChanged(this->rowCount()));
 }
 
 QModelIndex ListModel::indexFromItem(ListItem *item) const
@@ -131,4 +136,27 @@ void        ListModel::updateItem()
     QModelIndex index = this->indexFromItem(item);
     if (index.isValid())
         emit dataChanged(index, index);
+}
+
+QVariant    ListModel::get(int index)
+{
+    ListItem * item = this->items.at(index);
+    QMap<QString, QVariant> itemData;
+    QHashIterator<int, QByteArray> hashItr(item->roleNames());
+
+    while(hashItr.hasNext())
+    {
+        hashItr.next();
+        itemData.insert(hashItr.value(),QVariant(item->data(hashItr.key())));
+    }
+    return QVariant(itemData);
+}
+
+int         ListModel::rowIndexFromId(int id)
+{
+    ListItem* item = find(id);
+
+    if (item)
+        return indexFromItem(item).row();
+    return -1;
 }

@@ -6,11 +6,20 @@
 
 var walls = new Array();
 var computedCenters = null;
-var facesNames = ["North", "South", "East", "West", "Up", "Down"];
+var facesNames = ["North", "South", "East", "West", "Down", "Up"];
 var idx = 0;
 var roomCenter = null;
 var roomScale = null;
 var currentWall = 0;
+
+var camera;
+var faceModel;
+
+function initialize(camera_, faceModel_)
+{
+    camera = camera_;
+    faceModel = faceModel_;
+}
 
 function preComputeCenters()
 {
@@ -22,8 +31,8 @@ function preComputeCenters()
         computedCenters[1] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z + (roomScale.z * factor));
         computedCenters[2] = Qt.vector3d(roomCenter.x  + (roomScale.x * factor), roomCenter.y, roomCenter.z);
         computedCenters[3] = Qt.vector3d(roomCenter.x  - (roomScale.x * factor), roomCenter.y, roomCenter.z);
-        computedCenters[4] = Qt.vector3d(roomCenter.x, roomCenter.y  - (roomScale.y * factor), roomCenter.z);
-        computedCenters[5] = Qt.vector3d(roomCenter.x, roomCenter.y  + (roomScale.y * factor), roomCenter.z);
+        computedCenters[4] = Qt.vector3d(roomCenter.x, roomCenter.y  + (roomScale.y * factor), roomCenter.z);
+        computedCenters[5] = Qt.vector3d(roomCenter.x, roomCenter.y  - (roomScale.y * factor), roomCenter.z);
     }
 }
 
@@ -36,15 +45,14 @@ function preComputeWalls()
         walls[1] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z - roomScale.z);
         walls[2] = Qt.vector3d(roomCenter.x - roomScale.x, roomCenter.y, roomCenter.z);
         walls[3] = Qt.vector3d(roomCenter.x + roomScale.x, roomCenter.y, roomCenter.z);
-        walls[4] = Qt.vector3d(roomCenter.x, roomCenter.y + roomScale.y, roomCenter.z);
-        walls[5] = Qt.vector3d(roomCenter.x, roomCenter.y - roomScale.y, roomCenter.z);
+        walls[4] = Qt.vector3d(roomCenter.x, roomCenter.y - roomScale.y, roomCenter.z);
+        walls[5] = Qt.vector3d(roomCenter.x, roomCenter.y + roomScale.y, roomCenter.z);
     }
 }
 
-function moveCameraToWall(camera, wallIdx)
+function moveCameraToWall(wallIdx)
 {
     currentWall = wallIdx;
-    //console.log("eye " + computedCenters[currentWall] + " center " + walls[currentWall])
     var upVec = Qt.vector3d(0, 1, 0);
     if (wallIdx > 3)
         upVec = Qt.vector3d(0, 0, 1);
@@ -54,9 +62,12 @@ function moveCameraToWall(camera, wallIdx)
     camera.setCameraEye(computedCenters[currentWall])
 }
 
-function generateWallFacesModel(listModel)
+function generateWallFacesModel()
 {
-    listModel.clear();
-    for (var i in walls)
-        listModel.append({ "name" : facesNames[i] , "idx" : i});
+    if (faceModel)
+    {
+        faceModel.clear();
+        for (var i in walls)
+            faceModel.append({ "name" : facesNames[i] , "idx" : i});
+    }
 }

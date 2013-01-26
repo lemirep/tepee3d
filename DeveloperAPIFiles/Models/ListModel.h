@@ -11,6 +11,7 @@
 class ListModel : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
 public:
     explicit ListModel(ListItem *prototype, QObject *parent = 0);
     ~ListModel();
@@ -35,12 +36,18 @@ public:
     ListItem*   find(int itemId) const;
     QList<ListItem *>   toList() const;
 
+    Q_INVOKABLE QVariant get(int index);
+    Q_INVOKABLE int      rowIndexFromId(int id);
+
 protected:
     ListItem *prototype;
     QList<ListItem *> items;
 
 private slots :
     void        updateItem();
+
+signals :
+    void        countChanged(int);
 
 };
 
