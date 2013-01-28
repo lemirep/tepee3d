@@ -4,6 +4,8 @@ import QtQuick 2.0
 Item
 {
 
+    property string pluginMenuSource : ""
+
     MouseArea
     {
         property int savedX;
@@ -28,6 +30,9 @@ Item
             else if (savedX >= rightMenu.x && savedX <= (rightMenu.x + rightMenu.width) &&
                      savedY >= rightMenu.y && savedY <= (rightMenu.y + rightMenu.height))
                 obj = rightMenu;
+            else if (savedX >= bottomMenu.x && savedX <= (bottomMenu.x + bottomMenu.width) &&
+                     savedY >= bottomMenu.y && savedY <= (bottomMenu.y + bottomMenu.height))
+                obj = bottomMenu;
             if (obj)
             {
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE
@@ -40,6 +45,7 @@ Item
                 topMenu.isShown = false;
                 rightMenu.isShown = false;
                 leftMenu.isShown = false;
+                bottomMenu.isShown = false;
             }
         }
         onPositionChanged:
@@ -63,6 +69,12 @@ Item
     {
         id : topMenu
         anchors.top: parent.top
+        anchors.horizontalCenter : parent.horizontalCenter
+    }
+
+    MenuBottom // BOTTOM MENU
+    {
+        id : bottomMenu
         anchors.horizontalCenter : parent.horizontalCenter
     }
 

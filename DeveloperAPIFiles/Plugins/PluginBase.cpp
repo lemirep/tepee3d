@@ -66,3 +66,10 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
 {
     return this->focusState;
 }
+
+void    Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
+{
+    // EXPOSE YOUR QML CONTENT HERE
+    // BE CAREFUL IN CASE YOUR PLUGIN IS LOADED SEVERAL TIME TO HAVE
+    // A CONSISTENT BEHAVIOR : EITHER ALL PLUGINS BEHAVE THE SAME OR EACH PLUGIN CAN BE SET DIFFERENTLY
+}

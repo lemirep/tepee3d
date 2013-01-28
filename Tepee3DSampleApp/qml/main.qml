@@ -16,6 +16,7 @@ Viewport
     property color plugin_list_component_color : "#0099dd";
     property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
+    property real  menu_opacity_retracted : 0.3;
     property int   camera_movement_velocity : 250;
     property int   menuMinimumWidth : 40
     property int   currentRoomId : 0;
@@ -46,11 +47,11 @@ Viewport
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
     // FOR 16 / 9
-//    width: 1280
-//    height: 720
+    width: 1280
+    height: 720
     // FOR 4 / 3
-    width : 1024
-    height : 728
+//    width : 1024
+//    height : 728
     focus : true
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
@@ -166,9 +167,9 @@ Viewport
 //        id : notification
 //    }
 
-    FpsCounter
-    {
+//    FpsCounter
+//    {
 
-    }
+//    }
 
 }

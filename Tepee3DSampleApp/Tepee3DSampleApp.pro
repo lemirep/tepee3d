@@ -95,7 +95,8 @@ OTHER_FILES += \
     qml/RoomDelegate.qml \
     qml/js/RoomManagement.js \
     qml/NewPluginDelegate.qml \
-    qml/RoomPluginDelegate.qml
+    qml/RoomPluginDelegate.qml \
+    qml/MenuBottom.qml
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

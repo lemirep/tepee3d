@@ -25,7 +25,7 @@ public:
     PluginBase*             createNewInstance();
 
     QString                 getRoomPluginQmlFile() const;
-    QString                 getFocusedPluginQmlFile() const;
+    QString                 getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface
     void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
     // WebServiceUserInterface

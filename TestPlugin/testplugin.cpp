@@ -41,9 +41,9 @@ QString TestPlugin::getRoomPluginQmlFile() const
     return QString("Widget.qml");
 }
 
-QString TestPlugin::getFocusedPluginQmlFile() const
+QString TestPlugin::getMenuPluginQmlFile() const
 {
-    return QString("WidgetFocused.qml");
+    return QString("Menu.qml");
 }
 
 Plugins::PluginBase* TestPlugin::createNewInstance()

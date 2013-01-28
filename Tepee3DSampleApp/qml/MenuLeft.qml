@@ -96,7 +96,7 @@ Item
                 target: menuLeftRec
                 width : minMenuWidth
                 height : minMenuHeight
-                opacity : 0.5
+                opacity : mainWindow.menu_opacity_retracted
             }
             PropertyChanges {
                 target: add_room_button

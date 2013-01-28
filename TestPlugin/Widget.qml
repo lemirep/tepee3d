@@ -43,7 +43,7 @@ Item3D
 
     function switchToFocusedView()
     {
-//        var eye = camera.eye;
+        //        var eye = camera.eye;
         var eye = plugin_base.getRoomPosition();
         var center = plugin_base.getRoomPosition();
         eye.z += (-10)
@@ -85,12 +85,34 @@ Item3D
     {
         id : cube_plugin
 
-//        scale : 5
+        //        scale : 5
         transform : [Scale3D {scale : Qt.vector3d(5, 10, 5)} ]
         position : Qt.vector3d(0, 0, 0)
         effect: Effect {color :col; useLighting : true}
         //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
         //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
+
+        scale : (pressed) ? 0.9 : 1
+        SequentialAnimation {
+            id : animation
+            running : false
+            loops : Animation.Infinite
+            NumberAnimation{ target: cube_plugin;
+                property: "scale";
+                to: 0.95;
+                duration : 200;
+                easing.type: Easing.InOutElastic
+            }
+            PauseAnimation { duration: 100 }
+            NumberAnimation {
+                target: cube_plugin;
+                property: "scale";
+                to: 1;
+                duration : 200;
+                easing.type: Easing.InOutElastic
+            }
+        }
+
 
         //    Timer
         //    {
@@ -127,7 +149,13 @@ Item3D
         //onHoverEnter :    {col = "orange";console.log("Hover");}
         //onHoverLeave :    {col = "red"}
         onPressed :    {console.log("pressed"); pressedTime = new Date().getTime()}
-        onReleased :   {if (new Date().getTime() - pressedTime > 2000) {col = "blue"; pressedTime = 0;}}
+        onReleased :   {
+//            if (new Date().getTime() - pressedTime > 2000)
+//            {
+//                col = "blue"; pressedTime = 0;
+//                animation.running = true;
+//            }
+        }
         onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);}
     }
 }

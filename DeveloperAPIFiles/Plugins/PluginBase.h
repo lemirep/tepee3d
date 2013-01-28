@@ -8,6 +8,7 @@
 #include "PluginInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
+#include "QmlContentExposerInterface.h"
 
 namespace Plugins
 {
@@ -15,7 +16,8 @@ namespace Plugins
 class PluginBase : public QObject,
 Plugins::PluginInterface,
 public DatabaseServiceUserInterface,
-public WebServiceUserInterface
+public WebServiceUserInterface,
+public QmlContentExposerInterface
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)
@@ -29,7 +31,7 @@ public:
     virtual QString             getPluginName()             = 0;
     virtual QString             getPluginDescription()      = 0;
     virtual QString             getRoomPluginQmlFile()      const = 0;
-    virtual QString             getFocusedPluginQmlFile()   const = 0;
+    virtual QString             getMenuPluginQmlFile()      const = 0;
     virtual PluginBase*         createNewInstance()         = 0;
     PluginBase*                 getPluginBase();
     PluginEnums::PluginState    getFocusState()             const;
@@ -51,6 +53,9 @@ protected:
 
     virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
 
+    // QML CONTENT EXPOSING
+protected:
+    virtual void exposeContentToQml(QQmlContext *context);
 
     // Defines all signals that a plugin can emit or receive
 signals :

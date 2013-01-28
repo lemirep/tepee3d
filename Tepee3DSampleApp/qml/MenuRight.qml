@@ -29,25 +29,18 @@ Item
         var newX = offsetX + xSaved;
         if (newX <= minMenuX && newX >= maxMenuX)
         {
-            menuRightMain.x = newX
-            menuRightMain.width = mainWindow.width - newX;
+//            menuRightMain.x = newX
+//            menuRightMain.width = mainWindow.width - newX;
+            savedWidth = mainWindow.width - newX;
         }
     }
 
     function dragEnd()
     {
-        if ((menuRightMain.width - minMenuWidth) / maxMenuWidth > 0.4)
-        {
-            if (menuRightMain.isShown)
-                menuRightMain.isShown = false;
+        if ((savedWidth - minMenuWidth) / maxMenuWidth > 0.4)
             menuRightMain.isShown = true;
-        }
         else
-        {
-            if (!menuRightMain.isShown)
-                menuRightMain.isShown = true;
             menuRightMain.isShown = false;
-        }
     }
 
     states :     [
@@ -89,7 +82,7 @@ Item
             PropertyChanges
             {
                 target: menuRightRec
-                opacity : 0.3
+                opacity : mainWindow.menu_opacity_retracted
             }
             PropertyChanges
             {
@@ -112,8 +105,8 @@ Item
             NumberAnimation
             {
                 target : menuRightRec
-                properties : "width, opacity"
-                duration : 200
+                properties : "x, width, opacity"
+                duration : 400
             }
             NumberAnimation
             {
@@ -129,7 +122,7 @@ Item
             NumberAnimation
             {
                 target : menuRightRec
-                properties : "width, opacity"
+                properties : "x, width, opacity"
                 duration : 200
             }
             NumberAnimation
@@ -233,7 +226,7 @@ Item
             id : available_plugins_rect
             width : parent.width
             height : parent.height
-
+            enabled : menuRightRec.add_plugins
             color : "transparent"
 
             anchors

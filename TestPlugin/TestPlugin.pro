@@ -37,8 +37,8 @@ include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 OTHER_FILES += \
     qmldir \
     qmltestplugin.qmlproject \
-    WidgetFocused.qml \
-    Widget.qml
+    Widget.qml \
+    Menu.qml
 
 
 # Copies the given files to the destination directory

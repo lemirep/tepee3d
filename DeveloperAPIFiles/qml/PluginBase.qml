@@ -10,7 +10,7 @@ Item3D
     property int pluginId : -1
     property int pluginRoomId :-1
     property string roomQmlFile : ""
-    property string focusedQmlFile : ""
+    property string menuQmlFile : ""
     property string pluginName : ""
 
     // TO ASK FOR A GIVEN FOCUS STATE CALL
@@ -60,10 +60,7 @@ Item3D
                 break;
             case 2 : //PluginEnums.pluginFocusedState :
                 if (plugin_loader.item)
-                {
-                    console.log("Item exists ---------------")
                     plugin_loader.item.focusStateChanged(newFocusStateValue);
-                }
                 break;
             default:
                 break;

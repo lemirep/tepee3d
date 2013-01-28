@@ -39,17 +39,9 @@ Item
     function  dragEnd()
     {
         if ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
-        {
-            if (menuTopMain.isShown)
-                menuTopMain.isShown = false;
             menuTopMain.isShown = true;
-        }
         else
-        {
-            if (!menuTopMain.isShown)
-                menuTopMain.isShown = true;
             menuTopMain.isShown = false;
-        }
     }
 
     function setListIndex(wallId)
@@ -92,7 +84,7 @@ Item
             PropertyChanges
             {
                 target: menuTopRec
-                opacity : 0.3
+                opacity : mainWindow.menu_opacity_retracted
             }
             PropertyChanges
             {
@@ -101,6 +93,45 @@ Item
             }
             when: !menuTopMain.isShown
         }]
+
+    transitions :    [
+        Transition
+        {
+            from: "menuHidden"
+            to: "menuShown"
+            NumberAnimation
+            {
+                target : menuTopRec
+                properties : "height, opacity"
+                duration : 200
+            }
+            NumberAnimation
+            {
+                target : room_faces_listview
+                properties : "opacity"
+                duration : 250
+            }
+
+        },
+        Transition
+        {
+            from: "menuShown"
+            to: "menuHidden"
+            NumberAnimation
+            {
+                target : menuTopRec
+                properties : "height, opacity"
+                duration : 200
+            }
+            NumberAnimation
+            {
+                target : room_faces_listview
+                properties: "opacity"
+                duration : 150
+            }
+        }
+    ]
+
 
     BorderImage
     {

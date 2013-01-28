@@ -45,6 +45,7 @@ Item3D
             {
                 scale : 0.5
                 position : Qt.vector3d(0, -faceIndicatorDistance, 0)
+                inheritEvents : true
                 effect : Effect {
                     color : "yellow"
                     blending : true
@@ -69,6 +70,7 @@ Item3D
             {
                 scale : 0.5
                 position : Qt.vector3d(0, faceIndicatorDistance, 0)
+                inheritEvents : true
                 effect : Effect {
                     color : "blue"
                     blending : true
@@ -93,6 +95,7 @@ Item3D
             {
                 scale : 0.5
                 position : Qt.vector3d(0, faceIndicatorDistance, 0)
+                inheritEvents : true
                 effect : Effect {
                     color : "red"
                     blending : true
@@ -117,6 +120,7 @@ Item3D
             {
                 scale : 0.5
                 position : Qt.vector3d(0, -faceIndicatorDistance, 0)
+                inheritEvents : true
                 effect : Effect {
                     color : "orange"
                     blending : true
@@ -139,13 +143,14 @@ Item3D
             {
                 scale : 0.5
                 position : Qt.vector3d(0, -faceIndicatorDistance, 0)
+                inheritEvents : true
                 effect : Effect {
                     color : "green"
                     blending : true
 
                 }
             }
-            onHoverEnter : {console.log("Up")}
+            onHoverEnter : {console.log("Down")}
             onClicked :{mainWindow.currentRoomFaceId = 4}
         }
 
@@ -161,13 +166,14 @@ Item3D
             {
                 scale : 0.5
                 position : Qt.vector3d(0, faceIndicatorDistance, 0)
+                inheritEvents : true
                 effect : Effect {
                     color : "cyan"
                     blending : true
                 }
             }
 
-            onHoverEnter : {console.log("Down")}
+            onHoverEnter : {console.log("Up")}
             onClicked :{mainWindow.currentRoomFaceId = 5}
         }
     }
@@ -199,7 +205,7 @@ Item3D
              pluginId : model.pluginId
              pluginName : model.pluginName
              roomQmlFile : model.pluginRoomQmlFile
-             focusedQmlFile : model.pluginFocusedQmlFile
+             menuQmlFile : model.pluginMenuQmlFile
         }
 
     }

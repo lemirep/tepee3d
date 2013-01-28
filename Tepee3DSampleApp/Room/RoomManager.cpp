@@ -95,6 +95,9 @@ void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
 //    foreach (Room::RoomBase* roomSaved, rooms)
 //    {
 //        if (room->collides(roomSaved))
+//        {
+
+//        }
 //    }
     qDebug() << "Placing room in space";
 }
@@ -255,8 +258,8 @@ bool        Room::RoomManager::addRoomToModel()
     Room::RoomBase *room1 = this->roomPrototype->createNewInstance();
     room1->setRoomName(QString("RoomTest1"));
     room1->setParent(NULL);
-    room1->setPosition(QVector3D(0, 15, 150));
-    room1->setScale(QVector3D(50, 20, 30));
+    room1->setPosition(QVector3D(0, 0, 150));
+    room1->setScale(QVector3D(30, 20, 30));
 
     Room::RoomBase *room2 = this->roomPrototype->createNewInstance();
     room2->setRoomName("RoomTest2");
