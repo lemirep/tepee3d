@@ -60,7 +60,11 @@ Item3D
                 break;
             case 2 : //PluginEnums.pluginFocusedState :
                 if (plugin_loader.item)
+                {
                     plugin_loader.item.focusStateChanged(newFocusStateValue);
+                    console.log("MENU IS >>>> " + menuQmlFile)
+                    mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
+                }
                 break;
             default:
                 break;

@@ -16,6 +16,7 @@ Item
     property int  maxMenuY : mainWindow.height - maxMenuHeight
     property int  ySaved;
     property int  savedHeight;
+    property alias pluginMenuSource : plugin_menu_loader.source
 
     function startDrag(xPos, yPos)
     {
@@ -90,11 +91,23 @@ Item
         }
     ]
 
-    BorderImage {
+    BorderImage
+    {
         id: menuBottomRec
         source: "Resources/Pictures/panel_bg2.png"
         width: parent.width; height: parent.height;
         border.left: 2; border.bottom: 1
+
+        Loader
+        {
+            id : plugin_menu_loader
+            anchors.fill: parent
+            onLoaded:
+            {
+                "Menu Loaded"
+            }
+        }
+
     }
 
 }

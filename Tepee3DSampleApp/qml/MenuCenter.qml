@@ -3,8 +3,7 @@ import QtQuick 2.0
 
 Item
 {
-
-    property string pluginMenuSource : ""
+    property alias pluginMenuSource : bottomMenu.pluginMenuSource
 
     MouseArea
     {

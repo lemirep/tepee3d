@@ -22,6 +22,8 @@ Viewport
     property int   currentRoomId : 0;
     property int   currentRoomFaceId : 0;
 
+    property alias pluginMenuSource : menu_center.pluginMenuSource
+
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 

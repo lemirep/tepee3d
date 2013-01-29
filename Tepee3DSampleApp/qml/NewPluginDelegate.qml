@@ -16,6 +16,7 @@ Item
         {
             room_plugins_list_view.currentIndex = index;
             roomManager.addNewPluginToCurrentRoom(model.pluginId)
+            menuRightRec.add_plugins = !menuRightRec.add_plugins
         }
     }
 
