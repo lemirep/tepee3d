@@ -13,10 +13,7 @@ class TestPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN D
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.testplugin")
-
-signals :
-    void toto(QString);
-
+\
 public:
     TestPlugin();
     int                     getPluginId();
@@ -34,9 +31,9 @@ public:
     void                    receiveResultFromHttpRequest(QNetworkReply * reply);
 
 signals :
-    void qmlSignal();
+    void selectColorSignal(QString color);
 public slots:
-    void cppSlot();
+    void SaveColorDB(QString color);
 
 };
 

@@ -5,6 +5,7 @@
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
+    this->initPlugin();
 }
 
 int TestPlugin::getPluginId()
@@ -20,22 +21,24 @@ void TestPlugin::initPlugin()
 
     //Connect qml to c++ first method
     QQmlEngine engine;
-    QQmlComponent component(&engine, "../plugins_qml/qmltestplugin/WidgetRoom.qml");
+    QQmlComponent component(&engine, "../plugins_qml/qmltestplugin/Widget.qml");
     QObject *Instance = component.create();
-    QObject::connect(Instance, SIGNAL(qmlSignal()),this, SLOT(cppSlot()));
+    if (QObject::connect(Instance, SIGNAL(selectColorSignal(QString color)),this, SLOT(SaveColorDB(QString color))))
+         std::cout << "connect signal to slot 1 method  OK " << std::endl;
+     else
+         std::cout << "connectconnect signal to slot 1 method  not OK " << std::endl;
 
     //Connect qml to c++ second method
-   QQuickView view(QUrl::fromLocalFile("../plugins_qml/qmltestplugin/WidgetRoom.qml"));
+   QQuickView view(QUrl::fromLocalFile("../plugins_qml/qmltestplugin/Widget.qml"));
    QObject *item = view.rootObject();
-   if (QObject::connect(item, SIGNAL(qmlSignal()),this, SLOT(cppSlot())))
-        std::cout << "connect OK " << std::endl;
+   if (QObject::connect(item, SIGNAL(selectColorSignal(QString color)),this, SLOT(SaveColorDB(QString color))))
+        std::cout << "connect signal to slot 2 method OK " << std::endl;
     else
-        std::cout << "connect not OK " << std::endl;
+        std::cout << "connect signal to slot 2 method  not OK " << std::endl;
 }
 
 QString TestPlugin::getPluginName()
 {
-    emit toto(QString("YOUHOU"));
     return QString("qmltestplugin");
 }
 
@@ -76,9 +79,9 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
     qDebug() << reply->readAll();
 }
 
-void TestPlugin::cppSlot()
+void TestPlugin::SaveColorDB(QString color)
 {
-   std::cout<< "Called the C++ slot" <<std::endl;
+   std::cout<< "Called the C++ slot " << color.toStdString() << std::endl;
 }
 
 //void        TestPlugin::resultFromSQL()

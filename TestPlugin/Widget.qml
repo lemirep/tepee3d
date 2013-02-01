@@ -11,7 +11,7 @@ Item3D
     property real yRot : 0;
     property color col : "red"
     position : Qt.vector3d(-10, 0, 0)
-
+    signal selectColorSignal(string msg);
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
     function focusStateChanged(focusStateValue)
@@ -80,16 +80,13 @@ Item3D
             when : plugin_base.getFocusState() == 2
         }
     ]
-
-
-    signal qmlSignal()
    Cube
    {
        id : cube_orange
        effect: Effect {color: "orange"}
        scale : 2
        position : Qt.vector3d(0, 0, -3)
-       onClicked:{testplugin_container.qmlSignal(); console.log("send signal from qml")}
+       onClicked:{cube_plugin.effect.color = "orange";testplugin_container.selectColorSignal("orange"); console.log("send signal from qml")}
    }
 
 
@@ -99,7 +96,7 @@ Item3D
        effect: Effect {color: "blue"}
        scale : 2
        position : Qt.vector3d(-3, 0, 0)
-       onClicked:{testplugin_container.qmlSignal(); console.log("send signal from qml")}
+       onClicked:{cube_plugin.effect.color = "blue";testplugin_container.selectColorSignal("blue"); console.log("send signal from qml")}
 
    }
    Cube
@@ -110,7 +107,7 @@ Item3D
        effect: Effect {color: "red"}
        scale : 2
        position : Qt.vector3d(3, 0, 0)
-       onClicked:{testplugin_container.qmlSignal(); console.log("send signal from qml")}
+       onClicked:{cube_plugin.effect.color = "red";testplugin_container.selectColorSignal("red"); console.log("send signal from qml")}
 
    }
 
