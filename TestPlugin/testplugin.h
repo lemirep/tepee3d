@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QtPlugin>
+#include <QQuickView>
+#include <QQuickItem>
 #include "PluginBase.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
@@ -30,7 +32,11 @@ public:
     void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply);
+
+signals :
+    void qmlSignal();
 public slots:
+    void cppSlot();
 
 };
 

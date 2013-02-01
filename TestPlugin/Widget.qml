@@ -81,6 +81,39 @@ Item3D
         }
     ]
 
+
+    signal qmlSignal()
+   Cube
+   {
+       id : cube_orange
+       effect: Effect {color: "orange"}
+       scale : 2
+       position : Qt.vector3d(0, 0, -3)
+       onClicked:{testplugin_container.qmlSignal(); console.log("send signal from qml")}
+   }
+
+
+   Cube
+   {
+       id : cube_blue
+       effect: Effect {color: "blue"}
+       scale : 2
+       position : Qt.vector3d(-3, 0, 0)
+       onClicked:{testplugin_container.qmlSignal(); console.log("send signal from qml")}
+
+   }
+   Cube
+   {
+
+
+       id : cube_red
+       effect: Effect {color: "red"}
+       scale : 2
+       position : Qt.vector3d(3, 0, 0)
+       onClicked:{testplugin_container.qmlSignal(); console.log("send signal from qml")}
+
+   }
+
     Cube
     {
         id : cube_plugin
