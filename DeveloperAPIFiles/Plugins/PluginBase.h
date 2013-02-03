@@ -43,7 +43,7 @@ protected:
 
     // SQL
 protected:
-    virtual void receiveResultFromSQLQuery(const QList<QSqlRecord> &result) = 0;
+    virtual void receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int id) = 0;
 
     // WEB SERVICES
 protected:
@@ -56,7 +56,7 @@ protected:
 
     // Defines all signals that a plugin can emit or receive
 signals :
-    void    executeSQLQuery(const QString& query, QObject *sender);
+    void    executeSQLQuery(const QString& query, QObject *sender, int id);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState);

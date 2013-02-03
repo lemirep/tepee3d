@@ -45,7 +45,7 @@ bool ManageBDD::openDatabase(QString dbname)
 }
 
 //execute a query in database and send the result by a signal
-void ManageBDD::executeSQLQuery(const QString& query, QObject *sender)
+void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
 {
     if (this->dataBase.open())
     {
@@ -55,7 +55,7 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender)
         results.push_back(q.record());
         while (q.next())
             results.push_back(q.record());
-        emit resultFromSQLQuery(results, sender);
+        emit resultFromSQLQuery(results, sender,id);
     }
 }
 

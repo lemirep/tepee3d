@@ -9,6 +9,8 @@
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
 
+#define  ASSIGNCOLOR 2
+
 class TestPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
@@ -26,7 +28,7 @@ public:
     QString                 getRoomPluginQmlFile() const;
     QString                 getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface
-    void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
+    void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int id);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply);
     void                    exposeContentToQml(QQmlContext *context);

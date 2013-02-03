@@ -25,9 +25,9 @@ public:
     QObject*    getLibraryQObject();
 
 private slots:
-    void        transmitSQLResult(const QList<QSqlRecord>& result, QObject *receiver);
+    void        transmitSQLResult(const QList<QSqlRecord>& result, QObject *receiver, int);
 signals:
-    void        executeSQLQuery(const QString& query, QObject *sender);
+    void        executeSQLQuery(const QString& query, QObject *sender, int);
 };
 
 #endif // DATABASETHREAD_H

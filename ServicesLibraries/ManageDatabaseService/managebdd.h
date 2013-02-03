@@ -23,9 +23,9 @@ public:
     bool    checkExistLocalDatabase();
     void    createLocalDatabase();
 signals:
-    void    resultFromSQLQuery(const QList<QSqlRecord>&, QObject *receiver);
+    void    resultFromSQLQuery(const QList<QSqlRecord>&, QObject *receiver, int id);
 public slots:
-    void    executeSQLQuery(const QString& Query, QObject *sender);
+    void    executeSQLQuery(const QString& Query, QObject *sender, int id);
 private :
     QString         localDBName;
     QString         field;

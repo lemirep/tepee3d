@@ -42,7 +42,7 @@ public:
     // QmlContentExposer
     void                    exposeContentToQml(QQmlContext *context);
     // DatabaseUser
-    void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
+    void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int id);
 
     // METHODS THAT CAN BE CALLED FROM QML
     Q_INVOKABLE    void     setCurrentRoom(int roomModelId);
@@ -78,7 +78,7 @@ private:
     void                    deleteRoomFromDatabase(RoomBase *room);
 
 signals:
-    void                    executeSQLQuery(const QString &query, QObject *sender);
+    void                    executeSQLQuery(const QString &query, QObject *sender, int id);
 };
 
 }

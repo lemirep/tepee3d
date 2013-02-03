@@ -28,8 +28,8 @@ bool            DatabaseThread::connectServiceToUser(QObject *user)
     qDebug() << "Connecting user to DatabaseServices";
     // SQL
     if (dynamic_cast<DatabaseServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeSQLQuery(const QString &, QObject *)),
-                         this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
+        return QObject::connect(user, SIGNAL(executeSQLQuery(const QString &, QObject *, int)),
+                         this, SIGNAL(executeSQLQuery(const QString&,QObject*,int)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
     return false;
 }
@@ -38,8 +38,8 @@ bool            DatabaseThread::disconnectServiceFromUser(QObject *user)
 {
     // SQL
     if (dynamic_cast<DatabaseServiceUserInterface*>(user) != NULL)
-       return QObject::disconnect(user, SIGNAL(executeSQLQuery(const QString &, QObject *)),
-                            this, SIGNAL(executeSQLQuery(const QString&,QObject*)));
+       return QObject::disconnect(user, SIGNAL(executeSQLQuery(const QString &, QObject *,int)),
+                            this, SIGNAL(executeSQLQuery(const QString&,QObject*,int)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
     return false;
 }
@@ -51,17 +51,17 @@ void DatabaseThread::run()
     ManageBDD MB;
 
     qRegisterMetaType< QList<QSqlRecord> >("QList<QSqlRecord>");
-    QObject::connect(this, SIGNAL(executeSQLQuery(const QString &, QObject *)),
-                     &MB, SLOT(executeSQLQuery(const QString&, QObject*)), Qt::QueuedConnection);
-    QObject::connect(&MB, SIGNAL(resultFromSQLQuery(const QList<QSqlRecord>&, QObject *)),
-                     this, SLOT(transmitSQLResult(const QList<QSqlRecord>&, QObject*)), Qt::QueuedConnection);
+    QObject::connect(this, SIGNAL(executeSQLQuery(const QString &, QObject *, int)),
+                     &MB, SLOT(executeSQLQuery(const QString&, QObject*, int)), Qt::QueuedConnection);
+    QObject::connect(&MB, SIGNAL(resultFromSQLQuery(const QList<QSqlRecord>&, QObject *, int)),
+                     this, SLOT(transmitSQLResult(const QList<QSqlRecord>&, QObject*, int)), Qt::QueuedConnection);
     qDebug() << "Manager BDD Initialized";
     this->exec();
     qDebug() << "Thread event loop launched";
 }
 
 
-void    DatabaseThread::transmitSQLResult(const QList<QSqlRecord> &result, QObject *receiver)
+void    DatabaseThread::transmitSQLResult(const QList<QSqlRecord> &result, QObject *receiver, int id)
 {
     qDebug() << "SQL Query Result Received";
     // TO RECEIVE RESULT OBJECT MUST IMPLEMENT
@@ -69,7 +69,7 @@ void    DatabaseThread::transmitSQLResult(const QList<QSqlRecord> &result, QObje
     if (receiver != NULL && (user = dynamic_cast<DatabaseServiceUserInterface *>(receiver)) != NULL)
     {
         qDebug() << "Transmitting results";
-        user->receiveResultFromSQLQuery(result);
+        user->receiveResultFromSQLQuery(result, id);
         qDebug() << "Results transmitted";
     }
     else

@@ -16,8 +16,6 @@ TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
     this->initPlugin();
-    emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `testplugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this));
-    emit (PluginBase::executeSQLQuery("INSERT OR REPLACE INTO data VALUES (1,'grey')",this));
 }
 
 int TestPlugin::getPluginId()
@@ -29,7 +27,6 @@ void TestPlugin::initPlugin()
 {
     std::cout << " INITIALIZING PLUGINS " << std::endl;
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
-
 }
 
 QString TestPlugin::getPluginName()
@@ -63,10 +60,11 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &q)
+void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &q, int id)
 {
-    qDebug() <<  "----------------------- " + q.first().value("id").toString();
-/*    QList<QSqlRecord>::iterator it = q.begin();
+    if (id == ASSIGNCOLOR)
+        qDebug() <<  "----------------------- " + q.first().value("color").toString();
+    /*    QList<QSqlRecord>::iterator it = q.begin();
            while (it != q.end())
            {
 
@@ -86,16 +84,15 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
 
 void   TestPlugin::exposeContentToQml(QQmlContext *context)
 {
-    //    QmlFunction *q = new QmlFunction();
     context->setContextProperty("apc",this);
+    emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `testplugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this,1));
+    emit (PluginBase::executeSQLQuery("INSERT INTO testplugincolor(id, color) VALUES (1, 'grey')",this,1));
+    emit (PluginBase::executeSQLQuery("SELECT color from testplugincolor",this,ASSIGNCOLOR));
+
 }
 
 void TestPlugin::selectColor(QString color)
 {
-    emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `testplugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this));
-    emit (PluginBase::executeSQLQuery("INSERT OR REPLACE INTO data VALUES (1,'grey')",this));
-
-    emit (PluginBase::executeSQLQuery("SELECT *", this));
-    std::cout<< "Called the C++ slot " << color.toStdString() << std::endl;
-
+    QString query = "INSERT OR REPLACE INTO testplugincolor VALUES (1,'"+ color +"')";
+    emit (PluginBase::executeSQLQuery(query,this,1));
 }
