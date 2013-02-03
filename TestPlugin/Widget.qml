@@ -80,36 +80,32 @@ Item3D
             when : plugin_base.getFocusState() == 2
         }
     ]
-   Cube
-   {
-       id : cube_orange
-       effect: Effect {color: "orange"}
-       scale : 2
-       position : Qt.vector3d(0, 0, -3)
-       onClicked:{cube_plugin.effect.color = "orange";testplugin_container.selectColorSignal("orange"); console.log("send signal from qml")}
-   }
+    Cube
+    {
+        id : cube_orange
+        effect: Effect {color: "orange"}
+        scale : 2
+        position : Qt.vector3d(0, 0, -3)
+        onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
+    }
 
+    Cube
+    {
+        id : cube_blue
+        effect: Effect {color: "blue"}
+        scale : 2
+        position : Qt.vector3d(-3, 0, 0)
+        onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
+    }
 
-   Cube
-   {
-       id : cube_blue
-       effect: Effect {color: "blue"}
-       scale : 2
-       position : Qt.vector3d(-3, 0, 0)
-       onClicked:{cube_plugin.effect.color = "blue";testplugin_container.selectColorSignal("blue"); console.log("send signal from qml")}
-
-   }
-   Cube
-   {
-
-
-       id : cube_red
-       effect: Effect {color: "red"}
-       scale : 2
-       position : Qt.vector3d(3, 0, 0)
-       onClicked:{cube_plugin.effect.color = "red";testplugin_container.selectColorSignal("red"); console.log("send signal from qml")}
-
-   }
+    Cube
+    {
+        id : cube_red
+        effect: Effect {color: "red"}
+        scale : 2
+        position : Qt.vector3d(3, 0, 0)
+        onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
+    }
 
     Cube
     {
@@ -180,11 +176,11 @@ Item3D
         //onHoverLeave :    {col = "red"}
         onPressed :    {console.log("pressed"); pressedTime = new Date().getTime()}
         onReleased :   {
-//            if (new Date().getTime() - pressedTime > 2000)
-//            {
-//                col = "blue"; pressedTime = 0;
-//                animation.running = true;
-//            }
+            //            if (new Date().getTime() - pressedTime > 2000)
+            //            {
+            //                col = "blue"; pressedTime = 0;
+            //                animation.running = true;
+            //            }
         }
         onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);}
     }

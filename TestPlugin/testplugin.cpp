@@ -1,11 +1,23 @@
 #include "testplugin.h"
 #include "widgetmodel.h"
 #include <iostream>
+#include "qmlfunction.h"
 #include <QDebug>
+#include <QtQml>
+#include <QtCore/QDir>
+#include <QtCore/QFileInfo>
+#include <QtQml/QQmlComponent>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlContext>
+#include <QtGui/QGuiApplication>
+
+
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
     this->initPlugin();
+    emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `testplugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this));
+    emit (PluginBase::executeSQLQuery("INSERT OR REPLACE INTO data VALUES (1,'grey')",this));
 }
 
 int TestPlugin::getPluginId()
@@ -16,25 +28,8 @@ int TestPlugin::getPluginId()
 void TestPlugin::initPlugin()
 {
     std::cout << " INITIALIZING PLUGINS " << std::endl;
-    emit (PluginBase::executeSQLQuery("SELECT *", this));
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
 
-    //Connect qml to c++ first method
-    QQmlEngine engine;
-    QQmlComponent component(&engine, "../plugins_qml/qmltestplugin/Widget.qml");
-    QObject *Instance = component.create();
-    if (QObject::connect(Instance, SIGNAL(selectColorSignal(QString color)),this, SLOT(SaveColorDB(QString color))))
-         std::cout << "connect signal to slot 1 method  OK " << std::endl;
-     else
-         std::cout << "connectconnect signal to slot 1 method  not OK " << std::endl;
-
-    //Connect qml to c++ second method
-   QQuickView view(QUrl::fromLocalFile("../plugins_qml/qmltestplugin/Widget.qml"));
-   QObject *item = view.rootObject();
-   if (QObject::connect(item, SIGNAL(selectColorSignal(QString color)),this, SLOT(SaveColorDB(QString color))))
-        std::cout << "connect signal to slot 2 method OK " << std::endl;
-    else
-        std::cout << "connect signal to slot 2 method  not OK " << std::endl;
 }
 
 QString TestPlugin::getPluginName()
@@ -68,9 +63,19 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &)
+void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &q)
 {
+    qDebug() <<  "----------------------- " + q.first().value("id").toString();
+/*    QList<QSqlRecord>::iterator it = q.begin();
+           while (it != q.end())
+           {
+
+               qDebug() << (*it).value("id").toInt();
+
+               ++it;
+           }
     qDebug() << "TestPlugin::Received Result From SQL Query Plugin";
+*/
 }
 
 void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
@@ -79,12 +84,18 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
     qDebug() << reply->readAll();
 }
 
-void TestPlugin::SaveColorDB(QString color)
+void   TestPlugin::exposeContentToQml(QQmlContext *context)
 {
-   std::cout<< "Called the C++ slot " << color.toStdString() << std::endl;
+    //    QmlFunction *q = new QmlFunction();
+    context->setContextProperty("apc",this);
 }
 
-//void        TestPlugin::resultFromSQL()
-//{
-//    std::cout << "TEST PLUGIN RESULT FROM SQL" << std::endl;
-//}
+void TestPlugin::selectColor(QString color)
+{
+    emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `testplugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this));
+    emit (PluginBase::executeSQLQuery("INSERT OR REPLACE INTO data VALUES (1,'grey')",this));
+
+    emit (PluginBase::executeSQLQuery("SELECT *", this));
+    std::cout<< "Called the C++ slot " << color.toStdString() << std::endl;
+
+}

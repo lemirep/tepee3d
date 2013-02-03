@@ -29,12 +29,9 @@ public:
     void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply);
+    void                    exposeContentToQml(QQmlContext *context);
 
-signals :
-    void selectColorSignal(QString color);
-public slots:
-    void SaveColorDB(QString color);
-
+     Q_INVOKABLE void selectColor(QString color);
 };
 
 #endif // PLUGIN_H

@@ -14,10 +14,10 @@ namespace Plugins
 {
 
 class PluginBase : public QObject,
-Plugins::PluginInterface,
-public DatabaseServiceUserInterface,
-public WebServiceUserInterface,
-public QmlContentExposerInterface
+        Plugins::PluginInterface,
+        public DatabaseServiceUserInterface,
+        public WebServiceUserInterface,
+        public QmlContentExposerInterface
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)
@@ -33,6 +33,7 @@ public:
     virtual QString             getRoomPluginQmlFile()      const = 0;
     virtual QString             getMenuPluginQmlFile()      const = 0;
     virtual PluginBase*         createNewInstance()         = 0;
+    virtual void                exposeContentToQml(QQmlContext *context) = 0;
     PluginBase*                 getPluginBase();
     PluginEnums::PluginState    getFocusState()             const;
     void                        askForFocusState(PluginEnums::PluginState requestedState);
@@ -52,10 +53,6 @@ protected:
     void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart);
 
     virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
-
-    // QML CONTENT EXPOSING
-protected:
-    virtual void exposeContentToQml(QQmlContext *context);
 
     // Defines all signals that a plugin can emit or receive
 signals :
