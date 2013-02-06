@@ -2,6 +2,16 @@
 // DEBUG
 #include <QDebug>
 
+/*!
+ * \class ListModel
+ * \brief The ListModel class is a utility model class
+ *
+ * The ListModel class provides an easy way to create a C++ model
+ * and later expose it to the Qml View.
+ *
+ * \sa SubListedListModel
+ */
+
 ListModel::ListModel(ListItem *prototype, QObject *parent) : QAbstractListModel(parent)
 {
     this->prototype = prototype;

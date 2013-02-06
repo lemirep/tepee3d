@@ -174,4 +174,11 @@ Viewport
 
 //    }
 
+
+    ///// HAVE A LOADER COMPONENT HERE
+    ///// WHEN A PLUGIN IS SELECTED IN SELECTED MODE
+    ///// ITS MAIN INTERFACE IS LOADER HERE IN QML 2D
+    /////
+
+
 }

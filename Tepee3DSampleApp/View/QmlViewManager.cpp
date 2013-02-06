@@ -2,6 +2,29 @@
 // DEBUG
 #include <QDebug>
 
+
+/*!
+ * \namespace View
+ *
+ * \brief The View namespace contains all the classes responsible
+ * for the Qml view management or that interact between the view and
+ * other modules such as Services or Plugins.
+ */
+
+/*!
+ * \class View::QmlViewManager
+ *
+ * \brief The View::QmlViewManager class manages the QML view.
+ * It links services, widgets and models to the view
+ *
+ * It is a singleton class that hold the various singleton managers
+ * needed by the modules of the Tepee3D application as well as the view
+ * properties. Also, this is where qml models and utility classes are
+ * exposed to the Qml Engine.
+ *
+ * \sa View::QmlViewProperties
+ */
+
 View::QmlViewManager* View::QmlViewManager::instance = NULL;
 
 View::QmlViewManager::QmlViewManager() : QObject()
@@ -38,6 +61,8 @@ bool    View::QmlViewManager::initView()
     View::QmlViewProperties::exposeContentToQml(this->roomManager);
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginsManager);
+
+    qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM

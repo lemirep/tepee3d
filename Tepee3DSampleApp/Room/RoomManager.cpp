@@ -2,6 +2,23 @@
 // DEBUG
 #include <QDebug>
 
+/*!
+ * \namespace Room
+ *
+ * \brief The Room namespace holds all the classes that deal with
+ * Rooms and their management.
+ */
+
+/*!
+ * \class Room::RoomManager
+ * \brief The Room::RoomManager class is responsible for managing all the
+ * rooms ofthe Tepee3D application. It restores the rooms and their plugins
+ * on startup, creates the model for the room selector menu, places rooms in
+ * space. In addition, this where new plugins are added to a room.
+ *
+ * \sa Room::RoomBase
+ */
+
 Room::RoomManager* Room::RoomManager::instance = NULL;
 int                Room::RoomManager::roomInstances = 0;
 

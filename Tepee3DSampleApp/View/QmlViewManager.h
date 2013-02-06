@@ -11,6 +11,7 @@
 #include "PluginManager.h"
 #include "RoomManager.h"
 #include "ServicesManager.h"
+#include "QmlAsTexture.h"
 
 
 // DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION

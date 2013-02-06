@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
+import View 1.0
 import "js/Walls.js" as Walls;
 
 // IN THE LONG TERM THE CUBE WILL BE REPLACED BY A HOME MADE MODEL
@@ -13,6 +14,7 @@ Item3D
     id : room_item
 
     position : room_loader.getPosition()
+    property bool isCurrentRoom : false
     property int currentFaceId : Walls.idx
     property int pluginRoomID   : room_loader.getRoomId();
     property real faceIndicatorDistance : 0.01
@@ -30,6 +32,38 @@ Item3D
     Item3D
     {
         transform : [Scale3D {scale : roomScale}]
+
+
+//        QmlAsTexture
+//        {
+//            sourceItem: qml_texture
+//            effectItem: face_effect
+//        }
+
+//        ShaderEffectSource
+//        {
+//            id : qml_texture
+//            width : 128
+//            height : 128
+//            recursive : false
+//            mipmap : false
+//            hideSource: true
+//            sourceItem: Rectangle {
+//                width : 512
+//                height : 512
+//                color : "orange"
+//            }
+////            live : true
+//        }
+
+//        Rectangle
+//        {
+//            color : "orange"
+//            x : mainWindow.width / 2
+//            y : mainWindow.height / 3
+//            width : 50
+//            height : 50
+//        }
 
         Quad
         {
@@ -181,9 +215,15 @@ Item3D
     Effect
     {
         id : face_effect
-        texture : "Resources/Textures/blue_wall.jpg"
-//        texture : "Resources/Pictures/panel_bg2.png"
+                texture : "Resources/Textures/blue_wall.jpg"
+        //        dynamicTexture : qml_texture
+        //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true
+
+        onEffectChanged :
+        {
+            console.log("Effect Changed");
+        }
     }
 
 
@@ -201,11 +241,11 @@ Item3D
 
         PluginBase
         {
-             pluginRoomId: pluginRoomID
-             pluginId : model.pluginId
-             pluginName : model.pluginName
-             roomQmlFile : model.pluginRoomQmlFile
-             menuQmlFile : model.pluginMenuQmlFile
+            pluginRoomId: pluginRoomID
+            pluginId : model.pluginId
+            pluginName : model.pluginName
+            roomQmlFile : model.pluginRoomQmlFile
+            menuQmlFile : model.pluginMenuQmlFile
         }
 
     }

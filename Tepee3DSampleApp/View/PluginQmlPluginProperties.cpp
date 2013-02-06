@@ -1,5 +1,13 @@
 #include "PluginQmlPluginProperties.h"
 
+/*!
+ * \class Plugins::PluginQmlPluginProperties
+ *
+ * \brief The Plugins::PluginQmlPluginProperties class is a custom
+ * QQuickItem class that allows to access a plugin's logical properties
+ * from the Qml View.
+ */
+
 Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
 {
     qDebug() << "PluginQmlProperties Created";

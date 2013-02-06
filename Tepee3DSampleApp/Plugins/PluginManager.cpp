@@ -3,6 +3,30 @@
 #include <QDebug>
 
 
+/*!
+ * \namespace Plugins
+ * \brief The Plugins namespace contains classes responsible for plugin
+ * management, plugin declaration and plugin model represantation.
+ */
+
+/*!
+ * \class Plugins::PluginManager
+ * \brief The Plugins::PluginManager class manages plugins. It loads locally
+ * available plugins, allow the creation of a new plugin instance and initializes
+ * it for it to work within the Tepee3D application.
+ *
+ * The Plugins::PluginsManager class is a singleton class. When initialized, it asks
+ * for the locally available plugins and creates a model containing them. This model
+ * hold the plugin representations available in the add new plugin menu of the
+ * application. It also offers a way to create a new instance of a given plugin. The
+ * locally available plugins only serve as a presentation purpose and are not
+ * initialized the same way as room plugins. Then, a plugin instance can be initialized
+ * for use inside a room by connecting it to the various services and exposing eventual
+ * Qml content to the Qml Engine.
+ *
+ *\sa Plugins::PluginsLoader
+ */
+
 ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
 ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;

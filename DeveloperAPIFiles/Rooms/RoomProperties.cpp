@@ -1,5 +1,15 @@
 #include "RoomProperties.h"
 
+/*!
+ * \class Room::RoomProperties
+ *
+ * \brief The Room::RoomProperties class contains all the attributes
+ * that define a room.
+ *
+ * \sa Room::RoomBase
+ */
+
+
 Room::RoomProperties::RoomProperties(QObject *parent) : QObject(parent)
 {
     this->pluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));

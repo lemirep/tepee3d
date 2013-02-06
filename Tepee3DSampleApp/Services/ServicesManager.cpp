@@ -3,6 +3,23 @@
 // FOR DEBUG
 #include <QDebug>
 
+/*!
+ * \namespace Services
+ * \brief The Services namespace contains all classes that either manage or
+ * provide a service that modules of the application can register to.
+ */
+
+/*!
+ * \class Services::ServicesManager
+ *
+ * \brief The Services::ServicesManager class manages all the services
+ * libraries.
+ *
+ * The Services::ServicesManager class is a singleton class. It loads the services libraries
+ * and allow classes implementing the services interfaces to register for a given
+ * service.
+ */
+
 Services::ServicesManager* Services::ServicesManager::instance = NULL;
 
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)

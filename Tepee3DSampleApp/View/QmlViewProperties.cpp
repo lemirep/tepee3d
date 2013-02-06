@@ -1,6 +1,20 @@
 #include "QmlViewProperties.h"
 #include <QDebug>
 
+/*!
+ * \class View::QmlViewProperties
+ *
+ * \brief The View::QmlViewProperties class hold the properties
+ * of the Qml view.
+ *
+ * It is a singleton class that should only be used by the View::QmlViewManager
+ * class. It contains the QQuickView responsible for showing the Qml content onscreen,
+ * the Qml Engine and the Qml Context. More, this is where qml content is exposed to
+ * the Qml Context to later be used directly from Qml files.
+ *
+ * \sa View::QmlViewManager
+ */
+
 View::QmlViewProperties* View::QmlViewProperties::instance = NULL;
 
 View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)

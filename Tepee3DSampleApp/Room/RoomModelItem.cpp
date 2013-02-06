@@ -1,5 +1,14 @@
 #include "RoomModelItem.h"
 
+/*!
+ * \class Room::RoomModelItem
+ *
+ * \brief The Room::RoomModelItem class represent a room item for the rooms model.
+ * It contains a brief description of each room that can be seen in the room selector
+ * menu.
+ */
+
+
 Room::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : SubListedListItem(parent)
 {
     this->room = room;

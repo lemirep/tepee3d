@@ -2,6 +2,15 @@
 //DEBUG
 #include <QDebug>
 
+/*!
+ * \class Plugins::PluginBase
+ *
+ * \brief The Plugins::PluginBase class is the base class a Tepee3D plugin
+ * has to inherit from. It wraps access to the various services a plugin has access
+ * to as well as providing informations about the plugin that will be needed to by the
+ * application to properly manage plugins.
+ */
+
 Plugins::PluginBase::PluginBase() : QObject(NULL)
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
@@ -72,4 +81,5 @@ void    Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
     // EXPOSE YOUR QML CONTENT HERE
     // BE CAREFUL IN CASE YOUR PLUGIN IS LOADED SEVERAL TIME TO HAVE
     // A CONSISTENT BEHAVIOR : EITHER ALL PLUGINS BEHAVE THE SAME OR EACH PLUGIN CAN BE SET DIFFERENTLY
+    qDebug() << "Plugin Base Exposing Qml Content";
 }

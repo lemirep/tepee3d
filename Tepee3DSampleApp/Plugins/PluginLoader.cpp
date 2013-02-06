@@ -2,6 +2,12 @@
 // DEBUG
 #include <QDebug>
 
+/*!
+ * \class Plugins::PluginLoader
+ * \brief The Plugins::PluginLoader class is an utility static class
+ * aimed at easing the process of loading plugin libraries.
+ */
+
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
     QDir    pluginsDir = QApplication::applicationDirPath();
