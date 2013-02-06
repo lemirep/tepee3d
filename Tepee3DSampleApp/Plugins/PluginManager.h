@@ -38,7 +38,7 @@ public:
 
     void                        loadLocalPlugins();
     void                        exposeContentToQml(QQmlContext *context);
-    void                        receiveResultFromSQLQuery(const QList<QSqlRecord> &result);
+    void                        receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int);
 
     static PluginManager*       getInstance(QObject *parent = 0);
     static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
@@ -53,7 +53,7 @@ private:
 
 //    QSignalMapper              *signalMapper;
 signals :
-    void                        executeSQLQuery(const QString &query, QObject *sender);
+    void                        executeSQLQuery(const QString &query, QObject *sender, int id);
 };
 }
 

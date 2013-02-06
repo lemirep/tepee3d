@@ -83,3 +83,4 @@ void    Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
     // A CONSISTENT BEHAVIOR : EITHER ALL PLUGINS BEHAVE THE SAME OR EACH PLUGIN CAN BE SET DIFFERENTLY
     qDebug() << "Plugin Base Exposing Qml Content";
 }
+
