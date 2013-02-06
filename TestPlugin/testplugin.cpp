@@ -1,8 +1,8 @@
 #include "testplugin.h"
-<<<<<<< HEAD
+
 #include "widgetmodel.h"
 #include <iostream>
-#include "qmlfunction.h"
+//#include "qmlfunction.h"
 #include <QDebug>
 #include <QtQml>
 #include <QtCore/QDir>
@@ -12,14 +12,11 @@
 #include <QtQml/QQmlContext>
 #include <QtGui/QGuiApplication>
 
-=======
->>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
+
 
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
-<<<<<<< HEAD
-=======
 
      //Connect qml to c++ first method
      QQmlEngine engine;
@@ -35,8 +32,6 @@ TestPlugin::TestPlugin() : PluginBase()
      else
          std::cout << "connect not OK " << std::endl;
 
-
->>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
     this->initPlugin();
 }
 
@@ -47,12 +42,8 @@ int TestPlugin::getPluginId()
 
 void TestPlugin::initPlugin()
 {
-<<<<<<< HEAD
-    std::cout << " INITIALIZING PLUGINS " << std::endl;
-=======
     std::cout << "INITIALIZING PLUGINS " << std::endl;
-    emit (PluginBase::executeSQLQuery("SELECT *", this));
->>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
+//    emit (PluginBase::executeSQLQuery("SELECT *", this));
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
 }
 
@@ -78,12 +69,8 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
-<<<<<<< HEAD
     qDebug() << " CALLING getRoomPluginQmlFile";
     return QString("Widget.qml");
-=======
-    return QString("WidgetRoom.qml");
->>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
 }
 
 QString TestPlugin::getMenuPluginQmlFile() const
@@ -118,7 +105,6 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
     qDebug() << "TestPlugin::Received Network Reply";
     qDebug() << reply->readAll();
 }
-<<<<<<< HEAD
 
 void   TestPlugin::exposeContentToQml(QQmlContext *context)
 {
@@ -134,5 +120,3 @@ void TestPlugin::selectColor(QString color)
     QString query = "INSERT OR REPLACE INTO testplugincolor VALUES (1,'"+ color +"')";
     emit (PluginBase::executeSQLQuery(query,this,1));
 }
-=======
->>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
