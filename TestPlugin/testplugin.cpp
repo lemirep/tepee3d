@@ -1,4 +1,5 @@
 #include "testplugin.h"
+<<<<<<< HEAD
 #include "widgetmodel.h"
 #include <iostream>
 #include "qmlfunction.h"
@@ -11,10 +12,31 @@
 #include <QtQml/QQmlContext>
 #include <QtGui/QGuiApplication>
 
+=======
+>>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
 
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
+<<<<<<< HEAD
+=======
+
+     //Connect qml to c++ first method
+     QQmlEngine engine;
+     QQmlComponent component(&engine, "../plugins_qml/qmltestplugin/WidgetRoom.qml");
+     QObject *Instance = component.create();
+     QObject::connect(Instance, SIGNAL(qmlSignal()),this, SLOT(cppSlot()));
+
+     //Connect qml to c++ second method
+    QQuickView view(QUrl::fromLocalFile("../plugins_qml/qmltestplugin/WidgetRoom.qml"));
+    QObject *item = view.rootObject();
+    if (QObject::connect(item, SIGNAL(qmlSignal()),this, SLOT(cppSlot())))
+         std::cout << "connect OK " << std::endl;
+     else
+         std::cout << "connect not OK " << std::endl;
+
+
+>>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
     this->initPlugin();
 }
 
@@ -25,8 +47,18 @@ int TestPlugin::getPluginId()
 
 void TestPlugin::initPlugin()
 {
+<<<<<<< HEAD
     std::cout << " INITIALIZING PLUGINS " << std::endl;
+=======
+    std::cout << "INITIALIZING PLUGINS " << std::endl;
+    emit (PluginBase::executeSQLQuery("SELECT *", this));
+>>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
+}
+
+void TestPlugin::cppSlot()
+{
+   std::cout<< "Called the C++ slot with value:" <<std::endl;
 }
 
 QString TestPlugin::getPluginName()
@@ -46,8 +78,12 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
+<<<<<<< HEAD
     qDebug() << " CALLING getRoomPluginQmlFile";
     return QString("Widget.qml");
+=======
+    return QString("WidgetRoom.qml");
+>>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68
 }
 
 QString TestPlugin::getMenuPluginQmlFile() const
@@ -57,6 +93,7 @@ QString TestPlugin::getMenuPluginQmlFile() const
 
 Plugins::PluginBase* TestPlugin::createNewInstance()
 {
+    qDebug() << "BLABLABLABLBALALALALA";
     return new TestPlugin();
 }
 
@@ -81,6 +118,7 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
     qDebug() << "TestPlugin::Received Network Reply";
     qDebug() << reply->readAll();
 }
+<<<<<<< HEAD
 
 void   TestPlugin::exposeContentToQml(QQmlContext *context)
 {
@@ -96,3 +134,5 @@ void TestPlugin::selectColor(QString color)
     QString query = "INSERT OR REPLACE INTO testplugincolor VALUES (1,'"+ color +"')";
     emit (PluginBase::executeSQLQuery(query,this,1));
 }
+=======
+>>>>>>> 79f3df03274d66b07efe1845e744f5d881c3dc68

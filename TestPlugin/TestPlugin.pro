@@ -12,13 +12,16 @@ qml_folder.target = ./
  TEMPLATE        = lib
  CONFIG         += qt plugin
  QT             += quick
-
+QT += gui
  HEADERS         = \
     widgetmodel.h \
-    testplugin.h
+    testplugin.h \
+Service
+  #  dataobject.h
  SOURCES         = \
     widgetmodel.cpp \
     testplugin.cpp
+#    dataobject.cpp
 
 #include development files
 include (../DeveloperAPIFiles/DevelopmentFiles.pri)
