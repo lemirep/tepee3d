@@ -58,7 +58,7 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomManager", this);
 }
 
-void    Room::RoomManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &, int)
+void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> , int)
 {
     qDebug() << "RoomManager received SQL Result";
 }

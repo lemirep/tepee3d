@@ -23,7 +23,7 @@ public:
     bool    checkExistLocalDatabase();
     void    createLocalDatabase();
 signals:
-    void    resultFromSQLQuery(const QList<QSqlRecord>&, QObject *receiver, int id);
+    void    resultFromSQLQuery(QList<QSqlRecord>, QObject *receiver, int id);
 public slots:
     void    executeSQLQuery(const QString& Query, QObject *sender, int id);
 private :

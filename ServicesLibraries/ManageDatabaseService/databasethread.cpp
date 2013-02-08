@@ -53,15 +53,15 @@ void DatabaseThread::run()
     qRegisterMetaType< QList<QSqlRecord> >("QList<QSqlRecord>");
     QObject::connect(this, SIGNAL(executeSQLQuery(const QString &, QObject *, int)),
                      &MB, SLOT(executeSQLQuery(const QString&, QObject*, int)), Qt::QueuedConnection);
-    QObject::connect(&MB, SIGNAL(resultFromSQLQuery(const QList<QSqlRecord>&, QObject *, int)),
-                     this, SLOT(transmitSQLResult(const QList<QSqlRecord>&, QObject*, int)), Qt::QueuedConnection);
+    QObject::connect(&MB, SIGNAL(resultFromSQLQuery(QList<QSqlRecord>, QObject *, int)),
+                     this, SLOT(transmitSQLResult(QList<QSqlRecord>, QObject*, int)), Qt::QueuedConnection);
     qDebug() << "Manager BDD Initialized";
     this->exec();
     qDebug() << "Thread event loop launched";
 }
 
 
-void    DatabaseThread::transmitSQLResult(const QList<QSqlRecord> &result, QObject *receiver, int id)
+void    DatabaseThread::transmitSQLResult(QList<QSqlRecord> result, QObject *receiver, int id)
 {
     qDebug() << "SQL Query Result Received";
     // TO RECEIVE RESULT OBJECT MUST IMPLEMENT

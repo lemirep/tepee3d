@@ -17,21 +17,6 @@
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
-
-     //Connect qml to c++ first method
-     QQmlEngine engine;
-     QQmlComponent component(&engine, "../plugins_qml/qmltestplugin/WidgetRoom.qml");
-     QObject *Instance = component.create();
-     QObject::connect(Instance, SIGNAL(qmlSignal()),this, SLOT(cppSlot()));
-
-     //Connect qml to c++ second method
-    QQuickView view(QUrl::fromLocalFile("../plugins_qml/qmltestplugin/WidgetRoom.qml"));
-    QObject *item = view.rootObject();
-    if (QObject::connect(item, SIGNAL(qmlSignal()),this, SLOT(cppSlot())))
-         std::cout << "connect OK " << std::endl;
-     else
-         std::cout << "connect not OK " << std::endl;
-
     this->initPlugin();
 }
 
@@ -42,14 +27,9 @@ int TestPlugin::getPluginId()
 
 void TestPlugin::initPlugin()
 {
-    std::cout << "INITIALIZING PLUGINS " << std::endl;
-//    emit (PluginBase::executeSQLQuery("SELECT *", this));
+    std::cout << " INITIALIZING PLUGINS " << std::endl;
+    this->setColor("yellow");
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
-}
-
-void TestPlugin::cppSlot()
-{
-   std::cout<< "Called the C++ slot with value:" <<std::endl;
 }
 
 QString TestPlugin::getPluginName()
@@ -84,20 +64,23 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void    TestPlugin::receiveResultFromSQLQuery(const QList<QSqlRecord> &q, int id)
+void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
 {
     if (id == ASSIGNCOLOR)
-        qDebug() <<  "----------------------- " + q.first().value("color").toString();
-    /*    QList<QSqlRecord>::iterator it = q.begin();
-           while (it != q.end())
-           {
-
-               qDebug() << (*it).value("id").toInt();
-
-               ++it;
-           }
-    qDebug() << "TestPlugin::Received Result From SQL Query Plugin";
-*/
+    {
+        QList<QSqlRecord>::iterator it = q.begin();
+        ++it;
+        this->colorSelect = (*it).value("color").toString();
+        qDebug() << "RECEIVE ASSIGN COLOR";
+        QQmlComponent component(this->context->engine(), "../plugins_qml/qmltestplugin/Widget.qml");
+        QObject *object = component.create();
+        QVariant returnedValue;
+        QVariant msg = this->colorSelect;
+        QMetaObject::invokeMethod(object, "setColorAssign",
+                Q_RETURN_ARG(QVariant, returnedValue),
+                Q_ARG(QVariant, msg));
+        delete object;
+    }
 }
 
 void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
@@ -108,15 +91,25 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
 
 void   TestPlugin::exposeContentToQml(QQmlContext *context)
 {
-    context->setContextProperty("apc",this);
+    this->context = context;
+    this->context->setContextProperty("apc",this);
     emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `testplugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this,1));
     emit (PluginBase::executeSQLQuery("INSERT INTO testplugincolor(id, color) VALUES (1, 'grey')",this,1));
-    emit (PluginBase::executeSQLQuery("SELECT color from testplugincolor",this,ASSIGNCOLOR));
-
+    emit (PluginBase::executeSQLQuery("SELECT color from testplugincolor", this, ASSIGNCOLOR));
 }
 
 void TestPlugin::selectColor(QString color)
 {
     QString query = "INSERT OR REPLACE INTO testplugincolor VALUES (1,'"+ color +"')";
     emit (PluginBase::executeSQLQuery(query,this,1));
+}
+
+QString TestPlugin::getColor()
+{
+    return this->colorSelect;
+}
+
+void TestPlugin::setColor(QString color)
+{
+    this->colorSelect = color;
 }
