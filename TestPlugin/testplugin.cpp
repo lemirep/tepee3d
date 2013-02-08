@@ -69,8 +69,7 @@ void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
         ++it;
         this->colorSelect = (*it).value("color").toString();
         qDebug() << "RECEIVE ASSIGN COLOR";
-        QQmlEngine engine;
-        QQmlComponent component(&engine, "../plugins_qml/qmltestplugin/Widget.qml");
+        QQmlComponent component(this->context->engine(), "../plugins_qml/qmltestplugin/Widget.qml");
         QObject *object = component.create();
         QVariant returnedValue;
         QVariant msg = this->colorSelect;

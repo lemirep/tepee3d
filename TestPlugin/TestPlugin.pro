@@ -38,7 +38,15 @@ OTHER_FILES += \
     qmldir \
     qmltestplugin.qmlproject \
     Widget.qml \
-    Menu.qml
+    Menu.qml    \
+    MiniRed.dae \
+    MiniOrange.dae \
+    MiniBlue.dae \
+    images/texture0.jpg \
+    Metal_Aluminum_Anodized_.jpg
+
+
+
 
 
 # Copies the given files to the destination directory

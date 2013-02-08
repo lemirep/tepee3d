@@ -35,6 +35,7 @@ Item3D
     function setColorAssign(msg) {
         console.log("SET COLOR From DB  :  " + msg);
         cube_plugin.effect.color = msg;
+        col = msg;
     }
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
@@ -83,44 +84,77 @@ Item3D
             when : plugin_base.getFocusState() == 2
         }
     ]
-    Cube
-    {
+    Item3D {
         id : cube_orange
-        effect: Effect {color: "orange"}
-        scale : 2
-        position : Qt.vector3d(0, 0, -3)
+        mesh: Mesh { source: "MiniOrange.dae" }
+        // effect: Effect {useLighting:true}
+        //light: Light {ambientColor:"red"}
+        cullFaces: "CullBackFaces"
+        scale : 40
+        transform: [
+            Rotation3D {
+                id: rotateO
+                angle: -90
+                axis: Qt.vector3d(1, 0, 0)
+            }
+        ]
+        position : Qt.vector3d(-1, 1, -2)
         onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
+
     }
 
-    Cube
+    Item3D {
+        id : cube_red
+        mesh: Mesh { source: "MiniRed.dae" }
+        // effect: Effect {useLighting:true}
+        //light: Light {ambientColor:"red"}
+        cullFaces: "CullBackFaces"
+        scale : 40
+        transform: [
+            Rotation3D {
+                id: rotateR
+                angle: -90
+                axis: Qt.vector3d(0, 0, 1)
+            }
+        ]
+        position : Qt.vector3d(2, 1, 1)
+        onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
+
+    }
+    Item3D {
+        id : cube_blue
+        mesh: Mesh { source: "MiniBlue.dae" }
+        // effect: Effect {useLighting:true}
+        //light: Light {ambientColor:"red"}
+        cullFaces: "CullBackFaces"
+        scale : 40
+        transform: [
+            Rotation3D {
+                id: rotateB
+                angle: 90
+                axis: Qt.vector3d(0, 0, 1)
+            }
+        ]
+        position : Qt.vector3d(-2, -1, 0)
+        onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
+
+    }
+   /* Cube
     {
         id : cube_blue
-
         effect: Effect {color: "blue"}
         scale : 2
+
         position : Qt.vector3d(-3, 0, 0)
-        onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";
-        }
-    }
-
-    Cube
-    {
-        id : cube_red
-        effect: Effect {color: "red"}
-        scale : 2
-        position : Qt.vector3d(3, 0, 0)
-        onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";
-
-        }
-    }
-
+        onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
+    }*/
     Cube
     {
         id : cube_plugin
         //        scale : 5
         transform : [Scale3D {scale : Qt.vector3d(5, 10, 5)} ]
         position : Qt.vector3d(0, 0, 0)
-        effect: Effect {color :col; useLighting : true}
+        effect: Effect {color :apc.getColor(); useLighting : true}
         //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
         //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
 
