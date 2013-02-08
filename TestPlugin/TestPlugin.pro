@@ -46,7 +46,8 @@ OTHER_FILES += \
     MiniOrange.dae \
     MiniBlue.dae \
     images/texture0.jpg \
-    Metal_Aluminum_Anodized_.jpg
+    Metal_Aluminum_Anodized_.jpg \
+    lamp.dae
 
 
 

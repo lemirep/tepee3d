@@ -139,7 +139,7 @@ Item3D
         onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
 
     }
-   /* Cube
+    /* Cube
     {
         id : cube_blue
         effect: Effect {color: "blue"}
@@ -148,12 +148,15 @@ Item3D
         position : Qt.vector3d(-3, 0, 0)
         onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
     }*/
+
     Cube
     {
         id : cube_plugin
         //        scale : 5
-        transform : [Scale3D {scale : Qt.vector3d(5, 10, 5)} ]
-        position : Qt.vector3d(0, 0, 0)
+        mesh: Mesh { source: "lamp.dae" }
+
+       //transform : [Scale3D {scale : Qt.vector3d(5, 10, 5)} ]
+        position : Qt.vector3d(-9, -5, 0)
         effect: Effect {color :apc.getColor(); useLighting : true}
         //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
         //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
@@ -225,3 +228,5 @@ Item3D
         onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);}
     }
 }
+
+

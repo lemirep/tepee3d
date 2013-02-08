@@ -46,7 +46,7 @@ void        QmlAsTexture::textureChanged()
     if (txt)
     {
         qDebug() << "Texture Id " << txt->textureId() << " SIZE " << txt->textureSize();
-        this->effectItem->setDynamicTexture(txt->textureId(), txt->textureSize());
+        //this->effectItem->setDynamicTexture(txt->textureId(), txt->textureSize());
     }
 }
 

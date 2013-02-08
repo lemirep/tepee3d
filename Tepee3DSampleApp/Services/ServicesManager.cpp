@@ -35,7 +35,7 @@ Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *par
     return ServicesManager::instance;
 }
 
-void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
+void    Services::ServicesManager::exposeContentToQml(QQmlContext *)
 {
 }
 
