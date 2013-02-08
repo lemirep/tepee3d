@@ -47,8 +47,8 @@ class RoomLoader
 private:
     static bool parseLine(std::string line, bool &header, DataInfo *room);
 public:
-    static void loadRoomFromFile(std::string name, Room::RoomManager *roommanager);
-    static void loadRoomFromDatabase(std::string name, Room::RoomManager *roommanager);
+    static void loadRoomFromFile(QString name, Room::RoomManager *roommanager);
+    static void loadRoomFromDatabase(QString name, Room::RoomManager *roommanager);
     static void saveRoomFile(Room::RoomBase *room);
     static void saveRoomDatabase(Room::RoomBase *room, Room::RoomManager *roommanager);
 };

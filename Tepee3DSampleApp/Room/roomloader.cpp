@@ -56,21 +56,21 @@ void DataInfo::setScaleZ(qreal z)
 void DataInfo::setAttrValue(QString attr, QString value)
 {
     if (attr == "Name")
-       this->setName(value);
+        this->setName(value);
     if (attr == "Qml")
-       this->setModel(value);
+        this->setModel(value);
     if (attr == "PosX")
-       this->setPosX(value.toDouble());
+        this->setPosX(value.toDouble());
     if (attr == "PosY")
-       this->setPosY(value.toDouble());
+        this->setPosY(value.toDouble());
     if (attr == "PosZ")
-       this->setPosZ(value.toDouble());
+        this->setPosZ(value.toDouble());
     if (attr == "ScaleX")
-       this->setScaleX(value.toDouble());
+        this->setScaleX(value.toDouble());
     if (attr == "ScaleY")
-       this->setScaleY(value.toDouble());
+        this->setScaleY(value.toDouble());
     if (attr == "ScaleZ")
-       this->setScaleZ(value.toDouble());
+        this->setScaleZ(value.toDouble());
 }
 
 void DataInfo::setDataFromRoom(Room::RoomBase *room)
@@ -130,24 +130,24 @@ bool RoomLoader::parseLine(std::string line, bool &header, DataInfo   *roominfo)
 
         if (line.find('=') != line.npos)
         {
-           attr = line.substr(0, line.find('='));
-           value = line.substr(line.find('=') + 1, line.size() - 1);
-           if (attr.find('[') == 0 && attr.find(']') == (attr.size() - 1))
-           {
-              attr = attr.substr(1, attr.size() - 2);
-           }
-           else
-           {
-               return false;
-           }
-           if (value.find(';') == (value.size() - 1))
-           {
-              value = value.substr(0, value.size() - 1);
-           }
-           else
-           {
-              return false;
-           }
+            attr = line.substr(0, line.find('='));
+            value = line.substr(line.find('=') + 1, line.size() - 1);
+            if (attr.find('[') == 0 && attr.find(']') == (attr.size() - 1))
+            {
+                attr = attr.substr(1, attr.size() - 2);
+            }
+            else
+            {
+                return false;
+            }
+            if (value.find(';') == (value.size() - 1))
+            {
+                value = value.substr(0, value.size() - 1);
+            }
+            else
+            {
+                return false;
+            }
         }
         else
         {
@@ -158,42 +158,58 @@ bool RoomLoader::parseLine(std::string line, bool &header, DataInfo   *roominfo)
     return true;
 }
 
-void RoomLoader::loadRoomFromFile(std::string name, Room::RoomManager *roommanager)
+void RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
 {
-    std::string line;
-    std::ifstream myfile((std::string)ROOMFILEDIR + name + ".txt");
+    QString line;
+    QFile myfile(ROOMFILEDIR + name + ".txt");
+    //    std::ifstream myfile((std::string)ROOMFILEDIR + name + ".txt");
     bool        header;
     DataInfo    *roominfo;
 
     roommanager->addNewRoom();
     roommanager->setCurrentRoom(1);
     roominfo = new DataInfo();
-    if (myfile.is_open())
-      {
-        while (myfile.good())
+    //    if (myfile.is_open())
+    //      {
+    //        while (myfile.good())
+    //        {
+    //          getline (myfile,line);
+    //          if (!(line == "\n\r" || line == "\n" || line == ""))
+    //          {
+    //            if (RoomLoader::parseLine(line, header, roominfo) == false)
+    //             {
+    //               std::cerr << "Error while parsing file" << std::endl;
+    //               return ;
+    //             }
+    //          }
+    //        }
+    //        myfile.close();
+    if (myfile.open(QIODevice::ReadOnly))
+    {
+        QTextStream in(&myfile);
+        while (!in.atEnd())
         {
-          getline (myfile,line);
-          if (!(line == "\n\r" || line == "\n" || line == ""))
-          {
-            if (RoomLoader::parseLine(line, header, roominfo) == false)
-             {
-               std::cerr << "Error while parsing file" << std::endl;
-               return ;
-             }
-          }
+            line = in.readLine();
+            if (!line.isEmpty() && RoomLoader::parseLine(line.toStdString(), header, roominfo))
+            {
+                roommanager->editRoom(1, roominfo->getName(), roominfo->getPos(), roominfo->getScale());
+                qDebug() << "File loaded";
+            }
+            else
+            {
+                qDebug() << "Error while parsing file";
+                break;
+            }
         }
         myfile.close();
-        roommanager->editRoom(1, roominfo->getName(), roominfo->getPos(), roominfo->getScale());
-        std::cout << "File loaded" << std::endl;
-      }
+    }
     else
-        std::cerr << "Unable to open file"  << std::endl;
-    return ;
+        qDebug() << "Unable to open file";
 }
 
-void RoomLoader::loadRoomFromDatabase(std::string name, Room::RoomManager *roommanager)
+void RoomLoader::loadRoomFromDatabase(QString name, Room::RoomManager *roommanager)
 {
-     //BasicRoom* room = new BasicRoom();
+    //BasicRoom* room = new BasicRoom();
     QList<QSqlRecord> result;
 
     std::cout << "test" << std::endl;
@@ -204,10 +220,10 @@ void RoomLoader::loadRoomFromDatabase(std::string name, Room::RoomManager *roomm
         roommanager->executeSQLQuery("INSERT INTO room VALUES (1, \"RoomDatabase\", \"C:\\Test\", 0, 0, 0, 1, 1, 1);", roommanager, 1);
         std::cout << "Creation Finsihed" << std::endl;
     }
-   // if (true)
-   // {
+    // if (true)
+    // {
     //    roommanager->executeSQLQuery("ALTER TALE room MODIFY idRoom INT NOT NULL PRIMARY KEY", roommanager);
-   //sss }
+    //sss }
     std::cout << "test" << std::endl;
     roommanager->executeSQLQuery("SELECT * FROM room WHERE name=\"RoomDatabase\";", roommanager, 1); /*" + name +\"*/
     bool isresult = false;
@@ -217,10 +233,10 @@ void RoomLoader::loadRoomFromDatabase(std::string name, Room::RoomManager *roomm
         roommanager->receiveResultFromSQLQuery(result, 1);
         if (!result.isEmpty())
         {
-          isresult = true;
-          std::cout << "Query result " << qPrintable(result[0].value(1).toString()) << std::endl;
+            isresult = true;
+            std::cout << "Query result " << qPrintable(result[0].value(1).toString()) << std::endl;
         }
-      i++;
+        i++;
     }
     std::cout << "No result" << std::endl;
     return ;
