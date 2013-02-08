@@ -1,0 +1,9 @@
+__ROOMFILE__
+[Name]=Room alpha;
+[Qml]=Room.qml;
+[PosX]=0;
+[PosY]=0;
+[PosZ]=0;
+[ScaleX]=1;
+[ScaleY]=1;
+[ScaleZ]=2;
