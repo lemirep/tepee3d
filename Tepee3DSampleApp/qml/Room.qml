@@ -14,20 +14,29 @@ Item3D
     id : room_item
 
     position : room_loader.getPosition()
-    property bool isCurrentRoom : false
+    property int roomId   : room_loader.getRoomId();
     property int currentFaceId : Walls.idx
-    property int pluginRoomID   : room_loader.getRoomId();
+    property bool isCurrentRoom : (roomId == mainWindow.currentRoomId)
     property real faceIndicatorDistance : 0.01
     property variant widgetModel : room_loader.getWidgetsModel()
     property vector3d roomScale :  room_loader.getScale()
 
-    function    moveToFace(faceIdx)
-    {
-        mainWindow.currentRoomFaceId = faceIdx;
-    }
-
+    function moveToFace(faceIdx)  {mainWindow.currentRoomFaceId = faceIdx; currentFaceId = faceIdx}
     function getRoomPosition()    {return Qt.vector3d(x, y, z)}
     function getRoomScale()    {return Qt.vector3d(roomScale.x, roomScale.y, roomScale.z)}
+    function showWallsIndicator()
+    {
+        northWall.showFaceIndicator();
+        southWall.showFaceIndicator();
+        eastWall.showFaceIndicator();
+        westWall.showFaceIndicator();
+        upWall.showFaceIndicator();
+        downWall.showFaceIndicator();
+    }
+
+
+    onCurrentFaceIdChanged:    {showWallsIndicator()}
+    onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator()}
 
     Item3D
     {
@@ -65,150 +74,113 @@ Item3D
 //            height : 50
 //        }
 
-        Quad
+
+        states : [
+            State
+            {
+                name : "wallDown"
+                PropertyChanges {target: northWall; z : 100}
+                PropertyChanges {target: southWall; z : -100}
+                PropertyChanges {target: eastWall;  z : -100}
+                PropertyChanges {target: westWall;  z : 100}
+                PropertyChanges {target: upWall;    y : 100}
+                PropertyChanges {target: downWall;  y : -100}
+//                when : isCurrentRoom
+            }]
+
+
+        RoomWall
         {
-            id : north_wall
-            scale : 1
-            position : Qt.vector3d(0, 0, 0)
+            id : northWall
+            wallIndicatorColor: "yellow"
+            wallIndicatorTexture: "Resources/Textures/wall_indicator_north.png"
+            rotationAngle:  -90
+            rotationAxis: Qt.vector3d(1, 0, 0)
+            panelRotationAxis: Qt.vector3d(0, 1, 0)
+            panelRotationAngle: 180
+            translationVector: Qt.vector3d(0, 0, 0.5)
             enabled : (mainWindow.currentRoomFaceId != 1)
             effect : face_effect
-            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
-                Translation3D {translate : Qt.vector3d(0, 0, 0.5)}]
-
-            Quad
-            {
-                scale : 0.5
-                position : Qt.vector3d(0, -faceIndicatorDistance, 0)
-                inheritEvents : true
-                effect : Effect {
-                    color : "yellow"
-                    blending : true
-
-                }
-            }
             onHoverEnter : {console.log("North")}
-            onClicked : {mainWindow.currentRoomFaceId = 0}
+            onClicked : {moveToFace(0)}
         }
 
-        Quad
+        RoomWall
         {
-            id : south_wall
-            scale : 1
-            position : Qt.vector3d(0, 0, 0)
+            id : southWall
+            wallIndicatorColor: "blue"
+                        wallIndicatorTexture: "Resources/Textures/wall_indicator_south.png"
+            rotationAngle:  90
+            rotationAxis: Qt.vector3d(1, 0, 0)
+            translationVector: Qt.vector3d(0, 0, -0.5)
             enabled : (mainWindow.currentRoomFaceId != 0)
             effect : face_effect
-            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(1, 0, 0)},
-                Translation3D {translate : Qt.vector3d(0, 0, -0.5)}]
-
-            Quad
-            {
-                scale : 0.5
-                position : Qt.vector3d(0, faceIndicatorDistance, 0)
-                inheritEvents : true
-                effect : Effect {
-                    color : "blue"
-                    blending : true
-
-                }
-            }
-            onHoverEnter :{console.log("South")}
-            onClicked : {mainWindow.currentRoomFaceId = 1}
+            onHoverEnter : {console.log("South")}
+            onClicked : {moveToFace(1)}
         }
 
-        Quad
+        RoomWall
         {
-            id : west_wall
-            scale : 1
-            position : Qt.vector3d(0, 0, 0)
+            id : westWall
+            wallIndicatorColor: "red"
+                        wallIndicatorTexture: "Resources/Textures/wall_indicator_west.png"
+            rotationAngle:  90
+            rotationAxis: Qt.vector3d(0, 0, 1)
+            panelRotationAxis: Qt.vector3d(0, 1, 0)
+            panelRotationAngle: -90
+            translationVector: Qt.vector3d(0.5, 0, 0)
             enabled : (mainWindow.currentRoomFaceId != 2)
             effect : face_effect
-            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
-                Translation3D {translate : Qt.vector3d(0.5, 0, 0)}]
-
-            Quad
-            {
-                scale : 0.5
-                position : Qt.vector3d(0, faceIndicatorDistance, 0)
-                inheritEvents : true
-                effect : Effect {
-                    color : "red"
-                    blending : true
-
-                }
-            }
-            onHoverEnter :{console.log("West")}
-            onClicked : {mainWindow.currentRoomFaceId = 3}
+            onHoverEnter : {console.log("West")}
+            onClicked : {moveToFace(3)}
         }
 
-        Quad
+        RoomWall
         {
-            id : east_wall
-            scale : 1
-            position : Qt.vector3d(0, 0, 0)
+            id : eastWall
+            wallIndicatorColor: "orange"
+                        wallIndicatorTexture: "Resources/Textures/wall_indicator_east.png"
+            rotationAngle:  -90
+            rotationAxis: Qt.vector3d(0, 0, 1)
+            panelRotationAxis: Qt.vector3d(0, 1, 0)
+            panelRotationAngle: 90
+            translationVector: Qt.vector3d(-0.5, 0, 0)
             enabled : (mainWindow.currentRoomFaceId != 3)
             effect : face_effect
-            transform : [Rotation3D {angle : 90; axis: Qt.vector3d(0, 0, 1)},
-                Translation3D {translate : Qt.vector3d(-0.5, 0, 0)}]
-
-            Quad
-            {
-                scale : 0.5
-                position : Qt.vector3d(0, -faceIndicatorDistance, 0)
-                inheritEvents : true
-                effect : Effect {
-                    color : "orange"
-                    blending : true
-
-                }
-            }
             onHoverEnter : {console.log("East")}
-            onClicked : {mainWindow.currentRoomFaceId = 2}
+            onClicked : {moveToFace(2)}
         }
 
-        Quad
+        RoomWall
         {
-            id : up_wall
-            scale : 1
-            position : Qt.vector3d(0, 0.5, 0)
+            id : upWall
+            wallIndicatorColor: "green"
+                        wallIndicatorTexture: "Resources/Textures/wall_indicator_up.png"
+            rotationAngle:  180
+            rotationAxis: Qt.vector3d(0, 0, 1)
+            translationVector: Qt.vector3d(0, 0.5, 0)
+            panelRotationAxis: Qt.vector3d(0, 1, 0)
+            panelRotationAngle: 180
             enabled : (mainWindow.currentRoomFaceId != 4)
             effect : face_effect
-
-            Quad
-            {
-                scale : 0.5
-                position : Qt.vector3d(0, -faceIndicatorDistance, 0)
-                inheritEvents : true
-                effect : Effect {
-                    color : "green"
-                    blending : true
-
-                }
-            }
-            onHoverEnter : {console.log("Down")}
-            onClicked :{mainWindow.currentRoomFaceId = 4}
+            onHoverEnter : {console.log("Up")}
+            onClicked : {moveToFace(4)}
         }
 
-        Quad
+        RoomWall
         {
-            id : down_wall
-            scale : 1
-            position : Qt.vector3d(0, -0.5, 0)
+            id : downWall
+            wallIndicatorColor: "cyan"
+            wallIndicatorTexture: "Resources/Textures/wall_indicator_down.png"
+            rotationAngle:  0
+            rotationAxis: Qt.vector3d(0, 0, 1)
+            panelRotationAxis: Qt.vector3d(0, 1, 0)
+            panelRotationAngle: 180
+            translationVector: Qt.vector3d(0, -0.5, 0)
             enabled : (mainWindow.currentRoomFaceId != 5)
             effect : face_effect
-
-            Quad
-            {
-                scale : 0.5
-                position : Qt.vector3d(0, faceIndicatorDistance, 0)
-                inheritEvents : true
-                effect : Effect {
-                    color : "cyan"
-                    blending : true
-                }
-            }
-
             onHoverEnter : {console.log("Up")}
-            onClicked :{mainWindow.currentRoomFaceId = 5}
+            onClicked : {moveToFace(5)}
         }
     }
 
@@ -241,7 +213,7 @@ Item3D
 
         PluginBase
         {
-            pluginRoomId: pluginRoomID
+            pluginRoomId: roomId
             pluginId : model.pluginId
             pluginName : model.pluginName
             roomQmlFile : model.pluginRoomQmlFile
