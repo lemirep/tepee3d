@@ -43,7 +43,7 @@ void Plugins::PluginManager::loadLocalPlugins()
     }
 }
 
-void    Plugins::PluginManager::receiveResultFromSQLQuery(const QList<QSqlRecord> &, int)
+void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> , int)
 {
     qDebug() << "PluginManager Received Result";
 }

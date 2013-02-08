@@ -43,7 +43,7 @@ protected:
 
     // SQL
 protected:
-    virtual void receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int id) = 0;
+    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id) = 0;
 
     // WEB SERVICES
 protected:

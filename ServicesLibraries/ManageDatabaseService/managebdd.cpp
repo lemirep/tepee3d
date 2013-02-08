@@ -55,7 +55,7 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
         results.push_back(q.record());
         while (q.next())
             results.push_back(q.record());
-        emit resultFromSQLQuery(results, sender,id);
+        emit resultFromSQLQuery(results, sender, id);
     }
 }
 

@@ -38,7 +38,7 @@ public:
 
     void                        loadLocalPlugins();
     void                        exposeContentToQml(QQmlContext *context);
-    void                        receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int);
+    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int);
 
     static PluginManager*       getInstance(QObject *parent = 0);
     static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);

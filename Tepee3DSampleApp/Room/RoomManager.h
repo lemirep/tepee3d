@@ -42,7 +42,7 @@ public:
     // QmlContentExposer
     void                    exposeContentToQml(QQmlContext *context);
     // DatabaseUser
-    void                    receiveResultFromSQLQuery(const QList<QSqlRecord> &result, int id);
+    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
 
     // METHODS THAT CAN BE CALLED FROM QML
     Q_INVOKABLE    void     setCurrentRoom(int roomModelId);
