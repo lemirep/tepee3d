@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import Qt3D 2.0
 import Plugins 1.0
-import "../js/CameraManagement.js" as CameraManagement
 
 Item3D
 {
@@ -55,6 +54,10 @@ Item3D
                 {
                     console.log("MENU IS >>>> " + menuQmlFile)
                     mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
+                }
+                else
+                {
+                    mainWindow.pluginMenuSource = "";
                 }
             }
         }

@@ -37,8 +37,8 @@ Quad
         SequentialAnimation
         {
             id : wallIndicatorAnimation
-            NumberAnimation { id : scaleUpAnim; target: faceIndicator; property: "scale"; to : 0.5; duration: 1500; easing.type: Easing.InOutQuad }
-            NumberAnimation { id : scaleDownAnim; target: faceIndicator; property: "scale"; to : 0.05; duration: 500; easing.type: Easing.InOutQuad }
+            SmoothedAnimation { id : scaleUpAnim; target: faceIndicator; property: "scale"; to : 0.5; velocity: 1; duration : -1; easing.type: Easing.InOutQuad }
+            SmoothedAnimation { id : scaleDownAnim; target: faceIndicator; property: "scale"; to : 0.05; velocity: 1; duration : -1; easing.type: Easing.InOutQuad }
         }
         scale : 0.05
         enabled : (scale > 0.1)

@@ -140,7 +140,10 @@ Item3D
 
         onClicked :
         {
-//            if ()
+            if (plugin_base.getFocusState() == 0)
+                plugin_base.askForRoomSelectedFocusState();
+            if (plugin_base.getFocusState() == 1)
+                plugin_base.askForFocusedFocusState();
         }
 
         SequentialAnimation {

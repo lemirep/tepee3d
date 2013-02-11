@@ -32,6 +32,7 @@ INCLUDEPATH += $$PWD/View
 
 OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/PluginBase.qml \
+                $$PWD/qml/qmldir \
                 $$PWD/js/CameraManagement.js
 
 QT += sql
