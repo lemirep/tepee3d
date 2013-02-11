@@ -15,7 +15,7 @@ Item
         onClicked :
         {
             room_plugins_list_view.currentIndex = index;
-            roomManager.addNewPluginToCurrentRoom(model.pluginId)
+            // SET SELECTED PLUGIN AS FOCUSED PLUGIN
         }
     }
 

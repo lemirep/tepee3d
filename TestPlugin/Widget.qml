@@ -12,6 +12,7 @@ Item3D
     property real yRot : 0;
     property color col : "red"
     position : Qt.vector3d(-10, 0, 0)
+
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
     function focusStateChanged(focusStateValue)
@@ -32,11 +33,7 @@ Item3D
             break;
         }
     }
-    function setColorAssign(msg) {
-        console.log("SET COLOR From DB  :  " + msg);
-        cube_plugin.effect.color = msg;
-        col = msg;
-    }
+
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
@@ -44,7 +41,6 @@ Item3D
 
     function switchToIdleFocusView()    {plugin_base.moveCamera()}
     function switchToSelectedFocusView()    {}
-
     function switchToFocusedView()
     {
         //        var eye = camera.eye;
@@ -54,18 +50,14 @@ Item3D
         center.x += testplugin_container.x
         center.y += testplugin_container.y
         center.z += testplugin_container.z
-
-
-
         plugin_base.moveCamera(eye, center);
     }
 
-    //    Carousel
-    //    {
-    //        id : carousel
-    //        scale : 5
-    //        radius : 3
-    //    }
+    function setColorAssign(msg) {
+        console.log("SET COLOR From DB  :  " + msg);
+        cube_plugin.effect.color = msg;
+        col = msg;
+    }
 
     states : [
         State {
@@ -84,83 +76,73 @@ Item3D
             when : plugin_base.getFocusState() == 2
         }
     ]
-    Item3D {
-        id : cube_orange
-        mesh: Mesh { source: "MiniOrange.dae" }
-        // effect: Effect {useLighting:true}
-        //light: Light {ambientColor:"red"}
-        cullFaces: "CullBackFaces"
-        scale : 40
-        transform: [
-            Rotation3D {
-                id: rotateO
-                angle: -90
-                axis: Qt.vector3d(1, 0, 0)
-            }
-        ]
-        position : Qt.vector3d(-1, 1, -2)
-        onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
 
-    }
-
-    Item3D {
-        id : cube_red
-        mesh: Mesh { source: "MiniRed.dae" }
-        // effect: Effect {useLighting:true}
-        //light: Light {ambientColor:"red"}
-        cullFaces: "CullBackFaces"
-        scale : 40
-        transform: [
-            Rotation3D {
-                id: rotateR
-                angle: -90
-                axis: Qt.vector3d(0, 0, 1)
-            }
-        ]
-        position : Qt.vector3d(2, 1, 1)
-        onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
-
-    }
-    Item3D {
-        id : cube_blue
-        mesh: Mesh { source: "MiniBlue.dae" }
-        // effect: Effect {useLighting:true}
-        //light: Light {ambientColor:"red"}
-        cullFaces: "CullBackFaces"
-        scale : 40
-        transform: [
-            Rotation3D {
-                id: rotateB
-                angle: 90
-                axis: Qt.vector3d(0, 0, 1)
-            }
-        ]
-        position : Qt.vector3d(-2, -1, 0)
-        onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
-
-    }
-    /* Cube
+    Item3D
     {
-        id : cube_blue
-        effect: Effect {color: "blue"}
-        scale : 2
+        id : buttons
+        enabled : false
+        Item3D
+        {
+            id : cube_orange
+            mesh: Mesh { source: "MiniOrange.dae" }
+            cullFaces: "CullBackFaces"
+            scale : 40
+            transform: [
+                Rotation3D {
+                    id: rotateO
+                    angle: -90
+                    axis: Qt.vector3d(1, 0, 0)
+                }]
+            position : Qt.vector3d(-1, 1, -2)
+            onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
+        }
 
-        position : Qt.vector3d(-3, 0, 0)
-        onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
-    }*/
+        Item3D
+        {
+            id : cube_red
+            mesh: Mesh { source: "MiniRed.dae" }
+            cullFaces: "CullBackFaces"
+            scale : 40
+            transform: [
+                Rotation3D {
+                    id: rotateR
+                    angle: -90
+                    axis: Qt.vector3d(0, 0, 1)
+                }]
+            position : Qt.vector3d(2, 1, 1)
+            onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
+        }
 
-    Cube
+        Item3D
+        {
+            id : cube_blue
+            mesh: Mesh { source: "MiniBlue.dae" }
+            cullFaces: "CullBackFaces"
+            scale : 40
+            transform: [
+                Rotation3D {
+                    id: rotateB
+                    angle: 90
+                    axis: Qt.vector3d(0, 0, 1)
+                }]
+            position : Qt.vector3d(-2, -1, 0)
+            onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
+        }
+    }
+
+    Item3D
     {
         id : cube_plugin
-        //        scale : 5
         mesh: Mesh { source: "lamp.dae" }
-
-       //transform : [Scale3D {scale : Qt.vector3d(5, 10, 5)} ]
         position : Qt.vector3d(-9, -5, 0)
         effect: Effect {color :apc.getColor(); useLighting : true}
-        //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
-        //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
         scale : (pressed) ? 0.9 : 1
+
+        onClicked :
+        {
+//            if ()
+        }
+
         SequentialAnimation {
             id : animation
             running : false
@@ -180,51 +162,6 @@ Item3D
                 easing.type: Easing.InOutElastic
             }
         }
-
-
-        //    Timer
-        //    {
-        //        running : true
-        //        repeat: true
-        //        interval: 25
-        //        onTriggered:
-        //        {
-        //            zRot += 1
-        //            yRot += 1
-        //        }
-        //    }
-
-        property real pressedTime : 0;
-        onClicked :
-        {
-            // IF WE ARE IDLING ON CLICK ASK FOR SELECTED
-            if (plugin_base.getFocusState() == 0)
-            {
-                console.log("Asking for selected");
-                plugin_base.askForRoomSelectedFocusState();
-            } // IF WE ARE SELECTED ASK FOR FOCUS
-            else if (plugin_base.getFocusState() == 1)
-            {
-                console.log("Asking for focused");
-                plugin_base.askForFocusedFocusState();
-            }
-            else    // FOCUSED STATE
-            {
-
-            }
-        }
-
-        //onHoverEnter :    {col = "orange";console.log("Hover");}
-        //onHoverLeave :    {col = "red"}
-        onPressed :    {console.log("pressed"); pressedTime = new Date().getTime()}
-        onReleased :   {
-            //            if (new Date().getTime() - pressedTime > 2000)
-            //            {
-            //                col = "blue"; pressedTime = 0;
-            //                animation.running = true;
-            //            }
-        }
-        onDoubleClicked :    {console.log("x,y,z " + x + "," + y + "," + z);}
     }
 }
 

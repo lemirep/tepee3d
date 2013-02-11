@@ -79,25 +79,28 @@ OTHER_FILES += \
     icon.png \
     bar-descriptor.xml \
     qml/TepeeCamera.qml \
-    qml/Room.qml \
-    qml/MenuTop.qml \
-    qml/MenuRight.qml \
-    qml/MenuLeft.qml \
-    qml/MenuCenter.qml \
+    qml/Menus/qmldir \
+    qml/Menus/MenuTop.qml \
+    qml/Menus/MenuRight.qml \
+    qml/Menus/MenuLeft.qml \
+    qml/Menus/MenuCenter.qml \
+    qml/Menus/MenuBottom.qml \
     qml/qmldir \
     qml/main.qml \
-    qml/RoomLoader.qml \
+    qml/Rooms/qmldir \
+    qml/Rooms/Room.qml \
+    qml/Rooms/RoomLoader.qml \
+    qml/Rooms/RoomsContainer.qml \
+    qml/Rooms/RoomDelegate.qml \
+    qml/Rooms/RoomWall.qml \
+    qml/Plugins/qmldir \
+    qml/Plugins/RoomPluginDelegate.qml \
+    qml/Plugins/PluginLoader.qml \
+    qml/Plugins/NewPluginDelegate.qml \
     qml/js/Walls.js \
-    qml/RoomsContainer.qml \
-    qml/PluginLoader.qml \
+    qml/js/RoomManagement.js \
     qml/Notification.qml \
     qml/FpsCounter.qml \
-    qml/RoomDelegate.qml \
-    qml/js/RoomManagement.js \
-    qml/NewPluginDelegate.qml \
-    qml/RoomPluginDelegate.qml \
-    qml/MenuBottom.qml \
-    qml/RoomWall.qml \
     qml/content/Clock.qml \
     qml/content/QuitButton.qml \
     qml/second.png \

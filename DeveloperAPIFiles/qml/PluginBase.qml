@@ -34,7 +34,6 @@ Item3D
         pluginRoomId: plugin_base.pluginRoomId
 
         onPluginIdChanged :        {}
-
         onPluginRoomIdChanged: {console.log("RoomId " + pluginRoomId)}
 
         // WHEN CREATED A PLUGIN IS NOT LOADED BEFORE IT HAS BEEN INITIALIZED WITH A pluginId AND A roomId
@@ -46,28 +45,17 @@ Item3D
         onFocusStateChanged:
         {
             console.log("v State " + newFocusStateValue + "  "  + focusState);
-            switch (newFocusStateValue)
-            {
-            case 0 : //PluginEnums.pluginIdleState :
-                if (!plugin_loader.item)
+
+            if (newFocusStateValue == 0 && !plugin_loader.item)
                     plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
-                else
-                    plugin_loader.item.focusStateChanged(newFocusStateValue);
-                break;
-            case 1 : //PluginEnums.pluginSelectedState:
-                if (plugin_loader.item)
-                    plugin_loader.item.focusStateChanged(newFocusStateValue);
-                break;
-            case 2 : //PluginEnums.pluginFocusedState :
-                if (plugin_loader.item)
+            if (plugin_loader.item)
+            {
+                plugin_loader.item.focusStateChanged(newFocusStateValue);
+                if (newFocusStateValue == 2)
                 {
-                    plugin_loader.item.focusStateChanged(newFocusStateValue);
                     console.log("MENU IS >>>> " + menuQmlFile)
                     mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
                 }
-                break;
-            default:
-                break;
             }
         }
 

@@ -140,7 +140,7 @@ Item
         width : parent.width
         height : parent.height
         //        color : mainWindow.menu_background_color
-        source : "Resources/Pictures/panel_bg2.png"
+        source : "../Resources/Pictures/panel_bg2.png"
         property bool add_plugins : false;
         opacity : 0
 
@@ -279,7 +279,7 @@ Item
                 }
             }
 
-            source : "Resources/Pictures/add_button.svg"
+            source : "../Resources/Pictures/add_button.svg"
         }
 
         //        Component

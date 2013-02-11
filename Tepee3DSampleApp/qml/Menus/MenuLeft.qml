@@ -1,6 +1,5 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-import "js/Walls.js" as Walls;
 
 Item
 {
@@ -155,7 +154,7 @@ Item
         width : parent.width
         //        color : mainWindow.menu_background_color
         opacity : 0
-        source : "Resources/Pictures/panel_bg2.png"
+        source : "../Resources/Pictures/panel_bg2.png"
 
         border
         {
@@ -216,7 +215,7 @@ Item
                 }
             }
 
-            source : "Resources/Pictures/add_button.svg"
+            source : "../Resources/Pictures/add_button.svg"
         }
     }
 }

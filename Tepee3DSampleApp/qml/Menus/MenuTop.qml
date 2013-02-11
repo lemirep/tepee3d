@@ -1,6 +1,5 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-import "js/Walls.js" as Walls;
 
 Item
 {
@@ -15,18 +14,9 @@ Item
     property int  ySaved;
     property int  savedHeight;
 
+    Component.onCompleted:    {mainWindow.roomFaceIdChanged.connect(setListIndex)}
 
-    Component.onCompleted:
-    {
-        mainWindow.roomFaceIdChanged.connect(setListIndex)
-    }
-
-
-    function startDrag(xPos, yPos)
-    {
-        ySaved = yPos;
-        savedHeight = menuTopMain.height
-    }
+    function startDrag(xPos, yPos)    {ySaved = yPos;savedHeight = menuTopMain.height}
 
     function dragMoved(offsetX, offsetY)
     {
@@ -44,11 +34,7 @@ Item
             menuTopMain.isShown = false;
     }
 
-    function setListIndex(wallId)
-    {
-        console.log("Wall ID <><><><><><><><> " + wallId)
-        room_faces_listview.currentIndex = wallId;
-    }
+    function setListIndex(wallId)    {room_faces_listview.currentIndex = wallId;}
 
     states :     [
         State     {
@@ -138,7 +124,7 @@ Item
         id : menuTopRec
         width : parent.width
         height : parent.height
-        source : "Resources/Pictures/panel_bg2.png"
+        source : "../Resources/Pictures/panel_bg2.png"
         //        color : mainWindow.menu_background_color
         opacity : 0
         //        Behavior on height {NumberAnimation {duration: 100}}
@@ -182,10 +168,7 @@ Item
 
             delegate : room_face_view_delegate
             model : currentRoomFacesModel
-            Component.onCompleted:
-            {
-                room_faces_listview.currentIndex = -1;
-            }
+            Component.onCompleted:    {room_faces_listview.currentIndex = -1;}
         }
 
 
@@ -221,10 +204,7 @@ Item
 
                 Text
                 {
-                    anchors
-                    {
-                        centerIn : parent
-                    }
+                    anchors.centerIn : parent
                     text : model.name
                 }
             }

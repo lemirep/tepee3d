@@ -10,4 +10,25 @@ Carousel 1.0 ../../DeveloperAPIFiles/qml/Carousel.qml
 # QML FILES FOR PLUGINS
 PluginBase 1.0 ../../DeveloperAPIFiles/qml/PluginBase.qml
 
+# QML FOR MENUS
+MenuBottom 1.0 Menus/MenuBottom.qml
+MenuCenter 1.0 Menus/MenuCenter.qml
+MenuLeft 1.0 Menus/MenuLeft.qml
+MenuRight 1.0 Menus/MenuRight.qml
+MenuTop 1.0 Menus/MenuTop.qml
 
+# QML FOR ROOMS
+Room 1.0 Rooms/Room.qml
+RoomDelegate 1.0 Rooms/RoomDelegate.qml
+RoomLoader 1.0 Rooms/RoomLoader.qml
+RoomsContainer 1.0 Rooms/RoomsContainer.qml
+RoomWall 1.0 Rooms/RoomWall.qml
+
+# QML FOR PLUGINS
+NewPluginDelegate 1.0 Plugins/NewPluginDelegate.qml
+PluginLoader 1.0 Plugins/PluginLoader.qml
+RoomPluginDelegate 1.0 Plugins/RoomPluginDelegate.qml
+
+# JS FILES
+Room 1.0 js/RoomManagement.js
+Walls 1.0 js/Walls.js

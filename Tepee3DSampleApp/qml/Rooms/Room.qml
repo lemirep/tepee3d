@@ -2,7 +2,6 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import View 1.0
-import "js/Walls.js" as Walls;
 
 // IN THE LONG TERM THE CUBE WILL BE REPLACED BY A HOME MADE MODEL
 // THIS WAY EACH FACE WILL HAVE A ON PRESS METHOD
@@ -93,7 +92,7 @@ Item3D
         {
             id : northWall
             wallIndicatorColor: "yellow"
-            wallIndicatorTexture: "Resources/Textures/wall_indicator_north.png"
+            wallIndicatorTexture: "../Resources/Textures/wall_indicator_north.png"
             rotationAngle:  -90
             rotationAxis: Qt.vector3d(1, 0, 0)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
@@ -101,7 +100,7 @@ Item3D
             translationVector: Qt.vector3d(0, 0, 0.5)
             enabled : (mainWindow.currentRoomFaceId != 1)
             effect : face_effect
-            onHoverEnter : {console.log("North")}
+//            onHoverEnter : {console.log("North")}
             onClicked : {moveToFace(0)}
         }
 
@@ -109,13 +108,13 @@ Item3D
         {
             id : southWall
             wallIndicatorColor: "blue"
-                        wallIndicatorTexture: "Resources/Textures/wall_indicator_south.png"
+                        wallIndicatorTexture: "../Resources/Textures/wall_indicator_south.png"
             rotationAngle:  90
             rotationAxis: Qt.vector3d(1, 0, 0)
             translationVector: Qt.vector3d(0, 0, -0.5)
             enabled : (mainWindow.currentRoomFaceId != 0)
             effect : face_effect
-            onHoverEnter : {console.log("South")}
+//            onHoverEnter : {console.log("South")}
             onClicked : {moveToFace(1)}
         }
 
@@ -123,7 +122,7 @@ Item3D
         {
             id : westWall
             wallIndicatorColor: "red"
-                        wallIndicatorTexture: "Resources/Textures/wall_indicator_west.png"
+                        wallIndicatorTexture: "../Resources/Textures/wall_indicator_west.png"
             rotationAngle:  90
             rotationAxis: Qt.vector3d(0, 0, 1)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
@@ -131,7 +130,7 @@ Item3D
             translationVector: Qt.vector3d(0.5, 0, 0)
             enabled : (mainWindow.currentRoomFaceId != 2)
             effect : face_effect
-            onHoverEnter : {console.log("West")}
+//            onHoverEnter : {console.log("West")}
             onClicked : {moveToFace(3)}
         }
 
@@ -139,7 +138,7 @@ Item3D
         {
             id : eastWall
             wallIndicatorColor: "orange"
-                        wallIndicatorTexture: "Resources/Textures/wall_indicator_east.png"
+                        wallIndicatorTexture: "../Resources/Textures/wall_indicator_east.png"
             rotationAngle:  -90
             rotationAxis: Qt.vector3d(0, 0, 1)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
@@ -147,7 +146,7 @@ Item3D
             translationVector: Qt.vector3d(-0.5, 0, 0)
             enabled : (mainWindow.currentRoomFaceId != 3)
             effect : face_effect
-            onHoverEnter : {console.log("East")}
+//            onHoverEnter : {console.log("East")}
             onClicked : {moveToFace(2)}
         }
 
@@ -155,7 +154,7 @@ Item3D
         {
             id : upWall
             wallIndicatorColor: "green"
-                        wallIndicatorTexture: "Resources/Textures/wall_indicator_up.png"
+                        wallIndicatorTexture: "../Resources/Textures/wall_indicator_up.png"
             rotationAngle:  180
             rotationAxis: Qt.vector3d(0, 0, 1)
             translationVector: Qt.vector3d(0, 0.5, 0)
@@ -163,7 +162,7 @@ Item3D
             panelRotationAngle: 180
             enabled : (mainWindow.currentRoomFaceId != 4)
             effect : face_effect
-            onHoverEnter : {console.log("Up")}
+//            onHoverEnter : {console.log("Up")}
             onClicked : {moveToFace(4)}
         }
 
@@ -171,7 +170,7 @@ Item3D
         {
             id : downWall
             wallIndicatorColor: "cyan"
-            wallIndicatorTexture: "Resources/Textures/wall_indicator_down.png"
+            wallIndicatorTexture: "../Resources/Textures/wall_indicator_down.png"
             rotationAngle:  0
             rotationAxis: Qt.vector3d(0, 0, 1)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
@@ -179,7 +178,7 @@ Item3D
             translationVector: Qt.vector3d(0, -0.5, 0)
             enabled : (mainWindow.currentRoomFaceId != 5)
             effect : face_effect
-            onHoverEnter : {console.log("Up")}
+//            onHoverEnter : {console.log("Down")}
             onClicked : {moveToFace(5)}
         }
     }
@@ -187,7 +186,7 @@ Item3D
     Effect
     {
         id : face_effect
-                texture : "Resources/Textures/blue_wall.jpg"
+                texture : "../Resources/Textures/blue_wall.jpg"
         //        dynamicTexture : qml_texture
         //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true

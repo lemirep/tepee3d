@@ -123,7 +123,6 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 {
     if (room == this->currentRoom)
         return ;
-    qDebug() << "SETTING NEW ROOM";
     this->roomUpdateTimer->stop();
     if (this->currentRoom != NULL)
     {
@@ -144,7 +143,6 @@ void        Room::RoomManager::setCurrentRoom(int roomId)
 {
     Room::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
-    qDebug() << "CALLING SET ROOM";
     if ((roomItem = (Room::RoomModelItem *)this->roomModel->find(roomId)))
         room = roomItem->getRoom();
     // IN ANY CASE WE SET IT SO THAT WE STOP UPDATING IF ROOM IS NULL

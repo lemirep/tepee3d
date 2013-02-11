@@ -1,0 +1,8 @@
+# QML FILES FOR PLUGINS
+PluginBase 1.0 ../../../DeveloperAPIFiles/qml/PluginBase.qml
+NewPluginDelegate 1.0 ../Plugins/NewPluginDelegate.qml
+PluginLoader 1.0 ../Plugins/PluginLoader.qml
+RoomPluginDelegate 1.0 ../Plugins/RoomPluginDelegate.qml
+
+# JS FILEs
+Walls 1.0 ../js/Walls.js

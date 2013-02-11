@@ -3,8 +3,6 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import BufferedTextureSourcePlugin 1.0
-import "js/RoomManagement.js" as Room
-import "js/Walls.js" as Walls
 
 Viewport
 {
@@ -27,10 +25,7 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
-    Component.onCompleted:
-    {
-        Room.initialize(camera, roomModel, currentRoomFacesModel)
-    }
+    Component.onCompleted:    {Room.initialize(camera, roomModel, currentRoomFacesModel)}
 
     onCurrentRoomIdChanged:
     {
@@ -71,22 +66,10 @@ Viewport
     //              /  |
     //
 
-    ListModel // STORES FACES INFORMATION ABOUT THE CURRENT ROOM
-    {
-        id : currentRoomFacesModel
-    }
+    ListModel    {id : currentRoomFacesModel} // STORES FACES INFORMATION ABOUT THE CURRENT ROOM
 
-    function    onRoomSwitch()
-    {
-        camera_movement_velocity = 200;
-        currentRoomFaceId = 0;
-    }
-
-    function    onRoomFaceSwitch()
-    {
-        camera_movement_velocity = 100;
-//        camera_movement_duration = 5000;
-    }
+    function    onRoomSwitch()    {camera_movement_velocity = 200;currentRoomFaceId = 0;}
+    function    onRoomFaceSwitch()    {camera_movement_velocity = 100;}
 
     lightModel : LightModel {
         //        model : "TwoSided"
@@ -104,65 +87,23 @@ Viewport
         linearAttenuation : 0
     }
 
-    camera: TepeeCamera     {
-        id : camera
-    }
+    camera: TepeeCamera     {id : camera}
 
-//    Timer
-//    {
-//        id : camera_timer
-//        running : true
-//        interval : 40
-//        repeat : true
-//        onTriggered:
-//        {
-//            camera.angle += 0.05
-//            if (camera.angle >= 360)
-//                camera.angle -= 360;
-//            camera.setCameraEye(Qt.vector3d(100 * Math.cos(camera.angle), camera.eyeY, 100 * Math.sin(camera.angle)));
-//        }
-//    }
+    Keys.onLeftPressed:    {}
+    Keys.onRightPressed:    {}
+    Keys.onUpPressed:    {}
+    Keys.onDownPressed:    {}
 
-    Keys.onLeftPressed:
-    {
+    Skybox    {source : "sky15"}
 
-    }
-    Keys.onRightPressed:
-    {
-    }
-    Keys.onUpPressed:
-    {
-        camera.zCam += 1;
-        //        camera.zCamCenter += 5
-        console.log("Eye " + camera.eye.x + "," + camera.eye.y + "," + camera.eye.z + " Center " + camera.center.x + "," + camera.center.y + "," + camera.center.z);
-    }
-    Keys.onDownPressed:
-    {
-        camera.zCam -= 1;
-    }
+    RoomsContainer    {id : roomContainer}
 
-    Skybox
-    {
-        source : "sky15"
-    }
-
-    RoomsContainer
-    {
-        id : roomContainer
-    }
+    MenuCenter    {id : menu_center; anchors.fill : parent}
 
 //    BufferedTextureSource
 //    {
 //        sourceItem : menu_center
-
 //    }
-
-
-    MenuCenter
-    {
-        id : menu_center
-        anchors.fill : parent
-    }
 
 //    Notification
 //    {
@@ -173,7 +114,6 @@ Viewport
 //    {
 
 //    }
-
 
     ///// HAVE A LOADER COMPONENT HERE
     ///// WHEN A PLUGIN IS SELECTED IN SELECTED MODE
