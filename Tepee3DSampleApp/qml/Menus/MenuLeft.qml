@@ -81,6 +81,11 @@ Item
                 target : rooms_list_view
                 opacity : 1
             }
+            PropertyChanges
+            {
+                target: arrow_image
+                opacity : 0
+            }
             when: menuLeftMain.isShown
         },
         State {
@@ -105,6 +110,11 @@ Item
             {
                 target : rooms_list_view
                 opacity : 0
+            }
+            PropertyChanges
+            {
+                target: arrow_image
+                opacity : 0.8
             }
             when: !menuLeftMain.isShown
         }]
@@ -152,7 +162,6 @@ Item
         id : menuLeftRec
         height : parent.height
         width : parent.width
-        //        color : mainWindow.menu_background_color
         opacity : 0
         source : "../Resources/Pictures/panel_bg2.png"
 
@@ -217,5 +226,16 @@ Item
 
             source : "../Resources/Pictures/add_button.svg"
         }
+    }
+
+    Image
+    {
+        id : arrow_image
+        anchors.centerIn: parent
+        source : "../Resources/Pictures/arrow.png"
+        fillMode: Image.PreserveAspectFit
+        Behavior on opacity {SmoothedAnimation {velocity : 10}}
+        rotation : -90
+        height : mainWindow.menuMinimumWidth
     }
 }

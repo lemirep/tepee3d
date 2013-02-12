@@ -68,6 +68,11 @@ Item
                 target : add_plugin_button
                 opacity : 1
             }
+            PropertyChanges
+            {
+                target: arrow_image
+                opacity : 0
+            }
             when: menuRightMain.isShown
         },
         State {
@@ -93,6 +98,11 @@ Item
             {
                 target : room_plugins_list_view
                 opacity : 0
+            }
+            PropertyChanges
+            {
+                target: arrow_image
+                opacity : 0.8
             }
             when: !menuRightMain.isShown
         }]
@@ -287,5 +297,15 @@ Item
         //            id : plugin_list_delegate
         //        }
 
+    }
+    Image
+    {
+        id : arrow_image
+        anchors.centerIn: parent
+        source : "../Resources/Pictures/arrow.png"
+        fillMode: Image.PreserveAspectFit
+        Behavior on opacity {SmoothedAnimation {velocity : 10}}
+        rotation : 90
+        height : mainWindow.menuMinimumWidth
     }
 }

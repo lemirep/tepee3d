@@ -64,6 +64,11 @@ Item
                 target: menuBottomRec
                 opacity : mainWindow.menu_opacity_deployed
             }
+            PropertyChanges
+            {
+                target: arrow_image
+                opacity : 0
+            }
             when : menuBottomMain.isShown
         },
         State
@@ -81,6 +86,11 @@ Item
             {
                 target: menuBottomRec
                 opacity : mainWindow.menu_opacity_retracted
+            }
+            PropertyChanges
+            {
+                target: arrow_image
+                opacity : 0.8
             }
             when :!menuBottomMain.isShown
         }
@@ -117,16 +127,27 @@ Item
             }
         }
 
-        Clock
-        {
-            anchors
-            {
-                verticalCenter : parent.verticalCenter
-                left : parent.left
-                leftMargin :  mainWindow.menuMinimumWidth
-            }
+//        Clock
+//        {
+//            anchors
+//            {
+//                verticalCenter : parent.verticalCenter
+//                left : parent.left
+//                leftMargin :  mainWindow.menuMinimumWidth
+//            }
 
-        }
+//        }
 
     }
+    Image
+    {
+        id : arrow_image
+        anchors.centerIn: parent
+        source : "../Resources/Pictures/arrow.png"
+        fillMode: Image.PreserveAspectFit
+        Behavior on opacity {SmoothedAnimation {velocity : 10}}
+        rotation : 180
+        height : mainWindow.menuMinimumWidth
+    }
+
 }

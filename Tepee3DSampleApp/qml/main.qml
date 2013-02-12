@@ -14,7 +14,7 @@ Viewport
     property color plugin_list_component_color : "#0099dd";
     property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
-    property real  menu_opacity_retracted : 0.3;
+    property real  menu_opacity_retracted : 0;
     property int   camera_movement_velocity : 250;
     property int   menuMinimumWidth : 40
     property int   currentRoomId : 0;
@@ -110,7 +110,7 @@ Viewport
 //        id : notification
 //    }
 
-    FpsCounter {}
+//    FpsCounter {}
 
     ///// HAVE A LOADER COMPONENT HERE
     ///// WHEN A PLUGIN IS SELECTED IN SELECTED MODE

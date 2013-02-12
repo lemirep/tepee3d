@@ -57,6 +57,11 @@ Item
                 target : room_faces_listview
                 opacity : 1
             }
+            PropertyChanges
+            {
+                target : arrow_image
+                opacity : 0
+            }
             when: menuTopMain.isShown
         },
         State {
@@ -76,6 +81,16 @@ Item
             {
                 target : room_faces_listview
                 opacity : 0
+            }
+            PropertyChanges
+            {
+                target : room_faces_listview
+                opacity : 0
+            }
+            PropertyChanges
+            {
+                target : room_faces_listview
+                opacity : 0.8
             }
             when: !menuTopMain.isShown
         }]
@@ -210,5 +225,13 @@ Item
             }
         }
     }
-
+    Image
+    {
+        id : arrow_image
+        anchors.centerIn: parent
+        source : "../Resources/Pictures/arrow.png"
+        fillMode: Image.PreserveAspectFit
+        Behavior on opacity {SmoothedAnimation {velocity : 10}}
+        height : mainWindow.menuMinimumWidth
+    }
 }
