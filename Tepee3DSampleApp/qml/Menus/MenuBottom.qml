@@ -20,6 +20,7 @@ Item
     property int  ySaved;
     property int  savedHeight;
     property alias pluginMenuSource : plugin_menu_loader.source
+    property bool isPressed;
 
     function startDrag(xPos, yPos)
     {
@@ -30,15 +31,29 @@ Item
     {
         var newY = offsetY + ySaved
         if (newY <= minMenuY && newY >= maxMenuY)
+        {
+            menuBottomMain.y = newY
+            menuBottomMain.height = mainWindow.height - newY
             savedHeight = mainWindow.height - newY;
-    }
-
-    function dragEnd()
-    {
+        }
         if ((savedHeight - minMenuHeight) / maxMenuHeight > 0.4)
             menuBottomMain.isShown = true;
         else
             menuBottomMain.isShown = false;
+    }
+
+    function dragEnd()
+    {
+        var oldstate = menuBottomMain.isShown
+        if ((savedHeight - minMenuHeight) / maxMenuHeight > 0.4)
+            menuBottomMain.isShown = true;
+        else
+            menuBottomMain.isShown = false;
+        if (oldstate == menuBottomMain.isShown)
+        {
+            menuBottomMain.state = ""
+            menuBottomMain.state = (oldstate) ? "menuShown" : "menuHidden"
+        }
     }
 
 //    function setListIndex(wallId)
@@ -148,6 +163,7 @@ Item
         Behavior on opacity {SmoothedAnimation {velocity : 10}}
         rotation : 180
         height : mainWindow.menuMinimumWidth
+        scale : isPressed ? 0.9 :  1
     }
 
 }

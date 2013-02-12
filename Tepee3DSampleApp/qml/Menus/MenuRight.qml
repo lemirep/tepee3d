@@ -18,6 +18,7 @@ Item
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
     property int  savedWidth;
+    property bool isPressed;
 
     function startDrag(xPos, yPos)
     {
@@ -29,18 +30,29 @@ Item
         var newX = offsetX + xSaved;
         if (newX <= minMenuX && newX >= maxMenuX)
         {
-//            menuRightMain.x = newX
-//            menuRightMain.width = mainWindow.width - newX;
+            menuRightMain.x = newX
+            menuRightMain.width = mainWindow.width - newX;
             savedWidth = mainWindow.width - newX;
         }
+        if ((savedWidth) / maxMenuWidth > 0.4)
+            menuRightMain.isShown = true;
+        else
+            menuRightMain.isShown = false;
     }
 
     function dragEnd()
     {
-        if ((savedWidth - minMenuWidth) / maxMenuWidth > 0.4)
+        var oldstate = menuRightMain.isShown;
+        if ((savedWidth) / maxMenuWidth > 0.4)
+//        if ((savedWidth - minMenuWidth) / maxMenuWidth > 0.4)
             menuRightMain.isShown = true;
         else
             menuRightMain.isShown = false;
+        if (oldstate == menuRightMain.isShown)
+        {
+            menuRightMain.state = ""
+            menuRightMain.state = (oldstate) ? "menuShown" : "menuHidden"
+        }
     }
 
     states :     [
@@ -116,7 +128,7 @@ Item
             {
                 target : menuRightRec
                 properties : "x, width, opacity"
-                duration : 400
+                duration : 200
             }
             NumberAnimation
             {
@@ -307,5 +319,6 @@ Item
         Behavior on opacity {SmoothedAnimation {velocity : 10}}
         rotation : 90
         height : mainWindow.menuMinimumWidth
+        scale : isPressed ? 0.9 :  1
     }
 }

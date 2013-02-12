@@ -19,6 +19,8 @@ Item
     property int  xSaved;
     property int  savedWidth;
     property int  idx : 0;
+    property bool isPressed;
+
 
     Component.onCompleted:
     {
@@ -38,15 +40,24 @@ Item
         if ((savedWidth + offset) <=  maxMenuWidth &&
                 (savedWidth + offset) >= minMenuWidth)
             menuLeftMain.width = savedWidth + offset;
-    }
-
-    function dragEnd()
-    {
         if ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
             menuLeftMain.isShown = true;
         else
             menuLeftMain.isShown = false;
-        //        console.log(menuLeftMain.isShown)
+    }
+
+    function dragEnd()
+    {
+        var oldstate = menuLeftMain.isShown
+        if ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
+            menuLeftMain.isShown = true;
+        else
+            menuLeftMain.isShown = false;
+        if (oldstate == menuLeftMain.isShown)
+        {
+            menuLeftMain.state = ""
+            menuLeftMain.state = (oldstate) ? "menuShown" : "menuHidden"
+        }
     }
 
     function setListIndex(roomId)
@@ -78,11 +89,6 @@ Item
             }
             PropertyChanges
             {
-                target : rooms_list_view
-                opacity : 1
-            }
-            PropertyChanges
-            {
                 target: arrow_image
                 opacity : 0
             }
@@ -108,11 +114,6 @@ Item
             }
             PropertyChanges
             {
-                target : rooms_list_view
-                opacity : 0
-            }
-            PropertyChanges
-            {
                 target: arrow_image
                 opacity : 0.8
             }
@@ -130,12 +131,12 @@ Item
                 properties : "width, opacity"
                 duration : 200
             }
-            NumberAnimation
-            {
-                target : rooms_list_view
-                properties : "opacity"
-                duration : 250
-            }
+//            NumberAnimation
+//            {
+//                target : rooms_list_view
+//                properties : "opacity"
+//                duration : 250
+//            }
 
         },
         Transition
@@ -148,34 +149,33 @@ Item
                 properties : "width, opacity"
                 duration : 200
             }
-            NumberAnimation
-            {
-                target : rooms_list_view
-                properties: "opacity"
-                duration : 150
-            }
+//            NumberAnimation
+//            {
+//                target : rooms_list_view
+//                properties: "opacity"
+//                duration : 150
+//            }
         }
     ]
 
     BorderImage
     {
         id : menuLeftRec
-        height : parent.height
-        width : parent.width
+        anchors.fill: parent
         opacity : 0
         source : "../Resources/Pictures/panel_bg2.png"
 
         border
         {
             left : 2
-
             bottom : 1
         }
 
         ListView
         {
             id : rooms_list_view
-            opacity : 0
+            opacity : (menuLeftRec.width == maxMenuWidth) ? 1 : 0
+            Behavior on opacity {SmoothedAnimation {velocity : 1}}
             enabled : (opacity == 1)
             clip: true
             spacing: 10
@@ -237,5 +237,6 @@ Item
         Behavior on opacity {SmoothedAnimation {velocity : 10}}
         rotation : -90
         height : mainWindow.menuMinimumWidth
+        scale : isPressed ? 0.9 :  1
     }
 }

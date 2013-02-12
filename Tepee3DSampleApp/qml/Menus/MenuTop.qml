@@ -13,6 +13,7 @@ Item
     property int  maxMenuWidth : mainWindow.width
     property int  ySaved;
     property int  savedHeight;
+    property bool isPressed;
 
     Component.onCompleted:    {mainWindow.roomFaceIdChanged.connect(setListIndex)}
 
@@ -24,14 +25,24 @@ Item
         if ((savedHeight + offset) <=  maxMenuHeight &&
                 (savedHeight + offset) >= minMenuHeight)
             menuTopMain.height = savedHeight + offset;
-    }
-
-    function  dragEnd()
-    {
         if ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
             menuTopMain.isShown = true;
         else
             menuTopMain.isShown = false;
+    }
+
+    function  dragEnd()
+    {
+        var oldstate = menuTopMain.isShown
+        if ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
+            menuTopMain.isShown = true;
+        else
+            menuTopMain.isShown = false;
+        if (oldstate == menuTopMain.isShown)
+        {
+            menuTopMain.state = ""
+            menuTopMain.state = (oldstate) ? "menuShown" : "menuHidden"
+        }
     }
 
     function setListIndex(wallId)    {room_faces_listview.currentIndex = wallId;}
@@ -54,11 +65,6 @@ Item
             }
             PropertyChanges
             {
-                target : room_faces_listview
-                opacity : 1
-            }
-            PropertyChanges
-            {
                 target : arrow_image
                 opacity : 0
             }
@@ -76,20 +82,10 @@ Item
             {
                 target: menuTopRec
                 opacity : mainWindow.menu_opacity_retracted
-            }
+            }           
             PropertyChanges
             {
-                target : room_faces_listview
-                opacity : 0
-            }
-            PropertyChanges
-            {
-                target : room_faces_listview
-                opacity : 0
-            }
-            PropertyChanges
-            {
-                target : room_faces_listview
+                target : arrow_image
                 opacity : 0.8
             }
             when: !menuTopMain.isShown
@@ -106,13 +102,6 @@ Item
                 properties : "height, opacity"
                 duration : 200
             }
-            NumberAnimation
-            {
-                target : room_faces_listview
-                properties : "opacity"
-                duration : 250
-            }
-
         },
         Transition
         {
@@ -124,12 +113,6 @@ Item
                 properties : "height, opacity"
                 duration : 200
             }
-            NumberAnimation
-            {
-                target : room_faces_listview
-                properties: "opacity"
-                duration : 150
-            }
         }
     ]
 
@@ -137,8 +120,9 @@ Item
     BorderImage
     {
         id : menuTopRec
-        width : parent.width
-        height : parent.height
+//            width : parent.width
+//            height : parent.height
+        anchors.fill: parent
         source : "../Resources/Pictures/panel_bg2.png"
         //        color : mainWindow.menu_background_color
         opacity : 0
@@ -155,12 +139,6 @@ Item
 
         GridView
         {
-            //            Rectangle
-            //            {
-            //                anchors.fill: parent
-            //                color : "green"
-            //            }
-
             id : room_faces_listview
             cellWidth: width / 6
             cellHeight: cellWidth
@@ -168,9 +146,9 @@ Item
             //            property real delegate_height : menuTopMain.height / 12;
 
             clip : true
-            opacity :  0
+            opacity :  (menuTopRec.height == maxMenuHeight) ? 1 : 0
             enabled : (opacity == 1)
-            Behavior on opacity {NumberAnimation {duration : 500}}
+            Behavior on opacity {SmoothedAnimation {velocity : 1}}
 
             anchors
             {
@@ -233,5 +211,6 @@ Item
         fillMode: Image.PreserveAspectFit
         Behavior on opacity {SmoothedAnimation {velocity : 10}}
         height : mainWindow.menuMinimumWidth
+        scale : isPressed ? 0.9 :  1
     }
 }

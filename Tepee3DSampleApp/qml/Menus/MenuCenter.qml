@@ -36,6 +36,7 @@ Item
             {
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE
                 obj.startDrag(savedX, savedY)
+                obj.isPressed = true
             }
             else
             {
@@ -54,13 +55,15 @@ Item
                 var offsetY = mouseY - savedY;
                 var offsetX = mouseX - savedX;
                 obj.dragMoved(offsetX, offsetY);
-                obj.dragEnd();
             }
         }
         onReleased :
         {
             if (obj)
+            {
                 obj.dragEnd();
+                obj.isPressed = false;
+            }
         }
     }
 
