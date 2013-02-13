@@ -97,7 +97,24 @@ OTHER_FILES += \
     qml/NewPluginDelegate.qml \
     qml/RoomPluginDelegate.qml \
     qml/MenuBottom.qml \
-    qml/RoomWall.qml
+    qml/RoomWall.qml \
+    qml/content/Clock.qml \
+    qml/content/QuitButton.qml \
+    qml/second.png \
+    qml/quit.png \
+    qml/minute.png \
+    qml/hour.png \
+    qml/clock-night.png \
+    qml/clock.png \
+    qml/center.png \
+    qml/content/second.png \
+    qml/content/quit.png \
+    qml/content/minute.png \
+    qml/content/hour.png \
+    qml/content/clock-night.png \
+    qml/content/clock.png \
+    qml/content/center.png \
+    qml/content/background.png
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

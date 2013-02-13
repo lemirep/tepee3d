@@ -154,17 +154,17 @@ Item
 
         GridView
         {
-//            Rectangle
-//            {
-//                anchors.fill: parent
-//                color : "green"
-//            }
+            //            Rectangle
+            //            {
+            //                anchors.fill: parent
+            //                color : "green"
+            //            }
 
             id : room_faces_listview
             cellWidth: width / 6
             cellHeight: cellWidth
-//            property real delegate_width :  menuTopMain.height / 10;
-//            property real delegate_height : menuTopMain.height / 12;
+            //            property real delegate_width :  menuTopMain.height / 10;
+            //            property real delegate_height : menuTopMain.height / 12;
 
             clip : true
             opacity :  0
@@ -198,7 +198,7 @@ Item
                 id : room_face_del_item
                 width : room_faces_listview.cellWidth
                 height : room_faces_listview.cellHeight
-               // anchors.verticalCenter: parent.verticalCenter
+                // anchors.verticalCenter: parent.verticalCenter
                 scale : room_face_delegate_mouse_area.pressed ? 0.9 : 1.0
                 MouseArea
                 {
@@ -207,7 +207,7 @@ Item
                     onClicked :
                     {
                         room_faces_listview.currentIndex = index
-//                        moveToFace(model.idx)
+                        //                        moveToFace(model.idx)
                         mainWindow.currentRoomFaceId = index;
                     }
                 }
@@ -227,37 +227,6 @@ Item
                     }
                     text : model.name
                 }
-            }
-        }
-
-        Text
-        {
-
-            text : getTime();
-
-            Timer
-            {
-                running: true
-                interval : 60000
-                onTriggered:
-                {
-                    parent.text = parent.getTime();
-                }
-            }
-
-
-            function getTime()
-            {
-                var d = new Date();
-                return d.getHours() + ":" + d.getMinutes();
-            }
-
-            color : "white"
-            anchors
-            {
-                bottom : parent.bottom
-                horizontalCenter : parent.horizontalCenter
-                margins : 10
             }
         }
     }

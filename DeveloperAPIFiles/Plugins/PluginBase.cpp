@@ -76,7 +76,7 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
     return this->focusState;
 }
 
-void    Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
+void    Plugins::PluginBase::exposeContentToQml(QQmlContext *)
 {
     // EXPOSE YOUR QML CONTENT HERE
     // BE CAREFUL IN CASE YOUR PLUGIN IS LOADED SEVERAL TIME TO HAVE

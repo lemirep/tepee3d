@@ -160,7 +160,6 @@ Item3D
         effect: Effect {color :apc.getColor(); useLighting : true}
         //        transform : [Rotation3D {angle : zRot; axis : Qt.vector3d(0, 0, 1)},
         //            Rotation3D {angle : yRot; axis : Qt.vector3d(0, 1, 0)}]
-
         scale : (pressed) ? 0.9 : 1
         SequentialAnimation {
             id : animation
