@@ -125,36 +125,13 @@ Item
         {
             from: "menuHidden"
             to: "menuShown"
-            NumberAnimation
-            {
-                target : menuLeftRec
-                properties : "width, opacity"
-                duration : 200
-            }
-//            NumberAnimation
-//            {
-//                target : rooms_list_view
-//                properties : "opacity"
-//                duration : 250
-//            }
-
+            SmoothedAnimation    {target : menuLeftRec; properties : "width, opacity"; duration : -1; velocity : 1}
         },
         Transition
         {
             from: "menuShown"
             to: "menuHidden"
-            NumberAnimation
-            {
-                target : menuLeftRec
-                properties : "width, opacity"
-                duration : 200
-            }
-//            NumberAnimation
-//            {
-//                target : rooms_list_view
-//                properties: "opacity"
-//                duration : 150
-//            }
+            SmoothedAnimation    {target : menuLeftRec; properties : "width, opacity"; duration : 200; velocity : 50}
         }
     ]
 
@@ -223,7 +200,6 @@ Item
                     roomManager.addNewRoom();
                 }
             }
-
             source : "../Resources/Pictures/add_button.svg"
         }
     }

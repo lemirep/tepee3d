@@ -33,12 +33,7 @@ Item
     {
         id: plugin_title
         text: pluginName
-        anchors
-        {
-            horizontalCenter : parent.horizontalCenter
-            bottom : parent.bottom
-            margins : 10
-        }
+        anchors.centerIn: delRect
         color :  "white"
     }
 }

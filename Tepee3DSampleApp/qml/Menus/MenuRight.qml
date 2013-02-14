@@ -58,64 +58,20 @@ Item
     states :     [
         State     {
             name: "menuShown"
-            PropertyChanges
-            {
-                target: menuRightMain;
-                width : maxMenuWidth
-                height : maxMenuHeight
-                x: maxMenuX
-            }
-            PropertyChanges
-            {
-                target: menuRightRec
-                opacity : mainWindow.menu_opacity_deployed
-            }
-            PropertyChanges
-            {
-                target : room_plugins_list_view
-                opacity : 1
-            }
-            PropertyChanges
-            {
-                target : add_plugin_button
-                opacity : 1
-            }
-            PropertyChanges
-            {
-                target: arrow_image
-                opacity : 0
-            }
+            PropertyChanges    {target: menuRightMain; width : maxMenuWidth; height : maxMenuHeight; x: maxMenuX}
+            PropertyChanges    {target: menuRightRec; opacity : mainWindow.menu_opacity_deployed}
+            PropertyChanges    {target : room_plugins_list_view; opacity : 1}
+            PropertyChanges    {target : add_plugin_button; opacity : 1}
+            PropertyChanges    {target: arrow_image; opacity : 0}
             when: menuRightMain.isShown
         },
         State {
             name: "menuHidden"
-            PropertyChanges
-            {
-                target: menuRightMain
-                x : minMenuX
-                height : minMenuHeight
-                width : minMenuWidth
-            }
-            PropertyChanges
-            {
-                target: menuRightRec
-                opacity : mainWindow.menu_opacity_retracted
-            }
-            PropertyChanges
-            {
-                target : add_plugin_button
-                opacity : 0
-            }
-            PropertyChanges
-            {
-                target : room_plugins_list_view
-                opacity : 0
-            }
-            PropertyChanges
-            {
-                target: arrow_image
-                opacity : 0.8
-            }
+            PropertyChanges    {target: menuRightMain; x : minMenuX; height : minMenuHeight; width : minMenuWidth}
+            PropertyChanges    {target: menuRightRec; opacity : mainWindow.menu_opacity_retracted}
+            PropertyChanges    {target : add_plugin_button; opacity : 0}
+            PropertyChanges    {target : room_plugins_list_view; opacity : 0}
+            PropertyChanges    {target: arrow_image; opacity : 0.8}
             when: !menuRightMain.isShown
         }]
 
@@ -124,35 +80,15 @@ Item
         {
             from: "menuHidden"
             to: "menuShown"
-            NumberAnimation
-            {
-                target : menuRightRec
-                properties : "x, width, opacity"
-                duration : 200
-            }
-            NumberAnimation
-            {
-                target : room_plugins_list_view
-                properties : "opacity"
-                duration : 250
-            }
+            SmoothedAnimation    {target : menuRightRec; properties : "x, width, opacity"; duration : -1; velocity : 1}
+            SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : -1; velocity : 1}
         },
         Transition
         {
             from: "menuShown"
             to: "menuHidden"
-            NumberAnimation
-            {
-                target : menuRightRec
-                properties : "x, width, opacity"
-                duration : 200
-            }
-            NumberAnimation
-            {
-                target : room_plugins_list_view
-                properties : "opacity"
-                duration : 150
-            }
+            SmoothedAnimation    {target : menuRightRec; properties : "x, width, opacity"; duration : 200; velocity : 10}
+            SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : 200; velocity : 10}
         }
     ]
 
@@ -161,7 +97,6 @@ Item
         id : menuRightRec
         width : parent.width
         height : parent.height
-        //        color : mainWindow.menu_background_color
         source : "../Resources/Pictures/panel_bg2.png"
         property bool add_plugins : false;
         opacity : 0
@@ -172,26 +107,19 @@ Item
             bottom : 1
         }
 
-
         states : [
             State
             {
                 name : "currentRoomPlugins"
-                AnchorChanges
-                {
-                    target : available_plugins_rect
-                    anchors.left : menuRightRec.right
-                }
+                AnchorChanges    {target : available_plugins_rect; anchors.left : menuRightRec.right}
+                PropertyChanges    {target: room_plugins_list_view; opacity : 1}
                 when : !menuRightRec.add_plugins
             },
             State
             {
                 name : "availablePlugins"
-                AnchorChanges
-                {
-                    target : available_plugins_rect
-                    anchors.left : menuRightRec.left
-                }
+                AnchorChanges    {target : available_plugins_rect; anchors.left : menuRightRec.left}
+                PropertyChanges    {target: room_plugins_list_view; opacity : 0}
                 when : menuRightRec.add_plugins
             }
         ]
@@ -200,21 +128,15 @@ Item
             {
                 from: "currentRoomPlugins"
                 to: "availablePlugins"
-                AnchorAnimation
-                {
-                    duration : 500
-                    easing.type: Easing.OutQuad
-                }
+                AnchorAnimation    {duration : 500; easing.type: Easing.OutQuad}
+                SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : -1; velocity : 10}
             },
             Transition
             {
                 from: "availablePlugins"
                 to: "currentRoomPlugins"
-                AnchorAnimation
-                {
-                    duration : 500
-                    easing.type: Easing.InQuart
-                }
+                AnchorAnimation    {duration : 500; easing.type: Easing.InQuart}
+                SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : -1; velocity : 0.5}
             }
         ]
 
@@ -239,22 +161,18 @@ Item
                 width : menuRightMain.width / 2
                 height : menuRightMain.width / 3
                 pluginName: model.pluginName
+                pluginId: model.pluginId
             }
             spacing: 10
         }
 
-        Rectangle
+        Item
         {
             id : available_plugins_rect
             width : parent.width
             height : parent.height
             enabled : menuRightRec.add_plugins
-            color : "transparent"
-
-            anchors
-            {
-                left : parent.right
-            }
+            anchors.left : parent.right
 
             ListView
             {
