@@ -23,11 +23,15 @@ RoomDelegate 1.0 Rooms/RoomDelegate.qml
 RoomLoader 1.0 Rooms/RoomLoader.qml
 RoomsContainer 1.0 Rooms/RoomsContainer.qml
 RoomWall 1.0 Rooms/RoomWall.qml
+RoomMenuFaceDelegate 1.0 ../Rooms/RoomMenuFaceDelegate.qml
 
 # QML FOR PLUGINS
 NewPluginDelegate 1.0 Plugins/NewPluginDelegate.qml
 PluginLoader 1.0 Plugins/PluginLoader.qml
 RoomPluginDelegate 1.0 Plugins/RoomPluginDelegate.qml
+
+# QML FOR NOTIFICATIONS POP UP
+NotificationManager 1.0 Notifications/NotificationManager.qml
 
 # JS FILES
 Room 1.0 js/RoomManagement.js

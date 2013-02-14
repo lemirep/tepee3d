@@ -21,6 +21,7 @@ Viewport
     property int   currentRoomFaceId : 0;
 
     property alias pluginMenuSource : menu_center.pluginMenuSource
+    property variant mouseObjectGrabber : null
 
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
@@ -46,9 +47,12 @@ Viewport
     // FOR 16 / 9
     width: 1280
     height: 720
+
+    //    width: 1680
+    //    height: 1050
     // FOR 4 / 3
-//    width : 1024
-//    height : 728
+    //    width : 1024
+    //    height : 728
     focus : true
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
@@ -72,9 +76,9 @@ Viewport
     function    onRoomFaceSwitch()    {camera_movement_velocity = 100;}
 
     lightModel : LightModel {
-        //        model : "TwoSided"
         model : "OneSided"
         viewerPosition : "LocalViewer"
+        //        model : "TwoSided"
         //        viewerPosition : "ViewerAtInfinity"
         ambientSceneColor : "#ffffff"
     }
@@ -83,7 +87,7 @@ Viewport
         ambientColor : "white";
         diffuseColor : "white"
         specularColor : "white"
-        position : Qt.vector3d(10, 10, 100)
+        position : Qt.vector3d(0, 0, 100)
         linearAttenuation : 0
     }
 
@@ -100,17 +104,16 @@ Viewport
 
     MenuCenter    {id : menu_center; anchors.fill : parent}
 
-//    BufferedTextureSource
-//    {
-//        sourceItem : menu_center
-//    }
+    //    BufferedTextureSource
+    //    {
+    //        sourceItem : menu_center
+    //    }
 
-//    Notification
-//    {
-//        id : notification
-//    }
+    function    postNotification(message, type) {notification.sendMessage(message, type)}
 
-//    FpsCounter {}
+    NotificationManager    {id : notification}
+
+    //    FpsCounter {}
 
     ///// HAVE A LOADER COMPONENT HERE
     ///// WHEN A PLUGIN IS SELECTED IN SELECTED MODE

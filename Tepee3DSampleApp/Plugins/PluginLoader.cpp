@@ -5,7 +5,9 @@
 /*!
  * \class Plugins::PluginLoader
  * \brief The Plugins::PluginLoader class is an utility static class
- * aimed at easing the process of loading plugin libraries.
+ * aimed at easing the process of loading plugin libraries. It loads all
+ * the local plugin libraries in a list. That list can later be used to
+ * instantiate new plugin instances.
  */
 
 void    Plugins::PluginLoader::loadWidgetPlugins()

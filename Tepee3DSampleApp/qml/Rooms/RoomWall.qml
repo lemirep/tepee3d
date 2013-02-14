@@ -31,15 +31,16 @@ Quad
             wallIndicatorAnimation.start()
     }
 
+    SequentialAnimation
+    {
+        id : wallIndicatorAnimation
+        SmoothedAnimation { id : scaleUpAnim; target: faceIndicator; property: "scale"; to : 0.5; velocity: 0.2; duration : -1; easing.type: Easing.InOutQuad }
+        SmoothedAnimation { id : scaleDownAnim; target: faceIndicator; property: "scale"; to : 0.05; velocity: 1; duration : -1; easing.type: Easing.InOutQuad }
+    }
+
     Quad
     {
         id : faceIndicator
-        SequentialAnimation
-        {
-            id : wallIndicatorAnimation
-            SmoothedAnimation { id : scaleUpAnim; target: faceIndicator; property: "scale"; to : 0.5; velocity: 1; duration : -1; easing.type: Easing.InOutQuad }
-            SmoothedAnimation { id : scaleDownAnim; target: faceIndicator; property: "scale"; to : 0.05; velocity: 1; duration : -1; easing.type: Easing.InOutQuad }
-        }
         scale : 0.05
         enabled : (scale > 0.1)
         position : Qt.vector3d(0, faceIndicatorDistance, 0)

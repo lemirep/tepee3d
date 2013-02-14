@@ -16,6 +16,8 @@ Item
     anchors.horizontalCenter: parent.horizontalCenter
     scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
 
+    Behavior on scale {SmoothedAnimation {velocity : 1; duration : -1}}
+
     MouseArea
     {
         id : room_delegate_mouse_area
@@ -29,28 +31,52 @@ Item
         onPressAndHold:
         {
             if (isSelected)
-                rooms_list_view.currentIndex = -1;
-            roomManager.deleteRoom(model.roomId)
+                mainWindow.postNotification("Cannot remove a Room when your are currently in it!");
+//                rooms_list_view.currentIndex = -1;
+            else
+                roomManager.deleteRoom(model.roomId)
+            //            console.log("start animation")
+            //            anim.start();
         }
-
     }
 
-    Rectangle
+    SequentialAnimation
     {
-        color : (rooms_list_view.currentIndex == index) ? mainWindow.room_list_selected_component_color: mainWindow.room_list_component_color
+        id : anim
+        PropertyAnimation {
+            target: delRect
+            property: "rotation"
+            to : 5
+            duration: 200
+        }
+        PropertyAnimation {
+            target: delRect
+            property: "rotation"
+            to : -5
+            duration: 200
+        }
+        PropertyAnimation {
+            target: delRect
+            property: "rotation"
+            to : 0
+            duration: 200
+        }
+        loops: Animation.Infinite
+    }
+
+    BorderImage
+    {
+        id: delRect
+        source: (rooms_list_view.currentIndex === index) ? "../Resources/Pictures/delegate_selected.png" : "../Resources/Pictures/delegate.png"
         anchors.fill: parent
+        Behavior on rotation {SpringAnimation {spring: 30; damping: 0.3; mass: 1.0}}
     }
 
     Text
     {
         id: room_title
         text: roomName
-        anchors
-        {
-            horizontalCenter : parent.horizontalCenter
-            bottom : parent.bottom
-            margins : 10
-        }
+        anchors.centerIn : delRect
         color :  "white"
     }
 }

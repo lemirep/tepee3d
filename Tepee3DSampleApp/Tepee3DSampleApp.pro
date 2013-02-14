@@ -93,13 +93,15 @@ OTHER_FILES += \
     qml/Rooms/RoomsContainer.qml \
     qml/Rooms/RoomDelegate.qml \
     qml/Rooms/RoomWall.qml \
+    qml/Rooms/RoomMenuFaceDelegate.qml \
     qml/Plugins/qmldir \
     qml/Plugins/RoomPluginDelegate.qml \
     qml/Plugins/PluginLoader.qml \
     qml/Plugins/NewPluginDelegate.qml \
+    qml/Notifications/qmldir    \
+    qml/Notifications/NotificationManager.qml \
     qml/js/Walls.js \
     qml/js/RoomManagement.js \
-    qml/Notification.qml \
     qml/FpsCounter.qml \
     qml/content/Clock.qml \
     qml/content/QuitButton.qml \

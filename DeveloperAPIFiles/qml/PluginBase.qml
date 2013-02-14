@@ -24,7 +24,10 @@ Item3D
     // RETURN DEEP COPY OF VAR SO THEY CANNOT MODIFY THE ROOM DIRECTLY
     function getRoomPosition()                 {return room_item.getRoomPosition()}
     function getRoomScale()                    {return room_item.getRoomScale()}
-
+    // REGISTER PLUGIN SO THAT IT CAN RECEIVE MOUSE MOVE EVENTS
+    function setEditMode(obj)                  {mainWindow.mouseObjectGrabber = obj}
+    // TO DISPLAY NOTIFICATION MESSAGE
+    function postNotification(message, type)   {mainWindow.postNotification(message, type)}
 
     PluginProperties
     {
@@ -83,5 +86,4 @@ Item3D
 
         onLoaded: {        }
     }
-
 }

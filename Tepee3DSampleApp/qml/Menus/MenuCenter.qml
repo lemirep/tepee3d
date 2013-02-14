@@ -56,6 +56,12 @@ Item
                 var offsetX = mouseX - savedX;
                 obj.dragMoved(offsetX, offsetY);
             }
+            else if (mainWindow.mouseObjectGrabber)
+            {
+                // IF AN OBJECT IS REGISTERED IN mainWindow
+                // WE CALL THAT OBJECT onMouseMove Method
+                mainWindow.mouseObjectGrabber.onMouseMove(mouse);
+            }
         }
         onReleased :
         {

@@ -146,6 +146,8 @@ Item3D
                 plugin_base.askForFocusedFocusState();
         }
 
+        onPressed : {}
+
         SequentialAnimation {
             id : animation
             running : false
