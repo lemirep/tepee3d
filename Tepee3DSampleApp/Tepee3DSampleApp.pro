@@ -119,7 +119,8 @@ OTHER_FILES += \
     qml/content/clock-night.png \
     qml/content/clock.png \
     qml/content/center.png \
-    qml/content/background.png
+    qml/content/background.png \
+    qml/Rooms/AddNewRoomDialog.qml
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

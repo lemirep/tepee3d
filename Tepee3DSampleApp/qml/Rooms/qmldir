@@ -6,3 +6,6 @@ RoomPluginDelegate 1.0 ../Plugins/RoomPluginDelegate.qml
 
 # JS FILEs
 Walls 1.0 ../js/Walls.js
+
+# QML UICOMPONENTS
+TextInputComponent 1.0 ../../../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml

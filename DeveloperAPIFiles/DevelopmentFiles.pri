@@ -33,6 +33,10 @@ INCLUDEPATH += $$PWD/View
 OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/PluginBase.qml \
                 $$PWD/qml/qmldir \
-                $$PWD/js/CameraManagement.js
+                $$PWD/js/CameraManagement.js \
+                $$PWD/qml/UIComponents/qmldir \
+                $$PWD/qml/UIComponents/TextInputComponent.qml \
+                $$PWD/qml/Resources/Pictures/text_input_border.png \
+                $$PWD/qml/Resources/Pictures/text_input_border_selected.png
 
 QT += sql

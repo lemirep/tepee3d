@@ -197,10 +197,11 @@ Item
                 }
                 onClicked :
                 {
-                    roomManager.addNewRoom();
+                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
+//                    roomManager.addNewRoom();
                 }
             }
-            source : "../Resources/Pictures/add_button.svg"
+            source : "../Resources/Pictures/plus.png"
         }
     }
 

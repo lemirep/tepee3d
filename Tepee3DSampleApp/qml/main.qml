@@ -53,7 +53,7 @@ Viewport
     // FOR 4 / 3
     //    width : 1024
     //    height : 728
-    focus : true
+//    focus : true
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
     blending : true     // ALLOW TRANSPARENCY
@@ -93,10 +93,10 @@ Viewport
 
     camera: TepeeCamera     {id : camera}
 
-    Keys.onLeftPressed:    {}
-    Keys.onRightPressed:    {}
-    Keys.onUpPressed:    {}
-    Keys.onDownPressed:    {}
+//    Keys.onLeftPressed:    {}
+//    Keys.onRightPressed:    {}
+//    Keys.onUpPressed:    {}
+//    Keys.onDownPressed:    {}
 
     Skybox    {source : "sky15"}
 
@@ -110,6 +110,7 @@ Viewport
     //    }
 
     function    postNotification(message, type) {notification.sendMessage(message, type)}
+    function    showPopUp(url) {notification.showPopUp(url)}
 
     NotificationManager    {id : notification}
 

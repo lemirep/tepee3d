@@ -21,6 +21,8 @@ Item
         show_notification.start()
     }
 
+    function    showPopUp(url)    {dialogLoader.source = url; opacity = 1}
+
     SequentialAnimation
     {
         id : show_notification
@@ -42,5 +44,10 @@ Item
         text : message
     }
 
+    Loader
+    {
+        anchors.fill: background
+        id : dialogLoader
+    }
 }
 

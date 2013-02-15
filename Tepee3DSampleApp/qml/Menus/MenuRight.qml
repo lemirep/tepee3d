@@ -219,7 +219,7 @@ Item
                 }
             }
 
-            source : "../Resources/Pictures/add_button.svg"
+            source : "../Resources/Pictures/plus.png"
         }
 
         //        Component

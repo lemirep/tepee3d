@@ -33,6 +33,9 @@ RoomPluginDelegate 1.0 Plugins/RoomPluginDelegate.qml
 # QML FOR NOTIFICATIONS POP UP
 NotificationManager 1.0 Notifications/NotificationManager.qml
 
+# QML FOR UICOMPONENTS
+TextInputComponent 1.0 ../../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
+
 # JS FILES
 Room 1.0 js/RoomManagement.js
 Walls 1.0 js/Walls.js
