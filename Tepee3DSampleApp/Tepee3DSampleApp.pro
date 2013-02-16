@@ -103,6 +103,19 @@ OTHER_FILES += \
     qml/js/Walls.js \
     qml/js/RoomManagement.js \
     qml/FpsCounter.qml \
+    qml/Resources/Pictures/arrow.png \
+    qml/Resources/Pictures/delegate.png \
+    qml/Resources/Pictures/delegate_selected.png \
+    qml/Resources/Pictures/panel_bg2.png \
+    qml/Resources/Pictures/spinner.png \
+    qml/Resources/Pictures/plus.png \
+    qml/Resources/Textures/wood.jpg \
+    qml/Resources/Textures/wall_indicator_north.png \
+    qml/Resources/Textures/wall_indicator_south.png \
+    qml/Resources/Textures/wall_indicator_east.png \
+    qml/Resources/Textures/wall_indicator_west.png \
+    qml/Resources/Textures/wall_indicator_up.png \
+    qml/Resources/Textures/wall_indicator_down.png \
     qml/content/Clock.qml \
     qml/content/QuitButton.qml \
     qml/second.png \

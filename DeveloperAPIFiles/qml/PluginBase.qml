@@ -26,8 +26,9 @@ Item3D
     function getRoomScale()                    {return room_item.getRoomScale()}
     // REGISTER PLUGIN SO THAT IT CAN RECEIVE MOUSE MOVE EVENTS
     function setEditMode(obj)                  {mainWindow.mouseObjectGrabber = obj}
-    // TO DISPLAY NOTIFICATION MESSAGE
+    // TO DISPLAY NOTIFICATION MESSAGE AND POP UP
     function postNotification(message, type)   {mainWindow.postNotification(message, type)}
+    function showPopUp(popupUrl)               {mainWindow.showPopUp(url)}
 
     PluginProperties
     {

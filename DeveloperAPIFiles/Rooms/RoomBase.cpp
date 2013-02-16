@@ -5,7 +5,7 @@
 /*!
  * \class Room::RoomBase
  *
- * \brief The Room::RoomBase class is the base class a Tepee3D has to
+ * \brief The Room::RoomBase class is the base class a Tepee3D room has to
  * inherit from. It provided the application informations about the room
  * such as its position, its volume and its scale as well as the various
  * methods needed to interact with the widgets in the room.
