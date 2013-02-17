@@ -1,9 +1,9 @@
 TEMPLATE    = subdirs
 SUBDIRS     =  BufferedTextureSource \
-               TestPlugin \
-               Tepee3DSampleApp \
-               ServicesLibraries \
                RoomLibrary       \
+               ServicesLibraries \
+               Tepee3DSampleApp \
+               TestPlugin \
                UnitTests
 
 OTHER_FILES += \
