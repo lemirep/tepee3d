@@ -114,7 +114,7 @@ Viewport
 
     NotificationManager    {id : notification}
 
-    //    FpsCounter {}
+//        FpsCounter {}
 
     ///// HAVE A LOADER COMPONENT HERE
     ///// WHEN A PLUGIN IS SELECTED IN SELECTED MODE

@@ -133,13 +133,14 @@ Item3D
     Item3D
     {
         id : cube_plugin
-        mesh: Mesh { source: "lamp.dae" }
+        mesh: Mesh { source: "tepee.obj" }
         position : Qt.vector3d(-9, -5, 0)
         effect: Effect {color :apc.getColor(); useLighting : true}
         scale : (pressed) ? 0.9 : 1
 
         onClicked :
         {
+            console.log("plugin clicked");
             if (plugin_base.getFocusState() == 0)
                 plugin_base.askForRoomSelectedFocusState();
             if (plugin_base.getFocusState() == 1)
@@ -147,6 +148,9 @@ Item3D
         }
 
         onPressed : {}
+
+        onHoverEnter :{effect.color = "blue"}
+        onHoverLeave : {effect.color = "red"}
 
         SequentialAnimation {
             id : animation

@@ -9,3 +9,9 @@ Walls 1.0 ../js/Walls.js
 
 # QML UICOMPONENTS
 TextInputComponent 1.0 ../../../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
+
+# FOR FILE BROWSER
+FileExplorer 1.0 ../../../DeveloperAPIFiles/qml/FileExplorer.qml
+FileLoader 1.0 ../../../DeveloperAPIFiles/qml/FileLoader.qml
+FileDelegate 1.0 ../../../DeveloperAPIFiles/qml/FileDelegate.qml
+FolderDelegate 1.0 ../../../DeveloperAPIFiles/qml/FolderDelegate.qml

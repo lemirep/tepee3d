@@ -37,6 +37,10 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/UIComponents/qmldir \
                 $$PWD/qml/UIComponents/TextInputComponent.qml \
                 $$PWD/qml/Resources/Pictures/text_input_border.png \
-                $$PWD/qml/Resources/Pictures/text_input_border_selected.png
+                $$PWD/qml/Resources/Pictures/text_input_border_selected.png \
+                $$PWD/qml/FileExplorer.qml \
+                $$PWD/qml/FileDelegate.qml \
+                $$PWD/qml/FolderDelegate.qml \
+    ../DeveloperAPIFiles/qml/FileLoader.qml
 
 QT += sql

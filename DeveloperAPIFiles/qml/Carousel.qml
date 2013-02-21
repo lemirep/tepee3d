@@ -7,6 +7,10 @@ Item3D
 {
     property alias radius : carousel_cylinder.radius
     property alias length : carousel_cylinder.length
+    property int   nbRows : 2
+
+    property real delegateWidth; // SHOULD BE CALCULATED FROM RADIUS AND nbrRows
+    property real delegateHeight;
 
     mesh: CylinderMesh {
         id : carousel_cylinder

@@ -206,6 +206,11 @@ Item3D
         delegate : widget_component
     }
 
+    FileExplorer
+    {
+
+    }
+
     Component
     {
         id : widget_component

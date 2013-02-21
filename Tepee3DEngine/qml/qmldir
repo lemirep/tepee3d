@@ -4,8 +4,13 @@ plugin BufferedTextureSource ../../qml_extension_plugins/
 #plugin RoomLibrary ../../libraries/room_library/
 
 
-#QML FILES FOR GENERAL USE
+# QML FILES FOR GENERAL USE
 Carousel 1.0 ../../DeveloperAPIFiles/qml/Carousel.qml
+# FOR FILE BROWSER
+FileExplorer 1.0 ../../DeveloperAPIFiles/qml/FileExplorer.qml
+FileLoader 1.0 ../../DeveloperAPIFiles/qml/FileLoader.qml
+FileDelegate 1.0 ../../DeveloperAPIFiles/qml/FileDelegate.qml
+FolderDelegate 1.0 ../../DeveloperAPIFiles/qml/FolderDelegate.qml
 
 # QML FILES FOR PLUGINS
 PluginBase 1.0 ../../DeveloperAPIFiles/qml/PluginBase.qml

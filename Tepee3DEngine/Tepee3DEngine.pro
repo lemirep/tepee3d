@@ -1,5 +1,5 @@
 # Additional import path used to resolve QML modules in Creator's code model
-QML_IMPORT_PATH = qml/Tepee3DSampleApp
+QML_IMPORT_PATH = qml/Tepee3DEngine
 
 QT += qml
 QT += quick

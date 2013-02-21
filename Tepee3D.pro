@@ -2,7 +2,7 @@ TEMPLATE    = subdirs
 SUBDIRS     =  BufferedTextureSource \
                RoomLibrary       \
                ServicesLibraries \
-               Tepee3DSampleApp \
+               Tepee3DEngine \
                TestPlugin \
                UnitTests
 
