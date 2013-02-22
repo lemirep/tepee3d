@@ -14,11 +14,6 @@ Item3D
     Loader
     {
         id : room_loader
-        function getRoomId()   {return room_loader_item.roomId}
-        function getPosition() {return room_loader_item.roomPosition}
-        function getScale()    {return room_loader_item.roomScale}
-        function getWidgetsModel() {return room_loader_item.widgetsModel}
-
         onLoaded:        {}
         onProgressChanged:        {}
     }

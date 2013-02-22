@@ -85,37 +85,28 @@ Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int plu
     return NULL;
 }
 
-void        Room::RoomManager::placeNewRoomInSpace(Room::RoomBase *room)
+/*!
+ * \brief Room::RoomManager::placeNewRoomInSpace
+ * Places Rooms in space in a circular manner. The radius of the produced circle
+ * is computed according to the largest room. Every time a new Room is added or its size
+ * modified, this method is called.
+ */
+
+void        Room::RoomManager::placeNewRoomInSpace()
 {
-    // PLACES THE ROOM IN SPACE SO THAT THEY WON'T COLLIDE ...
-    // ROOMS ALREADY LOADED CANNOT BE MOVED SO THE NEW ROOM HAS TO BE ADDED AT THE RIGHT PLACE
-    QList<ListItem *> roomModelItems = this->roomModel->toList();
-    QList<Room::RoomBase *> rooms;
-    foreach (ListItem *item, roomModelItems)
-        rooms << ((Room::RoomModelItem*)item)->getRoom();
+    const QList<ListItem*> roomItemList = this->roomModel->toList();
+    qreal   posAngle = (2 * M_PI / this->roomModel->rowCount());
+    int     idx = 0;
+    qreal   radius = 100;
 
-    // DEFAULT PLACEMENT POSITION
-    // SORT ROOMS BY SIZE FROM THE LARGEST TO THE SMALLEST
-    // PLACE BIGGEST IN THE CENTER
-    // PLACE ALL THE OTHER ROOMS FROM BIGGEST TO SMALLEST ACCORDING THE ROOM IN THE CENTER
-
-    // SORT ROOM BY SIZE
-    foreach (Room::RoomBase* roomSaved, rooms)
+    foreach (ListItem *item, roomItemList)
     {
-        Room::RoomBase* lastRoom = rooms.last();
-        if (lastRoom > roomSaved)
-            rooms.swap(rooms.indexOf(lastRoom), rooms.indexOf(roomSaved));
+        qreal roomPosAngle = posAngle * idx++;
+        Room::RoomBase* room = ((Room::RoomModelItem *)(item))->getRoom();
+        room->setPosition(QVector3D(qCos(roomPosAngle) * radius,
+                                    qCos(M_PI * idx) * 10,
+                                    qSin(roomPosAngle) * radius));
     }
-
-    // INIT ROOM POSITION
-//    room->setPosition(QVector3D(0, 0, 0));
-//    foreach (Room::RoomBase* roomSaved, rooms)
-//    {
-//        if (room->collides(roomSaved))
-//        {
-
-//        }
-//    }
     qDebug() << "Placing room in space";
 }
 
@@ -139,6 +130,13 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
     }
 }
 
+/*!
+ * \brief Room::RoomManager::setCurrentRoom
+ * \param roomId
+ *
+ * Sets the room specified by roomId as the current room
+ */
+
 void        Room::RoomManager::setCurrentRoom(int roomId)
 {
     Room::RoomModelItem *roomItem = NULL;
@@ -149,6 +147,13 @@ void        Room::RoomManager::setCurrentRoom(int roomId)
     this->setCurrentRoom(room);
 }
 
+/*!
+ * \brief Room::RoomManager::addNewRoom
+ * \param roomName
+ *
+ * Adds a new room with the name specified by roomName inside the 3D space
+ */
+
 void        Room::RoomManager::addNewRoom(QString roomName)
 {
     qDebug() << "Adding New Room";
@@ -156,13 +161,13 @@ void        Room::RoomManager::addNewRoom(QString roomName)
     Room::RoomBase *room = this->roomPrototype->createNewInstance();
     room->setRoomName(roomName + QString::number(Room::RoomManager::roomInstances++));
     room->setParent(NULL);
-    room->setPosition(QVector3D(150, 150, 150));
+    room->setPosition(QVector3D(0, 0, 0));
     room->setScale(QVector3D(30, 20, 30));
 
     qDebug() << room->getRoomName();
 
-    this->placeNewRoomInSpace(room);
     this->roomModel->appendRow(new Room::RoomModelItem(room));
+    this->placeNewRoomInSpace();
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
     // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
@@ -188,6 +193,7 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
     // UPDATES ROOM LOGICALLY -> UPDATE HAS ALREADY BEEN APPLIED TO QML ROOM
     Room::RoomModelItem* roomItem = (Room::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* editedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
+
 
     if (editedRoom != NULL)
     {
@@ -298,6 +304,7 @@ bool        Room::RoomManager::addRoomToModel()
     this->roomModel->appendRow(new Room::RoomModelItem(room2));
     this->roomModel->appendRow(new Room::RoomModelItem(room3));
     this->roomModel->appendRow(new Room::RoomModelItem(room4));
+    this->placeNewRoomInSpace();
 
     return true;
 }

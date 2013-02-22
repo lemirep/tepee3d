@@ -12,7 +12,7 @@ Item3D
     z : Math.sin(posAngle) * radius
     y : 0 // ELEMENT WILL BE ON FLOOR LEVEL
 
-    Component.onCompleted:    {console.log("File Completed")}
+//    Component.onCompleted:    {console.log("File Completed")}
 
     Cube
     {

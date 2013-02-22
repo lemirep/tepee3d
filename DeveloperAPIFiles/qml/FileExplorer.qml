@@ -10,13 +10,12 @@ Item3D
     signal fileSelected(string file);
 
     function    setSelectedFile(file)    {fileSelected(file)}
-    function    goToFolder(folder)    {filesRepeater.enabled = false; rootDir = folder; filesRepeater.enable=true}
+    function    goToFolder(folder)    {rootDir = folder;}
 
     FolderListModel
     {
         id : fileModel;
         folder : "/"
-        Component.onCompleted: {console.log("FolderModel created")}
     }
 
     Repeater

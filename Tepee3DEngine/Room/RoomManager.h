@@ -4,9 +4,11 @@
 #include <QTimer>
 #include <PluginManager.h>
 #include <QVector3D>
+#include <qmath.h>
 #include "SubListedListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
+
 
 // CREATES ROOM MODEL, RESTORE AND SAVE ROOMS AND EXPOSE THEM TO QML
 
@@ -69,7 +71,7 @@ private:
     QTimer                  *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
 
     void                    loadRoomLibrary();
-    void                    placeNewRoomInSpace(RoomBase *room);
+    void                    placeNewRoomInSpace();
 
 
     void                    restoreRoomsFromDatabase();

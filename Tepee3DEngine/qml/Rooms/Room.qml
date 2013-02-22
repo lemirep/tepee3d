@@ -12,13 +12,17 @@ Item3D
 {
     id : room_item
 
-    position : room_loader.getPosition()
-    property int roomId   : room_loader.getRoomId();
+//    position : room_loader.getPosition()
+    position : room_loader_item.roomPosition;
+//    property int roomId   : room_loader.getRoomId();
+    property int roomId   : room_loader_item.roomId;
     property int currentFaceId : Walls.idx
     property bool isCurrentRoom : (roomId == mainWindow.currentRoomId)
     property real faceIndicatorDistance : 0.01
-    property variant widgetModel : room_loader.getWidgetsModel()
-    property vector3d roomScale :  room_loader.getScale()
+//    property variant widgetModel : room_loader.getWidgetsModel()
+    property variant widgetModel : room_loader_item.widgetsModel
+    property vector3d roomScale :  room_loader_item.roomScale
+//    property vector3d roomScale :  room_loader.getScale()
 
     function moveToFace(faceIdx)  {mainWindow.currentRoomFaceId = faceIdx; currentFaceId = faceIdx}
     function getRoomPosition()    {return Qt.vector3d(x, y, z)}
@@ -197,8 +201,6 @@ Item3D
         }
     }
 
-
-
     Repeater   // REPEATER THAT WILL CONTAIN THE ROOMS WIDGET ELEMENT
     {
         id : widget_repeater
@@ -206,10 +208,7 @@ Item3D
         delegate : widget_component
     }
 
-    FileExplorer
-    {
-
-    }
+    FileExplorer    {    }
 
     Component
     {

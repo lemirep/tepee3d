@@ -12,9 +12,11 @@ Item3D
 
     x : Math.cos(posAngle) * radius
     z : Math.sin(posAngle) * radius
-    y : 0 // ELEMENT WILL BE ON FLOOR LEVEL
+//    y : Math.cos(Math.PI * fileLoader.getDelegateIndex()) // ELEMENT WILL BE ON FLOOR LEVEL
+    y : 0
 
-    Component.onCompleted:    {console.log("Folder Completed")}
+
+//    Component.onCompleted:    {console.log("Folder Completed")}
 
     Sphere
     {
