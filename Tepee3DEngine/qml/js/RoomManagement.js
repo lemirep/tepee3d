@@ -13,13 +13,8 @@ function initialize(camera_, roomModel_, faceModel_)
 function findRoomInModel(roomId)
 {
     for (var i = 0; i < roomModel.count; i++)
-    {
-        if (roomModel.get(i).roomId == roomId)
-        {
-            console.log(roomModel.get(i));
+        if (roomModel.get(i).roomId === roomId)
             return roomModel.get(i);
-        }
-    }
     return null;
 }
 

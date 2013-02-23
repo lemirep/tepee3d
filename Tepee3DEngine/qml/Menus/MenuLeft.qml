@@ -69,54 +69,18 @@ Item
     states :     [
         State     {
             name: "menuShown"
-            PropertyChanges
-            {
-                target: menuLeftMain;
-                width : maxMenuWidth
-                height : maxMenuHeight
-            }
-            PropertyChanges
-            {
-                target: menuLeftRec
-                width : maxMenuWidth
-                height : maxMenuHeight
-                opacity : mainWindow.menu_opacity_deployed
-            }
-            PropertyChanges {
-                target: add_room_button
-                opacity : 1
-
-            }
-            PropertyChanges
-            {
-                target: arrow_image
-                opacity : 0
-            }
+            PropertyChanges    {target: menuLeftMain; width : maxMenuWidth; height : maxMenuHeight}
+            PropertyChanges    {target: menuLeftRec; width : maxMenuWidth; height : maxMenuHeight; opacity : mainWindow.menu_opacity_deployed}
+            PropertyChanges    {target: add_room_button; opacity : 1}
+            PropertyChanges    {target: arrow_image; opacity : 0}
             when: menuLeftMain.isShown
         },
         State {
             name: "menuHidden"
-            PropertyChanges
-            {
-                target: menuLeftMain
-                width : minMenuWidth
-                height : minMenuHeight
-            }
-            PropertyChanges {
-                target: menuLeftRec
-                width : minMenuWidth
-                height : minMenuHeight
-                opacity : mainWindow.menu_opacity_retracted
-            }
-            PropertyChanges {
-                target: add_room_button
-                opacity : 0
-            }
-            PropertyChanges
-            {
-                target: arrow_image
-                opacity : 0.8
-            }
+            PropertyChanges    {target: menuLeftMain; width : minMenuWidth; height : minMenuHeight}
+            PropertyChanges {target: menuLeftRec; width : minMenuWidth; height : minMenuHeight; opacity : mainWindow.menu_opacity_retracted}
+            PropertyChanges {target: add_room_button; opacity : 0}
+            PropertyChanges    {target: arrow_image; opacity : 0.8}
             when: !menuLeftMain.isShown
         }]
 
@@ -153,7 +117,7 @@ Item
             id : rooms_list_view
             opacity : (menuLeftRec.width == maxMenuWidth) ? 1 : 0
             Behavior on opacity {SmoothedAnimation {velocity : 1}}
-            enabled : (opacity == 1)
+            enabled : (opacity == 1 && menuLeftRec.width == maxMenuWidth)
             clip: true
             spacing: 10
             anchors
