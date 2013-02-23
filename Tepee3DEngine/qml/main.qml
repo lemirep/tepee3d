@@ -33,16 +33,19 @@ Viewport
         console.log("Room Changed " + currentRoomId)
         roomManager.setCurrentRoom(currentRoomId);
         Room.moveToRoom(currentRoomId, currentRoomFacesModel)
-        currentRoomFaceId = 0;
         roomChanged(currentRoomId)
+        currentRoomFaceId = 0;
     }
 
     onCurrentRoomFaceIdChanged:
     {
-        console.log("ROOM FACE CHANGED >>>>>>>>>>>>")
+        console.log("ROOM FACE CHANGED >>>>>>>>>>>>" + currentRoomFaceId)
         Walls.moveCameraToWall(currentRoomFaceId)
         roomFaceIdChanged(currentRoomFaceId)
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
+
+    function    moveCameraToSkyView()    {Camera.moveCamera(camera, Qt.vector3d(0, 300, -1), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+
 
     // FOR 16 / 9
     width: 1280
@@ -76,10 +79,10 @@ Viewport
     function    onRoomFaceSwitch()    {camera_movement_velocity = 100;}
 
     lightModel : LightModel {
-        model : "OneSided"
-        viewerPosition : "LocalViewer"
-        //        model : "TwoSided"
-        //        viewerPosition : "ViewerAtInfinity"
+//        model : "OneSided"
+//        viewerPosition : "LocalViewer"
+                model : "TwoSided"
+                viewerPosition : "ViewerAtInfinity"
         ambientSceneColor : "#ffffff"
     }
 
@@ -87,7 +90,7 @@ Viewport
         ambientColor : "white";
         diffuseColor : "white"
         specularColor : "white"
-        position : Qt.vector3d(0, 0, 100)
+        position : Qt.vector3d(0, 0, 0)
         linearAttenuation : 0
     }
 
@@ -115,11 +118,4 @@ Viewport
     NotificationManager    {id : notification}
 
 //        FpsCounter {}
-
-    ///// HAVE A LOADER COMPONENT HERE
-    ///// WHEN A PLUGIN IS SELECTED IN SELECTED MODE
-    ///// ITS MAIN INTERFACE IS LOADER HERE IN QML 2D
-    /////
-
-
 }

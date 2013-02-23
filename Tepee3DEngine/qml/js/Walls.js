@@ -58,6 +58,7 @@ function moveCameraToWall(wallIdx)
         upVec = Qt.vector3d(0, 0, 1);
 
     camera.upVector = upVec;
+    console.log(walls[currentWall]);
     camera.setCameraCenter(walls[currentWall])
     camera.setCameraEye(computedCenters[currentWall])
 }

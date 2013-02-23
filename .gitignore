@@ -11,3 +11,4 @@ moc_*.cpp
 *.so
 *.pro.user
 plugins_qml
+

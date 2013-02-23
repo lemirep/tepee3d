@@ -178,6 +178,27 @@ Item
 
         Image
         {
+            id : sky_room_view_button
+            width : 50
+            height : 50
+            scale : sky_view_button_ma.pressed ? 0.9 : 1.0
+            anchors
+            {
+                bottom : parent.bottom
+                right: parent.horizontalCenter
+            }
+            source : "../Resources/Pictures/round.png"
+
+            MouseArea
+            {
+                id : sky_view_button_ma
+                anchors.fill: parent
+                onClicked:    {mainWindow.currentRoomId = -1; mainWindow.moveCameraToSkyView()}
+            }
+        }
+
+        Image
+        {
             id : add_room_button
             width : 50
             height : 50
@@ -186,19 +207,16 @@ Item
             anchors
             {
                 bottom : parent.bottom
-                horizontalCenter : parent.horizontalCenter
+                left : parent.horizontalCenter
             }
             MouseArea
             {
                 id : add_room_button_ma
-                anchors
-                {
-                    fill : parent
-                }
+                anchors.fill : parent
                 onClicked :
                 {
-                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
-//                    roomManager.addNewRoom();
+//                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
+                    roomManager.addNewRoom();
                 }
             }
             source : "../Resources/Pictures/plus.png"
