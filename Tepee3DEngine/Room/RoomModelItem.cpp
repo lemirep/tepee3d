@@ -60,11 +60,6 @@ Room::RoomBase*   Room::RoomModelItem::getRoom()    const
     return this->room;
 }
 
-void            Room::RoomModelItem::triggerItemUpdate()
-{
-    emit dataChanged();
-}
-
 ListModel*      Room::RoomModelItem::submodel() const
 {
     return this->room->getRoomPluginsModel();

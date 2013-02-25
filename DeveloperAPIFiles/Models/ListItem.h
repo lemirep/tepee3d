@@ -15,6 +15,7 @@ public :
     virtual int id() const = 0;
     virtual QVariant data(int role) const = 0;
     virtual QHash<int, QByteArray> roleNames() const = 0;
+    virtual void triggerItemUpdate() {emit dataChanged();}
 signals:
     void dataChanged();
 };

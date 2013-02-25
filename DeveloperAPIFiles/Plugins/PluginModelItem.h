@@ -28,7 +28,6 @@ public:
     int                     id()                const;
     QVariant                data(int role)      const;
     QHash<int, QByteArray>  roleNames()         const;
-
     Plugins::PluginBase*    getPlugin()         const;
 
 private:

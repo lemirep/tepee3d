@@ -94,10 +94,10 @@ Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int plu
 
 void        Room::RoomManager::placeNewRoomInSpace()
 {
-    const QList<ListItem*> roomItemList = this->roomModel->toList();
-    qreal   posAngle = (2 * M_PI / this->roomModel->rowCount());
     int     idx = 0;
-    qreal   radius = 100;
+    qreal   posAngle = (2 * M_PI / this->roomModel->rowCount());
+    qreal   radius = 100 * ((this->roomModel->rowCount() / 10) + 1);
+    const QList<ListItem*> roomItemList = this->roomModel->toList();
 
     foreach (ListItem *item, roomItemList)
     {
@@ -106,6 +106,8 @@ void        Room::RoomManager::placeNewRoomInSpace()
         room->setPosition(QVector3D(qCos(roomPosAngle) * radius,
                                     qCos(M_PI * idx) * 10,
                                     qSin(roomPosAngle) * radius));
+        // UPDATE ITEM IN MODEL TO REFLECT CHANGES
+        item->triggerItemUpdate();
     }
     qDebug() << "Placing room in space";
 }
@@ -173,6 +175,13 @@ void        Room::RoomManager::addNewRoom(QString roomName)
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
 }
 
+/*!
+ * \brief Room::RoomManager::deleteRoom
+ * \param roomModelId
+ *
+ * Removes the room specified by roomModelId from the Tepee3D engine.
+ */
+
 void        Room::RoomManager::deleteRoom(int roomModelId)
 {
     if (this->currentRoom != NULL && this->currentRoom->getRoomId() == roomModelId)
@@ -194,12 +203,13 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
     Room::RoomModelItem* roomItem = (Room::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* editedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
 
-
     if (editedRoom != NULL)
     {
         editedRoom->setRoomName(roomName);
         editedRoom->setPosition(roomPosition);
         editedRoom->setScale(roomScale);
+        // UPDATE ROOM ITEM IN MODEL FOR QML UPDATE
+        roomItem->triggerItemUpdate();
     }
 }
 
@@ -231,6 +241,14 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
         delete plugin;
     }
 }
+
+/*!
+ * \brief Room::RoomManager::loadRoomLibrary
+ *
+ * This method loads the room library to be used as the room logic for room management.
+ * Using a library allow for future enhancement and eventual changes in shape without having
+ * to change the logic employed. The library is loaded from a path relative to the application path.
+ */
 
 void        Room::RoomManager::loadRoomLibrary()
 {
@@ -265,10 +283,7 @@ void        Room::RoomManager::loadRoomLibrary()
             break;
         }
         else
-        {
-            qWarning() << "ERRORS : "<< loader.errorString();
-            qWarning() << "FAILED TO LOAD LIBRARY ROOM";
-        }
+            qWarning() << "FAILED TO LOAD ROOM LIBRARY" << loader.errorString();
     }
 }
 
@@ -276,35 +291,10 @@ bool        Room::RoomManager::addRoomToModel()
 {
     // ROOMS ARE RESTORED FROM DATABASE HERE
 
-    Room::RoomBase *room1 = this->roomPrototype->createNewInstance();
-    room1->setRoomName(QString("RoomTest1"));
-    room1->setParent(NULL);
-    room1->setPosition(QVector3D(0, 0, 150));
-    room1->setScale(QVector3D(30, 20, 30));
-
-    Room::RoomBase *room2 = this->roomPrototype->createNewInstance();
-    room2->setRoomName("RoomTest2");
-    room2->setParent(NULL);
-    room2->setPosition(QVector3D(0, 150, 150));
-    room2->setScale(QVector3D(30, 20, 30));
-
-    Room::RoomBase *room3 = this->roomPrototype->createNewInstance();
-    room3->setRoomName("RoomTest3");
-    room3->setParent(NULL);
-    room3->setPosition(QVector3D(150, -150, 150));
-    room3->setScale(QVector3D(30, 20, 30));
-
-    Room::RoomBase *room4 = this->roomPrototype->createNewInstance();
-    room4->setRoomName("RoomTest4");
-    room4->setParent(NULL);
-    room4->setPosition(QVector3D(150, 150, 150));
-    room4->setScale(QVector3D(30, 20, 30));
-
-    this->roomModel->appendRow(new Room::RoomModelItem(room1));
-    this->roomModel->appendRow(new Room::RoomModelItem(room2));
-    this->roomModel->appendRow(new Room::RoomModelItem(room3));
-    this->roomModel->appendRow(new Room::RoomModelItem(room4));
-    this->placeNewRoomInSpace();
+    this->addNewRoom("RoomTest1");
+    this->addNewRoom("RoomTest2");
+    this->addNewRoom("RoomTest3");
+    this->addNewRoom("RoomTest4");
 
     return true;
 }

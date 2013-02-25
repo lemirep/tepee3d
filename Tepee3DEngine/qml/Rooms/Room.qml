@@ -209,7 +209,7 @@ Item3D
         delegate : widget_component
     }
 
-    FileExplorer    {    }
+//    FileExplorer    {    }
 
     Component
     {

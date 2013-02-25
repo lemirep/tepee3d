@@ -30,9 +30,8 @@ public:
     QVariant                data(int role)      const;
     QHash<int, QByteArray>  roleNames()         const;
 
-    Room::RoomBase               *getRoom()  const;
-    void                         triggerItemUpdate();
-    ListModel*                  submodel()  const;
+    Room::RoomBase*         getRoom()           const;
+    ListModel*              submodel()          const;
 
 private:
     Room::RoomBase               *room;

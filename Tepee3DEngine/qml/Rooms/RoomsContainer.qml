@@ -3,7 +3,7 @@ import Qt3D 2.0
 
 Item3D
 {
-    Repeater
+    ListView
     {
         model : roomModel
         delegate : roomDelegate
@@ -12,7 +12,6 @@ Item3D
     Component                   // NOT WORKING YET -> Qt5 Bug should be resolved by release version
     {                           // https://bugreports.qt-project.org/browse/QTBUG-27444
         id : roomDelegate
-
         RoomLoader              // LOAD THE ROOM QML FILE SPECIFIED IN THE MODEL
         {                       // QT BUG NOT WORKING YET
             id : room_loader
