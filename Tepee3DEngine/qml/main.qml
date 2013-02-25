@@ -44,7 +44,7 @@ Viewport
         roomFaceIdChanged(currentRoomFaceId)
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
-    function    moveCameraToSkyView()    {Camera.moveCamera(camera, Qt.vector3d(0, 300, -1), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    function    moveCameraToSkyView()    {Camera.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -1), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
 
 
     // FOR 16 / 9
