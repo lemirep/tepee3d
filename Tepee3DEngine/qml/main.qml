@@ -45,7 +45,19 @@ Viewport
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
     function    moveCameraToSkyView()    {Camera.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -1), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    function getcurrentIdRoom()
+    {
+        roomChanged(currentRoomId)
+        return currentRoomId;
+    }
 
+    function inRoom()
+    {
+        if(currentRoomId <= 0)
+            return false;
+        else
+            return true;
+    }
 
     // FOR 16 / 9
     width: 1280
@@ -56,7 +68,7 @@ Viewport
     // FOR 4 / 3
     //    width : 1024
     //    height : 728
-//    focus : true
+    //    focus : true
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
     blending : true     // ALLOW TRANSPARENCY
@@ -79,10 +91,10 @@ Viewport
     function    onRoomFaceSwitch()    {camera_movement_velocity = 100;}
 
     lightModel : LightModel {
-//        model : "OneSided"
-//        viewerPosition : "LocalViewer"
-                model : "TwoSided"
-                viewerPosition : "ViewerAtInfinity"
+        //        model : "OneSided"
+        //        viewerPosition : "LocalViewer"
+        model : "TwoSided"
+        viewerPosition : "ViewerAtInfinity"
         ambientSceneColor : "#ffffff"
     }
 
@@ -96,10 +108,10 @@ Viewport
 
     camera: TepeeCamera     {id : camera}
 
-//    Keys.onLeftPressed:    {}
-//    Keys.onRightPressed:    {}
-//    Keys.onUpPressed:    {}
-//    Keys.onDownPressed:    {}
+    //    Keys.onLeftPressed:    {}
+    //    Keys.onRightPressed:    {}
+    //    Keys.onUpPressed:    {}
+    //    Keys.onDownPressed:    {}
 
     Skybox    {source : "sky15"}
 
@@ -117,5 +129,5 @@ Viewport
 
     NotificationManager    {id : notification}
 
-//        FpsCounter {}
+    //        FpsCounter {}
 }

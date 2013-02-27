@@ -133,7 +133,9 @@ Item3D
     Item3D
     {
         id : cube_plugin
-        mesh: Mesh { source: "tepee.obj" }
+        //mesh: Mesh { source: "tepee.obj" }
+        mesh: Mesh { source: "lamp.dae" }
+
         position : Qt.vector3d(-9, -5, 0)
         effect: Effect {color :apc.getColor(); useLighting : true}
         scale : (pressed) ? 0.9 : 1

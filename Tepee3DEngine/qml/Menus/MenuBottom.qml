@@ -55,12 +55,11 @@ Item
             menuBottomMain.state = (oldstate) ? "menuShown" : "menuHidden"
         }
     }
-
-//    function setListIndex(wallId)
-//    {
-//        console.log("Wall ID <><><><><><><><> " + wallId)
-//        room_faces_listview.currentIndex = wallId;
-//    }
+    //    function setListIndex(wallId)
+    //    {
+    //        console.log("Wall ID <><><><><><><><> " + wallId)
+    //        room_faces_listview.currentIndex = wallId;
+    //    }
 
     states : [
         State
@@ -141,18 +140,45 @@ Item
                 "Menu Loaded"
             }
         }
+        Clock
+        {
+            anchors
+            {
+                verticalCenter : parent.verticalCenter
+                left : parent.left
+                leftMargin :  mainWindow.menuMinimumWidth
+            }
+        }
+        Image
+        {
+            id : homeRoom_buttom
+            anchors
+            {
+                verticalCenter : parent.verticalCenter
+                right : parent.right
+                rightMargin :  mainWindow.menuMinimumWidth
+            }
 
-//        Clock
-//        {
-//            anchors
-//            {
-//                verticalCenter : parent.verticalCenter
-//                left : parent.left
-//                leftMargin :  mainWindow.menuMinimumWidth
-//            }
-
-//        }
-
+            source : "../Resources/Pictures/home_buttom.png"
+            smooth : true
+            scale : homeRoom_buttom.isPressed ? 0.5 :  1
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:    mainWindow.currentRoomFaceId = 0;
+            }
+            Text
+            {
+                anchors
+                {
+                    bottomMargin:  homeRoom_buttom.height + mainWindow.menuMinimumWidth
+                    horizontalCenter : parent.horizontalCenter
+                    bottom: parent.bottom
+                }
+                color : "white"
+                text: (mainWindow.inRoom()) ? "Your are in room " + mainWindow.getcurrentIdRoom() : "Your are in Global View"
+            }
+        }
     }
     Image
     {
@@ -165,5 +191,4 @@ Item
         height : mainWindow.menuMinimumWidth
         scale : isPressed ? 0.9 :  1
     }
-
 }
