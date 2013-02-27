@@ -50,7 +50,10 @@ Viewport
         roomChanged(currentRoomId)
         return currentRoomId;
     }
-
+    function moveCameraHomeRoom()
+    {
+        Walls.moveCameraToWall(0)
+    }
     function inRoom()
     {
         if(currentRoomId <= 0)

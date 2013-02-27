@@ -80,7 +80,7 @@ Item3D
     Item3D
     {
         id : buttons
-        enabled : false
+        enabled : true
         Item3D
         {
             id : cube_orange

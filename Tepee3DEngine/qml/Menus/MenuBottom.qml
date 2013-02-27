@@ -166,7 +166,7 @@ Item
             {
                 id : homeRoom_button_ma
                 anchors.fill: parent
-                onClicked:    mainWindow.currentRoomFaceId = 0;
+                onClicked: mainWindow.moveCameraHomeRoom()
             }
             Text
             {
@@ -178,6 +178,7 @@ Item
                 }
                 color : "white"
                 text: (mainWindow.inRoom()) ? "Your are in room " + mainWindow.getcurrentIdRoom() : "Your are in Global View"
+
             }
         }
     }

@@ -32,7 +32,7 @@ public:
     TestPlugin();
     int                     getPluginId();
     void                    initPlugin();
-    QString                 getPluginName();
+    Q_INVOKABLE QString                 getPluginName();
     QString                 getPluginDescription();
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
