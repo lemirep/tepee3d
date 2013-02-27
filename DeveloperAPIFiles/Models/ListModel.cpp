@@ -12,21 +12,43 @@
  * \sa SubListedListModel
  */
 
+
+/*!
+ * Instanciates a new ListModel and sets the list row prototype to \a prototype.
+ * The \a parent parameter is optional.
+ */
 ListModel::ListModel(ListItem *prototype, QObject *parent) : QAbstractListModel(parent)
 {
     this->prototype = prototype;
 }
 
+/*!
+ * Destroys a ListModel instance.
+ */
 ListModel::~ListModel()
 {
     delete this->prototype;
     this->clear();
 }
 
+/*!
+ * \property int ListModel::count
+ * This property holds the number of rows of the model.
+ */
+
+/*!
+ * Returns number of rows in the model.
+ * \a index is not used but needed to reimplement the method.
+ */
+
 int         ListModel::rowCount(const QModelIndex &) const
 {
     return this->items.size();
 }
+
+/*!
+ * Returns a QVariant containing the data associed to \a role for row at \a index.
+ */
 
 QVariant    ListModel::data(const QModelIndex &index, int role) const
 {
@@ -35,10 +57,18 @@ QVariant    ListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+/*!
+ * Returns a hash containing the roleNames of the Model.
+ */
+
 QHash<int, QByteArray>  ListModel::roleNames() const
 {
     return this->prototype->roleNames();
 }
+
+/*!
+ * Appends a single row \a item to the Model.
+ */
 
 void        ListModel::appendRow(ListItem *item)
 {
@@ -46,6 +76,9 @@ void        ListModel::appendRow(ListItem *item)
     emit (countChanged(this->rowCount()));
 }
 
+/*!
+ * Appends several rows \a items to the Model.
+ */
 void        ListModel::appendRows(QList<ListItem *> &items)
 {
     // NEEDED TO UPDATE VIEW
@@ -61,6 +94,9 @@ void        ListModel::appendRows(QList<ListItem *> &items)
     emit (countChanged(this->rowCount()));
 }
 
+/*!
+ * Insert new row described by \a item at position defined by \a row.
+ */
 void        ListModel::insertRow(int row, ListItem *item)
 {
     this->beginInsertRows(QModelIndex(), row, row);
@@ -70,6 +106,11 @@ void        ListModel::insertRow(int row, ListItem *item)
     emit (countChanged(this->rowCount()));
 }
 
+/*!
+ * Removes a single row at position defined by \a row .
+ * The \a index argument is optional.
+ * Returns true if row was removed, false if row not found or \a row is invalid.
+ */
 bool        ListModel::removeRow(int row, const QModelIndex &index)
 {
     if (row >= 0 && row < this->items.size())
@@ -83,6 +124,11 @@ bool        ListModel::removeRow(int row, const QModelIndex &index)
     return false;
 }
 
+/*!
+ * Removes several rows starting at position defined by \a row until either \a count
+ * or the model's last row is reached. The \a index argument is optional.
+ * Returns true if the rows were removed, false if \a row is invalid.
+ */
 bool        ListModel::removeRows(int row, int count, const QModelIndex &index)
 {
     if (row >= 0 && (row + count) <= this->items.size())
@@ -98,6 +144,9 @@ bool        ListModel::removeRows(int row, int count, const QModelIndex &index)
     return false;
 }
 
+/*!
+ * Clears the whole model removing all rows.
+ */
 void        ListModel::clear()
 {    
     qDebug() << "Clearing model";
@@ -106,6 +155,9 @@ void        ListModel::clear()
     emit (countChanged(this->rowCount()));
 }
 
+/*!
+ * Returns the index of the row in the model containing \a item.
+ */
 QModelIndex ListModel::indexFromItem(ListItem *item) const
 {
     if (item != NULL)
@@ -117,6 +169,9 @@ QModelIndex ListModel::indexFromItem(ListItem *item) const
     return QModelIndex();
 }
 
+/*!
+ * Returns the item whose id matches \a itemId.
+ */
 ListItem *  ListModel::find(int itemId) const
 {
     foreach(ListItem *item, this->items)
@@ -124,7 +179,9 @@ ListItem *  ListModel::find(int itemId) const
             return item;
     return NULL;
 }
-
+/*!
+ * Returns row index at which \a item can be found in the model.
+ */
 int         ListModel::getRowFromItem(ListItem *item) const
 {
     if (item != NULL)
@@ -134,11 +191,17 @@ int         ListModel::getRowFromItem(ListItem *item) const
     return -1;
 }
 
+/*!
+ * Returns model as a QList.
+ */
 QList<ListItem *>   ListModel::toList() const
 {
     return this->items;
 }
 
+/*!
+ * Slot triggered when a row item needs to be updated to reflect data changes.
+ */
 void        ListModel::updateItem()
 {
     qDebug() << "Row updated";
@@ -148,6 +211,9 @@ void        ListModel::updateItem()
         emit dataChanged(index, index);
 }
 
+/*!
+ * Returns a QVariant containg the data of the row item at \a index in the model.
+ */
 QVariant    ListModel::get(int index)
 {
     ListItem * item = this->items.at(index);
@@ -162,6 +228,9 @@ QVariant    ListModel::get(int index)
     return QVariant(itemData);
 }
 
+/*!
+ * Returns the index for item identified by \a id  in the model.
+ */
 int         ListModel::rowIndexFromId(int id)
 {
     ListItem* item = find(id);

@@ -24,12 +24,18 @@
  * for use inside a room by connecting it to the various services and exposing eventual
  * Qml content to the Qml Engine.
  *
- *\sa Plugins::PluginsLoader
+ * \since 1.0
+ * \sa Plugins::PluginsLoader
  */
+
 
 ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
 ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
+
+/*!
+ * Initializes the Plugins::PluginsManager instance.
+ */
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
@@ -41,10 +47,16 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 //    this->signalMapper = new QSignalMapper(this);
 }
 
+/*!
+ * Destroys a PluginManager instance.
+ */
 Plugins::PluginManager::~PluginManager()
 {
 }
 
+/*!
+ *  Returns a singleton instance of the class from a QObject \a parent.
+ */
 Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
 {
     if (Plugins::PluginManager::instance == NULL)
@@ -52,7 +64,11 @@ Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
     return Plugins::PluginManager::instance;
 }
 
+
 // REFRESH LOCALLY AVAILABLE PLUGINS ON A REGULAR BASIC TO ALWAYS BE UP TO DATE
+/*!
+ * Loads all locally available plugins in the static locallyAvailablePluginModel ListModel.
+ */
 void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();
@@ -72,13 +88,19 @@ void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> , in
     qDebug() << "PluginManager Received Result";
 }
 
-Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(PluginBase *plugin)
+/*!
+ * Returns a new instance of plugin from \a plugin.
+ */
+Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(Plugins::PluginBase *plugin)
 {
     if (plugin == NULL)
         return NULL;
     return plugin->createNewInstance();
 }
 
+/*!
+ * Returns a new instance of the plugin identified by \a pluginModelItemId in the locallyAvailablePlugin list.
+ */
 Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginModelItemId)
 {
     Plugins::PluginModelItem*   pluginModelItem = NULL;
@@ -89,6 +111,9 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
     return Plugins::PluginManager::getNewInstanceOfPlugin(pluginBase);
 }
 
+/*!
+ * Initializes \a roomPlugin to all the services a plugin can register to.
+ */
 void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
 {
     // CONNECT OBJECT TO SERVICES
@@ -97,6 +122,9 @@ void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
     View::QmlViewProperties::exposeContentToQml(roomPlugin);
 }
 
+/*!
+ * Exposes to QML Context \a context all Plugins entities required by the Tepee3DEngine.
+ */
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {
     context->setContextProperty("availablePluginsModel", this->locallyAvailablePluginsModel);

@@ -12,11 +12,17 @@ Plugins::PluginModelItem::~PluginModelItem()
     qDebug() << "DELETING PLUGIN MODEL ITEM";
 }
 
+/*!
+ * Returns the id of the PluginModelItem.
+ */
 int     Plugins::PluginModelItem::id()  const
 {
     return this->plugin->getPluginId();
 }
 
+/*!
+ * Returns the role values of a given role of the PluginModelItem.
+ */
 QVariant    Plugins::PluginModelItem::data(int role)    const
 {
     switch (role)
@@ -34,6 +40,9 @@ QVariant    Plugins::PluginModelItem::data(int role)    const
     }
 }
 
+/*!
+ * Returns a hash containing the roles of the PluginModelItem.
+ */
 QHash<int, QByteArray>  Plugins::PluginModelItem::roleNames()   const
 {
     QHash<int, QByteArray>  roles;
@@ -45,6 +54,10 @@ QHash<int, QByteArray>  Plugins::PluginModelItem::roleNames()   const
 
     return roles;
 }
+
+/*!
+ * Returns the instance of the plugin the PluginModelItem is a description of.
+ */
 
 Plugins::PluginBase*    Plugins::PluginModelItem::getPlugin()   const
 {

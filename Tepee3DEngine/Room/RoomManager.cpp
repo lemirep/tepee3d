@@ -29,6 +29,10 @@ QString            Room::RoomManager::deleteRoomQuery = "";
 
 // ASSIGN A UNIQUE ID FOR EACH PLUGIN TYPE (Ex TestPlugin = 1)
 // THAT WAY WHEN RELOADING FROM THE DATABASE WE KNOW WE HAVE LOADED THE RIGHT PLUGIN
+\
+/*!
+ * Constructs a new RoomManager instance. \a parent is optional.
+ */
 
 Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
 {
@@ -39,6 +43,9 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->loadRoomLibrary();
 }
 
+/*!
+ * Returns the singleton instance of the class, needs a QObject \a parent in paremeter.
+ */
 Room::RoomManager* Room::RoomManager::getInstance(QObject *parent)
 {
     if (Room::RoomManager::instance == NULL)
@@ -46,11 +53,17 @@ Room::RoomManager* Room::RoomManager::getInstance(QObject *parent)
     return Room::RoomManager::instance;
 }
 
+/*!
+ * Destroys the RoomManager instance.
+ */
 Room::RoomManager::~RoomManager()
 {
     delete this->roomModel;
 }
 
+/*!
+ * Exposes to the QML context \a context the various entities needed by the class.
+ */
 void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 {
     qDebug() << " RoomManager Exposing Content >>>>>>>>>>>>";
@@ -63,17 +76,26 @@ void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> , int)
     qDebug() << "RoomManager received SQL Result";
 }
 
+/*!
+ * Returns the model containing the rooms.
+ */
 ListModel*  Room::RoomManager::getRoomModel() const
 {
     return this->roomModel;
 }
 
+/*!
+ * Returns the instance of the currently selected room.
+ */
 Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
 {
     return this->currentRoom;
 }
 
 
+/*!
+ * Returns the plugin identified by \a pluginId from the room identified by \a roomId.
+ */
 Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int pluginId) const
 {
     Room::RoomModelItem *roomItem = NULL;
@@ -86,7 +108,6 @@ Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int plu
 }
 
 /*!
- * \brief Room::RoomManager::placeNewRoomInSpace
  * Places Rooms in space in a circular manner. The radius of the produced circle
  * is computed according to the largest room. Every time a new Room is added or its size
  * modified, this method is called.
@@ -112,6 +133,11 @@ void        Room::RoomManager::placeNewRoomInSpace()
     qDebug() << "Placing room in space";
 }
 
+/*!
+ * Sets \a room as the currently selected room. It triggers its refresh method by connecting
+ * the update timer timeout signal to the room.
+ */
+
 void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 {
     if (room == this->currentRoom)
@@ -133,10 +159,9 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 }
 
 /*!
- * \brief Room::RoomManager::setCurrentRoom
- * \param roomId
+ * Sets the room specified by \a roomId as the current room
  *
- * Sets the room specified by roomId as the current room
+ * \sa void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
  */
 
 void        Room::RoomManager::setCurrentRoom(int roomId)
@@ -150,10 +175,7 @@ void        Room::RoomManager::setCurrentRoom(int roomId)
 }
 
 /*!
- * \brief Room::RoomManager::addNewRoom
- * \param roomName
- *
- * Adds a new room with the name specified by roomName inside the 3D space
+ * Adds a new room with the name specified by \a roomName inside the 3D space
  */
 
 void        Room::RoomManager::addNewRoom(QString roomName)
@@ -176,10 +198,7 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 }
 
 /*!
- * \brief Room::RoomManager::deleteRoom
- * \param roomModelId
- *
- * Removes the room specified by roomModelId from the Tepee3D engine.
+ * Removes the room specified by \a roomModelId from the Tepee3D engine.
  */
 
 void        Room::RoomManager::deleteRoom(int roomModelId)
@@ -197,6 +216,9 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
     }
 }
 
+/*!
+ * Edits the room identified by \a roomModelId with the name \a roomName, the position \a roomPosition and the scale \a roomScale.
+ */
 void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVector3D roomPosition, QVector3D roomScale)
 {
     // UPDATES ROOM LOGICALLY -> UPDATE HAS ALREADY BEEN APPLIED TO QML ROOM
@@ -212,6 +234,12 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
         roomItem->triggerItemUpdate();
     }
 }
+
+/*!
+ * Adds a new plugin instance to the current room´s model. The plugin instance is a new clean
+ * instance of the plugin defined by \a pluginModelId ensuring it behaves only in the room´s
+ * scope.
+ */
 
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 {
@@ -229,6 +257,10 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
         qWarning() << "plugin Instance is NULL, cannot be added to room";
 }
 
+/*!
+ * Removes the plugin specified by \a pluginModelId from the current room.
+ */
+
 void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 {
     Plugins::PluginModelItem* pluginItem = (Plugins::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
@@ -243,8 +275,6 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 }
 
 /*!
- * \brief Room::RoomManager::loadRoomLibrary
- *
  * This method loads the room library to be used as the room logic for room management.
  * Using a library allow for future enhancement and eventual changes in shape without having
  * to change the logic employed. The library is loaded from a path relative to the application path.
@@ -286,6 +316,12 @@ void        Room::RoomManager::loadRoomLibrary()
             qWarning() << "FAILED TO LOAD ROOM LIBRARY" << loader.errorString();
     }
 }
+
+
+/*!
+ * Adds rooms the the room model. Rooms can then be restored from the database and
+ * added on startup right here.
+ */
 
 bool        Room::RoomManager::addRoomToModel()
 {

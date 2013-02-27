@@ -30,6 +30,9 @@ View::QmlViewProperties::~QmlViewProperties()
     delete this->viewer;
 }
 
+/*!
+ * Returns a singleton instance of the class.
+ */
 View::QmlViewProperties* View::QmlViewProperties::getInstance(QObject *parent)
 {
     if (View::QmlViewProperties::instance == NULL)
@@ -37,6 +40,10 @@ View::QmlViewProperties* View::QmlViewProperties::getInstance(QObject *parent)
     return View::QmlViewProperties::instance;
 }
 
+/*!
+ * Exposes the exposer class to the QML context if exposer implements the QmlContentExposerInterface
+ * \sa QmlContentExposerInterface
+ */
 void    View::QmlViewProperties::exposeContentToQml(QObject *exposer)
 {
     qDebug() << "Exposing Qml Content";
@@ -46,11 +53,17 @@ void    View::QmlViewProperties::exposeContentToQml(QObject *exposer)
         interface->exposeContentToQml(View::QmlViewProperties::getInstance()->qmlContext);
 }
 
+/*!
+ * Sets sourceFile as the source of the QML viewer.
+ */
 void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
 {
     this->viewer->setSource(sourceFile);
 }
 
+/*!
+ * Show the QML viewer.
+ */
 void    View::QmlViewProperties::showView()
 {
     this->viewer->show();

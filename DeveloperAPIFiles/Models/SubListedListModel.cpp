@@ -14,6 +14,9 @@ SubListedListModel::SubListedListModel(SubListedListItem *prototype, QObject *pa
 {
 }
 
+/*!
+ * Returns the model contained by row Item identified by id.
+ */
 QObject*        SubListedListModel::subModelFromId(int id)
 {
     SubListedListItem* item = (SubListedListItem *)this->find(id);
