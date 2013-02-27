@@ -160,6 +160,7 @@ Item
             }
 
             source : "../Resources/Pictures/home_buttom.png"
+            opacity: (mainWindow.inRoom()) ? 1 : 0
             smooth : true
             scale : homeRoom_buttom.isPressed ? 0.5 :  1
             MouseArea
