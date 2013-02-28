@@ -10,18 +10,51 @@
  * such as its position, its volume and its scale as well as the various
  * methods needed to interact with the widgets in the room.
  *
+ * \b {Note:} This class shouldn't be instanced directly and should only be subclassed.
+ *
  * \sa Room::RoomProperties
  */
 
 
 int Room::RoomBase::nextId = 0;
 
+
+/*!
+ * \fn QObject* Room::RoomBase::getObject()
+ * Returns the instance of the RoomBase subclass to allow signal connections.
+ */
+
+/*!
+ * \fn Room::RoomBase Room::RoomBase::createNewInstance()
+ * Implemented by a subclass of room to return its instance.
+ */
+
+/*!
+ * \fn void Room::RoomBase::roomEntered()
+ * Triggered when the room becomes the currently selected room.
+ */
+
+/*!
+ * \fn void Room::RoomBase::roomLeft()
+ * Triggered when another room is selected while this room was still
+ * the current room.
+ */
+
+
+/*!
+ * Constructs a new RoomBase instance, gives it a unique id and allocate
+ * a Room::RoomProperties instance.
+ * \sa Room::RoomProperties
+ */
 Room::RoomBase::RoomBase() : QQuickItem()
 {
     this->roomId = Room::RoomBase::nextId++;
     this->roomProperties = new Room::RoomProperties(this);
 }
 
+/*!
+ * Destroys the RoomBase instance.
+ */
 Room::RoomBase::~RoomBase()
 {
 }
@@ -53,7 +86,7 @@ double            Room::RoomBase::getRoomVolume() const
 }
 
 /*!
- * Returns true if the current room´s volume is inferior to room´s volume.
+ * Returns true if the current room's volume is inferior to the volume of \a room.
  */
 bool            Room::RoomBase::operator <(RoomBase *room) const
 {
@@ -61,7 +94,7 @@ bool            Room::RoomBase::operator <(RoomBase *room) const
 }
 
 /*!
- * Returns true if the current room´s volume is superior to room´s volume.
+ * Returns true if the current room's volume is superior to the volume of \a room.
  */
 bool            Room::RoomBase::operator >(RoomBase *room) const
 {
@@ -69,7 +102,7 @@ bool            Room::RoomBase::operator >(RoomBase *room) const
 }
 
 /*!
- * Returns true if the current room collides with room.
+ * Returns true if the current room collides with \a room.
  */
 bool            Room::RoomBase::collides(RoomBase *room) const
 {
@@ -86,7 +119,7 @@ bool            Room::RoomBase::collides(RoomBase *room) const
 }
 
 /*!
- * Returns the room´s name.
+ * Returns the room's name.
  */
 QString     Room::RoomBase::getRoomName() const
 {
@@ -94,7 +127,7 @@ QString     Room::RoomBase::getRoomName() const
 }
 
 /*!
- * Returns the room´s QML file which is its representation in the 3D world.
+ * Returns the room's QML file which is its representation in the 3D world.
  */
 QString     Room::RoomBase::getRoomQmlFile() const
 {
@@ -102,7 +135,7 @@ QString     Room::RoomBase::getRoomQmlFile() const
 }
 
 /*!
- * Returns a 3D vector containing the room´s position.
+ * Returns a 3D vector containing the room's position.
  */
 QVector3D   Room::RoomBase::getPosition() const
 {
@@ -110,7 +143,7 @@ QVector3D   Room::RoomBase::getPosition() const
 }
 
 /*!
- * Returns a 3D vector containing the room´s scale.
+ * Returns a 3D vector containing the room's scale.
  */
 QVector3D   Room::RoomBase::getScale() const
 {
@@ -118,7 +151,7 @@ QVector3D   Room::RoomBase::getScale() const
 }
 
 /*!
- * Returns a 3D vector containing the room´s minimum bounding points.
+ * Returns a 3D vector containing the room's minimum bounding points.
  */
 QVector3D   Room::RoomBase::getMinBoundingPoint() const
 {
@@ -131,7 +164,7 @@ QVector3D   Room::RoomBase::getMinBoundingPoint() const
 }
 
 /*!
- * Returns a 3D vector containing the room´s maximum bounding points.
+ * Returns a 3D vector containing the room's maximum bounding points.
  */
 QVector3D   Room::RoomBase::getMaxBoundingPoint() const
 {
@@ -152,7 +185,7 @@ ListModel*  Room::RoomBase::getRoomPluginsModel()   const
 }
 
 /*!
- * Sets scale as the room´s scale.
+ * Sets \a scale as the room's scale.
  */
 void        Room::RoomBase::setScale(const QVector3D &scale)
 {
@@ -160,7 +193,7 @@ void        Room::RoomBase::setScale(const QVector3D &scale)
 }
 
 /*!
- * Sets name as the room´s name.
+ * Sets \a name as the room's name.
  */
 void        Room::RoomBase::setRoomName(const QString &name)
 {
@@ -168,7 +201,7 @@ void        Room::RoomBase::setRoomName(const QString &name)
 }
 
 /*!
- * Sets position as the room´s position.
+ * Sets \a position as the room's position.
  */
 void        Room::RoomBase::setPosition(const QVector3D &position)
 {
@@ -176,7 +209,7 @@ void        Room::RoomBase::setPosition(const QVector3D &position)
 }
 
 /*!
- * Sets file as the room´s qml representation file.
+ * Sets \a file as the room's qml representation file.
  */
 void        Room::RoomBase::setRoomQmlFile(const QString &file)
 {
@@ -184,7 +217,7 @@ void        Room::RoomBase::setRoomQmlFile(const QString &file)
 }
 
 /*!
- * Adds a new plugin to the room. Signals connections for the plugins are handled there as well.
+ * Adds a new plugin \a widget to the room. Signals connections for the plugins are handled there as well.
  */
 void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 {
@@ -196,7 +229,7 @@ void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 }
 
 /*!
- * Removes the plugin widget from the current room, disconnecting signals as well.
+ * Removes the plugin \a widget from the current room, disconnecting signals as well.
  */
 void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
 {
@@ -226,7 +259,7 @@ Room::RoomProperties*    Room::RoomBase::getRoomProperties() const
 }
 
 /*!
- * Returns the plugin identified by pluginId if it is in the current room.
+ * Returns the plugin identified by \a pluginId if it is in the current room.
  * Otherwise, a NULL pointer is returned.
  */
 
@@ -256,8 +289,9 @@ void        Room::RoomBase::leaveRoom()
 }
 
 /*!
- * Handles plugin´s focusState change requests, if no action is againt the request, the focusState is granted to the
- * plugin. Otherwise the focusState of the plugin is not changed.
+ * Handles plugin focusState change requests \a requestedState, if no action is againt the request, the focusState is granted to the
+ * plugin. Otherwise the focusState of the plugin is not changed. In case the focusState request is granted, \a sender will receive the
+ * result.
  */
 
 void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::PluginState requestedState, QObject* sender)

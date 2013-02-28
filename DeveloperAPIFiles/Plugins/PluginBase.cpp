@@ -35,7 +35,7 @@ void    Plugins::PluginBase::onRoomEntered()
 }
 
 /*!
- * Tells the plugin its focusState has changed.
+ * Tells the plugin its focusState \a requestedState has changed.
  */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
@@ -45,7 +45,7 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
 }
 
 /*!
- * When a plugin wishes to change its focusState, call this method with the required focusState.
+ * When a plugin wishes to change its focusState, call this method with the required focusState \a requestedState.
  */
 void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
@@ -62,7 +62,7 @@ void    Plugins::PluginBase::resultFromSQL()
 }
 
 /*!
- * Sends Http Get request to network manager.
+ * Sends Http Get \a request to network manager.
  */
 void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request)
 {
@@ -70,7 +70,7 @@ void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &reques
 }
 
 /*!
- * Sends Http Delete request to network manager.
+ * Sends Http Delete \a request to network manager.
  */
 void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request)
 {
@@ -78,7 +78,7 @@ void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &req
 }
 
 /*!
- * Sends Http Post request to network manager.
+ * Sends Http Post \a request to network manager.
  */
 void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
@@ -86,7 +86,7 @@ void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &reque
 }
 
 /*!
- * Sends Http Put request to network manager.
+ * Sends Http Put \a request to network manager.
  */
 void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {

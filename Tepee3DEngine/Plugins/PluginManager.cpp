@@ -47,12 +47,15 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 //    this->signalMapper = new QSignalMapper(this);
 }
 
+/*!
+ * Destroys a PluginManager instance.
+ */
 Plugins::PluginManager::~PluginManager()
 {
 }
 
 /*!
- *  Returns a singleton instance of the class.
+ *  Returns a singleton instance of the class from a QObject \a parent.
  */
 Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
 {
@@ -86,9 +89,9 @@ void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> , in
 }
 
 /*!
- * Returns a new instance of the plugin from a plugin instance.
+ * Returns a new instance of plugin from \a plugin.
  */
-Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(PluginBase *plugin)
+Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(Plugins::PluginBase *plugin)
 {
     if (plugin == NULL)
         return NULL;
@@ -96,7 +99,7 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(PluginBase *
 }
 
 /*!
- * Returns a new instance of the plugin identified by its id in the locallyAvailablePlugin list.
+ * Returns a new instance of the plugin identified by \a pluginModelItemId in the locallyAvailablePlugin list.
  */
 Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginModelItemId)
 {
@@ -109,7 +112,7 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
 }
 
 /*!
- * Initializes roomPlugin to all the services a plugin can register to.
+ * Initializes \a roomPlugin to all the services a plugin can register to.
  */
 void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
 {
@@ -120,7 +123,7 @@ void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
 }
 
 /*!
- * Exposes to QML all Plugins entities required by the Tepee3DEngine.
+ * Exposes to QML Context \a context all Plugins entities required by the Tepee3DEngine.
  */
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {

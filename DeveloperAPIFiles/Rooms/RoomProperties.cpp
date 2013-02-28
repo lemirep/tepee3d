@@ -20,7 +20,7 @@ Room::RoomProperties::~RoomProperties()
 }
 
 /*!
- * Returns the room´s name.
+ * Returns the room's name.
  */
 QString     Room::RoomProperties::getRoomName() const
 {
@@ -28,7 +28,7 @@ QString     Room::RoomProperties::getRoomName() const
 }
 
 /*!
- * Returns a 3D vector containing the room´s position.
+ * Returns a 3D vector containing the room's position.
  */
 QVector3D   Room::RoomProperties::getPosition() const
 {
@@ -36,7 +36,7 @@ QVector3D   Room::RoomProperties::getPosition() const
 }
 
 /*!
- * Returns a 3D vector containing the room´s scale.
+ * Returns a 3D vector containing the room's scale.
  */
 QVector3D   Room::RoomProperties::getScale() const
 {
@@ -44,7 +44,7 @@ QVector3D   Room::RoomProperties::getScale() const
 }
 
 /*!
- * Returns ListModel containing the room´s plugins model.
+ * Returns ListModel containing the room's plugins model.
  */
 ListModel*   Room::RoomProperties::getRoomPluginsModel() const
 {
@@ -52,7 +52,7 @@ ListModel*   Room::RoomProperties::getRoomPluginsModel() const
 }
 
 /*!
- * Sets the room´s name to name.
+ * Sets the room's name to \a name.
  */
 void        Room::RoomProperties::setRoomName(const QString &name)
 {
@@ -60,7 +60,7 @@ void        Room::RoomProperties::setRoomName(const QString &name)
 }
 
 /*!
- * Sets the room´s position to position.
+ * Sets the room's position to \a position.
  */
 void        Room::RoomProperties::setPosition(const QVector3D &position)
 {
@@ -68,7 +68,7 @@ void        Room::RoomProperties::setPosition(const QVector3D &position)
 }
 
 /*!
- * Sets the room´s scale to scale.
+ * Sets the room's scale to \a scale.
  */
 void        Room::RoomProperties::setScale(const QVector3D &scale)
 {
