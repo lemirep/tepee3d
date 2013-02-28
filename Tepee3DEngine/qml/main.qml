@@ -26,7 +26,7 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
-    Component.onCompleted:    {Room.initialize(camera, roomModel, currentRoomFacesModel)}
+    Component.onCompleted:    {Room.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
 
     onCurrentRoomIdChanged:
     {

@@ -181,6 +181,7 @@ Item
                 {
 //                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
                     roomManager.addNewRoom();
+                    mainWindow.currentRoomId = -1; mainWindow.moveCameraToSkyView()
                 }
             }
             source : "../Resources/Pictures/plus.png"
