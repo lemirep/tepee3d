@@ -18,11 +18,17 @@ Room::RoomModelItem::~RoomModelItem()
 {
 }
 
+/*!
+ * Returns the id of the RoomModelItem.
+ */
 int         Room::RoomModelItem::id() const
 {
     return this->room->getRoomId();
 }
 
+/*!
+ * Returns a QVariant containing the data for the role role.
+ */
 QVariant    Room::RoomModelItem::data(int role) const
 {
     switch (role)
@@ -42,6 +48,9 @@ QVariant    Room::RoomModelItem::data(int role) const
     }
 }
 
+/*!
+ * Returns a hash containg the various role names of a RoomModelItem.
+ */
 QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
 {
     QHash<int, QByteArray>  roles;
@@ -55,11 +64,17 @@ QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
     return roles;
 }
 
+/*!
+ * Returns the actual instance of the room the RoomModelItem is a description of.
+ */
 Room::RoomBase*   Room::RoomModelItem::getRoom()    const
 {
     return this->room;
 }
 
+/*!
+ * Returns the plugins model of the room.
+ */
 ListModel*      Room::RoomModelItem::submodel() const
 {
     return this->room->getRoomPluginsModel();

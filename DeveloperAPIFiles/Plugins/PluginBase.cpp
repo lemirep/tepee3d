@@ -18,16 +18,25 @@ Plugins::PluginBase::PluginBase() : QObject(NULL)
     QObject::connect(this, SIGNAL(roomLeft()), this, SLOT(onRoomEntered()));
 }
 
+/*!
+ * Returns the current instance of the plugin.
+ */
 Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
 {
     return this;
 }
 
+/*!
+ * Slot triggered when the Tepee3DEngine enters the room containing the plugin.
+ */
 void    Plugins::PluginBase::onRoomEntered()
 {
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
 }
 
+/*!
+ * Tells the plugin its focusState has changed.
+ */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
     qDebug() << "Setting Focus State " << requestedState;
@@ -35,47 +44,73 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
     emit (focusStateChanged(QVariant(requestedState)));
 }
 
+/*!
+ * When a plugin wishes to change its focusState, call this method with the required focusState.
+ */
 void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
     // ASK THE ROOM FOR A NEW FOCUS STATE
     emit askForFocusState(requestedState, this);
 }
 
+/*!
+ * Called when receiving SQL results from the Database Service.
+ */
 void    Plugins::PluginBase::resultFromSQL()
 {
     qDebug() << "PLUGIN BASE RESULT FROM SQL";
 }
 
+/*!
+ * Sends Http Get request to network manager.
+ */
 void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request)
 {
     emit executeHttpRequest(request, Get, NULL, this);
 }
 
+/*!
+ * Sends Http Delete request to network manager.
+ */
 void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request)
 {
     emit executeHttpRequest(request, Delete, NULL, this);
 }
 
+/*!
+ * Sends Http Post request to network manager.
+ */
 void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
     emit executeHttpRequest(request, Post, multiPart, this);
 }
 
+/*!
+ * Sends Http Put request to network manager.
+ */
 void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
     emit executeHttpRequest(request, Put, multiPart, this);
 }
 
+/*!
+ * Returns a boolean telling whether this pluugin needs logical updating every seconds or not.
+ */
 bool    Plugins::PluginBase::needsUpdating() const
 {
     return false;
 }
 
+/*!
+ * Returns the current focusState of the plugin.
+ */
 Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   const
 {
     return this->focusState;
 }
-
+/*!
+ * Offers the plugin a way to expose content to QML if it needs to do so.
+ */
 void    Plugins::PluginBase::exposeContentToQml(QQmlContext *)
 {
     // EXPOSE YOUR QML CONTENT HERE

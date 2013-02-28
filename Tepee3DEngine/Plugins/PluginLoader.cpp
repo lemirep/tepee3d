@@ -8,6 +8,15 @@
  * aimed at easing the process of loading plugin libraries. It loads all
  * the local plugin libraries in a list. That list can later be used to
  * instantiate new plugin instances.
+ *
+ * \since 1.0
+ */
+
+
+/*!
+ * This methods loads all the local libraries found in the Tepee3D plugin forlder.
+ * Each library is checked to see whether it is a valid plugin or not, if it´s the
+ * case an instance of the given plugin is saved in a list.
  */
 
 void    Plugins::PluginLoader::loadWidgetPlugins()
@@ -49,6 +58,9 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
     }
 }
 
+/*!
+ * Returns a QList containing PluginBases plugins that could be loaded locally.
+ */
 QList<Plugins::PluginBase*>  Plugins::PluginLoader::getWidgetPlugins()
 {
     return widgetPlugins;

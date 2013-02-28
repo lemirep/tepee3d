@@ -151,19 +151,19 @@ Item
         }
         Image
         {
-            id : homeRoom_buttom
+            id : homeRoom_button
             anchors
             {
                 verticalCenter : parent.verticalCenter
                 right : parent.right
                 rightMargin :  mainWindow.menuMinimumWidth
             }
-
             source : "../Resources/Pictures/home_buttom.png"
             smooth : true
-            scale : homeRoom_buttom.isPressed ? 0.5 :  1
+            scale : homeRoom_button_ma.pressed ? 0.5 :  1
             MouseArea
             {
+                id : homeRoom_button_ma
                 anchors.fill: parent
                 onClicked:    mainWindow.currentRoomFaceId = 0;
             }
@@ -171,7 +171,7 @@ Item
             {
                 anchors
                 {
-                    bottomMargin:  homeRoom_buttom.height + mainWindow.menuMinimumWidth
+                    bottomMargin:  homeRoom_button.height + mainWindow.menuMinimumWidth
                     horizontalCenter : parent.horizontalCenter
                     bottom: parent.bottom
                 }

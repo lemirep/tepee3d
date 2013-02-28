@@ -43,6 +43,9 @@ View::QmlViewManager::~QmlViewManager()
     delete this->viewProperties;
 }
 
+/*!
+ * Returns a singleton instance of the class.
+ */
 View::QmlViewManager* View::QmlViewManager::getInstance()
 {
     if (View::QmlViewManager::instance == NULL)
@@ -50,6 +53,9 @@ View::QmlViewManager* View::QmlViewManager::getInstance()
     return View::QmlViewManager::instance;
 }
 
+/*!
+ * Initialises the Tepee3DEngine services, view rendering and room management entities.
+ */
 bool    View::QmlViewManager::initView()
 {
 
@@ -76,6 +82,3 @@ bool    View::QmlViewManager::initView()
     }
     return false;
 }
-
-
-

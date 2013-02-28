@@ -24,12 +24,18 @@
  * for use inside a room by connecting it to the various services and exposing eventual
  * Qml content to the Qml Engine.
  *
- *\sa Plugins::PluginsLoader
+ * \since 1.0
+ * \sa Plugins::PluginsLoader
  */
+
 
 ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
 ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
+
+/*!
+ * Initializes the Plugins::PluginsManager instance.
+ */
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
@@ -45,6 +51,9 @@ Plugins::PluginManager::~PluginManager()
 {
 }
 
+/*!
+ *  Returns a singleton instance of the class.
+ */
 Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
 {
     if (Plugins::PluginManager::instance == NULL)
@@ -52,7 +61,11 @@ Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
     return Plugins::PluginManager::instance;
 }
 
+
 // REFRESH LOCALLY AVAILABLE PLUGINS ON A REGULAR BASIC TO ALWAYS BE UP TO DATE
+/*!
+ * Loads all locally available plugins in the static locallyAvailablePluginModel ListModel.
+ */
 void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();
@@ -72,6 +85,9 @@ void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> , in
     qDebug() << "PluginManager Received Result";
 }
 
+/*!
+ * Returns a new instance of the plugin from a plugin instance.
+ */
 Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(PluginBase *plugin)
 {
     if (plugin == NULL)
@@ -79,6 +95,9 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(PluginBase *
     return plugin->createNewInstance();
 }
 
+/*!
+ * Returns a new instance of the plugin identified by its id in the locallyAvailablePlugin list.
+ */
 Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginModelItemId)
 {
     Plugins::PluginModelItem*   pluginModelItem = NULL;
@@ -89,6 +108,9 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
     return Plugins::PluginManager::getNewInstanceOfPlugin(pluginBase);
 }
 
+/*!
+ * Initializes roomPlugin to all the services a plugin can register to.
+ */
 void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
 {
     // CONNECT OBJECT TO SERVICES
@@ -97,6 +119,9 @@ void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
     View::QmlViewProperties::exposeContentToQml(roomPlugin);
 }
 
+/*!
+ * Exposes to QML all Plugins entities required by the Tepee3DEngine.
+ */
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {
     context->setContextProperty("availablePluginsModel", this->locallyAvailablePluginsModel);
