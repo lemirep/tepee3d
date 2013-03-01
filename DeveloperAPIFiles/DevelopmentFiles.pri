@@ -41,6 +41,6 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/FileExplorer.qml \
                 $$PWD/qml/FileDelegate.qml \
                 $$PWD/qml/FolderDelegate.qml \
-    ../DeveloperAPIFiles/qml/FileLoader.qml
+                $$PWD/qml/FileLoader.qml
 
 QT += sql

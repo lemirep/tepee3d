@@ -6,7 +6,7 @@
 /*!
  * \namespace Plugins
  * \brief The Plugins namespace contains classes responsible for plugin
- * management, plugin declaration and plugin model represantation.
+ * management, plugin declaration and plugin model representation.
  */
 
 /*!

@@ -4,10 +4,10 @@
 
 WebServiceManager::WebServiceManager() : QObject()
 {
-    this->httpMethods[WebServiceUserInterface::Get] = &WebServiceManager::httpGet;
-    this->httpMethods[WebServiceUserInterface::Delete] = &WebServiceManager::httpDelete;
-    this->httpMethods[WebServiceUserInterface::Post] = &WebServiceManager::httpPost;
-    this->httpMethods[WebServiceUserInterface::Put] = &WebServiceManager::httpPut;
+    this->httpMethods[Services::WebServiceUserInterface::Get] = &WebServiceManager::httpGet;
+    this->httpMethods[Services::WebServiceUserInterface::Delete] = &WebServiceManager::httpDelete;
+    this->httpMethods[Services::WebServiceUserInterface::Post] = &WebServiceManager::httpPost;
+    this->httpMethods[Services::WebServiceUserInterface::Put] = &WebServiceManager::httpPut;
 }
 
 QNetworkAccessManager*  WebServiceManager::getInstance()
@@ -56,7 +56,7 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
 {
     qDebug() << "Connecting user to WebServices";
     // HTTP
-    if (dynamic_cast<WebServiceUserInterface*>(user) != NULL)
+    if (dynamic_cast<Services::WebServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
                          this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
     qWarning() << "Object does not implement WebServiceUserInterface";
@@ -66,7 +66,7 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
 bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
 {
     // HTTP
-    if (dynamic_cast<WebServiceUserInterface*>(user) != NULL)
+    if (dynamic_cast<Services::WebServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
                          this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
     qWarning() << "Object does not implement WebServiceUserInterface";

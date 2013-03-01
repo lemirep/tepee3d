@@ -15,9 +15,9 @@ namespace Plugins
 
 class PluginBase : public QObject,
         Plugins::PluginInterface,
-        public DatabaseServiceUserInterface,
-        public WebServiceUserInterface,
-        public QmlContentExposerInterface
+        public Services::DatabaseServiceUserInterface,
+        public Services::WebServiceUserInterface,
+        public View::QmlContentExposerInterface
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)

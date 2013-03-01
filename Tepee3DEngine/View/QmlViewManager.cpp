@@ -12,6 +12,12 @@
  */
 
 /*!
+ * \class View::QmlContentExposerInterface
+ *
+ * \brief Has to be implemented in order to expose QML content to the QML context.
+ */
+
+/*!
  * \class View::QmlViewManager
  *
  * \brief The View::QmlViewManager class manages the QML view.

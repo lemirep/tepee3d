@@ -4,6 +4,8 @@
 #include <QSqlRecord>
 #include <QList>
 
+namespace Services
+{
 // YOU NEED TO IMPLEMENT THIS INTERFACE IN ORDER TO RECEIVE SQL RESULTS
 class   DatabaseServiceUserInterface
 {
@@ -13,6 +15,6 @@ public :
     //void        executeSQLQuery(const QString& query, QObject *sender);
 
 };
-
+}
 
 #endif // DATABASEUSER_H

@@ -27,7 +27,7 @@ bool            DatabaseThread::connectServiceToUser(QObject *user)
 {
     qDebug() << "Connecting user to DatabaseServices";
     // SQL
-    if (dynamic_cast<DatabaseServiceUserInterface*>(user) != NULL)
+    if (dynamic_cast<Services::DatabaseServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeSQLQuery(const QString &, QObject *, int)),
                          this, SIGNAL(executeSQLQuery(const QString&,QObject*,int)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
@@ -37,7 +37,7 @@ bool            DatabaseThread::connectServiceToUser(QObject *user)
 bool            DatabaseThread::disconnectServiceFromUser(QObject *user)
 {
     // SQL
-    if (dynamic_cast<DatabaseServiceUserInterface*>(user) != NULL)
+    if (dynamic_cast<Services::DatabaseServiceUserInterface*>(user) != NULL)
        return QObject::disconnect(user, SIGNAL(executeSQLQuery(const QString &, QObject *,int)),
                             this, SIGNAL(executeSQLQuery(const QString&,QObject*,int)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
@@ -65,8 +65,8 @@ void    DatabaseThread::transmitSQLResult(QList<QSqlRecord> result, QObject *rec
 {
     qDebug() << "SQL Query Result Received";
     // TO RECEIVE RESULT OBJECT MUST IMPLEMENT
-    DatabaseServiceUserInterface * user;
-    if (receiver != NULL && (user = dynamic_cast<DatabaseServiceUserInterface *>(receiver)) != NULL)
+    Services::DatabaseServiceUserInterface * user;
+    if (receiver != NULL && (user = dynamic_cast<Services::DatabaseServiceUserInterface *>(receiver)) != NULL)
     {
         qDebug() << "Transmitting results";
         user->receiveResultFromSQLQuery(result, id);

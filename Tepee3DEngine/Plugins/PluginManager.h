@@ -30,7 +30,7 @@
 
 namespace Plugins
 {
-class PluginManager : public QObject, public QmlContentExposerInterface, public DatabaseServiceUserInterface
+class PluginManager : public QObject, public View::QmlContentExposerInterface, public Services::DatabaseServiceUserInterface
 {
     Q_OBJECT
 public:

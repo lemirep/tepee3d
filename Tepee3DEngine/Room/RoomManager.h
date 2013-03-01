@@ -25,7 +25,7 @@
 
 namespace   Room
 {
-class RoomManager : public QObject, public QmlContentExposerInterface, public DatabaseServiceUserInterface
+class RoomManager : public QObject, public View::QmlContentExposerInterface, public Services::DatabaseServiceUserInterface
 {
     Q_OBJECT
 public:

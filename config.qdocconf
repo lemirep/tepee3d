@@ -10,34 +10,30 @@ syntaxhighlighting 	= true # HIGHLIGHT SOURCE CODE
 
 # export QTDIR TO YOUR QTPATH ex : ~/QtSDK/Qt5.0.1/5.0.1/gcc_64
 
-HTML.stylesheets 	= bootstrap.min.css
+HTML.stylesheets 	= bootstrap.css
 
-HTML.headerstyles 	= "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.min.css\" />\n"
+HTML.headerstyles 	= "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css\" />\n"
 
 HTML.postheader = \
-    "<div class=\"header\" id=\"qtdocheader\">\n" \
-    "  <div class=\"navbar\"> \n" \
-    "   <div class=\"navbar-inner\"> \n" \
-    "    <a href=\"http://tepee3d.dyndns.org/doc/\" class=\"brand\"><span>Tepee3D Reference Documentation</span></a>\n" \
-    "   </div>\n" \
-    "  </div>\n" \
-    "  <div class=\"well\"> \n" \
-    "     <ul class=\"nav\">\n" \
-    "       <!--  Breadcrumbs go here -->\n"
+    "<div class=\"container-fluid\">\n" \
+    " <div class=\"row-fluid\">\n"	\
+    "  <div class=\"span8 offset2 banner_tp3\">\n" \
+    " <h2 class=\"title\">Tepee3D Reference Documentation</h2>" \
+    " </div> \n" \
+    "</div> \n" \
+    " <div class=\"row-fluid\">\n"	\
+    "  <div class=\"span8 offset2 well\">\n" \
+    "   <ul class=\"breadcrumb\">\n" \
+    "    <!--  Breadcrumbs go here -->\n"
 
 HTML.postpostheader = \
-    "     </ul>\n" \
-    "  </div>\n" \
-    "</div>\n" \
-    "<div class=\"container-fluid\">\n" \
-    "<div class=\"row-fluid\">\n"	\
-    "<div class=\"span8 offset2 well\">\n"
+    "   </ul>\n" 
 
 HTML.footer = \
     "  <div class=\"ft\">\n" \
     "    <span></span>\n" \
     "  </div>\n" \
-    "</div> \n" \
+    " </div> \n" \
     "</div> \n" \
     "<div class=\"row-fluid\">\n"	\
     "<div class=\"footer span8 offset2 well\">\n" \
@@ -96,20 +92,14 @@ HTML.footer = \
 
 outputdir               = Tepee3D_Doc
 
-headerdirs              = Tepee3DSampleApp \
-			  DeveloperAPIFiles
+headerdirs 		  = ./
 
-sourcedirs              = Tepee3DSampleApp \
-			  DeveloperAPIFiles
+sourcedirs		  = ./
 
 # headers = Tepee3DSampleApp/Room/RoomManager.h
 # sources = Tepee3DSampleApp/Room/RoomManager.cpp
 
 sources.fileextensions  = "*.cpp *.qdoc *.doc" 
 headers.fileextensions 	= "*.h"
-
-
-
-
 
 #excludedirs		= 

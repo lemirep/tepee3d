@@ -28,7 +28,7 @@
 namespace Services
 {
 
-class ServicesManager : public QObject, public QmlContentExposerInterface
+class ServicesManager : public QObject, public View::QmlContentExposerInterface
 {
     Q_OBJECT
 public:
