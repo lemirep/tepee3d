@@ -1,9 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <QTextStream>
+
 #include "roomloader.h"
 
 #define FILEHEADER  "__ROOMFILE__"
+
+int RoomLoader::lastCalled = 0;
+DataInfo *RoomLoader::roomDataSave;
 
 DataInfo::DataInfo()
 {
@@ -162,28 +166,12 @@ void RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
 {
     QString line;
     QFile myfile(ROOMFILEDIR + name + ".txt");
-    //    std::ifstream myfile((std::string)ROOMFILEDIR + name + ".txt");
     bool        header;
     DataInfo    *roominfo;
 
     roommanager->addNewRoom();
     roommanager->setCurrentRoom(1);
     roominfo = new DataInfo();
-    //    if (myfile.is_open())
-    //      {
-    //        while (myfile.good())
-    //        {
-    //          getline (myfile,line);
-    //          if (!(line == "\n\r" || line == "\n" || line == ""))
-    //          {
-    //            if (RoomLoader::parseLine(line, header, roominfo) == false)
-    //             {
-    //               std::cerr << "Error while parsing file" << std::endl;
-    //               return ;
-    //             }
-    //          }
-    //        }
-    //        myfile.close();
     if (myfile.open(QIODevice::ReadOnly))
     {
         QTextStream in(&myfile);
@@ -209,37 +197,120 @@ void RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
 
 void RoomLoader::loadRoomFromDatabase(QString name, Room::RoomManager *roommanager)
 {
-    //BasicRoom* room = new BasicRoom();
-    QList<QSqlRecord> result;
+    QList<QSqlRecord> *result;
 
-    std::cout << "test" << std::endl;
     if (false)
     {
         std::cout << "Creation" << std::endl;
         roommanager->executeSQLQuery("CREATE TABLE room (idRoom INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(45), modelFile VARCHAR(200), posX INT, posY INT, posZ INT, scaleX INT, scaleY INT, scaleZ INT);", roommanager, 1);
-        roommanager->executeSQLQuery("INSERT INTO room VALUES (1, \"RoomDatabase\", \"C:\\Test\", 0, 0, 0, 1, 1, 1);", roommanager, 1);
+        roommanager->executeSQLQuery("INSERT INTO room VALUES (1, \"RoomDatabase\", \"C:\\Test\", 0, 0, 0, 1, 1, 1);", roommanager, 2);
         std::cout << "Creation Finsihed" << std::endl;
     }
-    // if (true)
-    // {
-    //    roommanager->executeSQLQuery("ALTER TALE room MODIFY idRoom INT NOT NULL PRIMARY KEY", roommanager);
-    //sss }
-    std::cout << "test" << std::endl;
     roommanager->executeSQLQuery("SELECT * FROM room WHERE name=\"RoomDatabase\";", roommanager, 1); /*" + name +\"*/
-    bool isresult = false;
-    int i = 0;
-    while (i < 100)
-    {
-        roommanager->receiveResultFromSQLQuery(result, 1);
-        if (!result.isEmpty())
-        {
-            isresult = true;
-            std::cout << "Query result " << qPrintable(result[0].value(1).toString()) << std::endl;
-        }
-        i++;
-    }
-    std::cout << "No result" << std::endl;
+    RoomLoader::lastCalled = 1;
+
     return ;
+}
+
+bool RoomLoader::onLoadingRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result)
+{
+    QVector3D pos;
+    QVector3D scale;
+    QSqlRecord res;
+
+    if (result.size() < 2)
+        return false;
+    res = result.value(1);
+    roommanager->addNewRoom();
+    roommanager->setCurrentRoom(2);
+    std::cout << "New Room name =" << qPrintable(roommanager->getCurrentRoom()->getRoomName()) << std::endl;
+
+    pos.setX(res.value(3).toDouble());
+    pos.setY(res.value(4).toDouble());
+    pos.setZ(res.value(5).toDouble());
+    scale.setX(res.value(6).toDouble());
+    scale.setY(res.value(7).toDouble());
+    scale.setZ(res.value(8).toDouble());
+
+    roommanager->editRoom(2, res.value(1).toString(), pos, scale);
+    std::cout << "Real Room name =" << qPrintable(roommanager->getCurrentRoom()->getRoomName()) << std::endl;
+    return true;
+}
+
+bool RoomLoader::onSearchingRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result)
+{
+    QString     request = "";
+
+    if (result.size() >= 2)
+    {
+       request += "UPDATE room SET ";
+       request += "name=\"";
+       request += RoomLoader::roomDataSave->getName();
+       request += "\", ";
+       request += "modelFile=\"";
+       request += RoomLoader::roomDataSave->getModel();
+       request += "\", ";
+       request += "posX=";
+       request += QString::number(RoomLoader::roomDataSave->getPos().x());
+       request += ", ";
+       request += "posY=";
+       request += QString::number(RoomLoader::roomDataSave->getPos().y());
+       request += ", ";
+       request += "posZ=";
+       request += QString::number(RoomLoader::roomDataSave->getPos().z());
+       request += ", ";
+       request += "scaleX=";
+       request += QString::number(RoomLoader::roomDataSave->getScale().x());
+       request += ", ";
+       request += "scaleY=";
+       request += QString::number(RoomLoader::roomDataSave->getScale().y());
+       request += ", ";
+       request += "scaleZ=";
+       request += RoomLoader::roomDataSave->getScale().z();
+       request += " WHERE ";
+       request += "name=\"";
+       request += RoomLoader::roomDataSave->getName();
+       request += "\";";
+    }
+    else
+    {
+       request += "INSERT INTO room (name, modelFile, posX, posY, posZ, scaleX, scaleY, scaleZ) VALUES (\"";
+       request += RoomLoader::roomDataSave->getName();
+       request += "\", \"";
+       request += RoomLoader::roomDataSave->getModel();
+       request += "\", ";
+       request += QString::number(RoomLoader::roomDataSave->getPos().x());
+       request += ", ";
+       request += QString::number(RoomLoader::roomDataSave->getPos().y());
+       request += ", ";
+       request += QString::number(RoomLoader::roomDataSave->getPos().z());
+       request += ", ";
+       request += QString::number(RoomLoader::roomDataSave->getScale().x());
+       request += ", ";
+       request += QString::number(RoomLoader::roomDataSave->getScale().y());
+       request += ", ";
+       request += QString::number(RoomLoader::roomDataSave->getScale().z());
+       request += ");";
+    }
+    qDebug() << request;
+    roommanager->executeSQLQuery(request, roommanager, 1);
+
+    return true;
+}
+
+void RoomLoader::onRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result)
+{
+    if (RoomLoader::lastCalled == 1)
+    {
+        qDebug() << "SELECT LOAD";
+        onLoadingRequestFinished(roommanager, result);
+    }
+    else if (RoomLoader::lastCalled == 2)
+    {
+        qDebug() << "SELECT CHECK";
+        onSearchingRequestFinished(roommanager, result);
+    }
+    RoomLoader::lastCalled = 0;
 }
 
 void RoomLoader::saveRoomFile(Room::RoomBase  *room)
@@ -266,60 +337,10 @@ void RoomLoader::saveRoomFile(Room::RoomBase  *room)
 
 void RoomLoader::saveRoomDatabase(Room::RoomBase *room, Room::RoomManager *roommanager)
 {
-    QString     request = "";
     DataInfo    *roominfo = new DataInfo();
-    bool existing = false;
 
     roominfo->setDataFromRoom(room);
-    if (existing == true)
-    {
-        request += "UPDATE room SET ";
-        request += "name=";
-        request += roominfo->getName();
-        request += ", ";
-        request += "modelFile=";
-        request += roominfo->getModel();
-        request += ", ";
-        request += "posX=";
-        request += roominfo->getPos().x();
-        request += ", ";
-        request += "posY=";
-        request += roominfo->getPos().y();
-        request += ", ";
-        request += "posZ=";
-        request += roominfo->getPos().z();
-        request += ", ";
-        request += "scaleX=";
-        request += roominfo->getScale().x();
-        request += ", ";
-        request += "scaleY=";
-        request += roominfo->getScale().y();
-        request += ", ";
-        request += "scaleZ=";
-        request += roominfo->getScale().z();
-    }
-    else
-    {
-        std::cout << roominfo->getScale().z() << std::endl;
-        request += "INSERT INTO room (name, modelFile, posX, posY, posZ, scaleX, scaleY, scaleZ) VALUES (\"";
-        request += roominfo->getName();
-        request += "\", \"";
-        request += roominfo->getModel();
-        request += "\", ";
-        request += QString::number(roominfo->getPos().x());
-        request += ", ";
-        request += QString::number(roominfo->getPos().y());
-        request += ", ";
-        request += QString::number(roominfo->getPos().z());
-        request += ", ";
-        request += QString::number(roominfo->getScale().x());
-        request += ", ";
-        request += QString::number(roominfo->getScale().y());
-        request += ", ";
-        request += QString::number(roominfo->getScale().z());
-        request += ");";
-    }
-
-
-    roommanager->executeSQLQuery(request, roommanager, 1);
+    RoomLoader::roomDataSave = roominfo;
+    roommanager->executeSQLQuery("SELECT * FROM room WHERE name=\"" + roominfo->getName() + "\";", roommanager, 1);
+    RoomLoader::lastCalled = 2;
 }

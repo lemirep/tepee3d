@@ -43,14 +43,20 @@
 class RoomLoader
 {
 
-
 private:
     static bool parseLine(std::string line, bool &header, DataInfo *room);
+    static bool onLoadingRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result);
+    static bool onSearchingRequestFinished(Room::RoomManager *roommanger, QList<QSqlRecord> result);
+
 public:
+    static int      lastCalled;
+    static DataInfo *roomDataSave;
+
     static void loadRoomFromFile(QString name, Room::RoomManager *roommanager);
     static void loadRoomFromDatabase(QString name, Room::RoomManager *roommanager);
     static void saveRoomFile(Room::RoomBase *room);
     static void saveRoomDatabase(Room::RoomBase *room, Room::RoomManager *roommanager);
+    static void onRequestFinished(Room::RoomManager *roommanger, QList<QSqlRecord> result);
 };
 
 #endif // ROOMLOADER_H

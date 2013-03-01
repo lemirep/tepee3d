@@ -159,13 +159,14 @@ Item
                 rightMargin :  mainWindow.menuMinimumWidth
             }
             source : "../Resources/Pictures/home_buttom.png"
+            opacity: (mainWindow.inRoom()) ? 1 : 0
             smooth : true
             scale : homeRoom_button_ma.pressed ? 0.5 :  1
             MouseArea
             {
                 id : homeRoom_button_ma
                 anchors.fill: parent
-                onClicked:    mainWindow.currentRoomFaceId = 0;
+                onClicked: mainWindow.moveCameraHomeRoom()
             }
             Text
             {
@@ -177,6 +178,7 @@ Item
                 }
                 color : "white"
                 text: (mainWindow.inRoom()) ? "Your are in room " + mainWindow.getcurrentIdRoom() : "Your are in Global View"
+
             }
         }
     }
