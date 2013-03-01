@@ -1,6 +1,7 @@
 #include "RoomManager.h"
 // DEBUG
 #include <QDebug>
+#include <roomloader.h>
 
 /*!
  * \namespace Room
@@ -71,9 +72,14 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomManager", this);
 }
 
-void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> , int)
+void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
 {
     qDebug() << "RoomManager received SQL Result";
+
+    if (RoomLoader::lastCalled != 0)
+    {
+        RoomLoader::onRequestFinished(this, list);
+    }
 }
 
 /*!
