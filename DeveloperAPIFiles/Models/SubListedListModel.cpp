@@ -10,16 +10,16 @@
  * \sa ListModel
  */
 
-SubListedListModel::SubListedListModel(SubListedListItem *prototype, QObject *parent) : ListModel(prototype, parent)
+Models::SubListedListModel::SubListedListModel(Models::SubListedListItem *prototype, QObject *parent) : Models::ListModel(prototype, parent)
 {
 }
 
 /*!
  * Returns the model contained by row Item identified by id.
  */
-QObject*        SubListedListModel::subModelFromId(int id)
+QObject*        Models::SubListedListModel::subModelFromId(int id)
 {
-    SubListedListItem* item = (SubListedListItem *)this->find(id);
+    Models::SubListedListItem* item = (Models::SubListedListItem *)this->find(id);
     if (item != NULL)
         return item->submodel();
     return NULL;

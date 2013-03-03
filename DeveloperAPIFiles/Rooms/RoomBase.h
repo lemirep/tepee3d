@@ -39,7 +39,7 @@ public:
     void                                    enterRoom();
     void                                    leaveRoom();
 
-    ListModel*                              getRoomPluginsModel() const;
+    Models::ListModel*                      getRoomPluginsModel() const;
     Plugins::PluginBase*                    getPluginFromRoom(int pluginId) const;
     Room::RoomProperties*                   getRoomProperties() const;
 

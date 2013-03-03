@@ -40,7 +40,7 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->currentRoom = NULL;
     this->roomPrototype = NULL;
     this->roomUpdateTimer = new QTimer();
-    this->roomModel = new SubListedListModel(new Room::RoomModelItem(NULL, NULL));
+    this->roomModel = new Models::SubListedListModel(new Room::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
 }
 
@@ -85,7 +85,7 @@ void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int
 /*!
  * Returns the model containing the rooms.
  */
-ListModel*  Room::RoomManager::getRoomModel() const
+Models::ListModel*  Room::RoomManager::getRoomModel() const
 {
     return this->roomModel;
 }
@@ -124,9 +124,9 @@ void        Room::RoomManager::placeNewRoomInSpace()
     int     idx = 0;
     qreal   posAngle = (2 * M_PI / this->roomModel->rowCount());
     qreal   radius = 100 * ((this->roomModel->rowCount() / 10) + 1);
-    const QList<ListItem*> roomItemList = this->roomModel->toList();
+    const QList<Models::ListItem*> roomItemList = this->roomModel->toList();
 
-    foreach (ListItem *item, roomItemList)
+    foreach (Models::ListItem *item, roomItemList)
     {
         qreal roomPosAngle = posAngle * idx++;
         Room::RoomBase* room = ((Room::RoomModelItem *)(item))->getRoom();

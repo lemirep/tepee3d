@@ -12,7 +12,7 @@
 
 Room::RoomProperties::RoomProperties(QObject *parent) : QObject(parent)
 {
-    this->pluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
+    this->pluginsModel = new Models::ListModel(new Plugins::PluginModelItem(NULL, NULL));
 }
 
 Room::RoomProperties::~RoomProperties()
@@ -46,7 +46,7 @@ QVector3D   Room::RoomProperties::getScale() const
 /*!
  * Returns ListModel containing the room's plugins model.
  */
-ListModel*   Room::RoomProperties::getRoomPluginsModel() const
+Models::ListModel*   Room::RoomProperties::getRoomPluginsModel() const
 {
     return this->pluginsModel;
 }

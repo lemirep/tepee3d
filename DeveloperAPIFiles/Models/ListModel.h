@@ -8,6 +8,9 @@
 #include <QByteArray>
 #include "ListItem.h"
 
+namespace Models
+{
+
 class ListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -50,5 +53,7 @@ signals :
     void        countChanged(int);
 
 };
+
+}
 
 #endif // LISTMODEL_H

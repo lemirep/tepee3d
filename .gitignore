@@ -12,3 +12,4 @@ moc_*.cpp
 *.pro.user
 plugins_qml
 Tepee3D_Doc
+font-awesome

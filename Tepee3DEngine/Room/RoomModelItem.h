@@ -7,7 +7,7 @@
 namespace   Room
 {
 
-class RoomModelItem : public SubListedListItem
+class RoomModelItem : public Models::SubListedListItem
 {
     Q_OBJECT
 public:
@@ -31,7 +31,7 @@ public:
     QHash<int, QByteArray>  roleNames()         const;
 
     Room::RoomBase*         getRoom()           const;
-    ListModel*              submodel()          const;
+    Models::ListModel*      submodel()          const;
 
 private:
     Room::RoomBase               *room;

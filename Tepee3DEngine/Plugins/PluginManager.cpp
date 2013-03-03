@@ -29,8 +29,8 @@
  */
 
 
-ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
-ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
+Models::ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
+Models::ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 
 /*!
@@ -73,7 +73,7 @@ void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();
     if (Plugins::PluginManager::locallyAvailablePluginsModel == NULL)
-        Plugins::PluginManager::locallyAvailablePluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
+        Plugins::PluginManager::locallyAvailablePluginsModel = new Models::ListModel(new Plugins::PluginModelItem(NULL, NULL));
     else
         Plugins::PluginManager::locallyAvailablePluginsModel->clear();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())

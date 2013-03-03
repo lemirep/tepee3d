@@ -33,7 +33,7 @@ public:
     static RoomManager*     getInstance(QObject *parent = NULL);
 
 
-    ListModel*              getRoomModel() const;
+    Models::ListModel*      getRoomModel() const;
     bool                    addRoomToModel();
 
     Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId) const;
@@ -64,11 +64,10 @@ private:
     static QString          updateRoomQuery;
     static QString          deleteRoomQuery;
 
-
-    SubListedListModel      *roomModel;
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
     RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
     QTimer                  *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
+    Models::SubListedListModel      *roomModel;
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace();

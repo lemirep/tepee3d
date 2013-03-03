@@ -7,7 +7,7 @@
 namespace Plugins
 {
 
-class PluginModelItem : public ListItem
+class PluginModelItem : public Models::ListItem
 {
     Q_OBJECT
 public:

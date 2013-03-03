@@ -179,7 +179,7 @@ QVector3D   Room::RoomBase::getMaxBoundingPoint() const
 /*!
  * Returns the model containing plugins of the current room.
  */
-ListModel*  Room::RoomBase::getRoomPluginsModel()   const
+Models::ListModel*  Room::RoomBase::getRoomPluginsModel()   const
 {
     return this->roomProperties->getRoomPluginsModel();
 }
@@ -302,7 +302,7 @@ void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::Plugin
 
     // IF THERE IS ANOTHER ITEM IN SELECTED -> ACCEPT AND SET OTHER ITEM TO IDLE
     // IF THERE IS ANOTHER ITEM IN FOCUS -> REFUSE AND DO NOT MODIFY ANY WIDGET
-    foreach (ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
+    foreach (Models::ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
     {
         plugin = ((Plugins::PluginModelItem*)(pluginItem))->getPlugin();
         if (plugin != requester && plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)

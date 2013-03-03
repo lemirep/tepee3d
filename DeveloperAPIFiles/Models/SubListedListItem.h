@@ -3,6 +3,9 @@
 
 #include "ListItem.h"
 
+namespace Models
+{
+
 class ListModel;
 
 class SubListedListItem : public ListItem
@@ -13,6 +16,6 @@ public :
     virtual ~SubListedListItem() {}
     virtual ListModel*  submodel()  const = 0;
 };
-
+}
 
 #endif // SUBLISTEDLISTITEM_H

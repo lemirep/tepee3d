@@ -5,6 +5,8 @@
 #include <QVariant>
 #include <QHash>
 
+namespace Models
+{
 
 class ListItem : public QObject
 {
@@ -19,5 +21,7 @@ public :
 signals:
     void dataChanged();
 };
+
+}
 
 #endif // LISTITEM_H

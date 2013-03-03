@@ -75,7 +75,7 @@ Room::RoomBase*   Room::RoomModelItem::getRoom()    const
 /*!
  * Returns the plugins model of the room.
  */
-ListModel*      Room::RoomModelItem::submodel() const
+Models::ListModel*      Room::RoomModelItem::submodel() const
 {
     return this->room->getRoomPluginsModel();
 }
