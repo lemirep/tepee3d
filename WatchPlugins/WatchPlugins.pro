@@ -31,7 +31,10 @@ OTHER_FILES += \
     content/clock.png \
     content/center.png \
     content/background.png \
-    content/Clock.qml
+    content/Clock.qml \
+    content/Clock_Wall_3.dae \
+    content/Clock_Wall_2.dae \
+    content/Clock_Wall_1.dae
 
 
 # Copies the given files to the destination directory

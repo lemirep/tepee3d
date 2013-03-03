@@ -72,12 +72,20 @@ Item3D
             when : plugin_base.getFocusState() === 2
         }
     ]
-
     Item3D
     {
-        id : cube_plugin
-        position : Qt.vector3d(-9, -5, 0)
+        id : background_plugin
+        mesh: Mesh { source: "Clock_Wall_1.dae" }
+effect: Effect {color :"blue"; useLighting : true}
+        position : Qt.vector3d(1, 0, 0)
+        transform: [
+            Rotation3D {
+                id: rotateB
+                angle: 90
+                axis: Qt.vector3d(0, 0, 1)
+            }]
         scale : (pressed) ? 0.9 : 1
+
         onClicked :
         {
             console.log("plugin clicked");
@@ -86,10 +94,83 @@ Item3D
             if (plugin_base.getFocusState() === 1)
                 plugin_base.askForFocusedFocusState();
         }
-
-        Clock { city: "New York"; shift: -4 }
-
     }
+
+
+    Item3D{
+         id: clock
+         property int hours
+         property int minutes
+         property int seconds
+         property real shift
+         property bool night: false
+         function timeChanged() {
+             var date = new Date;
+             hours = shift ? date.getUTCHours() + Math.floor(clock.shift) : date.getHours()
+             night = ( hours < 7 || hours > 19 )
+             minutes = shift ? date.getUTCMinutes() + ((clock.shift % 1) * 60) : date.getMinutes()
+             seconds = date.getUTCSeconds();
+         }
+
+    Item3D
+    {
+        id : minutes
+
+        mesh: Mesh { source: "Clock_Wall_2.dae" }
+        effect: Effect {color :"red"; useLighting : true}
+
+        position : Qt.vector3d(1, 0, 0)
+        transform: [
+            Rotation3D {
+                id: rotate_minutes
+                angle: 90
+                axis: Qt.vector3d(0, 0, 1)
+            }]
+        scale : (pressed) ? 0.9 : 1
+
+        onClicked :
+        {
+            console.log("plugin clicked");
+            if (plugin_base.getFocusState() === 0)
+                plugin_base.askForRoomSelectedFocusState();
+            if (plugin_base.getFocusState() === 1)
+                plugin_base.askForFocusedFocusState();
+        }
+    }
+
+    Item3D
+    {
+        id : hours
+
+        mesh: Mesh { source: "Clock_Wall_3.dae" }
+
+        effect: Effect {color :"red"; useLighting : true}
+        position : Qt.vector3d(1, 0, 0)
+
+        scale : (pressed) ? 0.9 : 1
+        transform: Rotation3D {
+            id: hourRotation
+            origin.x: 7.5; origin.y: 73;
+            angle: 90 + ((clock.hours * 30) + (clock.minutes * 0.5))
+            Behavior on angle {
+                SpringAnimation { spring: 2; damping: 0.2; modulus: 360 }
+            }
+            axis: Qt.vector3d(0, 0, 1)
+        }
+        onClicked :
+        {
+            console.log("plugin clicked");
+            if (plugin_base.getFocusState() === 0)
+                plugin_base.askForRoomSelectedFocusState();
+            if (plugin_base.getFocusState() === 1)
+                plugin_base.askForFocusedFocusState();
+        }
+    }
+
+
+
+
+}
 }
 
 
