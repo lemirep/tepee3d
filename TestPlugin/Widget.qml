@@ -134,11 +134,11 @@ Item3D
     {
         id : cube_plugin
         //mesh: Mesh { source: "tepee.obj" }
-        mesh: Mesh { source: "lamp.dae" }
+        mesh: Mesh { source: "./Batman.obj" }
+        scale : 0.05
+        position : Qt.vector3d(0, -8, 0)
 
-        position : Qt.vector3d(-9, -5, 0)
-        effect: Effect {color :apc.getColor(); useLighting : true}
-        scale : (pressed) ? 0.9 : 1
+        //  effect: Effect {color :apc.getColor(); useLighting : true}
 
         onClicked :
         {

@@ -17,12 +17,10 @@ qml_folder.target = ./
 HEADERS         = \
     widgetmodel.h \
     testplugin.h
-#    Service
-  #  dataobject.h
+
  SOURCES         = \
     widgetmodel.cpp \
     testplugin.cpp
-#    dataobject.cpp
 
 #include development files
 include (../DeveloperAPIFiles/DevelopmentFiles.pri)
@@ -49,7 +47,33 @@ OTHER_FILES += \
     MiniBlue.dae \
     images/texture0.jpg \
     Metal_Aluminum_Anodized_.jpg \
-    lamp.dae
+    Batman/Cape.obj \
+    Batman/Cape.mtl \
+    Batman/Cape.lwo \
+    Batman/BatmanArmoured.obj \
+    Batman/BatmanArmoured.mtl \
+    Batman/BatmanArmoured.lwo \
+    Batman/Batman.obj \
+    Batman/Batman.mtl \
+    Batman/Batman.lwo \
+    Batman/Texture/V2_Batman_Head_S.tga \
+    Batman/Texture/V2_Batman_Head_N.tga \
+    Batman/Texture/V2_Batman_Head_D.tga \
+    Batman/Texture/V2_Batman_Cape_S2.tga \
+    Batman/Texture/V2_Batman_Cape_N2.tga \
+    Batman/Texture/V2_Batman_Cape_D2.tga \
+    Batman/Texture/V2_Batman_Cape_A2.tga \
+    Batman/Texture/V2_Batman_Body_S.tga \
+    Batman/Texture/V2_Batman_Body_N.tga \
+    Batman/Texture/V2_Batman_Body_D.tga \
+    Batman/Texture/BatmanEye_N_2.tga \
+    Batman/Texture/BatmanEye_D.tga \
+    Batman/Texture/BatmanArmoured_Head_S.tga \
+    Batman/Texture/BatmanArmoured_Head_N.tga \
+    Batman/Texture/BatmanArmoured_Head_D.tga \
+    Batman/Texture/BatmanArmoured_Body_S.tga \
+    Batman/Texture/BatmanArmoured_Body_N.tga \
+    Batman/Texture/BatmanArmoured_Body_D.tga
 
 
 
