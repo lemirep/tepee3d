@@ -170,7 +170,7 @@ void RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
     DataInfo    *roominfo;
 
     roommanager->addNewRoom();
-    roommanager->setCurrentRoom(1);
+    roommanager->setCurrentRoom(roommanager->getRoomModel()->rowCount() - 1);
     roominfo = new DataInfo();
     if (myfile.open(QIODevice::ReadOnly))
     {
@@ -221,8 +221,7 @@ bool RoomLoader::onLoadingRequestFinished(Room::RoomManager *roommanager, QList<
     if (result.size() < 2)
         return false;
     res = result.value(1);
-    roommanager->addNewRoom();
-    roommanager->setCurrentRoom(2);
+    roommanager->setCurrentRoom(roommanager->getRoomModel()->rowCount() - 1);
     std::cout << "New Room name =" << qPrintable(roommanager->getCurrentRoom()->getRoomName()) << std::endl;
 
     pos.setX(res.value(3).toDouble());
