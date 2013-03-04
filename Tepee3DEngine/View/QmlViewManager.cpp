@@ -9,6 +9,8 @@
  * \brief The View namespace contains all the classes responsible
  * for the Qml view management or that interact between the view and
  * other modules such as Services or Plugins.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
@@ -17,6 +19,8 @@
  * #include <QmlContentExposerInterface.h>
  * \endcode
  * \brief Has to be implemented in order to expose QML content to the QML context.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
@@ -31,6 +35,8 @@
  * needed by the modules of the Tepee3D application as well as the view
  * properties. Also, this is where qml models and utility classes are
  * exposed to the Qml Engine.
+ *
+ * \inmodule Tepee3D
  *
  * \sa View::QmlViewProperties
  */

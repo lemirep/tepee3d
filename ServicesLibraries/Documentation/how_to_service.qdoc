@@ -18,9 +18,9 @@
 
  \section1 Creating a new project
  \list 1
- \o \c Using QtCreator start a new project (Ctrl + N) or File -> New File or Project.
- \o \c Choose the template Other Project (in the Projects tab) and Empty Qt Project and press next.
- \o \c Give the project a name and choose the path were the project will be saved.
+ \li \c Using QtCreator start a new project (Ctrl + N) or File -> New File or Project.
+ \li \c Choose the template Other Project (in the Projects tab) and Empty Qt Project and press next.
+ \li \c Give the project a name and choose the path were the project will be saved.
  \endlist
 
  As an illustration purpose we created a new project named ExampleService.
@@ -72,10 +72,10 @@
  \section1 Adding classes to the project
 
  Once your .pro is correctly edited, you can proceed by adding your Service Library class in the project.
- \list
- \o \c Press (Ctrl + N) or File -> New File or Project
- \o \c Select C++ (in the Files and Classes tab) and C++ Class.
- \o \c Enter a class name (and edit if you want to the header and cpp file names).
+ \list 1
+ \li \c Press (Ctrl + N) or File -> New File or Project
+ \li \c Select C++ (in the Files and Classes tab) and C++ Class.
+ \li \c Enter a class name (and edit if you want to the header and cpp file names).
  \endlist
 
  We created a ExempleServiceManager class that as ExempleServiceManager.h as a header file and

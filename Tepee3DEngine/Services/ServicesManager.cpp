@@ -7,6 +7,8 @@
  * \namespace Services
  * \brief The Services namespace contains all classes that either manage or
  * provide a service that modules of the application can register to.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
@@ -18,6 +20,8 @@
  * The Services::ServicesManager class is a singleton class. It loads the services libraries
  * and allow classes implementing the services interfaces to register for a given
  * service.
+ *
+ * \inmodule Tepee3D
  */
 
 Services::ServicesManager* Services::ServicesManager::instance = NULL;

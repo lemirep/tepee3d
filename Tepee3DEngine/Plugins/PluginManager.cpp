@@ -7,6 +7,8 @@
  * \namespace Plugins
  * \brief The Plugins namespace contains classes responsible for plugin
  * management, plugin declaration and plugin model representation.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
@@ -26,6 +28,7 @@
  *
  * \since 1.0
  * \sa Plugins::PluginsLoader
+ * \inmodule Tepee3D
  */
 
 
@@ -73,12 +76,12 @@ void Plugins::PluginManager::loadLocalPlugins()
 {
     PluginLoader::loadWidgetPlugins();
     if (Plugins::PluginManager::locallyAvailablePluginsModel == NULL)
-        Plugins::PluginManager::locallyAvailablePluginsModel = new Models::ListModel(new Plugins::PluginModelItem(NULL, NULL));
+        Plugins::PluginManager::locallyAvailablePluginsModel = new Models::ListModel(new Models::PluginModelItem(NULL, NULL));
     else
         Plugins::PluginManager::locallyAvailablePluginsModel->clear();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())
     {
-        Plugins::PluginManager::locallyAvailablePluginsModel->appendRow(new Plugins::PluginModelItem(plugin, this));
+        Plugins::PluginManager::locallyAvailablePluginsModel->appendRow(new Models::PluginModelItem(plugin, this));
         // DO PLUGIN CONNECTION TO SIGNAL MAPPER FOR SERVICES HERE
     }
 }
@@ -103,9 +106,9 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(Plugins::Plu
  */
 Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginModelItemId)
 {
-    Plugins::PluginModelItem*   pluginModelItem = NULL;
+    Models::PluginModelItem*   pluginModelItem = NULL;
     Plugins::PluginBase *pluginBase = NULL;
-    if ((pluginModelItem = (Plugins::PluginModelItem*)Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginModelItemId)) != NULL)
+    if ((pluginModelItem = (Models::PluginModelItem*)Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginModelItemId)) != NULL)
         pluginBase = pluginModelItem->getPlugin();
 
     return Plugins::PluginManager::getNewInstanceOfPlugin(pluginBase);

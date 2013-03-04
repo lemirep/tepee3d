@@ -11,6 +11,8 @@
  * has to inherit from. It wraps access to the various services a plugin has access
  * to as well as providing informations about the plugin that will be needed to by the
  * application to properly manage plugins.
+ *
+ * \inmodule Tepee3D
  */
 
 Plugins::PluginBase::PluginBase() : QObject(NULL)

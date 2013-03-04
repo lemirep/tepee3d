@@ -8,6 +8,8 @@
  *
  * \brief The Room namespace holds all the classes that deal with
  * Rooms and their management.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
@@ -15,9 +17,11 @@
  * \brief The Room::RoomManager class is responsible for managing all the
  * rooms ofthe Tepee3D application. It restores the rooms and their plugins
  * on startup, creates the model for the room selector menu, places rooms in
- * space. In addition, this where new plugins are added to a room.
+ * space. In addition, this is where new plugins are added to a room.
  *
  * \sa Room::RoomBase
+ *
+ * \inmodule Tepee3D
  */
 
 Room::RoomManager* Room::RoomManager::instance = NULL;
@@ -40,7 +44,7 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->currentRoom = NULL;
     this->roomPrototype = NULL;
     this->roomUpdateTimer = new QTimer();
-    this->roomModel = new Models::SubListedListModel(new Room::RoomModelItem(NULL, NULL));
+    this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
 }
 
@@ -104,10 +108,10 @@ Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
  */
 Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int pluginId) const
 {
-    Room::RoomModelItem *roomItem = NULL;
+    Models::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
 
-    if ((roomItem = (Room::RoomModelItem*)this->getRoomModel()->find(roomId)) != NULL
+    if ((roomItem = (Models::RoomModelItem*)this->getRoomModel()->find(roomId)) != NULL
             && (room = roomItem->getRoom()) != NULL)
         return room->getPluginFromRoom(pluginId);
     return NULL;
@@ -129,7 +133,7 @@ void        Room::RoomManager::placeNewRoomInSpace()
     foreach (Models::ListItem *item, roomItemList)
     {
         qreal roomPosAngle = posAngle * idx++;
-        Room::RoomBase* room = ((Room::RoomModelItem *)(item))->getRoom();
+        Room::RoomBase* room = ((Models::RoomModelItem *)(item))->getRoom();
         room->setPosition(QVector3D(qCos(roomPosAngle) * radius,
                                     qCos(M_PI * idx) * 10,
                                     qSin(roomPosAngle) * radius));
@@ -167,14 +171,14 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 /*!
  * Sets the room specified by \a roomId as the current room
  *
- * \sa void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
+ * \sa setCurrentRoom(Room::RoomBase *room)
  */
 
 void        Room::RoomManager::setCurrentRoom(int roomId)
 {
-    Room::RoomModelItem *roomItem = NULL;
+    Models::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
-    if ((roomItem = (Room::RoomModelItem *)this->roomModel->find(roomId)))
+    if ((roomItem = (Models::RoomModelItem *)this->roomModel->find(roomId)))
         room = roomItem->getRoom();
     // IN ANY CASE WE SET IT SO THAT WE STOP UPDATING IF ROOM IS NULL
     this->setCurrentRoom(room);
@@ -196,7 +200,7 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 
     qDebug() << room->getRoomName();
 
-    this->roomModel->appendRow(new Room::RoomModelItem(room));
+    this->roomModel->appendRow(new Models::RoomModelItem(room));
     this->placeNewRoomInSpace();
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
     // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
@@ -211,7 +215,7 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
 {
     if (this->currentRoom != NULL && this->currentRoom->getRoomId() == roomModelId)
         this->setCurrentRoom((Room::RoomBase *)NULL);
-    Room::RoomModelItem* roomItem = (Room::RoomModelItem *)(this->roomModel->find(roomModelId));
+    Models::RoomModelItem* roomItem = (Models::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* deletedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
     this->roomModel->removeRow(this->roomModel->getRowFromItem(roomItem), QModelIndex());
     if (deletedRoom != NULL)
@@ -228,7 +232,7 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
 void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVector3D roomPosition, QVector3D roomScale)
 {
     // UPDATES ROOM LOGICALLY -> UPDATE HAS ALREADY BEEN APPLIED TO QML ROOM
-    Room::RoomModelItem* roomItem = (Room::RoomModelItem *)(this->roomModel->find(roomModelId));
+    Models::RoomModelItem* roomItem = (Models::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* editedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
 
     if (editedRoom != NULL)
@@ -269,7 +273,7 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 
 void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 {
-    Plugins::PluginModelItem* pluginItem = (Plugins::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
+    Models::PluginModelItem* pluginItem = (Models::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
 
     if (pluginItem != NULL)
     {

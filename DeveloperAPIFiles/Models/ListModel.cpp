@@ -2,23 +2,39 @@
 // DEBUG
 #include <QDebug>
 
+
 /*!
- * \class ListModel
+ * \namespace Models
+ *
+ * \brief The Models namespace contains all classes use for Data Model
+ * encapsulation within the application.
+ *
+ * \inmodule Tepee3D
+ *
+ *
+ */
+
+/*!
+ * \class Models::ListModel
  * \code
  * #include <ListModel.h>
  * \endcode
- * \brief The ListModel class is a utility model class
+ * \brief The Models::ListModel class is a utility model class
  *
- * The ListModel class provides an easy way to create a C++ model
+ * The Models::ListModel class provides an easy way to create a C++ model
  * and later expose it to the Qml View.
  *
- * \sa SubListedListModel
+ * \inmodule Tepee3D
+ *
+ *
+ * \sa Models::SubListedListModel
  */
 
 
 /*!
  * Instanciates a new ListModel and sets the list row prototype to \a prototype.
  * The \a parent parameter is optional.
+ *
  */
 Models::ListModel::ListModel(Models::ListItem *prototype, QObject *parent) : QAbstractListModel(parent)
 {

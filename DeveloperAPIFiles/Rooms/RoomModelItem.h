@@ -4,7 +4,7 @@
 #include "SubListedListItem.h"
 #include "RoomBase.h"
 
-namespace   Room
+namespace   Models
 {
 
 class RoomModelItem : public Models::SubListedListItem

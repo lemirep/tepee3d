@@ -8,13 +8,15 @@
  * \brief The Room::RoomProperties class contains all the attributes
  * that define a room.
  *
+ *  \inmodule Tepee3D
+ *
  * \sa Room::RoomBase
  */
 
 
 Room::RoomProperties::RoomProperties(QObject *parent) : QObject(parent)
 {
-    this->pluginsModel = new Models::ListModel(new Plugins::PluginModelItem(NULL, NULL));
+    this->pluginsModel = new Models::ListModel(new Models::PluginModelItem(NULL, NULL));
 }
 
 Room::RoomProperties::~RoomProperties()

@@ -13,12 +13,14 @@
  * and then dynamically loaded in the Tepee3DEngine at runtime.
  *
  * \sa Room::RoomBase
+ *
+ *  \inmodule Tepee3D
  */
 
 /*!
  * Constructs a new BasicRoom. This method being private cannot be called
  * directly.
- * \sa Room::RoomBase* BasicRoom::createNewInstance()
+ * \sa createNewInstance()
  */
 BasicRoom::BasicRoom() : RoomBase()
 {

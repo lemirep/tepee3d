@@ -10,6 +10,8 @@
  * instantiate new plugin instances.
  *
  * \since 1.0
+ *
+ * \inmodule Tepee3D
  */
 
 
