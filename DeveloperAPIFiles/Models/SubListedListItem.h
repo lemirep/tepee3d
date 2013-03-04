@@ -3,18 +3,18 @@
 
 #include "ListItem.h"
 
+
 namespace Models
 {
-
 class ListModel;
 
-class SubListedListItem : public ListItem
+class SubListedListItem : public Models::ListItem
 {
     Q_OBJECT
 public :
-    SubListedListItem(QObject *parent = 0) : ListItem(parent) {}
+    SubListedListItem(QObject *parent = 0) : Models::ListItem(parent) {}
     virtual ~SubListedListItem() {}
-    virtual ListModel*  submodel()  const = 0;
+    virtual Models::ListModel*  submodel()  const = 0;
 };
 }
 

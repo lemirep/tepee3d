@@ -8,7 +8,7 @@
 namespace Models
 {
 
-class SubListedListModel : public ListModel
+class SubListedListModel : public Models::ListModel
 {
     Q_OBJECT
 
