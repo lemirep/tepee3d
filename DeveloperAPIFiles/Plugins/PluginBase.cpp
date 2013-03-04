@@ -4,7 +4,9 @@
 
 /*!
  * \class Plugins::PluginBase
- *
+ * \code
+ * #include <PluginBase.h>
+ * \endcode
  * \brief The Plugins::PluginBase class is the base class a Tepee3D plugin
  * has to inherit from. It wraps access to the various services a plugin has access
  * to as well as providing informations about the plugin that will be needed to by the

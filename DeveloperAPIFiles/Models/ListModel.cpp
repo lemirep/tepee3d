@@ -4,6 +4,9 @@
 
 /*!
  * \class ListModel
+ * \code
+ * #include <ListModel.h>
+ * \endcode
  * \brief The ListModel class is a utility model class
  *
  * The ListModel class provides an easy way to create a C++ model
@@ -32,7 +35,8 @@ Models::ListModel::~ListModel()
 }
 
 /*!
- * \property int ListModel::count
+ * \property Models::ListModel::count
+ *
  * This property holds the number of rows of the model.
  */
 

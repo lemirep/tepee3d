@@ -2,6 +2,15 @@
 // DEBUG
 #include <QDebug>
 
+/*!
+ * \class Plugins::PluginModelItem
+ * \code
+ * #include <PluginModelItem.h>
+ * \endcode
+ *
+ * \brief Plugins::PluginModelItem::PluginModelItem
+ */
+
 Plugins::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *parent) : ListItem(parent)
 {
     this->plugin = plugin;

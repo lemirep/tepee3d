@@ -4,6 +4,9 @@
 
 /*!
  * \class BasicRoom
+ * \code
+ * #include <BasicRoom.h>
+ * \endcode
  * \brief The BasicRoom::BasicRoom class is simplest implementation of the RoomBase
  *
  * The BasicRoom class represents a squared room. It is compiled in a shared library

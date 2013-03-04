@@ -4,7 +4,9 @@
 
 /*!
  * \class Room::RoomBase
- *
+ * \code
+ * #include <RoomBase.h>
+ * \endcode
  * \brief The Room::RoomBase class is the base class a Tepee3D room has to
  * inherit from. It provided the application informations about the room
  * such as its position, its volume and its scale as well as the various

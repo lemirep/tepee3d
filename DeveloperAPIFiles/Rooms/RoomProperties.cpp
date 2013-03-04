@@ -2,7 +2,9 @@
 
 /*!
  * \class Room::RoomProperties
- *
+ * \code
+ * #include <RoomProperties.h>
+ * \endcode
  * \brief The Room::RoomProperties class contains all the attributes
  * that define a room.
  *

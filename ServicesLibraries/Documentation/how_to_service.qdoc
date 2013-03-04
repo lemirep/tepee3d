@@ -1,0 +1,259 @@
+/*!
+ \page how_to_service.html
+ \title Service Library How To
+
+ The Tepee3DEngine can be further enhanced by the addition of new
+ services libraries. In order to properly implement the requirement
+ of such libraries, this how to will guide you through each step of
+ the process.
+
+ \section1 Getting the Tepee3D sources
+
+ In order to develop a Service Library, you'll need to use some Tepee3D mandatory headers.
+ The Tepee3D sources files are opensource, free to reuse and to modify.
+
+ They can be obtained at : \l {https://gitorious.org/tepee3d}
+
+ In addition you can get inspiration by looking at the ServicesLibraries directory in the sources.
+
+ \section1 Creating a new project
+ \list 1
+ \o \c Using QtCreator start a new project (Ctrl + N) or File -> New File or Project.
+ \o \c Choose the template Other Project (in the Projects tab) and Empty Qt Project and press next.
+ \o \c Give the project a name and choose the path were the project will be saved.
+ \endlist
+
+ As an illustration purpose we created a new project named ExampleService.
+
+ \section1 Edition the .pro file
+ The .pro files is used to define several variables that will be used to create a Makefile.
+ By default, QtCreator creates and empty .pro file for you that should be named after your
+ project's name (in our case ExampleService.pro)
+
+ Select your .pro file and copy paste the content of the template below :
+ \code
+
+  TEMPLATE = lib
+
+  QT       += network
+  QT       -= gui
+
+  CONFIG += qt plugin
+
+  TARGET = YOUR_PROJECT_NAMELibrary
+
+  DEFINES += YOUR_PROJECT_NAME_LIBRARY
+
+  SOURCES +=
+
+  HEADERS +=
+
+  DESTDIR      = PATH_TO_TEPEE3D_SOURCES_DIRECTORY/libraries/services_lib
+
+  INCLUDEPATH += PATH_TO_TEPEE3D_SOURCES_DIRECTORY/DeveloperAPIFiles/Services
+
+ \endcode
+ Next you should replace every occurence of YOUR_PROJECT_NAME by your project's name and
+ every occurence of PATH_TO_TEPEE3D_SOURCES_DIRECTORY by the absolute path to the Tepee3DSources
+ directory.
+
+ In our case that would give us :
+
+ \code
+  TARGET = ExampleServiceLibrary
+
+  DEFINES += EXAMPLE_SERVICE_LIBRARY
+
+  DESTDIR      = /home/user/work/tepee3d/libraries/services_lib
+
+  INCLUDEPATH += /home/user/work/tepee3d/DeveloperAPIFiles/Services
+ \endcode
+
+ \section1 Adding classes to the project
+
+ Once your .pro is correctly edited, you can proceed by adding your Service Library class in the project.
+ \list
+ \o \c Press (Ctrl + N) or File -> New File or Project
+ \o \c Select C++ (in the Files and Classes tab) and C++ Class.
+ \o \c Enter a class name (and edit if you want to the header and cpp file names).
+ \endlist
+
+ We created a ExempleServiceManager class that as ExempleServiceManager.h as a header file and
+ ExempleServiceManager.cpp as its source file.
+
+ QtCreator should have added your class files to the .pro file automatically.
+ It doesn't cost much to check, in your .pro file you should now have :
+
+ \code
+
+ TEMPLATE = lib
+
+ QT       += network
+ QT       -= gui
+
+ CONFIG += qt plugin
+
+ TARGET = ExampleServiceLibrary
+
+ DEFINES += EXAMPLE_SERVICE_LIBRARY
+
+ SOURCES += \
+             ExampleServiceManager.cpp
+
+ HEADERS += \
+             ExampleServiceManager.h
+
+ DESTDIR      = /home/user/work/tepee3d/libraries/services_lib
+
+ INCLUDEPATH += /home/user/work/tepee3d/DeveloperAPIFiles/Services
+
+ \endcode
+
+ If SOURCES and HEADERS are still empty, that means that QtCreator did not add your class files
+ and you should fill them accordingly to the code sample above but using your class files' names
+ instead.
+
+ \section1 Filling the class
+
+ Now that the project is correctly configured we can focus on filling our class.
+
+ \section2 The Header File
+ We will first fill the header file and then pursue with the source file.
+
+ All Services Libraries have to implement the ServiceInterface of the Services namespace.
+ \code
+ namespace Services
+ {
+
+ class ServiceInterface
+ {
+
+ public :
+     virtual void        initLibraryConnection(QObject *parent) = 0;
+     virtual bool        connectServiceToUser(QObject *user) = 0;
+     virtual bool        disconnectServiceFromUser(QObject *user) = 0;
+     virtual QObject*    getLibraryQObject() = 0;
+ };
+
+ }
+ \endcode
+ That means the header file for our ExampleServiceManager class should look like the sample below :
+
+ \code
+
+ #ifndef EXEMPLESERVICEMANAGER_H
+ #define EXEMPLESERVICEMANAGER_H
+
+ #include <QObject>
+ #include <ServiceManager.h>
+
+ class ExempleServiceManager : public QObject, Services::ServiceInterface
+ {
+     Q_OBJECT
+     Q_INTERFACES(Services::ServiceInterface)
+     Q_PLUGIN_METADATA(IDD "com.tepee3d.Services.exampleservice")
+ public:
+     ExempleServiceManager();
+
+     void        initLibraryConnection(QObject *parent);
+     bool        connectServiceToUser(QObject *user);
+     bool        disconnectServiceFromUser(QObject *user);
+     QObject*    getLibraryQObject();
+ };
+
+ #endif // EXEMPLESERVICEMANAGER_H
+ \endcode
+
+ \section2 The Service User Interface
+
+ In order to ensure that the objects that will be registering to our service have
+ the necessary methods, you should create an interface file for your Service.
+
+ This file should directly be inserted in the Tepee3D Services include directory which
+ is located at DevelopmentFiles/Services/.
+
+ A simple Service Interface could look like the following:
+
+ \code
+ #ifndef EXAMPLESERVICEUSERINTERFACE_H
+ #define EXAMPLESERVICEUSERINTERFACE_H
+
+ namespace Services
+ {
+ class   ExampleServiceUserInterface
+ {
+ public :
+
+ };
+ }
+
+ #endif // EXAMPLESERVICEUSERINTERFACE_H
+
+ \endcode
+
+ If the use of your service requires method to be implemented, you should declare
+ pure virtual method in the interface. For example the WebServiceUserInterface contains
+ a method for receiving network request that users of the service must implement.
+
+ \code
+ virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
+ \endcode
+
+ \section2 Service Signals
+
+ Moreover, you should document the SIGNALS used to make a request to your Service.
+ Comment in the interface are sufficient thought a declaration in the interface would be better
+ but impossible as an Interface cannot inherit from QObject. Therefore comments are the only
+ available option.
+
+ \section2 The Source File
+ Once our header file and our interface have been properly created we can fill the class source file.
+ A minimum source file should look like the one below :
+
+ \code
+ #include "ExempleServiceManager.h"
+
+ ExempleServiceManager::ExempleServiceManager()
+ {
+ }
+
+ void ExempleServiceManager::initLibraryConnection(QObject *parent)
+ {
+     // DO YOUR SERVICE INITIALIZATION HERE IF NEEDED
+ }
+
+ bool ExempleServiceManager::connectServiceToUser(QObject *user)
+ {
+    // CALLED TO REGISTER A USER TO THE SERVICE
+    if (dynamic_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
+    {
+        // DO SIGNAL CONNECTIONS HERE
+        ...
+    }
+ }
+
+ bool ExempleServiceManager::disconnectServiceFromUser(QObject *user)
+ {
+    // CALLED TO UNREGISTER A USER FROM THE SERVICE
+    if (dynamic_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
+    {
+        // DO SIGNAL DISCONNECTION HERE
+        ...
+    }
+ }
+
+ QObject *ExempleServiceManager::getLibraryQObject()
+ {
+    return this;
+ }
+ \endcode
+
+ \section1 Testing and submitting
+
+ Now you just have to test it and you can submit it on gitorious if you'd like
+ to contribute to Tepee3D.
+
+ In any case if the you need help, are struggling on a small point or anyother problem, please
+ contact us as tepee3d_2014@labeip.epitech.eu
+
+*/

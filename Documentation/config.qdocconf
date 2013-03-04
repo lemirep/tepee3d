@@ -10,10 +10,10 @@ syntaxhighlighting 	= true # HIGHLIGHT SOURCE CODE
 
 # export QTDIR TO YOUR QTPATH ex : ~/QtSDK/Qt5.0.1/5.0.1/gcc_64
 
-HTML.stylesheets 	= bootstrap.css	\
-			  font-awesome/css/font-awesome.min.css
+HTML.stylesheets 	= style/bootstrap.css	\
+			  style/font-awesome/css/font-awesome.min.css
 
-HTML.extraimages	= body_pattern.png 
+HTML.extraimages	= images/body_pattern.png 
 
 HTML.headerstyles 	= "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css\" />\n" \
 			  "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/font-awesome/css/font-awesome.min.css\" />\n" 
@@ -130,14 +130,16 @@ HTML.footer = \
 
 outputdir               = Tepee3D_Doc
 
-headerdirs 		  = ./
+headerdirs 		  = ../
 
-sourcedirs		  = ./
+sourcedirs		  = ../
 
 # headers = Tepee3DSampleApp/Room/RoomManager.h
 # sources = Tepee3DSampleApp/Room/RoomManager.cpp
 
 sources.fileextensions  = "*.cpp *.qdoc *.doc" 
 headers.fileextensions 	= "*.h"
+
+generateIndex 		= true 
 
 #excludedirs		= 

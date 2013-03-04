@@ -13,13 +13,17 @@
 
 /*!
  * \class View::QmlContentExposerInterface
- *
+ * \code
+ * #include <QmlContentExposerInterface.h>
+ * \endcode
  * \brief Has to be implemented in order to expose QML content to the QML context.
  */
 
 /*!
  * \class View::QmlViewManager
- *
+ * \code
+ * #include <QmlViewManager.h>
+ * \endcode
  * \brief The View::QmlViewManager class manages the QML view.
  * It links services, widgets and models to the view
  *
