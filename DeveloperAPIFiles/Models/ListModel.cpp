@@ -107,7 +107,6 @@ void        Models::ListModel::appendRows(QList<ListItem *> &items)
     {
         QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
         this->items.append(item);
-        qDebug() << "Row appended";
     }
     // NEEDED TO UPDATE VIEW
     this->endInsertRows();
@@ -156,7 +155,6 @@ bool        Models::ListModel::removeRows(int row, int count, const QModelIndex 
         beginRemoveRows(index, row, row + count - 1);
         for (int i = 0; i < count; i++)
             delete this->items.takeAt(row);
-        qDebug() << "REMOVED ROWS";
         endRemoveRows();
         emit (countChanged(this->rowCount()));
         return true;
@@ -169,9 +167,7 @@ bool        Models::ListModel::removeRows(int row, int count, const QModelIndex 
  */
 void        Models::ListModel::clear()
 {    
-    qDebug() << "Clearing model";
     this->removeRows(0, this->items.size());
-    qDebug() << "ListMode size " << this->items.size();
     emit (countChanged(this->rowCount()));
 }
 
@@ -224,7 +220,6 @@ QList<Models::ListItem *>   Models::ListModel::toList() const
  */
 void        Models::ListModel::updateItem()
 {
-    qDebug() << "Row updated";
     Models::ListItem *item = static_cast<Models::ListItem *>(sender());
     QModelIndex index = this->indexFromItem(item);
     if (index.isValid())
