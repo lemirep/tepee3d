@@ -53,6 +53,7 @@ public:
     Q_INVOKABLE    void     addNewRoom(QString roomName = "RoomTest-");
     Q_INVOKABLE    void     deleteRoom(int roomModelId);
     Q_INVOKABLE    void     editRoom(int roomModelId, QString roomName, QVector3D roomPosition, QVector3D roomScale);
+    Q_INVOKABLE    void     unsetFocusPluginsFromRoom();
 
 private:
     RoomManager(QObject *parent = 0);

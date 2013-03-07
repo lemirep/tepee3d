@@ -28,7 +28,10 @@ Item3D
         if (mainWindow.currentRoomId === -1)
             mainWindow.currentRoomId = roomId;
         if (isCurrentRoom)
+        {
             mainWindow.currentRoomFaceId = faceIdx;
+            roomManager.unsetFocusPluginsFromRoom();
+        }
     }
 
     function showWallsIndicator()

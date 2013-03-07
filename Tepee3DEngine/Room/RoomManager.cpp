@@ -246,6 +246,22 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
 }
 
 /*!
+ * Sets the focus state of all plugins of the current room to idle, used when a change of view occurs and the plugins
+ * should'nt keep the focus
+ */
+
+void        Room::RoomManager::unsetFocusPluginsFromRoom()
+{
+        QList<Models::ListItem*> roomPlugins = this->getCurrentRoom()->getRoomPluginsModel()->toList();
+
+        foreach (Models::ListItem *pluginItem, roomPlugins)
+        {
+            Plugins::PluginBase* plugin = ((Models::PluginModelItem *)(pluginItem))->getPlugin();
+            plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
+        }
+}
+
+/*!
  * Adds a new plugin instance to the current room´s model. The plugin instance is a new clean
  * instance of the plugin defined by \a pluginModelId ensuring it behaves only in the room´s
  * scope.

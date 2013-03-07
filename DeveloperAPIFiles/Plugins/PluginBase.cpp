@@ -39,7 +39,7 @@ void    Plugins::PluginBase::onRoomEntered()
 }
 
 /*!
- * Tells the plugin its focusState \a requestedState has changed.
+ * Sets the plugin's focus state and alert the qml view that the focusState \a requestedState has changed.
  */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
