@@ -157,6 +157,8 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
     {
         QObject::disconnect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
         this->currentRoom->leaveRoom();
+        // WHEN CHANGING ROOM WE MAKE SUR ALL PLUGIN GO BACK TO IDLE
+        this->unsetFocusPluginsFromRoom();
     }
     this->currentRoom = room;
 

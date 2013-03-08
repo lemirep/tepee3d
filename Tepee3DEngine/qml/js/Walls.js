@@ -31,8 +31,8 @@ function preComputeCenters()
         computedCenters[1] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z + (roomScale.z * factor));
         computedCenters[2] = Qt.vector3d(roomCenter.x  + (roomScale.x * factor), roomCenter.y, roomCenter.z);
         computedCenters[3] = Qt.vector3d(roomCenter.x  - (roomScale.x * factor), roomCenter.y, roomCenter.z);
-        computedCenters[4] = Qt.vector3d(roomCenter.x, roomCenter.y  + (roomScale.y * factor), roomCenter.z);
-        computedCenters[5] = Qt.vector3d(roomCenter.x, roomCenter.y  - (roomScale.y * factor), roomCenter.z);
+        computedCenters[4] = Qt.vector3d(roomCenter.x, roomCenter.y  - (roomScale.y * factor), roomCenter.z);
+        computedCenters[5] = Qt.vector3d(roomCenter.x, roomCenter.y  + (roomScale.y * factor), roomCenter.z);
     }
 }
 
@@ -45,8 +45,8 @@ function preComputeWalls()
         walls[1] = Qt.vector3d(roomCenter.x, roomCenter.y, roomCenter.z - roomScale.z);
         walls[2] = Qt.vector3d(roomCenter.x - roomScale.x, roomCenter.y, roomCenter.z);
         walls[3] = Qt.vector3d(roomCenter.x + roomScale.x, roomCenter.y, roomCenter.z);
-        walls[4] = Qt.vector3d(roomCenter.x, roomCenter.y - roomScale.y, roomCenter.z);
-        walls[5] = Qt.vector3d(roomCenter.x, roomCenter.y + roomScale.y, roomCenter.z);
+        walls[4] = Qt.vector3d(roomCenter.x, roomCenter.y + roomScale.y, roomCenter.z);
+        walls[5] = Qt.vector3d(roomCenter.x, roomCenter.y - roomScale.y, roomCenter.z);
     }
 }
 

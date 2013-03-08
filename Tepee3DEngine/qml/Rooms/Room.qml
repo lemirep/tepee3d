@@ -110,6 +110,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("North")}
             onClicked : {moveToFace(0)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -124,6 +126,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("South")}
             onClicked : {moveToFace(1)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -140,6 +144,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("West")}
             onClicked : {moveToFace(3)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -156,6 +162,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("East")}
             onClicked : {moveToFace(2)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -168,10 +176,12 @@ Item3D
             translationVector: Qt.vector3d(0, 0.5, 0)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
-            enabled : (!isCurrentRoom || currentFaceId != 4)
+            enabled : (!isCurrentRoom || currentFaceId != 5)
             effect : face_effect
             //            onHoverEnter : {console.log("Up")}
             onClicked : {moveToFace(4)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -184,10 +194,12 @@ Item3D
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
             translationVector: Qt.vector3d(0, -0.5, 0)
-            enabled : (!isCurrentRoom || currentFaceId != 5)
+            enabled : (!isCurrentRoom || currentFaceId != 4)
             effect : face_effect
             //            onHoverEnter : {console.log("Down")}
             onClicked : {moveToFace(5)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
     }
 
@@ -195,6 +207,20 @@ Item3D
     {
         id : face_effect
         texture : "../Resources/Textures/blue_wall.jpg"
+        //        dynamicTexture : qml_texture
+        //        texture : "Resources/Pictures/panel_bg2.png"
+        useLighting : true
+
+        onEffectChanged :
+        {
+            console.log("Effect Changed");
+        }
+    }
+
+    Effect
+    {
+        id : face_effect_hover
+        texture : "../Resources/Textures/wood.jpg"
         //        dynamicTexture : qml_texture
         //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true
