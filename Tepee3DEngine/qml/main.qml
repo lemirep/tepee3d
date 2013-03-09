@@ -17,7 +17,7 @@ Viewport
     property real  menu_opacity_retracted : 0;
     property int   camera_movement_velocity : 250;
     property int   menuMinimumWidth : 40
-    property int   currentRoomId : 0;
+    property int   currentRoomId : -1;
     property int   currentRoomFaceId : 0;
 
     property alias pluginMenuSource : menu_center.pluginMenuSource
@@ -51,6 +51,8 @@ Viewport
         console.log("ROOM FACE CHANGED >>>>>>>>>>>>" + currentRoomFaceId)
         Walls.moveCameraToWall(currentRoomFaceId)
         roomFaceIdChanged(currentRoomFaceId)
+        // UNSET FOCUS STATE OF PLUGINS
+        roomManager.unsetFocusPluginsFromRoom();
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
 

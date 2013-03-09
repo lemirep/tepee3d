@@ -257,13 +257,16 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
 
 void        Room::RoomManager::unsetFocusPluginsFromRoom()
 {
-        QList<Models::ListItem*> roomPlugins = this->getCurrentRoom()->getRoomPluginsModel()->toList();
+    if (this->currentRoom == NULL)
+        return ;
 
-        foreach (Models::ListItem *pluginItem, roomPlugins)
-        {
-            Plugins::PluginBase* plugin = ((Models::PluginModelItem *)(pluginItem))->getPlugin();
-            plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
-        }
+    QList<Models::ListItem*> roomPlugins = this->currentRoom->getRoomPluginsModel()->toList();
+
+    foreach (Models::ListItem *pluginItem, roomPlugins)
+    {
+        Plugins::PluginBase* plugin = ((Models::PluginModelItem *)(pluginItem))->getPlugin();
+        plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
+    }
 }
 
 /*!

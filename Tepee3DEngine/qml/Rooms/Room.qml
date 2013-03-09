@@ -3,11 +3,6 @@ import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import View 1.0
 
-// IN THE LONG TERM THE CUBE WILL BE REPLACED BY A HOME MADE MODEL
-// THIS WAY EACH FACE WILL HAVE A ON PRESS METHOD
-// AND THE VIEW WILL CHANGE TO THE CORRESPONDING WALL ON THAT PRESS
-
-
 Item3D
 {
     id : room_item
@@ -33,7 +28,6 @@ Item3D
         if (isCurrentRoom)                  // ELSE WE MOVE TO THE WALL IF WE ARE THE CURRENT ROOM
         {
             mainWindow.currentRoomFaceId = faceIdx;
-            roomManager.unsetFocusPluginsFromRoom();
         }
     }
 
