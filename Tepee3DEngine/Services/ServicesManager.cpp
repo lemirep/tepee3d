@@ -90,7 +90,7 @@ bool    Services::ServicesManager::loadServicesLibraries()
 
     qDebug() << "SERVICE DIR " << serviceDirectory.absolutePath();
     // LOAD ALL SERVICES LIBRARIES FOUND IN DIRECTORY
-    foreach (QString filename, serviceDirectory.entryList(QDir::Files))
+    foreach (const QString &filename, serviceDirectory.entryList(QDir::Files))
     {
         qDebug() << "SERVICE LIBRARY " << filename;
         QPluginLoader loader(serviceDirectory.absoluteFilePath(filename));

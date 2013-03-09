@@ -36,13 +36,24 @@
  * properties. Also, this is where qml models and utility classes are
  * exposed to the Qml Engine.
  *
+ * \since 1.0
+ *
  * \inmodule Tepee3D
  *
  * \sa View::QmlViewProperties
- */
+ * */
 
 View::QmlViewManager* View::QmlViewManager::instance = NULL;
 
+
+/*!
+ * Constructs a QmlViewManager instance and initializes the Service Manager,
+ * the Room Manager and the Plugin Manager as well as the View.
+ *
+ * \sa Room::RoomManager
+ * \sa Plugins::PluginManager
+ * \sa Services::ServicesManager
+ */
 View::QmlViewManager::QmlViewManager() : QObject()
 {
     this->viewProperties = View::QmlViewProperties::getInstance(this);
@@ -51,6 +62,11 @@ View::QmlViewManager::QmlViewManager() : QObject()
     this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 }
 
+
+/*!
+ * Destroys a QmlViewManager instance releasing the instances of the Service Manager,
+ * the Room Manager, the Plugin Manager and the View.
+ */
 View::QmlViewManager::~QmlViewManager()
 {
     delete this->servicesManager;

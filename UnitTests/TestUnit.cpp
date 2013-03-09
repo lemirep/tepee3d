@@ -30,6 +30,10 @@ void TestUnit::clearItemOnTestModel()
     QCOMPARE(this->testModel->rowCount(), 0);
 }
 
+void TestUnit::releaseTestModel()
+{
+    delete this->testModel;
+}
 
 
 QTEST_MAIN(TestUnit)

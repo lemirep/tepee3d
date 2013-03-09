@@ -12,6 +12,7 @@ Item
     property string   roomName : ""
     property vector3d roomPosition : Qt.vector3d(0, 0, 0)
     property vector3d roomScale : Qt.vector3d(0, 0, 0)
+    property bool     editMode;
 
     anchors.horizontalCenter: parent.horizontalCenter
     scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
@@ -28,40 +29,53 @@ Item
             mainWindow.currentRoomId = model.roomId
             menuLeftMain.isShown = false;
         }
-        onPressAndHold:
-        {
-            if (isSelected)
-                mainWindow.postNotification("Cannot remove a Room when your are currently in it!");
-//                rooms_list_view.currentIndex = -1;
-            else
-                roomManager.deleteRoom(model.roomId)
-            //            console.log("start animation")
-            //            anim.start();
-        }
     }
+
+
+    states : [
+        State
+        {
+            name : "viewMode"
+            when : !editMode
+            PropertyChanges    {target : delete_room_button; opacity : 0}
+            PropertyChanges    {target : room_delegate_mouse_area; enabled : true}
+            PropertyChanges    {target : editAnimation; running : false}
+        },
+
+        State
+        {
+            name : "editMode"
+            when : editMode
+            PropertyChanges    {target : delete_room_button; opacity : 1}
+            PropertyChanges    {target : room_delegate_mouse_area; enabled : false}
+            PropertyChanges    {target : editAnimation; running : true}
+        }
+    ]
+
 
     SequentialAnimation
     {
-        id : anim
+        id : editAnimation
         PropertyAnimation {
             target: delRect
             property: "rotation"
             to : 5
-            duration: 200
+            duration: 400
         }
         PropertyAnimation {
             target: delRect
             property: "rotation"
             to : -5
-            duration: 200
+            duration: 400
         }
-        PropertyAnimation {
-            target: delRect
-            property: "rotation"
-            to : 0
-            duration: 200
-        }
+        //        PropertyAnimation {
+        //            target: delRect
+        //            property: "rotation"
+        //            to : 0
+        //            duration: 200
+        //        }
         loops: Animation.Infinite
+        onRunningChanged: {delRect.rotation = 0}
     }
 
     BorderImage
@@ -78,5 +92,31 @@ Item
         text: roomName
         anchors.centerIn : delRect
         color :  "white"
+    }
+
+    Image
+    {
+        id : delete_room_button
+        width : 50
+        scale : (delete_button_ma.pressed) ? 0.9 : 1
+        fillMode: Image.PreserveAspectFit
+        anchors
+        {
+            right : parent.right
+            bottom : parent.bottom
+        }
+        source : "../Resources/Pictures/red_cross.png";
+        MouseArea
+        {
+            id : delete_button_ma;anchors.fill: parent
+            enabled : (delete_room_button.opacity == 1)
+            onClicked:
+            {
+                if (isSelected)
+                    mainWindow.postNotification("Cannot remove a Room when your are currently in it!");
+                else
+                    roomManager.deleteRoom(model.roomId)
+            }
+        }
     }
 }

@@ -103,7 +103,7 @@ void        Models::ListModel::appendRows(QList<ListItem *> &items)
 {
     // NEEDED TO UPDATE VIEW
     this->beginInsertRows(QModelIndex(), this->rowCount(), this->rowCount() + items.size() - 1);
-    foreach(ListItem *item, items)
+    foreach(Models::ListItem *item, items)
     {
         QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
         this->items.append(item);
@@ -190,7 +190,7 @@ QModelIndex     Models::ListModel::indexFromItem(ListItem *item) const
  */
 Models::ListItem *  Models::ListModel::find(int itemId) const
 {
-    foreach(ListItem *item, this->items)
+    foreach(Models::ListItem *item, this->items)
         if (item->id() == itemId)
             return item;
     return NULL;

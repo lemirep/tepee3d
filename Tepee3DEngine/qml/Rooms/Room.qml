@@ -25,9 +25,12 @@ Item3D
 
     function moveToFace(faceIdx)
     {
-        if (mainWindow.currentRoomId === -1)
+        if (mainWindow.currentRoomId === -1) // CASE WE ARE IN SKY VIEW AND NO ROOM SELECTED
+        {                                    // SET CURRENT ROOM AND DEFAULT VIEW TO NORTH WALL
             mainWindow.currentRoomId = roomId;
-        if (isCurrentRoom)
+            faceIdx = 0;
+        }
+        if (isCurrentRoom)                  // ELSE WE MOVE TO THE WALL IF WE ARE THE CURRENT ROOM
         {
             mainWindow.currentRoomFaceId = faceIdx;
             roomManager.unsetFocusPluginsFromRoom();
@@ -44,6 +47,7 @@ Item3D
         downWall.showFaceIndicator();
     }
 
+    onPositionChanged:    {if (isCurrentRoom)  {mainWindow.currentRoomId = -1; mainWindow.currentRoomId = roomId}}
     onCurrentFaceIdChanged:    {if (isCurrentRoom) showWallsIndicator()}
     onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator()}
 

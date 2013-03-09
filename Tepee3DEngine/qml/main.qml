@@ -26,6 +26,15 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
+    function moveCameraToSkyView()           {Camera.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    function getcurrentIdRoom()              {roomChanged(currentRoomId); return currentRoomId}
+    function moveCameraHomeRoom()            {Walls.moveCameraToWall(0)}
+    function inRoom()                        {if(currentRoomId <= 0) return false;return true}
+    function onRoomSwitch()                  {camera_movement_velocity = 200;currentRoomFaceId = 0;}
+    function onRoomFaceSwitch()              {camera_movement_velocity = 100;}
+    function showPopUp(url)                  {notification.showPopUp(url)}
+    function postNotification(message, type) {notification.sendMessage(message, type)}
+
     Component.onCompleted:    {Room.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
 
     onCurrentRoomIdChanged:
@@ -44,23 +53,6 @@ Viewport
         roomFaceIdChanged(currentRoomFaceId)
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
-    function    moveCameraToSkyView()    {Camera.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -1), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
-    function getcurrentIdRoom()
-    {
-        roomChanged(currentRoomId)
-        return currentRoomId;
-    }
-    function moveCameraHomeRoom()
-    {
-        Walls.moveCameraToWall(0)
-    }
-    function inRoom()
-    {
-        if(currentRoomId <= 0)
-            return false;
-        else
-            return true;
-    }
 
     // FOR 16 / 9
     width: 1280
@@ -90,9 +82,6 @@ Viewport
 
     ListModel    {id : currentRoomFacesModel} // STORES FACES INFORMATION ABOUT THE CURRENT ROOM
 
-    function    onRoomSwitch()    {camera_movement_velocity = 200;currentRoomFaceId = 0;}
-    function    onRoomFaceSwitch()    {camera_movement_velocity = 100;}
-
     lightModel : LightModel {
         //        model : "OneSided"
         //        viewerPosition : "LocalViewer"
@@ -116,21 +105,10 @@ Viewport
     //    Keys.onUpPressed:    {}
     //    Keys.onDownPressed:    {}
 
-    Skybox    {source : "sky15"}
-
+    Skybox            {source : "sky15"}
     RoomsContainer    {id : roomContainer}
-
-    MenuCenter    {id : menu_center; anchors.fill : parent}
-
-    //    BufferedTextureSource
-    //    {
-    //        sourceItem : menu_center
-    //    }
-
-    function    postNotification(message, type) {notification.sendMessage(message, type)}
-    function    showPopUp(url) {notification.showPopUp(url)}
-
+    MenuCenter        {id : menu_center; anchors.fill : parent}
+    //    BufferedTextureSource    {sourceItem : menu_center}
     NotificationManager    {id : notification}
-
     //        FpsCounter {}
 }

@@ -217,6 +217,7 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
 {
     if (this->currentRoom != NULL && this->currentRoom->getRoomId() == roomModelId)
         this->setCurrentRoom((Room::RoomBase *)NULL);
+
     Models::RoomModelItem* roomItem = (Models::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* deletedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
     this->roomModel->removeRow(this->roomModel->getRowFromItem(roomItem), QModelIndex());
@@ -224,7 +225,9 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
     {
         Room::RoomManager::roomInstances--;
         // CLEAR ALL THE ROOM'S CONTENT BEFORE DELETING IT
+        delete deletedRoom;
         // REPLACE ALL THE ROOMS IF NECESSARY
+        placeNewRoomInSpace();
     }
 }
 
@@ -330,7 +333,7 @@ void        Room::RoomManager::loadRoomLibrary()
     qDebug() << "ROOM DIR " << roomDirectory.absolutePath();
 
     // LOAD ROOM LIBRARY
-    foreach (QString filename, roomDirectory.entryList(QDir::Files))
+    foreach (const QString &filename, roomDirectory.entryList(QDir::Files))
     {
         QPluginLoader loader(roomDirectory.absoluteFilePath(filename));
         RoomInterface* roomInt = qobject_cast<RoomInterface *>(loader.instance());

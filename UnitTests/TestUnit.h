@@ -20,6 +20,9 @@ private slots:
     void    appendOnTestModel();
     void    removeOnTestModel();
     void    clearItemOnTestModel();
+    void    releaseTestModel();
+
+
 
 };
 
