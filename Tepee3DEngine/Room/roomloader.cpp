@@ -6,6 +6,13 @@
 
 #define FILEHEADER  "__ROOMFILE__"
 
+/*!
+ * \class RoomLoader
+ * \brief The RoomLoader class is a group a static functions aimed
+ * to load or save room in databases and files format.
+ *
+ */
+
 int RoomLoader::lastCalled = 0;
 DataInfo *RoomLoader::roomDataSave;
 
@@ -162,7 +169,14 @@ bool RoomLoader::parseLine(std::string line, bool &header, DataInfo   *roominfo)
     return true;
 }
 
-void RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
+/*!
+ * \brief RoomLoader::loadRoomFromFile
+ * Search the room file in room directory  according to the name. If the file was founded and was correct. A room is created according to the data and is inserted into the roomloader.
+ * \param name is the name of the room.
+ * \param roommanager is the roomanager to add the room.
+ * \return true is the loading succesed.
+ */
+bool RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
 {
     QString line;
     QFile myfile(ROOMFILEDIR + name + ".txt");
@@ -192,9 +206,18 @@ void RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
         myfile.close();
     }
     else
+    {
         qDebug() << "Unable to open file";
+        return false;
+    }
+    return true;
 }
 
+/*!
+ * \brief RoomLoader::loadRoomFromDatabase Ask the database for a room according to the name provided. The requests are asynchronous and this function only sends the request. Does not return.
+ * \param name is the name of the room.
+ * \param roommanager is the roomanager to add the room.
+ */
 void RoomLoader::loadRoomFromDatabase(QString name, Room::RoomManager *roommanager)
 {
     QList<QSqlRecord> *result;
@@ -297,7 +320,13 @@ bool RoomLoader::onSearchingRequestFinished(Room::RoomManager *roommanager, QLis
     return true;
 }
 
-void RoomLoader::onRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result)
+/*!
+ * \brief RoomLoader::onRequestFinished This function is called by the requester object once the request is finished. This function treats the result coming from the database.
+ * \param roommanager is the receiver of the request result.
+ * \param result is the result if the request made.
+ * \return true if everything went well.
+ */
+bool RoomLoader::onRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result)
 {
     if (RoomLoader::lastCalled == 1)
     {
@@ -310,9 +339,15 @@ void RoomLoader::onRequestFinished(Room::RoomManager *roommanager, QList<QSqlRec
         onSearchingRequestFinished(roommanager, result);
     }
     RoomLoader::lastCalled = 0;
+    return true;
 }
 
-void RoomLoader::saveRoomFile(Room::RoomBase  *room)
+/*!
+ * \brief RoomLoader::saveRoomFile Save a room in file format, the file is created from the room name. The room is saved into the room directory.
+ * \param room is the room to save.
+ * \return true if the room was succesfully saved.
+ */
+bool RoomLoader::saveRoomFile(Room::RoomBase  *room)
 {
     QFile file(ROOMFILEDIR + room->getRoomName() + ".txt");
     DataInfo    *roominfo = new DataInfo();
@@ -322,7 +357,7 @@ void RoomLoader::saveRoomFile(Room::RoomBase  *room)
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         std::cerr << "Unable to create and open file"  << std::endl;
-        return;
+        return false;
     }
     QTextStream flux(&file);
     flux.setCodec("UTF-8");
@@ -332,8 +367,14 @@ void RoomLoader::saveRoomFile(Room::RoomBase  *room)
 
     file.close();
     std::cout << "File saved into " << ROOMFILEDIR << qPrintable(room->getRoomName()) << ".txt" << std::endl;
+    return true;
 }
 
+/*!
+ * \brief RoomLoader::saveRoomDatabase Save a room to the database, the room is updated or inserted depending if the room was already present. The requests are asynchronous and this function only sends the request. Does not return.
+ * \param room is the room to save.
+ * \param roommanager is the requester.
+ */
 void RoomLoader::saveRoomDatabase(Room::RoomBase *room, Room::RoomManager *roommanager)
 {
     DataInfo    *roominfo = new DataInfo();

@@ -52,11 +52,11 @@ public:
     static int      lastCalled;
     static DataInfo *roomDataSave;
 
-    static void loadRoomFromFile(QString name, Room::RoomManager *roommanager);
+    static bool loadRoomFromFile(QString name, Room::RoomManager *roommanager);
     static void loadRoomFromDatabase(QString name, Room::RoomManager *roommanager);
-    static void saveRoomFile(Room::RoomBase *room);
+    static bool saveRoomFile(Room::RoomBase *room);
     static void saveRoomDatabase(Room::RoomBase *room, Room::RoomManager *roommanager);
-    static void onRequestFinished(Room::RoomManager *roommanger, QList<QSqlRecord> result);
+    static bool onRequestFinished(Room::RoomManager *roommanger, QList<QSqlRecord> result);
 };
 
 #endif // ROOMLOADER_H
