@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- RoomProperties.cpp -->
+  <title>Tepee3D 0.2: RoomProperties Class</title>
+  <link rel="stylesheet" type="text/css" href="style/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="style/font-awesome/css/font-awesome.min.css" />
+</head>
+<body>
+<div class="header"> 
+ <div class="container"> 
+  <div class="row"> 
+   <div class="span2"> 
+    <h1> Tepee3D </h1>  
+	</div> 
+  </div> 
+  <div class="row"> 
+   <div class="masterhead"> 
+    <div class="navbar"> 
+     <br /> 
+     <div class="navbar-inner"> 
+      <div class="container"> 
+       <ul class="nav"> 
+        <li class="active"><a href="#">Home</a></li> 
+        <li><a href="#">The Project</a></li> 
+        <li><a href="#">The Team</a></li> 
+        <li><a href="#">Downloads</a></li> 
+        <li><a href="#">Documentation</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<br /> 
+<div class="container">
+ <div class="row">
+  <div class="span12 banner_tp3">
+   <h2 class="title">Tepee3D Reference Documentation</h2>  </div> 
+ </div> 
+ <div class="row">
+  <div class="span12 well">
+   <ul class="breadcrumb">
+    <!--  Breadcrumbs go here -->
+<li>Modules</li>
+<li>Tepee3D</li>
+<li>RoomProperties</li>
+   </ul>
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<h1 class="title">RoomProperties Class</h1>
+<span class="small-subtitle">(Room::RoomProperties)<br/></span>
+<!-- $$$RoomProperties-brief -->
+<p>The Room::RoomProperties class contains all the attributes that define a room. <a href="#details">More...</a></p>
+<!-- @@@RoomProperties -->
+<ul>
+<li><a href="room-roomproperties-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2>Public Functions</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#RoomProperties">RoomProperties</a></b>(QObject *<i> parent</i> = 0)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#dtor.RoomProperties">~RoomProperties</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVector3D </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#getPosition">getPosition</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#getRoomName">getRoomName</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Models::ListModel * </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#getRoomPluginsModel">getRoomPluginsModel</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVector3D </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#getScale">getScale</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#setPosition">setPosition</a></b>(const QVector3D &amp;<i> position</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#setRoomName">setRoomName</a></b>(const QString &amp;<i> name</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="room-roomproperties.html#setScale">setScale</a></b>(const QVector3D &amp;<i> scale</i>)</td></tr>
+</table>
+<a name="details"></a>
+<!-- $$$RoomProperties-description -->
+<div class="descr">
+<h2>Detailed Description</h2>
+<pre class="cpp"><span class="preprocessor">#include &lt;RoomProperties.h&gt;</span></pre>
+<p>The Room::RoomProperties class contains all the attributes that define a room.</p>
+</div>
+<p><b>See also </b><a href="room-roombase.html">Room::RoomBase</a>.</p>
+<!-- @@@RoomProperties -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$RoomProperties[overload1]$$$RoomPropertiesQObject* -->
+<h3 class="fn"><a name="RoomProperties"></a>RoomProperties::<span class="name">RoomProperties</span>(<span class="type">QObject</span> *<i> parent</i> = 0)</h3>
+<!-- @@@RoomProperties -->
+<!-- $$$~RoomProperties[overload1]$$$~RoomProperties -->
+<h3 class="fn"><a name="dtor.RoomProperties"></a>RoomProperties::<span class="name">~RoomProperties</span>()</h3>
+<!-- @@@~RoomProperties -->
+<!-- $$$getPosition[overload1]$$$getPosition -->
+<h3 class="fn"><a name="getPosition"></a><span class="type">QVector3D</span> RoomProperties::<span class="name">getPosition</span>() const</h3>
+<p>Returns a 3D vector containing the room's position.</p>
+<!-- @@@getPosition -->
+<!-- $$$getRoomName[overload1]$$$getRoomName -->
+<h3 class="fn"><a name="getRoomName"></a><span class="type">QString</span> RoomProperties::<span class="name">getRoomName</span>() const</h3>
+<p>Returns the room's name.</p>
+<!-- @@@getRoomName -->
+<!-- $$$getRoomPluginsModel[overload1]$$$getRoomPluginsModel -->
+<h3 class="fn"><a name="getRoomPluginsModel"></a><span class="type"><a href="models-listmodel.html">Models::ListModel</a></span> * RoomProperties::<span class="name">getRoomPluginsModel</span>() const</h3>
+<p>Returns ListModel containing the room's plugins model.</p>
+<!-- @@@getRoomPluginsModel -->
+<!-- $$$getScale[overload1]$$$getScale -->
+<h3 class="fn"><a name="getScale"></a><span class="type">QVector3D</span> RoomProperties::<span class="name">getScale</span>() const</h3>
+<p>Returns a 3D vector containing the room's scale.</p>
+<!-- @@@getScale -->
+<!-- $$$setPosition[overload1]$$$setPositionconstQVector3D& -->
+<h3 class="fn"><a name="setPosition"></a><span class="type">void</span> RoomProperties::<span class="name">setPosition</span>(const <span class="type">QVector3D</span> &amp;<i> position</i>)</h3>
+<p>Sets the room's position to <i>position</i>.</p>
+<!-- @@@setPosition -->
+<!-- $$$setRoomName[overload1]$$$setRoomNameconstQString& -->
+<h3 class="fn"><a name="setRoomName"></a><span class="type">void</span> RoomProperties::<span class="name">setRoomName</span>(const <span class="type">QString</span> &amp;<i> name</i>)</h3>
+<p>Sets the room's name to <i>name</i>.</p>
+<!-- @@@setRoomName -->
+<!-- $$$setScale[overload1]$$$setScaleconstQVector3D& -->
+<h3 class="fn"><a name="setScale"></a><span class="type">void</span> RoomProperties::<span class="name">setScale</span>(const <span class="type">QVector3D</span> &amp;<i> scale</i>)</h3>
+<p>Sets the room's scale to <i>scale</i>.</p>
+<!-- @@@setScale -->
+</div>
+  </div>
+ </div> 
+</div> 
+<footer class="footer">
+ <div class="container">
+  <div class="row">
+   <div class="row">
+    <div class="span2 offset1">
+     <ul> 
+      <li class="title">Tepee3D</li> 
+      <li><a>Downloads</a></li> 
+      <li><a>Developers</a></li> 
+      <li><a>Contribute</a></li> 
+      <li><a>Gitorious</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Qt</li> 
+      <li><a>Qt-Project</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Contact</li> 
+      <li><a><i class="icon-facebook"></i>&nbsp Facebook</a></li> 
+      <li><a><i class="icon-twitter"></i>&nbsp Twitter</a></li> 
+      <li><a><i class="icon-google-plus"></i>&nbsp Google+</a></li> 
+      <li><a><i class="icon-envelope"></i>&nbsp @Mail</a></li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</footer> 
+</body>
+</html>

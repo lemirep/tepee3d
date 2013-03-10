@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- QmlViewProperties.cpp -->
+  <title>Tepee3D 0.2: QmlViewProperties Class</title>
+  <link rel="stylesheet" type="text/css" href="style/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="style/font-awesome/css/font-awesome.min.css" />
+</head>
+<body>
+<div class="header"> 
+ <div class="container"> 
+  <div class="row"> 
+   <div class="span2"> 
+    <h1> Tepee3D </h1>  
+	</div> 
+  </div> 
+  <div class="row"> 
+   <div class="masterhead"> 
+    <div class="navbar"> 
+     <br /> 
+     <div class="navbar-inner"> 
+      <div class="container"> 
+       <ul class="nav"> 
+        <li class="active"><a href="#">Home</a></li> 
+        <li><a href="#">The Project</a></li> 
+        <li><a href="#">The Team</a></li> 
+        <li><a href="#">Downloads</a></li> 
+        <li><a href="#">Documentation</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<br /> 
+<div class="container">
+ <div class="row">
+  <div class="span12 banner_tp3">
+   <h2 class="title">Tepee3D Reference Documentation</h2>  </div> 
+ </div> 
+ <div class="row">
+  <div class="span12 well">
+   <ul class="breadcrumb">
+    <!--  Breadcrumbs go here -->
+<li>Modules</li>
+<li>Tepee3D</li>
+<li>QmlViewProperties</li>
+   </ul>
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#static-public-members">Static Public Members</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<h1 class="title">QmlViewProperties Class</h1>
+<span class="small-subtitle">(View::QmlViewProperties)<br/></span>
+<!-- $$$QmlViewProperties-brief -->
+<p>The View::QmlViewProperties class hold the properties of the Qml view. <a href="#details">More...</a></p>
+<!-- @@@QmlViewProperties -->
+<pre class="cpp"><span class="preprocessor">#include &lt;<a href="view.html">View</a>&gt;</span></pre><ul>
+<li><a href="view-qmlviewproperties-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2>Public Functions</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="view-qmlviewproperties.html#dtor.QmlViewProperties">~QmlViewProperties</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="view-qmlviewproperties.html#setViewerSource">setViewerSource</a></b>(const QUrl &amp;<i> sourceFile</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="view-qmlviewproperties.html#showView">showView</a></b>()</td></tr>
+</table>
+<a name="static-public-members"></a>
+<h2>Static Public Members</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="view-qmlviewproperties.html#exposeContentToQml">exposeContentToQml</a></b>(QObject *<i> exposer</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QmlViewProperties * </td><td class="memItemRight bottomAlign"><b><a href="view-qmlviewproperties.html#getInstance">getInstance</a></b>(QObject *<i> parent</i> = 0)</td></tr>
+</table>
+<a name="details"></a>
+<!-- $$$QmlViewProperties-description -->
+<div class="descr">
+<h2>Detailed Description</h2>
+<p>The View::QmlViewProperties class hold the properties of the Qml view.</p>
+<p>It is a singleton class that should only be used by the <a href="view-qmlviewmanager.html">View::QmlViewManager</a> class. It contains the QQuickView responsible for showing the Qml content onscreen, the Qml Engine and the Qml Context. More, this is where qml content is exposed to the Qml Context to later be used directly from Qml files.</p>
+</div>
+<p><b>See also </b><a href="view-qmlviewmanager.html">View::QmlViewManager</a>.</p>
+<!-- @@@QmlViewProperties -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$~QmlViewProperties[overload1]$$$~QmlViewProperties -->
+<h3 class="fn"><a name="dtor.QmlViewProperties"></a>QmlViewProperties::<span class="name">~QmlViewProperties</span>()</h3>
+<!-- @@@~QmlViewProperties -->
+<!-- $$$exposeContentToQml[overload1]$$$exposeContentToQmlQObject* -->
+<h3 class="fn"><a name="exposeContentToQml"></a><span class="type">void</span> QmlViewProperties::<span class="name">exposeContentToQml</span>(<span class="type">QObject</span> *<i> exposer</i>)<tt> [static]</tt></h3>
+<p>Exposes the exposer class to the QML context if exposer implements the <a href="view-qmlcontentexposerinterface.html">QmlContentExposerInterface</a></p>
+<p><b>See also </b><a href="view-qmlcontentexposerinterface.html">QmlContentExposerInterface</a>.</p>
+<!-- @@@exposeContentToQml -->
+<!-- $$$getInstance[overload1]$$$getInstanceQObject* -->
+<h3 class="fn"><a name="getInstance"></a><span class="type">QmlViewProperties</span> * QmlViewProperties::<span class="name">getInstance</span>(<span class="type">QObject</span> *<i> parent</i> = 0)<tt> [static]</tt></h3>
+<p>Returns a singleton instance of the class.</p>
+<!-- @@@getInstance -->
+<!-- $$$setViewerSource[overload1]$$$setViewerSourceconstQUrl& -->
+<h3 class="fn"><a name="setViewerSource"></a><span class="type">void</span> QmlViewProperties::<span class="name">setViewerSource</span>(const <span class="type">QUrl</span> &amp;<i> sourceFile</i>)</h3>
+<p>Sets sourceFile as the source of the QML viewer.</p>
+<!-- @@@setViewerSource -->
+<!-- $$$showView[overload1]$$$showView -->
+<h3 class="fn"><a name="showView"></a><span class="type">void</span> QmlViewProperties::<span class="name">showView</span>()</h3>
+<p>Show the QML viewer.</p>
+<!-- @@@showView -->
+</div>
+  </div>
+ </div> 
+</div> 
+<footer class="footer">
+ <div class="container">
+  <div class="row">
+   <div class="row">
+    <div class="span2 offset1">
+     <ul> 
+      <li class="title">Tepee3D</li> 
+      <li><a>Downloads</a></li> 
+      <li><a>Developers</a></li> 
+      <li><a>Contribute</a></li> 
+      <li><a>Gitorious</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Qt</li> 
+      <li><a>Qt-Project</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Contact</li> 
+      <li><a><i class="icon-facebook"></i>&nbsp Facebook</a></li> 
+      <li><a><i class="icon-twitter"></i>&nbsp Twitter</a></li> 
+      <li><a><i class="icon-google-plus"></i>&nbsp Google+</a></li> 
+      <li><a><i class="icon-envelope"></i>&nbsp @Mail</a></li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</footer> 
+</body>
+</html>

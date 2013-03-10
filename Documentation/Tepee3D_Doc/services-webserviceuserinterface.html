@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Tepee3D 0.2: WebServiceUserInterface Class</title>
+  <link rel="stylesheet" type="text/css" href="style/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="style/font-awesome/css/font-awesome.min.css" />
+</head>
+<body>
+<div class="header"> 
+ <div class="container"> 
+  <div class="row"> 
+   <div class="span2"> 
+    <h1> Tepee3D </h1>  
+	</div> 
+  </div> 
+  <div class="row"> 
+   <div class="masterhead"> 
+    <div class="navbar"> 
+     <br /> 
+     <div class="navbar-inner"> 
+      <div class="container"> 
+       <ul class="nav"> 
+        <li class="active"><a href="#">Home</a></li> 
+        <li><a href="#">The Project</a></li> 
+        <li><a href="#">The Team</a></li> 
+        <li><a href="#">Downloads</a></li> 
+        <li><a href="#">Documentation</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<br /> 
+<div class="container">
+ <div class="row">
+  <div class="span12 banner_tp3">
+   <h2 class="title">Tepee3D Reference Documentation</h2>  </div> 
+ </div> 
+ <div class="row">
+  <div class="span12 well">
+   <ul class="breadcrumb">
+    <!--  Breadcrumbs go here -->
+<li>Modules</li>
+<li>WebServiceUserInterface</li>
+   </ul>
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-types">Public Types</a></li>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<h1 class="title">WebServiceUserInterface Class</h1>
+<span class="small-subtitle">(Services::WebServiceUserInterface)<br/></span>
+<p><b>Inherited by: </b><a href="plugins-pluginbase.html">Plugins::PluginBase</a>.</p>
+<ul>
+<li><a href="services-webserviceuserinterface-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2>Public Types</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="services-webserviceuserinterface.html#WebServiceRequestType-enum">WebServiceRequestType</a></b> { Get, Post, Delete, Put }</td></tr>
+</table>
+<a name="public-functions"></a>
+<h2>Public Functions</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="services-webserviceuserinterface.html#executeHttpDeleteRequest">executeHttpDeleteRequest</a></b>(const QNetworkRequest &amp;<i> request</i>) = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="services-webserviceuserinterface.html#executeHttpGetRequest">executeHttpGetRequest</a></b>(const QNetworkRequest &amp;<i> request</i>) = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="services-webserviceuserinterface.html#executeHttpPostRequest">executeHttpPostRequest</a></b>(const QNetworkRequest &amp;<i> request</i>, QHttpMultiPart *<i> multiPart</i>) = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="services-webserviceuserinterface.html#executeHttpPutRequest">executeHttpPutRequest</a></b>(const QNetworkRequest &amp;<i> request</i>, QHttpMultiPart *<i> multiPart</i>) = 0</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="services-webserviceuserinterface.html#receiveResultFromHttpRequest">receiveResultFromHttpRequest</a></b>(QNetworkReply *) = 0</td></tr>
+</table>
+<a name="details"></a>
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$WebServiceRequestType$$$Get$$$Post$$$Delete$$$Put -->
+<h3 class="fn"><a name="WebServiceRequestType-enum"></a>enum WebServiceUserInterface::<span class="name">WebServiceRequestType</span></h3>
+<!-- @@@WebServiceRequestType -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$executeHttpDeleteRequest[overload1]$$$executeHttpDeleteRequestconstQNetworkRequest& -->
+<h3 class="fn"><a name="executeHttpDeleteRequest"></a><span class="type">void</span> WebServiceUserInterface::<span class="name">executeHttpDeleteRequest</span>(const <span class="type">QNetworkRequest</span> &amp;<i> request</i>)<tt> [pure virtual]</tt></h3>
+<!-- @@@executeHttpDeleteRequest -->
+<!-- $$$executeHttpGetRequest[overload1]$$$executeHttpGetRequestconstQNetworkRequest& -->
+<h3 class="fn"><a name="executeHttpGetRequest"></a><span class="type">void</span> WebServiceUserInterface::<span class="name">executeHttpGetRequest</span>(const <span class="type">QNetworkRequest</span> &amp;<i> request</i>)<tt> [pure virtual]</tt></h3>
+<!-- @@@executeHttpGetRequest -->
+<!-- $$$executeHttpPostRequest[overload1]$$$executeHttpPostRequestconstQNetworkRequest&QHttpMultiPart* -->
+<h3 class="fn"><a name="executeHttpPostRequest"></a><span class="type">void</span> WebServiceUserInterface::<span class="name">executeHttpPostRequest</span>(const <span class="type">QNetworkRequest</span> &amp;<i> request</i>, <span class="type">QHttpMultiPart</span> *<i> multiPart</i>)<tt> [pure virtual]</tt></h3>
+<!-- @@@executeHttpPostRequest -->
+<!-- $$$executeHttpPutRequest[overload1]$$$executeHttpPutRequestconstQNetworkRequest&QHttpMultiPart* -->
+<h3 class="fn"><a name="executeHttpPutRequest"></a><span class="type">void</span> WebServiceUserInterface::<span class="name">executeHttpPutRequest</span>(const <span class="type">QNetworkRequest</span> &amp;<i> request</i>, <span class="type">QHttpMultiPart</span> *<i> multiPart</i>)<tt> [pure virtual]</tt></h3>
+<!-- @@@executeHttpPutRequest -->
+<!-- $$$receiveResultFromHttpRequest[overload1]$$$receiveResultFromHttpRequestQNetworkReply* -->
+<h3 class="fn"><a name="receiveResultFromHttpRequest"></a><span class="type">void</span> WebServiceUserInterface::<span class="name">receiveResultFromHttpRequest</span>(<span class="type">QNetworkReply</span> *)<tt> [pure virtual]</tt></h3>
+<!-- @@@receiveResultFromHttpRequest -->
+</div>
+  </div>
+ </div> 
+</div> 
+<footer class="footer">
+ <div class="container">
+  <div class="row">
+   <div class="row">
+    <div class="span2 offset1">
+     <ul> 
+      <li class="title">Tepee3D</li> 
+      <li><a>Downloads</a></li> 
+      <li><a>Developers</a></li> 
+      <li><a>Contribute</a></li> 
+      <li><a>Gitorious</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Qt</li> 
+      <li><a>Qt-Project</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Contact</li> 
+      <li><a><i class="icon-facebook"></i>&nbsp Facebook</a></li> 
+      <li><a><i class="icon-twitter"></i>&nbsp Twitter</a></li> 
+      <li><a><i class="icon-google-plus"></i>&nbsp Google+</a></li> 
+      <li><a><i class="icon-envelope"></i>&nbsp @Mail</a></li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</footer> 
+</body>
+</html>

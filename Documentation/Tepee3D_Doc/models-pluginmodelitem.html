@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- PluginModelItem.cpp -->
+  <title>Tepee3D 0.2: PluginModelItem Class</title>
+  <link rel="stylesheet" type="text/css" href="style/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="style/font-awesome/css/font-awesome.min.css" />
+</head>
+<body>
+<div class="header"> 
+ <div class="container"> 
+  <div class="row"> 
+   <div class="span2"> 
+    <h1> Tepee3D </h1>  
+	</div> 
+  </div> 
+  <div class="row"> 
+   <div class="masterhead"> 
+    <div class="navbar"> 
+     <br /> 
+     <div class="navbar-inner"> 
+      <div class="container"> 
+       <ul class="nav"> 
+        <li class="active"><a href="#">Home</a></li> 
+        <li><a href="#">The Project</a></li> 
+        <li><a href="#">The Team</a></li> 
+        <li><a href="#">Downloads</a></li> 
+        <li><a href="#">Documentation</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<br /> 
+<div class="container">
+ <div class="row">
+  <div class="span12 banner_tp3">
+   <h2 class="title">Tepee3D Reference Documentation</h2>  </div> 
+ </div> 
+ <div class="row">
+  <div class="span12 well">
+   <ul class="breadcrumb">
+    <!--  Breadcrumbs go here -->
+<li>Modules</li>
+<li>Tepee3D</li>
+<li>PluginModelItem</li>
+   </ul>
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-types">Public Types</a></li>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<h1 class="title">PluginModelItem Class</h1>
+<span class="small-subtitle">(Models::PluginModelItem)<br/></span>
+<!-- $$$PluginModelItem-brief -->
+<p>Models::PluginModelItem <a href="#details">More...</a></p>
+<!-- @@@PluginModelItem -->
+<pre class="cpp"><span class="preprocessor">#include &lt;<a href="models.html">Models</a>&gt;</span></pre><p><b>Inherits: </b><a href="models-listitem.html">Models::ListItem</a>.</p>
+<ul>
+<li><a href="models-pluginmodelitem-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-types"></a>
+<h2>Public Types</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> enum </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#PluginModelItemRoles-enum">PluginModelItemRoles</a></b> { pluginId, pluginName, pluginRoomQmlFile, pluginMenuQmlFile }</td></tr>
+</table>
+<a name="public-functions"></a>
+<h2>Public Functions</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#PluginModelItem">PluginModelItem</a></b>(Plugins::PluginBase *<i> plugin</i>, QObject *<i> parent</i> = 0)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#dtor.PluginModelItem">~PluginModelItem</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> Plugins::PluginBase * </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#getPlugin">getPlugin</a></b>() const</td></tr>
+</table>
+<a name="reimplemented-public-functions"></a>
+<h2>Reimplemented Public Functions</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#data">data</a></b>(int<i> role</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual int </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#id">id</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="models-pluginmodelitem.html#roleNames">roleNames</a></b>() const</td></tr>
+</table>
+<ul>
+<li class="fn">4 public functions inherited from <a href="models-listitem.html#public-functions">Models::ListItem</a></li>
+</ul>
+<h3>Additional Inherited Members</h3>
+<ul>
+<li class="fn">1 signal inherited from <a href="models-listitem.html#signals">Models::ListItem</a></li>
+</ul>
+<a name="details"></a>
+<!-- $$$PluginModelItem-description -->
+<div class="descr">
+<h2>Detailed Description</h2>
+<pre class="cpp"><span class="preprocessor">#include &lt;PluginModelItem.h&gt;</span></pre>
+<p>Models::PluginModelItem</p>
+</div>
+<!-- @@@PluginModelItem -->
+<div class="types">
+<h2>Member Type Documentation</h2>
+<!-- $$$PluginModelItemRoles$$$pluginId$$$pluginName$$$pluginRoomQmlFile$$$pluginMenuQmlFile -->
+<h3 class="fn"><a name="PluginModelItemRoles-enum"></a>enum PluginModelItem::<span class="name">PluginModelItemRoles</span></h3>
+<!-- @@@PluginModelItemRoles -->
+</div>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$PluginModelItem[overload1]$$$PluginModelItemPlugins::PluginBase*QObject* -->
+<h3 class="fn"><a name="PluginModelItem"></a>PluginModelItem::<span class="name">PluginModelItem</span>(<span class="type"><a href="plugins-pluginbase.html">Plugins::PluginBase</a></span> *<i> plugin</i>, <span class="type">QObject</span> *<i> parent</i> = 0)</h3>
+<!-- @@@PluginModelItem -->
+<!-- $$$~PluginModelItem[overload1]$$$~PluginModelItem -->
+<h3 class="fn"><a name="dtor.PluginModelItem"></a>PluginModelItem::<span class="name">~PluginModelItem</span>()</h3>
+<!-- @@@~PluginModelItem -->
+<!-- $$$data[overload1]$$$dataint -->
+<h3 class="fn"><a name="data"></a><span class="type">QVariant</span> PluginModelItem::<span class="name">data</span>(<span class="type">int</span><i> role</i>) const<tt> [virtual]</tt></h3>
+<p>Reimplemented from <a href="models-listitem.html#data">ListItem::data</a>().</p>
+<p>Returns the role values of a given role of the <a href="models-pluginmodelitem.html">PluginModelItem</a>.</p>
+<!-- @@@data -->
+<!-- $$$getPlugin[overload1]$$$getPlugin -->
+<h3 class="fn"><a name="getPlugin"></a><span class="type"><a href="plugins-pluginbase.html">Plugins::PluginBase</a></span> * PluginModelItem::<span class="name">getPlugin</span>() const</h3>
+<p>Returns the instance of the plugin the <a href="models-pluginmodelitem.html">PluginModelItem</a> is a description of.</p>
+<!-- @@@getPlugin -->
+<!-- $$$id[overload1]$$$id -->
+<h3 class="fn"><a name="id"></a><span class="type">int</span> PluginModelItem::<span class="name">id</span>() const<tt> [virtual]</tt></h3>
+<p>Reimplemented from <a href="models-listitem.html#id">ListItem::id</a>().</p>
+<p>Returns the id of the <a href="models-pluginmodelitem.html">PluginModelItem</a>.</p>
+<!-- @@@id -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn"><a name="roleNames"></a><span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; PluginModelItem::<span class="name">roleNames</span>() const<tt> [virtual]</tt></h3>
+<p>Reimplemented from <a href="models-listitem.html#roleNames">ListItem::roleNames</a>().</p>
+<p>Returns a hash containing the roles of the <a href="models-pluginmodelitem.html">PluginModelItem</a>.</p>
+<!-- @@@roleNames -->
+</div>
+  </div>
+ </div> 
+</div> 
+<footer class="footer">
+ <div class="container">
+  <div class="row">
+   <div class="row">
+    <div class="span2 offset1">
+     <ul> 
+      <li class="title">Tepee3D</li> 
+      <li><a>Downloads</a></li> 
+      <li><a>Developers</a></li> 
+      <li><a>Contribute</a></li> 
+      <li><a>Gitorious</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Qt</li> 
+      <li><a>Qt-Project</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Contact</li> 
+      <li><a><i class="icon-facebook"></i>&nbsp Facebook</a></li> 
+      <li><a><i class="icon-twitter"></i>&nbsp Twitter</a></li> 
+      <li><a><i class="icon-google-plus"></i>&nbsp Google+</a></li> 
+      <li><a><i class="icon-envelope"></i>&nbsp @Mail</a></li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</footer> 
+</body>
+</html>

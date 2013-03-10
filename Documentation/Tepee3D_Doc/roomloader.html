@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- roomloader.cpp -->
+  <title>Tepee3D 0.2: RoomLoader Class</title>
+  <link rel="stylesheet" type="text/css" href="style/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="style/font-awesome/css/font-awesome.min.css" />
+</head>
+<body>
+<div class="header"> 
+ <div class="container"> 
+  <div class="row"> 
+   <div class="span2"> 
+    <h1> Tepee3D </h1>  
+	</div> 
+  </div> 
+  <div class="row"> 
+   <div class="masterhead"> 
+    <div class="navbar"> 
+     <br /> 
+     <div class="navbar-inner"> 
+      <div class="container"> 
+       <ul class="nav"> 
+        <li class="active"><a href="#">Home</a></li> 
+        <li><a href="#">The Project</a></li> 
+        <li><a href="#">The Team</a></li> 
+        <li><a href="#">Downloads</a></li> 
+        <li><a href="#">Documentation</a></li> 
+       </ul> 
+      </div> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</div> 
+<br /> 
+<div class="container">
+ <div class="row">
+  <div class="span12 banner_tp3">
+   <h2 class="title">Tepee3D Reference Documentation</h2>  </div> 
+ </div> 
+ <div class="row">
+  <div class="span12 well">
+   <ul class="breadcrumb">
+    <!--  Breadcrumbs go here -->
+<li>Modules</li>
+<li>Tepee3D</li>
+<li>RoomLoader</li>
+   </ul>
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#static-public-members">Static Public Members</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<h1 class="title">RoomLoader Class</h1>
+<!-- $$$RoomLoader-brief -->
+<p>The RoomLoader class is a group a static functions aimed to load or save room in databases and files format. <a href="#details">More...</a></p>
+<!-- @@@RoomLoader -->
+<pre class="cpp"><span class="preprocessor">#include &lt;RoomLoader&gt;</span></pre><ul>
+<li><a href="roomloader-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="static-public-members"></a>
+<h2>Static Public Members</h2>
+<table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="roomloader.html#loadRoomFromDatabase">loadRoomFromDatabase</a></b>(QString<i> name</i>, Room::RoomManager *<i> roommanager</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="roomloader.html#loadRoomFromFile">loadRoomFromFile</a></b>(QString<i> name</i>, Room::RoomManager *<i> roommanager</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="roomloader.html#onRequestFinished">onRequestFinished</a></b>(Room::RoomManager *<i> roommanager</i>, QList&lt;QSqlRecord&gt;<i> result</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="roomloader.html#saveRoomDatabase">saveRoomDatabase</a></b>(Room::RoomBase *<i> room</i>, Room::RoomManager *<i> roommanager</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="roomloader.html#saveRoomFile">saveRoomFile</a></b>(Room::RoomBase *<i> room</i>)</td></tr>
+</table>
+<a name="details"></a>
+<!-- $$$RoomLoader-description -->
+<div class="descr">
+<h2>Detailed Description</h2>
+<p>The RoomLoader class is a group a static functions aimed to load or save room in databases and files format.</p>
+</div>
+<!-- @@@RoomLoader -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$loadRoomFromDatabase[overload1]$$$loadRoomFromDatabaseQStringRoom::RoomManager* -->
+<h3 class="fn"><a name="loadRoomFromDatabase"></a><span class="type">void</span> RoomLoader::<span class="name">loadRoomFromDatabase</span>(<span class="type">QString</span><i> name</i>, <span class="type"><a href="room-roommanager.html">Room::RoomManager</a></span> *<i> roommanager</i>)<tt> [static]</tt></h3>
+<p>RoomLoader::loadRoomFromDatabase Ask the database for a room according to the name provided. The requests are asynchronous and this function only sends the request. Does not return. <b class="redFont"><code>\param</code></b> name is the name of the room. <b class="redFont"><code>\param</code></b> roommanager is the roomanager to add the room.</p>
+<!-- @@@loadRoomFromDatabase -->
+<!-- $$$loadRoomFromFile[overload1]$$$loadRoomFromFileQStringRoom::RoomManager* -->
+<h3 class="fn"><a name="loadRoomFromFile"></a><span class="type">bool</span> RoomLoader::<span class="name">loadRoomFromFile</span>(<span class="type">QString</span><i> name</i>, <span class="type"><a href="room-roommanager.html">Room::RoomManager</a></span> *<i> roommanager</i>)<tt> [static]</tt></h3>
+<p>RoomLoader::loadRoomFromFile Search the room file in room directory according to the name. If the file was founded and was correct. A room is created according to the data and is inserted into the roomloader. <b class="redFont"><code>\param</code></b> name is the name of the room. <b class="redFont"><code>\param</code></b> roommanager is the roomanager to add the room. <b class="redFont"><code>\return</code></b> true is the loading succesed.</p>
+<!-- @@@loadRoomFromFile -->
+<!-- $$$onRequestFinished[overload1]$$$onRequestFinishedRoom::RoomManager*QList<QSqlRecord> -->
+<h3 class="fn"><a name="onRequestFinished"></a><span class="type">bool</span> RoomLoader::<span class="name">onRequestFinished</span>(<span class="type"><a href="room-roommanager.html">Room::RoomManager</a></span> *<i> roommanager</i>, <span class="type">QList</span>&lt;<span class="type">QSqlRecord</span>&gt;<i> result</i>)<tt> [static]</tt></h3>
+<p>RoomLoader::onRequestFinished This function is called by the requester object once the request is finished. This function treats the result coming from the database. <b class="redFont"><code>\param</code></b> roommanager is the receiver of the request result. <b class="redFont"><code>\param</code></b> result is the result if the request made. <b class="redFont"><code>\return</code></b> true if everything went well.</p>
+<!-- @@@onRequestFinished -->
+<!-- $$$saveRoomDatabase[overload1]$$$saveRoomDatabaseRoom::RoomBase*Room::RoomManager* -->
+<h3 class="fn"><a name="saveRoomDatabase"></a><span class="type">void</span> RoomLoader::<span class="name">saveRoomDatabase</span>(<span class="type"><a href="room-roombase.html">Room::RoomBase</a></span> *<i> room</i>, <span class="type"><a href="room-roommanager.html">Room::RoomManager</a></span> *<i> roommanager</i>)<tt> [static]</tt></h3>
+<p>RoomLoader::saveRoomDatabase Save a room to the database, the room is updated or inserted depending if the room was already present. The requests are asynchronous and this function only sends the request. Does not return. <b class="redFont"><code>\param</code></b> room is the room to save. <b class="redFont"><code>\param</code></b> roommanager is the requester.</p>
+<!-- @@@saveRoomDatabase -->
+<!-- $$$saveRoomFile[overload1]$$$saveRoomFileRoom::RoomBase* -->
+<h3 class="fn"><a name="saveRoomFile"></a><span class="type">bool</span> RoomLoader::<span class="name">saveRoomFile</span>(<span class="type"><a href="room-roombase.html">Room::RoomBase</a></span> *<i> room</i>)<tt> [static]</tt></h3>
+<p>RoomLoader::saveRoomFile Save a room in file format, the file is created from the room name. The room is saved into the room directory. <b class="redFont"><code>\param</code></b> room is the room to save. <b class="redFont"><code>\return</code></b> true if the room was succesfully saved.</p>
+<!-- @@@saveRoomFile -->
+</div>
+  </div>
+ </div> 
+</div> 
+<footer class="footer">
+ <div class="container">
+  <div class="row">
+   <div class="row">
+    <div class="span2 offset1">
+     <ul> 
+      <li class="title">Tepee3D</li> 
+      <li><a>Downloads</a></li> 
+      <li><a>Developers</a></li> 
+      <li><a>Contribute</a></li> 
+      <li><a>Gitorious</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Qt</li> 
+      <li><a>Qt-Project</a></li> 
+     </ul> 
+    </div> 
+    <div class="span2">
+     <ul> 
+      <li class="title">Contact</li> 
+      <li><a><i class="icon-facebook"></i>&nbsp Facebook</a></li> 
+      <li><a><i class="icon-twitter"></i>&nbsp Twitter</a></li> 
+      <li><a><i class="icon-google-plus"></i>&nbsp Google+</a></li> 
+      <li><a><i class="icon-envelope"></i>&nbsp @Mail</a></li> 
+     </ul> 
+    </div> 
+   </div> 
+  </div> 
+ </div> 
+</footer> 
+</body>
+</html>

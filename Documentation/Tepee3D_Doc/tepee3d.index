@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE QDOCINDEX>
+<INDEX url="http://tepee3d.dyndns.org/doc" title="Tepee3D Class Documentation" version="0.2">
+    <namespace access="public" threadsafety="unspecified" status="commendable" name="" href="" location="">
+        <namespace access="public" threadsafety="unspecified" status="commendable" name="Models" href="models.html" location="ListItem.h" module="Tepee3D">
+            <class access="public" threadsafety="unspecified" status="commendable" name="ListItem" fullname="Models::ListItem" href="models-models-listitem.html" location="ListItem.h" bases="">
+                <function access="public" threadsafety="unspecified" status="commendable" name="ListItem" fullname="Models::ListItem::ListItem" href="models-models-listitem.html#ListItem" location="ListItem.h" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="ListItem(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="data" fullname="Models::ListItem::data" href="models-models-listitem.html#data" location="ListItem.h" virtual="pure" meta="plain" const="true" static="false" overload="false" type="QVariant" signature="data(int role) const">
+                    <parameter left="int" right="" name="role" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="dataChanged" fullname="Models::ListItem::dataChanged" href="models-models-listitem.html#dataChanged" location="ListItem.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="dataChanged()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="id" fullname="Models::ListItem::id" href="models-models-listitem.html#id" location="ListItem.h" virtual="pure" meta="plain" const="true" static="false" overload="false" type="int" signature="id() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roleNames" fullname="Models::ListItem::roleNames" href="models-models-listitem.html#roleNames" location="ListItem.h" virtual="pure" meta="plain" const="true" static="false" overload="false" type="QHash&lt;int, QByteArray&gt;" signature="roleNames() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="triggerItemUpdate" fullname="Models::ListItem::triggerItemUpdate" href="models-models-listitem.html#triggerItemUpdate" location="ListItem.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="triggerItemUpdate()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~ListItem" fullname="Models::ListItem::~ListItem" href="models-models-listitem.html#dtor.ListItem" location="ListItem.h" virtual="impure" meta="destructor" const="false" static="false" overload="false" type="" signature="~ListItem()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="ListModel" fullname="Models::ListModel" href="models-models-listmodel.html" location="ListModel.h" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="ListModel" fullname="Models::ListModel::ListModel" href="models-models-listmodel.html#ListModel" location="ListModel.h" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="ListModel(ListItem * prototype, QObject * parent)">
+                    <parameter left="ListItem *" right="" name="prototype" default=""/>
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="appendRow" fullname="Models::ListModel::appendRow" href="models-models-listmodel.html#appendRow" location="ListModel.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="appendRow(ListItem * item)">
+                    <parameter left="ListItem *" right="" name="item" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="appendRows" fullname="Models::ListModel::appendRows" href="models-models-listmodel.html#appendRows" location="ListModel.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="appendRows(QList&lt;ListItem *&gt; &amp; items)">
+                    <parameter left="QList&lt;ListItem *&gt; &amp;" right="" name="items" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="clear" fullname="Models::ListModel::clear" href="models-models-listmodel.html#clear" location="ListModel.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="clear()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="countChanged" fullname="Models::ListModel::countChanged" href="models-models-listmodel.html#count-prop" location="ListModel.h" virtual="non" meta="signal" const="false" static="false" overload="false" associated-property="count" type="void" signature="countChanged(int )">
+                    <parameter left="int" right="" name="" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="data" fullname="Models::ListModel::data" href="models-models-listmodel.html#data" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QVariant" signature="data(const QModelIndex &amp; index, int role) const">
+                    <parameter left="const QModelIndex &amp;" right="" name="index" default=""/>
+                    <parameter left="int" right="" name="role" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="find" fullname="Models::ListModel::find" href="models-models-listmodel.html#find" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="ListItem *" signature="find(int itemId) const">
+                    <parameter left="int" right="" name="itemId" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRowFromItem" fullname="Models::ListModel::getRowFromItem" href="models-models-listmodel.html#getRowFromItem" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="int" signature="getRowFromItem(ListItem * item) const">
+                    <parameter left="ListItem *" right="" name="item" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="indexFromItem" fullname="Models::ListModel::indexFromItem" href="models-models-listmodel.html#indexFromItem" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QModelIndex" signature="indexFromItem(ListItem * item) const">
+                    <parameter left="ListItem *" right="" name="item" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="insertRow" fullname="Models::ListModel::insertRow" href="models-models-listmodel.html#insertRow" location="ListModel.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="insertRow(int row, ListItem * item)">
+                    <parameter left="int" right="" name="row" default=""/>
+                    <parameter left="ListItem *" right="" name="item" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="removeRow" fullname="Models::ListModel::removeRow" href="models-models-listmodel.html#removeRow" location="ListModel.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="bool" signature="removeRow(int row, const QModelIndex &amp; index)">
+                    <parameter left="int" right="" name="row" default=""/>
+                    <parameter left="const QModelIndex &amp;" right="" name="index" default="QModelIndex()"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="removeRows" fullname="Models::ListModel::removeRows" href="models-models-listmodel.html#removeRows" location="ListModel.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="bool" signature="removeRows(int row, int count, const QModelIndex &amp; index)">
+                    <parameter left="int" right="" name="row" default=""/>
+                    <parameter left="int" right="" name="count" default=""/>
+                    <parameter left="const QModelIndex &amp;" right="" name="index" default="QModelIndex()"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roleNames" fullname="Models::ListModel::roleNames" href="models-models-listmodel.html#roleNames" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QHash&lt;int, QByteArray&gt;" signature="roleNames() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="rowCount" fullname="Models::ListModel::rowCount" href="models-models-listmodel.html#count-prop" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" associated-property="count" type="int" signature="rowCount(const QModelIndex &amp; parent) const">
+                    <parameter left="const QModelIndex &amp;" right="" name="parent" default="QModelIndex()"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="toList" fullname="Models::ListModel::toList" href="models-models-listmodel.html#toList" location="ListModel.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QList&lt;ListItem *&gt;" signature="toList() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~ListModel" fullname="Models::ListModel::~ListModel" href="models-models-listmodel.html#dtor.ListModel" location="ListModel.h" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~ListModel()"/>
+                <property access="public" threadsafety="unspecified" status="commendable" name="count" fullname="Models::ListModel::count" href="models-models-listmodel.html#count-prop" location="ListModel.h" type="int">
+                    <getter name="rowCount"/>
+                    <notifier name="countChanged"/>
+                </property>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="items" fullname="Models::ListModel::items" href="models-models-listmodel.html#items-var" location="ListModel.h" type="QList&lt;ListItem *&gt;" static="false"/>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="prototype" fullname="Models::ListModel::prototype" href="models-models-listmodel.html#prototype-var" location="ListModel.h" type="ListItem *" static="false"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="SubListedListItem" fullname="Models::SubListedListItem" href="models-models-sublistedlistitem.html" location="SubListedListItem.h" bases="ListItem">
+                <function access="public" threadsafety="unspecified" status="commendable" name="SubListedListItem" fullname="Models::SubListedListItem::SubListedListItem" href="models-models-sublistedlistitem.html#SubListedListItem" location="SubListedListItem.h" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="SubListedListItem(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="submodel" fullname="Models::SubListedListItem::submodel" href="models-models-sublistedlistitem.html#submodel" location="SubListedListItem.h" virtual="pure" meta="plain" const="true" static="false" overload="false" type="Models::ListModel *" signature="submodel() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~SubListedListItem" fullname="Models::SubListedListItem::~SubListedListItem" href="models-models-sublistedlistitem.html#dtor.SubListedListItem" location="SubListedListItem.h" virtual="impure" meta="destructor" const="false" static="false" overload="false" type="" signature="~SubListedListItem()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="SubListedListModel" fullname="Models::SubListedListModel" href="models-models-sublistedlistmodel.html" location="SubListedListModel.h" bases="ListModel" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="SubListedListModel" fullname="Models::SubListedListModel::SubListedListModel" href="models-models-sublistedlistmodel.html#SubListedListModel" location="SubListedListModel.h" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="SubListedListModel(SubListedListItem * prototype, QObject * parent)">
+                    <parameter left="SubListedListItem *" right="" name="prototype" default=""/>
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginModelItem" fullname="Models::PluginModelItem" href="models-models-pluginmodelitem.html" location="PluginModelItem.h" bases="ListItem" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="PluginModelItem" fullname="Models::PluginModelItem::PluginModelItem" href="models-models-pluginmodelitem.html#PluginModelItem" location="PluginModelItem.cpp" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="PluginModelItem(Plugins::PluginBase * plugin, QObject * parent)">
+                    <parameter left="Plugins::PluginBase *" right="" name="plugin" default=""/>
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~PluginModelItem" fullname="Models::PluginModelItem::~PluginModelItem" href="models-models-pluginmodelitem.html#dtor.PluginModelItem" location="PluginModelItem.cpp" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~PluginModelItem()"/>
+                <enum access="public" threadsafety="unspecified" status="commendable" name="PluginModelItemRoles" fullname="Models::PluginModelItem::PluginModelItemRoles" href="models-models-pluginmodelitem.html#PluginModelItemRoles-enum" location="PluginModelItem.h">
+                    <value name="pluginId" value="Qt::UserRole + 1"/>
+                    <value name="pluginName" value=""/>
+                    <value name="pluginRoomQmlFile" value=""/>
+                    <value name="pluginMenuQmlFile" value=""/>
+                </enum>
+                <function access="public" threadsafety="unspecified" status="commendable" name="data" fullname="Models::PluginModelItem::data" href="models-models-pluginmodelitem.html#data" location="PluginModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QVariant" signature="data(int role) const">
+                    <parameter left="int" right="" name="role" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPlugin" fullname="Models::PluginModelItem::getPlugin" href="models-models-pluginmodelitem.html#getPlugin" location="PluginModelItem.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Plugins::PluginBase *" signature="getPlugin() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="id" fullname="Models::PluginModelItem::id" href="models-models-pluginmodelitem.html#id" location="PluginModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="int" signature="id() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roleNames" fullname="Models::PluginModelItem::roleNames" href="models-models-pluginmodelitem.html#roleNames" location="PluginModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QHash&lt;int, QByteArray&gt;" signature="roleNames() const"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="RoomModelItem" fullname="Models::RoomModelItem" href="models-models-roommodelitem.html" location="RoomModelItem.h" bases="SubListedListItem" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="RoomModelItem" fullname="Models::RoomModelItem::RoomModelItem" href="models-models-roommodelitem.html#RoomModelItem" location="RoomModelItem.cpp" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="RoomModelItem(Room::RoomBase * room, QObject * parent)">
+                    <parameter left="Room::RoomBase *" right="" name="room" default=""/>
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~RoomModelItem" fullname="Models::RoomModelItem::~RoomModelItem" href="models-models-roommodelitem.html#dtor.RoomModelItem" location="RoomModelItem.cpp" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~RoomModelItem()"/>
+                <enum access="public" threadsafety="unspecified" status="commendable" name="RoomModelItemRoles" fullname="Models::RoomModelItem::RoomModelItemRoles" href="models-models-roommodelitem.html#RoomModelItemRoles-enum" location="RoomModelItem.h">
+                    <value name="roomId" value="Qt::UserRole + 1"/>
+                    <value name="roomPosition" value=""/>
+                    <value name="roomScale" value=""/>
+                    <value name="roomName" value=""/>
+                    <value name="roomQmlFile" value=""/>
+                </enum>
+                <function access="public" threadsafety="unspecified" status="commendable" name="data" fullname="Models::RoomModelItem::data" href="models-models-roommodelitem.html#data" location="RoomModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QVariant" signature="data(int role) const">
+                    <parameter left="int" right="" name="role" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoom" fullname="Models::RoomModelItem::getRoom" href="models-models-roommodelitem.html#getRoom" location="RoomModelItem.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Room::RoomBase *" signature="getRoom() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="id" fullname="Models::RoomModelItem::id" href="models-models-roommodelitem.html#id" location="RoomModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="int" signature="id() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roleNames" fullname="Models::RoomModelItem::roleNames" href="models-models-roommodelitem.html#roleNames" location="RoomModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QHash&lt;int, QByteArray&gt;" signature="roleNames() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="submodel" fullname="Models::RoomModelItem::submodel" href="models-models-roommodelitem.html#submodel" location="RoomModelItem.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="Models::ListModel *" signature="submodel() const"/>
+            </class>
+        </namespace>
+        <namespace access="public" threadsafety="unspecified" status="commendable" name="Plugins" href="plugins.html" location="PluginBase.h" module="Tepee3D">
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginBase" fullname="Plugins::PluginBase" href="plugins-plugins-pluginbase.html" location="PluginBase.h" bases="PluginInterface,DatabaseServiceUserInterface,WebServiceUserInterface,QmlContentExposerInterface" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="PluginBase" fullname="Plugins::PluginBase::PluginBase" href="plugins-plugins-pluginbase.html#PluginBase" location="PluginBase.cpp" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="PluginBase()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="askForFocusState" fullname="Plugins::PluginBase::askForFocusState" href="plugins-plugins-pluginbase.html#askForFocusState" location="PluginBase.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="askForFocusState(PluginEnums::PluginState requestedState)">
+                    <parameter left="PluginEnums::PluginState" right="" name="requestedState" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="askForFocusState" fullname="Plugins::PluginBase::askForFocusState" href="plugins-plugins-pluginbase.html#askForFocusState-2" location="PluginBase.h" virtual="non" meta="signal" const="false" static="false" overload="true" overload-number="2" type="void" signature="askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject * sender)">
+                    <parameter left="Plugins::PluginEnums::PluginState" right="" name="requestedState" default=""/>
+                    <parameter left="QObject *" right="" name="sender" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="createNewInstance" fullname="Plugins::PluginBase::createNewInstance" href="plugins-plugins-pluginbase.html#createNewInstance" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="PluginBase *" signature="createNewInstance()"/>
+                <function access="protected" threadsafety="unspecified" status="commendable" name="executeHttpDeleteRequest" fullname="Plugins::PluginBase::executeHttpDeleteRequest" href="plugins-plugins-pluginbase.html#executeHttpDeleteRequest" location="PluginBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpDeleteRequest(const QNetworkRequest &amp; request)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                </function>
+                <function access="protected" threadsafety="unspecified" status="commendable" name="executeHttpGetRequest" fullname="Plugins::PluginBase::executeHttpGetRequest" href="plugins-plugins-pluginbase.html#executeHttpGetRequest" location="PluginBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpGetRequest(const QNetworkRequest &amp; request)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                </function>
+                <function access="protected" threadsafety="unspecified" status="commendable" name="executeHttpPostRequest" fullname="Plugins::PluginBase::executeHttpPostRequest" href="plugins-plugins-pluginbase.html#executeHttpPostRequest" location="PluginBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpPostRequest(const QNetworkRequest &amp; request, QHttpMultiPart * multiPart)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                    <parameter left="QHttpMultiPart *" right="" name="multiPart" default=""/>
+                </function>
+                <function access="protected" threadsafety="unspecified" status="commendable" name="executeHttpPutRequest" fullname="Plugins::PluginBase::executeHttpPutRequest" href="plugins-plugins-pluginbase.html#executeHttpPutRequest" location="PluginBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpPutRequest(const QNetworkRequest &amp; request, QHttpMultiPart * multiPart)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                    <parameter left="QHttpMultiPart *" right="" name="multiPart" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeHttpRequest" fullname="Plugins::PluginBase::executeHttpRequest" href="plugins-plugins-pluginbase.html#executeHttpRequest" location="PluginBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="executeHttpRequest(const QNetworkRequest &amp; request, int requestType, QHttpMultiPart * multipart, QObject * sender)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                    <parameter left="int" right="" name="requestType" default=""/>
+                    <parameter left="QHttpMultiPart *" right="" name="multipart" default=""/>
+                    <parameter left="QObject *" right="" name="sender" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeSQLQuery" fullname="Plugins::PluginBase::executeSQLQuery" href="plugins-plugins-pluginbase.html#executeSQLQuery" location="PluginBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="executeSQLQuery(const QString &amp; query, QObject * sender, int id)">
+                    <parameter left="const QString &amp;" right="" name="query" default=""/>
+                    <parameter left="QObject *" right="" name="sender" default=""/>
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="exposeContentToQml" fullname="Plugins::PluginBase::exposeContentToQml" href="plugins-plugins-pluginbase.html#exposeContentToQml" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="exposeContentToQml(QQmlContext * context)">
+                    <parameter left="QQmlContext *" right="" name="context" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="focusStateChanged" fullname="Plugins::PluginBase::focusStateChanged" href="plugins-plugins-pluginbase.html#focusStateChanged" location="PluginBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="focusStateChanged(QVariant focusState)">
+                    <parameter left="QVariant" right="" name="focusState" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getFocusState" fullname="Plugins::PluginBase::getFocusState" href="plugins-plugins-pluginbase.html#getFocusState" location="PluginBase.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="PluginEnums::PluginState" signature="getFocusState() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getMenuPluginQmlFile" fullname="Plugins::PluginBase::getMenuPluginQmlFile" href="plugins-plugins-pluginbase.html#getMenuPluginQmlFile" location="PluginBase.h" virtual="pure" meta="plain" const="true" static="false" overload="false" type="QString" signature="getMenuPluginQmlFile() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginBase" fullname="Plugins::PluginBase::getPluginBase" href="plugins-plugins-pluginbase.html#getPluginBase" location="PluginBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="PluginBase *" signature="getPluginBase()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginDescription" fullname="Plugins::PluginBase::getPluginDescription" href="plugins-plugins-pluginbase.html#getPluginDescription" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="QString" signature="getPluginDescription()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginId" fullname="Plugins::PluginBase::getPluginId" href="plugins-plugins-pluginbase.html#getPluginId" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="int" signature="getPluginId()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginName" fullname="Plugins::PluginBase::getPluginName" href="plugins-plugins-pluginbase.html#getPluginName" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="QString" signature="getPluginName()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomPluginQmlFile" fullname="Plugins::PluginBase::getRoomPluginQmlFile" href="plugins-plugins-pluginbase.html#getRoomPluginQmlFile" location="PluginBase.h" virtual="pure" meta="plain" const="true" static="false" overload="false" type="QString" signature="getRoomPluginQmlFile() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="initPlugin" fullname="Plugins::PluginBase::initPlugin" href="plugins-plugins-pluginbase.html#initPlugin" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="initPlugin()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="needsUpdating" fullname="Plugins::PluginBase::needsUpdating" href="plugins-plugins-pluginbase.html#needsUpdating" location="PluginBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="bool" signature="needsUpdating() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="onRoomEntered" fullname="Plugins::PluginBase::onRoomEntered" href="plugins-plugins-pluginbase.html#onRoomEntered" location="PluginBase.h" virtual="non" meta="slot" const="false" static="false" overload="false" type="void" signature="onRoomEntered()"/>
+                <function access="protected" threadsafety="unspecified" status="commendable" name="receiveResultFromHttpRequest" fullname="Plugins::PluginBase::receiveResultFromHttpRequest" href="plugins-plugins-pluginbase.html#receiveResultFromHttpRequest" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="receiveResultFromHttpRequest(QNetworkReply * )">
+                    <parameter left="QNetworkReply *" right="" name="" default=""/>
+                </function>
+                <function access="protected" threadsafety="unspecified" status="commendable" name="receiveResultFromSQLQuery" fullname="Plugins::PluginBase::receiveResultFromSQLQuery" href="plugins-plugins-pluginbase.html#receiveResultFromSQLQuery" location="PluginBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="receiveResultFromSQLQuery(QList&lt;QSqlRecord&gt; result, int id)">
+                    <parameter left="QList&lt;QSqlRecord&gt;" right="" name="result" default=""/>
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="resultFromSQL" fullname="Plugins::PluginBase::resultFromSQL" href="plugins-plugins-pluginbase.html#resultFromSQL" location="PluginBase.h" virtual="impure" meta="slot" const="false" static="false" overload="false" type="void" signature="resultFromSQL()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roomEntered" fullname="Plugins::PluginBase::roomEntered" href="plugins-plugins-pluginbase.html#roomEntered" location="PluginBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="roomEntered()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roomLeft" fullname="Plugins::PluginBase::roomLeft" href="plugins-plugins-pluginbase.html#roomLeft" location="PluginBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="roomLeft()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setFocusState" fullname="Plugins::PluginBase::setFocusState" href="plugins-plugins-pluginbase.html#setFocusState" location="PluginBase.h" virtual="non" meta="slot" const="false" static="false" overload="false" type="void" signature="setFocusState(Plugins::PluginEnums::PluginState requestedState)">
+                    <parameter left="Plugins::PluginEnums::PluginState" right="" name="requestedState" default=""/>
+                </function>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="focusState" fullname="Plugins::PluginBase::focusState" href="plugins-plugins-pluginbase.html#focusState-var" location="PluginBase.h" type="PluginEnums::PluginState" static="false"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginEnums" fullname="Plugins::PluginEnums" href="plugins-plugins-pluginenums.html" location="PluginEnums.h" bases="">
+                <enum access="public" threadsafety="unspecified" status="commendable" name="PluginState" fullname="Plugins::PluginEnums::PluginState" href="plugins-plugins-pluginenums.html#PluginState-enum" location="PluginEnums.h">
+                    <value name="pluginIdleState" value="0"/>
+                    <value name="pluginSelectedState" value="1"/>
+                    <value name="pluginFocusedState" value="2"/>
+                </enum>
+                <function access="public" threadsafety="unspecified" status="commendable" name="valueOf" fullname="Plugins::PluginEnums::valueOf" href="plugins-plugins-pluginenums.html#valueOf" location="PluginEnums.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="PluginState" signature="valueOf(int value)">
+                    <parameter left="int" right="" name="value" default=""/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginInterface" fullname="Plugins::PluginInterface" href="plugins-plugins-plugininterface.html" location="PluginInterface.h" bases="">
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginBase" fullname="Plugins::PluginInterface::getPluginBase" href="plugins-plugins-plugininterface.html#getPluginBase" location="PluginInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="PluginBase *" signature="getPluginBase()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginLoader" fullname="Plugins::PluginLoader" href="plugins-plugins-pluginloader.html" location="PluginLoader.h" since="1.0" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="getWidgetPlugins" fullname="Plugins::PluginLoader::getWidgetPlugins" href="plugins-plugins-pluginloader.html#getWidgetPlugins" location="PluginLoader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="QList&lt;PluginBase *&gt;" signature="getWidgetPlugins()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="loadWidgetPlugins" fullname="Plugins::PluginLoader::loadWidgetPlugins" href="plugins-plugins-pluginloader.html#loadWidgetPlugins" location="PluginLoader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="loadWidgetPlugins()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginManager" fullname="Plugins::PluginManager" href="plugins-plugins-pluginmanager.html" location="PluginManager.h" since="1.0" bases="DatabaseServiceUserInterface,QmlContentExposerInterface" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="receiveResultFromSQLQuery" fullname="Plugins::PluginManager::receiveResultFromSQLQuery" href="plugins-plugins-pluginmanager.html#receiveResultFromSQLQuery" location="PluginManager.cpp" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="receiveResultFromSQLQuery(QList&lt;QSqlRecord&gt; result, int )">
+                    <parameter left="QList&lt;QSqlRecord&gt;" right="" name="result" default=""/>
+                    <parameter left="int" right="" name="" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeSQLQuery" fullname="Plugins::PluginManager::executeSQLQuery" href="plugins-plugins-pluginmanager.html#executeSQLQuery" location="PluginManager.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="executeSQLQuery(const QString &amp; query, QObject * sender, int id)">
+                    <parameter left="const QString &amp;" right="" name="query" default=""/>
+                    <parameter left="QObject *" right="" name="sender" default=""/>
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="exposeContentToQml" fullname="Plugins::PluginManager::exposeContentToQml" href="plugins-plugins-pluginmanager.html#exposeContentToQml" location="PluginManager.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="exposeContentToQml(QQmlContext * context)">
+                    <parameter left="QQmlContext *" right="" name="context" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getInstance" fullname="Plugins::PluginManager::getInstance" href="plugins-plugins-pluginmanager.html#getInstance" location="PluginManager.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="PluginManager *" signature="getInstance(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getNewInstanceOfPlugin" fullname="Plugins::PluginManager::getNewInstanceOfPlugin" href="plugins-plugins-pluginmanager.html#getNewInstanceOfPlugin-2" location="PluginManager.h" virtual="non" meta="plain" const="false" static="true" overload="true" overload-number="2" type="PluginBase *" signature="getNewInstanceOfPlugin(PluginBase * plugin)">
+                    <parameter left="PluginBase *" right="" name="plugin" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getNewInstanceOfPlugin" fullname="Plugins::PluginManager::getNewInstanceOfPlugin" href="plugins-plugins-pluginmanager.html#getNewInstanceOfPlugin" location="PluginManager.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="PluginBase *" signature="getNewInstanceOfPlugin(int pluginModelItemId)">
+                    <parameter left="int" right="" name="pluginModelItemId" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="initRoomPlugin" fullname="Plugins::PluginManager::initRoomPlugin" href="plugins-plugins-pluginmanager.html#initRoomPlugin" location="PluginManager.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="initRoomPlugin(PluginBase * roomPlugin)">
+                    <parameter left="PluginBase *" right="" name="roomPlugin" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="loadLocalPlugins" fullname="Plugins::PluginManager::loadLocalPlugins" href="plugins-plugins-pluginmanager.html#loadLocalPlugins" location="PluginManager.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="loadLocalPlugins()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~PluginManager" fullname="Plugins::PluginManager::~PluginManager" href="plugins-plugins-pluginmanager.html#dtor.PluginManager" location="PluginManager.h" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~PluginManager()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="PluginQmlPluginProperties" fullname="Plugins::PluginQmlPluginProperties" href="plugins-plugins-pluginqmlpluginproperties.html" location="PluginQmlPluginProperties.h" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="PluginQmlPluginProperties" fullname="Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties" href="plugins-plugins-pluginqmlpluginproperties.html#PluginQmlPluginProperties" location="PluginQmlPluginProperties.cpp" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="PluginQmlPluginProperties()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getFocusState" fullname="Plugins::PluginQmlPluginProperties::getFocusState" href="plugins-plugins-pluginqmlpluginproperties.html#focusState-prop" location="PluginQmlPluginProperties.cpp" virtual="non" meta="plain" const="true" static="false" overload="false" associated-property="focusState" type="PluginEnums::PluginState" signature="getFocusState() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginId" fullname="Plugins::PluginQmlPluginProperties::getPluginId" href="plugins-plugins-pluginqmlpluginproperties.html#pluginId-prop" location="PluginQmlPluginProperties.cpp" virtual="non" meta="plain" const="true" static="false" overload="false" associated-property="pluginId" type="int" signature="getPluginId() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginRoomId" fullname="Plugins::PluginQmlPluginProperties::getPluginRoomId" href="plugins-plugins-pluginqmlpluginproperties.html#pluginRoomId-prop" location="PluginQmlPluginProperties.cpp" virtual="non" meta="plain" const="true" static="false" overload="false" associated-property="pluginRoomId" type="int" signature="getPluginRoomId() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setPluginId" fullname="Plugins::PluginQmlPluginProperties::setPluginId" href="plugins-plugins-pluginqmlpluginproperties.html#pluginId-prop" location="PluginQmlPluginProperties.cpp" virtual="non" meta="plain" const="false" static="false" overload="false" associated-property="pluginId" type="void" signature="setPluginId(int id)">
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setPluginRoomId" fullname="Plugins::PluginQmlPluginProperties::setPluginRoomId" href="plugins-plugins-pluginqmlpluginproperties.html#pluginRoomId-prop" location="PluginQmlPluginProperties.cpp" virtual="non" meta="plain" const="false" static="false" overload="false" associated-property="pluginRoomId" type="void" signature="setPluginRoomId(int id)">
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="focusStateChanged" fullname="Plugins::PluginQmlPluginProperties::focusStateChanged" href="plugins-plugins-pluginqmlpluginproperties.html#focusState-prop" location="PluginQmlPluginProperties.h" virtual="non" meta="signal" const="false" static="false" overload="false" associated-property="focusState" type="void" signature="focusStateChanged(QVariant newFocusStateValue)">
+                    <parameter left="QVariant" right="" name="newFocusStateValue" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="pluginIdChanged" fullname="Plugins::PluginQmlPluginProperties::pluginIdChanged" href="plugins-plugins-pluginqmlpluginproperties.html#pluginId-prop" location="PluginQmlPluginProperties.h" virtual="non" meta="signal" const="false" static="false" overload="false" associated-property="pluginId" type="void" signature="pluginIdChanged()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="pluginRoomIdChanged" fullname="Plugins::PluginQmlPluginProperties::pluginRoomIdChanged" href="plugins-plugins-pluginqmlpluginproperties.html#pluginRoomId-prop" location="PluginQmlPluginProperties.h" virtual="non" meta="signal" const="false" static="false" overload="false" associated-property="pluginRoomId" type="void" signature="pluginRoomIdChanged()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roomEntered" fullname="Plugins::PluginQmlPluginProperties::roomEntered" href="plugins-plugins-pluginqmlpluginproperties.html#roomEntered" location="PluginQmlPluginProperties.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="roomEntered()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roomLeft" fullname="Plugins::PluginQmlPluginProperties::roomLeft" href="plugins-plugins-pluginqmlpluginproperties.html#roomLeft" location="PluginQmlPluginProperties.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="roomLeft()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setFocusState" fullname="Plugins::PluginQmlPluginProperties::setFocusState" href="plugins-plugins-pluginqmlpluginproperties.html#setFocusState" location="PluginQmlPluginProperties.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setFocusState(PluginEnums::PluginState focusState)">
+                    <parameter left="PluginEnums::PluginState" right="" name="focusState" default=""/>
+                </function>
+                <property access="public" threadsafety="unspecified" status="commendable" name="focusState" fullname="Plugins::PluginQmlPluginProperties::focusState" href="plugins-plugins-pluginqmlpluginproperties.html#focusState-prop" location="PluginQmlPluginProperties.h" type="Plugins::PluginEnums::PluginState">
+                    <getter name="getFocusState"/>
+                    <notifier name="focusStateChanged"/>
+                </property>
+                <property access="public" threadsafety="unspecified" status="commendable" name="pluginId" fullname="Plugins::PluginQmlPluginProperties::pluginId" href="plugins-plugins-pluginqmlpluginproperties.html#pluginId-prop" location="PluginQmlPluginProperties.h" type="int">
+                    <getter name="getPluginId"/>
+                    <setter name="setPluginId"/>
+                    <notifier name="pluginIdChanged"/>
+                </property>
+                <property access="public" threadsafety="unspecified" status="commendable" name="pluginRoomId" fullname="Plugins::PluginQmlPluginProperties::pluginRoomId" href="plugins-plugins-pluginqmlpluginproperties.html#pluginRoomId-prop" location="PluginQmlPluginProperties.h" type="int">
+                    <getter name="getPluginRoomId"/>
+                    <setter name="setPluginRoomId"/>
+                    <notifier name="pluginRoomIdChanged"/>
+                </property>
+            </class>
+        </namespace>
+        <namespace access="public" threadsafety="unspecified" status="commendable" name="Room" href="room.html" location="RoomBase.h" module="Tepee3D">
+            <class access="public" threadsafety="unspecified" status="commendable" name="RoomBase" fullname="Room::RoomBase" href="room-room-roombase.html" location="RoomBase.h" bases="RoomInterface" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="RoomBase" fullname="Room::RoomBase::RoomBase" href="room-room-roombase.html#RoomBase" location="RoomBase.h" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="RoomBase()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="addWidgetToRoom" fullname="Room::RoomBase::addWidgetToRoom" href="room-room-roombase.html#addWidgetToRoom" location="RoomBase.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="addWidgetToRoom(Plugins::PluginBase * widget)">
+                    <parameter left="Plugins::PluginBase *" right="" name="widget" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="collides" fullname="Room::RoomBase::collides" href="room-room-roombase.html#collides" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="bool" signature="collides(RoomBase * room) const">
+                    <parameter left="RoomBase *" right="" name="room" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="createNewInstance" fullname="Room::RoomBase::createNewInstance" href="room-room-roombase.html#createNewInstance" location="RoomBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="RoomBase *" signature="createNewInstance()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="enterRoom" fullname="Room::RoomBase::enterRoom" href="room-room-roombase.html#enterRoom" location="RoomBase.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="enterRoom()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="focusStateChangeRequest" fullname="Room::RoomBase::focusStateChangeRequest" href="room-room-roombase.html#focusStateChangeRequest" location="RoomBase.h" virtual="impure" meta="slot" const="false" static="false" overload="false" type="void" signature="focusStateChangeRequest(Plugins::PluginEnums::PluginState requestedState, QObject * sender)">
+                    <parameter left="Plugins::PluginEnums::PluginState" right="" name="requestedState" default=""/>
+                    <parameter left="QObject *" right="" name="sender" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getMaxBoundingPoint" fullname="Room::RoomBase::getMaxBoundingPoint" href="room-room-roombase.html#getMaxBoundingPoint" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QVector3D" signature="getMaxBoundingPoint() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getMinBoundingPoint" fullname="Room::RoomBase::getMinBoundingPoint" href="room-room-roombase.html#getMinBoundingPoint" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QVector3D" signature="getMinBoundingPoint() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getObject" fullname="Room::RoomBase::getObject" href="room-room-roombase.html#getObject" location="RoomBase.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="QObject *" signature="getObject()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginFromRoom" fullname="Room::RoomBase::getPluginFromRoom" href="room-room-roombase.html#getPluginFromRoom" location="RoomBase.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Plugins::PluginBase *" signature="getPluginFromRoom(int pluginId) const">
+                    <parameter left="int" right="" name="pluginId" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPosition" fullname="Room::RoomBase::getPosition" href="room-room-roombase.html#getPosition" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QVector3D" signature="getPosition() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomBase" fullname="Room::RoomBase::getRoomBase" href="room-room-roombase.html#getRoomBase" location="RoomBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="RoomBase *" signature="getRoomBase()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomId" fullname="Room::RoomBase::getRoomId" href="room-room-roombase.html#getRoomId" location="RoomBase.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="int" signature="getRoomId() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomName" fullname="Room::RoomBase::getRoomName" href="room-room-roombase.html#getRoomName" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QString" signature="getRoomName() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomPluginsModel" fullname="Room::RoomBase::getRoomPluginsModel" href="room-room-roombase.html#getRoomPluginsModel" location="RoomBase.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Models::ListModel *" signature="getRoomPluginsModel() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomProperties" fullname="Room::RoomBase::getRoomProperties" href="room-room-roombase.html#getRoomProperties" location="RoomBase.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Room::RoomProperties *" signature="getRoomProperties() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomQmlFile" fullname="Room::RoomBase::getRoomQmlFile" href="room-room-roombase.html#getRoomQmlFile" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QString" signature="getRoomQmlFile() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomVolume" fullname="Room::RoomBase::getRoomVolume" href="room-room-roombase.html#getRoomVolume" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="double" signature="getRoomVolume() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getScale" fullname="Room::RoomBase::getScale" href="room-room-roombase.html#getScale" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="QVector3D" signature="getScale() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="leaveRoom" fullname="Room::RoomBase::leaveRoom" href="room-room-roombase.html#leaveRoom" location="RoomBase.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="leaveRoom()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="operator&lt;" fullname="Room::RoomBase::operator&lt;" href="room-room-roombase.html#operator&lt;" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="bool" signature="operator&lt;(RoomBase * room) const">
+                    <parameter left="RoomBase *" right="" name="room" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="operator&gt;" fullname="Room::RoomBase::operator&gt;" href="room-room-roombase.html#operator&gt;" location="RoomBase.h" virtual="impure" meta="plain" const="true" static="false" overload="false" type="bool" signature="operator&gt;(RoomBase * room) const">
+                    <parameter left="RoomBase *" right="" name="room" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="removeWidgetFromRoom" fullname="Room::RoomBase::removeWidgetFromRoom" href="room-room-roombase.html#removeWidgetFromRoom" location="RoomBase.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="removeWidgetFromRoom(Plugins::PluginBase * widget)">
+                    <parameter left="Plugins::PluginBase *" right="" name="widget" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roomEntered" fullname="Room::RoomBase::roomEntered" href="room-room-roombase.html#roomEntered" location="RoomBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="roomEntered()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="roomLeft" fullname="Room::RoomBase::roomLeft" href="room-room-roombase.html#roomLeft" location="RoomBase.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="roomLeft()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setPosition" fullname="Room::RoomBase::setPosition" href="room-room-roombase.html#setPosition" location="RoomBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="setPosition(const QVector3D &amp; position)">
+                    <parameter left="const QVector3D &amp;" right="" name="position" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setRoomName" fullname="Room::RoomBase::setRoomName" href="room-room-roombase.html#setRoomName" location="RoomBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="setRoomName(const QString &amp; name)">
+                    <parameter left="const QString &amp;" right="" name="name" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setRoomQmlFile" fullname="Room::RoomBase::setRoomQmlFile" href="room-room-roombase.html#setRoomQmlFile" location="RoomBase.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setRoomQmlFile(const QString &amp; file)">
+                    <parameter left="const QString &amp;" right="" name="file" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setScale" fullname="Room::RoomBase::setScale" href="room-room-roombase.html#setScale" location="RoomBase.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="setScale(const QVector3D &amp; scale)">
+                    <parameter left="const QVector3D &amp;" right="" name="scale" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="updateRoom" fullname="Room::RoomBase::updateRoom" href="room-room-roombase.html#updateRoom" location="RoomBase.h" virtual="impure" meta="slot" const="false" static="false" overload="false" type="void" signature="updateRoom()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~RoomBase" fullname="Room::RoomBase::~RoomBase" href="room-room-roombase.html#dtor.RoomBase" location="RoomBase.h" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~RoomBase()"/>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="nextId" fullname="Room::RoomBase::nextId" href="room-room-roombase.html#nextId-var" location="RoomBase.h" type="int" static="true"/>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="roomId" fullname="Room::RoomBase::roomId" href="room-room-roombase.html#roomId-var" location="RoomBase.h" type="int" static="false"/>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="roomProperties" fullname="Room::RoomBase::roomProperties" href="room-room-roombase.html#roomProperties-var" location="RoomBase.h" type="Room::RoomProperties *" static="false"/>
+                <variable access="protected" threadsafety="unspecified" status="commendable" name="roomQmlFile" fullname="Room::RoomBase::roomQmlFile" href="room-room-roombase.html#roomQmlFile-var" location="RoomBase.h" type="QString" static="false"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="RoomInterface" fullname="Room::RoomInterface" href="room-room-roominterface.html" location="RoomInterface.h" bases="">
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomBase" fullname="Room::RoomInterface::getRoomBase" href="room-room-roominterface.html#getRoomBase" location="RoomInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="RoomBase *" signature="getRoomBase()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="RoomProperties" fullname="Room::RoomProperties" href="room-room-roomproperties.html" location="RoomProperties.h" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="RoomProperties" fullname="Room::RoomProperties::RoomProperties" href="room-room-roomproperties.html#RoomProperties" location="RoomProperties.cpp" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="RoomProperties(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~RoomProperties" fullname="Room::RoomProperties::~RoomProperties" href="room-room-roomproperties.html#dtor.RoomProperties" location="RoomProperties.cpp" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~RoomProperties()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPosition" fullname="Room::RoomProperties::getPosition" href="room-room-roomproperties.html#getPosition" location="RoomProperties.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QVector3D" signature="getPosition() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomName" fullname="Room::RoomProperties::getRoomName" href="room-room-roomproperties.html#getRoomName" location="RoomProperties.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QString" signature="getRoomName() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomPluginsModel" fullname="Room::RoomProperties::getRoomPluginsModel" href="room-room-roomproperties.html#getRoomPluginsModel" location="RoomProperties.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Models::ListModel *" signature="getRoomPluginsModel() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getScale" fullname="Room::RoomProperties::getScale" href="room-room-roomproperties.html#getScale" location="RoomProperties.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="QVector3D" signature="getScale() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setPosition" fullname="Room::RoomProperties::setPosition" href="room-room-roomproperties.html#setPosition" location="RoomProperties.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setPosition(const QVector3D &amp; position)">
+                    <parameter left="const QVector3D &amp;" right="" name="position" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setRoomName" fullname="Room::RoomProperties::setRoomName" href="room-room-roomproperties.html#setRoomName" location="RoomProperties.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setRoomName(const QString &amp; name)">
+                    <parameter left="const QString &amp;" right="" name="name" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setScale" fullname="Room::RoomProperties::setScale" href="room-room-roomproperties.html#setScale" location="RoomProperties.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setScale(const QVector3D &amp; scale)">
+                    <parameter left="const QVector3D &amp;" right="" name="scale" default=""/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="RoomManager" fullname="Room::RoomManager" href="room-room-roommanager.html" location="RoomManager.h" bases="DatabaseServiceUserInterface,QmlContentExposerInterface" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="receiveResultFromSQLQuery" fullname="Room::RoomManager::receiveResultFromSQLQuery" href="room-room-roommanager.html#receiveResultFromSQLQuery" location="RoomManager.cpp" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="receiveResultFromSQLQuery(QList&lt;QSqlRecord&gt; result, int id)">
+                    <parameter left="QList&lt;QSqlRecord&gt;" right="" name="result" default=""/>
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="addRoomToModel" fullname="Room::RoomManager::addRoomToModel" href="room-room-roommanager.html#addRoomToModel" location="RoomManager.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="bool" signature="addRoomToModel()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeSQLQuery" fullname="Room::RoomManager::executeSQLQuery" href="room-room-roommanager.html#executeSQLQuery" location="RoomManager.h" virtual="non" meta="signal" const="false" static="false" overload="false" type="void" signature="executeSQLQuery(const QString &amp; query, QObject * sender, int id)">
+                    <parameter left="const QString &amp;" right="" name="query" default=""/>
+                    <parameter left="QObject *" right="" name="sender" default=""/>
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="exposeContentToQml" fullname="Room::RoomManager::exposeContentToQml" href="room-room-roommanager.html#exposeContentToQml" location="RoomManager.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="exposeContentToQml(QQmlContext * context)">
+                    <parameter left="QQmlContext *" right="" name="context" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getCurrentRoom" fullname="Room::RoomManager::getCurrentRoom" href="room-room-roommanager.html#getCurrentRoom" location="RoomManager.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="RoomBase *" signature="getCurrentRoom() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getInstance" fullname="Room::RoomManager::getInstance" href="room-room-roommanager.html#getInstance" location="RoomManager.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="RoomManager *" signature="getInstance(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="NULL"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginFromRoom" fullname="Room::RoomManager::getPluginFromRoom" href="room-room-roommanager.html#getPluginFromRoom" location="RoomManager.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Plugins::PluginBase *" signature="getPluginFromRoom(int roomId, int pluginId) const">
+                    <parameter left="int" right="" name="roomId" default=""/>
+                    <parameter left="int" right="" name="pluginId" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getRoomModel" fullname="Room::RoomManager::getRoomModel" href="room-room-roommanager.html#getRoomModel" location="RoomManager.h" virtual="non" meta="plain" const="true" static="false" overload="false" type="Models::ListModel *" signature="getRoomModel() const"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setCurrentRoom" fullname="Room::RoomManager::setCurrentRoom" href="room-room-roommanager.html#setCurrentRoom" location="RoomManager.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setCurrentRoom(RoomBase * room)">
+                    <parameter left="RoomBase *" right="" name="room" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~RoomManager" fullname="Room::RoomManager::~RoomManager" href="room-room-roommanager.html#dtor.RoomManager" location="RoomManager.h" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~RoomManager()"/>
+            </class>
+        </namespace>
+        <namespace access="public" threadsafety="unspecified" status="commendable" name="Services" href="services.html" location="DatabaseServiceUserInterface.h" module="Tepee3D">
+            <class access="public" threadsafety="unspecified" status="commendable" name="DatabaseServiceUserInterface" fullname="Services::DatabaseServiceUserInterface" href="services-services-databaseserviceuserinterface.html" location="DatabaseServiceUserInterface.h" bases="">
+                <function access="public" threadsafety="unspecified" status="commendable" name="receiveResultFromSQLQuery" fullname="Services::DatabaseServiceUserInterface::receiveResultFromSQLQuery" href="services-services-databaseserviceuserinterface.html#receiveResultFromSQLQuery" location="DatabaseServiceUserInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="receiveResultFromSQLQuery(QList&lt;QSqlRecord&gt; result, int id)">
+                    <parameter left="QList&lt;QSqlRecord&gt;" right="" name="result" default=""/>
+                    <parameter left="int" right="" name="id" default=""/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="ServiceInterface" fullname="Services::ServiceInterface" href="services-services-serviceinterface.html" location="ServiceInterface.h" bases="">
+                <function access="public" threadsafety="unspecified" status="commendable" name="connectServiceToUser" fullname="Services::ServiceInterface::connectServiceToUser" href="services-services-serviceinterface.html#connectServiceToUser" location="ServiceInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="bool" signature="connectServiceToUser(QObject * user)">
+                    <parameter left="QObject *" right="" name="user" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="disconnectServiceFromUser" fullname="Services::ServiceInterface::disconnectServiceFromUser" href="services-services-serviceinterface.html#disconnectServiceFromUser" location="ServiceInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="bool" signature="disconnectServiceFromUser(QObject * user)">
+                    <parameter left="QObject *" right="" name="user" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getLibraryQObject" fullname="Services::ServiceInterface::getLibraryQObject" href="services-services-serviceinterface.html#getLibraryQObject" location="ServiceInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="QObject *" signature="getLibraryQObject()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="initLibraryConnection" fullname="Services::ServiceInterface::initLibraryConnection" href="services-services-serviceinterface.html#initLibraryConnection" location="ServiceInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="initLibraryConnection(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default=""/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="WebServiceUserInterface" fullname="Services::WebServiceUserInterface" href="services-services-webserviceuserinterface.html" location="WebServiceUserInterface.h" bases="">
+                <enum access="public" threadsafety="unspecified" status="commendable" name="WebServiceRequestType" fullname="Services::WebServiceUserInterface::WebServiceRequestType" href="services-services-webserviceuserinterface.html#WebServiceRequestType-enum" location="WebServiceUserInterface.h">
+                    <value name="Get" value="1"/>
+                    <value name="Post" value="2"/>
+                    <value name="Delete" value="3"/>
+                    <value name="Put" value="4"/>
+                </enum>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeHttpDeleteRequest" fullname="Services::WebServiceUserInterface::executeHttpDeleteRequest" href="services-services-webserviceuserinterface.html#executeHttpDeleteRequest" location="WebServiceUserInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpDeleteRequest(const QNetworkRequest &amp; request)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeHttpGetRequest" fullname="Services::WebServiceUserInterface::executeHttpGetRequest" href="services-services-webserviceuserinterface.html#executeHttpGetRequest" location="WebServiceUserInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpGetRequest(const QNetworkRequest &amp; request)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeHttpPostRequest" fullname="Services::WebServiceUserInterface::executeHttpPostRequest" href="services-services-webserviceuserinterface.html#executeHttpPostRequest" location="WebServiceUserInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpPostRequest(const QNetworkRequest &amp; request, QHttpMultiPart * multiPart)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                    <parameter left="QHttpMultiPart *" right="" name="multiPart" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="executeHttpPutRequest" fullname="Services::WebServiceUserInterface::executeHttpPutRequest" href="services-services-webserviceuserinterface.html#executeHttpPutRequest" location="WebServiceUserInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="executeHttpPutRequest(const QNetworkRequest &amp; request, QHttpMultiPart * multiPart)">
+                    <parameter left="const QNetworkRequest &amp;" right="" name="request" default=""/>
+                    <parameter left="QHttpMultiPart *" right="" name="multiPart" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="receiveResultFromHttpRequest" fullname="Services::WebServiceUserInterface::receiveResultFromHttpRequest" href="services-services-webserviceuserinterface.html#receiveResultFromHttpRequest" location="WebServiceUserInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="receiveResultFromHttpRequest(QNetworkReply * )">
+                    <parameter left="QNetworkReply *" right="" name="" default=""/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="ServicesManager" fullname="Services::ServicesManager" href="services-services-servicesmanager.html" location="ServicesManager.h" bases="QmlContentExposerInterface" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="connectObjectToServices" fullname="Services::ServicesManager::connectObjectToServices" href="services-services-servicesmanager.html#connectObjectToServices" location="ServicesManager.cpp" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="connectObjectToServices(QObject * serviceUser)">
+                    <parameter left="QObject *" right="" name="serviceUser" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="connectObjectToServicesSlot" fullname="Services::ServicesManager::connectObjectToServicesSlot" href="services-services-servicesmanager.html#connectObjectToServicesSlot" location="ServicesManager.cpp" virtual="non" meta="slot" const="false" static="false" overload="false" type="void" signature="connectObjectToServicesSlot(QObject * serviceUser)">
+                    <parameter left="QObject *" right="" name="serviceUser" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="disconnectObjectFromServices" fullname="Services::ServicesManager::disconnectObjectFromServices" href="services-services-servicesmanager.html#disconnectObjectFromServices" location="ServicesManager.cpp" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="disconnectObjectFromServices(QObject * serviceUser)">
+                    <parameter left="QObject *" right="" name="serviceUser" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="disconnectObjectFromServicesSlot" fullname="Services::ServicesManager::disconnectObjectFromServicesSlot" href="services-services-servicesmanager.html#disconnectObjectFromServicesSlot" location="ServicesManager.cpp" virtual="non" meta="slot" const="false" static="false" overload="false" type="void" signature="disconnectObjectFromServicesSlot(QObject * serviceUser)">
+                    <parameter left="QObject *" right="" name="serviceUser" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="exposeContentToQml" fullname="Services::ServicesManager::exposeContentToQml" href="services-services-servicesmanager.html#exposeContentToQml" location="ServicesManager.cpp" virtual="impure" meta="plain" const="false" static="false" overload="false" type="void" signature="exposeContentToQml(QQmlContext * context)">
+                    <parameter left="QQmlContext *" right="" name="context" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getInstance" fullname="Services::ServicesManager::getInstance" href="services-services-servicesmanager.html#getInstance" location="ServicesManager.cpp" virtual="non" meta="plain" const="false" static="true" overload="false" type="ServicesManager *" signature="getInstance(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+            </class>
+        </namespace>
+        <namespace access="public" threadsafety="unspecified" status="commendable" name="View" href="view.html" location="QmlContentExposerInterface.h" module="Tepee3D">
+            <class access="public" threadsafety="unspecified" status="commendable" name="QmlContentExposerInterface" fullname="View::QmlContentExposerInterface" href="view-view-qmlcontentexposerinterface.html" location="QmlContentExposerInterface.h" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="exposeContentToQml" fullname="View::QmlContentExposerInterface::exposeContentToQml" href="view-view-qmlcontentexposerinterface.html#exposeContentToQml" location="QmlContentExposerInterface.h" virtual="pure" meta="plain" const="false" static="false" overload="false" type="void" signature="exposeContentToQml(QQmlContext * context)">
+                    <parameter left="QQmlContext *" right="" name="context" default=""/>
+                </function>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="QmlViewManager" fullname="View::QmlViewManager" href="view-view-qmlviewmanager.html" location="QmlViewManager.h" since="1.0" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="getInstance" fullname="View::QmlViewManager::getInstance" href="view-view-qmlviewmanager.html#getInstance" location="QmlViewManager.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="QmlViewManager *" signature="getInstance()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="initView" fullname="View::QmlViewManager::initView" href="view-view-qmlviewmanager.html#initView" location="QmlViewManager.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="bool" signature="initView()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="~QmlViewManager" fullname="View::QmlViewManager::~QmlViewManager" href="view-view-qmlviewmanager.html#dtor.QmlViewManager" location="QmlViewManager.h" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~QmlViewManager()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="QmlViewProperties" fullname="View::QmlViewProperties" href="view-view-qmlviewproperties.html" location="QmlViewProperties.h" bases="" module="Tepee3D">
+                <function access="public" threadsafety="unspecified" status="commendable" name="~QmlViewProperties" fullname="View::QmlViewProperties::~QmlViewProperties" href="view-view-qmlviewproperties.html#dtor.QmlViewProperties" location="QmlViewProperties.cpp" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~QmlViewProperties()"/>
+                <function access="public" threadsafety="unspecified" status="commendable" name="exposeContentToQml" fullname="View::QmlViewProperties::exposeContentToQml" href="view-view-qmlviewproperties.html#exposeContentToQml" location="QmlViewProperties.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="exposeContentToQml(QObject * exposer)">
+                    <parameter left="QObject *" right="" name="exposer" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getInstance" fullname="View::QmlViewProperties::getInstance" href="view-view-qmlviewproperties.html#getInstance" location="QmlViewProperties.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="QmlViewProperties *" signature="getInstance(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="setViewerSource" fullname="View::QmlViewProperties::setViewerSource" href="view-view-qmlviewproperties.html#setViewerSource" location="QmlViewProperties.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="setViewerSource(const QUrl &amp; sourceFile)">
+                    <parameter left="const QUrl &amp;" right="" name="sourceFile" default=""/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="showView" fullname="View::QmlViewProperties::showView" href="view-view-qmlviewproperties.html#showView" location="QmlViewProperties.h" virtual="non" meta="plain" const="false" static="false" overload="false" type="void" signature="showView()"/>
+            </class>
+            <class access="public" threadsafety="unspecified" status="commendable" name="ViewToModelMapper" fullname="View::ViewToModelMapper" href="view-view-viewtomodelmapper.html" location="ViewToModelMapper.h" bases="">
+                <function access="public" threadsafety="unspecified" status="commendable" name="ViewToModelMapper" fullname="View::ViewToModelMapper::ViewToModelMapper" href="view-view-viewtomodelmapper.html#ViewToModelMapper" location="ViewToModelMapper.cpp" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="ViewToModelMapper(QObject * parent)">
+                    <parameter left="QObject *" right="" name="parent" default="0"/>
+                </function>
+                <function access="public" threadsafety="unspecified" status="commendable" name="getPluginFromRoom" fullname="View::ViewToModelMapper::getPluginFromRoom" href="view-view-viewtomodelmapper.html#getPluginFromRoom" location="ViewToModelMapper.cpp" virtual="non" meta="plain" const="false" static="true" overload="false" type="Plugins::PluginBase *" signature="getPluginFromRoom(int roomId, int pluginId)">
+                    <parameter left="int" right="" name="roomId" default=""/>
+                    <parameter left="int" right="" name="pluginId" default=""/>
+                </function>
+            </class>
+        </namespace>
+        <class access="public" threadsafety="unspecified" status="commendable" name="BasicRoom" href="basicroom.html" location="BasicRoom.h" bases="RoomBase" module="Tepee3D">
+            <function access="public" threadsafety="unspecified" status="commendable" name="BasicRoom" fullname="BasicRoom::BasicRoom" href="basicroom.html#BasicRoom" location="BasicRoom.h" virtual="non" meta="constructor" const="false" static="false" overload="false" type="" signature="BasicRoom()"/>
+            <function access="public" threadsafety="unspecified" status="commendable" name="createNewInstance" fullname="BasicRoom::createNewInstance" href="basicroom.html#createNewInstance" location="BasicRoom.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="Room::RoomBase *" signature="createNewInstance()"/>
+            <function access="public" threadsafety="unspecified" status="commendable" name="getObject" fullname="BasicRoom::getObject" href="basicroom.html#getObject" location="BasicRoom.h" virtual="impure" meta="plain" const="false" static="false" overload="false" type="QObject *" signature="getObject()"/>
+            <function access="public" threadsafety="unspecified" status="commendable" name="updateRoom" fullname="BasicRoom::updateRoom" href="basicroom.html#updateRoom" location="BasicRoom.h" virtual="impure" meta="slot" const="false" static="false" overload="false" type="void" signature="updateRoom()"/>
+            <function access="public" threadsafety="unspecified" status="commendable" name="~BasicRoom" fullname="BasicRoom::~BasicRoom" href="basicroom.html#dtor.BasicRoom" location="BasicRoom.h" virtual="non" meta="destructor" const="false" static="false" overload="false" type="" signature="~BasicRoom()"/>
+        </class>
+        <page access="public" status="commendable" name="how_to_service.html" href="how-to-service.html" subtype="page" title="Service Library How To" fulltitle="Service Library How To" subtitle="" location="how_to_service.qdoc" module="Tepee3D">
+            <contents name="getting-the-tepee3d-sources" title="Getting the Tepee3D sources" level="1"/>
+            <contents name="creating-a-new-project" title="Creating a new project" level="1"/>
+            <contents name="edition-the-pro-file" title="Edition the .pro file" level="1"/>
+            <contents name="adding-classes-to-the-project" title="Adding classes to the project" level="1"/>
+            <contents name="filling-the-class" title="Filling the class" level="1"/>
+            <contents name="the-header-file" title="The Header File" level="2"/>
+            <contents name="the-service-user-interface" title="The Service User Interface" level="2"/>
+            <contents name="service-signals" title="Service Signals" level="2"/>
+            <contents name="the-source-file" title="The Source File" level="2"/>
+            <contents name="testing-and-submitting" title="Testing and submitting" level="1"/>
+        </page>
+        <class access="public" threadsafety="unspecified" status="commendable" name="RoomLoader" href="roomloader.html" location="roomloader.h" bases="" module="Tepee3D">
+            <function access="public" threadsafety="unspecified" status="commendable" name="loadRoomFromDatabase" fullname="RoomLoader::loadRoomFromDatabase" href="roomloader.html#loadRoomFromDatabase" location="roomloader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="loadRoomFromDatabase(QString name, Room::RoomManager * roommanager)">
+                <parameter left="QString" right="" name="name" default=""/>
+                <parameter left="Room::RoomManager *" right="" name="roommanager" default=""/>
+            </function>
+            <function access="public" threadsafety="unspecified" status="commendable" name="loadRoomFromFile" fullname="RoomLoader::loadRoomFromFile" href="roomloader.html#loadRoomFromFile" location="roomloader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="bool" signature="loadRoomFromFile(QString name, Room::RoomManager * roommanager)">
+                <parameter left="QString" right="" name="name" default=""/>
+                <parameter left="Room::RoomManager *" right="" name="roommanager" default=""/>
+            </function>
+            <function access="public" threadsafety="unspecified" status="commendable" name="onRequestFinished" fullname="RoomLoader::onRequestFinished" href="roomloader.html#onRequestFinished" location="roomloader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="bool" signature="onRequestFinished(Room::RoomManager * roommanager, QList&lt;QSqlRecord&gt; result)">
+                <parameter left="Room::RoomManager *" right="" name="roommanager" default=""/>
+                <parameter left="QList&lt;QSqlRecord&gt;" right="" name="result" default=""/>
+            </function>
+            <function access="public" threadsafety="unspecified" status="commendable" name="saveRoomDatabase" fullname="RoomLoader::saveRoomDatabase" href="roomloader.html#saveRoomDatabase" location="roomloader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="void" signature="saveRoomDatabase(Room::RoomBase * room, Room::RoomManager * roommanager)">
+                <parameter left="Room::RoomBase *" right="" name="room" default=""/>
+                <parameter left="Room::RoomManager *" right="" name="roommanager" default=""/>
+            </function>
+            <function access="public" threadsafety="unspecified" status="commendable" name="saveRoomFile" fullname="RoomLoader::saveRoomFile" href="roomloader.html#saveRoomFile" location="roomloader.h" virtual="non" meta="plain" const="false" static="true" overload="false" type="bool" signature="saveRoomFile(Room::RoomBase * room)">
+                <parameter left="Room::RoomBase *" right="" name="room" default=""/>
+            </function>
+            <variable access="public" threadsafety="unspecified" status="commendable" name="lastCalled" fullname="RoomLoader::lastCalled" href="roomloader.html#lastCalled-var" location="roomloader.h" type="int" static="true"/>
+            <variable access="public" threadsafety="unspecified" status="commendable" name="roomDataSave" fullname="RoomLoader::roomDataSave" href="roomloader.html#roomDataSave-var" location="roomloader.h" type="DataInfo *" static="true"/>
+        </class>
+        <page access="public" status="commendable" name="how_to_plugins.html" href="how-to-plugins.html" subtype="page" title="Plugins How To" fulltitle="Plugins How To" subtitle="" location="how-to-plugins.qdoc" module="Tepee3D">
+            <contents name="getting-the-tepee3d-plugins-api-files" title="Getting the Tepee3D Plugins API files" level="1"/>
+            <contents name="creating-a-new-plugin-with-qtcreator" title="Creating a new plugin with Qtcreator" level="1"/>
+            <contents name="edition-the-pro-file" title="Edition the .pro file" level="1"/>
+            <contents name="add-your-class" title="Add your class" level="1"/>
+            <contents name="add-your-qml" title="Add your qml" level="1"/>
+            <contents name="tips" title="Tips" level="1"/>
+            <contents name="interacting-with-c-class-and-qml" title="Interacting with c++ class and qml" level="2"/>
+            <contents name="interaction-with-the-database" title="Interaction with the database" level="2"/>
+            <contents name="results" title="Results" level="1"/>
+            <contents name="plugins-exemple" title="Plugins exemple" level="1"/>
+        </page>
+    </namespace>
+</INDEX>
