@@ -4,7 +4,11 @@
 #include "ListModel.h"
 #include "SubListedListItem.h"
 
-class SubListedListModel : public ListModel
+
+namespace Models
+{
+
+class SubListedListModel : public Models::ListModel
 {
     Q_OBJECT
 
@@ -13,5 +17,7 @@ public:
 
     Q_INVOKABLE QObject*    subModelFromId(int id);
 };
+
+}
 
 #endif // SUBLISTEDLISTMODEL_H

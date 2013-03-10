@@ -47,8 +47,8 @@ public:
 
 private:
     static PluginManager*       instance;
-    static ListModel*           locallyAvailablePluginsModel;
-    static ListModel*           onlineAvailablePluginsModel;
+    static Models::ListModel*           locallyAvailablePluginsModel;
+    static Models::ListModel*           onlineAvailablePluginsModel;
     explicit PluginManager(QObject *parent = 0);
 
 //    QSignalMapper              *signalMapper;

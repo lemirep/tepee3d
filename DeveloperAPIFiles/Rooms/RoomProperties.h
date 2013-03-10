@@ -20,7 +20,7 @@ private :
     QVector3D                       position;
     QVector3D                       scale;
 
-    ListModel*                      pluginsModel;
+    Models::ListModel*              pluginsModel;
 
 public:
     explicit RoomProperties(QObject *parent = 0);
@@ -35,7 +35,7 @@ public:
     QVector3D                       getPosition()      const;
     QVector3D                       getScale()         const;
 
-    ListModel*                      getRoomPluginsModel() const;
+    Models::ListModel*              getRoomPluginsModel() const;
 
 signals:
     

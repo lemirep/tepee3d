@@ -20,12 +20,11 @@ Item
     property int  savedWidth;
     property int  idx : 0;
     property bool isPressed;
+    property bool isInEditMode : false;
 
 
-    Component.onCompleted:
-    {
-        mainWindow.roomChanged.connect(setListIndex);
-    }
+    Component.onCompleted:    {mainWindow.roomChanged.connect(setListIndex);}
+    onIsShownChanged:    {isInEditMode = false}
 
     function startDrag(xPos, yPos)
     {
@@ -134,8 +133,8 @@ Item
                 roomName : model.roomName
                 roomScale : model.roomScale
                 roomPosition : model.roomPosition
+                editMode: isInEditMode
             }
-
             Component.onCompleted:{rooms_list_view.currentIndex = -1}
 
         }
@@ -146,18 +145,13 @@ Item
             width : 50
             height : 50
             scale : sky_view_button_ma.pressed ? 0.9 : 1.0
-            anchors
-            {
-                bottom : parent.bottom
-                right: parent.horizontalCenter
-            }
+            anchors    {bottom : parent.bottom; right: add_room_button.left}
             source : "../Resources/Pictures/round.png"
-
             MouseArea
             {
                 id : sky_view_button_ma
                 anchors.fill: parent
-                onClicked:    {mainWindow.currentRoomId = -1; mainWindow.moveCameraToSkyView()}
+                onClicked:    {mainWindow.currentRoomId = -1; mainWindow.moveCameraToSkyView(); leftMenu.isShown = false}
             }
         }
 
@@ -168,11 +162,7 @@ Item
             height : 50
             smooth : true
             scale : add_room_button_ma.pressed ? 0.9 : 1.0
-            anchors
-            {
-                bottom : parent.bottom
-                left : parent.horizontalCenter
-            }
+            anchors    {bottom : parent.bottom; horizontalCenter : parent.horizontalCenter}
             MouseArea
             {
                 id : add_room_button_ma
@@ -181,10 +171,28 @@ Item
                 {
 //                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
                     roomManager.addNewRoom();
-                    mainWindow.currentRoomId = -1; mainWindow.moveCameraToSkyView()
+                    mainWindow.currentRoomId = -1;
+                    mainWindow.moveCameraToSkyView()
                 }
             }
             source : "../Resources/Pictures/plus.png"
+        }
+
+        Image
+        {
+            id : edit_image
+            width : 50
+            rotation: 45
+            scale : (edit_image_ma.pressed) ? 0.9 : 1
+            fillMode: Image.PreserveAspectFit
+            anchors {bottom : parent.bottom; left : add_room_button.right}
+            MouseArea
+            {
+                id : edit_image_ma; anchors.fill: parent;
+                onClicked: {isInEditMode = !isInEditMode}
+            }
+            source : "../Resources/Pictures/edit.png"
+
         }
     }
 

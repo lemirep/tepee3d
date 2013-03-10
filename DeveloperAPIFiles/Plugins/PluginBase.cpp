@@ -4,11 +4,15 @@
 
 /*!
  * \class Plugins::PluginBase
- *
+ * \code
+ * #include <PluginBase.h>
+ * \endcode
  * \brief The Plugins::PluginBase class is the base class a Tepee3D plugin
  * has to inherit from. It wraps access to the various services a plugin has access
  * to as well as providing informations about the plugin that will be needed to by the
  * application to properly manage plugins.
+ *
+ * \inmodule Tepee3D
  */
 
 Plugins::PluginBase::PluginBase() : QObject(NULL)
@@ -35,7 +39,7 @@ void    Plugins::PluginBase::onRoomEntered()
 }
 
 /*!
- * Tells the plugin its focusState \a requestedState has changed.
+ * Sets the plugin's focus state and alert the qml view that the focusState \a requestedState has changed.
  */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {

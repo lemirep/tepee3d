@@ -3,6 +3,7 @@ SOURCES += $$PWD/Plugins/PluginBase.cpp         \
            $$PWD/Plugins/PluginModelItem.cpp    \
            $$PWD/Rooms/RoomBase.cpp             \
            $$PWD/Rooms/RoomProperties.cpp       \
+           $$PWD/Rooms/RoomModelItem.cpp        \
            $$PWD/Models/ListModel.cpp           \
            $$PWD/Models/SubListedListModel.cpp
 
@@ -15,6 +16,7 @@ HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Rooms/RoomInterface.h          \
            $$PWD/Rooms/RoomBase.h               \
            $$PWD/Rooms/RoomProperties.h         \
+           $$PWD/Rooms/RoomModelItem.h          \
            $$PWD/Models/ListModel.h             \
            $$PWD/Models/ListItem.h              \
            $$PWD/Models/SubListedListModel.h    \

@@ -2,9 +2,13 @@
 
 /*!
  * \class Room::RoomProperties
- *
+ * \code
+ * #include <RoomProperties.h>
+ * \endcode
  * \brief The Room::RoomProperties class contains all the attributes
  * that define a room.
+ *
+ *  \inmodule Tepee3D
  *
  * \sa Room::RoomBase
  */
@@ -12,7 +16,7 @@
 
 Room::RoomProperties::RoomProperties(QObject *parent) : QObject(parent)
 {
-    this->pluginsModel = new ListModel(new Plugins::PluginModelItem(NULL, NULL));
+    this->pluginsModel = new Models::ListModel(new Models::PluginModelItem(NULL, NULL));
 }
 
 Room::RoomProperties::~RoomProperties()
@@ -46,7 +50,7 @@ QVector3D   Room::RoomProperties::getScale() const
 /*!
  * Returns ListModel containing the room's plugins model.
  */
-ListModel*   Room::RoomProperties::getRoomPluginsModel() const
+Models::ListModel*   Room::RoomProperties::getRoomPluginsModel() const
 {
     return this->pluginsModel;
 }

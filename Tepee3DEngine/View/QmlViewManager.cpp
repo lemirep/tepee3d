@@ -9,17 +9,25 @@
  * \brief The View namespace contains all the classes responsible
  * for the Qml view management or that interact between the view and
  * other modules such as Services or Plugins.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
  * \class View::QmlContentExposerInterface
- *
+ * \code
+ * #include <QmlContentExposerInterface.h>
+ * \endcode
  * \brief Has to be implemented in order to expose QML content to the QML context.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
  * \class View::QmlViewManager
- *
+ * \code
+ * #include <QmlViewManager.h>
+ * \endcode
  * \brief The View::QmlViewManager class manages the QML view.
  * It links services, widgets and models to the view
  *
@@ -28,11 +36,24 @@
  * properties. Also, this is where qml models and utility classes are
  * exposed to the Qml Engine.
  *
+ * \since 1.0
+ *
+ * \inmodule Tepee3D
+ *
  * \sa View::QmlViewProperties
- */
+ * */
 
 View::QmlViewManager* View::QmlViewManager::instance = NULL;
 
+
+/*!
+ * Constructs a QmlViewManager instance and initializes the Service Manager,
+ * the Room Manager and the Plugin Manager as well as the View.
+ *
+ * \sa Room::RoomManager
+ * \sa Plugins::PluginManager
+ * \sa Services::ServicesManager
+ */
 View::QmlViewManager::QmlViewManager() : QObject()
 {
     this->viewProperties = View::QmlViewProperties::getInstance(this);
@@ -41,6 +62,11 @@ View::QmlViewManager::QmlViewManager() : QObject()
     this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 }
 
+
+/*!
+ * Destroys a QmlViewManager instance releasing the instances of the Service Manager,
+ * the Room Manager, the Plugin Manager and the View.
+ */
 View::QmlViewManager::~QmlViewManager()
 {
     delete this->servicesManager;

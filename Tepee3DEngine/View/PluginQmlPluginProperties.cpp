@@ -6,6 +6,8 @@
  * \brief The Plugins::PluginQmlPluginProperties class is a custom
  * QQuickItem class that allows to access a plugin's logical properties
  * from the Qml View.
+ *
+ * \inmodule Tepee3D
  */
 
 Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()

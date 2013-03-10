@@ -3,11 +3,6 @@ import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import View 1.0
 
-// IN THE LONG TERM THE CUBE WILL BE REPLACED BY A HOME MADE MODEL
-// THIS WAY EACH FACE WILL HAVE A ON PRESS METHOD
-// AND THE VIEW WILL CHANGE TO THE CORRESPONDING WALL ON THAT PRESS
-
-
 Item3D
 {
     id : room_item
@@ -25,10 +20,15 @@ Item3D
 
     function moveToFace(faceIdx)
     {
-        if (mainWindow.currentRoomId === -1)
+        if (mainWindow.currentRoomId === -1) // CASE WE ARE IN SKY VIEW AND NO ROOM SELECTED
+        {                                    // SET CURRENT ROOM AND DEFAULT VIEW TO NORTH WALL
             mainWindow.currentRoomId = roomId;
-        if (isCurrentRoom)
+            faceIdx = 0;
+        }
+        if (isCurrentRoom)                  // ELSE WE MOVE TO THE WALL IF WE ARE THE CURRENT ROOM
+        {
             mainWindow.currentRoomFaceId = faceIdx;
+        }
     }
 
     function showWallsIndicator()
@@ -41,6 +41,7 @@ Item3D
         downWall.showFaceIndicator();
     }
 
+    onPositionChanged:    {if (isCurrentRoom)  {mainWindow.currentRoomId = -1; mainWindow.currentRoomId = roomId}}
     onCurrentFaceIdChanged:    {if (isCurrentRoom) showWallsIndicator()}
     onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator()}
 
@@ -107,6 +108,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("North")}
             onClicked : {moveToFace(0)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -121,6 +124,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("South")}
             onClicked : {moveToFace(1)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -137,6 +142,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("West")}
             onClicked : {moveToFace(3)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -153,6 +160,8 @@ Item3D
             effect : face_effect
             //            onHoverEnter : {console.log("East")}
             onClicked : {moveToFace(2)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -165,10 +174,12 @@ Item3D
             translationVector: Qt.vector3d(0, 0.5, 0)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
-            enabled : (!isCurrentRoom || currentFaceId != 4)
+            enabled : (!isCurrentRoom || currentFaceId != 5)
             effect : face_effect
             //            onHoverEnter : {console.log("Up")}
             onClicked : {moveToFace(4)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
 
         RoomWall
@@ -181,10 +192,12 @@ Item3D
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
             translationVector: Qt.vector3d(0, -0.5, 0)
-            enabled : (!isCurrentRoom || currentFaceId != 5)
+            enabled : (!isCurrentRoom || currentFaceId != 4)
             effect : face_effect
             //            onHoverEnter : {console.log("Down")}
             onClicked : {moveToFace(5)}
+//            onHoverEnter: {effect = face_effect_hover}
+//            onHoverLeave: {effect = face_effect}
         }
     }
 
@@ -192,6 +205,20 @@ Item3D
     {
         id : face_effect
         texture : "../Resources/Textures/blue_wall.jpg"
+        //        dynamicTexture : qml_texture
+        //        texture : "Resources/Pictures/panel_bg2.png"
+        useLighting : true
+
+        onEffectChanged :
+        {
+            console.log("Effect Changed");
+        }
+    }
+
+    Effect
+    {
+        id : face_effect_hover
+        texture : "../Resources/Textures/wood.jpg"
         //        dynamicTexture : qml_texture
         //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true

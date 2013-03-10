@@ -8,6 +8,8 @@
  *
  * \brief The Room namespace holds all the classes that deal with
  * Rooms and their management.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
@@ -15,9 +17,11 @@
  * \brief The Room::RoomManager class is responsible for managing all the
  * rooms ofthe Tepee3D application. It restores the rooms and their plugins
  * on startup, creates the model for the room selector menu, places rooms in
- * space. In addition, this where new plugins are added to a room.
+ * space. In addition, this is where new plugins are added to a room.
  *
  * \sa Room::RoomBase
+ *
+ * \inmodule Tepee3D
  */
 
 Room::RoomManager* Room::RoomManager::instance = NULL;
@@ -40,7 +44,7 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->currentRoom = NULL;
     this->roomPrototype = NULL;
     this->roomUpdateTimer = new QTimer();
-    this->roomModel = new SubListedListModel(new Room::RoomModelItem(NULL, NULL));
+    this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
 }
 
@@ -85,7 +89,7 @@ void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int
 /*!
  * Returns the model containing the rooms.
  */
-ListModel*  Room::RoomManager::getRoomModel() const
+Models::ListModel*  Room::RoomManager::getRoomModel() const
 {
     return this->roomModel;
 }
@@ -104,10 +108,10 @@ Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
  */
 Plugins::PluginBase*    Room::RoomManager::getPluginFromRoom(int roomId, int pluginId) const
 {
-    Room::RoomModelItem *roomItem = NULL;
+    Models::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
 
-    if ((roomItem = (Room::RoomModelItem*)this->getRoomModel()->find(roomId)) != NULL
+    if ((roomItem = (Models::RoomModelItem*)this->getRoomModel()->find(roomId)) != NULL
             && (room = roomItem->getRoom()) != NULL)
         return room->getPluginFromRoom(pluginId);
     return NULL;
@@ -124,12 +128,12 @@ void        Room::RoomManager::placeNewRoomInSpace()
     int     idx = 0;
     qreal   posAngle = (2 * M_PI / this->roomModel->rowCount());
     qreal   radius = 100 * ((this->roomModel->rowCount() / 10) + 1);
-    const QList<ListItem*> roomItemList = this->roomModel->toList();
+    const QList<Models::ListItem*> roomItemList = this->roomModel->toList();
 
-    foreach (ListItem *item, roomItemList)
+    foreach (Models::ListItem *item, roomItemList)
     {
         qreal roomPosAngle = posAngle * idx++;
-        Room::RoomBase* room = ((Room::RoomModelItem *)(item))->getRoom();
+        Room::RoomBase* room = ((Models::RoomModelItem *)(item))->getRoom();
         room->setPosition(QVector3D(qCos(roomPosAngle) * radius,
                                     qCos(M_PI * idx) * 10,
                                     qSin(roomPosAngle) * radius));
@@ -153,6 +157,8 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
     {
         QObject::disconnect(this->roomUpdateTimer, SIGNAL(timeout()), this->currentRoom, SLOT(updateRoom()));
         this->currentRoom->leaveRoom();
+        // WHEN CHANGING ROOM WE MAKE SUR ALL PLUGIN GO BACK TO IDLE
+        this->unsetFocusPluginsFromRoom();
     }
     this->currentRoom = room;
 
@@ -167,14 +173,14 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
 /*!
  * Sets the room specified by \a roomId as the current room
  *
- * \sa void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
+ * \sa setCurrentRoom(Room::RoomBase *room)
  */
 
 void        Room::RoomManager::setCurrentRoom(int roomId)
 {
-    Room::RoomModelItem *roomItem = NULL;
+    Models::RoomModelItem *roomItem = NULL;
     Room::RoomBase *room = NULL;
-    if ((roomItem = (Room::RoomModelItem *)this->roomModel->find(roomId)))
+    if ((roomItem = (Models::RoomModelItem *)this->roomModel->find(roomId)))
         room = roomItem->getRoom();
     // IN ANY CASE WE SET IT SO THAT WE STOP UPDATING IF ROOM IS NULL
     this->setCurrentRoom(room);
@@ -196,7 +202,7 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 
     qDebug() << room->getRoomName();
 
-    this->roomModel->appendRow(new Room::RoomModelItem(room));
+    this->roomModel->appendRow(new Models::RoomModelItem(room));
     this->placeNewRoomInSpace();
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
     // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
@@ -211,14 +217,17 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
 {
     if (this->currentRoom != NULL && this->currentRoom->getRoomId() == roomModelId)
         this->setCurrentRoom((Room::RoomBase *)NULL);
-    Room::RoomModelItem* roomItem = (Room::RoomModelItem *)(this->roomModel->find(roomModelId));
+
+    Models::RoomModelItem* roomItem = (Models::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* deletedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
     this->roomModel->removeRow(this->roomModel->getRowFromItem(roomItem), QModelIndex());
     if (deletedRoom != NULL)
     {
         Room::RoomManager::roomInstances--;
         // CLEAR ALL THE ROOM'S CONTENT BEFORE DELETING IT
+        delete deletedRoom;
         // REPLACE ALL THE ROOMS IF NECESSARY
+        placeNewRoomInSpace();
     }
 }
 
@@ -228,7 +237,7 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
 void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVector3D roomPosition, QVector3D roomScale)
 {
     // UPDATES ROOM LOGICALLY -> UPDATE HAS ALREADY BEEN APPLIED TO QML ROOM
-    Room::RoomModelItem* roomItem = (Room::RoomModelItem *)(this->roomModel->find(roomModelId));
+    Models::RoomModelItem* roomItem = (Models::RoomModelItem *)(this->roomModel->find(roomModelId));
     Room::RoomBase* editedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
 
     if (editedRoom != NULL)
@@ -238,6 +247,25 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
         editedRoom->setScale(roomScale);
         // UPDATE ROOM ITEM IN MODEL FOR QML UPDATE
         roomItem->triggerItemUpdate();
+    }
+}
+
+/*!
+ * Sets the focus state of all plugins of the current room to idle, used when a change of view occurs and the plugins
+ * should'nt keep the focus
+ */
+
+void        Room::RoomManager::unsetFocusPluginsFromRoom()
+{
+    if (this->currentRoom == NULL)
+        return ;
+
+    QList<Models::ListItem*> roomPlugins = this->currentRoom->getRoomPluginsModel()->toList();
+
+    foreach (Models::ListItem *pluginItem, roomPlugins)
+    {
+        Plugins::PluginBase* plugin = ((Models::PluginModelItem *)(pluginItem))->getPlugin();
+        plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
     }
 }
 
@@ -269,7 +297,7 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 
 void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 {
-    Plugins::PluginModelItem* pluginItem = (Plugins::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
+    Models::PluginModelItem* pluginItem = (Models::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
 
     if (pluginItem != NULL)
     {
@@ -308,7 +336,7 @@ void        Room::RoomManager::loadRoomLibrary()
     qDebug() << "ROOM DIR " << roomDirectory.absolutePath();
 
     // LOAD ROOM LIBRARY
-    foreach (QString filename, roomDirectory.entryList(QDir::Files))
+    foreach (const QString &filename, roomDirectory.entryList(QDir::Files))
     {
         QPluginLoader loader(roomDirectory.absoluteFilePath(filename));
         RoomInterface* roomInt = qobject_cast<RoomInterface *>(loader.instance());

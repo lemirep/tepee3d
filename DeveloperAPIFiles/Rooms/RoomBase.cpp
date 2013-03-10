@@ -4,7 +4,9 @@
 
 /*!
  * \class Room::RoomBase
- *
+ * \code
+ * #include <RoomBase.h>
+ * \endcode
  * \brief The Room::RoomBase class is the base class a Tepee3D room has to
  * inherit from. It provided the application informations about the room
  * such as its position, its volume and its scale as well as the various
@@ -12,7 +14,11 @@
  *
  * \b {Note:} This class shouldn't be instanced directly and should only be subclassed.
  *
+ *   Tepee3D
+ *
  * \sa Room::RoomProperties
+ *
+ * \inmodule Tepee3D
  */
 
 
@@ -179,7 +185,7 @@ QVector3D   Room::RoomBase::getMaxBoundingPoint() const
 /*!
  * Returns the model containing plugins of the current room.
  */
-ListModel*  Room::RoomBase::getRoomPluginsModel()   const
+Models::ListModel*  Room::RoomBase::getRoomPluginsModel()   const
 {
     return this->roomProperties->getRoomPluginsModel();
 }
@@ -225,7 +231,7 @@ void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
     QObject::connect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
     QObject::connect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
                      this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
-    this->roomProperties->getRoomPluginsModel()->appendRow(new Plugins::PluginModelItem(widget));
+    this->roomProperties->getRoomPluginsModel()->appendRow(new Models::PluginModelItem(widget));
 }
 
 /*!
@@ -265,9 +271,9 @@ Room::RoomProperties*    Room::RoomBase::getRoomProperties() const
 
 Plugins::PluginBase*    Room::RoomBase::getPluginFromRoom(int pluginId) const
 {
-    Plugins::PluginModelItem* pluginItem = NULL;
+    Models::PluginModelItem* pluginItem = NULL;
 
-    if ((pluginItem = (Plugins::PluginModelItem *)this->roomProperties->getRoomPluginsModel()->find(pluginId)) != NULL)
+    if ((pluginItem = (Models::PluginModelItem *)this->roomProperties->getRoomPluginsModel()->find(pluginId)) != NULL)
         return pluginItem->getPlugin();
     return NULL;
 }
@@ -302,9 +308,9 @@ void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::Plugin
 
     // IF THERE IS ANOTHER ITEM IN SELECTED -> ACCEPT AND SET OTHER ITEM TO IDLE
     // IF THERE IS ANOTHER ITEM IN FOCUS -> REFUSE AND DO NOT MODIFY ANY WIDGET
-    foreach (ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
+    foreach (Models::ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
     {
-        plugin = ((Plugins::PluginModelItem*)(pluginItem))->getPlugin();
+        plugin = ((Models::PluginModelItem*)(pluginItem))->getPlugin();
         if (plugin != requester && plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
         {
             if (plugin->getFocusState() == Plugins::PluginEnums::pluginFocusedState)

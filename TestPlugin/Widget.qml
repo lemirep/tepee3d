@@ -63,17 +63,17 @@ Item3D
         State {
             name : "idle"
             PropertyChanges {target: testplugin_container; col : apc.getColor()}
-            when : plugin_base.getFocusState() == 0
+            when : plugin_base.getFocusState() === 0
         },
         State {
             name : "selected"
             PropertyChanges {target: testplugin_container; col : apc.getColor()}
-            when : plugin_base.getFocusState() == 1
+            when : plugin_base.getFocusState() === 1
         },
         State {
             name : "focused"
             PropertyChanges {target: testplugin_container; col : apc.getColor()}
-            when : plugin_base.getFocusState() == 2
+            when : plugin_base.getFocusState() === 2
         }
     ]
 
@@ -143,9 +143,9 @@ Item3D
         onClicked :
         {
             console.log("plugin clicked");
-            if (plugin_base.getFocusState() == 0)
+            if (plugin_base.getFocusState() === 0)
                 plugin_base.askForRoomSelectedFocusState();
-            if (plugin_base.getFocusState() == 1)
+            if (plugin_base.getFocusState() === 1)
                 plugin_base.askForFocusedFocusState();
         }
 

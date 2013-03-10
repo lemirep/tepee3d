@@ -16,6 +16,7 @@ Item3D
     // plugin_base.askForFocusState(State)
     // IF CHANGE ACCEPTED, onFocusStateChanged will be called
 
+    ///////////////// UTILITY FUNCTIONS
     function askForRoomFocusState()            {plugin_properties.askForFocusState(0)}
     function askForRoomSelectedFocusState()    {plugin_properties.askForFocusState(1)}
     function askForFocusedFocusState()         {plugin_properties.askForFocusState(2)}

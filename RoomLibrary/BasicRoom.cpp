@@ -4,18 +4,23 @@
 
 /*!
  * \class BasicRoom
+ * \code
+ * #include <BasicRoom.h>
+ * \endcode
  * \brief The BasicRoom::BasicRoom class is simplest implementation of the RoomBase
  *
  * The BasicRoom class represents a squared room. It is compiled in a shared library
  * and then dynamically loaded in the Tepee3DEngine at runtime.
  *
  * \sa Room::RoomBase
+ *
+ *  \inmodule Tepee3D
  */
 
 /*!
  * Constructs a new BasicRoom. This method being private cannot be called
  * directly.
- * \sa Room::RoomBase* BasicRoom::createNewInstance()
+ * \sa createNewInstance()
  */
 BasicRoom::BasicRoom() : RoomBase()
 {

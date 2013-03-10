@@ -1,27 +1,33 @@
 #include "RoomModelItem.h"
 
 /*!
- * \class Room::RoomModelItem
+ * \class Models::RoomModelItem
  *
- * \brief The Room::RoomModelItem class represent a room item for the rooms model.
+ * \brief The Models::RoomModelItem class represent a room item for the rooms model.
  * It contains a brief description of each room that can be seen in the room selector
  * menu.
+ *
+ *   Tepee3D
+ *
+ * \sa Room::RoomBase
+ *
+ * \inmodule Tepee3D
  */
 
 
-Room::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : SubListedListItem(parent)
+Models::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : SubListedListItem(parent)
 {
     this->room = room;
 }
 
-Room::RoomModelItem::~RoomModelItem()
+Models::RoomModelItem::~RoomModelItem()
 {
 }
 
 /*!
  * Returns the id of the RoomModelItem.
  */
-int         Room::RoomModelItem::id() const
+int         Models::RoomModelItem::id() const
 {
     return this->room->getRoomId();
 }
@@ -29,7 +35,7 @@ int         Room::RoomModelItem::id() const
 /*!
  * Returns a QVariant containing the data for the role role.
  */
-QVariant    Room::RoomModelItem::data(int role) const
+QVariant    Models::RoomModelItem::data(int role) const
 {
     switch (role)
     {
@@ -51,7 +57,7 @@ QVariant    Room::RoomModelItem::data(int role) const
 /*!
  * Returns a hash containg the various role names of a RoomModelItem.
  */
-QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
+QHash<int, QByteArray>  Models::RoomModelItem::roleNames()  const
 {
     QHash<int, QByteArray>  roles;
 
@@ -67,7 +73,7 @@ QHash<int, QByteArray>  Room::RoomModelItem::roleNames()  const
 /*!
  * Returns the actual instance of the room the RoomModelItem is a description of.
  */
-Room::RoomBase*   Room::RoomModelItem::getRoom()    const
+Room::RoomBase*   Models::RoomModelItem::getRoom()    const
 {
     return this->room;
 }
@@ -75,7 +81,7 @@ Room::RoomBase*   Room::RoomModelItem::getRoom()    const
 /*!
  * Returns the plugins model of the room.
  */
-ListModel*      Room::RoomModelItem::submodel() const
+Models::ListModel*      Models::RoomModelItem::submodel() const
 {
     return this->room->getRoomPluginsModel();
 }

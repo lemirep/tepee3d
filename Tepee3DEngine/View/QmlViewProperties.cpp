@@ -13,6 +13,8 @@
  * the Qml Context to later be used directly from Qml files.
  *
  * \sa View::QmlViewManager
+ *
+ * \inmodule Tepee3D
  */
 
 View::QmlViewProperties* View::QmlViewProperties::instance = NULL;

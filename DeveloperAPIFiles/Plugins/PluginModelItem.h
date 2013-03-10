@@ -4,15 +4,14 @@
 #include "ListItem.h"
 #include "PluginBase.h"
 
-namespace Plugins
+namespace Models
 {
 
-class PluginModelItem : public ListItem
+class PluginModelItem : public Models::ListItem
 {
     Q_OBJECT
+
 public:
-
-
 
     enum    PluginModelItemRoles
     {

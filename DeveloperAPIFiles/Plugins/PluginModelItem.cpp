@@ -2,12 +2,23 @@
 // DEBUG
 #include <QDebug>
 
-Plugins::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *parent) : ListItem(parent)
+/*!
+ * \class Models::PluginModelItem
+ * \code
+ * #include <PluginModelItem.h>
+ * \endcode
+ *
+ * \brief Models::PluginModelItem
+ *
+ * \inmodule Tepee3D
+ */
+
+Models::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *parent) : ListItem(parent)
 {
     this->plugin = plugin;
 }
 
-Plugins::PluginModelItem::~PluginModelItem()
+Models::PluginModelItem::~PluginModelItem()
 {
     qDebug() << "DELETING PLUGIN MODEL ITEM";
 }
@@ -15,7 +26,7 @@ Plugins::PluginModelItem::~PluginModelItem()
 /*!
  * Returns the id of the PluginModelItem.
  */
-int     Plugins::PluginModelItem::id()  const
+int     Models::PluginModelItem::id()  const
 {
     return this->plugin->getPluginId();
 }
@@ -23,7 +34,7 @@ int     Plugins::PluginModelItem::id()  const
 /*!
  * Returns the role values of a given role of the PluginModelItem.
  */
-QVariant    Plugins::PluginModelItem::data(int role)    const
+QVariant    Models::PluginModelItem::data(int role)    const
 {
     switch (role)
     {
@@ -43,7 +54,7 @@ QVariant    Plugins::PluginModelItem::data(int role)    const
 /*!
  * Returns a hash containing the roles of the PluginModelItem.
  */
-QHash<int, QByteArray>  Plugins::PluginModelItem::roleNames()   const
+QHash<int, QByteArray> Models::PluginModelItem::roleNames()   const
 {
     QHash<int, QByteArray>  roles;
 
@@ -59,7 +70,7 @@ QHash<int, QByteArray>  Plugins::PluginModelItem::roleNames()   const
  * Returns the instance of the plugin the PluginModelItem is a description of.
  */
 
-Plugins::PluginBase*    Plugins::PluginModelItem::getPlugin()   const
+Plugins::PluginBase*    Models::PluginModelItem::getPlugin()   const
 {
     return this->plugin;
 }
