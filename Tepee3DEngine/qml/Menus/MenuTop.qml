@@ -136,7 +136,7 @@ Item
             cellHeight: cellWidth
 
             clip : true
-            opacity :  (menuTopRec.height == maxMenuHeight) ? 1 : 0
+            opacity :  (menuTopRec.height == maxMenuHeight && mainWindow.currentRoomId != -1) ? 1 : 0
             enabled : (opacity == 1)
             Behavior on opacity {SmoothedAnimation {velocity : 1}}
 
