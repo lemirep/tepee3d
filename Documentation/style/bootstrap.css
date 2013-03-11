@@ -134,6 +134,21 @@ li.fn
     border : 0;
 }
 
+.toc
+{
+
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px 7px 7px 7px;
+    -webkit-border-radius: 7px 7px 7px 7px;
+    -opera-border-radius: 7px 7px 7px 7px;
+    background-color: #f6f6f6;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e6e6e6;
+    padding: 3px 5px;
+    width : 300px;
+}
+
 .fn 
 {
     border-radius: 7px 7px 7px 7px;

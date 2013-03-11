@@ -6,4 +6,6 @@ SUBDIRS     =  BufferedTextureSource \
                TestPlugin \
                UnitTests
 
-OTHER_FILES += Documentation/config.qdocconf
+OTHER_FILES += Documentation/config.qdocconf \
+               Documentation/install.qdoc \
+               Documentation/vm_instruction.qdoc

@@ -60,10 +60,6 @@ private:
 
     static RoomManager      *instance;
     static int              roomInstances;
-    static QString          selectRoomsQuery;
-    static QString          insertRoomQuery;
-    static QString          updateRoomQuery;
-    static QString          deleteRoomQuery;
 
     RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
     RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE

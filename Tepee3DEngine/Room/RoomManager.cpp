@@ -27,11 +27,6 @@
 Room::RoomManager* Room::RoomManager::instance = NULL;
 int                Room::RoomManager::roomInstances = 0;
 
-QString            Room::RoomManager::selectRoomsQuery = "";
-QString            Room::RoomManager::insertRoomQuery = "";
-QString            Room::RoomManager::updateRoomQuery = "";
-QString            Room::RoomManager::deleteRoomQuery = "";
-
 // ASSIGN A UNIQUE ID FOR EACH PLUGIN TYPE (Ex TestPlugin = 1)
 // THAT WAY WHEN RELOADING FROM THE DATABASE WE KNOW WE HAVE LOADED THE RIGHT PLUGIN
 \
