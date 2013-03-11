@@ -34,7 +34,7 @@ public:
     static Room::RoomBase*   getNewRoomInstance();
 
     Models::ListModel*      getRoomModel() const;
-    void                    addRoomToModel(Room::RoomBase *room);
+    static void             addRoomToModel(Room::RoomBase *room);
 
     Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId) const;
 
