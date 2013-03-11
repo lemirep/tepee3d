@@ -2,6 +2,25 @@
 //DEBUG
 #include <QDebug>
 
+
+/*!
+ * \class Plugins::PluginEnums
+ * \code
+ * #include <PluginEnum.h>
+ * \endcode
+ *
+ * \brief Contains the various enums needed by plugins
+ *
+ * \inmodule Tepee3D
+ */
+
+/*!
+ * \fn PluginsEnums::PluginState Plugins::PluginEnums::valueOf(int value)
+ *
+ * Returns the PluginState enum corresponding to \a value.
+ */
+
+
 /*!
  * \class Plugins::PluginBase
  * \code
@@ -15,6 +34,110 @@
  * \inmodule Tepee3D
  */
 
+/*!
+ * \fn int Plugins::PluginBase::getPluginId()
+ *
+ * Returns the id of the plugins.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::initPlugin()
+ *
+ * Initializes the plugins.
+ */
+
+/*!
+ * \fn QString Plugins::PluginBase::getPluginName()
+ *
+ * Returns the name of the plugins.
+ */
+
+/*!
+ * \fn QString Plugins::PluginBase::getPluginDescription()
+ *
+ * Returns a description of the plugin.
+ */
+
+
+/*!
+ * \fn QString Plugins::PluginBase::getRoomPluginQmlFile() const
+ *
+ * Returns the main qml file's name so that the engine knows which file to load.
+ */
+
+/*!
+ * \fn QString Plugins::PluginBase::getMenuPluginQmlFile() const
+ *
+ * Returns the name of the qml file used to set the plugin and that will be loaded in the plugin menu area.
+ */
+
+/*!
+ * \fn Plugins::PluginBase*  Plugins::PluginBase::createNewInstance()
+ *
+ * Returns a new instance of the plugin.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
+ *
+ * Exposes QML content to the QML \a context if the plugins needs it.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
+ *
+ * Called by the Database Service Library to transmit the \a result of a previously executed query as well
+ * as and \a id to help recognize the query.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::receiveResultFromHttpRequest(QNetworkReply *reply)
+ *
+ * Triggered when the \a reply of a previously executed network request is received.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::executeSQLQuery(const QString& query, QObject *sender, int id)
+ *
+ * Emitted when a database \a query needs to be executed. The result of its execution will be transmitted to the \a sender
+ * along with an \a id to recognize the query.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender)
+ *
+ * Emitted when a network \a request needs to be performed, with the \a requestType to identify the type HTTP request and a \a multipart which can be null to transmit
+ * data through the request. The reply will be transmitted to \a sender.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender)
+ *
+ * Emitted when a plugin ask for a new focus state \a requestedState. The response will be transmitted to \a sender.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::focusStateChanged(QVariant focusState)
+ *
+ * Emitted when the \a focusState of a plugin has changed.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::roomEntered()
+ *
+ * Emitted when the room in which the plugin is loaded is entered.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::roomLeft()
+ *
+ * Emitted when the room in which the plugin is loaded is left.
+ */
+
+
+/*!
+ * Constructs a new Plugins::PluginBase instance.
+ */
 Plugins::PluginBase::PluginBase() : QObject(NULL)
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
@@ -49,7 +172,7 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
 }
 
 /*!
- * When a plugin wishes to change its focusState, call this method with the required focusState \a requestedState.
+ * When a plugin wishes to change its focusState, call this method with the required \a requestedState.
  */
 void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
@@ -82,7 +205,7 @@ void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &req
 }
 
 /*!
- * Sends Http Post \a request to network manager.
+ * Sends Http Post \a request to network manager with \a multiPart for data.
  */
 void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
@@ -90,7 +213,7 @@ void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &reque
 }
 
 /*!
- * Sends Http Put \a request to network manager.
+ * Sends Http Put \a request to network manager with \a multiPart for data.
  */
 void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
 {
@@ -111,15 +234,5 @@ bool    Plugins::PluginBase::needsUpdating() const
 Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   const
 {
     return this->focusState;
-}
-/*!
- * Offers the plugin a way to expose content to QML if it needs to do so.
- */
-void    Plugins::PluginBase::exposeContentToQml(QQmlContext *)
-{
-    // EXPOSE YOUR QML CONTENT HERE
-    // BE CAREFUL IN CASE YOUR PLUGIN IS LOADED SEVERAL TIME TO HAVE
-    // A CONSISTENT BEHAVIOR : EITHER ALL PLUGINS BEHAVE THE SAME OR EACH PLUGIN CAN BE SET DIFFERENTLY
-    qDebug() << "Plugin Base Exposing Qml Content";
 }
 

@@ -48,6 +48,8 @@ int Room::RoomBase::nextId = 0;
 
 
 /*!
+ * \fn Room::RoomBase::RoomBase()
+ *
  * Constructs a new RoomBase instance, gives it a unique id and allocate
  * a Room::RoomProperties instance.
  * \sa Room::RoomProperties
@@ -66,7 +68,7 @@ Room::RoomBase::~RoomBase()
 }
 
 /*!
- * Returns the room´s id.
+ * Returns the room's id.
  */
 int         Room::RoomBase::getRoomId() const
 {

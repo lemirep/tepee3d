@@ -52,7 +52,7 @@ protected:
     void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart);
     void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart);
 
-    virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply) = 0;
 
     // Defines all signals that a plugin can emit or receive
 signals :

@@ -14,6 +14,68 @@
  *
  */
 
+
+/*!
+ * \class Models::ListItem
+ *
+ * \code
+ * #include <ListItem.h>
+ * \endcode
+ *
+ * \brief The basic element Models::ListModel are composed of.
+ *
+ * The basic element Models::ListModel are composed of. It gives a representation
+ * of the data it contains throught the use of data retrieved by matching role names.
+ * Your model items should inherit from this class and implement the various methods to reflect
+ * what your item contains.
+ *
+ * \sa Models::ListModel
+ *
+ * \inmodule Tepee3D
+ */
+
+/*!
+ * \fn Models::ListItem::ListItem(QObject *parent)
+ *
+ * Constructs a new model item with the optionnal \a parent argument/
+ */
+
+/*!
+ * \fn Models::ListItem::~ListItem()
+ *
+ * Destroys a ListItem instance.
+ */
+
+/*!
+ * \fn int Models::ListItem::id() const
+ *
+ * Returns the id of the item.
+ */
+
+/*!
+ * \fn QVariant Models::ListItem::data(int role) const
+ *
+ * Returns the data associated to a given \a role.
+ */
+
+/*!
+ * \fn QHash<int, QByteArray> Models::ListItem::roleNames() const
+ *
+ * Returns a QHash containing the roleNames and a corresponding role identifier.
+ */
+
+/*!
+ * \fn void Models::ListItem::triggerItemUpdate()
+ *
+ * Triggers an update of the data model to reflect the changes of the ListItem.
+ */
+
+/*!
+ * \fn void Models::ListItem::dataChanged()
+ *
+ * Triggered when an update of the ListItem is requested.
+ */
+
 /*!
  * \class Models::ListModel
  * \code
@@ -25,7 +87,6 @@
  * and later expose it to the Qml View.
  *
  * \inmodule Tepee3D
- *
  *
  * \sa Models::SubListedListModel
  */

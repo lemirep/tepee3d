@@ -85,6 +85,10 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomManager", this);
 }
 
+/*!
+ * Called when the result \list of a previously executed query is received from the database service.
+ */
+
 void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int)
 {
     qDebug() << "RoomManager received SQL Result";
@@ -361,7 +365,7 @@ void        Room::RoomManager::loadRoomLibrary()
 }
 
 /*!
- * Adds rooms the the room model. Rooms can then be restored from the database and
+ * Adds \a room the the room model. Rooms can then be restored from the database and
  * added on startup right here.
  */
 

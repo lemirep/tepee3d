@@ -2,7 +2,9 @@
 
 /*!
  * \class Models::RoomModelItem
- *
+ * \code
+ * #include <RoomModelItem.h>
+ * \endcode
  * \brief The Models::RoomModelItem class represent a room item for the rooms model.
  * It contains a brief description of each room that can be seen in the room selector
  * menu.
@@ -14,12 +16,17 @@
  * \inmodule Tepee3D
  */
 
-
+/*!
+ * Constructs a new Models::RoomModelItem instance given a \a room and an optionnal \a parent.
+ */
 Models::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : SubListedListItem(parent)
 {
     this->room = room;
 }
 
+/*!
+ * Destroys a Models::RoomModelItem instance.
+ */
 Models::RoomModelItem::~RoomModelItem()
 {
 }
@@ -33,7 +40,7 @@ int         Models::RoomModelItem::id() const
 }
 
 /*!
- * Returns a QVariant containing the data for the role role.
+ * Returns a QVariant containing the data for a given \a role identifier.
  */
 QVariant    Models::RoomModelItem::data(int role) const
 {

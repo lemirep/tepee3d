@@ -12,6 +12,35 @@
  */
 
 /*!
+ * \class Services::ServiceInterface
+ *
+ * \brief Interface Services have to implement defining the necessary methods services
+ * libraries have to provide.
+ *
+ * \inmodule Tepee3D
+ */
+
+/*! \fn void        Services::ServiceInterface::initLibraryConnection(QObject *parent)
+ * Initializes the service library providing the \a parent QObject if signals connections are required.
+ */
+
+/*! \fn bool        Services::ServiceInterface::connectServiceToUser(QObject *user)
+ * Connects the signals of a service library to the \a user.
+ * Returns true if the connection was succesful, false otherwise.
+ */
+
+/*! \fn bool        Services::ServiceInterface::disconnectServiceFromUser(QObject *user)
+ * Disconnects the signals of a service library from the \a user.
+ * Returns true if the disconnection was succesful, false otherwise.
+ */
+
+/*! \fn QObject*    Services::ServiceInterface::getLibraryQObject() = 0;
+ *
+ * Returns the QObject instance of the library in order to allow signal connection
+ * to the service library.
+ */
+
+/*!
  * \class Services::ServicesManager
  *
  * \brief The Services::ServicesManager class manages all the services
@@ -26,12 +55,18 @@
 
 Services::ServicesManager* Services::ServicesManager::instance = NULL;
 
+/*!
+ * Constructs a new ServiceManager instance.
+ */
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
     this->services = QList<ServiceInterface*>();
     this->loadServicesLibraries();
 }
 
+/*!
+ * Returns the singleton instance of the ServiceManager class.
+ */
 Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *parent)
 {
     if (ServicesManager::instance == NULL)
@@ -39,20 +74,34 @@ Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *par
     return ServicesManager::instance;
 }
 
+/*!
+ * Exposes QML content relative to service management to the QML context
+ */
 void    Services::ServicesManager::exposeContentToQml(QQmlContext *)
 {
 }
 
+/*!
+ * Suscribes \a serviceUser to all possible service libraries. It will only be connected to the services libraries
+ * that match the services interface it implements.
+ */
 void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
 {
  Services::ServicesManager::getInstance()->connectObjectToServicesSlot(serviceUser);
 }
 
+/*!
+ * Unsubscribe \a serviceUser from the service libraries it was connected to.
+ */
 void    Services::ServicesManager::disconnectObjectFromServices(QObject *serviceUser)
 {
     Services::ServicesManager::getInstance()->disconnectObjectFromServicesSlot(serviceUser);
 }
 
+/*!
+ * Suscribes \a serviceUser to all possible service libraries. It will only be connected to the services libraries
+ * that match the services interface it implements.
+ */
 void    Services::ServicesManager::connectObjectToServicesSlot(QObject *serviceUser)
 {
     qDebug() << "Connecting object to services";
@@ -61,6 +110,9 @@ void    Services::ServicesManager::connectObjectToServicesSlot(QObject *serviceU
         service->connectServiceToUser(serviceUser);
 }
 
+/*!
+ * Unsubscribe \a serviceUser from the service libraries it was connected to.
+ */
 void    Services::ServicesManager::disconnectObjectFromServicesSlot(QObject *serviceUser)
 {
     qDebug() << "Disconnecting object from services";
@@ -69,6 +121,9 @@ void    Services::ServicesManager::disconnectObjectFromServicesSlot(QObject *ser
         service->disconnectServiceFromUser(serviceUser);
 }
 
+/*!
+ * Loads and initializes the various service libraries present in the libraries directory of the application.
+ */
 bool    Services::ServicesManager::loadServicesLibraries()
 {
     QDir    serviceDirectory = QApplication::applicationDirPath();

@@ -142,4 +142,4 @@ headers.fileextensions 	= "*.h"
 
 generateIndex 		= true 
 
-#excludedirs		= 
+excludedirs		= ../WatchPlugins

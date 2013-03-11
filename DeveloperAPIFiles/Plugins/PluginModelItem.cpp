@@ -13,11 +13,18 @@
  * \inmodule Tepee3D
  */
 
+/*!
+ * Constructs a new Models::PluginModelItem instance given a \a plugin and an optionnal \a parent.
+ */
+
 Models::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *parent) : ListItem(parent)
 {
     this->plugin = plugin;
 }
 
+/*!
+ * Destroys a Models::PluginModelItem instance
+ */
 Models::PluginModelItem::~PluginModelItem()
 {
     qDebug() << "DELETING PLUGIN MODEL ITEM";
@@ -32,7 +39,7 @@ int     Models::PluginModelItem::id()  const
 }
 
 /*!
- * Returns the role values of a given role of the PluginModelItem.
+ * Returns the role values of a given \a role of the PluginModelItem.
  */
 QVariant    Models::PluginModelItem::data(int role)    const
 {
