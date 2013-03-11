@@ -13,7 +13,31 @@
  */
 
 /*!
+ * \class Room::RoomInterface
+ * \code
+ * #include <RoomInterface.h>
+ * \endcode
+ *
+ * \brief Has to be implemented by Room::RoomBase instances in order to ensure
+ * they are proper room libraries.
+ *
+ * \inmodule Tepee3D
+ */
+
+/*!
+ * \fn Room::RoomBase*   Room::RoomInterface::getRoomBase()
+ *
+ * Returns a new Room::RoomBase instance.
+ */
+
+
+/*!
  * \class Room::RoomManager
+ *
+ * \code
+ * #include <RoomManager.h>
+ * \endcode
+ *
  * \brief The Room::RoomManager class is responsible for managing all the
  * rooms ofthe Tepee3D application. It restores the rooms and their plugins
  * on startup, creates the model for the room selector menu, places rooms in
@@ -23,6 +47,14 @@
  *
  * \inmodule Tepee3D
  */
+
+/*!
+ * \fn void Room::RoomManager::executeSQLQuery(const QString &query, QObject *sender, int id)
+ *
+ * Emitted when a SQL \a query needs to be performed. The \a sender will received the result once executed with the \a id
+ * to detect which query this call is the result of.
+ */
+
 
 Room::RoomManager* Room::RoomManager::instance = NULL;
 int                Room::RoomManager::roomInstances = 0;
@@ -86,10 +118,11 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 }
 
 /*!
- * Called when the result \list of a previously executed query is received from the database service.
+ * Called when the result \a list of a previously executed query is received from the database service.
+ * The parameter \a id is used to tell which query this call is the result of.
  */
 
-void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int)
+void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
 {
     qDebug() << "RoomManager received SQL Result";
 

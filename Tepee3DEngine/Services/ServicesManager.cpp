@@ -56,7 +56,7 @@
 Services::ServicesManager* Services::ServicesManager::instance = NULL;
 
 /*!
- * Constructs a new ServiceManager instance.
+ * Constructs a new ServiceManager instance with the optionnal \a parent.
  */
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
@@ -65,7 +65,7 @@ Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 }
 
 /*!
- * Returns the singleton instance of the ServiceManager class.
+ * Returns the singleton instance of the ServiceManager class. Constructs an instance with \a parent if it hasn't been done before.
  */
 Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *parent)
 {
@@ -75,9 +75,9 @@ Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *par
 }
 
 /*!
- * Exposes QML content relative to service management to the QML context
+ * Exposes QML content relative to the service management to the QML \a context
  */
-void    Services::ServicesManager::exposeContentToQml(QQmlContext *)
+void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 {
 }
 

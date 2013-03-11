@@ -12,7 +12,7 @@ class   WebServiceUserInterface
 {
 public :
     enum WebServiceRequestType{Get = 1, Post, Delete, Put};
-    virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply) = 0;
     virtual void executeHttpGetRequest(const QNetworkRequest& request) = 0;
     virtual void executeHttpDeleteRequest(const QNetworkRequest& request) = 0;
     virtual void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart) = 0;

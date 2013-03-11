@@ -14,11 +14,18 @@
  */
 
 
+/*!
+ *  Constructs a new Room::RoomProperties instance with the optionnal \a parent argument.
+ */
+
 Room::RoomProperties::RoomProperties(QObject *parent) : QObject(parent)
 {
     this->pluginsModel = new Models::ListModel(new Models::PluginModelItem(NULL, NULL));
 }
 
+/*!
+ * Destroys a Room::RoomProperties instance.
+ */
 Room::RoomProperties::~RoomProperties()
 {
 }

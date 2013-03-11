@@ -32,6 +32,13 @@
  */
 
 
+/*!
+ * \fn Plugins::PluginManager::executeSQLQuery(const QString &query, QObject *sender, int id)
+ *
+ * Emitted to perform a \a query on the database. The result will be transmitted to \a sender with the accompanying \a id.
+ */
+
+
 Models::ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
 Models::ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
@@ -86,7 +93,10 @@ void Plugins::PluginManager::loadLocalPlugins()
     }
 }
 
-void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> , int)
+/*!
+ * Receives the \a result from the previous query with the given \a id to differentiate between queries.
+ */
+void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
 {
     qDebug() << "PluginManager Received Result";
 }

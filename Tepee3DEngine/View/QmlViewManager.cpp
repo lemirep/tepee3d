@@ -24,6 +24,12 @@
  */
 
 /*!
+ * \fn void View::QmlContentExposerInterface::exposeContentToQml(QQmlContext *context)
+ *
+ * Exposes QML content to the QML \a context.
+ */
+
+/*!
  * \class View::QmlViewManager
  * \code
  * #include <QmlViewManager.h>
@@ -87,6 +93,7 @@ View::QmlViewManager* View::QmlViewManager::getInstance()
 
 /*!
  * Initialises the Tepee3DEngine services, view rendering and room management entities.
+ * Returns true if the view was correctly initialized, false otherwise.
  */
 bool    View::QmlViewManager::initView()
 {

@@ -4,6 +4,10 @@
 /*!
  * \class View::QmlViewProperties
  *
+ * \code
+ * #include <QmlViewProperties.h>
+ * \endcode
+ *
  * \brief The View::QmlViewProperties class hold the properties
  * of the Qml view.
  *
@@ -17,7 +21,13 @@
  * \inmodule Tepee3D
  */
 
+
+
 View::QmlViewProperties* View::QmlViewProperties::instance = NULL;
+
+/*!
+ * Constructs a new View::QmlViewProperties instance with \a parent.
+ */
 
 View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
 {
@@ -27,13 +37,16 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     this->desktopWidget = QApplication::desktop();       //USED TO RETRIEVE SCREEN SIZE
 }
 
+/*!
+ * Destroys a View::QmlViewProperties instance.
+ */
 View::QmlViewProperties::~QmlViewProperties()
 {
     delete this->viewer;
 }
 
 /*!
- * Returns a singleton instance of the class.
+ * Returns a singleton instance of the class, constructing the instance, with the optionnal \a parent parameter, if it hasn't before.
  */
 View::QmlViewProperties* View::QmlViewProperties::getInstance(QObject *parent)
 {
@@ -43,7 +56,7 @@ View::QmlViewProperties* View::QmlViewProperties::getInstance(QObject *parent)
 }
 
 /*!
- * Exposes the exposer class to the QML context if exposer implements the QmlContentExposerInterface
+ * Exposes the \a exposer instance to the QML context if exposer implements the QmlContentExposerInterface
  * \sa QmlContentExposerInterface
  */
 void    View::QmlViewProperties::exposeContentToQml(QObject *exposer)
@@ -56,7 +69,7 @@ void    View::QmlViewProperties::exposeContentToQml(QObject *exposer)
 }
 
 /*!
- * Sets sourceFile as the source of the QML viewer.
+ * Sets \a sourceFile as the source of the QML viewer.
  */
 void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
 {
@@ -64,7 +77,7 @@ void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
 }
 
 /*!
- * Show the QML viewer.
+ * Shows the QML viewer.
  */
 void    View::QmlViewProperties::showView()
 {

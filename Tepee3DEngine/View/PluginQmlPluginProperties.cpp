@@ -2,6 +2,9 @@
 
 /*!
  * \class Plugins::PluginQmlPluginProperties
+ * \code
+ * #include <PluginQmlPluginProperties.h>
+ * \endcode
  *
  * \brief The Plugins::PluginQmlPluginProperties class is a custom
  * QQuickItem class that allows to access a plugin's logical properties
@@ -10,6 +13,21 @@
  * \inmodule Tepee3D
  */
 
+/*!
+ * \property int Plugins::PluginQmlPluginProperties::pluginId
+ */
+
+/*!
+ * \property int Plugins::PluginQmlPluginProperties::pluginRoomId
+ */
+
+/*!
+ * \property Plugins::PluginEnums::PluginState Plugins::PluginQmlPluginProperties::focusState
+ */
+
+/*!
+ * Constructs a new Plugins::PluginQmlPluginProperties instance.
+ */
 Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
 {
     qDebug() << "PluginQmlProperties Created";
@@ -18,6 +36,9 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
     this->plugin = NULL;
 }
 
+/*!
+ * Requests the new \a focusState of the plugin.
+ */
 void    Plugins::PluginQmlPluginProperties::askForFocusState(int focusState)
 {
     qDebug() << "PluginQmlProperties askForFocusState " << focusState;
@@ -25,6 +46,9 @@ void    Plugins::PluginQmlPluginProperties::askForFocusState(int focusState)
         this->plugin->askForFocusState(Plugins::PluginEnums::valueOf(focusState));
 }
 
+/*!
+ * Sets the plugin id to \a id.
+ */
 void    Plugins::PluginQmlPluginProperties::setPluginId(int id)
 {
     this->pluginId = id;
@@ -32,11 +56,17 @@ void    Plugins::PluginQmlPluginProperties::setPluginId(int id)
     emit (pluginIdChanged());
 }
 
+/*!
+ * Returns the plugin id.
+ */
 int     Plugins::PluginQmlPluginProperties::getPluginId() const
 {
     return this->pluginId;
 }
 
+/*!
+ * Sets the room Id \a id of the current plugin.
+ */
 void    Plugins::PluginQmlPluginProperties::setPluginRoomId(int id)
 {
     this->pluginRoomId = id;
@@ -44,11 +74,17 @@ void    Plugins::PluginQmlPluginProperties::setPluginRoomId(int id)
     emit (pluginRoomIdChanged());
 }
 
+/*!
+ * Returns the room Id of the currentPlugin.
+ */
 int     Plugins::PluginQmlPluginProperties::getPluginRoomId()   const
 {
     return this->pluginRoomId;
 }
 
+/*!
+ * Sets the \a focusState of the plugin.
+ */
 void    Plugins::PluginQmlPluginProperties::setFocusState(Plugins::PluginEnums::PluginState focusState)
 {
     if (this->plugin)
@@ -58,6 +94,9 @@ void    Plugins::PluginQmlPluginProperties::setFocusState(Plugins::PluginEnums::
     }
 }
 
+/*!
+ * Returns the focusState of the plugin.
+ */
 Plugins::PluginEnums::PluginState    Plugins::PluginQmlPluginProperties::getFocusState() const
 {
     if (this->plugin)
@@ -65,6 +104,10 @@ Plugins::PluginEnums::PluginState    Plugins::PluginQmlPluginProperties::getFocu
     return Plugins::PluginEnums::pluginIdleState;
 }
 
+/*!
+ * Finds and sets the PluginQmlPluginProperties to the plugin identified by a pluginId in a given room
+ * identified by a roomId.
+ */
 void    Plugins::PluginQmlPluginProperties::findPluginForRoomAndPluginId()
 {
     if (this->pluginId != -1 && this->pluginRoomId != -1)
