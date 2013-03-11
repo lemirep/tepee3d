@@ -1,0 +1,34 @@
+/*!
+ \page vm_instruction.html
+ \title VM Instruction
+
+ \section1 VM IPs
+ \code
+    inside IP : 10.224.9.208
+    external IP: 163.5.84.208
+ \endcode
+
+ \section1 Installing OpenGL library
+ \code
+    sudo apt-get install build-essential perl python git
+    sudo apt-get install "^libxcb.*" libx11-xcb-dev libglu1-mesa-dev libxrender-dev
+    sudo apt-get install libedit-dev
+    sudo apt-get install flex bison gperf libicu-dev libxslt-dev ruby
+    sudo apt-get purge nvidia*
+    sudo rm /etc/X11/xorg.conf
+    sudo apt-get install --reinstall xserver-xorg-core libgl1-mesa-glix:i386 libgl1-mesa-dri:i386 libgl1-mesa-glx:amd64 libgl1-mesa-dri:amd64
+    sudo dpkg-reconfigure xserver-xorg
+ \endcode
+
+ \section1 Install Qt 5
+ \code
+    Extract the Qt5 archive containing Qt5 in the home directory
+ \endcode
+
+ \section1 Install Tepee3D
+ \code
+    git clone https://git.gitorious.org/tepee3d/tepee3d.git
+    ~/qt5/qtbase/bin/qmake Tepee3D.pro && make
+ \endcode
+
+ */

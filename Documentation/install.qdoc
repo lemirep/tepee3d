@@ -1,0 +1,76 @@
+/*!
+ \page install.html
+ \title Installing Tepee3D
+
+ The following steps will guide you through the installation of Tepee3D on your computer.
+ As we are still developing the project, we do not offer ready to use packages but the official
+ release will. In the meantime, we hope the following sections will be clear enough
+
+ \section1 Prerequisites
+
+ Tepee3D uses several depencies among which Qt 5 and the Qt 3D module. The lack of activity on
+ the Qt 3D module eventually lead to the module not being integrated in the current release.
+ While waiting for future releases that will contain the module, we created a custom fork to solve
+ quickly a few bugs. In addition, to retrieve the sources, you'll need to have Git installed on your
+ system.
+
+ This section will explain how to install Qt 5 and how to build the Tepee3D Qt3D Module.
+
+ \section2 Installing Qt 5
+
+ \list 1
+ \li \c Download the Qt 5 installer that corresponds to your platform \l {http://qt-project.org/downloads}
+ \li \c Install everything (sources are optionnal) (Try to choose a path that you can easily remember)
+ \li \c Download this sample project \l {http://quitcoding.com/download/Qt5_CinematicExperience_rpi_1.0.tgz}
+ \li \c Open the .pro file contained in the extracted archive with QtCreator and in the Project tab disable ShadowBuild
+ \li \c Run the project. If you see a nice demo with particle effects you have installed Qt 5 correctly.
+\endlist
+
+ \section2 Building the Tepee3D Qt3D Module
+
+ \section3 On Linux platforms
+ \list 1
+ \li \c Move to the path were Qt 5 was installed ex: ~/QtSQK/Qt5
+ \li \c Move to the sub directory containing Qt 5 ex: ~/QtSQK/Qt5/5.0.0/gcc_64
+ \li \c Download the Tepee3D Qt3D Module's sources using the command: \code git clone git@gitorious.org:~lemirep/qt/tepee3d-qt3d.git \endcode
+ \li \c Move to the tepee3d-qt3d directory
+ \li \c Launch Qmake (Using the qmake from your Qt 5 install): ~/QtSQK/Qt5/5.0.0/gcc_64/bin/qmake qt3d.pro
+ \li \c Type: \code make \endcode
+ \li \c Type: \code make install \endcode (might need root access)
+\endlist
+
+ \section3 On Windows
+ \list 1
+ \li \c Install ActivePerl \l {http://www.activestate.com/activeperl/downloads}
+ \li \c Open a file explorer and go to the directory where Qt 5 was installed ex: ~/QtSQK/Qt5
+ \li \c Move to the sub directory containing Qt 5 ex:~/QtSQK/Qt5/5.0.0/gcc_64
+ \li \c Using a git software, clone the Tepee3D Qt3D Module's sources \l {https://git.gitorious.org/~lemirep/qt/tepee3d-qt3d.git}
+ \li \c Launch QtCreator and open the qt3d.pro file in the tepee3d-qt3d directory using either the menu File -> Open File or Project or Ctrl + O
+ \li \c Go to the Projects tab on the left of QtCreator's main window
+ \li \c In the build settings deselect the shadow build checkbox.
+ \li \c Press play on the left or Ctrl + R
+ \li \c Once compilation is done, open a terminal (MinGW or Visual) and move to the tepee3d-qt3d directory.
+ \li \c Type: \code nmake install \endcode
+ \endlist
+
+ \section1 Getting the sources
+
+ Tepee3D's sources are hosted on a git repository made available by gitorious.
+ You can obtain the sources at \l {https://gitorious.org/tepee3d}
+ They can be cloned directly using: \code git clone https://git.gitorious.org/tepee3d/tepee3d.git \endcode
+
+ \section1 Building and Running Tepee3D
+
+ Once you've obtained the sources, follow this steps to build Tepee3D
+
+ \list 1
+ \li \c Launch QtCreator
+ \li \c Open tepee3d.pro in the Tepee3D sources directory
+ \li \c Go to the Projects tab on the left of QtCreator's main window
+ \li \c In the build settings deselect the shadow build checkbox.
+ \li \c Press play on the left of Ctrl + R
+ \endlist
+
+Now Tepee3D should be build and can be runned using the Left button or Ctrl + R.
+Make sure that Tepee3DEngine is selected instead of UnitTest on the target menu of QtCreator that can be opened by pressing on the icon just above the Play button.
+*/
