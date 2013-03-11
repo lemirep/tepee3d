@@ -11,5 +11,5 @@ moc_*.cpp
 *.so
 *.pro.user
 plugins_qml
-Tepee3D_Doc
 font-awesome
+Tepee3D_Doc

@@ -31,10 +31,10 @@ class RoomManager : public QObject, public View::QmlContentExposerInterface, pub
 public:
     ~RoomManager();
     static RoomManager*     getInstance(QObject *parent = NULL);
-
+    static Room::RoomBase*   getNewRoomInstance();
 
     Models::ListModel*      getRoomModel() const;
-    bool                    addRoomToModel();
+    void                    addRoomToModel(Room::RoomBase *room);
 
     Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId) const;
 
@@ -72,12 +72,6 @@ private:
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace();
-
-
-    void                    restoreRoomsFromDatabase();
-    void                    insertNewRoomToDatabase(RoomBase *room);
-    void                    updateRoomModificationsToDatabase(RoomBase *room);
-    void                    deleteRoomFromDatabase(RoomBase *room);
 
 signals:
     void                    executeSQLQuery(const QString &query, QObject *sender, int id);

@@ -107,7 +107,6 @@ bool    View::QmlViewManager::initView()
     QUrl localFile = QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/main.qml");
     if (localFile.isValid())
     {
-        this->roomManager->addRoomToModel();
         this->viewProperties->setViewerSource(localFile);
         this->viewProperties->showView();
         return true;

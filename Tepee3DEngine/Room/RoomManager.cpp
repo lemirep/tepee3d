@@ -46,6 +46,12 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomUpdateTimer = new QTimer();
     this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
+
+
+        this->addNewRoom("RoomTest1");
+        this->addNewRoom("RoomTest2");
+        this->addNewRoom("RoomTest3");
+        this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -56,6 +62,14 @@ Room::RoomManager* Room::RoomManager::getInstance(QObject *parent)
     if (Room::RoomManager::instance == NULL)
         Room::RoomManager::instance = new Room::RoomManager(parent);
     return Room::RoomManager::instance;
+}
+
+/*!
+ * Returns a new Room::RoomBase instance base on the roomPrototype instance.
+ */
+Room::RoomBase* Room::RoomManager::getNewRoomInstance()
+{
+    return Room::RoomManager::getInstance()->roomPrototype->createNewInstance();
 }
 
 /*!
@@ -76,7 +90,7 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomManager", this);
 }
 
-void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
+void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int)
 {
     qDebug() << "RoomManager received SQL Result";
 
@@ -351,20 +365,14 @@ void        Room::RoomManager::loadRoomLibrary()
     }
 }
 
-
 /*!
  * Adds rooms the the room model. Rooms can then be restored from the database and
  * added on startup right here.
  */
 
-bool        Room::RoomManager::addRoomToModel()
+void        Room::RoomManager::addRoomToModel(Room::RoomBase *room)
 {
     // ROOMS ARE RESTORED FROM DATABASE HERE
-
-    this->addNewRoom("RoomTest1");
-    this->addNewRoom("RoomTest2");
-    this->addNewRoom("RoomTest3");
-    this->addNewRoom("RoomTest4");
-
-    return true;
+    Room::RoomManager::getInstance()->roomModel->appendRow(new Models::RoomModelItem(room));
+    Room::RoomManager::getInstance()->placeNewRoomInSpace();
 }
