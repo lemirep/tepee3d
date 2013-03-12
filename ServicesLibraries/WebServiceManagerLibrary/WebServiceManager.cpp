@@ -83,10 +83,10 @@ QNetworkAccessManager*  WebServiceManager::getInstance()
 
 // NETWORK REPLYREPEATER HAS TO BE DELETED IN PLUGIN
 // QNETWORKREPLY HAS TO BE DELETED USING DELETELATER
-void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*, QObject *sender)
+void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*, QObject *sender, int requestId)
 {
     qDebug() << "Executing HttpGetRequest";
-    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender);
+    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId);
     QNetworkReply *reply = this->getInstance()->get(request);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
@@ -94,10 +94,10 @@ void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*, QObj
 /*!
  * Performs a DELETE Http \a request, the reply will be transmitted to \a sender.
  */
-void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart*, QObject *sender)
+void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart*, QObject *sender, int requestId)
 {
     qDebug() << "Executing HttpGetDelete";
-    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender);
+    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId);
     QNetworkReply*reply = this->getInstance()->deleteResource(request);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
@@ -106,10 +106,10 @@ void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart*, Q
  * Performs a POST Http \a request, the reply will be transmitted to \a sender. If \a multiPart is not NULL
  * its data will be transmitted with the request.
  */
-void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender)
+void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId)
 {
     qDebug() << "Executing HttpGetPost";
-    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender);
+    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId);
     QNetworkReply *reply = this->getInstance()->post(request, multiPart);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
@@ -118,10 +118,10 @@ void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *mult
  * Performs a PUT Http \a request, the reply will be transmitted to \a sender. If \a multiPart is not NULL
  * its data will be transmitted with the request.
  */
-void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender)
+void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId)
 {
     qDebug() << "Executing HttpGetPut";
-    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender);
+    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId);
     QNetworkReply *reply = this->getInstance()->put(request, multiPart);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
@@ -131,8 +131,8 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
     qDebug() << "Connecting user to WebServices";
     // HTTP
     if (dynamic_cast<Services::WebServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
-                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
+        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int)),
+                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
 }
@@ -141,8 +141,8 @@ bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
 {
     // HTTP
     if (dynamic_cast<Services::WebServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*)),
-                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
+        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int)),
+                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
 }
@@ -159,10 +159,10 @@ void            WebServiceManager::initLibraryConnection(QObject *parent)
 //                     this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
 }
 
-void            WebServiceManager::executeHttpRequest(QNetworkRequest request, int requestType, QHttpMultiPart *multiPart, QObject *sender)
+void            WebServiceManager::executeHttpRequest(QNetworkRequest request, int requestType, QHttpMultiPart *multiPart, QObject *sender, int requestId)
 {
     qDebug() << "Executing HttpRequest";
-    (this->*this->httpMethods[requestType])(request, multiPart, sender);
+    (this->*this->httpMethods[requestType])(request, multiPart, sender, requestId);
 }
 
 QObject*        WebServiceManager::getLibraryQObject()

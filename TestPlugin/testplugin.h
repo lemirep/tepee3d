@@ -28,6 +28,11 @@ private:
     QString colorSelect;
     QQmlContext *context;
 
+protected:
+    void                onIdleFocusState();
+    void                onSelectedFocusState();
+    void                onFocusedFocusState();
+
 public:
     TestPlugin();
     int                     getPluginId();
@@ -42,11 +47,15 @@ public:
     // DatabaseServiceUserInterface
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
     // WebServiceUserInterface
-    void                    receiveResultFromHttpRequest(QNetworkReply * reply);
+    void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId);
     void                    exposeContentToQml(QQmlContext *context);
     void setColor(QString color);
     Q_INVOKABLE void selectColor(QString color);
     Q_INVOKABLE QString getColor();
+
+private slots :
+
+    void                    onFocusStateChanged();
 
 
 };

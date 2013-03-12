@@ -18,10 +18,10 @@ class WebServiceManager : public QObject, Services::ServiceInterface
     Q_PLUGIN_METADATA(IID "com.tepee3d.Services.webservices")
 public:
     WebServiceManager();
-    void          httpGet(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender);
-    void          httpDelete(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender);
-    void          httpPost(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender);
-    void          httpPut(QNetworkRequest& request, QHttpMultiPart* multiPart, QObject *sender);
+    void          httpGet(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId);
+    void          httpDelete(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId);
+    void          httpPost(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId);
+    void          httpPut(QNetworkRequest& request, QHttpMultiPart* multiPart, QObject *sender, int requestId);
 
     static  QJsonObject*    QJsonFromReply(QNetworkReply* reply);
 
@@ -34,11 +34,11 @@ public:
 private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*  getInstance();
-    QHash<int, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*)>       httpMethods;
+    QHash<int, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*, int)>       httpMethods;
 
 private slots:
     void executeHttpRequest(QNetworkRequest request, int requestType,
-                            QHttpMultiPart *multiPart, QObject *sender);
+                            QHttpMultiPart *multiPart, QObject *sender, int requestId);
 signals:
 };
 

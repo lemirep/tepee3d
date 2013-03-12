@@ -12,11 +12,11 @@ class   WebServiceUserInterface
 {
 public :
     enum WebServiceRequestType{Get = 1, Post, Delete, Put};
-    virtual void receiveResultFromHttpRequest(QNetworkReply *reply) = 0;
-    virtual void executeHttpGetRequest(const QNetworkRequest& request) = 0;
-    virtual void executeHttpDeleteRequest(const QNetworkRequest& request) = 0;
-    virtual void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart) = 0;
-    virtual void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId) = 0;
+    virtual void executeHttpGetRequest(const QNetworkRequest& request, int requestId) = 0;
+    virtual void executeHttpDeleteRequest(const QNetworkRequest& request, int requestId) = 0;
+    virtual void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId) = 0;
+    virtual void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId) = 0;
     // SIGNAL
     //void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender);
 };

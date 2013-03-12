@@ -141,6 +141,9 @@
 Plugins::PluginBase::PluginBase() : QObject(NULL)
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
+    this->focusHandler[Plugins::PluginEnums::pluginIdleState]     = &Plugins::PluginBase::onIdleFocusState;
+    this->focusHandler[Plugins::PluginEnums::pluginSelectedState] = &Plugins::PluginBase::onSelectedFocusState;
+    this->focusHandler[Plugins::PluginEnums::pluginFocusedState]  = &Plugins::PluginBase::onFocusedFocusState;
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
     QObject::connect(this, SIGNAL(roomLeft()), this, SLOT(onRoomEntered()));
 }
@@ -163,11 +166,14 @@ void    Plugins::PluginBase::onRoomEntered()
 
 /*!
  * Sets the plugin's focus state and alert the qml view that the focusState \a requestedState has changed.
+ * The corresponding focus handler is called
  */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
     qDebug() << "Setting Focus State " << requestedState;
     this->focusState = requestedState;
+    // CALL FOCUS STATE HANDLER
+    (this->*this->focusHandler[this->focusState])();
     emit (focusStateChanged(QVariant(requestedState)));
 }
 
@@ -191,33 +197,33 @@ void    Plugins::PluginBase::resultFromSQL()
 /*!
  * Sends Http Get \a request to network manager.
  */
-void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request)
+void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId)
 {
-    emit executeHttpRequest(request, Get, NULL, this);
+    emit executeHttpRequest(request, Get, NULL, this, requestId);
 }
 
 /*!
  * Sends Http Delete \a request to network manager.
  */
-void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request)
+void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId)
 {
-    emit executeHttpRequest(request, Delete, NULL, this);
+    emit executeHttpRequest(request, Delete, NULL, this, requestId);
 }
 
 /*!
  * Sends Http Post \a request to network manager with \a multiPart for data.
  */
-void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
+void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId)
 {
-    emit executeHttpRequest(request, Post, multiPart, this);
+    emit executeHttpRequest(request, Post, multiPart, this, requestId);
 }
 
 /*!
  * Sends Http Put \a request to network manager with \a multiPart for data.
  */
-void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart)
+void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId)
 {
-    emit executeHttpRequest(request, Put, multiPart, this);
+    emit executeHttpRequest(request, Put, multiPart, this, requestId);
 }
 
 /*!

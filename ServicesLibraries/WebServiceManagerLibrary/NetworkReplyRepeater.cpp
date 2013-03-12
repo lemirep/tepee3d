@@ -3,9 +3,10 @@
 // DEBUG
 #include <QDebug>
 
-NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver) : QObject()
+NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId) : QObject()
 {
     this->receiver = receiver;
+    this->requestId = requestId;
 }
 
 void    NetworkReplyRepeater::receiveNetworkReply()
@@ -13,7 +14,7 @@ void    NetworkReplyRepeater::receiveNetworkReply()
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     Services::WebServiceUserInterface* wbUser = dynamic_cast<Services::WebServiceUserInterface*>(this->receiver);
     if (wbUser)
-        wbUser->receiveResultFromHttpRequest(reply);
+        wbUser->receiveResultFromHttpRequest(reply, this->requestId);
     else
         qDebug() << " Not an instance of WebServiceUser";
 

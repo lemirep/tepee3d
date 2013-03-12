@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QNetworkRequest>
 #include <QQmlExtensionPlugin>
+#include <QHash>
 #include "PluginEnums.h"
 #include "PluginInterface.h"
 #include "DatabaseServiceUserInterface.h"
@@ -40,6 +41,13 @@ public:
     // VARIABLES
 protected:
     PluginEnums::PluginState            focusState;
+    // HANDLE FOCUS STATE CHANGES
+    virtual void                onIdleFocusState()     {}
+    virtual void                onSelectedFocusState() {}
+    virtual void                onFocusedFocusState()  {}
+
+private:
+    QHash<Plugins::PluginEnums::PluginState, void (Plugins::PluginBase::*)()>  focusHandler;
 
     // SQL
 protected:
@@ -47,17 +55,17 @@ protected:
 
     // WEB SERVICES
 protected:
-    void executeHttpGetRequest(const QNetworkRequest& request);
-    void executeHttpDeleteRequest(const QNetworkRequest& request);
-    void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart);
-    void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart);
+    void executeHttpGetRequest(const QNetworkRequest& request, int requestId);
+    void executeHttpDeleteRequest(const QNetworkRequest& request, int requestId);
+    void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId);
+    void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId);
 
-    virtual void receiveResultFromHttpRequest(QNetworkReply *reply) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId) = 0;
 
     // Defines all signals that a plugin can emit or receive
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender, int id);
-    void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender);
+    void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState);
     void    roomEntered();

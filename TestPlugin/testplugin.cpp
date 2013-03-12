@@ -17,7 +17,8 @@
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
-    this->initPlugin();
+    QObject::connect(this, SIGNAL(focusStateChanged(QVariant)), this, SLOT(onFocusStateChanged()));
+//    this->initPlugin();
 }
 
 int TestPlugin::getPluginId()
@@ -29,7 +30,7 @@ void TestPlugin::initPlugin()
 {
     std::cout << " INITIALIZING PLUGINS " << std::endl;
     this->setColor("yellow");
-    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
+    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
 }
 
 QString TestPlugin::getPluginName()
@@ -83,7 +84,7 @@ void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
     }
 }
 
-void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply)
+void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId)
 {
     qDebug() << "TestPlugin::Received Network Reply";
     qDebug() << reply->readAll();
@@ -109,7 +110,29 @@ QString TestPlugin::getColor()
     return this->colorSelect;
 }
 
+void TestPlugin::onFocusStateChanged()
+{
+    if (this->focusState == Plugins::PluginEnums::pluginFocusedState)
+        this->initPlugin();
+}
+
 void TestPlugin::setColor(QString color)
 {
     this->colorSelect = color;
+}
+
+
+void TestPlugin::onIdleFocusState()
+{
+    qDebug() << "Idle focus handler";
+}
+
+void TestPlugin::onSelectedFocusState()
+{
+    qDebug() << "Selected focus handler";
+}
+
+void TestPlugin::onFocusedFocusState()
+{
+    qDebug() << "Focused focus handler";
 }
