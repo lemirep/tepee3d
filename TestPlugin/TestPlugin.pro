@@ -94,7 +94,7 @@ OTHER_FILES += \
     components/Button.qml \
     components/BackButton.qml \
     components/AuthorizeDialog.qml \
-    Widget.qml
+    TestPlugin.qml
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {

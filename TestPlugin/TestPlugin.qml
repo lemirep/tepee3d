@@ -22,16 +22,16 @@ Item3D
     property real savedYPos;
     property vector3d savedCameraOrientation;
 
-<<<<<<< HEAD:TestPlugin/Widget.qml
+    function getTimeLine()
+    {
+        console.log("CALL TWITTER <<<<<<<<<<<<<<<<<<<<<");
+        Script.getTwitterTimeAndLogin();
+        console.log("<<<------------------");
+    }
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
     function focusStateChanged(focusStateValue)
     {
-        console.log("<<<<<<<<<<<<<<<<<<<<<FocusStateChanged " + focusStateValue);
-        //Script.requestToken();
-        Script.getTwitterTimeAndLogin();
-        console.log("<<<------------------<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-
         switch (focusStateValue)
         {
         case 0:
@@ -47,10 +47,7 @@ Item3D
             break;
         }
     }
-=======
     position : Qt.vector3d(0, 0, 0)
->>>>>>> 5dc5c7129beed1d4967ff969121b46f6dc8472ee:TestPlugin/TestPlugin.qml
-
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
@@ -115,7 +112,7 @@ Item3D
             effect: Effect {color: "red"}
             scale : 1
             position : Qt.vector3d(2, 1, 1)
-            onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";}
+            onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";getTimeLine();}
         }
 
         Cube
