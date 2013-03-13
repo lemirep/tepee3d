@@ -37,6 +37,21 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
 }
 
 /*!
+ * Destroys a Plugins::PluginQmlPluginProperties instance, disconnection signals from the Plugins::PluginBase
+ * it is refering to if existing.
+ *
+ */
+Plugins::PluginQmlPluginProperties::~PluginQmlPluginProperties()
+{
+    if (this->plugin)
+    {
+        QObject::disconnect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));
+        QObject::disconnect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
+        QObject::disconnect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
+    }
+}
+
+/*!
  * Requests the new \a focusState of the plugin.
  */
 void    Plugins::PluginQmlPluginProperties::askForFocusState(int focusState)
@@ -83,18 +98,6 @@ int     Plugins::PluginQmlPluginProperties::getPluginRoomId()   const
 }
 
 /*!
- * Sets the \a focusState of the plugin.
- */
-void    Plugins::PluginQmlPluginProperties::setFocusState(Plugins::PluginEnums::PluginState focusState)
-{
-    if (this->plugin)
-    {
-        this->plugin->setFocusState(focusState);
-        emit (focusStateChanged(focusState));
-    }
-}
-
-/*!
  * Returns the focusState of the plugin.
  */
 Plugins::PluginEnums::PluginState    Plugins::PluginQmlPluginProperties::getFocusState() const
@@ -114,7 +117,7 @@ void    Plugins::PluginQmlPluginProperties::findPluginForRoomAndPluginId()
     {
         qDebug() << "Plugin and roomId are valid";
         this->plugin = View::ViewToModelMapper::getPluginFromRoom(this->pluginRoomId, this->pluginId);
-        QObject::connect(this->plugin, SIGNAL(focusStateChanged(QVariant)), this, SIGNAL(focusStateChanged(QVariant)));
+        QObject::connect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));
         QObject::connect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
         QObject::connect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
         this->plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);

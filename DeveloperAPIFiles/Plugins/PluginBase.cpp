@@ -123,19 +123,6 @@
  */
 
 /*!
- * \fn void Plugins::PluginBase::roomEntered()
- *
- * Emitted when the room in which the plugin is loaded is entered.
- */
-
-/*!
- * \fn void Plugins::PluginBase::roomLeft()
- *
- * Emitted when the room in which the plugin is loaded is left.
- */
-
-
-/*!
  * Constructs a new Plugins::PluginBase instance.
  */
 Plugins::PluginBase::PluginBase() : QObject(NULL)
@@ -145,7 +132,6 @@ Plugins::PluginBase::PluginBase() : QObject(NULL)
     this->focusHandler[Plugins::PluginEnums::pluginSelectedState] = &Plugins::PluginBase::onSelectedFocusState;
     this->focusHandler[Plugins::PluginEnums::pluginFocusedState]  = &Plugins::PluginBase::onFocusedFocusState;
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
-    QObject::connect(this, SIGNAL(roomLeft()), this, SLOT(onRoomEntered()));
 }
 
 /*!
@@ -157,24 +143,17 @@ Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
 }
 
 /*!
- * Slot triggered when the Tepee3DEngine enters the room containing the plugin.
- */
-void    Plugins::PluginBase::onRoomEntered()
-{
-    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
-}
-
-/*!
  * Sets the plugin's focus state and alert the qml view that the focusState \a requestedState has changed.
  * The corresponding focus handler is called
  */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
     qDebug() << "Setting Focus State " << requestedState;
+    Plugins::PluginEnums::PluginState oldFocusState = this->focusState;
     this->focusState = requestedState;
     // CALL FOCUS STATE HANDLER
     (this->*this->focusHandler[this->focusState])();
-    emit (focusStateChanged(QVariant(requestedState)));
+    emit (focusStateChanged(QVariant(requestedState), QVariant(oldFocusState)));
 }
 
 /*!
@@ -187,15 +166,31 @@ void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState 
 }
 
 /*!
- * Called when receiving SQL results from the Database Service.
+ * Handler for idle focusState. Your implementation should override this method to behave
+ * the way you would like your plugin to behave.
  */
-void    Plugins::PluginBase::resultFromSQL()
+void Plugins::PluginBase::onIdleFocusState()
 {
-    qDebug() << "PLUGIN BASE RESULT FROM SQL";
 }
 
 /*!
- * Sends Http Get \a request to network manager.
+ * Handler for selected focusState. Your implementation should override this method to behave
+ * the way you would like your plugin to behave.
+ */
+void Plugins::PluginBase::onSelectedFocusState()
+{
+}
+
+/*!
+ * Handler for focused focusState. Your implementation should override this method to behave
+ * the way you would like your plugin to behave.
+ */
+void Plugins::PluginBase::onFocusedFocusState()
+{
+}
+
+/*!
+ * Sends Http Get \a request to network manager, \a requestId will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId)
 {
@@ -203,7 +198,7 @@ void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &reques
 }
 
 /*!
- * Sends Http Delete \a request to network manager.
+ * Sends Http Delete \a request to network manager, \a requestId will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId)
 {
@@ -211,7 +206,7 @@ void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &req
 }
 
 /*!
- * Sends Http Post \a request to network manager with \a multiPart for data.
+ * Sends Http Post \a request to network manager with \a multiPart for data, \a requestId will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId)
 {
@@ -219,7 +214,7 @@ void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &reque
 }
 
 /*!
- * Sends Http Put \a request to network manager with \a multiPart for data.
+ * Sends Http Put \a request to network manager with \a multiPart for data, \a requestId will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId)
 {
@@ -242,3 +237,24 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
     return this->focusState;
 }
 
+/*!
+ * \fn void Plugins::PluginBase::roomEntered()
+ *
+ * Triggered when the room in which the plugin is loaded is entered. The focus state is by default set to idle.
+ */
+void Plugins::PluginBase::onRoomEntered()
+{
+    emit (roomEntered());
+    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
+}
+
+/*!
+ * \fn void Plugins::PluginBase::roomLeft()
+ *
+ * Emitted when the room in which the plugin is loaded is left. The focus state is by default set to idle.
+ */
+void Plugins::PluginBase::onRoomLeft()
+{
+    emit (roomLeft());
+    this->setFocusState(Plugins::PluginEnums::pluginIdleState);
+}

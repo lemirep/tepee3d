@@ -9,8 +9,9 @@ Item3D
 
     position : room_loader_item.roomPosition;
     property int roomId   : room_loader_item.roomId;
-    property bool isCurrentRoom : (roomId === mainWindow.currentRoomId)
     property int currentFaceId : mainWindow.currentRoomFaceId;
+    property bool isCurrentRoom : (roomId === mainWindow.currentRoomId)
+    property bool isAPluginFocused : false
     property real faceIndicatorDistance : 0.01
     property variant widgetModel : room_loader_item.widgetsModel
     property vector3d roomScale :  room_loader_item.roomScale
@@ -44,6 +45,7 @@ Item3D
     onPositionChanged:    {if (isCurrentRoom)  {mainWindow.currentRoomId = -1; mainWindow.currentRoomId = roomId}}
     onCurrentFaceIdChanged:    {if (isCurrentRoom) showWallsIndicator()}
     onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator()}
+    onIsAPluginFocusedChanged:    {console.log((isAPluginFocused) ? "A Plugin in the room is focused" : "No Plugin in the room is focused")}
 
     Item3D
     {
@@ -104,7 +106,7 @@ Item3D
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
             translationVector: Qt.vector3d(0, 0, 0.5)
-            enabled : (!isCurrentRoom || currentFaceId != 1)
+            enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 1)
             effect : face_effect
             //            onHoverEnter : {console.log("North")}
             onClicked : {moveToFace(0)}
@@ -120,7 +122,7 @@ Item3D
             rotationAngle:  90
             rotationAxis: Qt.vector3d(1, 0, 0)
             translationVector: Qt.vector3d(0, 0, -0.5)
-            enabled : (!isCurrentRoom || currentFaceId != 0)
+            enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 0)
             effect : face_effect
             //            onHoverEnter : {console.log("South")}
             onClicked : {moveToFace(1)}
@@ -138,7 +140,7 @@ Item3D
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: -90
             translationVector: Qt.vector3d(0.5, 0, 0)
-            enabled : (!isCurrentRoom || currentFaceId != 2)
+            enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 2)
             effect : face_effect
             //            onHoverEnter : {console.log("West")}
             onClicked : {moveToFace(3)}
@@ -156,7 +158,7 @@ Item3D
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 90
             translationVector: Qt.vector3d(-0.5, 0, 0)
-            enabled : (!isCurrentRoom || currentFaceId != 3)
+            enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 3)
             effect : face_effect
             //            onHoverEnter : {console.log("East")}
             onClicked : {moveToFace(2)}
@@ -174,7 +176,7 @@ Item3D
             translationVector: Qt.vector3d(0, 0.5, 0)
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
-            enabled : (!isCurrentRoom || currentFaceId != 5)
+            enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 5)
             effect : face_effect
             //            onHoverEnter : {console.log("Up")}
             onClicked : {moveToFace(4)}
@@ -192,7 +194,7 @@ Item3D
             panelRotationAxis: Qt.vector3d(0, 1, 0)
             panelRotationAngle: 180
             translationVector: Qt.vector3d(0, -0.5, 0)
-            enabled : (!isCurrentRoom || currentFaceId != 4)
+            enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 4)
             effect : face_effect
             //            onHoverEnter : {console.log("Down")}
             onClicked : {moveToFace(5)}

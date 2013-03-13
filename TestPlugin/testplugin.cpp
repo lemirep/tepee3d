@@ -17,7 +17,7 @@
 TestPlugin::TestPlugin() : PluginBase()
 {
     std::cout << "CREATION OF TEST PLUGIN" << std::endl;
-    QObject::connect(this, SIGNAL(focusStateChanged(QVariant)), this, SLOT(onFocusStateChanged()));
+//    QObject::connect(this, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SLOT(onFocusStateChanged()));
 //    this->initPlugin();
 }
 
@@ -112,8 +112,7 @@ QString TestPlugin::getColor()
 
 void TestPlugin::onFocusStateChanged()
 {
-    if (this->focusState == Plugins::PluginEnums::pluginFocusedState)
-        this->initPlugin();
+//    if (this->focusState == Plugins::PluginEnums::pluginFocusedState)
 }
 
 void TestPlugin::setColor(QString color)
@@ -130,6 +129,7 @@ void TestPlugin::onIdleFocusState()
 void TestPlugin::onSelectedFocusState()
 {
     qDebug() << "Selected focus handler";
+    this->initPlugin();
 }
 
 void TestPlugin::onFocusedFocusState()

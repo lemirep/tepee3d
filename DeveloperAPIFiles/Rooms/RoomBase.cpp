@@ -54,7 +54,7 @@ int Room::RoomBase::nextId = 0;
  * a Room::RoomProperties instance.
  * \sa Room::RoomProperties
  */
-Room::RoomBase::RoomBase() : QQuickItem()
+Room::RoomBase::RoomBase() : QObject()
 {
     this->roomId = Room::RoomBase::nextId++;
     this->roomProperties = new Room::RoomProperties(this);
@@ -323,5 +323,5 @@ void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::Plugin
         }
     }
     if (requestAccepted)
-        requester->setFocusState(requestedState);
+        requester->setFocusState(requestedState);    
 }
