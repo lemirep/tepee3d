@@ -14,15 +14,16 @@ Item3D
 
     // TO ASK FOR A GIVEN FOCUS STATE CALL
     // plugin_base.askForFocusState(State)
-    // IF CHANGE ACCEPTED, onFocusStateChanged will be called
+    // IF CHANGE ACCEPTED, corresponding handler will be called
 
-    ///////////////// UTILITY FUNCTIONS
+    ///////////////// UTILITY FUNCTIONS THE PLUGIN CAN CALL
     function askForRoomFocusState()            {plugin_properties.askForFocusState(0)}
     function askForRoomSelectedFocusState()    {plugin_properties.askForFocusState(1)}
     function askForFocusedFocusState()         {plugin_properties.askForFocusState(2)}
     function getFocusState()                   {return plugin_properties.focusState}
     function moveCamera(eye, center, up)       {CameraManagement.moveCamera(camera, eye, center, up)}
-    // RETURN DEEP COPY OF VAR SO THEY CANNOT MODIFY THE ROOM DIRECTLY
+    function getCameraOrientation()            {return camera.getCameraOrientation()}
+    // RETURN DEEP COPY OF ROOM VARIABLES SO THEY CANNOT MODIFY THE ROOM DIRECTLY
     function getRoomPosition()                 {return room_item.getRoomPosition()}
     function getRoomScale()                    {return room_item.getRoomScale()}
     // REGISTER PLUGIN SO THAT IT CAN RECEIVE MOUSE MOVE EVENTS
@@ -30,6 +31,7 @@ Item3D
     // TO DISPLAY NOTIFICATION MESSAGE AND POP UP
     function postNotification(message, type)   {mainWindow.postNotification(message, type)}
     function showPopUp(popupUrl)               {mainWindow.showPopUp(url)}
+
 
     PluginProperties
     {
@@ -45,25 +47,35 @@ Item3D
         // IF THE LOADER HAS NOT LOADED ANY ELEMENT YET THEN IT LOADS THE PLUGINS
         // OTHERWISE IT TRANSMITS THE SIGNAL TO THE PLUGIN ITEM
 
-
         onFocusStateChanged:
         {
             console.log("v State " + newFocusStateValue + "  "  + focusState);
-
-            if (newFocusStateValue == 0 && !plugin_loader.item)
-                    plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
-            if (plugin_loader.item)
+            // IF THE PLUGIN HAS NEVER BEEN LOADED WE LOAD IT
+            if (newFocusStateValue === 0 && !plugin_loader.item)
+                plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
+            if (!plugin_loader.item)
+                return ;
+            // CALL THE FOCUS HANDLER MATCHING THE NEW FOCUS STATE
+            if (newFocusStateValue === 2)
             {
-                plugin_loader.item.focusStateChanged(newFocusStateValue);
-                if (newFocusStateValue == 2)
-                {
-                    console.log("MENU IS >>>> " + menuQmlFile)
-                    mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
-                }
+                // TELL THE PARENT ROOM THERE IS A PLUGIN FOCUSED
+                room_item.isAPluginFocused = true;
+                console.log("MENU IS >>>> " + menuQmlFile)
+                mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
+                plugin_loader.item.switchToFocusedView();
+            }
+            else
+            {
+                // MENU IS UNLOADED WHEN NOT IN FOCUSED MODE
+                mainWindow.pluginMenuSource = "";
+                // TELLS THE ROOM THE PLUGIN IS NO MORE FOCUSED
+                if (previousFocusState === 2)
+                    room_item.isAPluginFocused = false;
+                // CALL MATCHING FOCUS HANDLER IN THE PLUGIN
+                if (newFocusStateValue === 0)
+                    plugin_loader.item.switchToIdleFocusView();
                 else
-                {
-                    mainWindow.pluginMenuSource = "";
-                }
+                    plugin_loader.item.switchToSelectedFocusView();
             }
         }
 
@@ -82,10 +94,5 @@ Item3D
         }
     }
 
-    Loader
-    {
-        id : plugin_loader
-
-        onLoaded: {        }
-    }
+    Loader    {id : plugin_loader}
 }

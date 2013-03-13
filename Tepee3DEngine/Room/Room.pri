@@ -1,9 +1,9 @@
 
 SOURCES += $$PWD/RoomManager.cpp \
-           $$PWD/roomloader.cpp
+           $$PWD/RoomLoader.cpp
 
 HEADERS += $$PWD/RoomManager.h \
-           $$PWD/roomloader.h
+           $$PWD/RoomLoader.h
 
 INCLUDEPATH += $$PWD
 

@@ -51,6 +51,11 @@
 
 View::QmlViewManager* View::QmlViewManager::instance = NULL;
 
+/*!
+ * \fn void View::QmlViewManager::quit()
+ *
+ * Emitted to tell the QApplication it should be killed.
+ */
 
 /*!
  * Constructs a QmlViewManager instance and initializes the Service Manager,
@@ -66,6 +71,12 @@ View::QmlViewManager::QmlViewManager() : QObject()
     this->servicesManager = Services::ServicesManager::getInstance(this);
     this->roomManager = Room::RoomManager::getInstance(this);
     this->pluginsManager  = Plugins::PluginManager::getInstance(this);
+
+    // ALL INSTANCES CREATED SHOULDN'T CALL OR REGISTER TO SERVICES UNTIL THOSE HAVE
+    // BEEN PROPERLY INITIALIZED
+
+    QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), this, SLOT(initView()));
+    this->servicesManager->loadServicesLibraries();
 }
 
 
@@ -94,18 +105,25 @@ View::QmlViewManager* View::QmlViewManager::getInstance()
 /*!
  * Initialises the Tepee3DEngine services, view rendering and room management entities.
  * Returns true if the view was correctly initialized, false otherwise.
+ * Triggered when the ServicesManagers signals the libraries have been properly initialized.
  */
 bool    View::QmlViewManager::initView()
 {
-
     // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
     Services::ServicesManager::connectObjectToServices(this->roomManager);
     // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
     Services::ServicesManager::connectObjectToServices(this->pluginsManager);
-    //    // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
+
+    // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
     View::QmlViewProperties::exposeContentToQml(this->roomManager);
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginsManager);
+
+    // TELLS ROOM MANAGER TO RESTORE ROOMS
+    this->roomManager->restoreRooms();
+
+
+
 
     qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 

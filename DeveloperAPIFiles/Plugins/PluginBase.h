@@ -1,7 +1,7 @@
 #ifndef PLUGINBASE_H
 #define PLUGINBASE_H
 
-#include <QObject>
+#include <QQuickItem>
 #include <QNetworkRequest>
 #include <QQmlExtensionPlugin>
 #include <QHash>
@@ -25,16 +25,19 @@ class PluginBase : public QObject,
 
 public:
 
-    PluginBase();
+    explicit PluginBase();
     virtual int                 getPluginId()               = 0;
-    virtual bool                needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
+    virtual bool                needsUpdating()             const;  // BY DEFAULT RETURNS FALSE
     virtual void                initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
     virtual QString             getPluginName()             = 0;
     virtual QString             getPluginDescription()      = 0;
     virtual QString             getRoomPluginQmlFile()      const = 0;
     virtual QString             getMenuPluginQmlFile()      const = 0;
     virtual PluginBase*         createNewInstance()         = 0;
-    virtual void                exposeContentToQml(QQmlContext *context) = 0;
+
+    // IS IMPLEMENTED HERE TO EXPOSE THE SUBCLASS
+    // LETTING PLUGINS IMPLEMENT IT IS TO DANGEROUS
+    void                        exposeContentToQml(QQmlContext *context);
     PluginBase*                 getPluginBase();
     PluginEnums::PluginState    getFocusState()             const;
     void                        askForFocusState(PluginEnums::PluginState requestedState);
@@ -42,9 +45,9 @@ public:
 protected:
     PluginEnums::PluginState            focusState;
     // HANDLE FOCUS STATE CHANGES
-    virtual void                onIdleFocusState()     {}
-    virtual void                onSelectedFocusState() {}
-    virtual void                onFocusedFocusState()  {}
+    virtual void                onIdleFocusState();
+    virtual void                onSelectedFocusState();
+    virtual void                onFocusedFocusState();
 
 private:
     QHash<Plugins::PluginEnums::PluginState, void (Plugins::PluginBase::*)()>  focusHandler;
@@ -67,16 +70,16 @@ signals :
     void    executeSQLQuery(const QString& query, QObject *sender, int id);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
-    void    focusStateChanged(QVariant focusState);
+    void    focusStateChanged(QVariant focusState, QVariant previousFocusState);
     void    roomEntered();
     void    roomLeft();
 
 
 public slots :
-    // Define slots as virtual so that developpers can subclass them if necessary
-    virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
+    // SLOTS CAN BE VIRTUAL
+    virtual void    onRoomEntered();
+    virtual void    onRoomLeft();
     void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
-    void            onRoomEntered();
 };
 
 }

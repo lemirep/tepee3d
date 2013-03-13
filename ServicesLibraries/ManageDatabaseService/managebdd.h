@@ -31,6 +31,7 @@ private :
     QString         field;
     QString         username;
     QSqlDatabase    dataBase;
+    QSqlQuery       sqlQuery;
     QList<QString>  fieldName ;
     QList<QString>  value;
 };

@@ -22,6 +22,12 @@
 
 /*! \fn void        Services::ServiceInterface::initLibraryConnection(QObject *parent)
  * Initializes the service library providing the \a parent QObject if signals connections are required.
+ * Note that when the library has been initialized, it must signals it to the parent by triggering the slot
+ * \code
+ * void libraryInitialized();
+ * \encode
+ * Off the parent instance. Otherwise the Tepee3DEngine will wait undefinetely to launch the graphical interface.
+ *
  */
 
 /*! \fn bool        Services::ServiceInterface::connectServiceToUser(QObject *user)
@@ -61,7 +67,7 @@ Services::ServicesManager* Services::ServicesManager::instance = NULL;
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
     this->services = QList<ServiceInterface*>();
-    this->loadServicesLibraries();
+//    this->loadServicesLibraries();
 }
 
 /*!
@@ -119,6 +125,19 @@ void    Services::ServicesManager::disconnectObjectFromServicesSlot(QObject *ser
 
     foreach (ServiceInterface* service, this->services)
         service->disconnectServiceFromUser(serviceUser);
+}
+
+/*!
+ * Triggered by each library to signal it is initialized. Keep count of libraries that have
+ * signaled they were ready. It all libraries have signaled, then librariesInitialized signal is emitted.
+ */
+void Services::ServicesManager::libraryInitialized()
+{
+    static int initializedLibCount = 0;
+    qDebug() << "Library Initialized Slot Triggered" ;
+    initializedLibCount++;
+    if (initializedLibCount == this->services.size())
+        emit (librariesInitialized());
 }
 
 /*!

@@ -113,7 +113,10 @@ Item
             onClicked:
             {
                 if (isSelected)
-                    mainWindow.postNotification("Cannot remove a Room when your are currently in it!");
+                {
+                    var jsonMessage = {message : "Cannot remove the room while you're in it !", type : 2, callback : { func : function() {}, context : this}};
+                    mainWindow.postNotification(jsonMessage);
+                }
                 else
                     roomManager.deleteRoom(model.roomId)
             }

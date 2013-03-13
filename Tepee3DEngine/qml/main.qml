@@ -26,22 +26,28 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
-    function moveCameraToSkyView()           {Camera.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
     function getcurrentIdRoom()              {roomChanged(currentRoomId); return currentRoomId}
     function moveCameraHomeRoom()            {Walls.moveCameraToWall(0)}
     function inRoom()                        {if(currentRoomId <= 0) return false;return true}
     function onRoomSwitch()                  {camera_movement_velocity = 200;currentRoomFaceId = 0;}
     function onRoomFaceSwitch()              {camera_movement_velocity = 100;}
-    function showPopUp(url)                  {notification.showPopUp(url)}
-    function postNotification(message, type) {notification.sendMessage(message, type)}
+    function postNotification(message)       {notification.sendMessage(message)}
 
-    Component.onCompleted:    {Room.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
+    Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
 
     onCurrentRoomIdChanged:
     {
         console.log("Room Changed " + currentRoomId)
         roomManager.setCurrentRoom(currentRoomId);
-        Room.moveToRoom(currentRoomId, currentRoomFacesModel)
+        var room = RoomManagement.findRoomInModel(currentRoomId);
+        if (room)
+        {
+            RoomManagement.moveToRoom(room)
+            light.position = room.roomPosition;
+        }
+        else
+            light.position = Qt.vector3d(0, 0, 0);
         roomChanged(currentRoomId)
         currentRoomFaceId = 0;
     }
@@ -93,11 +99,15 @@ Viewport
     }
 
     light : Light {
+        id : light
         ambientColor : "white";
         diffuseColor : "white"
         specularColor : "white"
         position : Qt.vector3d(0, 0, 0)
         linearAttenuation : 0
+        Behavior on position.x {SmoothedAnimation {velocity : 100; duration : -1}}
+        Behavior on position.y {SmoothedAnimation {velocity : 100; duration : -1}}
+        Behavior on position.z {SmoothedAnimation {velocity : 100; duration : -1}}
     }
 
     camera: TepeeCamera     {id : camera}
@@ -112,5 +122,5 @@ Viewport
     MenuCenter        {id : menu_center; anchors.fill : parent}
     //    BufferedTextureSource    {sourceItem : menu_center}
     NotificationManager    {id : notification}
-    //        FpsCounter {}
+    FpsCounter {}
 }

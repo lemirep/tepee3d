@@ -65,6 +65,22 @@ Item
         rooms_list_view.currentIndex = idx;
     }
 
+    function disableMenuButtons()
+    {
+        sky_room_view_button.enabled = false;
+        add_room_button.enabled = false;
+        edit_image_button.enabled = false;
+        rooms_list_view.lockList = true;
+    }
+
+    function enableMenuButtons()
+    {
+        sky_room_view_button.enabled = true;
+        add_room_button.enabled = true;
+        edit_image_button.enabled = true;
+        rooms_list_view.lockList = false;
+    }
+
     states :     [
         State     {
             name: "menuShown"
@@ -114,9 +130,11 @@ Item
         ListView
         {
             id : rooms_list_view
-            opacity : (menuLeftRec.width == maxMenuWidth) ? 1 : 0
+            property bool lockList : false;
+
+            opacity : (menuLeftRec.width === maxMenuWidth) ? 1 : 0
             Behavior on opacity {SmoothedAnimation {velocity : 1}}
-            enabled : (opacity == 1 && menuLeftRec.width == maxMenuWidth)
+            enabled : (opacity === 1 && menuLeftRec.width === maxMenuWidth && !lockList)
             clip: true
             spacing: 10
             anchors
@@ -136,7 +154,6 @@ Item
                 editMode: isInEditMode
             }
             Component.onCompleted:{rooms_list_view.currentIndex = -1}
-
         }
 
         Image
@@ -169,10 +186,25 @@ Item
                 anchors.fill : parent
                 onClicked :
                 {
-//                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
-                    roomManager.addNewRoom();
                     mainWindow.currentRoomId = -1;
-                    mainWindow.moveCameraToSkyView()
+                    mainWindow.moveCameraToSkyView();
+
+                    var jsonMessage = {message : "newWindow Added", type : 1, callback : { func : testCallback, context : this}};
+                    mainWindow.postNotification(jsonMessage);
+                    mainWindow.postNotification(jsonMessage);
+                    mainWindow.postNotification(jsonMessage);
+                    mainWindow.postNotification(jsonMessage);
+                    // DISABLE BUTTON WHILE WAITING FOR CALLBACK
+                    disableMenuButtons();
+
+                    function testCallback()
+                    {
+                        console.log("CallBACK " + add_room_button.width);
+                        // RESTORE BUTTONS ON CALLBACK
+                        enableMenuButtons();
+                    }
+
+                    roomManager.addNewRoom();
                 }
             }
             source : "../Resources/Pictures/plus.png"
@@ -180,7 +212,7 @@ Item
 
         Image
         {
-            id : edit_image
+            id : edit_image_button
             width : 50
             rotation: 45
             scale : (edit_image_ma.pressed) ? 0.9 : 1
@@ -192,7 +224,6 @@ Item
                 onClicked: {isInEditMode = !isInEditMode}
             }
             source : "../Resources/Pictures/edit.png"
-
         }
     }
 

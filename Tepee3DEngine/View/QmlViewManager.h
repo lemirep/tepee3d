@@ -38,9 +38,11 @@ private :
 public:
     static  QmlViewManager*     getInstance();
     ~QmlViewManager();
+public slots:
     bool                        initView();
 
 signals:
+    void                        quit();
 
 };
 }

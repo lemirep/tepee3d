@@ -15,9 +15,14 @@ Item3D
 
     property real zRot : 1;
     property real yRot : 0;
-    property color col : "red"
-    position : Qt.vector3d(-10, 0, 0)
+    property color col : "red";
+    property int savedX;
+    property int savedY;
+    property real savedXPos;
+    property real savedYPos;
+    property vector3d savedCameraOrientation;
 
+<<<<<<< HEAD:TestPlugin/Widget.qml
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
     function focusStateChanged(focusStateValue)
@@ -42,24 +47,29 @@ Item3D
             break;
         }
     }
+=======
+    position : Qt.vector3d(0, 0, 0)
+>>>>>>> 5dc5c7129beed1d4967ff969121b46f6dc8472ee:TestPlugin/TestPlugin.qml
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
     function roomLeft()    {}
-
+    // HAS TO BE IMPLEMENTED
     function switchToIdleFocusView()    {plugin_base.moveCamera()}
+    // HAS TO BE IMPLEMENTED
     function switchToSelectedFocusView()    {}
+    // HAS TO BE IMPLEMENTED
     function switchToFocusedView()
     {
-        //        var eye = camera.eye;
-        var eye = plugin_base.getRoomPosition();
-        var center = plugin_base.getRoomPosition();
-        eye.z += (-10)
-        center.x += testplugin_container.x
-        center.y += testplugin_container.y
-        center.z += testplugin_container.z
-        plugin_base.moveCamera(eye, center);
+        var eyePos = plugin_base.getRoomPosition();
+        eyePos.z += (-10)
+
+        var widgetPos = plugin_base.getRoomPosition();
+        widgetPos.x += testplugin_container.x
+        widgetPos.y += testplugin_container.y
+        widgetPos.z += testplugin_container.z
+        plugin_base.moveCamera(eyePos, widgetPos);
     }
 
     function setColorAssign(msg) {
@@ -71,17 +81,17 @@ Item3D
     states : [
         State {
             name : "idle"
-            PropertyChanges {target: testplugin_container; col : apc.getColor()}
+            PropertyChanges {target: testplugin_container; col : TestPlugin.getColor()}
             when : plugin_base.getFocusState() === 0
         },
         State {
             name : "selected"
-            PropertyChanges {target: testplugin_container; col : apc.getColor()}
+            PropertyChanges {target: testplugin_container; col : TestPlugin.getColor()}
             when : plugin_base.getFocusState() === 1
         },
         State {
             name : "focused"
-            PropertyChanges {target: testplugin_container; col : apc.getColor()}
+            PropertyChanges {target: testplugin_container; col : TestPlugin.getColor()}
             when : plugin_base.getFocusState() === 2
         }
     ]
@@ -96,7 +106,7 @@ Item3D
             effect: Effect {color: "orange"}
             scale : 1
             position : Qt.vector3d(-1, 1, -2)
-            onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
+            onClicked:{TestPlugin.selectColor("orange");cube_plugin.effect.color = "orange";}
         }
 
         Cube
@@ -105,7 +115,7 @@ Item3D
             effect: Effect {color: "red"}
             scale : 1
             position : Qt.vector3d(2, 1, 1)
-            onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
+            onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";}
         }
 
         Cube
@@ -114,7 +124,7 @@ Item3D
             effect: Effect {color: "blue"}
             scale : 1
             position : Qt.vector3d(-2, 1, 0)
-            onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
+            onClicked:{TestPlugin.selectColor("blue");cube_plugin.effect.color = "blue";}
         }
     }
 
@@ -124,8 +134,9 @@ Item3D
         mesh: Mesh { source: "./Batman.obj" }
         scale : 0.03
         position : Qt.vector3d(0, -5, 0)
-
-        effect: Effect {color :apc.getColor(); useLighting : true}
+        effect: Effect {color :TestPlugin.getColor(); useLighting : true}
+        // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
+        transform : [Rotation3D {angle : 180; axis : Qt.vector3d(0, 1, 0)}]
 
         onClicked :
         {
@@ -136,9 +147,41 @@ Item3D
                 plugin_base.askForFocusedFocusState();
         }
 
-        onPressed : {}
+        onPressed :
+        {
+            console.log("Plugin Pressed")
+            savedX = -10000;
+            savedY = -10000;
+        }
 
+        onHoverMove :
+        {
+            console.log("Hover Moved Signal has been triggered " + x + " " + y);
+            console.log("Item Pos " + cube_plugin.position)
+            if (savedX === -10000 && savedY === -10000)
+            {
+                console.log("-------------")
+                savedX = x;
+                savedY = y;
+                savedXPos = cube_plugin.x
+                savedYPos = cube_plugin.y
+                savedCameraOrientation = plugin_base.getCameraOrientation();
+                console.log("><><><><> " + savedCameraOrientation)
+            }
+            else
+            {
+                var xDiff = savedXPos - ((x * savedXPos) / savedX);
+                var yDiff = savedYPos - ((y * savedYPos) / savedY);
 
+                cube_plugin.x += xDiff;
+                cube_plugin.y += -yDiff;
+                console.log("xDiff " + xDiff + " yDiff " + yDiff);
+            }
+
+            // GET ITEM AXIS ON WHICH IT CAN MOVE
+            // ITEM POS VALUE ON AXIS / WINDOW WIDTH IF X
+            // ITEM POS VALUE ON AXIS / WINDOW WIDTH IF Y
+        }
 
         SequentialAnimation {
             id : animation

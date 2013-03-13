@@ -15,18 +15,16 @@ qml_folder.target = ./
  QT             += gui
 
 HEADERS         = \
-    widgetmodel.h \
-    testplugin.h
+    TestPlugin.h
 
  SOURCES         = \
-    widgetmodel.cpp \
-    testplugin.cpp
+    TestPlugin.cpp
 
 #include development files
 include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = qmltestplugin                    #NAME OF THE PLUGIN LIBRAY
- DESTDIR         = ../widget_plugins                   #WHERE TO PUT THE LIBRARY
+ TARGET          = TestPlugin                    #NAME OF THE PLUGIN LIBRAY
+ DESTDIR         = ../widget_plugins             #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder
 
 
@@ -37,10 +35,8 @@ include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 # INSTALLS += target sources
 
 OTHER_FILES += \
-    Documentation/how-to-plugins.qdoc \
     qmldir \
     qmltestplugin.qmlproject \
-    Widget.qml \
     Menu.qml    \
     images/texture0.jpg \
     Batman/Cape.obj \
@@ -70,6 +66,7 @@ OTHER_FILES += \
     Batman/BatmanArmoured_Body_S.tga \
     Batman/BatmanArmoured_Body_N.tga \
     Batman/BatmanArmoured_Body_D.tga \
+<<<<<<< HEAD
     js/xauth.js \
     js/twitter.js \
     js/translate.js \
@@ -98,6 +95,9 @@ OTHER_FILES += \
     components/Button.qml \
     components/BackButton.qml \
     components/AuthorizeDialog.qml
+=======
+    TestPlugin.qml
+>>>>>>> 5dc5c7129beed1d4967ff969121b46f6dc8472ee
 
 
 

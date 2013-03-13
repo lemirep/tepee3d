@@ -1,0 +1,55 @@
+/*!
+    \page index.html
+    \title Tepee3D Reference Documentation
+
+    The Tepee3D Reference Documention is here to help you get started with Tepee3D whether you
+    just want to install it on a device or to contribute to the project.
+
+    All of our sources are hosted on gitorious in case you're interested and can be accessed at
+    \l {http://gitorious.org/tepee3d}
+
+    \section1 Installation
+
+    Installing Tepee3D is the first step that can be taken to contribute to the project.
+    While waiting for the official release to come up, taking the time to install Tepee3D
+    and reporting to us any inconvenience you might have encountered will help us improve
+    future user's experience.
+
+    Detailed installation instructions can be found at \l {Installing Tepee3D}
+
+    \section1 Contribute to Tepee3D
+
+    Tepee3D is an opensource project. Therefore, any kind of contribution is welcomed.
+    Below several ways of contributing are explained.
+
+    \section2 Developing Tepee3D Plugins
+
+    One of the greatest feature of Tepee3D is the ability to customize your environnement
+    by adding new plugins. In order to propose a wide variety of plugins, we encourage developpers
+    to try and implement new features by creating new plugins.
+
+    The following link will guide you through the plugin creation process : \l {Plugins How To}
+
+    \section2 Public API
+
+    We tried to offer a comprehensive yet complete API to extend Tepee3D. If you see areas of
+    improvement, aspects that lack cohesion or features you wish to see implemented, do no hesitate
+    to let us know.
+
+    All classes in the public API have been documented : \l {All Tepee3D Classes}
+
+    If you wished to implement yourself new services plugins can register to, please have a look
+    at \l {Service Library How To}
+
+    \section2 Report Bugs
+
+    In order to produce a high quality and stable application, gathering bug reports is one
+    of the best way to direct our efforts. Therefore, if you encounter some king of bug or
+    any king of event that doesn't seem right or logical to you, please take the time to fill
+    a bug report.
+
+    \section2 Talk About Tepee3D
+
+    One simple way to contribute to the project is simply by spreading the word to your friends, coworkers
+    and family.
+*/

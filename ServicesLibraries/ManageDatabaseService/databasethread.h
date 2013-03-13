@@ -28,6 +28,7 @@ private slots:
     void        transmitSQLResult(QList<QSqlRecord> result, QObject *receiver, int);
 signals:
     void        executeSQLQuery(const QString& query, QObject *sender, int);
+    void        threadInitialized();
 };
 
 #endif // DATABASETHREAD_H

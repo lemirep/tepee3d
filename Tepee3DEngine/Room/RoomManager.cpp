@@ -1,7 +1,7 @@
 #include "RoomManager.h"
 // DEBUG
 #include <QDebug>
-#include <roomloader.h>
+//#include <roomloader.h>
 
 /*!
  * \namespace Room
@@ -73,12 +73,6 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomUpdateTimer = new QTimer();
     this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
-
-
-        this->addNewRoom("RoomTest1");
-        this->addNewRoom("RoomTest2");
-        this->addNewRoom("RoomTest3");
-        this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -100,6 +94,20 @@ Room::RoomBase* Room::RoomManager::getNewRoomInstance()
 }
 
 /*!
+ * Restores Room that were saved in the Database.
+ */
+void Room::RoomManager::restoreRooms()
+{
+    qDebug() << "Restoring Rooms";
+    Room::RoomLoader::restoreRoomsFromDatabase();
+    // WHILE WAITING FOR ROOMS RESTORATION TO WORK
+    this->addNewRoom("RoomTest1");
+    this->addNewRoom("RoomTest2");
+    this->addNewRoom("RoomTest3");
+    this->addNewRoom("RoomTest4");
+}
+
+/*!
  * Destroys the RoomManager instance.
  */
 Room::RoomManager::~RoomManager()
@@ -112,7 +120,6 @@ Room::RoomManager::~RoomManager()
  */
 void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 {
-    qDebug() << " RoomManager Exposing Content >>>>>>>>>>>>";
     context->setContextProperty("roomModel", this->roomModel);
     context->setContextProperty("roomManager", this);
 }
@@ -124,12 +131,6 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 
 void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
 {
-    qDebug() << "RoomManager received SQL Result";
-
-    if (RoomLoader::lastCalled != 0)
-    {
-        RoomLoader::onRequestFinished(this, list);
-    }
 }
 
 /*!
@@ -250,6 +251,10 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 
     this->roomModel->appendRow(new Models::RoomModelItem(room));
     this->placeNewRoomInSpace();
+
+    //SAVE ROOM IN DATABASE
+    Room::RoomLoader::saveRoomToDatabase(room);
+
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
     // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
@@ -323,10 +328,14 @@ void        Room::RoomManager::unsetFocusPluginsFromRoom()
 
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 {
-    Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
     if (this->currentRoom == NULL)
+    {
         qWarning() << "Current Room is Null";
-    if (newPlugin != NULL && this->currentRoom != NULL)
+        return ;
+    }
+
+    Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
+    if (newPlugin != NULL)
     {
         qDebug() << "Adding new plugin to Room";
         // INITIALIZE PLUGIN SERVICES ...
@@ -405,6 +414,7 @@ void        Room::RoomManager::loadRoomLibrary()
 void        Room::RoomManager::addRoomToModel(Room::RoomBase *room)
 {
     // ROOMS ARE RESTORED FROM DATABASE HERE
+    qDebug() << "ROOM ADDED TO MODEL";
     Room::RoomManager::getInstance()->roomModel->appendRow(new Models::RoomModelItem(room));
     Room::RoomManager::getInstance()->placeNewRoomInSpace();
 }

@@ -42,6 +42,6 @@ NotificationManager 1.0 Notifications/NotificationManager.qml
 TextInputComponent 1.0 ../../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
 
 # JS FILES
-Room 1.0 js/RoomManagement.js
+RoomManagement 1.0 js/RoomManagement.js
 Walls 1.0 js/Walls.js
-Camera 1.0 ../../DeveloperAPIFiles/js/CameraManagement.js
+CameraManagement 1.0 ../../DeveloperAPIFiles/js/CameraManagement.js

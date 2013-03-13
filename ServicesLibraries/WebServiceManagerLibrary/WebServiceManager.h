@@ -40,6 +40,7 @@ private slots:
     void executeHttpRequest(QNetworkRequest request, int requestType,
                             QHttpMultiPart *multiPart, QObject *sender, int requestId);
 signals:
+    void initialized();
 };
 
 

@@ -75,8 +75,8 @@ Item3D
     Item3D
     {
         id : background_plugin
-        mesh: Mesh { source: "Clock_Wall_1.dae" }
-effect: Effect {color :"blue"; useLighting : true}
+        mesh: Mesh { source: "officeclock.3DS" }
+//effect: Effect {color :"blue"; useLighting : true}
         position : Qt.vector3d(1, 0, 0)
         transform: [
             Rotation3D {
@@ -84,7 +84,7 @@ effect: Effect {color :"blue"; useLighting : true}
                 angle: 90
                 axis: Qt.vector3d(0, 0, 1)
             }]
-        scale : (pressed) ? 0.9 : 1
+        scale : 0.07
 
         onClicked :
         {

@@ -8,7 +8,7 @@ TEMPLATE         = lib
  QT             += gui
 
 #include development files
-   include (./DeveloperAPIFiles/DevelopmentFiles.pri)
+   include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 
 TARGET          = qmlwatchMain
 DESTDIR         = ../widget_plugins
@@ -34,7 +34,8 @@ OTHER_FILES += \
     content/Clock.qml \
     content/Clock_Wall_3.dae \
     content/Clock_Wall_2.dae \
-    content/Clock_Wall_1.dae
+    content/Clock_Wall_1.dae \
+    content/officeclock.3DS
 
 
 # Copies the given files to the destination directory

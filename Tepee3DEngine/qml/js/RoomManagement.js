@@ -12,15 +12,15 @@ function initialize(camera_, roomModel_, faceModel_)
 
 function findRoomInModel(roomId)
 {
-    for (var i = 0; i < roomModel.count; i++)
-        if (roomModel.get(i).roomId === roomId)
-            return roomModel.get(i);
+    if (roomId >= 0)
+        for (var i = 0; i < roomModel.count; i++)
+            if (roomModel.get(i).roomId === roomId)
+                return roomModel.get(i);
     return null;
 }
 
-function moveToRoom(roomId)
+function moveToRoom(roomProperties)
 {
-    var roomProperties = findRoomInModel(roomId)
     if (roomProperties)
     {
         setWalls(roomProperties.roomPosition, roomProperties.roomScale);

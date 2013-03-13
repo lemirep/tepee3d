@@ -3,12 +3,26 @@
 // DEBUG
 #include <QDebug>
 
+/*!
+ * \class  NetworkReplyRepeater
+ *
+ * \brief Stores temporarly request information to handle asynchronously the request and
+ * transmit the result to the sender on completion.
+ */
+
+/*!
+ * Constructs a new NetworkReplyRepeater instance given a \a receiver and \a requestId.
+ */
 NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId) : QObject()
 {
     this->receiver = receiver;
     this->requestId = requestId;
 }
 
+/*!
+ * Triggered when a result for the request is obtained. The result is then transmitted to user who made the
+ * request along with an id it provided.
+ */
 void    NetworkReplyRepeater::receiveNetworkReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());

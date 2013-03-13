@@ -292,6 +292,8 @@ void        Models::ListModel::updateItem()
  */
 QVariant    Models::ListModel::get(int index)
 {
+    if (index >= this->items.size() || index < 0)
+        return QVariant();
     Models::ListItem * item = this->items.at(index);
     QMap<QString, QVariant> itemData;
     QHashIterator<int, QByteArray> hashItr(item->roleNames());

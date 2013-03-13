@@ -11,3 +11,4 @@ function moveCamera(camera, eye, center, up)
         camera.setCameraEye(eye);
     }
 }
+

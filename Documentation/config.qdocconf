@@ -18,35 +18,48 @@ HTML.extraimages	= images/body_pattern.png
 HTML.headerstyles 	= "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/bootstrap.css\" />\n" \
 			  "  <link rel=\"stylesheet\" type=\"text/css\" href=\"style/font-awesome/css/font-awesome.min.css\" />\n" 
 
+# HTML.postheader = \
+#     "<div class=\"header\"> \n" \
+#     " <div class=\"container\"> \n" \
+#     "  <div class=\"row\"> \n" \
+#     "   <div class=\"span2\"> \n" \
+#     "    <h1> Tepee3D </h1>  \n" \
+#     "	</div> \n" \
+#     "  </div> \n" \
+#     "  <div class=\"row\"> \n" \
+#     "   <div class=\"masterhead\"> \n" \
+#     "    <div class=\"navbar\"> \n" \
+#     "     <br /> \n" \
+#     "     <div class=\"navbar-inner\"> \n" \
+#     "      <div class=\"container\"> \n" \
+#     "       <ul class=\"nav\"> \n" \
+#     "        <li class=\"active\"><a href=\"#\">Home</a></li> \n" \
+#     "        <li><a href=\"#\">The Project</a></li> \n" \
+#     "        <li><a href=\"#\">The Team</a></li> \n" \
+#     "        <li><a href=\"#\">Downloads</a></li> \n" \
+#     "        <li><a href=\"#\">Documentation</a></li> \n" \
+#     "       </ul> \n" \
+#     "      </div> \n" \
+#     "     </div> \n" \
+#     "    </div> \n" \
+#     "   </div> \n" \
+#     "  </div> \n" \
+#     " </div> \n" \
+#     "</div> \n" \
+#     "<br /> \n" \
+#     "<div class=\"container\">\n" \
+#     " <div class=\"row\">\n"	\
+#     "  <div class=\"span12 banner_tp3\">\n" \
+#     "   <h2 class=\"title\">Tepee3D Reference Documentation</h2>" \
+#     "  </div> \n" \
+#     " </div> \n" \
+#     " <div class=\"row\">\n"	\
+#     "  <div class=\"span12 well\">\n" \
+#     "   <ul class=\"breadcrumb\">\n" \
+#     "    <!--  Breadcrumbs go here -->\n"
+
+
 HTML.postheader = \
-    "<div class=\"header\"> \n" \
-    " <div class=\"container\"> \n" \
-    "  <div class=\"row\"> \n" \
-    "   <div class=\"span2\"> \n" \
-    "    <h1> Tepee3D </h1>  \n" \
-    "	</div> \n" \
-    "  </div> \n" \
-    "  <div class=\"row\"> \n" \
-    "   <div class=\"masterhead\"> \n" \
-    "    <div class=\"navbar\"> \n" \
-    "     <br /> \n" \
-    "     <div class=\"navbar-inner\"> \n" \
-    "      <div class=\"container\"> \n" \
-    "       <ul class=\"nav\"> \n" \
-    "        <li class=\"active\"><a href=\"#\">Home</a></li> \n" \
-    "        <li><a href=\"#\">The Project</a></li> \n" \
-    "        <li><a href=\"#\">The Team</a></li> \n" \
-    "        <li><a href=\"#\">Downloads</a></li> \n" \
-    "        <li><a href=\"#\">Documentation</a></li> \n" \
-    "       </ul> \n" \
-    "      </div> \n" \
-    "     </div> \n" \
-    "    </div> \n" \
-    "   </div> \n" \
-    "  </div> \n" \
-    " </div> \n" \
-    "</div> \n" \
-    "<br /> \n" \
     "<div class=\"container\">\n" \
     " <div class=\"row\">\n"	\
     "  <div class=\"span12 banner_tp3\">\n" \
@@ -64,39 +77,40 @@ HTML.postpostheader = \
 HTML.footer = \
     "  </div>\n" \
     " </div> \n" \
-    "</div> \n" \
-    "<footer class=\"footer\">\n" \
-    " <div class=\"container\">\n" \
-    "  <div class=\"row\">\n" \
-    "   <div class=\"row\">\n" \
-    "    <div class=\"span2 offset1\">\n" \
-    "     <ul> \n" \
-    "      <li class=\"title\">Tepee3D</li> \n" \
-    "      <li><a>Downloads</a></li> \n" \
-    "      <li><a>Developers</a></li> \n" \
-    "      <li><a>Contribute</a></li> \n" \
-    "      <li><a>Gitorious</a></li> \n" \
-    "     </ul> \n" \
-    "    </div> \n" \
-    "    <div class=\"span2\">\n" \
-    "     <ul> \n" \
-    "      <li class=\"title\">Qt</li> \n" \
-    "      <li><a>Qt-Project</a></li> \n" \
-    "     </ul> \n" \
-    "    </div> \n" \
-    "    <div class=\"span2\">\n" \
-    "     <ul> \n" \
-    "      <li class=\"title\">Contact</li> \n" \
-    "      <li><a><i class=\"icon-facebook\"></i>&nbsp Facebook</a></li> \n" \
-    "      <li><a><i class=\"icon-twitter\"></i>&nbsp Twitter</a></li> \n" \
-    "      <li><a><i class=\"icon-google-plus\"></i>&nbsp Google+</a></li> \n" \
-    "      <li><a><i class=\"icon-envelope\"></i>&nbsp @Mail</a></li> \n" \
-    "     </ul> \n" \
-    "    </div> \n" \
-    "   </div> \n" \
-    "  </div> \n" \
-    " </div> \n" \
-    "</footer> \n"
+    "</div> \n" 
+
+    # "<footer class=\"footer\">\n" \
+    # " <div class=\"container\">\n" \
+    # "  <div class=\"row\">\n" \
+    # "   <div class=\"row\">\n" \
+    # "    <div class=\"span2 offset1\">\n" \
+    # "     <ul> \n" \
+    # "      <li class=\"title\">Tepee3D</li> \n" \
+    # "      <li><a>Downloads</a></li> \n" \
+    # "      <li><a>Developers</a></li> \n" \
+    # "      <li><a>Contribute</a></li> \n" \
+    # "      <li><a>Gitorious</a></li> \n" \
+    # "     </ul> \n" \
+    # "    </div> \n" \
+    # "    <div class=\"span2\">\n" \
+    # "     <ul> \n" \
+    # "      <li class=\"title\">Qt</li> \n" \
+    # "      <li><a>Qt-Project</a></li> \n" \
+    # "     </ul> \n" \
+    # "    </div> \n" \
+    # "    <div class=\"span2\">\n" \
+    # "     <ul> \n" \
+    # "      <li class=\"title\">Contact</li> \n" \
+    # "      <li><a><i class=\"icon-facebook\"></i>&nbsp Facebook</a></li> \n" \
+    # "      <li><a><i class=\"icon-twitter\"></i>&nbsp Twitter</a></li> \n" \
+    # "      <li><a><i class=\"icon-google-plus\"></i>&nbsp Google+</a></li> \n" \
+    # "      <li><a><i class=\"icon-envelope\"></i>&nbsp @Mail</a></li> \n" \
+    # "     </ul> \n" \
+    # "    </div> \n" \
+    # "   </div> \n" \
+    # "  </div> \n" \
+    # " </div> \n" \
+    # "</footer> \n"
 
 
 # indexes 		= $QTDIR/doc/qtscripttools/qtscripttools.index \

@@ -36,17 +36,21 @@ public:
     static  ServicesManager*        getInstance(QObject *parent = 0);
     static  void                    connectObjectToServices(QObject *serviceUser);
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
+    bool                            loadServicesLibraries();
 
 private:
     ServicesManager(QObject *parent = 0);
     QList<ServiceInterface*>        services;
     static ServicesManager          *instance;
 
-    bool                            loadServicesLibraries();
 
 public slots :
     void                            connectObjectToServicesSlot(QObject *serviceUser);
     void                            disconnectObjectFromServicesSlot(QObject *serviceUser);
+    void                            libraryInitialized();
+
+signals :
+    void                            librariesInitialized();
 
 };
 
