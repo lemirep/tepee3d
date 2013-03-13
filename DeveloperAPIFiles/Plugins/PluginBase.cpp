@@ -149,10 +149,11 @@ Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
     qDebug() << "Setting Focus State " << requestedState;
+    Plugins::PluginEnums::PluginState oldFocusState = this->focusState;
     this->focusState = requestedState;
     // CALL FOCUS STATE HANDLER
     (this->*this->focusHandler[this->focusState])();
-    emit (focusStateChanged(QVariant(requestedState)));
+    emit (focusStateChanged(QVariant(requestedState), QVariant(oldFocusState)));
 }
 
 /*!
@@ -241,8 +242,9 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
  *
  * Triggered when the room in which the plugin is loaded is entered. The focus state is by default set to idle.
  */
-void Plugins::PluginBase::roomEntered()
+void Plugins::PluginBase::onRoomEntered()
 {
+    emit (roomEntered());
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
 }
 
@@ -251,7 +253,8 @@ void Plugins::PluginBase::roomEntered()
  *
  * Emitted when the room in which the plugin is loaded is left. The focus state is by default set to idle.
  */
-void Plugins::PluginBase::roomLeft()
+void Plugins::PluginBase::onRoomLeft()
 {
+    emit (roomLeft());
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
 }

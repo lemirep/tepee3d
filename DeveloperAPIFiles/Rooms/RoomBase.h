@@ -13,7 +13,7 @@
 namespace Room
 {
 
-class RoomBase : public QQuickItem, Room::RoomInterface
+class RoomBase : public QObject, Room::RoomInterface
 {
     Q_OBJECT
     Q_INTERFACES(Room::RoomInterface)

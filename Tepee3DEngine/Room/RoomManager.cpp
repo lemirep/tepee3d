@@ -323,10 +323,14 @@ void        Room::RoomManager::unsetFocusPluginsFromRoom()
 
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 {
-    Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
     if (this->currentRoom == NULL)
+    {
         qWarning() << "Current Room is Null";
-    if (newPlugin != NULL && this->currentRoom != NULL)
+        return ;
+    }
+
+    Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
+    if (newPlugin != NULL)
     {
         qDebug() << "Adding new plugin to Room";
         // INITIALIZE PLUGIN SERVICES ...

@@ -45,23 +45,26 @@ Item3D
         // IF THE LOADER HAS NOT LOADED ANY ELEMENT YET THEN IT LOADS THE PLUGINS
         // OTHERWISE IT TRANSMITS THE SIGNAL TO THE PLUGIN ITEM
 
-
         onFocusStateChanged:
         {
             console.log("v State " + newFocusStateValue + "  "  + focusState);
 
-            if (newFocusStateValue == 0 && !plugin_loader.item)
+            if (newFocusStateValue === 0 && !plugin_loader.item)
                     plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
             if (plugin_loader.item)
             {
                 plugin_loader.item.focusStateChanged(newFocusStateValue);
-                if (newFocusStateValue == 2)
+                if (newFocusStateValue === 2)
                 {
+                    // TELL THE PARENT ROOM THERE IS A PLUGIN FOCUSED
+                    room_item.isAPluginFocused = true;
                     console.log("MENU IS >>>> " + menuQmlFile)
                     mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
                 }
                 else
                 {
+                    if (previousFocusState === 2)
+                        room_item.isAPluginFocused = false;
                     mainWindow.pluginMenuSource = "";
                 }
             }

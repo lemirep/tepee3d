@@ -67,14 +67,15 @@ signals :
     void    executeSQLQuery(const QString& query, QObject *sender, int id);
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
-    void    focusStateChanged(QVariant focusState);
-
+    void    focusStateChanged(QVariant focusState, QVariant previousFocusState);
+    void    roomEntered();
+    void    roomLeft();
 
 
 public slots :
     // SLOTS CAN BE VIRTUAL
-    virtual void    roomEntered();
-    virtual void    roomLeft();
+    virtual void    onRoomEntered();
+    virtual void    onRoomLeft();
     void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
 };
 
