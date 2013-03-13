@@ -81,51 +81,30 @@ Item3D
     {
         id : buttons
         enabled : true
-        Item3D
+        Cube
         {
             id : cube_orange
-            mesh: Mesh { source: "MiniOrange.dae" }
-            cullFaces: "CullBackFaces"
-            scale : 40
-            transform: [
-                Rotation3D {
-                    id: rotateO
-                    angle: -90
-                    axis: Qt.vector3d(1, 0, 0)
-                }]
+            effect: Effect {color: "orange"}
+            scale : 1
             position : Qt.vector3d(-1, 1, -2)
             onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
         }
 
-        Item3D
+        Cube
         {
             id : cube_red
-            mesh: Mesh { source: "MiniRed.dae" }
-            cullFaces: "CullBackFaces"
-            scale : 40
-            transform: [
-                Rotation3D {
-                    id: rotateR
-                    angle: -90
-                    axis: Qt.vector3d(0, 0, 1)
-                }]
+            effect: Effect {color: "red"}
+            scale : 1
             position : Qt.vector3d(2, 1, 1)
             onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
         }
 
-        Item3D
+        Cube
         {
             id : cube_blue
-            mesh: Mesh { source: "MiniBlue.dae" }
-            cullFaces: "CullBackFaces"
-            scale : 40
-            transform: [
-                Rotation3D {
-                    id: rotateB
-                    angle: 90
-                    axis: Qt.vector3d(0, 0, 1)
-                }]
-            position : Qt.vector3d(-2, -1, 0)
+            effect: Effect {color: "blue"}
+            scale : 1
+            position : Qt.vector3d(-2, 1, 0)
             onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
         }
     }
@@ -133,12 +112,11 @@ Item3D
     Item3D
     {
         id : cube_plugin
-        //mesh: Mesh { source: "tepee.obj" }
-        mesh: Mesh { source: "lamp.dae" }
+        mesh: Mesh { source: "./Batman.obj" }
+        scale : 0.03
+        position : Qt.vector3d(0, -5, 0)
 
-        position : Qt.vector3d(-9, -5, 0)
         effect: Effect {color :apc.getColor(); useLighting : true}
-        scale : (pressed) ? 0.9 : 1
 
         onClicked :
         {
@@ -151,8 +129,7 @@ Item3D
 
         onPressed : {}
 
-        onHoverEnter :{effect.color = "blue"}
-        onHoverLeave : {effect.color = "red"}
+
 
         SequentialAnimation {
             id : animation
