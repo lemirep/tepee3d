@@ -7,7 +7,16 @@
 #define FILEHEADER  "__ROOMFILE__"
 
 /*!
- * \class RoomLoader
+ * \namespace Room
+ *
+ * \brief The Room namespace holds all the classes that deal with
+ * Rooms and their management.
+ *
+ * \inmodule Tepee3D
+ */
+
+/*!
+ * \class Room::RoomLoader
  * \brief The RoomLoader class is a group a static functions aimed
  * to load or save room in databases and files format.
  *
@@ -156,9 +165,6 @@ bool Room::RoomLoader::parseLine(std::string line, bool &header, Room::RoomBase 
 /*!
  * \brief RoomLoader::loadRoomFromFile
  * Search the room file in room directory  according to the name. If the file was founded and was correct. A room is created according to the data and is inserted into the roomloader.
- * \param name is the name of the room.
- * \param roommanager is the roomanager to add the room.
- * \return true is the loading succesed.
  */
 bool Room::RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roommanager)
 {
@@ -203,8 +209,6 @@ bool Room::RoomLoader::loadRoomFromFile(QString name, Room::RoomManager *roomman
 
 /*!
  * \brief RoomLoader::loadRoomFromDatabase Ask the database for a room according to the name provided. The requests are asynchronous and this function only sends the request. Does not return.
- * \param name is the name of the room.
- * \param roommanager is the roomanager to add the room.
  */
 void Room::RoomLoader::loadRoomFromDatabase(QString name, Room::RoomManager *roommanager)
 {
@@ -316,9 +320,6 @@ bool Room::RoomLoader::onSearchingRequestFinished(Room::RoomManager *roommanager
 
 /*!
  * \brief RoomLoader::onRequestFinished This function is called by the requester object once the request is finished. This function treats the result coming from the database.
- * \param roommanager is the receiver of the request result.
- * \param result is the result if the request made.
- * \return true if everything went well.
  */
 bool Room::RoomLoader::onRequestFinished(Room::RoomManager *roommanager, QList<QSqlRecord> result)
 {
@@ -338,8 +339,6 @@ bool Room::RoomLoader::onRequestFinished(Room::RoomManager *roommanager, QList<Q
 
 /*!
  * \brief RoomLoader::saveRoomFile Save a room in file format, the file is created from the room name. The room is saved into the room directory.
- * \param room is the room to save.
- * \return true if the room was succesfully saved.
  */
 bool Room::RoomLoader::saveRoomFile(Room::RoomBase  *room)
 {
@@ -371,8 +370,6 @@ bool Room::RoomLoader::saveRoomFile(Room::RoomBase  *room)
 
 /*!
  * \brief RoomLoader::saveRoomDatabase Save a room to the database, the room is updated or inserted depending if the room was already present. The requests are asynchronous and this function only sends the request. Does not return.
- * \param room is the room to save.
- * \param roommanager is the requester.
  */
 void Room::RoomLoader::saveRoomDatabase(Room::RoomBase *room, Room::RoomManager *roommanager)
 {
