@@ -42,11 +42,7 @@ OTHER_FILES += \
     qmltestplugin.qmlproject \
     Widget.qml \
     Menu.qml    \
-    MiniRed.dae \
-    MiniOrange.dae \
-    MiniBlue.dae \
     images/texture0.jpg \
-    Metal_Aluminum_Anodized_.jpg \
     Batman/Cape.obj \
     Batman/Cape.mtl \
     Batman/Cape.lwo \
@@ -56,24 +52,24 @@ OTHER_FILES += \
     Batman/Batman.obj \
     Batman/Batman.mtl \
     Batman/Batman.lwo \
-    Batman/Texture/V2_Batman_Head_S.tga \
-    Batman/Texture/V2_Batman_Head_N.tga \
-    Batman/Texture/V2_Batman_Head_D.tga \
-    Batman/Texture/V2_Batman_Cape_S2.tga \
-    Batman/Texture/V2_Batman_Cape_N2.tga \
-    Batman/Texture/V2_Batman_Cape_D2.tga \
-    Batman/Texture/V2_Batman_Cape_A2.tga \
-    Batman/Texture/V2_Batman_Body_S.tga \
-    Batman/Texture/V2_Batman_Body_N.tga \
-    Batman/Texture/V2_Batman_Body_D.tga \
-    Batman/Texture/BatmanEye_N_2.tga \
-    Batman/Texture/BatmanEye_D.tga \
-    Batman/Texture/BatmanArmoured_Head_S.tga \
-    Batman/Texture/BatmanArmoured_Head_N.tga \
-    Batman/Texture/BatmanArmoured_Head_D.tga \
-    Batman/Texture/BatmanArmoured_Body_S.tga \
-    Batman/Texture/BatmanArmoured_Body_N.tga \
-    Batman/Texture/BatmanArmoured_Body_D.tga
+    Batman/V2_Batman_Head_S.tga \
+    Batman/V2_Batman_Head_N.tga \
+    Batman/V2_Batman_Head_D.tga \
+    Batman/V2_Batman_Cape_S2.tga \
+    Batman/V2_Batman_Cape_N2.tga \
+    Batman/V2_Batman_Cape_D2.tga \
+    Batman/V2_Batman_Cape_A2.tga \
+    Batman/V2_Batman_Body_S.tga \
+    Batman//V2_Batman_Body_N.tga \
+    Batman/V2_Batman_Body_D.tga \
+    Batman/BatmanEye_N_2.tga \
+    Batman/BatmanEye_D.tga \
+    Batman/BatmanArmoured_Head_S.tga \
+    Batman/BatmanArmoured_Head_N.tga \
+    Batman/BatmanArmoured_Head_D.tga \
+    Batman/BatmanArmoured_Body_S.tga \
+    Batman/BatmanArmoured_Body_N.tga \
+    Batman/BatmanArmoured_Body_D.tga
 
 
 
