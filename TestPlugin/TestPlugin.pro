@@ -93,7 +93,8 @@ OTHER_FILES += \
     components/CustomGestureArea.qml \
     components/Button.qml \
     components/BackButton.qml \
-    components/AuthorizeDialog.qml
+    components/AuthorizeDialog.qml \
+    Widget.qml
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
