@@ -66,7 +66,6 @@ OTHER_FILES += \
     Batman/BatmanArmoured_Body_S.tga \
     Batman/BatmanArmoured_Body_N.tga \
     Batman/BatmanArmoured_Body_D.tga \
-<<<<<<< HEAD
     js/xauth.js \
     js/twitter.js \
     js/translate.js \
@@ -95,13 +94,6 @@ OTHER_FILES += \
     components/Button.qml \
     components/BackButton.qml \
     components/AuthorizeDialog.qml
-=======
-    TestPlugin.qml
->>>>>>> 5dc5c7129beed1d4967ff969121b46f6dc8472ee
-
-
-
-
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
