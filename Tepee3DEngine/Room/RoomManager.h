@@ -9,19 +9,8 @@
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
 
-
-// CREATES ROOM MODEL, RESTORE AND SAVE ROOMS AND EXPOSE THEM TO QML
-
 #define ROOM_UPDATE_TIME 500
 #define ROOM_LIBRARY_DIRECTORY "libraries/room_library"
-
-
-// WHEN CHANGING ROOM IN QML : -> STOP ALL ANIMATION OF CURRENT ROOM'S WIDGETS AND LIVE WIDGET VIEW IF IN IT
-//                             -> HIDE ALL ROOM WIDGET
-//                             -> SWITCH TO SELECTED ROOM
-//                             -> IF THE ROOM'S WIDGETS WERE NOT LOADED BEFORE LOAD THEM AND INITIALIZE THEM
-//                             -> SHOW ALL ROOM WIDGET
-//                             -> UPDATA ALL OF THE ROOM'S WIDGET
 
 namespace   Room
 {
@@ -31,7 +20,7 @@ class RoomManager : public QObject, public View::QmlContentExposerInterface, pub
 public:
     ~RoomManager();
     static RoomManager*     getInstance(QObject *parent = NULL);
-    static Room::RoomBase*   getNewRoomInstance();
+    static Room::RoomBase*  getNewRoomInstance();
 
     Models::ListModel*      getRoomModel() const;
     static void             addRoomToModel(Room::RoomBase *room);
@@ -58,12 +47,12 @@ public:
 private:
     RoomManager(QObject *parent = 0);
 
-    static RoomManager      *instance;
-    static int              roomInstances;
+    static RoomManager              *instance;
+    static int                      roomInstances;
 
-    RoomBase                *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
-    RoomBase                *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
-    QTimer                  *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
+    RoomBase                        *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
+    RoomBase                        *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
+    QTimer                          *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
     Models::SubListedListModel      *roomModel;
 
     void                    loadRoomLibrary();

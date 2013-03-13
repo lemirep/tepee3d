@@ -229,8 +229,8 @@ void        Room::RoomBase::setRoomQmlFile(const QString &file)
  */
 void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
 {
-    QObject::connect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
-    QObject::connect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
+    QObject::connect(this, SIGNAL(roomEntered()), widget, SLOT(roomEntered()));
+    QObject::connect(this, SIGNAL(roomLeft()), widget, SLOT(roomLeft()));
     QObject::connect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
                      this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
     this->roomProperties->getRoomPluginsModel()->appendRow(new Models::PluginModelItem(widget));
@@ -241,8 +241,8 @@ void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
  */
 void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
 {
-    QObject::disconnect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
-    QObject::disconnect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
+    QObject::disconnect(this, SIGNAL(roomEntered()), widget, SLOT(roomEntered()));
+    QObject::disconnect(this, SIGNAL(roomLeft()), widget, SLOT(roomLeft()));
     QObject::disconnect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
                         this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
 }

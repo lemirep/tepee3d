@@ -42,9 +42,9 @@ public:
 protected:
     PluginEnums::PluginState            focusState;
     // HANDLE FOCUS STATE CHANGES
-    virtual void                onIdleFocusState()     {}
-    virtual void                onSelectedFocusState() {}
-    virtual void                onFocusedFocusState()  {}
+    virtual void                onIdleFocusState();
+    virtual void                onSelectedFocusState();
+    virtual void                onFocusedFocusState();
 
 private:
     QHash<Plugins::PluginEnums::PluginState, void (Plugins::PluginBase::*)()>  focusHandler;
@@ -68,15 +68,14 @@ signals :
     void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState);
-    void    roomEntered();
-    void    roomLeft();
+
 
 
 public slots :
-    // Define slots as virtual so that developpers can subclass them if necessary
-    virtual void    resultFromSQL(); // EXAMPLE SLOT NOT USED
+    // SLOTS CAN BE VIRTUAL
+    virtual void    roomEntered();
+    virtual void    roomLeft();
     void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
-    void            onRoomEntered();
 };
 
 }
