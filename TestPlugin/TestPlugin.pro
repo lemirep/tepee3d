@@ -69,7 +69,35 @@ OTHER_FILES += \
     Batman/BatmanArmoured_Head_D.tga \
     Batman/BatmanArmoured_Body_S.tga \
     Batman/BatmanArmoured_Body_N.tga \
-    Batman/BatmanArmoured_Body_D.tga
+    Batman/BatmanArmoured_Body_D.tga \
+    js/xauth.js \
+    js/twitter.js \
+    js/translate.js \
+    js/storage.js \
+    js/script.js \
+    js/pocket.js \
+    js/lib/sha1.js \
+    components/TrendsDialog.qml \
+    components/StatusDialog.qml \
+    components/SettingsDialog.qml \
+    components/SearchesDialog.qml \
+    components/SearchDialog.qml \
+    components/RetweetDialog.qml \
+    components/ProfileDialog.qml \
+    components/MaybePositionSource.qml \
+    components/MainMenu.qml \
+    components/LoginDialog.qml \
+    components/ListsDialog.qml \
+    components/GalleryPicker.qml \
+    components/CustomToolbarIcon.qml \
+    components/CustomToolbar.qml \
+    components/CustomTheme.qml \
+    components/CustomTextInput.qml \
+    components/CustomTextEdit.qml \
+    components/CustomGestureArea.qml \
+    components/Button.qml \
+    components/BackButton.qml \
+    components/AuthorizeDialog.qml
 
 
 

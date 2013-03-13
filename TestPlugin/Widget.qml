@@ -3,6 +3,11 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Particles 2.0
+import "script.js" as Script
+import "pocket.js" as Pocket
+import "twitter.js" as Twitter
+import "storage.js" as Storage
+import "translate.js" as AzureTranslate
 
 Item3D
 {
@@ -18,6 +23,10 @@ Item3D
     function focusStateChanged(focusStateValue)
     {
         console.log("<<<<<<<<<<<<<<<<<<<<<FocusStateChanged " + focusStateValue);
+        //Script.requestToken();
+        Script.getTwitterTimeAndLogin();
+        console.log("<<<------------------<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
         switch (focusStateValue)
         {
         case 0:

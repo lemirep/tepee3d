@@ -30,7 +30,7 @@ void TestPlugin::initPlugin()
 {
     std::cout << " INITIALIZING PLUGINS " << std::endl;
     this->setColor("yellow");
-    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
+    this->executeHttpGetRequest(QNetworkRequest(QUrl("https://stream.twitter.com/1.1/statuses/sample.json")), 1);
 }
 
 QString TestPlugin::getPluginName()

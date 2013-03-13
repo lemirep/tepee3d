@@ -11,7 +11,7 @@ Item
         color : "red"
         anchors.fill: parent
         Text {
-            text : "Menu Setting For plugin" + apc.getPluginName()
+            //text : "Menu Setting For plugin" + apc.getPluginName()
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
         }
