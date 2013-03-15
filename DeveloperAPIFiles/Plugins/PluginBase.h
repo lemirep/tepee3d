@@ -1,7 +1,7 @@
 #ifndef PLUGINBASE_H
 #define PLUGINBASE_H
 
-#include <QObject>
+#include <QQuickItem>
 #include <QNetworkRequest>
 #include <QQmlExtensionPlugin>
 #include <QHash>
@@ -25,9 +25,9 @@ class PluginBase : public QObject,
 
 public:
 
-    PluginBase();
+    explicit PluginBase();
     virtual int                 getPluginId()               = 0;
-    virtual bool                needsUpdating()             const;                    // BY DEFAULT RETURNS FALSE
+    virtual bool                needsUpdating()             const;  // BY DEFAULT RETURNS FALSE
     virtual void                initPlugin()                = 0;    //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
     virtual QString             getPluginName()             = 0;
     virtual QString             getPluginDescription()      = 0;

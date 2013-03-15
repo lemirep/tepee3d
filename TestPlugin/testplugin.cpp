@@ -50,7 +50,6 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
-    qDebug() << " CALLING getRoomPluginQmlFile";
     return QString("Widget.qml");
 }
 
@@ -61,7 +60,6 @@ QString TestPlugin::getMenuPluginQmlFile() const
 
 Plugins::PluginBase* TestPlugin::createNewInstance()
 {
-    qDebug() << "BLABLABLABLBALALALALA";
     return new TestPlugin();
 }
 

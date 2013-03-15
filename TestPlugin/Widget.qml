@@ -13,14 +13,6 @@ Item3D
     property color col : "red"
     position : Qt.vector3d(0, 0, 0)
 
-
-    // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
-    // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
-    function focusStateChanged(focusStateValue)
-    {
-        console.log("<<<<<<<<<<<<<<<<<<<<<FocusStateChanged " + focusStateValue);
-    }
-
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED

@@ -27,9 +27,7 @@ Item3D
             faceIdx = 0;
         }
         if (isCurrentRoom)                  // ELSE WE MOVE TO THE WALL IF WE ARE THE CURRENT ROOM
-        {
             mainWindow.currentRoomFaceId = faceIdx;
-        }
     }
 
     function showWallsIndicator()

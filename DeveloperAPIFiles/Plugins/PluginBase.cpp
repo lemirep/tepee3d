@@ -80,7 +80,10 @@
 /*!
  * \fn void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
  *
- * Exposes QML content to the QML \a context if the plugins needs it.
+ * Exposes QML content to the QML \a context if the plugins needs it. If you wish to easily pass
+ * data between your C++ plugin and its QML file, you should create a mapping class and expose it to the \a context.
+ *
+ * For more information, consider reading the following link : \l {http://qt-project.org/doc/qt-5.0/qtqml/qtqml-cppintegration-exposecppattributes.html}
  */
 
 /*!
@@ -125,7 +128,7 @@
 /*!
  * Constructs a new Plugins::PluginBase instance.
  */
-Plugins::PluginBase::PluginBase() : QObject(NULL)
+Plugins::PluginBase::PluginBase() : QObject()
 {
     qDebug() << "NEW PLUGINBASE INSTANCE CREATED ";
     this->focusHandler[Plugins::PluginEnums::pluginIdleState]     = &Plugins::PluginBase::onIdleFocusState;
