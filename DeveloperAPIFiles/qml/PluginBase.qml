@@ -48,9 +48,11 @@ Item3D
         onFocusStateChanged:
         {
             console.log("v State " + newFocusStateValue + "  "  + focusState);
-
+            // IF THE PLUGIN HAS NEVER BEEN LOADED WE LOAD IT
             if (newFocusStateValue === 0 && !plugin_loader.item)
                     plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
+
+            // CALL THE FOCUS HANDLER MATCHING THE NEW FOCUS STATE
             if (plugin_loader.item)
             {
                 plugin_loader.item.focusStateChanged(newFocusStateValue);
@@ -60,12 +62,20 @@ Item3D
                     room_item.isAPluginFocused = true;
                     console.log("MENU IS >>>> " + menuQmlFile)
                     mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
+                    plugin_loader.item.switchToFocusedView();
                 }
                 else
                 {
+                    // MENU IS UNLOADED WHEN NOT IN FOCUSED MODE
+                    mainWindow.pluginMenuSource = "";
+                    // TELLS THE ROOM THE PLUGIN IS NO MORE FOCUSED
                     if (previousFocusState === 2)
                         room_item.isAPluginFocused = false;
-                    mainWindow.pluginMenuSource = "";
+                    // CALL MATCHING FOCUS HANDLER IN THE PLUGIN
+                    if (newFocusStateValue === 0)
+                        plugin_loader.item.switchToIdleFocusView();
+                    else
+                        plugin_loader.item.switchToSelectedFocusView();
                 }
             }
         }

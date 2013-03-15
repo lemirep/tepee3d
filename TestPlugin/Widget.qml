@@ -11,46 +11,35 @@ Item3D
     property real zRot : 1;
     property real yRot : 0;
     property color col : "red"
-    position : Qt.vector3d(-10, 0, 0)
+    position : Qt.vector3d(0, 0, 0)
+
 
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
     function focusStateChanged(focusStateValue)
     {
         console.log("<<<<<<<<<<<<<<<<<<<<<FocusStateChanged " + focusStateValue);
-        switch (focusStateValue)
-        {
-        case 0:
-            switchToIdleFocusView();
-            break;
-        case 1:
-            switchToSelectedFocusView();
-            break;
-        case 2:
-            switchToFocusedView();
-            break;
-        default:
-            break;
-        }
     }
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
     function roomLeft()    {}
-
+    // HAS TO BE IMPLEMENTED
     function switchToIdleFocusView()    {plugin_base.moveCamera()}
+    // HAS TO BE IMPLEMENTED
     function switchToSelectedFocusView()    {}
+    // HAS TO BE IMPLEMENTED
     function switchToFocusedView()
     {
-        //        var eye = camera.eye;
-        var eye = plugin_base.getRoomPosition();
-        var center = plugin_base.getRoomPosition();
-        eye.z += (-10)
-        center.x += testplugin_container.x
-        center.y += testplugin_container.y
-        center.z += testplugin_container.z
-        plugin_base.moveCamera(eye, center);
+        var eyePos = plugin_base.getRoomPosition();
+        eyePos.z += (-10)
+
+        var widgetPos = plugin_base.getRoomPosition();
+        widgetPos.x += testplugin_container.x
+        widgetPos.y += testplugin_container.y
+        widgetPos.z += testplugin_container.z
+        plugin_base.moveCamera(eyePos, widgetPos);
     }
 
     function setColorAssign(msg) {
@@ -115,8 +104,9 @@ Item3D
         mesh: Mesh { source: "./Batman.obj" }
         scale : 0.03
         position : Qt.vector3d(0, -5, 0)
-
         effect: Effect {color :apc.getColor(); useLighting : true}
+        // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
+        transform : [Rotation3D {angle : 180; axis : Qt.vector3d(0, 1, 0)}]
 
         onClicked :
         {

@@ -112,5 +112,5 @@ Viewport
     MenuCenter        {id : menu_center; anchors.fill : parent}
     //    BufferedTextureSource    {sourceItem : menu_center}
     NotificationManager    {id : notification}
-    //        FpsCounter {}
+            FpsCounter {}
 }
