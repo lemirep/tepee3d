@@ -126,6 +126,9 @@ void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multi
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
 
+/*!
+ * Subscribes a \a user to the service if it implements the right interface.
+ */
 bool  WebServiceManager::connectServiceToUser(QObject *user)
 {
     qDebug() << "Connecting user to WebServices";
@@ -137,6 +140,9 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
     return false;
 }
 
+/*!
+ * Unsubscribes a \a user from the service.
+ */
 bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
 {
     // HTTP
@@ -153,18 +159,30 @@ QJsonObject*    WebServiceManager::QJsonFromReply(QNetworkReply *reply)
     return new QJsonObject(QJsonDocument::fromJson(reply->readAll()).object());
 }
 
+/*!
+ * Initializes library signal connection with \a parent.
+ */
 void            WebServiceManager::initLibraryConnection(QObject *parent)
 {
 //    QObject::connect(parent, SIGNAL(executeHttpRequest(const QNetworkRequest &, int, QHttpMultiPart*, QObject*)),
 //                     this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
 }
 
+/*!
+ * Executes a HTTP \a request given the type of request \a requestType and and eventually NULL \a multiPart.
+ * \a sender will receive the result of the request along with \a requestId to make it easier to recognize which
+ * request it was.
+ */
 void            WebServiceManager::executeHttpRequest(QNetworkRequest request, int requestType, QHttpMultiPart *multiPart, QObject *sender, int requestId)
 {
     qDebug() << "Executing HttpRequest";
     (this->*this->httpMethods[requestType])(request, multiPart, sender, requestId);
 }
 
+/*!
+ * Return the QObject instance of the library so that it can easily be connected to signals
+ * and slots.
+ */
 QObject*        WebServiceManager::getLibraryQObject()
 {
     return this;

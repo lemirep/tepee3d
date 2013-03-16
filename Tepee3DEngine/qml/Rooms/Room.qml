@@ -42,7 +42,8 @@ Item3D
 
     onPositionChanged:    {if (isCurrentRoom)  {mainWindow.currentRoomId = -1; mainWindow.currentRoomId = roomId}}
     onCurrentFaceIdChanged:    {if (isCurrentRoom) showWallsIndicator()}
-    onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator()}
+    // CHANGE THE LIGHT TO BE IN CURRENT ROOM WHEN ROOM IS SELECTED
+    onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator();}
     onIsAPluginFocusedChanged:    {console.log((isAPluginFocused) ? "A Plugin in the room is focused" : "No Plugin in the room is focused")}
 
     Item3D
@@ -200,6 +201,7 @@ Item3D
 //            onHoverLeave: {effect = face_effect}
         }
     }
+
 
     Effect
     {

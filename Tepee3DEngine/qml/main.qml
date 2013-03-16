@@ -26,7 +26,7 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
-    function moveCameraToSkyView()           {Camera.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
     function getcurrentIdRoom()              {roomChanged(currentRoomId); return currentRoomId}
     function moveCameraHomeRoom()            {Walls.moveCameraToWall(0)}
     function inRoom()                        {if(currentRoomId <= 0) return false;return true}
@@ -35,13 +35,20 @@ Viewport
     function showPopUp(url)                  {notification.showPopUp(url)}
     function postNotification(message, type) {notification.sendMessage(message, type)}
 
-    Component.onCompleted:    {Room.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
+    Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
 
     onCurrentRoomIdChanged:
     {
         console.log("Room Changed " + currentRoomId)
         roomManager.setCurrentRoom(currentRoomId);
-        Room.moveToRoom(currentRoomId, currentRoomFacesModel)
+        var room = RoomManagement.findRoomInModel(currentRoomId);
+        if (room)
+        {
+            RoomManagement.moveToRoom(room)
+            light.position = room.roomPosition;
+        }
+        else
+            light.position = Qt.vector3d(0, 0, 0);
         roomChanged(currentRoomId)
         currentRoomFaceId = 0;
     }
@@ -93,6 +100,7 @@ Viewport
     }
 
     light : Light {
+        id : light
         ambientColor : "white";
         diffuseColor : "white"
         specularColor : "white"
