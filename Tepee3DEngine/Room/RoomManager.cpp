@@ -1,7 +1,7 @@
 #include "RoomManager.h"
 // DEBUG
 #include <QDebug>
-#include <roomloader.h>
+//#include <roomloader.h>
 
 /*!
  * \namespace Room
@@ -74,11 +74,11 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
 
+    // WHEN SERVICE MANAGER LIBRARIES ARE INITILIZED, CALL DATABASE SERVICE TO RELOAD ROOMS
 
-        this->addNewRoom("RoomTest1");
-        this->addNewRoom("RoomTest2");
-        this->addNewRoom("RoomTest3");
-        this->addNewRoom("RoomTest4");
+//        this->addNewRoom("RoomTest2");
+//        this->addNewRoom("RoomTest3");
+//        this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -97,6 +97,16 @@ Room::RoomManager* Room::RoomManager::getInstance(QObject *parent)
 Room::RoomBase* Room::RoomManager::getNewRoomInstance()
 {
     return Room::RoomManager::getInstance()->roomPrototype->createNewInstance();
+}
+
+/*!
+ * Restores Room that were saved in the Database.
+ */
+void Room::RoomManager::restoreRooms()
+{
+    qDebug() << "Restoring Rooms";
+    Room::RoomLoader::restoreRoomsFromDatabase();
+//    this->addNewRoom("RoomTest1");
 }
 
 /*!
@@ -124,12 +134,6 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 
 void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
 {
-    qDebug() << "RoomManager received SQL Result";
-
-    if (RoomLoader::lastCalled != 0)
-    {
-        RoomLoader::onRequestFinished(this, list);
-    }
 }
 
 /*!
@@ -250,6 +254,10 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 
     this->roomModel->appendRow(new Models::RoomModelItem(room));
     this->placeNewRoomInSpace();
+
+    //SAVE ROOM IN DATABASE
+    Room::RoomLoader::saveRoomToDatabase(room);
+
     // ADD DEFAULT EMPTY ROOM IN THE MODEL
     // ROOM IS CREATED AT A COMPUTED LOCATION WHERE IT DOESN'T CONFLICT WITH ANY OTHER ROOM AND HAS A DEFAULT SIZE (1) AND IS SQUARED
     // WHEN ITS ATTRIBUTES ARE MODIFIED, VIRTUAL LOCATION IS AUTOMATICALLY ADJUSTED IF NECESSARY
@@ -409,6 +417,7 @@ void        Room::RoomManager::loadRoomLibrary()
 void        Room::RoomManager::addRoomToModel(Room::RoomBase *room)
 {
     // ROOMS ARE RESTORED FROM DATABASE HERE
+    qDebug() << "ROOM ADDED TO MODEL";
     Room::RoomManager::getInstance()->roomModel->appendRow(new Models::RoomModelItem(room));
     Room::RoomManager::getInstance()->placeNewRoomInSpace();
 }

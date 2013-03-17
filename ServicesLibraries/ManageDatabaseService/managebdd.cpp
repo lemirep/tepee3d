@@ -3,6 +3,26 @@
 #include <QDebug>
 
 
+/*!
+ * \class ManageBDD
+ * \code
+ * #include <managebdd.h>
+ * \endcode
+ * \brief The ManageBDD class, offers the ability to execute queries on
+ * the SQLite database.
+ *
+ * The Service should hava a single instance of this class and preferably living in
+ * a thread so that a single database connection can be used throughout the entire
+ * time the application is used.
+ *
+ * \inmodule Tepee3D
+ */
+
+
+/*!
+ * Constructs a new ManageBDD instance, opens a database connection
+ * and fill it for the first use if necessary.
+ */
 ManageBDD::ManageBDD() : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
@@ -12,6 +32,10 @@ ManageBDD::ManageBDD() : QObject()
     std::cout << "Thread running and database initialized" << std::endl;
 }
 
+/*!
+ * Constructs a new ManageBDD instance, opens a database connection to the database
+ * named by \a name and fill it for the first use if necessary.
+ */
 ManageBDD::ManageBDD(QString name) : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
@@ -20,6 +44,9 @@ ManageBDD::ManageBDD(QString name) : QObject()
         this->createLocalDatabase();
 }
 
+/*!
+ * Destroys a ManageBDD instance, close the database connection if opened.
+ */
 ManageBDD::~ManageBDD()
 {
     if (this->dataBase.open())
@@ -27,6 +54,10 @@ ManageBDD::~ManageBDD()
     this->dataBase.removeDatabase(this->dataBase.connectionName());
 }
 
+/*!
+ * Opens a database connection to the database specified by \a dbname.
+ * If the connection is successfully opened, returns true, false otherwise.
+ */
 bool ManageBDD::openDatabase(QString dbname)
 {
     std::cout << dbname.toStdString() << std::endl;
@@ -44,6 +75,10 @@ bool ManageBDD::openDatabase(QString dbname)
     return (this->dataBase.open());
 }
 
+/*!
+ * Executes \a query on the database. The result will be transmitted to \a sender
+ * along with the given \a id.
+ */
 //execute a query in database and send the result by a signal
 void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
 {
@@ -59,6 +94,9 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
     }
 }
 
+/*!
+ * Creates the Database for the first time if it was empty.
+ */
 //create local database, in this method you should indicate which table you want create
 void ManageBDD::createLocalDatabase()
 {
@@ -80,6 +118,10 @@ void ManageBDD::createLocalDatabase()
     }
 }
 
+/*!
+ * Checks wether the database is initialized of if it needs to be filled.
+ * Returns true if this is the case, false otherwise.
+ */
 //Check if local database exists
 bool ManageBDD::checkExistLocalDatabase()
 {

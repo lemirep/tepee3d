@@ -5,12 +5,15 @@
 #include <PluginManager.h>
 #include <QVector3D>
 #include <qmath.h>
+#include "RoomLoader.h"
 #include "SubListedListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
 
 #define ROOM_UPDATE_TIME 500
 #define ROOM_LIBRARY_DIRECTORY "libraries/room_library"
+
+class RoomLoader;
 
 namespace   Room
 {
@@ -21,6 +24,8 @@ public:
     ~RoomManager();
     static RoomManager*     getInstance(QObject *parent = NULL);
     static Room::RoomBase*  getNewRoomInstance();
+
+    void                    restoreRooms();
 
     Models::ListModel*      getRoomModel() const;
     static void             addRoomToModel(Room::RoomBase *room);

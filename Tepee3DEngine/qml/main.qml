@@ -106,6 +106,9 @@ Viewport
         specularColor : "white"
         position : Qt.vector3d(0, 0, 0)
         linearAttenuation : 0
+        Behavior on position.x {NumberAnimation {duration : 1500}}
+        Behavior on position.y {NumberAnimation {duration : 1500}}
+        Behavior on position.z {NumberAnimation {duration : 1500}}
     }
 
     camera: TepeeCamera     {id : camera}
