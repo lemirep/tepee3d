@@ -11,7 +11,7 @@
  */
 
 /*!
- * Constructs a new NetworkReplyRepeater instance given a \a receveiver and \a requestId.
+ * Constructs a new NetworkReplyRepeater instance given a \a receiver and \a requestId.
  */
 NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId) : QObject()
 {
