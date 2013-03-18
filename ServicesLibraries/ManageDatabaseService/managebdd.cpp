@@ -27,8 +27,11 @@ ManageBDD::ManageBDD() : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
     this->openDatabase("tepee3D.sql");
-    if (!this->checkExistLocalDatabase())
-        this->createLocalDatabase();
+    {
+        this->sqlQuery = QSqlQuery(this->dataBase);
+        if (!this->checkExistLocalDatabase())
+            this->createLocalDatabase();
+    }
     std::cout << "Thread running and database initialized" << std::endl;
 }
 
@@ -39,9 +42,12 @@ ManageBDD::ManageBDD() : QObject()
 ManageBDD::ManageBDD(QString name) : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    this->openDatabase(name);
-    if (!this->checkExistLocalDatabase())
-        this->createLocalDatabase();
+    if (this->openDatabase(name))
+    {
+        this->sqlQuery = QSqlQuery(this->dataBase);
+        if (!this->checkExistLocalDatabase())
+            this->createLocalDatabase();
+    }
 }
 
 /*!
@@ -84,12 +90,15 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
 {
     if (this->dataBase.open())
     {
-        qDebug() << "Received query : " << query;
-        QSqlQuery q(query, this->dataBase);
+        qDebug() << "Received query : {" << query << "}";
+        if (this->sqlQuery.exec(query))
+            qDebug() << "Query Execution Succeeded";
+        else
+            qDebug() << "YOU SHOULD CHECK YOUR QUERY";
         QList<QSqlRecord> results;
-        results.push_back(q.record());
-        while (q.next())
-            results.push_back(q.record());
+        results.push_back(this->sqlQuery.record());
+        while (this->sqlQuery.next())
+            results.push_back(this->sqlQuery.record());
         emit resultFromSQLQuery(results, sender, id);
     }
 }

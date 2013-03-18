@@ -36,44 +36,44 @@ void Room::RoomLoader::addParamToRoom(Room::RoomBase *room, QString attr, QStrin
     QVector3D vec;
 
     if (attr == "Name")
-      room->setRoomName(value);
+        room->setRoomName(value);
     if (attr == "Qml")
-      room->setRoomQmlFile(value);
+        room->setRoomQmlFile(value);
     if (attr == "PosX")
     {
-      vec = room->getPosition();
-      vec.setX(value.toDouble());
-      room->setPosition(vec);
+        vec = room->getPosition();
+        vec.setX(value.toDouble());
+        room->setPosition(vec);
     }
     if (attr == "PosY")
     {
-      vec = room->getPosition();
-      vec.setY(value.toDouble());
-      room->setPosition(vec);
+        vec = room->getPosition();
+        vec.setY(value.toDouble());
+        room->setPosition(vec);
     }
     if (attr == "PosZ")
     {
-      vec = room->getPosition();
-      vec.setZ(value.toDouble());
-      room->setPosition(vec);
+        vec = room->getPosition();
+        vec.setZ(value.toDouble());
+        room->setPosition(vec);
     }
     if (attr == "ScaleX")
     {
-      vec = room->getScale();
-      vec.setX(value.toDouble());
-      room->setScale(vec);
+        vec = room->getScale();
+        vec.setX(value.toDouble());
+        room->setScale(vec);
     }
     if (attr == "ScaleY")
     {
-      vec = room->getScale();
-      vec.setY(value.toDouble());
-      room->setScale(vec);
+        vec = room->getScale();
+        vec.setY(value.toDouble());
+        room->setScale(vec);
     }
     if (attr == "ScaleZ")
     {
-      vec = room->getScale();
-      vec.setZ(value.toDouble());
-      room->setScale(vec);
+        vec = room->getScale();
+        vec.setZ(value.toDouble());
+        room->setScale(vec);
     }
 }
 
@@ -82,44 +82,44 @@ void Room::RoomLoader::addParamToRoom(Room::RoomBase *room, int id, QString valu
     QVector3D vec;
 
     if (id == 1)
-      room->setRoomName(value);
+        room->setRoomName(value);
     if (id == 2)
-      room->setRoomQmlFile(value);
+        room->setRoomQmlFile(value);
     if (id == 3)
     {
-      vec = room->getPosition();
-      vec.setX(value.toDouble());
-      room->setPosition(vec);
+        vec = room->getPosition();
+        vec.setX(value.toDouble());
+        room->setPosition(vec);
     }
     if (id == 4)
     {
-      vec = room->getPosition();
-      vec.setY(value.toDouble());
-      room->setPosition(vec);
+        vec = room->getPosition();
+        vec.setY(value.toDouble());
+        room->setPosition(vec);
     }
     if (id == 5)
     {
-      vec = room->getPosition();
-      vec.setZ(value.toDouble());
-      room->setPosition(vec);
+        vec = room->getPosition();
+        vec.setZ(value.toDouble());
+        room->setPosition(vec);
     }
     if (id == 6)
     {
-      vec = room->getScale();
-      vec.setX(value.toDouble());
-      room->setScale(vec);
+        vec = room->getScale();
+        vec.setX(value.toDouble());
+        room->setScale(vec);
     }
     if (id == 7)
     {
-      vec = room->getScale();
-      vec.setY(value.toDouble());
-      room->setScale(vec);
+        vec = room->getScale();
+        vec.setY(value.toDouble());
+        room->setScale(vec);
     }
     if (id == 8)
     {
-      vec = room->getScale();
-      vec.setZ(value.toDouble());
-      room->setScale(vec);
+        vec = room->getScale();
+        vec.setZ(value.toDouble());
+        room->setScale(vec);
     }
 }
 
@@ -287,16 +287,17 @@ void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> resu
 
 void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result)
 {
-    foreach (QSqlRecord record, result)
-    {
-        Room::RoomBase *newroom = Room::RoomManager::getNewRoomInstance();
-        newroom->setRoomQmlFile(record.value(2).toString());
-        newroom->setRoomName(record.value(1).toString());
-        newroom->setPosition(QVector3D(record.value(3).toDouble(), record.value(4).toDouble(), record.value(5).toDouble()));
-        newroom->setScale(QVector3D(record.value(6).toDouble(), record.value(7).toDouble(), record.value(8).toDouble()));
-        qDebug() << "NEW ROOM : " << newroom->getRoomName() << " " << newroom->getPosition() << " " << newroom->getScale();
-        Room::RoomManager::addRoomToModel(newroom);
-    }
+    if (result.size() > 2)
+        foreach (QSqlRecord record, result)
+        {
+            Room::RoomBase *newroom = Room::RoomManager::getNewRoomInstance();
+            newroom->setRoomQmlFile(record.value(2).toString());
+            newroom->setRoomName(record.value(1).toString());
+            newroom->setPosition(QVector3D(record.value(3).toDouble(), record.value(4).toDouble(), record.value(5).toDouble()));
+            newroom->setScale(QVector3D(record.value(6).toDouble(), record.value(7).toDouble(), record.value(8).toDouble()));
+            qDebug() << "NEW ROOM : " << newroom->getRoomName() << " " << newroom->getPosition() << " " << newroom->getScale();
+            Room::RoomManager::addRoomToModel(newroom);
+        }
 }
 
 /////////////// QUERIES ///////////////////////
