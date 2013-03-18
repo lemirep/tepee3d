@@ -132,8 +132,8 @@ Item
         GridView
         {
             id : room_faces_listview
-            cellWidth: width / 6
-            cellHeight: cellWidth
+            cellWidth: width / 3
+            cellHeight: height / 2
 
             clip : true
             opacity :  (menuTopRec.height == maxMenuHeight && mainWindow.currentRoomId != -1) ? 1 : 0
@@ -145,7 +145,7 @@ Item
                 left : parent.left
                 top : parent.top
                 bottom : parent.bottom
-                right : parent.right
+                right : parent.horizontalCenter
                 margins : menuTopRec.height / 8
             }
 

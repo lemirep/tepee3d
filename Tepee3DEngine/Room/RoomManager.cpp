@@ -73,12 +73,6 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomUpdateTimer = new QTimer();
     this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
     this->loadRoomLibrary();
-
-    // WHEN SERVICE MANAGER LIBRARIES ARE INITILIZED, CALL DATABASE SERVICE TO RELOAD ROOMS
-
-//        this->addNewRoom("RoomTest2");
-//        this->addNewRoom("RoomTest3");
-//        this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -106,7 +100,11 @@ void Room::RoomManager::restoreRooms()
 {
     qDebug() << "Restoring Rooms";
     Room::RoomLoader::restoreRoomsFromDatabase();
-//    this->addNewRoom("RoomTest1");
+    // WHILE WAITING FOR ROOMS RESTORATION TO WORK
+    this->addNewRoom("RoomTest1");
+    this->addNewRoom("RoomTest2");
+    this->addNewRoom("RoomTest3");
+    this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -122,7 +120,6 @@ Room::RoomManager::~RoomManager()
  */
 void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
 {
-    qDebug() << " RoomManager Exposing Content >>>>>>>>>>>>";
     context->setContextProperty("roomModel", this->roomModel);
     context->setContextProperty("roomManager", this);
 }
