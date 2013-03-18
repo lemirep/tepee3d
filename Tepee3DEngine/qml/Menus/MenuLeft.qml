@@ -169,7 +169,7 @@ Item
                 anchors.fill : parent
                 onClicked :
                 {
-//                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
+                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
                     roomManager.addNewRoom();
                     mainWindow.currentRoomId = -1;
                     mainWindow.moveCameraToSkyView()

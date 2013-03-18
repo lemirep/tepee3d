@@ -62,6 +62,7 @@ OTHER_FILES += \
     qml/Notifications/NotificationManager.qml \
     qml/js/Walls.js \
     qml/js/RoomManagement.js \
+    qml/js/NotificationManagement.js \
     qml/FpsCounter.qml \
     qml/Resources/Pictures/arrow.png \
     qml/Resources/Pictures/delegate.png \

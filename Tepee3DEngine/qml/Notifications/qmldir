@@ -1,1 +1,4 @@
 # QMLDIR FILES FOR NOTIFICATIONS
+
+# JS FILES
+NotificationManagement 1.0 ../js/NotificationManagement.js
