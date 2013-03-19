@@ -65,6 +65,8 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
 
 void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
 {
+    if (q.size() < 2)
+        return ;
     if (id == ASSIGNCOLOR)
     {
         QList<QSqlRecord>::iterator it = q.begin();
