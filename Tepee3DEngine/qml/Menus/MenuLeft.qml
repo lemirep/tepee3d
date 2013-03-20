@@ -169,7 +169,21 @@ Item
                 anchors.fill : parent
                 onClicked :
                 {
-                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
+//                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
+
+                    var jsonMessage = {message : "newWindow Added", type : 0, callback : { func : testCallback, context : this}};
+
+                    mainWindow.postNotification(jsonMessage);
+                    mainWindow.postNotification(jsonMessage);
+                    mainWindow.postNotification(jsonMessage);
+                    mainWindow.postNotification(jsonMessage);
+
+                    function testCallback()
+                    {
+                        console.log("CallBACK " + add_room_button.width);
+                        add_room_button.visible = false;
+                    }
+
                     roomManager.addNewRoom();
                     mainWindow.currentRoomId = -1;
                     mainWindow.moveCameraToSkyView()
@@ -192,7 +206,6 @@ Item
                 onClicked: {isInEditMode = !isInEditMode}
             }
             source : "../Resources/Pictures/edit.png"
-
         }
     }
 

@@ -32,8 +32,7 @@ Viewport
     function inRoom()                        {if(currentRoomId <= 0) return false;return true}
     function onRoomSwitch()                  {camera_movement_velocity = 200;currentRoomFaceId = 0;}
     function onRoomFaceSwitch()              {camera_movement_velocity = 100;}
-    function showPopUp(url)                  {notification.showPopUp(url)}
-    function postNotification(message, type) {notification.sendMessage(message, type)}
+    function postNotification(message)       {notification.sendMessage(message)}
 
     Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
 
