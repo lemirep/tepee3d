@@ -169,13 +169,7 @@ Item
                 anchors.fill : parent
                 onClicked :
                 {
-//                    mainWindow.showPopUp("../Rooms/AddNewRoomDialog.qml");
-
-                    var jsonMessage = {message : "newWindow Added", type : 0, callback : { func : testCallback, context : this}};
-
-                    mainWindow.postNotification(jsonMessage);
-                    mainWindow.postNotification(jsonMessage);
-                    mainWindow.postNotification(jsonMessage);
+                    var jsonMessage = {message : "newWindow Added", type : 2, callback : { func : testCallback, context : this}};
                     mainWindow.postNotification(jsonMessage);
 
                     function testCallback()

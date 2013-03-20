@@ -105,9 +105,9 @@ Viewport
         specularColor : "white"
         position : Qt.vector3d(0, 0, 0)
         linearAttenuation : 0
-        Behavior on position.x {NumberAnimation {duration : 1500}}
-        Behavior on position.y {NumberAnimation {duration : 1500}}
-        Behavior on position.z {NumberAnimation {duration : 1500}}
+        Behavior on position.x {SmoothedAnimation {velocity : 100; duration : -1}}
+        Behavior on position.y {SmoothedAnimation {velocity : 100; duration : -1}}
+        Behavior on position.z {SmoothedAnimation {velocity : 100; duration : -1}}
     }
 
     camera: TepeeCamera     {id : camera}
@@ -122,5 +122,5 @@ Viewport
     MenuCenter        {id : menu_center; anchors.fill : parent}
     //    BufferedTextureSource    {sourceItem : menu_center}
     NotificationManager    {id : notification}
-            FpsCounter {}
+    FpsCounter {}
 }

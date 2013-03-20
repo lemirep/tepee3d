@@ -3,10 +3,6 @@ import QtQuick 2.0
 Item
 {
     id : notifications_item
-    property string currentMessage;
-    property string currentQuickMessage;
-    property variant lastJsonMessage;
-    property variant lastJsonQuickMessage;
     property bool   quickNotifIsShown : quick_notification.isShown;
     property bool   mainNotifIsShown  : main_notification.isShown;
     anchors.fill: parent
@@ -33,7 +29,7 @@ Item
         // QUICK NOTIFICATIONS ARE RENDERED IN quick_notification ITEM
         // ALL OTHER NOTIFICATIONS ARE RENDERED IN main_notification ITEM
 
-        console.log("<<<<< NOTIF ");
+        //        console.log("<<<<< NOTIF ");
 
         // CALL CALLBACK TO BE EXECUTED IN THE CONTEXT OF SENDER
         //        message.callback.call(message.sender);
@@ -46,12 +42,11 @@ Item
 
         switch (message.type)
         {
-        case 0: // QUICK (NO CALLBACK NEEDED
+        case 0: // QUICK NO CALLBACK NEEDED
             if (message.callback && message.callback.func && message.callback.context)
                 NotificationManagement.addQuickMessage(message);
             if (!quickNotifIsShown)
                 showNextQuickMessageInQueue();
-            console.log("QUICK NOTIF RECEIVED")
             break;
         case 1: // Confirmation (CALLBACK WITH TRUE FALSE)
             if (message.callback && message.callback.func && message.callback.context)
@@ -60,14 +55,12 @@ Item
                 showNextMessageInQueue();
             break;
         case 2: // WARNING (CALLBACK NO PARAMS)
-            if (message.callback && message.callback.func && message.callback.context)
-                NotificationManagement.addMessage(message);
+            NotificationManagement.addMessage(message);
             if (!mainNotifIsShown)
                 showNextMessageInQueue();
             break;
         case 3: // ERROR (CALLBACK NO PARAMS)
-            if (message.callback && message.callback.func && message.callback.context)
-                NotificationManagement.addMessage(message);
+            NotificationManagement.addMessage(message);
             if (!mainNotifIsShown)
                 showNextMessageInQueue();
             break;
@@ -84,9 +77,7 @@ Item
             msg = NotificationManagement.getNextMessage()
         if (msg)
         {
-            lastJsonMessage = msg;
             console.log("Message retrieved");
-            currentMessage = msg.message
             main_notification.isShown = true;
         }
     }
@@ -98,9 +89,7 @@ Item
             msg = NotificationManagement.getNextQuickMessage()
         if (msg)
         {
-            lastJsonQuickMessage = msg;
             console.log("Message retrieved");
-            currentQuickMessage = msg.message
             quick_notification.isShown = true;
         }
     }
@@ -122,6 +111,7 @@ Item
     {
         id : main_notification
         property bool isShown : false;
+        enabled : isShown
         width : mainWindow.width / 2
         height : mainWindow.height / 2
         anchors.centerIn: parent
@@ -130,6 +120,30 @@ Item
         onIsShownChanged:
         {
             opacity = (isShown) ? 1 : 0;
+            if (isShown)
+            {
+                button_validate.opacity = 0;
+                button_ok.opacity = 0;
+                button_cancel.opacity = 0;
+                var msg = NotificationManagement.getLastMessage();
+                if (msg && msg.type !== null)
+                {
+                    main_notification_text.text = msg.message;
+                    switch (msg.type)
+                    {
+                    case 1:
+                        button_validate.opacity = 1;
+                        button_cancel.opacity = 1;
+                        break;
+                    case 2:
+                        button_ok.opacity = 1;
+                        break;
+                    case 3:
+                        button_ok.opacity = 1;
+                        break;
+                    }
+                }
+            }
         }
 
         BorderImage
@@ -141,8 +155,9 @@ Item
 
         Text
         {
+            id : main_notification_text
             anchors.centerIn: background_main_notification
-            text : currentMessage
+            color : "white"
         }
 
         Loader
@@ -169,19 +184,98 @@ Item
                     // TRIGGER NEXT MESSAGE
                 }
             }
-            // OK BUTTON
-
-            // VALIDATE BUTTON
-
-            // CANCEL BUTTON
-
+        }
+        // OK BUTTON
+        Item
+        {
+            id : button_ok
+            width : 50
+            height : 50
+            anchors
+            {
+                bottom : parent.bottom
+                horizontalCenter : parent.horizontalCenter
+            }
+            Rectangle
+            {
+                anchors.fill: parent
+                color : "blue"
+            }
+            MouseArea
+            {
+                id : button_ok_ma
+                anchors.fill: parent
+                onClicked :
+                {
+                    var msg = NotificationManagement.getLastMessage()
+                    if (msg && msg.callback && msg.callback.func && msg.callback.context)
+                        msg.callback.func.call(msg.callback.context);
+                }
+            }
+        }
+        // VALIDATE BUTTON
+        Item
+        {
+            id : button_validate
+            width : 50
+            height : 50
+            anchors
+            {
+                bottom : parent.bottom
+                right : parent.horizontalCenter
+            }
+            Rectangle
+            {
+                anchors.fill: parent
+                color : "blue"
+            }
+            MouseArea
+            {
+                id : button_validate_ma
+                anchors.fill: parent
+                onClicked :
+                {
+                    var msg = NotificationManagement.getLastMessage()
+                    if (msg)
+                        msg.callback.func.call(msg.callback.context, true);
+                }
+            }
+        }
+        // CANCEL BUTTON
+        Item
+        {
+            id : button_cancel
+            width : 50
+            height : 50
+            anchors
+            {
+                bottom : parent.bottom
+                left : parent.horizontalCenter
+            }
+            Rectangle
+            {
+                anchors.fill: parent
+                color : "blue"
+            }
+            MouseArea
+            {
+                id : button_cancel_ma
+                anchors.fill: parent
+                onClicked :
+                {
+                    var msg = NotificationManagement.getLastMessage()
+                    if (msg)
+                        msg.callback.func.call(msg.callback.context);
+                }
+            }
         }
     }
 
-    Item        // USED TO SIGNAL TWITS, UPDATES ...
+    Item        // USED TO SIGNAL TWITTS, UPDATES ...
     {
         id : quick_notification
         property bool isShown : false;
+        enabled : isShown
         opacity : 0
 
         onIsShownChanged :    {opacity = (isShown) ? 1 : 0;}
@@ -206,7 +300,6 @@ Item
         {
             anchors.centerIn: background_quick_notification
             color : "white"
-            text : currentQuickMessage
         }
 
         MouseArea
@@ -214,7 +307,6 @@ Item
             anchors.fill: parent
             onClicked :
             {
-
             }
         }
     }
