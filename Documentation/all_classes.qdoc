@@ -1,0 +1,19 @@
+/*!
+ \page all_classes.html
+ \title All Tepee3D Classes
+
+ \brief The Tepee3DEngine is composed of several modules.
+
+ \section1 The \l {Services} Module
+    The Services module offers service that plugins can subscribe to.
+    Tepee3D offers WebServices and Database Servercies access.
+ \section1 The \l {View} Module
+    The View module handles all the views of the Tepee3DEngine and makes the
+    link between the Qml engine and the Logical aspect of the application.
+ \section1 The \l {Room} Management Module
+    Module responsible for the management of the rooms in the engine.
+ \section1 The \l {Plugins} Management Module
+    Contains all the classes that deal with plugin loading and plugin management.
+ \section1 \l {Models}
+    The Models classes are used to store data and expose them to the Qml views.
+*/

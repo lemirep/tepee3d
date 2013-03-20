@@ -112,7 +112,7 @@ copyToDestDir($$OTHER_FILES)
  \endcode
  
  \section1 Add your class
- Now, your are ready to start developing your own widget. You should create your main class that inherits from Pluginsbase.
+ Now, your are ready to start developing your own widget. You should create your main class that inherits from \l {Plugins::PluginBase}.
 
 In your header file :
 \code

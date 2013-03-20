@@ -37,7 +37,6 @@ include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 # INSTALLS += target sources
 
 OTHER_FILES += \
-    Documentation/how-to-plugins.qdoc \
     qmldir \
     qmltestplugin.qmlproject \
     Widget.qml \
