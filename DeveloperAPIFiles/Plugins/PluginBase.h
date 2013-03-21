@@ -34,7 +34,10 @@ public:
     virtual QString             getRoomPluginQmlFile()      const = 0;
     virtual QString             getMenuPluginQmlFile()      const = 0;
     virtual PluginBase*         createNewInstance()         = 0;
-    virtual void                exposeContentToQml(QQmlContext *context) = 0;
+
+    // IS IMPLEMENTED HERE TO EXPOSE THE SUBCLASS
+    // LETTING PLUGINS IMPLEMENT IT IS TO DANGEROUS
+    void                        exposeContentToQml(QQmlContext *context);
     PluginBase*                 getPluginBase();
     PluginEnums::PluginState    getFocusState()             const;
     void                        askForFocusState(PluginEnums::PluginState requestedState);

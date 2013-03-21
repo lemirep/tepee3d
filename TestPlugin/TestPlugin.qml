@@ -43,17 +43,17 @@ Item3D
     states : [
         State {
             name : "idle"
-            PropertyChanges {target: testplugin_container; col : apc.getColor()}
+            PropertyChanges {target: testplugin_container; col : TestPlugin.getColor()}
             when : plugin_base.getFocusState() === 0
         },
         State {
             name : "selected"
-            PropertyChanges {target: testplugin_container; col : apc.getColor()}
+            PropertyChanges {target: testplugin_container; col : TestPlugin.getColor()}
             when : plugin_base.getFocusState() === 1
         },
         State {
             name : "focused"
-            PropertyChanges {target: testplugin_container; col : apc.getColor()}
+            PropertyChanges {target: testplugin_container; col : TestPlugin.getColor()}
             when : plugin_base.getFocusState() === 2
         }
     ]
@@ -68,7 +68,7 @@ Item3D
             effect: Effect {color: "orange"}
             scale : 1
             position : Qt.vector3d(-1, 1, -2)
-            onClicked:{apc.selectColor("orange");cube_plugin.effect.color = "orange";}
+            onClicked:{TestPlugin.selectColor("orange");cube_plugin.effect.color = "orange";}
         }
 
         Cube
@@ -77,7 +77,7 @@ Item3D
             effect: Effect {color: "red"}
             scale : 1
             position : Qt.vector3d(2, 1, 1)
-            onClicked:{apc.selectColor("red");cube_plugin.effect.color = "red";}
+            onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";}
         }
 
         Cube
@@ -86,7 +86,7 @@ Item3D
             effect: Effect {color: "blue"}
             scale : 1
             position : Qt.vector3d(-2, 1, 0)
-            onClicked:{apc.selectColor("blue");cube_plugin.effect.color = "blue";}
+            onClicked:{TestPlugin.selectColor("blue");cube_plugin.effect.color = "blue";}
         }
     }
 
@@ -96,7 +96,7 @@ Item3D
         mesh: Mesh { source: "./Batman.obj" }
         scale : 0.03
         position : Qt.vector3d(0, -5, 0)
-        effect: Effect {color :apc.getColor(); useLighting : true}
+        effect: Effect {color :TestPlugin.getColor(); useLighting : true}
         // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
         transform : [Rotation3D {angle : 180; axis : Qt.vector3d(0, 1, 0)}]
 

@@ -1,20 +1,10 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
-#include <QObject>
 #include <QtPlugin>
-
-#include <iostream>
-#include <QObject>
 #include <QDebug>
-#include <QtGui>
-#include "QtQml"
-#include <QQuickView>
 #include <QQuickItem>
-#include "PluginBase.h"
-#include "DatabaseServiceUserInterface.h"
-#include "WebServiceUserInterface.h"
-#include "widgetmodel.h"
+#include <PluginBase.h>
 
 
 #define  ASSIGNCOLOR 2
@@ -37,8 +27,8 @@ public:
     TestPlugin();
     int                     getPluginId();
     void                    initPlugin();
-    Q_INVOKABLE QString                 getPluginName();
-    QString                 getPluginDescription();
+    Q_INVOKABLE QString     getPluginName();
+    Q_INVOKABLE QString                 getPluginDescription();
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
 
@@ -48,7 +38,7 @@ public:
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId);
-    void                    exposeContentToQml(QQmlContext *context);
+//    void                    exposeContentToQml(QQmlContext *context);
     void setColor(QString color);
     Q_INVOKABLE void selectColor(QString color);
     Q_INVOKABLE QString getColor();

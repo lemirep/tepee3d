@@ -233,6 +233,15 @@ bool    Plugins::PluginBase::needsUpdating() const
 }
 
 /*!
+ * Exposes the plugin C++ class to the QML Context. That way the methods marked as
+ * QINVOKABLE of the plugin class can be called by prefixing them with the PluginNames
+ */
+void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
+{
+    context->setContextProperty(this->getPluginName(), this);
+}
+
+/*!
  * Returns the current focusState of the plugin.
  */
 Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   const

@@ -15,17 +15,15 @@ qml_folder.target = ./
  QT             += gui
 
 HEADERS         = \
-    widgetmodel.h \
-    testplugin.h
+    TestPlugin.h
 
  SOURCES         = \
-    widgetmodel.cpp \
-    testplugin.cpp
+    TestPlugin.cpp
 
 #include development files
 include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = qmltestplugin                    #NAME OF THE PLUGIN LIBRAY
+ TARGET          = TestPlugin                    #NAME OF THE PLUGIN LIBRAY
  DESTDIR         = ../widget_plugins                   #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder
 
@@ -39,7 +37,6 @@ include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 OTHER_FILES += \
     qmldir \
     qmltestplugin.qmlproject \
-    Widget.qml \
     Menu.qml    \
     images/texture0.jpg \
     Batman/Cape.obj \
@@ -68,7 +65,8 @@ OTHER_FILES += \
     Batman/BatmanArmoured_Head_D.tga \
     Batman/BatmanArmoured_Body_S.tga \
     Batman/BatmanArmoured_Body_N.tga \
-    Batman/BatmanArmoured_Body_D.tga
+    Batman/BatmanArmoured_Body_D.tga \
+    TestPlugin.qml
 
 
 
