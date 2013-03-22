@@ -210,7 +210,7 @@ Item3D
         //        dynamicTexture : qml_texture
         //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true
-
+        blending : true
         onEffectChanged :
         {
             console.log("Effect Changed");
@@ -224,6 +224,7 @@ Item3D
         //        dynamicTexture : qml_texture
         //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true
+        blending : true
 
         onEffectChanged :
         {
@@ -252,6 +253,5 @@ Item3D
             roomQmlFile : model.pluginRoomQmlFile
             menuQmlFile : model.pluginMenuQmlFile
         }
-
     }
 }

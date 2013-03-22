@@ -112,6 +112,10 @@ Item3D
         onPressed : {}
 
 
+        onHoverMove :
+        {
+            console.log("Hover Moved Signal has been triggered");
+        }
 
         SequentialAnimation {
             id : animation

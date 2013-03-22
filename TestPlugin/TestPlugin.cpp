@@ -76,15 +76,6 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int reque
     qDebug() << reply->readAll();
 }
 
-//void   TestPlugin::exposeContentToQml(QQmlContext *context)
-//{
-//    this->context = context;
-//    this->context->setContextProperty("apc",this);
-//    emit (PluginBase::executeSQLQuery("CREATE TABLE IF NOT EXISTS `TestPlugincolor` (`id` text NOT NULL PRIMARY KEY  , `color` text NOT NULL)",this,1));
-//    emit (PluginBase::executeSQLQuery("INSERT INTO TestPlugincolor(id, color) VALUES (1, 'grey')",this,1));
-//    emit (PluginBase::executeSQLQuery("SELECT color from TestPlugincolor", this, ASSIGNCOLOR));
-//}
-
 void TestPlugin::selectColor(QString color)
 {
     QString query = "INSERT OR REPLACE INTO TestPlugincolor VALUES (1,'"+ color +"')";
@@ -105,7 +96,6 @@ void TestPlugin::setColor(QString color)
 {
     this->colorSelect = color;
 }
-
 
 void TestPlugin::onIdleFocusState()
 {

@@ -8,10 +8,10 @@ Item
 
     Rectangle
     {
-        color : "red"
+        color : "transparent"
         anchors.fill: parent
         Text {
-            text : "Menu Setting For plugin" + apc.getPluginName()
+            text : "Menu Setting For plugin" + TestPlugin.getPluginName()
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
         }

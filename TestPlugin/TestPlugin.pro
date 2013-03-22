@@ -24,7 +24,7 @@ HEADERS         = \
 include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 
  TARGET          = TestPlugin                    #NAME OF THE PLUGIN LIBRAY
- DESTDIR         = ../widget_plugins                   #WHERE TO PUT THE LIBRARY
+ DESTDIR         = ../widget_plugins             #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder
 
 
