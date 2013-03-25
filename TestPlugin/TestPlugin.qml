@@ -10,7 +10,13 @@ Item3D
 
     property real zRot : 1;
     property real yRot : 0;
-    property color col : "red"
+    property color col : "red";
+    property int savedX;
+    property int savedY;
+    property real savedXPos;
+    property real savedYPos;
+    property vector3d savedCameraOrientation;
+
     position : Qt.vector3d(0, 0, 0)
 
     // HAS TO BE IMPLEMENTED
@@ -109,12 +115,40 @@ Item3D
                 plugin_base.askForFocusedFocusState();
         }
 
-        onPressed : {}
-
+        onPressed :
+        {
+            console.log("Plugin Pressed")
+            savedX = -10000;
+            savedY = -10000;
+        }
 
         onHoverMove :
         {
-            console.log("Hover Moved Signal has been triggered");
+            console.log("Hover Moved Signal has been triggered " + x + " " + y);
+            console.log("Item Pos " + cube_plugin.position)
+            if (savedX === -10000 && savedY === -10000)
+            {
+                console.log("-------------")
+                savedX = x;
+                savedY = y;
+                savedXPos = cube_plugin.x
+                savedYPos = cube_plugin.y
+                savedCameraOrientation = plugin_base.getCameraOrientation();
+                console.log("><><><><> " + savedCameraOrientation)
+            }
+            else
+            {
+                var xDiff = savedXPos - ((x * savedXPos) / savedX);
+                var yDiff = savedYPos - ((y * savedYPos) / savedY);
+
+                cube_plugin.x += xDiff;
+                cube_plugin.y += -yDiff;
+                console.log("xDiff " + xDiff + " yDiff " + yDiff);
+            }
+
+            // GET ITEM AXIS ON WHICH IT CAN MOVE
+            // ITEM POS VALUE ON AXIS / WINDOW WIDTH IF X
+            // ITEM POS VALUE ON AXIS / WINDOW WIDTH IF Y
         }
 
         SequentialAnimation {

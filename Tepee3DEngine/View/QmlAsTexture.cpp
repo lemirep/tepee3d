@@ -22,7 +22,7 @@ QSGNode*    QmlAsTexture::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData 
         QObject::connect(this->provider, SIGNAL(textureChanged()), this, SLOT(textureChanged()), Qt::DirectConnection);
     }
 
-    if (this->provider && !texture)
+    if (this->provider && !this->texture)
     {
         this->texture = this->provider->texture();
         qDebug() << "Texture Id " << this->texture->textureId() << " SIZE " << this->texture->textureSize();
@@ -34,6 +34,11 @@ QSGNode*    QmlAsTexture::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData 
         else
             emit textureChanged();
     }
+
+    if (this->texture && this->effectItem)
+        this->effectItem->triggerDynamicTextureUpdate();
+
+//    this->update();
     return oldNode;
 }
 
@@ -46,7 +51,7 @@ void        QmlAsTexture::textureChanged()
     if (txt)
     {
         qDebug() << "Texture Id " << txt->textureId() << " SIZE " << txt->textureSize();
-        //this->effectItem->setDynamicTexture(txt->textureId(), txt->textureSize());
+        this->effectItem->setDynamicTexture(txt->textureId(), txt->textureSize());
     }
 }
 

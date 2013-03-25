@@ -22,6 +22,7 @@ Item3D
     function askForFocusedFocusState()         {plugin_properties.askForFocusState(2)}
     function getFocusState()                   {return plugin_properties.focusState}
     function moveCamera(eye, center, up)       {CameraManagement.moveCamera(camera, eye, center, up)}
+    function getCameraOrientation()            {return camera.getCameraOrientation()}
     // RETURN DEEP COPY OF ROOM VARIABLES SO THEY CANNOT MODIFY THE ROOM DIRECTLY
     function getRoomPosition()                 {return room_item.getRoomPosition()}
     function getRoomScale()                    {return room_item.getRoomScale()}

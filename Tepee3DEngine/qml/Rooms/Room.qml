@@ -51,36 +51,38 @@ Item3D
         transform : [Scale3D {scale : roomScale}]
 
 
-        //        QmlAsTexture
-        //        {
-        //            sourceItem: qml_texture
-        //            effectItem: face_effect
-        //        }
+//                QmlAsTexture
+//                {
+//                    sourceItem: qml_texture
+//                    effectItem: face_effect
+//                }
 
-        //        ShaderEffectSource
-        //        {
-        //            id : qml_texture
-        //            width : 128
-        //            height : 128
-        //            recursive : false
-        //            mipmap : false
-        //            hideSource: true
-        //            sourceItem: Rectangle {
-        //                width : 512
-        //                height : 512
-        //                color : "orange"
-        //            }
-        ////            live : true
-        //        }
+//                ShaderEffectSource
+//                {
+//                    id : qml_texture
+//                    width : 128
+//                    height : 128
+//                    recursive : false
+//                    mipmap : false
+//                    hideSource: true
+////                    sourceItem: Rectangle {
+////                        width : 512
+////                        height : 512
+////                        color : "orange"
+////                    }
+//                    sourceItem: rec
+//                    live : true
+//                }
 
-        //        Rectangle
-        //        {
-        //            color : "orange"
-        //            x : mainWindow.width / 2
-        //            y : mainWindow.height / 3
-        //            width : 50
-        //            height : 50
-        //        }
+//                Rectangle
+//                {
+//                    id : rec
+//                    color : "orange"
+//                    x : mainWindow.width / 2
+//                    y : mainWindow.height / 3
+//                    width : 50
+//                    height : 50
+//                }
 
         states : [
             State
@@ -206,7 +208,8 @@ Item3D
     Effect
     {
         id : face_effect
-        texture : "../Resources/Textures/blue_wall.jpg"
+        texture : "../Resources/Textures/glass_wall.png"
+//        texture : "../Resources/Textures/blue_wall.jpg"
         //        dynamicTexture : qml_texture
         //        texture : "Resources/Pictures/panel_bg2.png"
         useLighting : true
