@@ -234,9 +234,9 @@ function XAuth() {
     }
 
     this.generateTimeStamp = function() {
-        //var d = new Date();
-        //var utc = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
-        //var t = utc + 0;
+        var d = new Date();
+        var utc = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+        var t = utc + 0;
         var p = (new Date()).getTime() + timeCorrection;
         console.log("t: " + t);
         console.log("p: " + p);
@@ -414,6 +414,7 @@ function XAuth() {
       {
           outUrl += "?";
       }
+      console.log("method < " + method + "> ---" +outUrl + querystring);
       doWebRequest(method, outUrl + querystring, callback);
   }
 

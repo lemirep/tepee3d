@@ -25,8 +25,12 @@ Item3D
     function getTimeLine()
     {
         console.log("CALL TWITTER <<<<<<<<<<<<<<<<<<<<<");
-        Script.getTwitterTimeAndLogin();
+        Script.requestToken();
+        Script.getTwitterTimeAndToken();
+
+        //  Twitter.login();
         console.log("<<<------------------");
+        // Script.requestToken();
     }
     // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
     // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
@@ -146,6 +150,7 @@ Item3D
 
         onPressed :
         {
+             getTimeLine()
             console.log("Plugin Pressed")
             savedX = -10000;
             savedY = -10000;
