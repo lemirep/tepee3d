@@ -189,13 +189,13 @@ Item
                     mainWindow.currentRoomId = -1;
                     mainWindow.moveCameraToSkyView();
 
-                    var jsonMessage = {message : "newWindow Added", type : 1, callback : { func : testCallback, context : this}};
+                    var jsonMessage = {message : "newWindow Added", type : 0, callback : { func : testCallback, context : this}};
                     mainWindow.postNotification(jsonMessage);
-                    mainWindow.postNotification(jsonMessage);
-                    mainWindow.postNotification(jsonMessage);
-                    mainWindow.postNotification(jsonMessage);
+//                    mainWindow.postNotification(jsonMessage);
+//                    mainWindow.postNotification(jsonMessage);
+//                    mainWindow.postNotification(jsonMessage);
                     // DISABLE BUTTON WHILE WAITING FOR CALLBACK
-                    disableMenuButtons();
+//                    disableMenuButtons();
 
                     function testCallback()
                     {

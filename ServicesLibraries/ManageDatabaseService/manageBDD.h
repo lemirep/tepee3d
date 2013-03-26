@@ -16,10 +16,9 @@ class ManageBDD : public QObject
     Q_OBJECT
 public:
     ManageBDD();
-    ManageBDD(QString);
     ~ManageBDD();
 
-    bool    openDatabase(QString);
+    bool    openDatabase(QString dbName);
     bool    checkExistLocalDatabase();
     void    createLocalDatabase();
 signals:
@@ -31,7 +30,6 @@ private :
     QString         field;
     QString         username;
     QSqlDatabase    dataBase;
-    QSqlQuery       sqlQuery;
     QList<QString>  fieldName ;
     QList<QString>  value;
 };

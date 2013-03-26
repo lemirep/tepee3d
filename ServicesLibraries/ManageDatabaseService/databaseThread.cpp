@@ -1,4 +1,4 @@
-#include "databasethread.h"
+#include "databaseThread.h"
 //This class launch ManageBDD in a thread
 //DEBUG
 #include <QDebug>

@@ -64,10 +64,10 @@ Viewport
 
     // FOR 16 / 9
     width: 1280
-    height: 720
+    height: 768
 
-    //    width: 1680
-    //    height: 1050
+//        width: 1680
+//        height: 1050
     // FOR 4 / 3
     //    width : 1024
     //    height : 728

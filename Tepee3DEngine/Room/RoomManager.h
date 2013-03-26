@@ -17,7 +17,8 @@ class RoomLoader;
 
 namespace   Room
 {
-class RoomManager : public QObject, public View::QmlContentExposerInterface, public Services::DatabaseServiceUserInterface
+class RoomManager : public QObject, public View::QmlContentExposerInterface
+//        , public Services::DatabaseServiceUserInterface
 {
     Q_OBJECT
 public:
@@ -38,7 +39,7 @@ public:
     // QmlContentExposer
     void                    exposeContentToQml(QQmlContext *context);
     // DatabaseUser
-    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
+//    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
 
     // METHODS THAT CAN BE CALLED FROM QML
     Q_INVOKABLE    void     setCurrentRoom(int roomModelId);

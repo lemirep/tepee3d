@@ -167,17 +167,30 @@ Item3D
                 savedY = y;
                 savedXPos = cube_plugin.x
                 savedYPos = cube_plugin.y
+
+
                 savedCameraOrientation = plugin_base.getCameraOrientation();
-                console.log("><><><><> " + savedCameraOrientation)
+                console.log("><><><><> " + savedCameraOrientation + " " + savedXPos + " " + savedYPos)
             }
             else
             {
-                var xDiff = savedXPos - ((x * savedXPos) / savedX);
-                var yDiff = savedYPos - ((y * savedYPos) / savedY);
+//                var xDiff = ((x  * savedXPos) / savedX);
+//                var yDiff = ((y  * savedYPos) / savedY);
+//                cube_plugin.x = xDiff;
+//                cube_plugin.y = yDiff;
 
-                cube_plugin.x += xDiff;
-                cube_plugin.y += -yDiff;
-                console.log("xDiff " + xDiff + " yDiff " + yDiff);
+                var xRatio = plugin_base.getRoomScale().x / mainWindow.width;
+                var yRatio = plugin_base.getRoomScale().y / mainWindow.height;
+
+                var xDiff = (xRatio * x) - (plugin_base.getRoomScale().x / 2);
+                var yDiff = (yRatio * y) - (plugin_base.getRoomScale().y / 2);
+                console.log("xDiff " + xDiff + " yDiff " + yDiff + " xRatio " + xRatio + " yRatio " + yRatio);
+
+                cube_plugin.x = (savedXPos - xDiff);
+//                cube_plugin.y += (savedYPos - yDiff);
+
+                console.log("Item Pos After" + cube_plugin.position)
+
             }
 
             // GET ITEM AXIS ON WHICH IT CAN MOVE

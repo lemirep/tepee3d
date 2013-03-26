@@ -17,11 +17,13 @@ TARGET = ManageDatabaseServiceLibrary
 
 DEFINES += MANAGEDATABASELIBRARY_LIBRARY
 
-SOURCES +=   managebdd.cpp \
-             databasethread.cpp
+SOURCES +=   \
+    databaseThread.cpp \
+    manageBDD.cpp
 
-HEADERS +=   managebdd.h \
-             databasethread.h
+HEADERS +=   \
+    databaseThread.h \
+    manageBDD.h
 
 DESTDIR = ../../libraries/services_lib
 

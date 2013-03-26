@@ -1,4 +1,4 @@
-#include "managebdd.h"
+#include "manageBDD.h"
 // DEBUG
 #include <QDebug>
 
@@ -26,29 +26,33 @@
 ManageBDD::ManageBDD() : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    this->openDatabase("tepee3D.sql");
+    if (this->openDatabase("Tepee3D.sql"))
     {
-        this->sqlQuery = QSqlQuery(this->dataBase);
+        qDebug() << "ManageBDD::Database Opened";
         if (!this->checkExistLocalDatabase())
-            this->createLocalDatabase();
+            qDebug() << "ManageBDD::Database corrupted";
+//            this->createLocalDatabase();
+        qDebug() << "ManageBDD::Thread running and database initialized";
     }
-    std::cout << "Thread running and database initialized" << std::endl;
+    else
+        qDebug() << "ManageBDD:: Database not opened";
+
 }
 
-/*!
- * Constructs a new ManageBDD instance, opens a database connection to the database
- * named by \a name and fill it for the first use if necessary.
- */
-ManageBDD::ManageBDD(QString name) : QObject()
-{
-    this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    if (this->openDatabase(name))
-    {
-        this->sqlQuery = QSqlQuery(this->dataBase);
-        if (!this->checkExistLocalDatabase())
-            this->createLocalDatabase();
-    }
-}
+///*!
+// * Constructs a new ManageBDD instance, opens a database connection to the database
+// * named by \a name and fill it for the first use if necessary.
+// */
+//ManageBDD::ManageBDD(QString name) : QObject()
+//{
+//    this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
+//    if (this->openDatabase(name))
+//    {
+//        this->sqlQuery = QSqlQuery(this->dataBase);
+//        if (!this->checkExistLocalDatabase())
+//            this->createLocalDatabase();
+//    }
+//}
 
 /*!
  * Destroys a ManageBDD instance, close the database connection if opened.
@@ -64,21 +68,28 @@ ManageBDD::~ManageBDD()
  * Opens a database connection to the database specified by \a dbname.
  * If the connection is successfully opened, returns true, false otherwise.
  */
-bool ManageBDD::openDatabase(QString dbname)
+bool ManageBDD::openDatabase(QString dbName)
 {
-    std::cout << dbname.toStdString() << std::endl;
-    this->localDBName = dbname;
+    this->localDBName = QDir::currentPath() + "/" + dbName;
+    qDebug() << localDBName;
     this->dataBase.setHostName("localhost");
+    this->dataBase.setDatabaseName(localDBName);
 
-#ifdef Q_OS_LINUX
-    QString path(QDir::home().path());
-    path.append(QDir::separator()).append(this->localDBName);
-    path = QDir::toNativeSeparators(path);
-    this->dataBase.setDatabaseName(path);
-#else
-    this->dataBase.setDatabaseName(this->localDBName);
-#endif
-    return (this->dataBase.open());
+    // THE DATABASE IS NOW CONTAINED IN THE TEPEE3DENGINE
+    // THIS ALLOWS US TO PROVIDE A DATABASE SCHEMA WITHOUT HAVING TO
+    // CREATE IT ON THE FIRST BOOT
+
+
+//#ifdef Q_OS_LINUX
+//    QString path(QDir::home().path());
+//    path.append(QDir::separator()).append(this->localDBName);
+//    path = QDir::toNativeSeparators(path);
+//    this->dataBase.setDatabaseName(path);
+//#else
+//    this->dataBase.setDatabaseName(this->localDBName);
+//#endif
+
+    return this->dataBase.open();
 }
 
 /*!
@@ -91,14 +102,16 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
     if (this->dataBase.open())
     {
         qDebug() << "Received query : {" << query << "}";
-        if (this->sqlQuery.exec(query))
+        QSqlQuery sqlQuery(this->dataBase);
+        sqlQuery.prepare(query);
+        if (sqlQuery.exec())
             qDebug() << "Query Execution Succeeded";
         else
             qDebug() << "YOU SHOULD CHECK YOUR QUERY";
         QList<QSqlRecord> results;
-        results.push_back(this->sqlQuery.record());
-        while (this->sqlQuery.next())
-            results.push_back(this->sqlQuery.record());
+        results.push_back(sqlQuery.record());
+        while (sqlQuery.next())
+            results.push_back(sqlQuery.record());
         emit resultFromSQLQuery(results, sender, id);
     }
 }
@@ -136,12 +149,12 @@ bool ManageBDD::checkExistLocalDatabase()
 {
     if (dataBase.open())
     {
-        std::cout << "Databasse is already created" << std::endl;
+        qDebug() << "ManageBDD::Database is already created";
         QSqlQuery qry;
-        qry.prepare( "SELECT * FROM exist" );
+        qry.prepare( "SELECT * FROM room" );
         return (qry.exec());
     }
-    std::cout << "Databasse is not created yet" << std::endl;
+    qDebug() << "ManageBDD::Databasse is not created yet";
     return (false);
 }
 

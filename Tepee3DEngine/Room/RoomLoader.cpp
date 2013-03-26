@@ -16,6 +16,7 @@ Room::RoomLoader::RoomLoader(QObject *parent) : QObject(parent)
     this->pFunc[GENERIC_RESULT] = &Room::RoomLoader::genericResultCallback;
     this->pFunc[RESTORE_ROOMS] = &Room::RoomLoader::restoreRoomsCallback;
     // CONNECT TO DATABASE SERVICE
+    qDebug() << "Connection RoomLoader to services";
     Services::ServicesManager::connectObjectToServices(this);
 }
 
@@ -248,7 +249,8 @@ bool Room::RoomLoader::saveRoomFile(Room::RoomBase  *room)
 ////////////////// STATIC METHODS CALLBED BY ROOM MANAGER ///////////////////
 
 /*!
- * \brief RoomLoader::saveRoomDatabase Save a room to the database, the room is updated or inserted depending if the room was already present. The requests are asynchronous and this function only sends the request. Does not return.
+ * \brief RoomLoader::saveRoomDatabase Save a room to the database, the room is updated or inserted depending if the room was already present.
+ * The requests are asynchronous and this function only sends the request. Does not return.
  */
 void    Room::RoomLoader::saveRoomToDatabase(Room::RoomBase *room)
 {
@@ -279,6 +281,7 @@ void    Room::RoomLoader::genericResultCallback(QList<QSqlRecord> result)
 
 void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result)
 {
+    qDebug() << "searchEditRoomCallBack";
     if (result.size() > 2)
         this->updateExistingRoom(this->roomToSave);
     else
@@ -287,7 +290,10 @@ void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> resu
 
 void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result)
 {
-    if (result.size() > 2)
+    qDebug() << "restoreRoomsCallback";
+    if (result.size() > 1) // FIRST RECORD IS STATUS COUNT OF RECORDINGS
+    {
+        result.pop_front();
         foreach (QSqlRecord record, result)
         {
             Room::RoomBase *newroom = Room::RoomManager::getNewRoomInstance();
@@ -298,6 +304,7 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result)
             qDebug() << "NEW ROOM : " << newroom->getRoomName() << " " << newroom->getPosition() << " " << newroom->getScale();
             Room::RoomManager::addRoomToModel(newroom);
         }
+    }
 }
 
 /////////////// QUERIES ///////////////////////
@@ -305,6 +312,7 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result)
 void    Room::RoomLoader::saveRoom(Room::RoomBase *room)
 {
     this->roomToSave = room;
+    qDebug() << "RoomLoader::saveRoom " << "SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";";
     emit executeSQLQuery("SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";", this, SEARCH_FOR_ROOM);
 }
 
@@ -338,6 +346,7 @@ void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)
     request += "name=\"";
     request += room->getRoomName();
     request += "\";";
+    qDebug() << request;
     emit executeSQLQuery(request, this, GENERIC_RESULT);
 }
 
@@ -360,18 +369,20 @@ void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
     request += ", ";
     request += QString::number(room->getScale().z());
     request += ");";
+    qDebug() << request;
     emit executeSQLQuery(request, this, GENERIC_RESULT);
 }
 
 void    Room::RoomLoader::restoreRooms()
 {
     QString request = "SELECT * FROM room;";
+    qDebug() << "RoomLoader::restoreRooms";
     emit executeSQLQuery(request, this, RESTORE_ROOMS);
 }
 
 void    Room::RoomLoader::deleteRoom(Room::RoomBase *room)
 {
-    QString request = "DELETE FROM room SET WHERE name = \"";
+    QString request = "DELETE FROM room WHERE name = \"";
     request += room->getRoomName();
     request += "\";";
     emit executeSQLQuery(request, this, GENERIC_RESULT);
