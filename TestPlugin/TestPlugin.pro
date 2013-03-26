@@ -69,7 +69,6 @@ OTHER_FILES += \
     js/xauth.js \
     js/twitter.js \
     js/translate.js \
-    js/storage.js \
     js/script.js \
     js/pocket.js \
     js/lib/sha1.js \
@@ -94,7 +93,8 @@ OTHER_FILES += \
     components/Button.qml \
     components/BackButton.qml \
     components/AuthorizeDialog.qml \
-    TestPlugin.qml
+    TestPlugin.qml \
+    js/storage.js
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {

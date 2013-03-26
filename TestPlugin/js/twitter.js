@@ -104,12 +104,10 @@ var Twitter = function() {
         // oauth_callback_confirmed=true
         var oauth_token = parseParameter(response, "oauth_token");
         var oauth_token_secret = parseParameter(response, "oauth_token_secret");
-        setKeyValue("oauthToken", oauth_token);
-        setKeyValue("oauthTokenSecret", oauth_token_secret);
+        // setKeyValue("oauthToken", oauth_token);
+        //setKeyValue("oauthTokenSecret", oauth_token_secret);
         xauth.setTokenAndSecret(oauth_token, oauth_token_secret);
         hasToken = false;
-        authorizeWindow.visible = true;
-        authorizeWindow.load(oauth_token);
     }
 
     /** Login to Twitter */

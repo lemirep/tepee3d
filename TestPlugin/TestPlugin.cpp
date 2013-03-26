@@ -36,7 +36,7 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
-    return QString("Widget.qml");
+    return QString("TestPlugin.qml");
 }
 
 QString TestPlugin::getMenuPluginQmlFile() const
@@ -72,7 +72,7 @@ void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
 
 void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId)
 {
-    qDebug() << "TestPlugin::Received Network Reply";
+    qDebug() << "TestPlugin::Received Network Reply with id : " + requestId;
     qDebug() << reply->readAll();
 }
 
