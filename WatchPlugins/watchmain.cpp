@@ -12,7 +12,7 @@ int watchMain::getPluginId()
 
 void watchMain::initPlugin()
 {
-    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")));
+    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")),1);
 }
 
 QString watchMain::getPluginName()

@@ -16,7 +16,7 @@ void TestPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
     this->setColor("yellow");
-    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
+ //   this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
 }
 
 QString TestPlugin::getPluginName()
@@ -36,7 +36,7 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
-    return QString("TestPlugin.qml");
+    return QString("Widget.qml");
 }
 
 QString TestPlugin::getMenuPluginQmlFile() const

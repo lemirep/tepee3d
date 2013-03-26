@@ -1,62 +1,36 @@
-
-qml_folder.source = ../plugins_qml
+qml_folder.source =PATH_WHERE_YOUR_SAVE_YOUR_PLUGIN_LIB
 qml_folder.target = ./
 
-TEMPLATE         = lib
- CONFIG         += qt plugin
- QT             += quick
- QT             += gui
+  TEMPLATE        = lib
+  CONFIG         += qt plugin
+  QT             += quick
+  QT             += gui
 
-#include development files
-   include (../DeveloperAPIFiles/DevelopmentFiles.pri)
+ #include development files
+    include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 
-TARGET          = qmlwatchMain
-DESTDIR         = ../widget_plugins
-DESTDIRQML      = qml_folder
-
-HEADERS += \
-    watchmain.h
-
-SOURCES += \
-    watchmain.cpp
-
-OTHER_FILES += \
-    Menu.qml \
-    WatchPlugins.qml \
-    content/second.png \
-    content/quit.png \
-    content/minute.png \
-    content/hour.png \
-    content/clock-night.png \
-    content/clock.png \
-    content/center.png \
-    content/background.png \
-    content/Clock.qml \
-    content/Clock_Wall_3.dae \
-    content/Clock_Wall_2.dae \
-    content/Clock_Wall_1.dae \
-    content/officeclock.3DS
-
-
+ TARGET          = NAME_OF_THE_PLUGIN_LIBRARY
+ DESTDIR         = WHERE_TO_PUT_THE LIBRARY
+ DESTDIRQML      = qml_folder
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
     files = $$1
     unix {
-        QMAKE_POST_LINK  += rm -fr ../plugins_qml/$$TARGET $$escape_expand(\\n\\t)
-        QMAKE_POST_LINK  += mkdir ../plugins_qml/$$TARGET $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK  += rm -fr PATH_TO_SAVE_YOUR_FILE/$$TARGET $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK  += mkdir PATH_TO_SAVE_YOUR_FILE/$$TARGET $$escape_expand(\\n\\t)
     }
     win32 {
-        DDIR = ../plugins_qml/$${TARGET}
+        DDIR = PATH_TO_SAVE_YOUR_FILE/$${TARGET}
         DESTDIR_WIN = $${DDIR}
         DESTDIR_WIN ~= s,/,\\,g
        QMAKE_POST_LINK +=$$quote(cmd /c del /s /f  /q  $${DESTDIR_WIN}$$escape_expand(\n\t))
      #   QMAKE_POST_LINK +=$$quote(cmd /c mkdir /y $${DDIR}escape_expand(\n\t))
     }
     for(FILE, files) {
-         DDIR = ../plugins_qml/$$TARGET/
+         DDIR = PATH_TO_SAVE_YOUR_FILE/$$TARGET/
         # Replace slashes in paths with backslashes for Windows
         win32{
-        DDIR = ../plugins_qml/$${TARGET}
+        DDIR = PATH_TO_SAVE_YOUR_FILE/$${TARGET}
         DESTDIR_WIN = $${DDIR}
         DESTDIR_WIN ~= s,/,\\,g
         PWD_WIN = $${PWD}
@@ -111,3 +85,12 @@ qnx {
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)
+
+HEADERS += \
+    dummy.h
+
+SOURCES += \
+    dummy.cpp
+
+OTHER_FILES += \
+    Menu.qml

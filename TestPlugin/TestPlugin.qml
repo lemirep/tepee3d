@@ -3,6 +3,11 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Particles 2.0
+import "script.js" as Script
+import "pocket.js" as Pocket
+import "twitter.js" as Twitter
+import "storage.js" as Storage
+import "translate.js" as AzureTranslate
 
 Item3D
 {
@@ -17,8 +22,32 @@ Item3D
     property real savedYPos;
     property vector3d savedCameraOrientation;
 
+    function getTimeLine()
+    {
+        console.log("CALL TWITTER <<<<<<<<<<<<<<<<<<<<<");
+        Script.getTwitterTimeAndLogin();
+        console.log("<<<------------------");
+    }
+    // HAS TO BE IMPLEMENTED TO HANDLE STATE CHANGE
+    // USE FOR LOGIC CHANGE, FOR ANIMATION USE RATHER STATES
+    function focusStateChanged(focusStateValue)
+    {
+        switch (focusStateValue)
+        {
+        case 0:
+            switchToIdleFocusView();
+            break;
+        case 1:
+            switchToSelectedFocusView();
+            break;
+        case 2:
+            switchToFocusedView();
+            break;
+        default:
+            break;
+        }
+    }
     position : Qt.vector3d(0, 0, 0)
-
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
@@ -83,7 +112,7 @@ Item3D
             effect: Effect {color: "red"}
             scale : 1
             position : Qt.vector3d(2, 1, 1)
-            onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";}
+            onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";getTimeLine();}
         }
 
         Cube
