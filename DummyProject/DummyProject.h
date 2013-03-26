@@ -1,23 +1,22 @@
-#ifndef DUMMY_H
-#define DUMMY_H
+#ifndef DUMMYPROJECT_H
+#define DUMMYPROJECT_H
 
-#include "PluginBase.h"
-#include <iostream>
 #include <QObject>
 #include <QtGui>
 #include "QtQml"
 #include <QQuickView>
 #include <QQuickItem>
+#include "PluginBase.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
 
-class Dummy  : public Plugins::PluginBase
+class DummyProject  : public Plugins::PluginBase
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.dummyproject")
 
 public:
-    Dummy();
+    DummyProject();
     int                          getPluginId();
     void                        initPlugin();
     Q_INVOKABLE QString         getPluginName();
@@ -33,4 +32,4 @@ public:
     void                        exposeContentToQml(QQmlContext *context);
 };
 
-#endif // DUMMY_H
+#endif // DUMMYPROJECT_H

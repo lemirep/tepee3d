@@ -1,4 +1,4 @@
-qml_folder.source =PATH_WHERE_YOUR_SAVE_YOUR_PLUGIN_LIB
+qml_folder.source = PATH_WHERE_YOU_SAVE_YOUR_PLUGINS_QML
 qml_folder.target = ./
 
   TEMPLATE        = lib
@@ -9,7 +9,7 @@ qml_folder.target = ./
  #include development files
     include (../DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = NAME_OF_THE_PLUGIN_LIBRARY
+ TARGET          = DummyProject
  DESTDIR         = WHERE_TO_PUT_THE LIBRARY
  DESTDIRQML      = qml_folder
 # Copies the given files to the destination directory
@@ -49,37 +49,6 @@ defineTest(copyToDestDir) {
 }
 
 
-#FOR BLACKBERRY PLAYBOOK
-qnx {
-    QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''
-
-    PACKAGE_ARGS = \
-        $${PWD}/bar-descriptor.xml $$TARGET \
-        -e $${PWD}/icon.png res/icon.png \
-        -e $$[QT_INSTALL_LIBS]/libQtCore.so.5 lib/libQtCore.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtGui.so.5 lib/libQtGui.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtOpenGL.so.5 lib/libQtOpenGL.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtNetwork.so.5 lib/libQtNetwork.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtWidgets.so.5 lib/libQtWidgets.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtQuick.so.5 lib/libQtQuick.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtQml.so.5 lib/libQtQml.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtSql.so.5 lib/libQtSql.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtV8.so.5 lib/libQtV8.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtXmlPatterns.so.5 lib/libQtXmlPatterns.so.5 \
-        -e $$[QT_INSTALL_PLUGINS]/platforms/libqnx.so plugins/platforms/libqnx.so \
-        -e $$[QT_INSTALL_IMPORTS]/ imports/
-
-    package.target = $${TARGET}.bar
-    package.depends = $$TARGET
-    package.commands = blackberry-nativepackager \
-        -package $${TARGET}.bar \
-        -devMode -debugToken $$(DEBUG_TOKEN) \
-        $${PACKAGE_ARGS}
-
-    QMAKE_EXTRA_TARGETS += package
-
-    OTHER_FILES += bar-descriptor.xml
-}
 
 
 
@@ -93,4 +62,5 @@ SOURCES += \
     DummyProject.cpp
 
 OTHER_FILES += \
+    DummyProject.qml \
     Menu.qml

@@ -1,57 +1,57 @@
-#include "dummy.h"
+#include "DummyProject.h"
 
-Dummy::Dummy() : PluginBase()
+DummyProject::DummyProject() : PluginBase()
 {
     this->initPlugin();
 }
 // ALL the function should be implemented
-/*
-int Dummy::getPluginId()
+
+int DummyProject::getPluginId()
 {
     return 1;
 }
 
-void Dummy::initPlugin()
+void DummyProject::initPlugin()
 {
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")),1);
 }
 
-QString Dummy::getPluginName()
+QString DummyProject::getPluginName()
 {
-    return QString("qmlDummy");
+    return QString("DummyProject");
 }
 
-QString Dummy::getPluginDescription()
+QString DummyProject::getPluginDescription()
 {
-    return QString("DummyPlugins.qml");
+    return QString("DummyProject.qml");
 }
 
-Plugins::PluginBase* Dummy::getPluginBase()
+Plugins::PluginBase* DummyProject::getPluginBase()
 {
     return this;
 }
 
-QString Dummy::getRoomPluginQmlFile() const
+QString DummyProject::getRoomPluginQmlFile() const
 {
-    return QString("DummyPlugins.qml");
+    return QString("DummyProject.qml");
 }
 
-QString Dummy::getMenuPluginQmlFile() const
+QString DummyProject::getMenuPluginQmlFile() const
 {
     return QString("Menu.qml");
 }
 
-Plugins::PluginBase* Dummy::createNewInstance()
+Plugins::PluginBase* DummyProject::createNewInstance()
 {
-    return new Dummy();
+    return new DummyProject();
 }
 
-void    Dummy::receiveResultFromSQLQuery( QList<QSqlRecord> , int )
+void    DummyProject::receiveResultFromSQLQuery( QList<QSqlRecord> , int )
 {
 }
 
-void    Dummy::receiveResultFromHttpRequest(QNetworkReply *reply, int )
+void    DummyProject::receiveResultFromHttpRequest(QNetworkReply *reply, int )
 {
     qDebug() << reply->readAll();
 }
-*/
+

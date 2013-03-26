@@ -36,7 +36,7 @@ Plugins::PluginBase* TestPlugin::getPluginBase()
 
 QString TestPlugin::getRoomPluginQmlFile() const
 {
-    return QString("Widget.qml");
+    return QString("TestPlugin.qml");
 }
 
 QString TestPlugin::getMenuPluginQmlFile() const
