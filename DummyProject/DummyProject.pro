@@ -87,10 +87,10 @@ qnx {
 copyToDestDir($$OTHER_FILES)
 
 HEADERS += \
-    dummy.h
+    DummyProject.h
 
 SOURCES += \
-    dummy.cpp
+    DummyProject.cpp
 
 OTHER_FILES += \
     Menu.qml
