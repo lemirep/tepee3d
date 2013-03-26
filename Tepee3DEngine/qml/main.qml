@@ -117,7 +117,7 @@ Viewport
     //    Keys.onUpPressed:    {}
     //    Keys.onDownPressed:    {}
 
-    Skybox            {source : "sky15"}
+    Skybox            {source : "Resources/Textures/skybox"}
     RoomsContainer    {id : roomContainer}
     MenuCenter        {id : menu_center; anchors.fill : parent}
     //    BufferedTextureSource    {sourceItem : menu_center}
