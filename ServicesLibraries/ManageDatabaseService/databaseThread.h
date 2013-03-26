@@ -3,7 +3,7 @@
 
 #include <QThread>
 #include "ServiceInterface.h"
-#include "managebdd.h"
+#include "manageBDD.h"
 #include "DatabaseServiceUserInterface.h"
 
 

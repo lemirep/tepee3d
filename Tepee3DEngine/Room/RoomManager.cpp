@@ -1,7 +1,6 @@
 #include "RoomManager.h"
 // DEBUG
 #include <QDebug>
-//#include <roomloader.h>
 
 /*!
  * \namespace Room
@@ -98,13 +97,13 @@ Room::RoomBase* Room::RoomManager::getNewRoomInstance()
  */
 void Room::RoomManager::restoreRooms()
 {
-    qDebug() << "Restoring Rooms";
+    qDebug() << "RoomManager::Restoring Rooms";
     Room::RoomLoader::restoreRoomsFromDatabase();
     // WHILE WAITING FOR ROOMS RESTORATION TO WORK
-    this->addNewRoom("RoomTest1");
-    this->addNewRoom("RoomTest2");
-    this->addNewRoom("RoomTest3");
-    this->addNewRoom("RoomTest4");
+//    this->addNewRoom("RoomTest1");
+//    this->addNewRoom("RoomTest2");
+//    this->addNewRoom("RoomTest3");
+//    this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -124,14 +123,14 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomManager", this);
 }
 
-/*!
- * Called when the result \a list of a previously executed query is received from the database service.
- * The parameter \a id is used to tell which query this call is the result of.
- */
+///*!
+// * Called when the result \a list of a previously executed query is received from the database service.
+// * The parameter \a id is used to tell which query this call is the result of.
+// */
 
-void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
-{
-}
+//void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
+//{
+//}
 
 /*!
  * Returns the model containing the rooms.
@@ -276,6 +275,9 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
     {
         Room::RoomManager::roomInstances--;
         // CLEAR ALL THE ROOM'S CONTENT BEFORE DELETING IT
+
+        // REMOVE ROOM FROM DATABSE
+        Room::RoomLoader::deleteRoomFromDatabase(deletedRoom);
         delete deletedRoom;
         // REPLACE ALL THE ROOMS IF NECESSARY
         placeNewRoomInSpace();
@@ -374,6 +376,7 @@ void        Room::RoomManager::loadRoomLibrary()
     QDir    roomDirectory = QApplication::applicationDirPath();
 
     // GO TO ROOM LIB DIRECTORIES
+    //////////////// THIS PART WILL MOVE TO UTILS////////////////////////////
 #if defined(Q_OS_WIN)
     if (roomDirectory.dirName().toLower() == "debug" || roomDirectory.dirName().toLower() == "release")
         roomDirectory.cdUp();
@@ -417,4 +420,5 @@ void        Room::RoomManager::addRoomToModel(Room::RoomBase *room)
     qDebug() << "ROOM ADDED TO MODEL";
     Room::RoomManager::getInstance()->roomModel->appendRow(new Models::RoomModelItem(room));
     Room::RoomManager::getInstance()->placeNewRoomInSpace();
+    Room::RoomManager::roomInstances++;
 }
