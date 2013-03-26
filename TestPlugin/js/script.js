@@ -100,16 +100,23 @@ function setComponents(waitingItem,
     mainMenu = menu;
 }
 
+function getToken()
+{
+    return twitter.getToken();
+}
+
+function getTokenSecret()
+{
+    return twitter.getTokenSecret();
+}
 
 function getTwitterTimeAndLogin() {
     initializeTwitterObject();
-    showWaiting(qsTr("Please wait..."));
     twitter.requestTime( login );
 }
 
 function getTwitterTimeAndToken() {
     initializeTwitterObject();
-    showWaiting(qsTr("Please wait..."));
     twitter.requestTime( requestToken );
 }
 
@@ -527,20 +534,15 @@ function showWaiting(reason) {
 
 function loadTimeline(timelineUrl, appendFully) {
     console.log("My username is " + myUsername);
-    showWaiting(qsTr("Loading tweets..."));
     append = appendFully;
     if(append==false) {
         autoRefreshURL = timelineUrl;
         page = 1;
         if(autoRefresh==false) {
             lastTweetID = "";
-            if(timelineUrl.indexOf(HOME_TIMELINE_URL)>-1) {
-                homeIcon.showNewIndicator = false;
-            } else if(timelineUrl.indexOf(MENTIONS_TIMELINE_URL)>-1) {
-                mentionsIcon.showNewIndicator = false;
-            }
         }
     }
+    console.log("before call getTweet");
     twitter.getTweets(timelineUrl, parseRealTweets);
 }
 
@@ -764,17 +766,6 @@ function okCallback(data) {
 }
 
 function errorCallback(data) {
-    //waiting.state = "hidden";
-    if(typeof(data)!="undefined" && data!=null) {
-        errorIndicator.reason = data;
-        if(data.indexOf("Unauthorized")>0) {
-            //showLogin();
-            welcomePage.showButtons = true;
-        }
-    } else {
-        errorIndicator.reason = "";
-    }
-    errorIndicator.state = "shown";
     console.log("ERROR: " + data);
 }
 

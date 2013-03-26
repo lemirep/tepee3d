@@ -25,10 +25,18 @@ Item3D
     function getTimeLine()
     {
         console.log("CALL TWITTER <<<<<<<<<<<<<<<<<<<<<");
-        Script.requestToken();
-        Script.getTwitterTimeAndToken();
+        //Script.requestToken();
+        //console.log("Token request = " + Script.getToken());
+        //console.log("Token requestSecret = " + Script.getTokenSecret());
+        Script.getTwitterTimeAndLogin();
+        //Script.getTwitterTimeAndToken();
+        if (Script.getToken() == "")
+            // retreive databse
+            ;
+        else
+            ;
+        //save in database
 
-        //  Twitter.login();
         console.log("<<<------------------");
         // Script.requestToken();
     }
@@ -132,7 +140,7 @@ Item3D
 
         onPressed :
         {
-             getTimeLine()
+            getTimeLine()
             console.log("Plugin Pressed")
             savedX = -10000;
             savedY = -10000;
@@ -156,10 +164,10 @@ Item3D
             }
             else
             {
-//                var xDiff = ((x  * savedXPos) / savedX);
-//                var yDiff = ((y  * savedYPos) / savedY);
-//                cube_plugin.x = xDiff;
-//                cube_plugin.y = yDiff;
+                //                var xDiff = ((x  * savedXPos) / savedX);
+                //                var yDiff = ((y  * savedYPos) / savedY);
+                //                cube_plugin.x = xDiff;
+                //                cube_plugin.y = yDiff;
 
                 var xRatio = plugin_base.getRoomScale().x / mainWindow.width;
                 var yRatio = plugin_base.getRoomScale().y / mainWindow.height;
@@ -169,7 +177,7 @@ Item3D
                 console.log("xDiff " + xDiff + " yDiff " + yDiff + " xRatio " + xRatio + " yRatio " + yRatio);
 
                 cube_plugin.x = (savedXPos - xDiff);
-//                cube_plugin.y += (savedYPos - yDiff);
+                //                cube_plugin.y += (savedYPos - yDiff);
 
                 console.log("Item Pos After" + cube_plugin.position)
 

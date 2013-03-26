@@ -22,6 +22,9 @@ Qt.include("storage.js")
 
 var Twitter = function() {
 
+    // token
+    var oauth_token = "";
+    var oauth_token_secret = "";
     // XAuth specific parameters
     var OAUTH_REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token";
     var OAUTH_ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token";
@@ -96,14 +99,30 @@ var Twitter = function() {
         xauth.webRequest(true, OAUTH_REQUEST_TOKEN_URL, "", this.parseRequestToken);
     }
 
+    this.getToken = function()
+    {
+        if (oauth_token == "")
+            return ("not inizialized")
+        return oauth_token
+    }
+
+    this.getTokenSecret = function()
+    {
+        if (oauth_token == "")
+            return ("not inizialized")
+        return oauth_token_secret;
+    }
+
     this.parseRequestToken = function(response) {
         console.log("Response: " + response);
         // Sample response:
         // oauth_token=334ymkflgbVAdYqmeaFhz3uLsQDIRJF8rxjRJjQY&
         // oauth_token_secret=wjff75gyM1m6eSCmHoFfTdVIGHKebZH9zLwjyXWeR6I&
         // oauth_callback_confirmed=true
-        var oauth_token = parseParameter(response, "oauth_token");
-        var oauth_token_secret = parseParameter(response, "oauth_token_secret");
+        oauth_token = parseParameter(response, "oauth_token");
+        oauth_token_secret = parseParameter(response, "oauth_token_secret");
+        console.log("OAUTHTOKEN = " + oauth_token);
+        console.log("OAUTHTOKENSECRET = " + oauth_token_secret);
         // setKeyValue("oauthToken", oauth_token);
         //setKeyValue("oauthTokenSecret", oauth_token_secret);
         xauth.setTokenAndSecret(oauth_token, oauth_token_secret);
@@ -112,7 +131,7 @@ var Twitter = function() {
 
     /** Login to Twitter */
     this.login = function() {
-        if(hasToken) {
+        if(!hasToken) {
             console.log("login - loading home");
             loadTimeline(HOME_TIMELINE_URL, false);
             return;
@@ -185,13 +204,15 @@ var Twitter = function() {
 
     /** Get tweets */
     this.getTweets = function(url, callback) {
-        if(hasToken==true) {
+console.log("in getTweeet");
+        if(!hasToken==true) {
             if(url.indexOf("?")>0) {
                 url = url + "&include_entities=true";
             } else {
                 url = url + "?include_entities=true";
             }
             console.log("Callback=" + callback);
+            console.log("url = " + url)
             xauth.webRequest(false, url, "", callback);
         }
     }
