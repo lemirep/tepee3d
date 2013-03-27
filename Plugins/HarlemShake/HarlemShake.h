@@ -5,7 +5,6 @@
 #include <QDebug>
 #include <QQuickItem>
 #include <PluginBase.h>
-#include <QtMultimedia/QMediaPlayer>
 
 class HarlemShake : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {

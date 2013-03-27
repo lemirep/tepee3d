@@ -3,6 +3,7 @@ import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
+import QtMultimedia 5.0
 
 
 Item3D
@@ -19,7 +20,11 @@ Item3D
     property vector3d savedCameraOrientation;
     property bool isFocused : false;
 
-
+    Audio {
+          id: playMusic
+          source: "HS.mp3"
+          autoPlay: true
+      }
     position : Qt.vector3d(0, 0, 0)
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
@@ -63,7 +68,7 @@ Item3D
     ]
     Timer {
 
-        interval: 5000
+        interval: 7000
         repeat: false
         running: true
         onTriggered: {buttonsHS.enabled = true;

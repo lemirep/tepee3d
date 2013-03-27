@@ -65,10 +65,6 @@ void HarlemShake::onFocusStateChanged()
 void HarlemShake::onIdleFocusState()
 {
     qDebug() << "Idle focus handler";
-    QMediaPlayer *player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile("HS.mp3"));
-    player->setVolume(100);
-    player->play();
 }
 
 void HarlemShake::onSelectedFocusState()
