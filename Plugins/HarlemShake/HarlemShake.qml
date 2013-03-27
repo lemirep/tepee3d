@@ -66,7 +66,12 @@ Item3D
         interval: 5000
         repeat: false
         running: true
-        onTriggered: {buttonsHS.enabled = true;ra_orange.running = true;ra_blue.running = true;ra_red.running = true}
+        onTriggered: {buttonsHS.enabled = true;
+            ra_orange.running = true;color_animation_orange.running = true; scale_animation_orange.running = true;
+            ra_blue.running = true;color_animation_blue.running = true; scale_animation_blue.running = true;
+            ra_red.running = true;color_animation_red.running = true; scale_animation_red.running = true;
+            scale_animation_bat.running = true;
+        }
 
     }
     Item3D
@@ -76,7 +81,7 @@ Item3D
         Cube
         {
             id : cube_orange
-            effect: Effect {color: "orange"}
+            effect: Effect {id : effectorange;color: "orange"}
             scale : 1
             position : Qt.vector3d(-1, 1, -2)
             onClicked:{cube_plugin.effect.color = "orange";}
@@ -95,13 +100,29 @@ Item3D
                     axis: Qt.vector3d(0, -1, 0)
                 }
             ]
+            SequentialAnimation {
+                id : color_animation_orange
+                running : false
+                loops : Animation.Infinite
+                PropertyAnimation {target:effectorange;properties: "color"; to: "green"; duration: 1000; }
+                PropertyAnimation {target:effectorange; properties: "color"; to: "red"; duration: 1000; }
+                PropertyAnimation {target:effectorange; properties: "color"; to: "orange"; duration: 1000;}
+            }
+            SequentialAnimation {
+                id : scale_animation_orange
+                running : false
+                loops : Animation.Infinite
+                NumberAnimation{ target: cube_orange;property: "scale"; to: 0.50;duration : 1500;easing.type: Easing.InOutElastic}
+                PauseAnimation { duration: 100 }
+                NumberAnimation {target: cube_orange;property: "scale";to: 1.5;duration : 1500; easing.type: Easing.InOutElastic}
+            }
             RotationAnimation {id :ra_orange; target: xRT; running: false; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
         }
 
         Cube
         {
             id : cube_red
-            effect: Effect {color: "red"}
+            effect: Effect {id : effectred;color: "red"}
             scale : 1
             position : Qt.vector3d(2, 1, 1)
             onClicked:{cube_plugin.effect.color = "red";}
@@ -121,6 +142,22 @@ Item3D
                     axis: Qt.vector3d(0, -1, 0)
                 }
             ]
+            SequentialAnimation {
+                id : color_animation_red
+                running : false
+                loops : Animation.Infinite
+                PropertyAnimation {target:effectred;properties: "color"; to: "orange"; duration: 1000; }
+                PropertyAnimation {target:effectred; properties: "color"; to: "yellow"; duration: 1000; }
+                PropertyAnimation {target:effectred; properties: "color"; to: "red"; duration: 1000;}
+            }
+            SequentialAnimation {
+                id : scale_animation_red
+                running : false
+                loops : Animation.Infinite
+                NumberAnimation{ target: cube_red;property: "scale"; to: 0.80;duration : 1500;easing.type: Easing.InOutElastic}
+                PauseAnimation { duration: 500 }
+                NumberAnimation {target: cube_red;property: "scale";to: 1.7;duration : 1500; easing.type: Easing.InOutElastic}
+            }
             RotationAnimation {id :ra_red; target: zRT; running: false; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
 
         }
@@ -147,6 +184,22 @@ Item3D
                 }
             ]
             onClicked:{cube_plugin.effect.color = "blue";}
+            SequentialAnimation {
+                id : color_animation_blue
+                running : false
+                loops : Animation.Infinite
+                PropertyAnimation {target:effectblue;properties: "color"; to: "yellow"; duration: 1000; }
+                PropertyAnimation {target:effecblue; properties: "color"; to: "red"; duration: 1000; }
+                PropertyAnimation {target:effecblue; properties: "color"; to: "blue"; duration: 1000;}
+            }
+            SequentialAnimation {
+                id : scale_animation_blue
+                running : false
+                loops : Animation.Infinite
+                NumberAnimation{ target: cube_blue;property: "scale"; to: 0.50;duration : 1500;easing.type: Easing.InOutElastic}
+                PauseAnimation { duration: 200 }
+                NumberAnimation {target: cube_blue;property: "scale";to: 1.5;duration : 1500; easing.type: Easing.InOutElastic}
+            }
             RotationAnimation {id :ra_blue; target: yRT; running: false; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
 
 
@@ -162,7 +215,7 @@ Item3D
         Cube
         {
             id : cube_yellow
-            effect: Effect {color: "yellow"}
+            effect: Effect {id:effectyellow;color: "yellow"}
             scale : 1
             position : Qt.vector3d(-3, 1, -2)
             onClicked:{cube_plugin.effect.color = "yellow";}
@@ -181,15 +234,31 @@ Item3D
                     axis: Qt.vector3d(0, -1, 0)
                 }
             ]
+            SequentialAnimation {
+                id : color_animation_yellow
+                running : true
+                loops : Animation.Infinite
+                PropertyAnimation {target:effectyellow;properties: "color"; to: "blue"; duration: 1000; }
+                PropertyAnimation {target:effecyellow; properties: "color"; to: "orange"; duration: 1000; }
+                PropertyAnimation {target:effecyellow; properties: "color"; to: "yellow"; duration: 1000;}
+            }
+            SequentialAnimation {
+                id : scale_animation_yellow
+                running : true
+                loops : Animation.Infinite
+                NumberAnimation{ target: cube_yellow;property: "scale"; to: 0.30;duration : 1500;easing.type: Easing.InOutElastic}
+                PauseAnimation { duration: 200 }
+                NumberAnimation {target: cube_yellow;property: "scale";to: 0.80;duration : 1500; easing.type: Easing.InOutElastic}
+            }
             RotationAnimation {id :ra_yellow; target: xRTyellow; running: true; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
         }
 
         Cube
         {
             id : cube_green
-            effect: Effect {color: "green"}
+            effect: Effect {id:effectgreen;color: "green";}
             scale : 1
-            position : Qt.vector3d(3, 1, 2)
+            position : Qt.vector3d(5, 1, -3)
             onClicked:{cube_plugin.effect.color = "green";}
             transform: [
                 Rotation3D {
@@ -206,12 +275,29 @@ Item3D
                     axis: Qt.vector3d(0, -1, 0)
                 }
             ]
+            SequentialAnimation {
+                id : color_animation_green
+                running : true
+                loops : Animation.Infinite
+                PropertyAnimation {target:effectgreen;properties: "color"; to: "orange"; duration: 1000; }
+                PropertyAnimation {target:effectgreen; properties: "color"; to: "red"; duration: 1000; }
+                PropertyAnimation {target:effectgreen; properties: "color"; to: "green"; duration: 1000;}
+            }
+            SequentialAnimation {
+                id : scale_animation_green
+                running : true
+                loops : Animation.Infinite
+                NumberAnimation{ target: cube_green;property: "scale"; to: 1;duration : 1500;easing.type: Easing.InOutElastic}
+                PauseAnimation { duration: 800 }
+                NumberAnimation {target: cube_green;property: "scale";to: 3.5;duration : 1500; easing.type: Easing.InOutElastic}
+            }
             RotationAnimation {id :ra_green; target: zRTgreen; running: true; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
+
         }
         Cube
         {
             id : cube_violet
-            effect: Effect {color: "violet"}
+            effect: Effect {id:effectviolet;color: "violet"}
             scale : 1
             position : Qt.vector3d(0, 1, 2)
             transform: [
@@ -230,6 +316,22 @@ Item3D
                 }
             ]
             onClicked:{cube_plugin.effect.color = "violet";}
+            SequentialAnimation {
+                id : color_animation_violet
+                running : true
+                loops : Animation.Infinite
+                PropertyAnimation {target:effectviolet;properties: "color"; to: "red"; duration: 1000; }
+                PropertyAnimation {target:effectviolet; properties: "color"; to: "green"; duration: 1000; }
+                PropertyAnimation {target:effectviolet; properties: "color"; to: "violet"; duration: 1000;}
+            }
+            SequentialAnimation {
+                id : scale_animation_violet
+                running : true
+                loops : Animation.Infinite
+                NumberAnimation{ target: cube_violet;property: "scale"; to: 3;duration : 1500;easing.type: Easing.InOutElastic}
+                PauseAnimation { duration: 200 }
+                NumberAnimation {target: cube_violet;property: "scale";to: 1.8;duration : 1500; easing.type: Easing.InOutElastic}
+            }
             RotationAnimation {id :ra_violet; target: yRTviolet; running: true; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
         }
     }
@@ -258,10 +360,17 @@ Item3D
         // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
         transform : [Rotation3D {id : yBat; angle : 180; axis : Qt.vector3d(0, 1, 0)}]
 
-
+        SequentialAnimation {
+            id : scale_animation_bat
+            running : false
+            loops : Animation.Infinite
+            NumberAnimation{ target: cube_plugin;property: "scale"; to:0.04;duration : 1500;easing.type: Easing.InOutElastic}
+            PauseAnimation { duration: 200 }
+            NumberAnimation {target: cube_plugin;property: "scale";to: 0.02;duration : 1500; easing.type: Easing.InOutElastic}
+        }
         RotationAnimation {id :ra_bat; target: yBat; running: true; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
 
-/*        SequentialAnimation {
+        /*        SequentialAnimation {
             id : animation_bat
             running : true
             loops : Animation.Infinite
