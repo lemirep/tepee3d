@@ -11,7 +11,6 @@ Item
         color : "transparent"
         anchors.fill: parent
         Text {
-            text : "Menu Setting For plugin" + apc.getPluginName()
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
         }

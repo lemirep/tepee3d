@@ -165,7 +165,7 @@ Item3D
         Cube
         {
             id : cube_blue
-            effect: Effect {color: "blue"}
+            effect: Effect {id : effectblue;color: "blue"}
             scale : 1
             position : Qt.vector3d(-2, 1, 0)
             transform: [
@@ -189,8 +189,8 @@ Item3D
                 running : false
                 loops : Animation.Infinite
                 PropertyAnimation {target:effectblue;properties: "color"; to: "yellow"; duration: 1000; }
-                PropertyAnimation {target:effecblue; properties: "color"; to: "red"; duration: 1000; }
-                PropertyAnimation {target:effecblue; properties: "color"; to: "blue"; duration: 1000;}
+                PropertyAnimation {target:effectblue; properties: "color"; to: "red"; duration: 1000; }
+                PropertyAnimation {target:effectblue; properties: "color"; to: "blue"; duration: 1000;}
             }
             SequentialAnimation {
                 id : scale_animation_blue
@@ -239,8 +239,8 @@ Item3D
                 running : true
                 loops : Animation.Infinite
                 PropertyAnimation {target:effectyellow;properties: "color"; to: "blue"; duration: 1000; }
-                PropertyAnimation {target:effecyellow; properties: "color"; to: "orange"; duration: 1000; }
-                PropertyAnimation {target:effecyellow; properties: "color"; to: "yellow"; duration: 1000;}
+                PropertyAnimation {target:effectyellow; properties: "color"; to: "orange"; duration: 1000; }
+                PropertyAnimation {target:effectyellow; properties: "color"; to: "yellow"; duration: 1000;}
             }
             SequentialAnimation {
                 id : scale_animation_yellow
@@ -328,7 +328,7 @@ Item3D
                 id : scale_animation_violet
                 running : true
                 loops : Animation.Infinite
-                NumberAnimation{ target: cube_violet;property: "scale"; to: 3;duration : 1500;easing.type: Easing.InOutElastic}
+                NumberAnimation{ target: cube_violet;property: "scale"; to: 2.5;duration : 1500;easing.type: Easing.InOutElastic}
                 PauseAnimation { duration: 200 }
                 NumberAnimation {target: cube_violet;property: "scale";to: 1.8;duration : 1500; easing.type: Easing.InOutElastic}
             }
