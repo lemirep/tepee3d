@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QQuickItem>
 #include <PluginBase.h>
-
+#include <QtMultimedia/QMediaPlayer>
 
 #define  ASSIGNCOLOR 2
 

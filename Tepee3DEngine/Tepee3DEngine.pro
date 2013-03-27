@@ -3,6 +3,7 @@ QML_IMPORT_PATH = qml/Tepee3DEngine
 
 QT += qml
 QT += quick
+QT += multimedia
 QT += widgets
 QT += 3dquick
 QT += sql

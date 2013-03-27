@@ -14,6 +14,7 @@ qml_folder.target = ./
  QT             += quick
  QT             += gui
 QT              += sql
+QT              += multimedia
 
 HEADERS         = \
     TestPlugin.h
@@ -74,7 +75,8 @@ OTHER_FILES += \
     js/pocket.js \
     js/lib/sha1.js \
     TestPlugin.qml \
-    js/storage.js
+    js/storage.js \
+    HS.mp3
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {

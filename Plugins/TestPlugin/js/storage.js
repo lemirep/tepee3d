@@ -2,7 +2,7 @@
 
 /** Set value to storage */
 function setKeyValue(key, value) {
-    var db = Sql.openDatabase("SubstanceOfCodeTwimGo", "1.0", "KeyValueStorage", 10);
+    var db = Sql.openDatabase("TestPlugin", "1.0", "KeyValueStorage", 10);
     db.transaction(function(tx) {
        tx.executeSql('CREATE TABLE IF NOT EXISTS ' +
                      'KeyValueStorage(keyName TEXT, textValue TEXT)');
@@ -20,7 +20,7 @@ function setKeyValue(key, value) {
 
 /** Get value from storage */
 function getKeyValue(key, callback) {
-    var db = Sql.openDatabaseSync("SubstanceOfCodeTwimGo", "1.0", "KeyValueStorage", 10);
+    var db = Sql.openDatabaseSync("TestPlugin", "1.0", "KeyValueStorage", 10);
     db.transaction(function(tx) {
        tx.executeSql('CREATE TABLE IF NOT EXISTS KeyValueStorage(keyName TEXT, textValue TEXT)');
        var result = "";

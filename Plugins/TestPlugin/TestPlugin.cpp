@@ -1,10 +1,10 @@
 #include "TestPlugin.h"
-
+#include <QAudioOutput>
 TestPlugin::TestPlugin() : PluginBase()
 {
     qDebug() << "CREATION OF TEST PLUGIN";
-//    QObject::connect(this, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SLOT(onFocusStateChanged()));
-//    this->initPlugin();
+    //    QObject::connect(this, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SLOT(onFocusStateChanged()));
+    //    this->initPlugin();
 }
 
 int TestPlugin::getPluginId()
@@ -16,7 +16,7 @@ void TestPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
     this->setColor("yellow");
- //   this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
+    //   this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
 }
 
 QString TestPlugin::getPluginName()
@@ -55,18 +55,18 @@ void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void
         return ;
     if (id == ASSIGNCOLOR)
     {
-//        QList<QSqlRecord>::iterator it = q.begin();
-//        ++it;
-//        this->colorSelect = (*it).value("color").toString();
-//        qDebug() << "RECEIVE ASSIGN COLOR";
-//        QQmlComponent component(this->context->engine(), "../plugins_qml/qmlTestPlugin/Widget.qml");
-//        QObject *object = component.create();
-//        QVariant returnedValue;
-//        QVariant msg = this->colorSelect;
-//        QMetaObject::invokeMethod(object, "setColorAssign",
-//                Q_RETURN_ARG(QVariant, returnedValue),
-//                Q_ARG(QVariant, msg));
-//        delete object;
+        //        QList<QSqlRecord>::iterator it = q.begin();
+        //        ++it;
+        //        this->colorSelect = (*it).value("color").toString();
+        //        qDebug() << "RECEIVE ASSIGN COLOR";
+        //        QQmlComponent component(this->context->engine(), "../plugins_qml/qmlTestPlugin/Widget.qml");
+        //        QObject *object = component.create();
+        //        QVariant returnedValue;
+        //        QVariant msg = this->colorSelect;
+        //        QMetaObject::invokeMethod(object, "setColorAssign",
+        //                Q_RETURN_ARG(QVariant, returnedValue),
+        //                Q_ARG(QVariant, msg));
+        //        delete object;
     }
 }
 
@@ -89,7 +89,8 @@ QString TestPlugin::getColor()
 
 void TestPlugin::onFocusStateChanged()
 {
-//    if (this->focusState == Plugins::PluginEnums::pluginFocusedState)
+
+    //    if (this->focusState == Plugins::PluginEnums::pluginFocusedState)
 }
 
 void TestPlugin::setColor(QString color)
@@ -100,6 +101,10 @@ void TestPlugin::setColor(QString color)
 void TestPlugin::onIdleFocusState()
 {
     qDebug() << "Idle focus handler";
+    QMediaPlayer *player = new QMediaPlayer;
+    player->setMedia(QUrl::fromLocalFile("HS.mp3"));
+    player->setVolume(100);
+    player->play();
 }
 
 void TestPlugin::onSelectedFocusState()
@@ -112,3 +117,4 @@ void TestPlugin::onFocusedFocusState()
 {
     qDebug() << "Focused focus handler";
 }
+

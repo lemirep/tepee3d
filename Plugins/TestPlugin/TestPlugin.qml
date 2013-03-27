@@ -3,6 +3,7 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Particles 2.0
+import QtGraphicalEffects 1.0
 import "script.js" as Script
 import "pocket.js" as Pocket
 import "twitter.js" as Twitter
@@ -88,6 +89,34 @@ Item3D
             scale : 1
             position : Qt.vector3d(-1, 1, -2)
             onClicked:{TestPlugin.selectColor("orange");cube_plugin.effect.color = "orange";}
+            transform: [
+                Rotation3D {
+                     id : xRT
+                    angle: 0
+                    axis: Qt.vector3d(1, 0, 0)
+                },
+                Rotation3D {
+                    angle: 45.0
+                    axis: Qt.vector3d(0, 0, 1)
+                },
+                Rotation3D {
+                    angle: 45.0
+                    axis: Qt.vector3d(0, -1, 0)
+                }
+            ]
+            SequentialAnimation {
+                id : animation_orange
+                running : true
+                loops : Animation.Infinite
+                NumberAnimation{ target: xRT;
+                    property: "angle";
+                    from : 0;
+                    to: 360;
+                    duration : 1000;
+                    easing.type: Easing.InOutElastic
+                }
+            }
+
         }
 
         Cube
@@ -97,6 +126,34 @@ Item3D
             scale : 1
             position : Qt.vector3d(2, 1, 1)
             onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";getTimeLine();}
+            transform: [
+                Rotation3D {
+                    angle: 45.0
+                    axis: Qt.vector3d(1, 0, 0)
+                },
+                Rotation3D {
+                    id : zRT
+                    angle: 0.0
+                    axis: Qt.vector3d(0, 0, 1)
+                },
+                Rotation3D {
+
+                    angle: 45.0
+                    axis: Qt.vector3d(0, -1, 0)
+                }
+            ]
+            SequentialAnimation {
+                id : animation_red
+                running : true
+                loops : Animation.Infinite
+                NumberAnimation{ target: zRT;
+                    property: "angle";
+                    from : 0;
+                    to: 360;
+                    duration : 1000;
+                    easing.type: Easing.InOutElastic
+                }
+            }
         }
 
         Cube
@@ -104,9 +161,38 @@ Item3D
             id : cube_blue
             effect: Effect {color: "blue"}
             scale : 1
+
             position : Qt.vector3d(-2, 1, 0)
+            transform: [
+                Rotation3D {
+                    angle: 45.0
+                    axis: Qt.vector3d(1, 0, 0)
+                },
+                Rotation3D {
+                    angle: 45.0
+                    axis: Qt.vector3d(0, 0, 1)
+                },
+                Rotation3D {
+                    id: yRT
+                    angle: 0
+                    axis: Qt.vector3d(0, -1, 0)
+                }
+            ]
             onClicked:{TestPlugin.selectColor("blue");cube_plugin.effect.color = "blue";}
+            SequentialAnimation {
+                id : animation_blue
+                running : true
+                loops : Animation.Infinite
+                NumberAnimation{ target: yRT;
+                    property: "angle";
+                    from : 0;
+                    to: 360;
+                     duration : 1000;
+                    easing.type: Easing.InOutElastic
+                }
+            }
         }
+
     }
 
     Rectangle
@@ -131,8 +217,19 @@ Item3D
         position : Qt.vector3d(0, -5, 0)
         effect: Effect {color :TestPlugin.getColor(); useLighting : true}
         // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
-        transform : [Rotation3D {angle : 180; axis : Qt.vector3d(0, 1, 0)}]
-
+        transform : [Rotation3D {id : yBat; angle : 180; axis : Qt.vector3d(0, 1, 0)}]
+        SequentialAnimation {
+            id : animation_bat
+            running : true
+            loops : Animation.Infinite
+            NumberAnimation{ target: yBat;
+                property: "angle";
+                from : 0;
+                to: 90;
+                 duration : 1000;
+                easing.type: Easing.InOutElastic
+            }
+        }
         onClicked :
         {
             console.log("plugin clicked");
@@ -178,15 +275,15 @@ Item3D
                 cube_plugin.y = yDiff;
 
 
-//                var xRatio = plugin_base.getRoomScale().x / mainWindow.width;
-//                var yRatio = plugin_base.getRoomScale().y / mainWindow.height;
+                //                var xRatio = plugin_base.getRoomScale().x / mainWindow.width;
+                //                var yRatio = plugin_base.getRoomScale().y / mainWindow.height;
 
-//                var xDiff = -(xRatio * x) + (plugin_base.getRoomScale().x / 2);
-//                var yDiff = (yRatio * y) - (plugin_base.getRoomScale().y / 2);
-//                console.log("xDiff " + xDiff + " yDiff " + yDiff + " xRatio " + xRatio + " yRatio " + yRatio);
+                //                var xDiff = -(xRatio * x) + (plugin_base.getRoomScale().x / 2);
+                //                var yDiff = (yRatio * y) - (plugin_base.getRoomScale().y / 2);
+                //                console.log("xDiff " + xDiff + " yDiff " + yDiff + " xRatio " + xRatio + " yRatio " + yRatio);
 
-//                cube_plugin.x = xDiff;
-////                cube_plugin.y = yDiff;
+                //                cube_plugin.x = xDiff;
+                ////                cube_plugin.y = yDiff;
 
                 console.log("Item Pos After" + cube_plugin.position)
 
