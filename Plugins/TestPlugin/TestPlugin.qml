@@ -26,20 +26,8 @@ Item3D
     function getTimeLine()
     {
         console.log("CALL TWITTER <<<<<<<<<<<<<<<<<<<<<");
-        //Script.requestToken();
-        //console.log("Token request = " + Script.getToken());
-        //console.log("Token requestSecret = " + Script.getTokenSecret());
         Script.getTwitterTimeAndLogin();
-        //Script.getTwitterTimeAndToken();
-        if (Script.getToken() == "")
-            // retreive databse
-            ;
-        else
-            ;
-        //save in database
-
         console.log("<<<------------------");
-        // Script.requestToken();
     }
 
     position : Qt.vector3d(0, 0, 0)

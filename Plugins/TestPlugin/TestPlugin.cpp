@@ -49,7 +49,7 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void *data)
+void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void *)
 {
     if (q.size() < 2)
         return ;
@@ -70,7 +70,7 @@ void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void
     }
 }
 
-void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
+void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *)
 {
     qDebug() << "TestPlugin::Received Network Reply with id : " + requestId;
     qDebug() << reply->readAll();

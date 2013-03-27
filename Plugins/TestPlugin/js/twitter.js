@@ -123,15 +123,15 @@ var Twitter = function() {
         oauth_token_secret = parseParameter(response, "oauth_token_secret");
         console.log("OAUTHTOKEN = " + oauth_token);
         console.log("OAUTHTOKENSECRET = " + oauth_token_secret);
-        // setKeyValue("oauthToken", oauth_token);
-        //setKeyValue("oauthTokenSecret", oauth_token_secret);
+        setKeyValue("oauthToken", oauth_token);
+        setKeyValue("oauthTokenSecret", oauth_token_secret);
         xauth.setTokenAndSecret(oauth_token, oauth_token_secret);
         hasToken = false;
     }
 
     /** Login to Twitter */
     this.login = function() {
-        if(!hasToken) {
+        if(hasToken) {
             console.log("login - loading home");
             loadTimeline(HOME_TIMELINE_URL, false);
             return;
@@ -205,7 +205,7 @@ var Twitter = function() {
     /** Get tweets */
     this.getTweets = function(url, callback) {
 console.log("in getTweeet");
-        if(!hasToken==true) {
+        if(hasToken==true) {
             if(url.indexOf("?")>0) {
                 url = url + "&include_entities=true";
             } else {

@@ -13,6 +13,7 @@ qml_folder.target = ./
  CONFIG         += qt plugin
  QT             += quick
  QT             += gui
+QT              += sql
 
 HEADERS         = \
     TestPlugin.h
