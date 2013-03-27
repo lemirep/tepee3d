@@ -89,34 +89,6 @@ Item3D
             scale : 1
             position : Qt.vector3d(-1, 1, -2)
             onClicked:{TestPlugin.selectColor("orange");cube_plugin.effect.color = "orange";}
-            transform: [
-                Rotation3D {
-                     id : xRT
-                    angle: 0
-                    axis: Qt.vector3d(1, 0, 0)
-                },
-                Rotation3D {
-                    angle: 45.0
-                    axis: Qt.vector3d(0, 0, 1)
-                },
-                Rotation3D {
-                    angle: 45.0
-                    axis: Qt.vector3d(0, -1, 0)
-                }
-            ]
-            SequentialAnimation {
-                id : animation_orange
-                running : true
-                loops : Animation.Infinite
-                NumberAnimation{ target: xRT;
-                    property: "angle";
-                    from : 0;
-                    to: 360;
-                    duration : 1000;
-                    easing.type: Easing.InOutElastic
-                }
-            }
-
         }
 
         Cube
@@ -126,34 +98,6 @@ Item3D
             scale : 1
             position : Qt.vector3d(2, 1, 1)
             onClicked:{TestPlugin.selectColor("red");cube_plugin.effect.color = "red";getTimeLine();}
-            transform: [
-                Rotation3D {
-                    angle: 45.0
-                    axis: Qt.vector3d(1, 0, 0)
-                },
-                Rotation3D {
-                    id : zRT
-                    angle: 0.0
-                    axis: Qt.vector3d(0, 0, 1)
-                },
-                Rotation3D {
-
-                    angle: 45.0
-                    axis: Qt.vector3d(0, -1, 0)
-                }
-            ]
-            SequentialAnimation {
-                id : animation_red
-                running : true
-                loops : Animation.Infinite
-                NumberAnimation{ target: zRT;
-                    property: "angle";
-                    from : 0;
-                    to: 360;
-                    duration : 1000;
-                    easing.type: Easing.InOutElastic
-                }
-            }
         }
 
         Cube
@@ -161,36 +105,8 @@ Item3D
             id : cube_blue
             effect: Effect {color: "blue"}
             scale : 1
-
             position : Qt.vector3d(-2, 1, 0)
-            transform: [
-                Rotation3D {
-                    angle: 45.0
-                    axis: Qt.vector3d(1, 0, 0)
-                },
-                Rotation3D {
-                    angle: 45.0
-                    axis: Qt.vector3d(0, 0, 1)
-                },
-                Rotation3D {
-                    id: yRT
-                    angle: 0
-                    axis: Qt.vector3d(0, -1, 0)
-                }
-            ]
             onClicked:{TestPlugin.selectColor("blue");cube_plugin.effect.color = "blue";}
-            SequentialAnimation {
-                id : animation_blue
-                running : true
-                loops : Animation.Infinite
-                NumberAnimation{ target: yRT;
-                    property: "angle";
-                    from : 0;
-                    to: 360;
-                     duration : 1000;
-                    easing.type: Easing.InOutElastic
-                }
-            }
         }
 
     }
@@ -218,18 +134,6 @@ Item3D
         effect: Effect {color :TestPlugin.getColor(); useLighting : true}
         // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
         transform : [Rotation3D {id : yBat; angle : 180; axis : Qt.vector3d(0, 1, 0)}]
-        SequentialAnimation {
-            id : animation_bat
-            running : true
-            loops : Animation.Infinite
-            NumberAnimation{ target: yBat;
-                property: "angle";
-                from : 0;
-                to: 90;
-                 duration : 1000;
-                easing.type: Easing.InOutElastic
-            }
-        }
         onClicked :
         {
             console.log("plugin clicked");

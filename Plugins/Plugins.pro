@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     TestPlugin \
-    SeriesPlugin
+    SeriesPlugin \
+    HarlemShake

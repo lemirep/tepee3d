@@ -1,5 +1,5 @@
 #include "TestPlugin.h"
-#include <QAudioOutput>
+
 TestPlugin::TestPlugin() : PluginBase()
 {
     qDebug() << "CREATION OF TEST PLUGIN";
@@ -101,10 +101,6 @@ void TestPlugin::setColor(QString color)
 void TestPlugin::onIdleFocusState()
 {
     qDebug() << "Idle focus handler";
-    QMediaPlayer *player = new QMediaPlayer;
-    player->setMedia(QUrl::fromLocalFile("HS.mp3"));
-    player->setVolume(100);
-    player->play();
 }
 
 void TestPlugin::onSelectedFocusState()
