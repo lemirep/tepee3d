@@ -21,6 +21,7 @@ Item3D
     property real savedXPos;
     property real savedYPos;
     property vector3d savedCameraOrientation;
+    property bool isFocused : false;
 
     function getTimeLine()
     {
@@ -39,9 +40,9 @@ Item3D
     // HAS TO BE IMPLEMENTED
     function roomLeft()    {}
     // HAS TO BE IMPLEMENTED
-    function switchToIdleFocusView()    {plugin_base.moveCamera()}
+    function switchToIdleFocusView()    {plugin_base.moveCamera(); isFocused = false}
     // HAS TO BE IMPLEMENTED
-    function switchToSelectedFocusView()    {}
+    function switchToSelectedFocusView()    {isFocused = false}
     // HAS TO BE IMPLEMENTED
     function switchToFocusedView()
     {
@@ -53,6 +54,7 @@ Item3D
         widgetPos.y += testplugin_container.y
         widgetPos.z += testplugin_container.z
         plugin_base.moveCamera(eyePos, widgetPos);
+        isFocused = true;
     }
 
     function setColorAssign(msg) {
@@ -111,6 +113,20 @@ Item3D
         }
     }
 
+    Rectangle
+    {
+        id : focusRec
+        enabled : isFocused
+        opacity : enabled ? 0.3 : 0
+        Behavior on opacity {SmoothedAnimation {velocity : 1; duration : -1}}
+        color : "grey"
+        x : mainWindow.width / 4
+        y : mainWindow.height / 4
+        width : mainWindow.width / 2
+        height : mainWindow.height / 2
+    }
+
+
     Item3D
     {
         id : cube_plugin
@@ -132,7 +148,7 @@ Item3D
 
         onPressed :
         {
-             getTimeLine()
+//             getTimeLine()
             console.log("Plugin Pressed")
             savedX = -10000;
             savedY = -10000;
@@ -140,6 +156,10 @@ Item3D
 
         onHoverMove :
         {
+            // SHOW 3 ARROWS ONE FOR EACH AXIS
+            // THE USER PRESSES THE ARROW HE WISHES
+            // THE THE OBJECT CAN MOVE WITH THE MOUSE ACCORDING TO THE SELECTED AXIS
+
             console.log("Hover Moved Signal has been triggered " + x + " " + y);
             console.log("Item Pos " + cube_plugin.position)
             if (savedX === -10000 && savedY === -10000)
@@ -156,20 +176,20 @@ Item3D
             }
             else
             {
-//                var xDiff = ((x  * savedXPos) / savedX);
-//                var yDiff = ((y  * savedYPos) / savedY);
+                var xDiff = ((x  * savedXPos) / savedX);
+                var yDiff = ((y  * savedYPos) / savedY);
+                cube_plugin.x = xDiff;
+                cube_plugin.y = yDiff;
+
+//                var xRatio = plugin_base.getRoomScale().x / mainWindow.width;
+//                var yRatio = plugin_base.getRoomScale().y / mainWindow.height;
+
+//                var xDiff = -(xRatio * x) + (plugin_base.getRoomScale().x / 2);
+//                var yDiff = (yRatio * y) - (plugin_base.getRoomScale().y / 2);
+//                console.log("xDiff " + xDiff + " yDiff " + yDiff + " xRatio " + xRatio + " yRatio " + yRatio);
+
 //                cube_plugin.x = xDiff;
-//                cube_plugin.y = yDiff;
-
-                var xRatio = plugin_base.getRoomScale().x / mainWindow.width;
-                var yRatio = plugin_base.getRoomScale().y / mainWindow.height;
-
-                var xDiff = (xRatio * x) - (plugin_base.getRoomScale().x / 2);
-                var yDiff = (yRatio * y) - (plugin_base.getRoomScale().y / 2);
-                console.log("xDiff " + xDiff + " yDiff " + yDiff + " xRatio " + xRatio + " yRatio " + yRatio);
-
-                cube_plugin.x = (savedXPos - xDiff);
-//                cube_plugin.y += (savedYPos - yDiff);
+////                cube_plugin.y = yDiff;
 
                 console.log("Item Pos After" + cube_plugin.position)
 

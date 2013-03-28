@@ -51,6 +51,11 @@ Item3D
         transform : [Scale3D {scale : roomScale}]
 
 
+//        TextureToMesh
+//        {
+
+//        }
+
 //                QmlAsTexture
 //                {
 //                    sourceItem: qml_texture

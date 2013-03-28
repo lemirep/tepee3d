@@ -29,7 +29,6 @@ public:
     void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
     // WebServiceUserInterface
     void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id);
-    void                        exposeContentToQml(QQmlContext *context);
 };
 
 #endif // DUMMYPROJECT_H
