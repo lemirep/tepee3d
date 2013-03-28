@@ -16,6 +16,7 @@ Item
         onClicked :
         {
             room_plugins_list_view.currentIndex = index;
+            console.log("Plugin ID " + model.pluginId)
             roomManager.addNewPluginToCurrentRoom(model.pluginId)
             menuRightRec.add_plugins = !menuRightRec.add_plugins
         }

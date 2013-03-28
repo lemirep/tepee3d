@@ -335,6 +335,9 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
         qWarning() << "Current Room is Null";
         return ;
     }
+    // IF PLUGIN ALLREADY IN THE ROOM
+    if (this->currentRoom->getPluginFromRoom(pluginModelId) != NULL)
+        return;
 
     Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
     if (newPlugin != NULL)

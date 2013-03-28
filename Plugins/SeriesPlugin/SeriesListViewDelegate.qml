@@ -41,7 +41,7 @@ Item
     {
         id : followed_series_delegate_pic
         fillMode: Image.PreserveAspectFit
-        height : parent.height
+        height : parent.height - 10
         cache : true
         anchors
         {
@@ -60,7 +60,7 @@ Item
         onClicked:
         {
             cube_effect.texture = img_src
-            spinCube = true;
+            rotate_cube.restart()
         }
     }
 }

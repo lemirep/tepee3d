@@ -13,7 +13,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
 
 int SeriesPlugin::getPluginId()
 {
-    return 1;
+    return PLUGIN_ID;
 }
 
 void SeriesPlugin::initPlugin()

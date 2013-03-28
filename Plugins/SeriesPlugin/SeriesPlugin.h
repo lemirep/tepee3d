@@ -15,6 +15,7 @@
 
 #include "SerieSubListedItem.h"
 
+#define PLUGIN_ID 10
 #define SEARCH_SHOW_REQUEST 0
 #define SEARCH_EPISODE_REQUEST 1
 #define GET_SEASONS 2

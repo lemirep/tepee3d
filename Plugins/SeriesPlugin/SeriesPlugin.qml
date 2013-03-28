@@ -52,20 +52,24 @@ Item3D
     }
 
 
-    SmoothedAnimation
+    SequentialAnimation
     {
         id : rotate_cube
-        running : spinCube
-        target : cube_y_rotate
-        duration : 750
-        property : "angle"
-        to : cube_y_rotate.angle > 360 ? 0 : 360
+        SmoothedAnimation
+        {
+            target : cube_y_rotate
+            duration : 750
+            property : "angle"
+            to : cube_y_rotate.angle >= 360 ? 0 : 360
+        }
     }
 
     Effect
     {
         id : cube_effect
         color : "white"
+        useLighting : true
+        blending : true
     }
 
     Item
@@ -79,15 +83,20 @@ Item3D
         transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 25}
         smooth : true
 
-        Rectangle
-        {
-            id : followed_series_listview_bg
-            color : "lightsteelblue"
-            radius : 10
-            smooth : true
-            anchors.fill: parent
-            opacity : 0.7
-        }
+//        Rectangle
+//        {
+//            id : followed_series_listview_bg
+//            color : "transparent"
+//            radius : 10
+//            smooth : true
+//            anchors.fill: parent
+//            opacity : 0.7
+//            border
+//            {
+//                width : 1
+//                color : "blue"
+//            }
+//        }
 
         ListView
         {
@@ -101,6 +110,7 @@ Item3D
                 width : parent.width
                 height : 60
             }
+            spacing : 10
         }
         //        MouseArea
         //        {
