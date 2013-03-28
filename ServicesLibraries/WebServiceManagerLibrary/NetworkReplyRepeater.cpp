@@ -13,10 +13,11 @@
 /*!
  * Constructs a new NetworkReplyRepeater instance given a \a receiver and \a requestId.
  */
-NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId) : QObject()
+NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId, void *data) : QObject()
 {
     this->receiver = receiver;
     this->requestId = requestId;
+    this->data = data;
 }
 
 /*!
@@ -28,10 +29,11 @@ void    NetworkReplyRepeater::receiveNetworkReply()
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     Services::WebServiceUserInterface* wbUser = dynamic_cast<Services::WebServiceUserInterface*>(this->receiver);
     if (wbUser)
-        wbUser->receiveResultFromHttpRequest(reply, this->requestId);
+        wbUser->receiveResultFromHttpRequest(reply, this->requestId, this->data);
     else
         qDebug() << " Not an instance of WebServiceUser";
-
     // THE USER WILL HAVE TO SET THE REPLY TO NULL AND CALL DELETELATER ON IT
+    delete this;
+
 
 }

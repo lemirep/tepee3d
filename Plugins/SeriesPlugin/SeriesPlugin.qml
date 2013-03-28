@@ -74,6 +74,7 @@ Item3D
 
     Item
     {
+        id : followed_series_item
         enabled : isFocused
         opacity : isFocused ? 1 : 0
         width : mainWindow.width / 4
@@ -81,25 +82,17 @@ Item3D
         x : 80
         y : (mainWindow.height - height) / 2
         transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 25}
-        smooth : true
 
-//        Rectangle
-//        {
-//            id : followed_series_listview_bg
-//            color : "transparent"
-//            radius : 10
-//            smooth : true
-//            anchors.fill: parent
-//            opacity : 0.7
-//            border
-//            {
-//                width : 1
-//                color : "blue"
-//            }
-//        }
+        Rectangle
+        {
+            color : "grey"
+            opacity : 0.2
+            anchors.fill: parent
+        }
 
         ListView
         {
+            smooth : true
             id : followed_series_listview
             clip : true
             anchors.fill : parent
@@ -112,11 +105,62 @@ Item3D
             }
             spacing : 10
         }
-        //        MouseArea
-        //        {
-        //            anchors.fill: parent
-        //            onClicked: {mouse.accepted = true;}
-        //        }
+    }
+
+    Item
+    {
+        id : episodes_series_item
+        enabled : isFocused
+        opacity : isFocused ? 1 : 0
+        width : mainWindow.width / 4
+        height : mainWindow.height / 2
+        x : mainWindow.width - (width + 80)
+        y : (mainWindow.height - height) / 2
+        transform : Rotation { origin.x: mainWindow.width / 4; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: -25}
+
+        Rectangle
+        {
+            color : "grey"
+            opacity : 0.2
+            anchors.fill: parent
+        }
+    }
+
+    Item
+    {
+        id : search_bar_series_item
+        enabled : isFocused
+        opacity : isFocused ? 1 : 0
+        width : mainWindow.width / 4
+        height : 40
+        x : (mainWindow.width / 2) - (width / 2)
+        y : 70
+
+        Rectangle
+        {
+            color : "black"
+            opacity : 0.4
+            smooth : true
+            anchors.fill: parent
+            radius : 15
+        }
+
+        TextInput
+        {
+            width : parent.width - 20
+            wrapMode: TextInput.Wrap
+            anchors
+            {
+                top : parent.top
+                left : parent.left
+//                verticalCenter : parent.verticalCenter
+                leftMargin : 10
+                bottom : parent.bottom
+            }
+            color : "white"
+            font.pointSize: 12
+        }
+
     }
 
 }

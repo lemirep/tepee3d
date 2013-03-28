@@ -37,7 +37,7 @@ public:
     // DatabaseServiceUserInterface
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
     // WebServiceUserInterface
-    void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId);
+    void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
     void setColor(QString color);
     Q_INVOKABLE void selectColor(QString color);
     Q_INVOKABLE QString getColor();

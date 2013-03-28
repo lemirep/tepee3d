@@ -70,7 +70,7 @@ void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
     }
 }
 
-void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId)
+void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
 {
     qDebug() << "TestPlugin::Received Network Reply with id : " + requestId;
     qDebug() << reply->readAll();

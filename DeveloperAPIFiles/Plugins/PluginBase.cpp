@@ -195,33 +195,33 @@ void Plugins::PluginBase::onFocusedFocusState()
 /*!
  * Sends Http Get \a request to network manager, \a requestId will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId)
+void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId, void *data)
 {
-    emit executeHttpRequest(request, Get, NULL, this, requestId);
+    emit executeHttpRequest(request, Get, NULL, this, requestId, data);
 }
 
 /*!
  * Sends Http Delete \a request to network manager, \a requestId will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId)
+void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId, void *data)
 {
-    emit executeHttpRequest(request, Delete, NULL, this, requestId);
+    emit executeHttpRequest(request, Delete, NULL, this, requestId, data);
 }
 
 /*!
  * Sends Http Post \a request to network manager with \a multiPart for data, \a requestId will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId)
+void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, void *data)
 {
-    emit executeHttpRequest(request, Post, multiPart, this, requestId);
+    emit executeHttpRequest(request, Post, multiPart, this, requestId, data);
 }
 
 /*!
  * Sends Http Put \a request to network manager with \a multiPart for data, \a requestId will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId)
+void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, void *data)
 {
-    emit executeHttpRequest(request, Put, multiPart, this, requestId);
+    emit executeHttpRequest(request, Put, multiPart, this, requestId, data);
 }
 
 /*!

@@ -57,11 +57,15 @@ copyToDestDir($$OTHER_FILES)
 
 HEADERS += \
     SeriesPlugin.h \
-    SerieSubListedItem.h
+    SerieSubListedItem.h \
+    SeasonSubListedItem.h \
+    EpisodeListItem.h
 
 SOURCES += \
     SeriesPlugin.cpp \
-    SerieSubListedItem.cpp
+    SerieSubListedItem.cpp \
+    SeasonSubListedItem.cpp \
+    EpisodeListItem.cpp
 
 OTHER_FILES += \
     SeriesPlugin.qml \

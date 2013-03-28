@@ -10,11 +10,12 @@ SerieSubListedItem::SerieSubListedItem(QString imdbId, QString serieName, QStrin
     this->m_imageUrl = imageUrl;
 
     // INIT SEASON MODELS HERE
-    this->seasonModel = NULL;
+    this->seasonModel = new Models::SubListedListModel(new SeasonSubListedItem(-1, -1, ""));
 }
 
 SerieSubListedItem::~SerieSubListedItem()
 {
+    delete this->seasonModel;
 }
 
 int SerieSubListedItem::id() const

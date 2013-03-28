@@ -8,10 +8,11 @@ class NetworkReplyRepeater : public QObject
 {
     Q_OBJECT
 public:
-    NetworkReplyRepeater(QObject *receiver, int requestId);
+    NetworkReplyRepeater(QObject *receiver, int requestId, void *data);
 
 private:
     QObject *receiver;
+    void    *data;
     int     requestId;
 
 public slots:

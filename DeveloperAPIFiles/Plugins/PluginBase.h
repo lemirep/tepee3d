@@ -58,17 +58,17 @@ protected:
 
     // WEB SERVICES
 protected:
-    void executeHttpGetRequest(const QNetworkRequest& request, int requestId);
-    void executeHttpDeleteRequest(const QNetworkRequest& request, int requestId);
-    void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId);
-    void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId);
+    void executeHttpGetRequest(const QNetworkRequest& request, int requestId, void *data = 0);
+    void executeHttpDeleteRequest(const QNetworkRequest& request, int requestId, void *data = 0);
+    void executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data = 0);
+    void executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data = 0);
 
-    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data) = 0;
 
     // Defines all signals that a plugin can emit or receive
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender, int id);
-    void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId);
+    void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState, QVariant previousFocusState);
     void    roomEntered();

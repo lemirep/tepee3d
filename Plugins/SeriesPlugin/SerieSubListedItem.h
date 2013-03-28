@@ -1,7 +1,9 @@
 #ifndef SERIESUBLISTEDITEM_H
 #define SERIESUBLISTEDITEM_H
 
+#include <SubListedListModel.h>
 #include <SubListedListItem.h>
+#include "SeasonSubListedItem.h"
 
 class SerieSubListedItem : public Models::SubListedListItem
 {
@@ -31,7 +33,7 @@ private :
     QString m_imdbId;
     QString m_imageUrl;
 
-    Models::SubListedListItem*  seasonModel;
+    Models::SubListedListModel*  seasonModel;
 
     static int nextSerieId;
 };

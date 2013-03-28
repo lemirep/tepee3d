@@ -20,6 +20,13 @@
 #define SEARCH_EPISODE_REQUEST 1
 #define GET_SEASONS 2
 #define GET_EPISODES_FOR_SEASON 3
+
+#define RETRIEVE_SHOWS 0
+#define RETRIEVE_SEASONS_FOR_SHOW 1
+#define RETRIEVE_EPISODES_FOR_SHOW_SEASON 2
+#define CHECK_IF_DATABASE_FORMAT_EXISTS 3
+#define GENERIC_REQUEST 4
+
 #define TRAKT_API_KEY "9a67e6b3bc1cbd1d92fdc56a03b51267"
 
 class SeriesPlugin  : public Plugins::PluginBase
@@ -40,23 +47,32 @@ public:
     // DatabaseServiceUserInterface
     void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
     // WebServiceUserInterface
-    void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id);
+    void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, void *data);
 
     Q_INVOKABLE                 QObject* getFollowedSeriesModel();
-    Q_INVOKABLE                 void               searchForShow(QString showName);
-    Q_INVOKABLE                 void               searchForEpisode(QString episodeName);
-    Q_INVOKABLE                 QObject* getSeasonsForShow(QString title);
-    Q_INVOKABLE                 QObject* getEpisodesForShowSeason(QString title, int season);
+    Q_INVOKABLE                 void     searchForShow(QString showName);
+    Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
 
 private:
     Models::SubListedListModel* followedSeriesModel;
-    QHash<int, void (SeriesPlugin::*)(QNetworkReply*)> webServicesCallBacks;
+    QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
+    QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>)> databaseCallBacks;
 
-    void                        searchForShowCallBack(QNetworkReply *reply);
-    void                        searchForEpisodeBack(QNetworkReply *reply);
-    void                        getSeasonsForShowCallBack(QNetworkReply *reply);
-    void                        getEpisodesForSeasonCallBack(QNetworkReply *reply);
+    void                        getSeasonsForShow(SerieSubListedItem *show);
+    void                        getEpisodesForShowAndSeason(QString showName, SeasonSubListedItem *season);
 
+    // WEBSERVICES CALLBACK
+    void                        searchForShowCallBack(QNetworkReply *reply, void *data);
+    void                        searchForEpisodeCallBack(QNetworkReply *reply, void *data);
+    void                        getSeasonsForShowCallBack(QNetworkReply *reply, void *data);
+    void                        getEpisodesForSeasonCallBack(QNetworkReply *reply, void *data);
+
+    // DATABASE CALLBACK
+    void                        retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result);
+    void                        retrieveSeasonsForShowDatabaseCallBack(QList<QSqlRecord> result);
+    void                        retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result);
+    void                        checkIfDatabaseSchemaExists(QList<QSqlRecord> result);
+    void                        genericDatabaseCallBack(QList<QSqlRecord> result);
 };
 
 #endif // SERIESPLUGIN_H
