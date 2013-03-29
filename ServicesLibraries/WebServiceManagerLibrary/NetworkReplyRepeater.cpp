@@ -34,6 +34,4 @@ void    NetworkReplyRepeater::receiveNetworkReply()
         qDebug() << " Not an instance of WebServiceUser";
     // THE USER WILL HAVE TO SET THE REPLY TO NULL AND CALL DELETELATER ON IT
     delete this;
-
-
 }

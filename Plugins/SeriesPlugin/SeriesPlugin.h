@@ -50,6 +50,8 @@ public:
     void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, void *data);
 
     Q_INVOKABLE                 QObject* getFollowedSeriesModel();
+    Q_INVOKABLE                 QObject* getSeasonsModelFromSerieId(int serieId);
+    Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId);
     Q_INVOKABLE                 void     searchForShow(QString showName);
     Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
 

@@ -1,5 +1,9 @@
 #include "EpisodeListItem.h"
 
+EpisodeListItem::EpisodeListItem(QObject *parent) : Models::ListItem(parent)
+{
+}
+
 EpisodeListItem::EpisodeListItem(int episodeId, int episodeNumber, int episodeSeason,
                                  QString episodeTitle, QString episodeSummary, QString imageUrl,
                                  QDateTime episodeAiring, QObject *parent) : Models::ListItem(parent)

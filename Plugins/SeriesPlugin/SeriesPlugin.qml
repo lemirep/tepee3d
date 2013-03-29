@@ -81,7 +81,7 @@ Item3D
         height : mainWindow.height / 2
         x : 80
         y : (mainWindow.height - height) / 2
-        transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 25}
+        transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 15}
 
         Rectangle
         {
@@ -96,8 +96,12 @@ Item3D
             id : followed_series_listview
             clip : true
             anchors.fill : parent
+            populate: Transition {
+                  NumberAnimation { properties: "x,y"; duration: 1000 }
+              }
             model : SeriesPlugin.getFollowedSeriesModel();
             delegate : SeriesListViewDelegate {
+                serieId : model.serieId
                 img_src : model.imageUrl
                 series_name: model.serieName
                 width : parent.width
@@ -116,13 +120,68 @@ Item3D
         height : mainWindow.height / 2
         x : mainWindow.width - (width + 80)
         y : (mainWindow.height - height) / 2
-        transform : Rotation { origin.x: mainWindow.width / 4; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: -25}
+        transform : Rotation { origin.x: mainWindow.width / 4; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: -15}
 
         Rectangle
         {
             color : "grey"
             opacity : 0.2
             anchors.fill: parent
+        }
+
+        ListView
+        {
+            id : season_list_view
+            height : 80
+            orientation: ListView.Horizontal
+            clip : true
+            anchors
+            {
+                top : parent.top
+                left : parent.left
+                right : parent.right
+            }
+            delegate : SeasonListViewDelegate
+            {
+                img_src : model.imageUrl
+                season : model.seasonId
+                height : parent.height
+                width : season_list_view.width / 4
+            }
+        }
+        Rectangle
+        {
+            color : "transparent"
+            border
+            {
+                width : 1
+                color : "white"
+            }
+            radius : 15
+            anchors.fill: season_list_view
+            smooth : true
+        }
+        ListView
+        {
+            id : episodes_series_listview
+            anchors
+            {
+                top : season_list_view.bottom
+                left : parent.left
+                right : parent.right
+                bottom : parent.bottom
+            }
+            clip : true
+            delegate : EpisodeListViewDelegate
+            {
+                episodeNumber : model.episodeNumber
+                episodeTitle : model.episodeTitle
+                episodeOverview : model.episodeSummary
+                episodeAiring : model.episodeAiring
+                img_src : model.imageUrl
+                width : parent.width
+                height : 60
+            }
         }
     }
 

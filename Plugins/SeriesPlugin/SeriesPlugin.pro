@@ -71,4 +71,6 @@ OTHER_FILES += \
     SeriesPlugin.qml \
     Menu.qml \
     SeriesListViewDelegate.qml \
-    qmldir
+    qmldir \
+    SeasonListViewDelegate.qml \
+    EpisodeListViewDelegate.qml

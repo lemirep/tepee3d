@@ -4,6 +4,7 @@ Item
 {
     id : followed_serie_delegate
 
+    property int serieId : -1;
     property string img_src : ""
     property string series_name : ""    
 
@@ -61,6 +62,10 @@ Item
         {
             cube_effect.texture = img_src
             rotate_cube.restart()
+            followed_series_listview.currentIndex = index;
+            console.log("serieId " + serieId)
+            season_list_view.model = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
+            episodes_series_listview.model = null;
         }
     }
 }

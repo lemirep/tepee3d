@@ -79,6 +79,23 @@ QObject    *SeriesPlugin::getFollowedSeriesModel()
     return this->followedSeriesModel;
 }
 
+QObject *SeriesPlugin::getSeasonsModelFromSerieId(int serieId)
+{
+    SerieSubListedItem *serie = (SerieSubListedItem *)this->followedSeriesModel->find(serieId);
+    if (serie)
+        return serie->submodel();
+    return NULL;
+}
+
+QObject *SeriesPlugin::getEpisodesFromSeasonAndShowId(int serieId, int seasonId)
+{
+    SerieSubListedItem *serie = (SerieSubListedItem *)this->followedSeriesModel->find(serieId);
+    SeasonSubListedItem *season = NULL;
+    if (serie != NULL && (season = (SeasonSubListedItem *)serie->submodel()->find(seasonId)) != NULL)
+        return season->submodel();
+    return NULL;
+}
+
 void SeriesPlugin::searchForShow(QString showName)
 {
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/search/shows.json/"\
@@ -97,10 +114,11 @@ void SeriesPlugin::searchForEpisode(QString episodeName)
 void SeriesPlugin::getSeasonsForShow(SerieSubListedItem *show)
 {
     QString showName = show->data(SerieSubListedItem::serieName).toString();
+    qDebug() << "showName " << showName;
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/seasons.json/"\
                                                            + QString(TRAKT_API_KEY)\
                                                            + "/"+ showName.replace(" ", "-"))),
-                                                            RETRIEVE_SEASONS_FOR_SHOW, (void *)show);
+                                                            GET_SEASONS, (void *)show);
 }
 
 void SeriesPlugin::getEpisodesForShowAndSeason(QString showName, SeasonSubListedItem *season)
@@ -108,7 +126,7 @@ void SeriesPlugin::getEpisodesForShowAndSeason(QString showName, SeasonSubListed
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/season.json/"\
                                                            + QString(TRAKT_API_KEY) + "/" + showName.replace(" ", "-")\
                                                            + "/" +  QString::number(season->data(SeasonSubListedItem::seasonId).toInt()))),\
-                                                            RETRIEVE_EPISODES_FOR_SHOW_SEASON, (void *)season);
+                                                            GET_EPISODES_FOR_SEASON, (void *)season);
 }
 
 
@@ -135,8 +153,8 @@ void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
                         SerieSubListedItem *showItem =  new SerieSubListedItem(show.value("imdb_id").toString(),
                                                                                     show.value("title").toString(),
                                                                                     imageObj.value("poster").toString());
-                        this->getSeasonsForShow(showItem);
                         this->followedSeriesModel->appendRow(showItem);
+                        this->getSeasonsForShow(showItem);
                     }
                 }
             }
@@ -160,7 +178,7 @@ void SeriesPlugin::getSeasonsForShowCallBack(QNetworkReply *reply, void *data)
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isArray())
         {
             QJsonArray showsArray = jsonDoc.array();
-            QList<SeasonSubListedItem *> seasons;
+            QList<Models::ListItem *> seasons;
             SerieSubListedItem *show = reinterpret_cast<SerieSubListedItem*>(data);
             foreach (QJsonValue arrayVal, showsArray)
             {
@@ -168,15 +186,15 @@ void SeriesPlugin::getSeasonsForShowCallBack(QNetworkReply *reply, void *data)
                 if (!seasonObj.isEmpty())
                 {
                     QJsonObject image = seasonObj.value("images").toObject();
-                    SeasonSubListedItem* tmpSeason = new SeasonSubListedItem(seasonObj.value("season").toString().toInt(),
-                                                       seasonObj.value("episodes").toString().toInt(),
+                    SeasonSubListedItem* tmpSeason = new SeasonSubListedItem(static_cast<int>(seasonObj.value("season").toDouble()),
+                                                       static_cast<int>(seasonObj.value("episodes").toDouble()),
                                                        image.value("poster").toString());
-                    seasons << tmpSeason;
+                    seasons << (Models::ListItem*)tmpSeason;
                     this->getEpisodesForShowAndSeason(show->data(SerieSubListedItem::serieName).toString(), tmpSeason);
                 }
             }
             // APPEND SEASONS MODEL TO SHOW MODEL
-            show->submodel()->appendRows(*reinterpret_cast<QList<Models::ListItem *>*>(&seasons));
+            show->submodel()->appendRows(seasons);
         }
     }
 }
@@ -191,7 +209,7 @@ void SeriesPlugin::getEpisodesForSeasonCallBack(QNetworkReply *reply, void *data
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isArray())
         {
             QJsonArray showsArray = jsonDoc.array();
-            QList<EpisodeListItem *> episodes;
+            QList<Models::ListItem *> episodes;
             SeasonSubListedItem *season = reinterpret_cast<SeasonSubListedItem*>(data);
             foreach (QJsonValue arrayVal, showsArray)
             {
@@ -199,9 +217,9 @@ void SeriesPlugin::getEpisodesForSeasonCallBack(QNetworkReply *reply, void *data
                 if (!episodeObj.isEmpty())
                 {
                     QJsonObject image = episodeObj.value("images").toObject();
-                    episodes << new EpisodeListItem(episodeObj.value("episode").toString().toInt(),
-                                                    episodeObj.value("number").toString().toInt(),
-                                                    episodeObj.value("season").toString().toInt(),
+                    episodes << (Models::ListItem*)new EpisodeListItem(static_cast<int>(episodeObj.value("episode").toDouble()),
+                                                    static_cast<int>(episodeObj.value("number").toDouble()),
+                                                    static_cast<int>(episodeObj.value("season").toDouble()),
                                                     episodeObj.value("title").toString(),
                                                     episodeObj.value("overview").toString(),
                                                     image.value("screen").toString(),
@@ -209,7 +227,7 @@ void SeriesPlugin::getEpisodesForSeasonCallBack(QNetworkReply *reply, void *data
                 }
             }
             // APPEND EPISODE TO SEASON SUBMODEL
-            season->submodel()->appendRows(*reinterpret_cast<QList<Models::ListItem *>*>(&episodes));
+            season->submodel()->appendRows(episodes);
         }
     }
 }

@@ -5,7 +5,7 @@ SeasonSubListedItem::SeasonSubListedItem(int seasonId, int episodeCount, QString
     this->m_seasonId = seasonId;
     this->m_episodeCount = episodeCount;
     this->m_imageUrl = imageUrl;
-    this->episodesModel = NULL;
+    this->episodesModel = new Models::ListModel(new EpisodeListItem());
 }
 
 SeasonSubListedItem::~SeasonSubListedItem()
