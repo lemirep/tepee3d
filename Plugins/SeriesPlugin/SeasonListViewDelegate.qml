@@ -8,6 +8,7 @@ Item
     property int season;
 
     scale : serie_season_delegate_ma.pressed ? 0.9 : 1.0
+    Behavior on scale {SmoothedAnimation {velocity : 10}}
 
     Image
     {

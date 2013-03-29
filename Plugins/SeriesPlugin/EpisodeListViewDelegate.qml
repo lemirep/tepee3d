@@ -12,6 +12,8 @@ Item
 
     scale : episode_delegate_ma.pressed ? 0.9 : 1
 
+    Behavior on scale {SmoothedAnimation {velocity : 10}}
+
 //    Rectangle
 //    {
 //        anchors.fill: parent
@@ -43,9 +45,11 @@ Item
         id : episode_delegate_text
         anchors
         {
+            left : episode_delegate_pic.right
             right : parent.right
             verticalCenter : parent.verticalCenter
             rightMargin : 10
+            leftMargin : 10
         }
         color : "white"
         text : episodeTitle
@@ -55,5 +59,11 @@ Item
     {
         id : episode_delegate_ma
         anchors.fill: parent
+
+        onClicked:
+        {
+            cube_effect.texture = img_src
+            rotate_cube.restart()
+        }
     }
 }
