@@ -18,8 +18,7 @@
 #define PLUGIN_ID 10
 #define SEARCH_SHOW_REQUEST 0
 #define SEARCH_EPISODE_REQUEST 1
-#define GET_SEASONS 2
-#define GET_EPISODES_FOR_SEASON 3
+#define GET_SHOW_SUMMARY 2
 
 #define RETRIEVE_SHOWS 0
 #define RETRIEVE_SEASONS_FOR_SHOW 1
@@ -49,23 +48,28 @@ public:
     // WebServiceUserInterface
     void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, void *data);
 
-    Q_INVOKABLE                 QObject* getFollowedSeriesModel();
+    Q_INVOKABLE                 QObject* getFollowedSeriesModel() const;
+    Q_INVOKABLE                 QObject* getSeasonsModelFromSerieId(int serieId) const;
+    Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const;
+    Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
     Q_INVOKABLE                 void     searchForShow(QString showName);
+    Q_INVOKABLE                 void     addShowToFollow(QString showName);
     Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
 
 private:
     Models::SubListedListModel* followedSeriesModel;
+    Models::SubListedListModel* searchSeriesModel;
+
     QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
     QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>)> databaseCallBacks;
 
-    void                        getSeasonsForShow(SerieSubListedItem *show);
-    void                        getEpisodesForShowAndSeason(QString showName, SeasonSubListedItem *season);
-
+    SerieSubListedItem *        parseShow(const QJsonObject& showObj);
+    SeasonSubListedItem*        parseShowSeason(const QJsonObject& seasonObj);
+    EpisodeListItem    *        parseShowEpisode(const QJsonObject& episodeObj);
     // WEBSERVICES CALLBACK
     void                        searchForShowCallBack(QNetworkReply *reply, void *data);
+    void                        getShowSummaryCallBack(QNetworkReply *reply, void *data);
     void                        searchForEpisodeCallBack(QNetworkReply *reply, void *data);
-    void                        getSeasonsForShowCallBack(QNetworkReply *reply, void *data);
-    void                        getEpisodesForSeasonCallBack(QNetworkReply *reply, void *data);
 
     // DATABASE CALLBACK
     void                        retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result);

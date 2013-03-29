@@ -18,6 +18,7 @@ public:
         imageUrl
     };
 
+    explicit EpisodeListItem(QObject *parent = 0);
     explicit EpisodeListItem(int episodeId, int episodeNumber, int episodeSeason,
                              QString episodeTitle, QString episodeSummary, QString imageUrl,
                              QDateTime episodeAiring, QObject *parent = 0);

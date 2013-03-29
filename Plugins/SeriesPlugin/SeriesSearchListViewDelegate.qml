@@ -2,18 +2,18 @@ import QtQuick 2.0
 
 Item
 {
-    id : followed_serie_delegate
+    id : search_serie_delegate
 
     property int serieId : -1;
     property string img_src : ""
-    property string series_name : ""    
+    property string series_name : ""
 
-    scale : followed_series_delegate_ma.pressed ? 0.9 : 1.0
+    scale : search_series_delegate_ma.pressed ? 0.9 : 1.0
     Behavior on scale {SmoothedAnimation {velocity : 10}}
 
     Rectangle
     {
-        id : followed_serie_delegate_bg
+        id : search_serie_delegate_bg
         color : "grey"
         opacity : 0.4
         border
@@ -28,7 +28,7 @@ Item
 
     Text
     {
-        id : followed_series_delegate_text
+        id : search_series_delegate_text
         anchors
         {
             left : parent.left
@@ -41,7 +41,7 @@ Item
 
     Image
     {
-        id : followed_series_delegate_pic
+        id : search_series_delegate_pic
         fillMode: Image.PreserveAspectFit
         height : parent.height - 10
         cache : true
@@ -56,17 +56,16 @@ Item
     }
 
     MouseArea
-    {       
-        id : followed_series_delegate_ma
+    {
+        id : search_series_delegate_ma
         anchors.fill: parent
         onClicked:
         {
             cube_effect.texture = img_src
             rotate_cube.restart()
-            followed_series_listview.currentIndex = index;
+            search_result_listview.currentIndex = index;
             console.log("serieId " + serieId)
-            season_list_view.model = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
-            episodes_series_listview.model = null;
+            SeriesPlugin.addShowToFollow(series_name)
         }
     }
 }

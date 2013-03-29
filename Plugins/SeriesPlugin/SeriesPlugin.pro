@@ -48,13 +48,6 @@ defineTest(copyToDestDir) {
     export(QMAKE_POST_LINK)
 }
 
-
-
-
-
-# deploy qml files to correct dir
-copyToDestDir($$OTHER_FILES)
-
 HEADERS += \
     SeriesPlugin.h \
     SerieSubListedItem.h \
@@ -71,4 +64,10 @@ OTHER_FILES += \
     SeriesPlugin.qml \
     Menu.qml \
     SeriesListViewDelegate.qml \
-    qmldir
+    qmldir \
+    SeasonListViewDelegate.qml \
+    EpisodeListViewDelegate.qml \
+    SeriesSearchListViewDelegate.qml
+
+# deploy qml files to correct dir
+copyToDestDir($$OTHER_FILES)

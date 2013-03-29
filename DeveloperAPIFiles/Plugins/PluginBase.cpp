@@ -40,11 +40,6 @@
  * Returns the id of the plugins.
  */
 
-/*!
- * \fn void Plugins::PluginBase::initPlugin()
- *
- * Initializes the plugins.
- */
 
 /*!
  * \fn QString Plugins::PluginBase::getPluginName()
@@ -135,6 +130,16 @@ Plugins::PluginBase::PluginBase() : QObject()
     this->focusHandler[Plugins::PluginEnums::pluginSelectedState] = &Plugins::PluginBase::onSelectedFocusState;
     this->focusHandler[Plugins::PluginEnums::pluginFocusedState]  = &Plugins::PluginBase::onFocusedFocusState;
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
+    this->initPlugin();
+}
+
+/*!
+ * \fn void Plugins::PluginBase::initPlugin()
+ *
+ * Initializes the plugins.
+ */
+void        Plugins::PluginBase::initPlugin()
+{
 }
 
 /*!

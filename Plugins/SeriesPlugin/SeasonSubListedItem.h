@@ -2,6 +2,7 @@
 #define SEASONSUBLISTEDITEM_H
 
 #include <SubListedListItem.h>
+#include <ListModel.h>
 #include "EpisodeListItem.h"
 
 class SeasonSubListedItem : public Models::SubListedListItem

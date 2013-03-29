@@ -34,8 +34,8 @@ private :
     QString m_imageUrl;
 
     Models::SubListedListModel*  seasonModel;
-
     static int nextSerieId;
+
 };
 
 #endif // SERIESUBLISTEDITEM_H

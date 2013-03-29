@@ -39,21 +39,6 @@ ManageBDD::ManageBDD() : QObject()
 
 }
 
-///*!
-// * Constructs a new ManageBDD instance, opens a database connection to the database
-// * named by \a name and fill it for the first use if necessary.
-// */
-//ManageBDD::ManageBDD(QString name) : QObject()
-//{
-//    this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
-//    if (this->openDatabase(name))
-//    {
-//        this->sqlQuery = QSqlQuery(this->dataBase);
-//        if (!this->checkExistLocalDatabase())
-//            this->createLocalDatabase();
-//    }
-//}
-
 /*!
  * Destroys a ManageBDD instance, close the database connection if opened.
  */
@@ -78,17 +63,6 @@ bool ManageBDD::openDatabase(QString dbName)
     // THE DATABASE IS NOW CONTAINED IN THE TEPEE3DENGINE
     // THIS ALLOWS US TO PROVIDE A DATABASE SCHEMA WITHOUT HAVING TO
     // CREATE IT ON THE FIRST BOOT
-
-
-//#ifdef Q_OS_LINUX
-//    QString path(QDir::home().path());
-//    path.append(QDir::separator()).append(this->localDBName);
-//    path = QDir::toNativeSeparators(path);
-//    this->dataBase.setDatabaseName(path);
-//#else
-//    this->dataBase.setDatabaseName(this->localDBName);
-//#endif
-
     return this->dataBase.open();
 }
 

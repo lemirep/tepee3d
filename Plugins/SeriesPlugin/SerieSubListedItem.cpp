@@ -1,4 +1,5 @@
 #include "SerieSubListedItem.h"
+#include <QDebug>
 
 int SerieSubListedItem::nextSerieId = 0;
 
@@ -20,7 +21,7 @@ SerieSubListedItem::~SerieSubListedItem()
 
 int SerieSubListedItem::id() const
 {
-    return this->serieId;
+    return this->m_serieId;
 }
 
 QVariant SerieSubListedItem::data(int role) const
@@ -28,7 +29,7 @@ QVariant SerieSubListedItem::data(int role) const
     switch (role)
     {
     case serieId:
-        return this->m_serieId;
+        return this->id();
     case serieName:
         return this->m_serieName;
     case imdbId:
@@ -55,5 +56,7 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
 Models::ListModel *SerieSubListedItem::submodel() const
 {
     // RETURN SEASONS MODEL FOR SHOW
+    qDebug() << "Season Model Size " << this->seasonModel->rowCount();
+
     return (Models::ListModel*)this->seasonModel;
 }

@@ -151,16 +151,19 @@ QHash<int, QByteArray>  Models::ListModel::roleNames() const
  * Appends a single row \a item to the Model.
  */
 
-void        Models::ListModel::appendRow(ListItem *item)
+void        Models::ListModel::appendRow(Models::ListItem *item)
 {
-    this->appendRows(QList<ListItem *>() << item);
-    emit (countChanged(this->rowCount()));
+    if (item != NULL)
+    {
+        this->appendRows(QList<Models::ListItem *>() << item);
+        emit (countChanged(this->rowCount()));
+    }
 }
 
 /*!
  * Appends several rows \a items to the Model.
  */
-void        Models::ListModel::appendRows(QList<ListItem *> &items)
+void        Models::ListModel::appendRows(QList<Models::ListItem *> &items)
 {
     // NEEDED TO UPDATE VIEW
     this->beginInsertRows(QModelIndex(), this->rowCount(), this->rowCount() + items.size() - 1);
@@ -177,7 +180,7 @@ void        Models::ListModel::appendRows(QList<ListItem *> &items)
 /*!
  * Insert new row described by \a item at position defined by \a row.
  */
-void       Models::ListModel::insertRow(int row, ListItem *item)
+void       Models::ListModel::insertRow(int row, Models::ListItem *item)
 {
     this->beginInsertRows(QModelIndex(), row, row);
     QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
@@ -235,7 +238,7 @@ void        Models::ListModel::clear()
 /*!
  * Returns the index of the row in the model containing \a item.
  */
-QModelIndex     Models::ListModel::indexFromItem(ListItem *item) const
+QModelIndex     Models::ListModel::indexFromItem(Models::ListItem *item) const
 {
     if (item != NULL)
     {

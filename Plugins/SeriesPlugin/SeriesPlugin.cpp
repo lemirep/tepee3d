@@ -5,8 +5,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     // WEBSERVICES CALLBACKS HASH
     this->webServicesCallBacks[SEARCH_SHOW_REQUEST] = &SeriesPlugin::searchForShowCallBack;
     this->webServicesCallBacks[SEARCH_EPISODE_REQUEST] = &SeriesPlugin::searchForEpisodeCallBack;
-    this->webServicesCallBacks[GET_SEASONS] = &SeriesPlugin::getSeasonsForShowCallBack;
-    this->webServicesCallBacks[GET_EPISODES_FOR_SEASON] = &SeriesPlugin::getEpisodesForSeasonCallBack;
+    this->webServicesCallBacks[GET_SHOW_SUMMARY] = &SeriesPlugin::getShowSummaryCallBack;
     // DATABASE CALLBACKS HASH
     this->databaseCallBacks[RETRIEVE_SHOWS] = &SeriesPlugin::retrieveShowsFromDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
@@ -15,8 +14,8 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->databaseCallBacks[GENERIC_REQUEST] = &SeriesPlugin::genericDatabaseCallBack;
     // CREATE SERIES MODEL
     this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
-
-    this->initPlugin();
+    // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
+    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
 }
 // ALL the function should be implemented
 
@@ -27,7 +26,6 @@ int SeriesPlugin::getPluginId()
 
 void SeriesPlugin::initPlugin()
 {
-    //    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")),1);
 }
 
 QString SeriesPlugin::getPluginName()
@@ -72,18 +70,48 @@ void    SeriesPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id,
     (this->*this->webServicesCallBacks[id])(reply, data);
 }
 
-QObject    *SeriesPlugin::getFollowedSeriesModel()
+QObject    *SeriesPlugin::getFollowedSeriesModel() const
 {
-    if (this->followedSeriesModel->rowCount() == 0)
-        this->searchForShow("the walking dead");
     return this->followedSeriesModel;
+}
+
+QObject *SeriesPlugin::getSeasonsModelFromSerieId(int serieId) const
+{
+    SerieSubListedItem *serie = (SerieSubListedItem *)this->followedSeriesModel->find(serieId);
+    if (serie)
+        return serie->submodel();
+    return NULL;
+}
+
+QObject *SeriesPlugin::getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const
+{
+    SerieSubListedItem *serie = (SerieSubListedItem *)this->followedSeriesModel->find(serieId);
+    SeasonSubListedItem *season = NULL;
+    if (serie != NULL && (season = (SeasonSubListedItem *)serie->submodel()->find(seasonId)) != NULL)
+        return season->submodel();
+    return NULL;
+}
+
+QObject *SeriesPlugin::getSearchSeriesModel() const
+{
+    return this->searchSeriesModel;
 }
 
 void SeriesPlugin::searchForShow(QString showName)
 {
+    this->searchSeriesModel->clear();
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/search/shows.json/"\
                                                            + QString(TRAKT_API_KEY)\
-                                                           + "/" + showName.replace(" ", "-"))), SEARCH_SHOW_REQUEST);
+                                                           + "/" + showName.replace(" ", "-"))),
+                                      SEARCH_SHOW_REQUEST);
+}
+
+void SeriesPlugin::addShowToFollow(QString showName)
+{
+    PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/"\
+                                                           + QString(TRAKT_API_KEY)\
+                                                           + "/" + showName.replace(" ", "-")\
+                                                           + "/true")), GET_SHOW_SUMMARY);
 }
 
 void SeriesPlugin::searchForEpisode(QString episodeName)
@@ -91,27 +119,65 @@ void SeriesPlugin::searchForEpisode(QString episodeName)
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/search/episodes.json/"\
                                                            + QString(TRAKT_API_KEY) + "/"\
                                                            + episodeName.replace(" ", "-"))),
-                                                             SEARCH_EPISODE_REQUEST);
+                                      SEARCH_EPISODE_REQUEST);
 }
 
-void SeriesPlugin::getSeasonsForShow(SerieSubListedItem *show)
+SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
 {
-    QString showName = show->data(SerieSubListedItem::serieName).toString();
-    PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/seasons.json/"\
-                                                           + QString(TRAKT_API_KEY)\
-                                                           + "/"+ showName.replace(" ", "-"))),
-                                                            RETRIEVE_SEASONS_FOR_SHOW, (void *)show);
+    if (!showObj.isEmpty())
+    {
+        QJsonObject imageObj = showObj.value("images").toObject();
+        SerieSubListedItem *showItem =  new SerieSubListedItem(showObj.value("imdb_id").toString(),
+                                                               showObj.value("title").toString(),
+                                                               imageObj.value("poster").toString());
+        qDebug() << showObj.value("title").toString();
+        QJsonArray seasonsArray = showObj.value("seasons").toArray();
+        foreach (QJsonValue seasonObj, seasonsArray)
+        {
+            SeasonSubListedItem *seasonItem = parseShowSeason(seasonObj.toObject());
+            if (seasonItem != NULL)
+                showItem->submodel()->appendRow(seasonItem);
+        }
+        return showItem;
+    }
+    return NULL;
 }
 
-void SeriesPlugin::getEpisodesForShowAndSeason(QString showName, SeasonSubListedItem *season)
+SeasonSubListedItem *SeriesPlugin::parseShowSeason(const QJsonObject& seasonObj)
 {
-    PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/season.json/"\
-                                                           + QString(TRAKT_API_KEY) + "/" + showName.replace(" ", "-")\
-                                                           + "/" +  QString::number(season->data(SeasonSubListedItem::seasonId).toInt()))),\
-                                                            RETRIEVE_EPISODES_FOR_SHOW_SEASON, (void *)season);
+    if (!seasonObj.isEmpty())
+    {
+        QJsonObject image = seasonObj.value("images").toObject();
+        SeasonSubListedItem *season = new SeasonSubListedItem(static_cast<int>(seasonObj.value("season").toDouble()),
+                                                              static_cast<int>(seasonObj.value("episodes").toDouble()),
+                                                              image.value("poster").toString());
+        QJsonArray episodesArray = seasonObj.value("episodes").toArray();
+        foreach (QJsonValue episodeObj, episodesArray)
+        {
+            EpisodeListItem *episodeItem = parseShowEpisode(episodeObj.toObject());
+            if (episodeItem != NULL)
+                season->submodel()->appendRow(episodeItem);
+        }
+        return season;
+    }
+    return NULL;
 }
 
-
+EpisodeListItem *SeriesPlugin::parseShowEpisode(const QJsonObject& episodeObj)
+{
+    if (!episodeObj.isEmpty())
+    {
+        QJsonObject image = episodeObj.value("images").toObject();
+        return new EpisodeListItem(static_cast<int>(episodeObj.value("episode").toDouble()),
+                                   static_cast<int>(episodeObj.value("number").toDouble()),
+                                   static_cast<int>(episodeObj.value("season").toDouble()),
+                                   episodeObj.value("title").toString(),
+                                   episodeObj.value("overview").toString(),
+                                   image.value("screen").toString(),
+                                   QDateTime::fromMSecsSinceEpoch(episodeObj.value("first_aired").toDouble()));
+    }
+    return NULL;
+}
 
 // WEB SERVICES CALL BACKS
 void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
@@ -121,25 +187,35 @@ void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
         // DO NOT FORGET TO DELETE THE REPLY
         delete reply;
+        qDebug() << "searchShowCallBack";
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isArray())
         {
-            QJsonArray showsArray = jsonDoc.array();
-            foreach (QJsonValue arrayVal, showsArray)
+            QJsonArray showsResultArray = jsonDoc.array();
+            foreach (QJsonValue showObj, showsResultArray)
             {
-                if (arrayVal.isObject())
-                {
-                    QJsonObject show = arrayVal.toObject();
-                    if (!show.isEmpty())
-                    {
-                        QJsonObject imageObj = show.take("images").toObject();
-                        SerieSubListedItem *showItem =  new SerieSubListedItem(show.value("imdb_id").toString(),
-                                                                                    show.value("title").toString(),
-                                                                                    imageObj.value("poster").toString());
-                        this->getSeasonsForShow(showItem);
-                        this->followedSeriesModel->appendRow(showItem);
-                    }
-                }
+                SerieSubListedItem *showItem = parseShow(showObj.toObject());
+                if (showItem != NULL)
+                    this->searchSeriesModel->appendRow(showItem);
             }
+        }
+        else
+            qDebug() << "An error occured when retrieving the JSON";
+    }
+}
+
+void SeriesPlugin::getShowSummaryCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        // DO NOT FORGET TO DELETE THE REPLY
+        delete reply;
+        qDebug() << "getShowSummary CallBack";
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            SerieSubListedItem *showItem = parseShow(jsonDoc.object());
+            if (showItem != NULL)
+                this->followedSeriesModel->appendRow(showItem);
         }
         else
             qDebug() << "An error occured when retrieving the JSON";
@@ -150,69 +226,8 @@ void SeriesPlugin::searchForEpisodeCallBack(QNetworkReply *reply, void *data)
 {
 }
 
-void SeriesPlugin::getSeasonsForShowCallBack(QNetworkReply *reply, void *data)
-{
-    if (reply != NULL)
-    {
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
-        // DO NOT FORGET TO DELETE THE REPLY
-        delete reply;
-        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isArray())
-        {
-            QJsonArray showsArray = jsonDoc.array();
-            QList<SeasonSubListedItem *> seasons;
-            SerieSubListedItem *show = reinterpret_cast<SerieSubListedItem*>(data);
-            foreach (QJsonValue arrayVal, showsArray)
-            {
-                QJsonObject seasonObj = arrayVal.toObject();
-                if (!seasonObj.isEmpty())
-                {
-                    QJsonObject image = seasonObj.value("images").toObject();
-                    SeasonSubListedItem* tmpSeason = new SeasonSubListedItem(seasonObj.value("season").toString().toInt(),
-                                                       seasonObj.value("episodes").toString().toInt(),
-                                                       image.value("poster").toString());
-                    seasons << tmpSeason;
-                    this->getEpisodesForShowAndSeason(show->data(SerieSubListedItem::serieName).toString(), tmpSeason);
-                }
-            }
-            // APPEND SEASONS MODEL TO SHOW MODEL
-            show->submodel()->appendRows(*reinterpret_cast<QList<Models::ListItem *>*>(&seasons));
-        }
-    }
-}
 
-void SeriesPlugin::getEpisodesForSeasonCallBack(QNetworkReply *reply, void *data)
-{
-    if (reply != NULL)
-    {
-        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
-        // DO NOT FORGET TO DELETE THE REPLY
-        delete reply;
-        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isArray())
-        {
-            QJsonArray showsArray = jsonDoc.array();
-            QList<EpisodeListItem *> episodes;
-            SeasonSubListedItem *season = reinterpret_cast<SeasonSubListedItem*>(data);
-            foreach (QJsonValue arrayVal, showsArray)
-            {
-                QJsonObject episodeObj = arrayVal.toObject();
-                if (!episodeObj.isEmpty())
-                {
-                    QJsonObject image = episodeObj.value("images").toObject();
-                    episodes << new EpisodeListItem(episodeObj.value("episode").toString().toInt(),
-                                                    episodeObj.value("number").toString().toInt(),
-                                                    episodeObj.value("season").toString().toInt(),
-                                                    episodeObj.value("title").toString(),
-                                                    episodeObj.value("overview").toString(),
-                                                    image.value("screen").toString(),
-                                                    QDateTime::fromMSecsSinceEpoch(episodeObj.value("first_aired").toDouble()));
-                }
-            }
-            // APPEND EPISODE TO SEASON SUBMODEL
-            season->submodel()->appendRows(*reinterpret_cast<QList<Models::ListItem *>*>(&episodes));
-        }
-    }
-}
+
 // DATABASE CALLBACKS
 
 void SeriesPlugin::retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result)
