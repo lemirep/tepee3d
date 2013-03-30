@@ -269,7 +269,7 @@ void    Room::RoomLoader::restoreRoomsFromDatabase()
 
 //////////////// CALLBACKS /////////////////////
 
-void    Room::RoomLoader::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
+void    Room::RoomLoader::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
 {
     (this->*this->pFunc[id])(result);
 }
@@ -313,7 +313,7 @@ void    Room::RoomLoader::saveRoom(Room::RoomBase *room)
 {
     this->roomToSave = room;
     qDebug() << "RoomLoader::saveRoom " << "SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";";
-    emit executeSQLQuery("SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";", this, SEARCH_FOR_ROOM);
+    emit executeSQLQuery("SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";", this, SEARCH_FOR_ROOM, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)
@@ -347,7 +347,7 @@ void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)
     request += room->getRoomName();
     request += "\";";
     qDebug() << request;
-    emit executeSQLQuery(request, this, GENERIC_RESULT);
+    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
@@ -370,14 +370,14 @@ void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
     request += QString::number(room->getScale().z());
     request += ");";
     qDebug() << request;
-    emit executeSQLQuery(request, this, GENERIC_RESULT);
+    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::restoreRooms()
 {
     QString request = "SELECT * FROM room;";
     qDebug() << "RoomLoader::restoreRooms";
-    emit executeSQLQuery(request, this, RESTORE_ROOMS);
+    emit executeSQLQuery(request, this, RESTORE_ROOMS, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::deleteRoom(Room::RoomBase *room)
@@ -385,5 +385,5 @@ void    Room::RoomLoader::deleteRoom(Room::RoomBase *room)
     QString request = "DELETE FROM room WHERE name = \"";
     request += room->getRoomName();
     request += "\";";
-    emit executeSQLQuery(request, this, GENERIC_RESULT);
+    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
 }

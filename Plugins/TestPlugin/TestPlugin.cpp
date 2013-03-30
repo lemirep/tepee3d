@@ -49,7 +49,7 @@ Plugins::PluginBase* TestPlugin::createNewInstance()
     return new TestPlugin();
 }
 
-void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id)
+void    TestPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void *data)
 {
     if (q.size() < 2)
         return ;
@@ -79,7 +79,7 @@ void    TestPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int reque
 void TestPlugin::selectColor(QString color)
 {
     QString query = "INSERT OR REPLACE INTO TestPlugincolor VALUES (1,'"+ color +"')";
-    emit (PluginBase::executeSQLQuery(query,this,1));
+    emit (PluginBase::executeSQLQuery(query,this,1, "", NULL));
 }
 
 QString TestPlugin::getColor()

@@ -44,7 +44,7 @@ public:
     QString                     getRoomPluginQmlFile() const;
     QString                     getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface
-    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
+    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
     void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, void *data);
 
@@ -53,7 +53,7 @@ public:
     Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const;
     Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
     Q_INVOKABLE                 void     searchForShow(QString showName);
-    Q_INVOKABLE                 void     addShowToFollow(QString showName);
+    Q_INVOKABLE                 void     addShowToFollow(QString slug);
     Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
     Q_INVOKABLE                 void     removeShowFromSearchResult(int showId);
     Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
@@ -68,6 +68,7 @@ private:
     SerieSubListedItem *        parseShow(const QJsonObject& showObj);
     SeasonSubListedItem*        parseShowSeason(const QJsonObject& seasonObj);
     EpisodeListItem    *        parseShowEpisode(const QJsonObject& episodeObj);
+
     // WEBSERVICES CALLBACK
     void                        searchForShowCallBack(QNetworkReply *reply, void *data);
     void                        getShowSummaryCallBack(QNetworkReply *reply, void *data);

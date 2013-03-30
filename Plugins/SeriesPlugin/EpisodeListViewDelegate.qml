@@ -40,6 +40,20 @@ Item
         source : img_src
     }
 
+    Rectangle
+    {
+        anchors.fill: episode_delegate_nbr_text
+        anchors.margins: -2
+        border
+        {
+            width : 1
+            color : "white"
+        }
+        radius : 2
+        color : "#0066CC"
+        opacity : 0.3
+        smooth : true
+    }
     Text
     {
         id : episode_delegate_nbr_text
@@ -51,18 +65,6 @@ Item
         }
         color : "white"
         text : episodeNumber
-    }
-    Rectangle
-    {
-        anchors.fill: episode_delegate_nbr_text
-        border
-        {
-            width : 1
-            color : "white"
-        }
-        radius : width / 2
-        color : "#0066CC"
-        opacity : 0.6
     }
 
     Text
@@ -91,7 +93,11 @@ Item
             bottomMargin : 2
         }
         color : "white"
-        text : episodeAiring.getHours() + ":" + episodeAiring.getMinutes() + "-" + episodeAiring.getDate() + "/" + episodeAiring.getMonth() + "/" + episodeAiring.getFullYear()
+        text : episodeAiring.getHours() + ":"
+               + ((episodeAiring.getMinutes() < 10) ? ("0" + episodeAiring.getMinutes()) : episodeAiring.getMinutes())
+               + "-" + episodeAiring.getDate()
+               + "/" + episodeAiring.getMonth()
+               + "/" + episodeAiring.getFullYear()
     }
 
     MouseArea

@@ -10,7 +10,6 @@
 #include "ListModel.h"
 #include "PluginModelItem.h"
 #include "PluginQmlPluginProperties.h"
-#include "DatabaseServiceUserInterface.h"
 #include "QmlViewProperties.h"
 #include "ServicesManager.h"
 
@@ -30,7 +29,7 @@
 
 namespace Plugins
 {
-class PluginManager : public QObject, public View::QmlContentExposerInterface, public Services::DatabaseServiceUserInterface
+class PluginManager : public QObject, public View::QmlContentExposerInterface
 {
     Q_OBJECT
 public:
@@ -38,7 +37,6 @@ public:
 
     void                        loadLocalPlugins();
     void                        exposeContentToQml(QQmlContext *context);
-    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
 
     static PluginManager*       getInstance(QObject *parent = 0);
     static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
@@ -53,7 +51,6 @@ private:
 
 //    QSignalMapper              *signalMapper;
 signals :
-    void                        executeSQLQuery(const QString &query, QObject *sender, int id);
 };
 }
 

@@ -7,6 +7,7 @@ Item
     property int serieId : -1;
     property string img_src : ""
     property string series_name : ""
+    property string slug : ""
 
     scale : search_series_delegate_ma.pressed ? 0.9 : 1.0
     Behavior on scale {SmoothedAnimation {velocity : 10}}
@@ -46,7 +47,7 @@ Item
             anchors.fill: parent
             onClicked :
             {
-                SeriesPlugin.addShowToFollow(series_name)
+                SeriesPlugin.addShowToFollow(slug)
                 SeriesPlugin.removeShowFromSearchResult(serieId)
             }
         }

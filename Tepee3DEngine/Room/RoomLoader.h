@@ -16,6 +16,7 @@
 #define SEARCH_FOR_ROOM 1
 #define GENERIC_RESULT 2
 #define RESTORE_ROOMS 3
+#define DB_NAME "Tepee3D.sql"
 
  namespace Room
  {
@@ -59,10 +60,10 @@
          static void                deleteRoomFromDatabase(Room::RoomBase *room);
          static void                restoreRoomsFromDatabase();
 
-         void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
+         void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
 
     signals :
-         void                       executeSQLQuery(const QString &query, QObject *sender, int id);
+         void                       executeSQLQuery(const QString &query, QObject *sender, int id, const QString &dbName, void *data);
     };
  }
 

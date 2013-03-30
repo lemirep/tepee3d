@@ -95,9 +95,6 @@ Item3D
         blending : true
     }
 
-
-
-
     Item
     {
         id : followed_series_item
@@ -116,7 +113,7 @@ Item3D
             Rectangle
             {
                 color : "grey"
-                opacity : 0.2
+                opacity : 0.4
                 anchors.fill: parent
             }
             width : parent.width
@@ -138,7 +135,7 @@ Item3D
                 Rectangle
                 {
                     color : "black"
-                    opacity : 0.3
+                    opacity : 0.2
                     smooth : true
                     anchors.fill: parent
                     radius : 15
@@ -156,11 +153,10 @@ Item3D
                     wrapMode: TextInput.Wrap
                     anchors
                     {
-                        top : parent.top
+                        verticalCenter : parent.verticalCenter
                         left : parent.left
                         //                verticalCenter : parent.verticalCenter
                         leftMargin : 10
-                        bottom : parent.bottom
                     }
                     color : "white"
                     font.pointSize: 12
@@ -197,7 +193,7 @@ Item3D
             Rectangle
             {
                 color : "grey"
-                opacity : 0.2
+                opacity : 0.4
                 anchors.fill: parent
             }
             ListView
@@ -209,6 +205,7 @@ Item3D
                 anchors.fill : parent
                 model : SeriesPlugin.getSearchSeriesModel();
                 delegate : SeriesSearchListViewDelegate {
+                    slug : model.slug
                     serieId : model.serieId
                     img_src : model.imageUrl
                     series_name: model.serieName
@@ -231,6 +228,7 @@ Item3D
                 }
                 model : SeriesPlugin.getFollowedSeriesModel();
                 delegate : SeriesListViewDelegate {
+                    slug : model.slug
                     serieId : model.serieId
                     img_src : model.imageUrl
                     series_name: model.serieName
@@ -272,6 +270,12 @@ Item3D
         transform : Rotation { origin.x: mainWindow.width / 4; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: -15}
 
 
+        Rectangle
+        {
+            color : "grey"
+            opacity : 0.4
+            anchors.fill: season_list_view
+        }
         ListView
         {
             id : season_list_view
@@ -292,16 +296,15 @@ Item3D
                 season : model.seasonId
                 height : parent.height
                 width : season_list_view.width / 4
-            }
-            Rectangle
-            {
-                color : "grey"
-                opacity : 0.2
-                anchors.fill: season_list_view
-            }
+            }  
         }
 
-
+        Rectangle
+        {
+            color : "grey"
+            opacity : 0.4
+            anchors.fill: episodes_series_listview
+        }
         ListView
         {
             id : episodes_series_listview
@@ -325,12 +328,6 @@ Item3D
                 img_src : model.imageUrl
                 width : parent.width
                 height : 60
-            }
-            Rectangle
-            {
-                color : "grey"
-                opacity : 0.2
-                anchors.fill: parent
             }
         }
     }

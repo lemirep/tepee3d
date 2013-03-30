@@ -3,12 +3,13 @@
 
 int SerieSubListedItem::nextSerieId = 0;
 
-SerieSubListedItem::SerieSubListedItem(QString imdbId, QString serieName, QString imageUrl, QObject *parent) : Models::SubListedListItem(parent)
+SerieSubListedItem::SerieSubListedItem(QString slug, QString imdbId, QString serieName, QString imageUrl, QObject *parent) : Models::SubListedListItem(parent)
 {
     this->m_serieId = nextSerieId++;
     this->m_imdbId = imdbId;
     this->m_serieName = serieName;
     this->m_imageUrl = imageUrl;
+    this->m_slug = slug;
 
     // INIT SEASON MODELS HERE
     this->seasonModel = new Models::SubListedListModel(new SeasonSubListedItem(-1, -1, ""));
@@ -30,6 +31,8 @@ QVariant SerieSubListedItem::data(int role) const
     {
     case serieId:
         return this->id();
+    case slug:
+        return this->m_slug;
     case serieName:
         return this->m_serieName;
     case imdbId:
@@ -49,6 +52,7 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
     hashRoles[imdbId] = "imdbId";
     hashRoles[serieName] = "serieName";
     hashRoles[imageUrl] = "imageUrl";
+    hashRoles[slug] = "slug";
 
     return hashRoles;
 }

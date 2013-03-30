@@ -18,13 +18,11 @@ public:
     ManageBDD();
     ~ManageBDD();
 
-    bool    openDatabase(QString dbName);
-    bool    checkExistLocalDatabase();
-    void    createLocalDatabase();
+    bool    openDatabase(const QString& dbName);
 signals:
-    void    resultFromSQLQuery(QList<QSqlRecord>, QObject *receiver, int id);
+    void    resultFromSQLQuery(QList<QSqlRecord>, QObject *receiver, int id, void *data);
 public slots:
-    void    executeSQLQuery(const QString& Query, QObject *sender, int id);
+    void    executeSQLQuery(const QString& Query, QObject *sender, int id, const QString &dbName, void *data);
 private :
     QString         localDBName;
     QString         field;

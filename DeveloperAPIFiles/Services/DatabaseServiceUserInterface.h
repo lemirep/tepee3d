@@ -10,9 +10,9 @@ namespace Services
 class   DatabaseServiceUserInterface
 {
 public :
-    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id) = 0;
+    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data) = 0;
 // SIGNAL
-    //void        executeSQLQuery(const QString& query, QObject *sender);
+    //void        executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data);
 
 };
 }

@@ -13,9 +13,9 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->databaseCallBacks[CHECK_IF_DATABASE_FORMAT_EXISTS] = &SeriesPlugin::checkIfDatabaseSchemaExists;
     this->databaseCallBacks[GENERIC_REQUEST] = &SeriesPlugin::genericDatabaseCallBack;
     // CREATE SERIES MODEL
-    this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
+    this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", "", ""));
     // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
-    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
+    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", "", ""));
 }
 // ALL the function should be implemented
 
@@ -58,7 +58,7 @@ Plugins::PluginBase* SeriesPlugin::createNewInstance()
     return new SeriesPlugin();
 }
 
-void    SeriesPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
+void    SeriesPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
 {
     qDebug() << "Received DATABASE CallBack";
     (this->*this->databaseCallBacks[id])(result);
@@ -97,6 +97,8 @@ QObject *SeriesPlugin::getSearchSeriesModel() const
     return this->searchSeriesModel;
 }
 
+
+
 void SeriesPlugin::searchForShow(QString showName)
 {
     this->searchSeriesModel->clear();
@@ -106,11 +108,12 @@ void SeriesPlugin::searchForShow(QString showName)
                                       SEARCH_SHOW_REQUEST);
 }
 
-void SeriesPlugin::addShowToFollow(QString showName)
+void SeriesPlugin::addShowToFollow(QString slug)
 {
+    qDebug() << "SLug " << slug;
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/"\
                                                            + QString(TRAKT_API_KEY)\
-                                                           + "/" + showName.replace(" ", "-")\
+                                                           + "/" + slug\
                                                            + "/true")), GET_SHOW_SUMMARY);
 }
 
@@ -118,7 +121,7 @@ void SeriesPlugin::searchForEpisode(QString episodeName)
 {
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/search/episodes.json/"\
                                                            + QString(TRAKT_API_KEY) + "/"\
-                                                           + episodeName.replace(" ", "-"))),
+                                                           + episodeName)),
                                       SEARCH_EPISODE_REQUEST);
 }
 
@@ -141,10 +144,10 @@ SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
     if (!showObj.isEmpty())
     {
         QJsonObject imageObj = showObj.value("images").toObject();
-        SerieSubListedItem *showItem =  new SerieSubListedItem(showObj.value("imdb_id").toString(),
+        SerieSubListedItem *showItem =  new SerieSubListedItem(showObj.value("url").toString().replace("http://trakt.tv/show/", ""),
+                                                               showObj.value("imdb_id").toString(),
                                                                showObj.value("title").toString(),
                                                                imageObj.value("poster").toString());
-        qDebug() << showObj.value("title").toString();
         QJsonArray seasonsArray = showObj.value("seasons").toArray();
         foreach (QJsonValue seasonObj, seasonsArray)
         {
@@ -182,13 +185,14 @@ EpisodeListItem *SeriesPlugin::parseShowEpisode(const QJsonObject& episodeObj)
     if (!episodeObj.isEmpty())
     {
         QJsonObject image = episodeObj.value("images").toObject();
+
         return new EpisodeListItem(static_cast<int>(episodeObj.value("episode").toDouble()),
                                    static_cast<int>(episodeObj.value("number").toDouble()),
                                    static_cast<int>(episodeObj.value("season").toDouble()),
                                    episodeObj.value("title").toString(),
                                    episodeObj.value("overview").toString(),
                                    image.value("screen").toString(),
-                                   QDateTime::fromMSecsSinceEpoch(episodeObj.value("first_aired").toDouble()));
+                                   QDateTime::fromTime_t(episodeObj.value("first_aired").toDouble()));
     }
     return NULL;
 }

@@ -94,14 +94,6 @@ void Plugins::PluginManager::loadLocalPlugins()
 }
 
 /*!
- * Receives the \a result from the previous query with the given \a id to differentiate between queries.
- */
-void    Plugins::PluginManager::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
-{
-    qDebug() << "PluginManager Received Result";
-}
-
-/*!
  * Returns a new instance of plugin from \a plugin.
  */
 Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(Plugins::PluginBase *plugin)

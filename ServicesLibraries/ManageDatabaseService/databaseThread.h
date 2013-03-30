@@ -25,9 +25,9 @@ public:
     QObject*    getLibraryQObject();
 
 private slots:
-    void        transmitSQLResult(QList<QSqlRecord> result, QObject *receiver, int);
+    void        transmitSQLResult(QList<QSqlRecord> result, QObject *receiver, int, void *data);
 signals:
-    void        executeSQLQuery(const QString& query, QObject *sender, int);
+    void        executeSQLQuery(const QString& query, QObject *sender, int, const QString &, void *);
     void        threadInitialized();
 };
 

@@ -6,7 +6,7 @@
 /*!
  * \class ManageBDD
  * \code
- * #include <managebdd.h>
+ * #include <manageBDD.h>
  * \endcode
  * \brief The ManageBDD class, offers the ability to execute queries on
  * the SQLite database.
@@ -26,17 +26,6 @@
 ManageBDD::ManageBDD() : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    if (this->openDatabase("Tepee3D.sql"))
-    {
-        qDebug() << "ManageBDD::Database Opened";
-        if (!this->checkExistLocalDatabase())
-            qDebug() << "ManageBDD::Database corrupted";
-//            this->createLocalDatabase();
-        qDebug() << "ManageBDD::Thread running and database initialized";
-    }
-    else
-        qDebug() << "ManageBDD:: Database not opened";
-
 }
 
 /*!
@@ -53,7 +42,7 @@ ManageBDD::~ManageBDD()
  * Opens a database connection to the database specified by \a dbname.
  * If the connection is successfully opened, returns true, false otherwise.
  */
-bool ManageBDD::openDatabase(QString dbName)
+bool ManageBDD::openDatabase(const QString& dbName)
 {
     this->localDBName = QDir::currentPath() + "/" + dbName;
     qDebug() << localDBName;
@@ -71,9 +60,10 @@ bool ManageBDD::openDatabase(QString dbName)
  * along with the given \a id.
  */
 //execute a query in database and send the result by a signal
-void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
+void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data)
 {
-    if (this->dataBase.open())
+    QList<QSqlRecord> results;
+    if (this->openDatabase(dbName))
     {
         qDebug() << "Received query : {" << query << "}";
         QSqlQuery sqlQuery(this->dataBase);
@@ -82,53 +72,11 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id)
             qDebug() << "Query Execution Succeeded";
         else
             qDebug() << "YOU SHOULD CHECK YOUR QUERY";
-        QList<QSqlRecord> results;
         results.push_back(sqlQuery.record());
         while (sqlQuery.next())
             results.push_back(sqlQuery.record());
-        emit resultFromSQLQuery(results, sender, id);
+        this->dataBase.close();
     }
-}
-
-/*!
- * Creates the Database for the first time if it was empty.
- */
-//create local database, in this method you should indicate which table you want create
-void ManageBDD::createLocalDatabase()
-{
-    if (dataBase.open())
-    {
-        QSqlQuery query(this->dataBase);
-        if (query.prepare("CREATE TABLE IF NOT EXISTS exist (id INTEGER UNIQUE PRIMARY KEY)"))
-
-            if (query.exec())
-            {
-                if(query.prepare("CREATE TABLE IF NOT EXISTS `test` (`id` text NOT NULL PRIMARY KEY  , `name` text NOT NULL)"))
-                {
-                    query.exec();
-                    std::cout << "Databasse creation successful" << std::endl;
-                }
-                else
-                    std::cout << "Fail to create database " << std::endl;
-            }
-    }
-}
-
-/*!
- * Checks wether the database is initialized of if it needs to be filled.
- * Returns true if this is the case, false otherwise.
- */
-//Check if local database exists
-bool ManageBDD::checkExistLocalDatabase()
-{
-    if (dataBase.open())
-    {
-        qDebug() << "ManageBDD::Database is already created";
-        QSqlQuery qry;
-        qry.prepare( "SELECT * FROM room" );
-        return (qry.exec());
-    }
-    qDebug() << "ManageBDD::Databasse is not created yet";
-    return (false);
+    emit resultFromSQLQuery(results, sender, id, data);
 }
 

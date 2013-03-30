@@ -13,12 +13,13 @@ public:
     enum    SeriesModelItemRoles
     {
         serieId = Qt::UserRole + 1,
+        slug,
         imdbId,
         serieName,
         imageUrl
     };
 
-    explicit SerieSubListedItem(QString imdbId, QString serieName, QString imageUrl, QObject *parent = 0);
+    explicit SerieSubListedItem(QString slug, QString imdbId, QString serieName, QString imageUrl, QObject *parent = 0);
     ~SerieSubListedItem();
 
     int             id() const;
@@ -32,6 +33,7 @@ private :
     QString m_serieName;
     QString m_imdbId;
     QString m_imageUrl;
+    QString m_slug;
 
     Models::SubListedListModel*  seasonModel;
     static int nextSerieId;

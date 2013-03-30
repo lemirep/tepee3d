@@ -35,7 +35,7 @@ public:
     QString                 getRoomPluginQmlFile() const;
     QString                 getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface
-    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
+    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
     void setColor(QString color);
