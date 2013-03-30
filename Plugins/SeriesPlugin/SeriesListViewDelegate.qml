@@ -34,9 +34,38 @@ Item
             left : parent.left
             verticalCenter : parent.verticalCenter
             leftMargin : 10
+            right : followed_series_delegate_remove_button.left
+            rightMargin : 10
         }
         color : "white"
         text : series_name
+    }
+
+    Image
+    {
+        id : followed_series_delegate_remove_button
+        source : "red_cross.png"
+        scale : followed_series_delegate_remove_button_ma.pressed ? 0.9 : 1
+        height : parent.height - 20
+        fillMode: Image.PreserveAspectFit
+        anchors
+        {
+            verticalCenter : parent.verticalCenter
+            right : followed_series_delegate_pic.left
+            rightMargin : 5
+        }
+
+        MouseArea
+        {
+            id : followed_series_delegate_remove_button_ma
+            anchors.fill: parent
+            onClicked:
+            {
+                SeriesPlugin.removeShowFromFollowedModel(serieId)
+                season_list_view.model = ""
+                episodes_series_listview.model = ""
+            }
+        }
     }
 
     Image
@@ -58,7 +87,14 @@ Item
     MouseArea
     {       
         id : followed_series_delegate_ma
-        anchors.fill: parent
+        anchors
+        {
+            left : parent.left
+            right : followed_series_delegate_remove_button.left
+            top : parent.top
+            bottom : parent.bottom
+        }
+
         onClicked:
         {
             cube_effect.texture = img_src

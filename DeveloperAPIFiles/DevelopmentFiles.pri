@@ -43,6 +43,11 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/FileExplorer.qml \
                 $$PWD/qml/FileDelegate.qml \
                 $$PWD/qml/FolderDelegate.qml \
-                $$PWD/qml/FileLoader.qml
+                $$PWD/qml/FileLoader.qml \
+                $$PWD/qml/Resources/Pictures/plus.png \
+                $$PWD/qml/Resources/Pictures/mag_glass.png \
+                $$PWD/qml/Resources/Pictures/round.png \
+                $$PWD/qml/Resources/Pictures/red_cross.png
+
 
 QT += sql

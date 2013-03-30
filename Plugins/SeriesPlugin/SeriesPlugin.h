@@ -55,6 +55,8 @@ public:
     Q_INVOKABLE                 void     searchForShow(QString showName);
     Q_INVOKABLE                 void     addShowToFollow(QString showName);
     Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
+    Q_INVOKABLE                 void     removeShowFromSearchResult(int showId);
+    Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
 
 private:
     Models::SubListedListModel* followedSeriesModel;

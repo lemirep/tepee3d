@@ -10,6 +10,18 @@ Item
     scale : serie_season_delegate_ma.pressed ? 0.9 : 1.0
     Behavior on scale {SmoothedAnimation {velocity : 10}}
 
+    Text
+    {
+        id : season_nbr_text
+        color : "white"
+        anchors
+        {
+            horizontalCenter : parent.horizontalCenter
+            bottom : parent.bottom
+        }
+        text : season
+    }
+
     Image
     {
         id : serie_season_delegate_pic
@@ -17,7 +29,14 @@ Item
         fillMode: Image.PreserveAspectFit
         height : parent.height - 10
         asynchronous: true
-        anchors.centerIn: parent
+        anchors
+        {
+         horizontalCenter : parent.horizontalCenter
+         top : parent.top
+         bottom : season_nbr_text.top
+         bottomMargin : 2
+         topMargin : 2
+        }
     }
 
     MouseArea

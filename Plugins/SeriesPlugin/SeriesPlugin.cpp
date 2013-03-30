@@ -122,6 +122,20 @@ void SeriesPlugin::searchForEpisode(QString episodeName)
                                       SEARCH_EPISODE_REQUEST);
 }
 
+void SeriesPlugin::removeShowFromSearchResult(int showId)
+{
+    int idx = -1;
+    if ((idx = this->searchSeriesModel->rowIndexFromId(showId)) != -1)
+        this->searchSeriesModel->removeRow(idx);
+}
+
+void SeriesPlugin::removeShowFromFollowedModel(int showId)
+{
+    int idx = -1;
+    if ((idx = this->followedSeriesModel->rowIndexFromId(showId)) != -1)
+        this->followedSeriesModel->removeRow(idx);
+}
+
 SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
 {
     if (!showObj.isEmpty())

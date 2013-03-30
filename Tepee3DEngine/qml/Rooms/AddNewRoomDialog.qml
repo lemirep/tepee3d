@@ -15,7 +15,8 @@ Item
         opacity : 1
         source : "../Resources/Pictures/panel_bg2.png"
     }
-    TextInput {
+    Text
+    {
         id : addNewRoomDialogTitle
         color: "grey"
         text: "New room name"

@@ -95,6 +95,9 @@ Item3D
         blending : true
     }
 
+
+
+
     Item
     {
         id : followed_series_item
@@ -106,56 +109,143 @@ Item3D
         y : (mainWindow.height - height) / 2
         transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 15}
 
-        Rectangle
+        Item
         {
-            color : "grey"
-            opacity : 0.2
-            anchors.fill: parent
-        }
-        ListView
-        {
-            id : search_result_listview
-            opacity : addingShow ? 1 : 0
-            enabled : addingShow
-            clip : true
-            anchors.fill : parent
-            model : SeriesPlugin.getSearchSeriesModel();
-            delegate : SeriesSearchListViewDelegate {
-                serieId : model.serieId
-                img_src : model.imageUrl
-                series_name: model.serieName
-                width : parent.width
-                height : 60
+            id : search_bar_container
+            smooth : true
+            Rectangle
+            {
+                color : "grey"
+                opacity : 0.2
+                anchors.fill: parent
             }
-            spacing : 10
+            width : parent.width
+            height : 40
+            anchors.bottom : parent.top
+            anchors.bottomMargin: 5
+
+            Item
+            {
+                id : search_bar_series_item
+                enabled : isFocused
+                opacity : (isFocused && addingShow) ? 1 : 0
+
+                anchors
+                {
+                    fill : parent
+                    margins : 5
+                }
+                Rectangle
+                {
+                    color : "black"
+                    opacity : 0.3
+                    smooth : true
+                    anchors.fill: parent
+                    radius : 15
+                    border
+                    {
+                        width : 2
+                        color : "gray"
+                    }
+                }
+
+                TextInput
+                {
+                    id : search_input
+                    width : parent.width - 20
+                    wrapMode: TextInput.Wrap
+                    anchors
+                    {
+                        top : parent.top
+                        left : parent.left
+                        //                verticalCenter : parent.verticalCenter
+                        leftMargin : 10
+                        bottom : parent.bottom
+                    }
+                    color : "white"
+                    font.pointSize: 12
+                }
+
+                Image
+                {
+                    width : 40
+                    height : 40
+                    scale : search_button_ma.pressed ? 0.9 :1
+                    source : "mag_glass.png"
+                    anchors
+                    {
+                        right : parent.right
+                        verticalCenter : parent.verticalCenter
+                    }
+                    MouseArea
+                    {
+                        id : search_button_ma
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            SeriesPlugin.searchForShow(search_input.text)
+                        }
+                    }
+                }
+            }
         }
 
-        ListView
+        Item
         {
-            id : followed_series_listview
-            opacity : addingShow ? 0 : 1
-            enabled : !addingShow
-            smooth : true
-            clip : true
-            anchors.fill : parent
-            addDisplaced: Transition {
-                NumberAnimation { properties: "x,y"; duration: 1000 }
+            id : listview_containers
+            anchors.fill: parent
+            Rectangle
+            {
+                color : "grey"
+                opacity : 0.2
+                anchors.fill: parent
             }
-            model : SeriesPlugin.getFollowedSeriesModel();
-            delegate : SeriesListViewDelegate {
-                serieId : model.serieId
-                img_src : model.imageUrl
-                series_name: model.serieName
-                width : parent.width
-                height : 60
+            ListView
+            {
+                id : search_result_listview
+                opacity : addingShow ? 1 : 0
+                enabled : addingShow
+                clip : true
+                anchors.fill : parent
+                model : SeriesPlugin.getSearchSeriesModel();
+                delegate : SeriesSearchListViewDelegate {
+                    serieId : model.serieId
+                    img_src : model.imageUrl
+                    series_name: model.serieName
+                    width : parent.width
+                    height : 60
+                }
+                spacing : 10
             }
-            spacing : 10
+
+            ListView
+            {
+                id : followed_series_listview
+                opacity : addingShow ? 0 : 1
+                enabled : !addingShow
+                smooth : true
+                clip : true
+                anchors.fill : parent
+                addDisplaced: Transition {
+                    NumberAnimation { properties: "x,y"; duration: 1000 }
+                }
+                model : SeriesPlugin.getFollowedSeriesModel();
+                delegate : SeriesListViewDelegate {
+                    serieId : model.serieId
+                    img_src : model.imageUrl
+                    series_name: model.serieName
+                    width : parent.width
+                    height : 60
+                }
+                spacing : 10
+            }
         }
-        Rectangle
+        Image
         {
             height : 50
             width : 50
             scale : add_show_ma.pressed ? 0.9 : 1
+            source : addingShow ? "red_cross.png" : "plus.png"
             anchors.top: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
             MouseArea
@@ -244,65 +334,4 @@ Item3D
             }
         }
     }
-
-    Item
-    {
-        id : search_bar_series_item
-        enabled : isFocused
-        opacity : (isFocused && addingShow) ? 1 : 0
-        width : mainWindow.width / 4
-        height : 40
-        x : (mainWindow.width / 2) - (width / 2)
-        y : 70
-
-        Rectangle
-        {
-            color : "black"
-            opacity : 0.4
-            smooth : true
-            anchors.fill: parent
-            radius : 15
-        }
-
-        TextInput
-        {
-            id : search_input
-            width : parent.width - 20
-            wrapMode: TextInput.Wrap
-            anchors
-            {
-                top : parent.top
-                left : parent.left
-                //                verticalCenter : parent.verticalCenter
-                leftMargin : 10
-                bottom : parent.bottom
-            }
-            color : "white"
-            font.pointSize: 12
-        }
-
-        Rectangle
-        {
-            color : "red"
-            width : 40
-            height : 40
-            scale : search_button_ma.pressed ? 0.9 :1
-            anchors
-            {
-                right : parent.right
-                verticalCenter : parent.verticalCenter
-            }
-            MouseArea
-            {
-                id : search_button_ma
-                anchors.fill: parent
-                onClicked:
-                {
-                    SeriesPlugin.searchForShow(search_input.text)
-                }
-            }
-        }
-
-    }
-
 }

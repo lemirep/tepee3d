@@ -26,19 +26,44 @@ Item
         smooth : true
     }
 
+
+    Image
+    {
+        id : add_show_to_follow
+        scale : add_show_to_follow_ma.pressed ? 0.9 : 1.0
+        height : parent.height - 20
+        fillMode: Image.PreserveAspectFit
+        source : "plus.png"
+        anchors
+        {
+            left : parent.left
+            verticalCenter : parent.verticalCenter
+        }
+
+        MouseArea
+        {
+            id : add_show_to_follow_ma
+            anchors.fill: parent
+            onClicked :
+            {
+                SeriesPlugin.addShowToFollow(series_name)
+                SeriesPlugin.removeShowFromSearchResult(serieId)
+            }
+        }
+    }
+
     Text
     {
         id : search_series_delegate_text
         anchors
         {
-            left : parent.left
+            left : add_show_to_follow.right
             verticalCenter : parent.verticalCenter
             leftMargin : 10
         }
         color : "white"
         text : series_name
     }
-
     Image
     {
         id : search_series_delegate_pic
@@ -54,18 +79,21 @@ Item
         asynchronous : true
         source : img_src
     }
-
     MouseArea
     {
         id : search_series_delegate_ma
-        anchors.fill: parent
+        anchors
+        {
+            left : add_show_to_follow.right
+            right : parent.right
+            top : parent.top
+            bottom : parent.bottom
+        }
         onClicked:
         {
             cube_effect.texture = img_src
             rotate_cube.restart()
             search_result_listview.currentIndex = index;
-            console.log("serieId " + serieId)
-            SeriesPlugin.addShowToFollow(series_name)
         }
     }
 }

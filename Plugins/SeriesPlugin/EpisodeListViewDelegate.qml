@@ -42,6 +42,31 @@ Item
 
     Text
     {
+        id : episode_delegate_nbr_text
+        anchors
+        {
+            top : parent.top
+            right : parent.right
+            margins : 2
+        }
+        color : "white"
+        text : episodeNumber
+    }
+    Rectangle
+    {
+        anchors.fill: episode_delegate_nbr_text
+        border
+        {
+            width : 1
+            color : "white"
+        }
+        radius : width / 2
+        color : "#0066CC"
+        opacity : 0.6
+    }
+
+    Text
+    {
         id : episode_delegate_text
         anchors
         {
@@ -53,6 +78,20 @@ Item
         }
         color : "white"
         text : episodeTitle
+    }
+
+    Text
+    {
+        id : episode_delegate__airing_text
+        anchors
+        {
+            right : parent.right
+            bottom : parent.bottom
+            rightMargin : 2
+            bottomMargin : 2
+        }
+        color : "white"
+        text : episodeAiring.getHours() + ":" + episodeAiring.getMinutes() + "-" + episodeAiring.getDate() + "/" + episodeAiring.getMonth() + "/" + episodeAiring.getFullYear()
     }
 
     MouseArea
