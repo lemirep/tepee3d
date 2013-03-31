@@ -24,13 +24,10 @@ public:
     QVariant    data(const QModelIndex &index, int role) const;
     QModelIndex indexFromItem(ListItem *item) const;
 
-
     void        appendRow(ListItem *item);
     void        appendRows(QList<ListItem *> &items);
     void        insertRow(int row, ListItem *item);
     QHash<int, QByteArray>        roleNames() const;
-
-
     bool        removeRow(int row, const QModelIndex &parent = QModelIndex());
     bool        removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
     void        clear();

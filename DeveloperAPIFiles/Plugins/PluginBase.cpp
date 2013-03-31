@@ -40,7 +40,6 @@
  * Returns the id of the plugins.
  */
 
-
 /*!
  * \fn QString Plugins::PluginBase::getPluginName()
  *
@@ -73,39 +72,32 @@
  */
 
 /*!
- * \fn void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
- *
- * Exposes QML content to the QML \a context if the plugins needs it. If you wish to easily pass
- * data between your C++ plugin and its QML file, you should create a mapping class and expose it to the \a context.
- *
- * For more information, consider reading the following link : \l {http://qt-project.org/doc/qt-5.0/qtqml/qtqml-cppintegration-exposecppattributes.html}
- */
-
-/*!
- * \fn void Plugins::PluginBase::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
+ * \fn void Plugins::PluginBase::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
  *
  * Called by the Database Service Library to transmit the \a result of a previously executed query as well
- * as and \a id to help recognize the query.
+ * as and \a id and \a data parameters to help recognize the query.
  */
 
 /*!
- * \fn void Plugins::PluginBase::receiveResultFromHttpRequest(QNetworkReply *reply)
+ * \fn void Plugins::PluginBase::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
  *
  * Triggered when the \a reply of a previously executed network request is received.
+ * The \a requestId and the \a data parameter that might have optionaly been passed when executing the request, are forwarded
+ * back.
  */
 
 /*!
- * \fn void Plugins::PluginBase::executeSQLQuery(const QString& query, QObject *sender, int id)
+ * \fn void Plugins::PluginBase::executeSQLQuery(const QString& query, QObject *sender, int id, const QString& dbName, void *data = NULL)
  *
- * Emitted when a database \a query needs to be executed. The result of its execution will be transmitted to the \a sender
- * along with an \a id to recognize the query.
+ * Emitted when a database \a query needs to be executed on a the database names \a dbName. The result of its execution will be transmitted to the \a sender
+ * along with an \a id to recognize the query. Note that an optional \a data pointer can be passed and will be retransmitted with the result of the query.
  */
 
 /*!
- * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender)
+ * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
  *
  * Emitted when a network \a request needs to be performed, with the \a requestType to identify the type HTTP request and a \a multipart which can be null to transmit
- * data through the request. The reply will be transmitted to \a sender.
+ * data through the request. The reply will be transmitted to \a sender along with the \a data pointer and \a requestId of his choice.
  */
 
 /*!
@@ -115,9 +107,22 @@
  */
 
 /*!
- * \fn void Plugins::PluginBase::focusStateChanged(QVariant focusState)
+ * \fn void Plugins::PluginBase::focusStateChanged(QVariant focusState, QVariant previousState)
  *
- * Emitted when the \a focusState of a plugin has changed.
+ * Emitted when the \a focusState of a plugin has changed with the \a previousState in which the plugin was.
+ */
+
+
+/*!
+ * \fn void Plugins::PluginBase::roomEntered()
+ *
+ * Emitted when the room in which the PluginBase instance lives is entered.
+ */
+
+/*!
+ * \fn void Plugins::PluginBase::roomLeft()
+ *
+ * Emitted when the room in which the PluginBase instance lives is left.
  */
 
 /*!
@@ -165,7 +170,7 @@ void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState req
 }
 
 /*!
- * When a plugin wishes to change its focusState, call this method with the required \a requestedState.
+ * Call this method When a plugin wishes to change its focusState, for the given \a requestedState.
  */
 void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
@@ -198,7 +203,7 @@ void Plugins::PluginBase::onFocusedFocusState()
 }
 
 /*!
- * Sends Http Get \a request to network manager, \a requestId will be transmitted with the reply to identify the request.
+ * Sends Http Get \a request to network manager, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId, void *data)
 {
@@ -206,7 +211,7 @@ void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &reques
 }
 
 /*!
- * Sends Http Delete \a request to network manager, \a requestId will be transmitted with the reply to identify the request.
+ * Sends Http Delete \a request to network manager, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId, void *data)
 {
@@ -214,7 +219,7 @@ void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &req
 }
 
 /*!
- * Sends Http Post \a request to network manager with \a multiPart for data, \a requestId will be transmitted with the reply to identify the request.
+ * Sends Http Post \a request to network manager with \a multiPart for data, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, void *data)
 {
@@ -222,7 +227,7 @@ void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &reque
 }
 
 /*!
- * Sends Http Put \a request to network manager with \a multiPart for data, \a requestId will be transmitted with the reply to identify the request.
+ * Sends Http Put \a request to network manager with \a multiPart for data, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
 void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, void *data)
 {
@@ -238,8 +243,10 @@ bool    Plugins::PluginBase::needsUpdating() const
 }
 
 /*!
- * Exposes the plugin C++ class to the QML Context. That way the methods marked as
+ * Exposes the plugin C++ class to the QML Context \a context. That way the methods marked as
  * QINVOKABLE of the plugin class can be called by prefixing them with the PluginNames
+ *
+ *For more information, consider reading the following link : \l {http://qt-project.org/doc/qt-5.0/qtqml/qtqml-cppintegration-exposecppattributes.html}
  */
 void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
 {
@@ -255,9 +262,10 @@ Plugins::PluginEnums::PluginState    Plugins::PluginBase::getFocusState()   cons
 }
 
 /*!
- * \fn void Plugins::PluginBase::roomEntered()
+ * \fn void Plugins::PluginBase::onRoomEntered()
  *
  * Triggered when the room in which the plugin is loaded is entered. The focus state is by default set to idle.
+ * The corresponding roomEntered signal is emitted here.
  */
 void Plugins::PluginBase::onRoomEntered()
 {
@@ -266,9 +274,10 @@ void Plugins::PluginBase::onRoomEntered()
 }
 
 /*!
- * \fn void Plugins::PluginBase::roomLeft()
+ * \fn void Plugins::PluginBase::onRoomLeft()
  *
  * Emitted when the room in which the plugin is loaded is left. The focus state is by default set to idle.
+ * The corresponding roomLeft signal is emitted here.
  */
 void Plugins::PluginBase::onRoomLeft()
 {

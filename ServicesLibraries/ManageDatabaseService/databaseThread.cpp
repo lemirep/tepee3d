@@ -30,18 +30,20 @@
  * User implementing this interface can then execute SQL queries on the database
  * by emitting the following signal :
  * \code
- * void executeSQLQuery(const QString& query, QObject *sender, int id);
+ * void executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data);
  * \endcode
+ *
+ * The id and data parameters are just there to ease the task of the user which can pass any value he wants.
  *
  * \inmodule Tepee3D
  */
 
 /*!
- * \fn void DatabaseServiceUserInterface::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id)
+ * \fn void DatabaseServiceUserInterface::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
  *
- * Method that will be called when a
+ * Method that will be called when a the SQL query has been executed to pass on the obtained \a result.
+ * The \a id and the \a data parameters that have been passed to the executeSqlQuery signal are forwarded.
  */
-
 
 /*!
  * Constructs a new DatabaseThread instance.
@@ -133,7 +135,7 @@ void DatabaseThread::run()
 
 /*!
  * Triggered when a SQL result is transmitted from the Thread to the main thread.
- * Transmits \a result to \a receiver with \a id.
+ * Transmits \a result to \a receiver with \a id \a and data.
  */
 void    DatabaseThread::transmitSQLResult(QList<QSqlRecord> result, QObject *receiver, int id, void *data)
 {

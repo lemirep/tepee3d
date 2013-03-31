@@ -169,7 +169,7 @@ bool Room::RoomLoader::parseLine(std::string line, bool &header, Room::RoomBase 
     return true;
 }
 
-/*!
+/*
  * \brief RoomLoader::loadRoomFromFile
  * Search the room file in room directory  according to the name. If the file was founded and was correct. A room is created according to the data and is inserted into the roomloader.
  */

@@ -44,7 +44,7 @@
  \li \c Install ActivePerl \l {http://www.activestate.com/activeperl/downloads}
  \li \c Open a file explorer and go to the directory where Qt 5 was installed ex: ~/QtSQK/Qt5
  \li \c Move to the sub directory containing Qt 5 ex:~/QtSQK/Qt5/5.0.0/gcc_64
- \li \c Using a git software, clone the Tepee3D Qt3D Module's sources \l {https://git.gitorious.org/~lemirep/qt/tepee3d-qt3d.git}
+ \li \c Using a git software, clone the Tepee3D Qt3D Module's sources \l {https://qt.gitorious.org/qt/tepee3d-qt3d}
  \li \c Launch QtCreator and open the qt3d.pro file in the tepee3d-qt3d directory using either the menu File -> Open File or Project or Ctrl + O
  \li \c Go to the Projects tab on the left of QtCreator's main window
  \li \c In the build settings deselect the shadow build checkbox.

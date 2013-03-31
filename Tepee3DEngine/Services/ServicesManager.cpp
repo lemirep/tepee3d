@@ -25,7 +25,7 @@
  * Note that when the library has been initialized, it must signals it to the parent by triggering the slot
  * \code
  * void libraryInitialized();
- * \encode
+ * \endcode
  * Off the parent instance. Otherwise the Tepee3DEngine will wait undefinetely to launch the graphical interface.
  *
  */
@@ -57,6 +57,13 @@
  * service.
  *
  * \inmodule Tepee3D
+ */
+
+/*!
+ * \fn void  Services::ServicesManager::librariesInitialized()
+ *
+ * Emitted when all services libraries have been properly intialized. UI rendering
+ * should only start once this signal has been emitted.
  */
 
 Services::ServicesManager* Services::ServicesManager::instance = NULL;
@@ -143,7 +150,7 @@ void Services::ServicesManager::libraryInitialized()
 /*!
  * Loads and initializes the various service libraries present in the libraries directory of the application.
  */
-bool    Services::ServicesManager::loadServicesLibraries()
+void    Services::ServicesManager::loadServicesLibraries()
 {
     QDir    serviceDirectory = QApplication::applicationDirPath();
 
@@ -181,5 +188,4 @@ bool    Services::ServicesManager::loadServicesLibraries()
             qCritical() << "FAILED TO LOAD LIBRARY";
         }
     }
-    return true;
 }

@@ -1,7 +1,7 @@
 #include "ViewToModelMapper.h"
 
 /*!
- * \class View::ViewToModelMapp
+ * \class View::ViewToModelMapper
  *
  * \code
  * #include <ViewToModelMapper.h>

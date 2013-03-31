@@ -78,9 +78,11 @@
 
 /*!
  * \class Models::ListModel
+ *
  * \code
  * #include <ListModel.h>
  * \endcode
+ *
  * \brief The Models::ListModel class is a utility model class
  *
  * The Models::ListModel class provides an easy way to create a C++ model
@@ -90,7 +92,6 @@
  *
  * \sa Models::SubListedListModel
  */
-
 
 /*!
  * Instanciates a new ListModel and sets the list row prototype to \a prototype.
@@ -121,7 +122,6 @@ Models::ListModel::~ListModel()
  * Returns number of rows in the model.
  * \a index is not used but needed to reimplement the method.
  */
-
 int         Models::ListModel::rowCount(const QModelIndex &) const
 {
     return this->items.size();
@@ -130,7 +130,6 @@ int         Models::ListModel::rowCount(const QModelIndex &) const
 /*!
  * Returns a QVariant containing the data associed to \a role for row at \a index.
  */
-
 QVariant    Models::ListModel::data(const QModelIndex &index, int role) const
 {
     if (index.row() >= 0 && index.row() < this->items.size())
@@ -141,7 +140,6 @@ QVariant    Models::ListModel::data(const QModelIndex &index, int role) const
 /*!
  * Returns a hash containing the roleNames of the Model.
  */
-
 QHash<int, QByteArray>  Models::ListModel::roleNames() const
 {
     return this->prototype->roleNames();
@@ -150,7 +148,6 @@ QHash<int, QByteArray>  Models::ListModel::roleNames() const
 /*!
  * Appends a single row \a item to the Model.
  */
-
 void        Models::ListModel::appendRow(Models::ListItem *item)
 {
     if (item != NULL)

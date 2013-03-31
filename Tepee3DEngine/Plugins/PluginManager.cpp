@@ -31,14 +31,6 @@
  * \inmodule Tepee3D
  */
 
-
-/*!
- * \fn Plugins::PluginManager::executeSQLQuery(const QString &query, QObject *sender, int id)
- *
- * Emitted to perform a \a query on the database. The result will be transmitted to \a sender with the accompanying \a id.
- */
-
-
 Models::ListModel* Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
 Models::ListModel* Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
 Plugins::PluginManager* Plugins::PluginManager::instance = NULL;

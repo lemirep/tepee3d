@@ -8,6 +8,8 @@
  *
  * \brief Stores temporarly request information to handle asynchronously the request and
  * transmit the result to the sender on completion.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!

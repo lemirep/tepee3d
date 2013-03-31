@@ -76,9 +76,3 @@ QObject*        Models::SubListedListModel::subModelFromId(int id)
         return item->submodel();
     return NULL;
 }
-
-/*!
- * \fn Models::SubListedListModel::~SubListedListItem()
- *
- * Destroys a Models::SubListedListModel instance.
- */

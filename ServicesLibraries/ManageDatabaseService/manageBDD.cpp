@@ -39,7 +39,7 @@ ManageBDD::~ManageBDD()
 }
 
 /*!
- * Opens a database connection to the database specified by \a dbname.
+ * Opens a database connection to the database specified by \a dbName.
  * If the connection is successfully opened, returns true, false otherwise.
  */
 bool ManageBDD::openDatabase(const QString& dbName)
@@ -57,7 +57,7 @@ bool ManageBDD::openDatabase(const QString& dbName)
 
 /*!
  * Executes \a query on the database. The result will be transmitted to \a sender
- * along with the given \a id.
+ * along with the given \a id and \a data parameters.
  */
 //execute a query in database and send the result by a signal
 void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data)

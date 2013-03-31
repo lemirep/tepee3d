@@ -3,12 +3,15 @@
 #include <QDebug>
 
 /*!
- * \class
+ * \class WebServiceManager
  *
- * \brief WebServiceManager::WebServiceManager is a Web Service Library.
+ * \brief WebServiceManagerr is a Web Service Library.
  *
  * WebServiceManager::WebServiceManager is a Web Service Library. It offers users to possiblity to make PUT POST DELETE GET Http requests
- * by implementing the Services::WebServiceUserInterface interface and subscribing to the service through the Services::ServicesManager.
+ * by implementing the Services::WebServiceUserInterface interface and subscribing to the service through the Services::ServicesManager which
+ * is done automatically for Tepee3D plugins.
+ *
+ * \inmodule Tepee3D
  *
  * \sa Services::WebServiceUserInterface
  * \sa Services::ServicesManager
@@ -22,36 +25,39 @@
  * \endcode
  *
  * \brief Interface subscribers have to implement in order to properly handle and use this service.
+ *
+ * \inmodule Tepee3D
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::receiveResultFromHttpRequest(QNetworkReply *reply)
+ * \fn void Services::WebServiceUserInterface::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
  *
- * Receives the \a reply of the last executed request.
+ * Receives the \a reply of the last executed request and forward the \a requestId and \a data parameters that were passed
+ * when executing the request.
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::executeHttpGetRequest(const QNetworkRequest& request)
+ * \fn void Services::WebServiceUserInterface::executeHttpGetRequest(const QNetworkRequest& request, int requestId, void *data)
  *
- * Performs a GET Http \a request.
+ * Performs a GET Http \a request. \a requestId and \a data will be transmitted along with the result of the request.
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::executeHttpDeleteRequest(const QNetworkRequest& request)
+ * \fn void Services::WebServiceUserInterface::executeHttpDeleteRequest(const QNetworkRequest& request, int requestId, void *data)
  *
- * Performs a DELETE Http \a request.
+ * Performs a DELETE Http \a request. \a requestId and \a data will be transmitted along with the result of the request.
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart)
+ * \fn void Services::WebServiceUserInterface::executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data)
  *
- * Performs a PUT Http \a request. If \a multiPart is not NULL its data will be transmitted with the request.
+ * Performs a PUT Http \a request. If \a multiPart is not NULL its data will be transmitted with the request. \a requestId and \a data will be transmitted along with the result of the request.
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart)
+ * \fn void Services::WebServiceUserInterface::executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data)
  *
- * Performs a POST Http \a request. If \a multiPart is not NULL its data will be transmitted with the request.
+ * Performs a POST Http \a request. If \a multiPart is not NULL its data will be transmitted with the request. \a requestId and \a data will be transmitted along with the result of the request.
  */
 
 
@@ -78,13 +84,15 @@ QNetworkAccessManager*  WebServiceManager::getInstance()
 
 
 /*!
- * Performs a GET Http \a request, the reply will be transmitted to \a sender.
+ * Performs a GET Http \a request, the reply will be transmitted to \a sender along with \a requestId and \a data.
+ * \a multipart is not used but has to be present the the prototype of the method which is generic for all HTTP requests
  */
 
 // NETWORK REPLYREPEATER HAS TO BE DELETED IN PLUGIN
 // QNETWORKREPLY HAS TO BE DELETED USING DELETELATER
-void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*, QObject *sender, int requestId, void *data)
+void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multipart, QObject *sender, int requestId, void *data)
 {
+    Q_UNUSED(multipart)
     qDebug() << "Executing HttpGetRequest";
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data);
     QNetworkReply *reply = this->getInstance()->get(request);
@@ -92,10 +100,13 @@ void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*, QObj
 }
 
 /*!
- * Performs a DELETE Http \a request, the reply will be transmitted to \a sender.
+ * Performs a DELETE Http \a request, the reply will be transmitted to \a sender along with \a requestId and \a data.
+ * \a multipart is not used but has to be present the the prototype of the method which is generic for all HTTP requests
+ * method.
  */
-void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart*, QObject *sender, int requestId, void *data)
+void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
 {
+    Q_UNUSED(multipart)
     qDebug() << "Executing HttpGetDelete";
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data);
     QNetworkReply*reply = this->getInstance()->deleteResource(request);
@@ -103,7 +114,7 @@ void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart*, Q
 }
 
 /*!
- * Performs a POST Http \a request, the reply will be transmitted to \a sender. If \a multiPart is not NULL
+ * Performs a POST Http \a request, the reply will be transmitted to \a sender along with \a requestId and \a data. If \a multiPart is not NULL
  * its data will be transmitted with the request.
  */
 void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
@@ -115,7 +126,7 @@ void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *mult
 }
 
 /*!
- * Performs a PUT Http \a request, the reply will be transmitted to \a sender. If \a multiPart is not NULL
+ * Performs a PUT Http \a request, the reply will be transmitted to \a sender along with \a requestId and \a data. If \a multiPart is not NULL
  * its data will be transmitted with the request.
  */
 void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
