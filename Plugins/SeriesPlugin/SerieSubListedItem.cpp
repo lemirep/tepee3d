@@ -3,10 +3,9 @@
 
 int SerieSubListedItem::nextSerieId = 0;
 
-SerieSubListedItem::SerieSubListedItem(QString slug, QString imdbId, QString serieName, QString imageUrl, QObject *parent) : Models::SubListedListItem(parent)
+SerieSubListedItem::SerieSubListedItem(QString slug, QString serieName, QString imageUrl, QObject *parent) : Models::SubListedListItem(parent)
 {
     this->m_serieId = nextSerieId++;
-    this->m_imdbId = imdbId;
     this->m_serieName = serieName;
     this->m_imageUrl = imageUrl;
     this->m_slug = slug;
@@ -35,8 +34,6 @@ QVariant SerieSubListedItem::data(int role) const
         return this->m_slug;
     case serieName:
         return this->m_serieName;
-    case imdbId:
-        return this->m_imdbId;
     case imageUrl:
         return this->m_imageUrl;
     default :
@@ -49,7 +46,6 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
     QHash<int, QByteArray> hashRoles;
 
     hashRoles[serieId] = "serieId";
-    hashRoles[imdbId] = "imdbId";
     hashRoles[serieName] = "serieName";
     hashRoles[imageUrl] = "imageUrl";
     hashRoles[slug] = "slug";

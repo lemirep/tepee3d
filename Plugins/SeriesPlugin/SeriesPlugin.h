@@ -26,6 +26,7 @@
 #define CHECK_IF_DATABASE_FORMAT_EXISTS 3
 #define GENERIC_REQUEST 4
 
+#define DATABASE_NAME "SeriesPlugin.sql"
 #define TRAKT_API_KEY "9a67e6b3bc1cbd1d92fdc56a03b51267"
 
 class SeriesPlugin  : public Plugins::PluginBase
@@ -63,7 +64,7 @@ private:
     Models::SubListedListModel* searchSeriesModel;
 
     QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
-    QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>)> databaseCallBacks;
+    QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
 
     SerieSubListedItem *        parseShow(const QJsonObject& showObj);
     SeasonSubListedItem*        parseShowSeason(const QJsonObject& seasonObj);
@@ -74,12 +75,23 @@ private:
     void                        getShowSummaryCallBack(QNetworkReply *reply, void *data);
     void                        searchForEpisodeCallBack(QNetworkReply *reply, void *data);
 
+
+    // DATABASE
+    void                        addShowToDatabase(SerieSubListedItem *show);
+    void                        addSeasonToDatabase(SeasonSubListedItem *season, const QString &showSlug);
+    void                        addEpisodeToDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
+    void                        updateEpisodeInDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
+
+    void                        retrieveShowsFromDababase();
+    void                        retrieveShowSeasonsFromDatabase(int showDbId, SerieSubListedItem *show);
+    void                        retrieveShowEpisodesFromDatabase(int showDbId, int seasonDbId, SeasonSubListedItem* season);
+
     // DATABASE CALLBACK
-    void                        retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result);
-    void                        retrieveSeasonsForShowDatabaseCallBack(QList<QSqlRecord> result);
-    void                        retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result);
-    void                        checkIfDatabaseSchemaExists(QList<QSqlRecord> result);
-    void                        genericDatabaseCallBack(QList<QSqlRecord> result);
+    void                        retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    void                        retrieveSeasonsForShowDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    void                        retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    void                        checkIfDatabaseSchemaExists(QList<QSqlRecord> result, void *data);
+    void                        genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
 };
 
 #endif // SERIESPLUGIN_H

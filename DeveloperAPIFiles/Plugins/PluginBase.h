@@ -28,7 +28,7 @@ public:
     explicit PluginBase();
     virtual int                 getPluginId()               = 0;
     virtual bool                needsUpdating()             const;  // BY DEFAULT RETURNS FALSE
-    virtual void                initPlugin();                       //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
+    virtual void                initPlugin()                = 0;        //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
     virtual QString             getPluginName()             = 0;
     virtual QString             getPluginDescription()      = 0;
     virtual QString             getRoomPluginQmlFile()      const = 0;

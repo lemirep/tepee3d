@@ -126,7 +126,10 @@
  */
 
 /*!
- * Constructs a new Plugins::PluginBase instance.
+ * Constructs a new Plugins::PluginBase instance. On construction, the plugin is not yet connected
+ * to the various services. If you need services to initialize your plugin you should reimplement the
+ * init Plugin method.
+ * \sa initPlugin()
  */
 Plugins::PluginBase::PluginBase() : QObject()
 {
@@ -135,17 +138,15 @@ Plugins::PluginBase::PluginBase() : QObject()
     this->focusHandler[Plugins::PluginEnums::pluginSelectedState] = &Plugins::PluginBase::onSelectedFocusState;
     this->focusHandler[Plugins::PluginEnums::pluginFocusedState]  = &Plugins::PluginBase::onFocusedFocusState;
     this->setFocusState(Plugins::PluginEnums::pluginIdleState);
-    this->initPlugin();
 }
 
 /*!
  * \fn void Plugins::PluginBase::initPlugin()
  *
- * Initializes the plugins.
+ * Initializes the plugins. You must implement this method and perform
+ * all necessary operations to properly initialize your plugin. You can call any
+ * services provided by the application at this point if you need to do so.
  */
-void        Plugins::PluginBase::initPlugin()
-{
-}
 
 /*!
  * Returns the current instance of the plugin.

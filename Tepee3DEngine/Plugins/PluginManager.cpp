@@ -117,6 +117,8 @@ void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
     Services::ServicesManager::connectObjectToServices(roomPlugin);
     // EXPOSE QML CONTENT FROM PLUGIN
     View::QmlViewProperties::exposeContentToQml(roomPlugin);
+    // CALL THE INIT METHOD OF THE PLUGIN
+    roomPlugin->initPlugin();
 }
 
 /*!

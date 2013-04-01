@@ -13,9 +13,9 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->databaseCallBacks[CHECK_IF_DATABASE_FORMAT_EXISTS] = &SeriesPlugin::checkIfDatabaseSchemaExists;
     this->databaseCallBacks[GENERIC_REQUEST] = &SeriesPlugin::genericDatabaseCallBack;
     // CREATE SERIES MODEL
-    this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", "", ""));
+    this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
     // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
-    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", "", ""));
+    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
 }
 // ALL the function should be implemented
 
@@ -26,6 +26,7 @@ int SeriesPlugin::getPluginId()
 
 void SeriesPlugin::initPlugin()
 {
+    this->retrieveShowsFromDababase();
 }
 
 QString SeriesPlugin::getPluginName()
@@ -61,7 +62,7 @@ Plugins::PluginBase* SeriesPlugin::createNewInstance()
 void    SeriesPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
 {
     qDebug() << "Received DATABASE CallBack";
-    (this->*this->databaseCallBacks[id])(result);
+    (this->*this->databaseCallBacks[id])(result, data);
 }
 
 void    SeriesPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
@@ -145,7 +146,6 @@ SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
     {
         QJsonObject imageObj = showObj.value("images").toObject();
         SerieSubListedItem *showItem =  new SerieSubListedItem(showObj.value("url").toString().replace("http://trakt.tv/show/", ""),
-                                                               showObj.value("imdb_id").toString(),
                                                                showObj.value("title").toString(),
                                                                imageObj.value("poster").toString());
         QJsonArray seasonsArray = showObj.value("seasons").toArray();
@@ -165,10 +165,10 @@ SeasonSubListedItem *SeriesPlugin::parseShowSeason(const QJsonObject& seasonObj)
     if (!seasonObj.isEmpty())
     {
         QJsonObject image = seasonObj.value("images").toObject();
-        SeasonSubListedItem *season = new SeasonSubListedItem(static_cast<int>(seasonObj.value("season").toDouble()),
-                                                              static_cast<int>(seasonObj.value("episodes").toDouble()),
-                                                              image.value("poster").toString());
         QJsonArray episodesArray = seasonObj.value("episodes").toArray();
+        SeasonSubListedItem *season = new SeasonSubListedItem(static_cast<int>(seasonObj.value("season").toDouble()),
+                                                              episodesArray.count(),
+                                                              image.value("poster").toString());
         foreach (QJsonValue episodeObj, episodesArray)
         {
             EpisodeListItem *episodeItem = parseShowEpisode(episodeObj.toObject());
@@ -233,7 +233,10 @@ void SeriesPlugin::getShowSummaryCallBack(QNetworkReply *reply, void *data)
         {
             SerieSubListedItem *showItem = parseShow(jsonDoc.object());
             if (showItem != NULL)
+            {
                 this->followedSeriesModel->appendRow(showItem);
+                this->addShowToDatabase(showItem);
+            }
         }
         else
             qDebug() << "An error occured when retrieving the JSON";
@@ -244,28 +247,179 @@ void SeriesPlugin::searchForEpisodeCallBack(QNetworkReply *reply, void *data)
 {
 }
 
+// DATABASE
+
+void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
+{
+    if (show != NULL)
+    {
+        QString insertShowRequest = "INSERT INTO show (serieTitle, serieSlug, serieImage) VALUES (\"";
+        insertShowRequest += show->data(SerieSubListedItem::serieName).toString();
+        insertShowRequest += "\", \"";
+        insertShowRequest +=  show->data(SerieSubListedItem::slug).toString();
+        insertShowRequest += "\", \"";
+        insertShowRequest +=  show->data(SerieSubListedItem::imageUrl).toString();
+        insertShowRequest += "\");";
+
+        emit executeSQLQuery(insertShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+        foreach (Models::ListItem* season, show->submodel()->toList())
+        {
+            this->addSeasonToDatabase(reinterpret_cast<SeasonSubListedItem *>(season),
+                                      show->data(SerieSubListedItem::slug).toString());
+        }
+    }
+}
+
+void SeriesPlugin::addSeasonToDatabase(SeasonSubListedItem *season, const QString &showSlug)
+{
+    if (season != NULL)
+    {
+        QString insertSeasonRequest = "INSERT INTO seasons (showId, seasonNumber, seasonEpisodesCount, seasonImage) VALUES (";
+        insertSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        insertSeasonRequest += showSlug;
+        insertSeasonRequest += "\"), ";
+        insertSeasonRequest += QString::number(season->data(SeasonSubListedItem::seasonId).toInt());
+        insertSeasonRequest += ", ";
+        insertSeasonRequest += QString::number(season->data(SeasonSubListedItem::episodeCount).toInt());
+        insertSeasonRequest += ", \"";
+        insertSeasonRequest += season->data(SeasonSubListedItem::imageUrl).toString();
+        insertSeasonRequest += "\");";
+
+        emit executeSQLQuery(insertSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+        foreach (Models::ListItem* episode, season->submodel()->toList())
+        {
+            this->addEpisodeToDatabase(reinterpret_cast<EpisodeListItem *>(episode),
+                                       showSlug,
+                                       season->data(SeasonSubListedItem::seasonId).toInt());
+        }
+    }
+}
+
+void SeriesPlugin::addEpisodeToDatabase(EpisodeListItem *episode, const QString& showSlug, int season)
+{
+    if (episode != NULL)
+    {
+        QString insertEpisodeRequest = "INSERT INTO episodes (showId, seasonId, episodeTitle, ";
+        insertEpisodeRequest += "episodeNumber, episodeSummary, episodeAiring, episodeSeen, episodeImage) VALUES (";
+        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        insertEpisodeRequest += showSlug;
+        insertEpisodeRequest += "\"), ";
+        insertEpisodeRequest += "(SELECT seasonId FROM seasons WHERE showId = ";
+        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        insertEpisodeRequest += showSlug;
+        insertEpisodeRequest += "\") AND seasonNumber = ";
+        insertEpisodeRequest += QString::number(season);
+        insertEpisodeRequest += "), \"";
+        insertEpisodeRequest += episode->data(EpisodeListItem::episodeTitle).toString();
+        insertEpisodeRequest += "\", ";
+        insertEpisodeRequest += episode->data(EpisodeListItem::episodeNumber).toString();
+        insertEpisodeRequest += ", \"";
+        insertEpisodeRequest += episode->data(EpisodeListItem::episodeSummary).toString();
+        insertEpisodeRequest += "\", ";
+        insertEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t());
+        insertEpisodeRequest += ", ";
+        insertEpisodeRequest += episode->data(EpisodeListItem::episodeSeen).toBool() ? "1": "0";
+        insertEpisodeRequest += ", \"";
+        insertEpisodeRequest += episode->data(EpisodeListItem::imageUrl).toString();
+        insertEpisodeRequest += "\");";
+        emit executeSQLQuery(insertEpisodeRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+    }
+}
+
+void SeriesPlugin::retrieveShowsFromDababase()
+{
+    QString retrieveShowsRequest = "SELECT serieId, serieTitle, serieSlug, serieImage FROM show;";
+    emit executeSQLQuery(retrieveShowsRequest, this, RETRIEVE_SHOWS, DATABASE_NAME);
+}
+
+void SeriesPlugin::retrieveShowSeasonsFromDatabase(int showDbId, SerieSubListedItem *show)
+{
+    QString retrieveSeasonsRequest = "SELECT showId, seasonId, seasonNumber, seasonEpisodesCount, seasonImage ";
+    retrieveSeasonsRequest += "FROM seasons WHERE showId = ";
+    retrieveSeasonsRequest += QString::number(showDbId);
+    retrieveSeasonsRequest += ";";
+    emit executeSQLQuery(retrieveSeasonsRequest, this, RETRIEVE_SEASONS_FOR_SHOW, DATABASE_NAME, (void *)show);
+}
+
+void SeriesPlugin::retrieveShowEpisodesFromDatabase(int showDbId, int seasonDbId, SeasonSubListedItem *season)
+{
+    QString retrieveEpisodesRequest = "SELECT episodeTitle, episodeNumber, episodeSummary, ";
+    retrieveEpisodesRequest += "episodeAiring, episodeSeen, episodeImage FROM episodes ";
+    retrieveEpisodesRequest += "WHERE seasonId = ";
+    retrieveEpisodesRequest += QString::number(seasonDbId);
+    retrieveEpisodesRequest += " AND showId = ";
+    retrieveEpisodesRequest += QString::number(showDbId);
+    retrieveEpisodesRequest += ";";
+    emit executeSQLQuery(retrieveEpisodesRequest, this, RETRIEVE_EPISODES_FOR_SHOW_SEASON, DATABASE_NAME, (void *)season);
+}
 
 
 // DATABASE CALLBACKS
 
-void SeriesPlugin::retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result)
+void SeriesPlugin::retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result, void *data)
+{
+    Q_UNUSED(data)
+    if (result.size() > 1)
+    {
+        result.pop_front();
+        foreach (QSqlRecord record, result)
+        {
+            int showId = record.value(0).toInt();
+            SerieSubListedItem *show = new SerieSubListedItem(record.value(2).toString(),
+                                                              record.value(1).toString(),
+                                                              record.value(3).toString());
+            this->retrieveShowSeasonsFromDatabase(showId, show);
+            this->followedSeriesModel->appendRow(show);
+        }
+    }
+}
+
+void SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack(QList<QSqlRecord> result, void *data)
+{
+    if (result.size() > 1 && data != NULL)
+    {
+        result.pop_front();
+        SerieSubListedItem *show = reinterpret_cast<SerieSubListedItem*>(data);
+        foreach (QSqlRecord record, result)
+        {
+            int showId = record.value(0).toInt();
+            int seasonId = record.value(1).toInt();
+            SeasonSubListedItem *season = new SeasonSubListedItem(record.value(2).toInt(),
+                                                                  record.value(3).toInt(),
+                                                                  record.value(4).toString());
+            this->retrieveShowEpisodesFromDatabase(showId, seasonId, season);
+            show->submodel()->appendRow(season);
+        }
+    }
+}
+
+void SeriesPlugin::retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result, void *data)
+{
+    if (result.size() > 1 && data != NULL)
+    {
+        result.pop_front();
+        SeasonSubListedItem *season = reinterpret_cast<SeasonSubListedItem *>(data);
+        foreach (QSqlRecord record, result)
+        {
+            season->submodel()->appendRow(new EpisodeListItem(record.value(1).toInt(),
+                                                              record.value(1).toInt(),
+                                                              season->data(SeasonSubListedItem::seasonId).toInt(),
+                                                              record.value(0).toString(),
+                                                              record.value(2).toString(),
+                                                              record.value(5).toString(),
+                                                              QDateTime::fromTime_t(record.value(3).toInt()),
+                                                              (record.value(4).toInt() != 0)));
+        }
+    }
+}
+
+void SeriesPlugin::checkIfDatabaseSchemaExists(QList<QSqlRecord> result, void *data)
 {
 }
 
-void SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack(QList<QSqlRecord> result)
+void SeriesPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
 }
 
-void SeriesPlugin::retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result)
-{
-}
-
-void SeriesPlugin::checkIfDatabaseSchemaExists(QList<QSqlRecord> result)
-{
-}
-
-void SeriesPlugin::genericDatabaseCallBack(QList<QSqlRecord> result)
-{
-}
 
 
