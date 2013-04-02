@@ -122,9 +122,6 @@ bool    View::QmlViewManager::initView()
     // TELLS ROOM MANAGER TO RESTORE ROOMS
     this->roomManager->restoreRooms();
 
-
-
-
     qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
     // SET STARTING QML FILE

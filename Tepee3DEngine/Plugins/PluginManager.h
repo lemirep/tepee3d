@@ -44,12 +44,11 @@ public:
     static void                 initRoomPlugin(PluginBase* roomPlugin);
 
 private:
-    static PluginManager*       instance;
+    explicit PluginManager(QObject *parent = 0);
+    static PluginManager*               instance;
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
-    explicit PluginManager(QObject *parent = 0);
 
-//    QSignalMapper              *signalMapper;
 signals :
 };
 }

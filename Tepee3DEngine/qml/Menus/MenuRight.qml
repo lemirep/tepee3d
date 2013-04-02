@@ -20,6 +20,14 @@ Item
     property int  savedWidth;
     property bool isPressed;
 
+    Component.onCompleted: {mainWindow.roomChanged.connect(unsetListIndex);
+                            mainWindow.roomFaceIdChanged.connect(unsetListIndex)}
+
+    function unsetListIndex()
+    {
+        room_plugins_list_view.currentIndex = -1;
+    }
+
     function startDrag(xPos, yPos)
     {
         xSaved = xPos;

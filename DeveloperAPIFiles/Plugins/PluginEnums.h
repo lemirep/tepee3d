@@ -19,7 +19,6 @@ public :
         pluginFocusedState
     };
 
-
     static PluginState valueOf(int value)
     {
         switch (value)

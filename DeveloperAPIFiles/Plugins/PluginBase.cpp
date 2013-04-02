@@ -162,7 +162,7 @@ Plugins::PluginBase* Plugins::PluginBase::getPluginBase()
  */
 void    Plugins::PluginBase::setFocusState(Plugins::PluginEnums::PluginState requestedState)
 {
-    qDebug() << "Setting Focus State " << requestedState;
+    qDebug() << "Setting Focus State " << requestedState << " Calling corresponding handler";
     Plugins::PluginEnums::PluginState oldFocusState = this->focusState;
     this->focusState = requestedState;
     // CALL FOCUS STATE HANDLER

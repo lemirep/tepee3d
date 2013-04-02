@@ -14,7 +14,12 @@ Item
     {
         id : plugin_delegate_mouse_area
         anchors.fill : parent
-        onClicked :    {room_plugins_list_view.currentIndex = index;}
+        onClicked :
+        {
+            room_plugins_list_view.currentIndex = index;
+            // ASK THE CURRENT ROOM TO SET THE PLUGIN TO THE FOCUSED FOCUSSTATE
+            roomManager.askFocusStateForPlugin(pluginId, 2);
+        }
         onPressAndHold:
         {
             if (room_plugins_list_view.currentIndex === index)

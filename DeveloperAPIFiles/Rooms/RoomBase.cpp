@@ -312,16 +312,16 @@ void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::Plugin
     // IF THERE IS ANOTHER ITEM IN FOCUS -> REFUSE AND DO NOT MODIFY ANY WIDGET
     foreach (Models::ListItem* pluginItem, this->roomProperties->getRoomPluginsModel()->toList())
     {
-        plugin = ((Models::PluginModelItem*)(pluginItem))->getPlugin();
-        if (plugin != requester && plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
-        {
-            if (plugin->getFocusState() == Plugins::PluginEnums::pluginFocusedState)
-                plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
-            else if (plugin->getFocusState() == Plugins::PluginEnums::pluginSelectedState)
-                requestAccepted = false;
-            break;
-        }
+        if ((plugin = ((Models::PluginModelItem*)(pluginItem))->getPlugin()) != NULL)
+            if (plugin != requester && plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
+            {
+                if (plugin->getFocusState() == Plugins::PluginEnums::pluginFocusedState)
+                    plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
+                else if (plugin->getFocusState() == Plugins::PluginEnums::pluginSelectedState)
+                    requestAccepted = false;
+                break;
+            }
     }
     if (requestAccepted)
-        requester->setFocusState(requestedState);    
+        requester->setFocusState(requestedState);
 }

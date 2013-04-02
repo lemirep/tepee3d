@@ -304,6 +304,23 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
 }
 
 /*!
+ * Finds the plugin in the current room identified by \a pluginId.
+ * If the plugin is found, a request is made to the room in which it lives
+ * to have the focusState of the plugin changed fot the corresponding \a focusState.
+ */
+void Room::RoomManager::askFocusStateForPlugin(int pluginId, int focusState)
+{
+    if (this->currentRoom == NULL)
+        return ;
+    Models::PluginModelItem *pluginItem = reinterpret_cast<Models::PluginModelItem *>(this->currentRoom->getRoomPluginsModel()->find(pluginId));
+    Plugins::PluginBase *pluginInstance = NULL;
+    if (pluginItem != NULL && (pluginInstance = pluginItem->getPlugin()) != NULL)
+    {
+        pluginInstance->askForFocusState(Plugins::PluginEnums::valueOf(focusState));
+    }
+}
+
+/*!
  * Sets the focus state of all plugins of the current room to idle, used when a change of view occurs and the plugins
  * should'nt keep the focus
  */
