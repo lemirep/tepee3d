@@ -146,6 +146,51 @@ QHash<int, QByteArray>  Models::ListModel::roleNames() const
 }
 
 /*!
+ * Returns the ListItem contained at \a row if it has been specified.
+ * Otherwise the first ListItem is returned.
+ */
+Models::ListItem *Models::ListModel::takeRow(int row, const QModelIndex &index)
+{
+    if (row == -2) // IF ROW HAS NOT BEEN SPECIFIED TAKE FIRST ITEM
+        row = 0;
+    if (row >= 0 && row < this->items.size())
+    {
+        beginRemoveRows(index, row, row);
+        Models::ListItem *item = this->items.takeAt(row);
+        endRemoveRows();
+        emit (countChanged(this->rowCount()));
+        return item;
+    }
+    return NULL;
+}
+
+/*!
+ * Returns a list of items that are contained in the model from the row \a row
+ * to the row \a row + \a count. The items are removed from the model.
+ * If \a row is not specified, it starts from the first row.
+ * If count is not specified, returns items from \a row to the end of the model.
+ * In that case if row is not the first row, nothing will be returned.
+ */
+QList<Models::ListItem *> Models::ListModel::takeRows(int row, int count, const QModelIndex &index)
+{
+    QList<Models::ListItem *> items;
+
+    if (row == -2) // IF ROW HAS NOT BEEN SPECIFIED TAKE FIRST ITEM
+        row = 0;
+    if (count == -1)
+        count = this->items.size();
+    if (row >= 0 && (row + count) <= this->items.size())
+    {
+        beginRemoveRows(index, row, row + count - 1);
+        for (int i = 0; i < count; i++)
+            items << this->items.takeAt(i);
+        endRemoveRows();
+        emit (countChanged(this->rowCount()));
+    }
+    return items;
+}
+
+/*!
  * Appends a single row \a item to the Model.
  */
 void        Models::ListModel::appendRow(Models::ListItem *item)

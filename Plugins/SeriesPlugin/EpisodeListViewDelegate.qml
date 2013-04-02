@@ -14,17 +14,6 @@ Item
 
     Behavior on scale {SmoothedAnimation {velocity : 10}}
 
-//    Rectangle
-//    {
-//        anchors.fill: parent
-//        border
-//        {
-//            width : 1
-//            color : "white"
-//        }
-//        color : "transparent"
-//    }
-
     Image
     {
         id : episode_delegate_pic
@@ -108,7 +97,9 @@ Item
         onClicked:
         {
             cube_effect.texture = img_src
-            rotate_cube.restart()
+            cube_anim_article.restart()
+//            seriesplugin_item.consultingEpisode = true;
+//            rotate_cube.restart()
         }
     }
 }

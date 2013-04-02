@@ -30,7 +30,6 @@ public:
     bool                    disconnectServiceFromUser(QObject *user);
     QObject*                getLibraryQObject();
 
-
 private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*  getInstance();

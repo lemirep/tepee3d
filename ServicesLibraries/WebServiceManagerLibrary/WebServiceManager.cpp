@@ -175,11 +175,8 @@ QJsonObject*    WebServiceManager::QJsonFromReply(QNetworkReply *reply)
  */
 void            WebServiceManager::initLibraryConnection(QObject *parent)
 {
-//    QObject::connect(parent, SIGNAL(executeHttpRequest(const QNetworkRequest &, int, QHttpMultiPart*, QObject*)),
-//                     this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*)));
     QObject::connect(this, SIGNAL(initialized()), parent, SLOT(libraryInitialized()));
     emit (initialized());
-    //    parent->libraryInitialized();
 }
 
 /*!

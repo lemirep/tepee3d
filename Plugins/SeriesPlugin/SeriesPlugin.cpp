@@ -6,6 +6,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->webServicesCallBacks[SEARCH_SHOW_REQUEST] = &SeriesPlugin::searchForShowCallBack;
     this->webServicesCallBacks[SEARCH_EPISODE_REQUEST] = &SeriesPlugin::searchForEpisodeCallBack;
     this->webServicesCallBacks[GET_SHOW_SUMMARY] = &SeriesPlugin::getShowSummaryCallBack;
+    this->webServicesCallBacks[UPDATE_SHOW_SUMMARY] = &SeriesPlugin::updateShowSummaryCallBack;
     // DATABASE CALLBACKS HASH
     this->databaseCallBacks[RETRIEVE_SHOWS] = &SeriesPlugin::retrieveShowsFromDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
@@ -54,6 +55,21 @@ QString SeriesPlugin::getMenuPluginQmlFile() const
     return QString("Menu.qml");
 }
 
+void SeriesPlugin::onIdleFocusState()
+{
+    qDebug() << "SeriesPlugin idling";
+}
+
+void SeriesPlugin::onSelectedFocusState()
+{
+    qDebug() << "SeriesPlugin Selected";
+}
+
+void SeriesPlugin::onFocusedFocusState()
+{
+    qDebug() << "SeriesPlugin Focused";
+}
+
 Plugins::PluginBase* SeriesPlugin::createNewInstance()
 {
     return new SeriesPlugin();
@@ -98,7 +114,21 @@ QObject *SeriesPlugin::getSearchSeriesModel() const
     return this->searchSeriesModel;
 }
 
+void SeriesPlugin::updateFollowedShows()
+{
+    foreach (Models::ListItem *showItem, this->followedSeriesModel->takeRows())
+    {
+        this->updateShowSummary(reinterpret_cast<SerieSubListedItem *>(showItem));
+    }
+}
 
+void SeriesPlugin::updateShowSummary(SerieSubListedItem *show)
+{
+    PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/"\
+                                                           + QString(TRAKT_API_KEY)\
+                                                           + "/" + show->data(SerieSubListedItem::slug).toString()\
+                                                           + "/true")), UPDATE_SHOW_SUMMARY, (void *)show);
+}
 
 void SeriesPlugin::searchForShow(QString showName)
 {
@@ -111,7 +141,6 @@ void SeriesPlugin::searchForShow(QString showName)
 
 void SeriesPlugin::addShowToFollow(QString slug)
 {
-    qDebug() << "SLug " << slug;
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/"\
                                                            + QString(TRAKT_API_KEY)\
                                                            + "/" + slug\
@@ -136,8 +165,12 @@ void SeriesPlugin::removeShowFromSearchResult(int showId)
 void SeriesPlugin::removeShowFromFollowedModel(int showId)
 {
     int idx = -1;
-    if ((idx = this->followedSeriesModel->rowIndexFromId(showId)) != -1)
+    SerieSubListedItem *showToRemove = reinterpret_cast<SerieSubListedItem *>(this->followedSeriesModel->find(showId));
+    if (showToRemove != NULL && (idx = this->followedSeriesModel->getRowFromItem(showToRemove)) != -1)
+    {
+        this->removeShowFromDatabase(showToRemove->data(SerieSubListedItem::slug).toString());
         this->followedSeriesModel->removeRow(idx);
+    }
 }
 
 SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
@@ -223,6 +256,7 @@ void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
 
 void SeriesPlugin::getShowSummaryCallBack(QNetworkReply *reply, void *data)
 {
+    Q_UNUSED(data)
     if (reply != NULL)
     {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
@@ -247,13 +281,42 @@ void SeriesPlugin::searchForEpisodeCallBack(QNetworkReply *reply, void *data)
 {
 }
 
+void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL && data != NULL)
+    {
+        SerieSubListedItem *oldShow = reinterpret_cast<SerieSubListedItem *>(data);
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        // DO NOT FORGET TO DELETE THE REPLY
+        delete reply;
+        qDebug() << "getShowSummary CallBack";
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            SerieSubListedItem *showItem = parseShow(jsonDoc.object());
+            if (showItem != NULL)
+            {
+                // REPLACE OLDSHOW_ITEM BY SHOWITEM
+
+                this->followedSeriesModel->appendRow(showItem);
+                this->updateShowInDatabase(showItem);
+            }
+        }
+        else
+        {
+            qDebug() << "An error occured when retrieving the JSON";
+            // RESTORES THE OLD SHOW ITEM
+            this->followedSeriesModel->appendRow(oldShow);
+        }
+    }
+}
+
 // DATABASE
 
 void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString insertShowRequest = "INSERT INTO show (serieTitle, serieSlug, serieImage) VALUES (\"";
+        QString insertShowRequest = "INSERT OR REPLACE INTO show (serieTitle, serieSlug, serieImage) VALUES (\"";
         insertShowRequest += show->data(SerieSubListedItem::serieName).toString();
         insertShowRequest += "\", \"";
         insertShowRequest +=  show->data(SerieSubListedItem::slug).toString();
@@ -274,7 +337,7 @@ void SeriesPlugin::addSeasonToDatabase(SeasonSubListedItem *season, const QStrin
 {
     if (season != NULL)
     {
-        QString insertSeasonRequest = "INSERT INTO seasons (showId, seasonNumber, seasonEpisodesCount, seasonImage) VALUES (";
+        QString insertSeasonRequest = "INSERT OR REPLACE INTO seasons (showId, seasonNumber, seasonEpisodesCount, seasonImage) VALUES (";
         insertSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
         insertSeasonRequest += showSlug;
         insertSeasonRequest += "\"), ";
@@ -299,7 +362,7 @@ void SeriesPlugin::addEpisodeToDatabase(EpisodeListItem *episode, const QString&
 {
     if (episode != NULL)
     {
-        QString insertEpisodeRequest = "INSERT INTO episodes (showId, seasonId, episodeTitle, ";
+        QString insertEpisodeRequest = "INSERT OR REPLACE INTO episodes (showId, seasonId, episodeTitle, ";
         insertEpisodeRequest += "episodeNumber, episodeSummary, episodeAiring, episodeSeen, episodeImage) VALUES (";
         insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
         insertEpisodeRequest += showSlug;
@@ -324,6 +387,98 @@ void SeriesPlugin::addEpisodeToDatabase(EpisodeListItem *episode, const QString&
         insertEpisodeRequest += "\");";
         emit executeSQLQuery(insertEpisodeRequest, this, GENERIC_REQUEST, DATABASE_NAME);
     }
+}
+
+void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
+{
+    if (show != NULL)
+    {
+        QString updateShowRequest = "UPDATE show SET showImage = ";
+        updateShowRequest += "\"";
+        updateShowRequest += show->data(SerieSubListedItem::imageUrl).toString();
+        updateShowRequest += "\" WHERE serieSlug = \"";
+        updateShowRequest += show->data(SerieSubListedItem::slug).toString();
+        updateShowRequest += "\";";
+        emit executeSQLQuery(updateShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+        foreach (Models::ListItem* season, show->submodel()->toList())
+        {
+            this->updateSeasonInDatabase(reinterpret_cast<SeasonSubListedItem *>(season),
+                                         show->data(SerieSubListedItem::slug).toString());
+        }
+    }
+}
+
+void SeriesPlugin::updateSeasonInDatabase(SeasonSubListedItem *season, const QString &showSlug)
+{
+    if (season != NULL)
+    {
+        QString updateSeasonRequest = "UPDATE seasons SET seasonEpisodeCount = ";
+        updateSeasonRequest += QString::number(season->data(SeasonSubListedItem::episodeCount).toInt());
+        updateSeasonRequest += ", seasonImage = \"";
+        updateSeasonRequest += season->data(SeasonSubListedItem::imageUrl).toString();
+        updateSeasonRequest += "\" WHERE showId = (SELECT serieId FROM show WHERE serieSlug = \"";
+        updateSeasonRequest += showSlug;
+        updateSeasonRequest += "\") AND seasonNumber = ";
+        updateSeasonRequest += QString::number(season->data(SeasonSubListedItem::seasonId).toInt());
+        updateSeasonRequest += ";";
+        emit (executeSQLQuery(updateSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME));
+        foreach (Models::ListItem* episode, season->submodel()->toList())
+        {
+            this->updateEpisodeInDatabase(reinterpret_cast<EpisodeListItem *>(episode),
+                                          showSlug,
+                                          season->data(SeasonSubListedItem::seasonId).toInt());
+        }
+    }
+}
+
+void SeriesPlugin::updateEpisodeInDatabase(EpisodeListItem *episode, const QString &showSlug, int season)
+{
+    if (episode != NULL)
+    {
+        QString updateEpisodeRequest = "UPDATE episodes SET episodeTitle = \"";
+        updateEpisodeRequest += episode->data(EpisodeListItem::episodeTitle).toString();
+        updateEpisodeRequest += "\", episodeSummary = \"";
+        updateEpisodeRequest += episode->data(EpisodeListItem::episodeSummary).toString();
+        updateEpisodeRequest += "\", episodeAiring = ";
+        updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t());
+        updateEpisodeRequest += ", episodeImage = \"";
+        updateEpisodeRequest += episode->data(EpisodeListItem::imageUrl).toString();
+        updateEpisodeRequest += "\", episodeSeen = ";
+        updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeSeen).toBool() ? 1 : 0);
+        updateEpisodeRequest += " WHERE showID = ";
+        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        updateEpisodeRequest += showSlug;
+        updateEpisodeRequest += "\") AND seasonId = ";
+        updateEpisodeRequest += "(SELECT seasonId FROM seasons WHERE showId = ";
+        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        updateEpisodeRequest += showSlug;
+        updateEpisodeRequest += "\") AND seasonNumber = ";
+        updateEpisodeRequest += QString::number(season);
+        updateEpisodeRequest += ") AND episodeNumber = ";
+        updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeNumber).toInt());
+        updateEpisodeRequest += ";";
+        emit executeSQLQuery(updateEpisodeRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+    }
+}
+
+void SeriesPlugin::removeShowFromDatabase(const QString &showSlug)
+{
+    QString removeEpisodesRequest = "DELETE FROM episodes WHERE showId = ";
+    removeEpisodesRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+    removeEpisodesRequest += showSlug + "\");";
+
+    QString removeSeasonRequest = "DELETE FROM seasons WHERE showId = ";
+    removeSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+    removeSeasonRequest += showSlug + "\");";
+
+    QString removeShowRequest = "DELETE FROM show WHERE serieSlug = ";
+    removeShowRequest += "\"";
+    removeShowRequest += showSlug;
+    removeShowRequest += "\";";
+
+    emit executeSQLQuery(removeEpisodesRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+    emit executeSQLQuery(removeSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME);
+    emit executeSQLQuery(removeShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
 }
 
 void SeriesPlugin::retrieveShowsFromDababase()
@@ -419,7 +574,10 @@ void SeriesPlugin::checkIfDatabaseSchemaExists(QList<QSqlRecord> result, void *d
 
 void SeriesPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
+    Q_UNUSED(result)
+    Q_UNUSED(data)
 }
+
 
 
 

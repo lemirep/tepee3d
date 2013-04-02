@@ -96,7 +96,8 @@ OTHER_FILES += \
     qml/content/center.png \
     qml/content/background.png \
     qml/Rooms/AddNewRoomDialog.qml \
-    qml/Resources/Pictures/home_buttom.png
+    qml/Resources/Pictures/home_buttom.png \
+    qml/Resources/Pictures/refresh.png
 
 qnx {
     QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

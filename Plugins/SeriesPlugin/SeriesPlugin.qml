@@ -10,6 +10,7 @@ Item3D
 
     property bool isFocused : false;
     property bool addingShow : false;
+    property bool consultingEpisode : false
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
@@ -44,10 +45,40 @@ Item3D
         onClicked :
         {
             console.log("------------------")
-            switchToFocusedView();
+            plugin_base.askForFocusedFocusState();
         }
     }
 
+
+    SequentialAnimation
+    {
+        id : cube_anim_article
+        loops: 1
+        onLoopsChanged: {restart()}
+        SmoothedAnimation
+        {
+            target : cube
+            property : "scale"
+            duration : 375
+            to : 1
+            velocity : 1
+        }
+        SmoothedAnimation
+        {
+            target : cube_y_rotate
+            duration : 750
+            property : "angle"
+            to : cube_y_rotate.angle >= 360 ? 0 : 360
+        }
+        SmoothedAnimation
+        {
+            target : cube
+            property : "scale"
+            duration : 375
+            to : 5
+            velocity : 1
+        }
+    }
 
     ParallelAnimation
     {
@@ -105,6 +136,42 @@ Item3D
         x : 80
         y : (mainWindow.height - height) / 2
         transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 15}
+
+        states : [
+            State
+            {
+                name : "search_serie_state"
+                PropertyChanges    {target : search_result_listview; opacity : 1}
+                PropertyChanges    {target : episodes_series_item; opacity : 0}
+                AnchorChanges      {target : search_result_listview; anchors.left : listview_containers.left}
+                PropertyChanges    {target : followed_series_listview; opacity : 0}
+                AnchorChanges      {target : followed_series_listview; anchors.left : listview_containers.right}
+                PropertyChanges    {target : search_bar_container; opacity : 1}
+                when : addingShow
+            },
+            State
+            {
+                name : "followed_serie_state"
+                PropertyChanges    {target : search_result_listview; opacity : 0}
+                PropertyChanges    {target : episodes_series_item; opacity : 1}
+                AnchorChanges      {target : search_result_listview; anchors.left : listview_containers.right}
+                PropertyChanges    {target : followed_series_listview; opacity : 1}
+                AnchorChanges      {target : followed_series_listview; anchors.left : listview_containers.left}
+                PropertyChanges    {target : search_bar_container; opacity : 0}
+                when : !addingShow
+            }
+        ]
+
+        transitions : [
+            Transition
+            {
+                AnchorAnimation     {duration : 750}
+                SmoothedAnimation    {target : search_result_listview; properties : "opacity"; duration : 750; velocity : 1}
+                SmoothedAnimation    {target : episodes_series_item; properties : "opacity"; duration : 750; velocity : 1}
+                SmoothedAnimation    {target : followed_series_listview; properties : "opacity"; duration : 750; velocity : 1}
+                SmoothedAnimation    {target : search_bar_container; properties : "opacity"; duration : 750; velocity : 1}
+            }
+        ]
 
         Item
         {
@@ -240,6 +307,7 @@ Item3D
         }
         Image
         {
+            id : add_show_button
             height : 50
             width : 50
             scale : add_show_ma.pressed ? 0.9 : 1
@@ -253,6 +321,25 @@ Item3D
                 onClicked:
                 {
                     addingShow = !addingShow
+                }
+            }
+        }
+        Image
+        {
+            id : refresh_show_button
+            height : 50
+            width : height
+            scale : refresh_show_ma.pressed ? 0.9 : 1
+            source : "refresh.png"
+            anchors.top : parent.bottom
+            anchors.left: add_show_button.right
+            MouseArea
+            {
+                id : refresh_show_ma
+                anchors.fill: parent
+                onClicked:
+                {
+                    SeriesPlugin.updateFollowedShows();
                 }
             }
         }
@@ -296,7 +383,7 @@ Item3D
                 season : model.seasonId
                 height : parent.height
                 width : season_list_view.width / 4
-            }  
+            }
         }
 
         Rectangle

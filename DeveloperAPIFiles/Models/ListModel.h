@@ -20,24 +20,26 @@ public:
     ~ListModel();
 
     // REIMPLEMENTED METHODS
-    int         rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant    data(const QModelIndex &index, int role) const;
-    QModelIndex indexFromItem(ListItem *item) const;
+    int                     rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant                data(const QModelIndex &index, int role) const;
+    QHash<int, QByteArray>  roleNames() const;
 
-    void        appendRow(ListItem *item);
-    void        appendRows(QList<ListItem *> &items);
-    void        insertRow(int row, ListItem *item);
-    QHash<int, QByteArray>        roleNames() const;
-    bool        removeRow(int row, const QModelIndex &parent = QModelIndex());
-    bool        removeRows(int row, int count, const QModelIndex &parent = QModelIndex());
-    void        clear();
+    void                    appendRow(ListItem *item);
+    void                    appendRows(QList<ListItem *> &items);
+    void                    insertRow(int row, ListItem *item);
+    ListItem*               takeRow(int row = -2, const QModelIndex &index = QModelIndex());
+    QList<ListItem *>       takeRows(int row = -2, int count = -1, const QModelIndex &index = QModelIndex());
+    bool                    removeRow(int row, const QModelIndex &index = QModelIndex());
+    bool                    removeRows(int row, int count, const QModelIndex &index = QModelIndex());
+    void                    clear();
 
-    int         getRowFromItem(ListItem *item) const;
-    ListItem*   find(int itemId) const;
-    QList<ListItem *>   toList() const;
+    ListItem*               find(int itemId) const;
+    int                     getRowFromItem(ListItem *item) const;
+    QModelIndex             indexFromItem(ListItem *item) const;
+    QList<ListItem *>       toList() const;
 
-    Q_INVOKABLE QVariant get(int index);
-    Q_INVOKABLE int      rowIndexFromId(int id);
+    Q_INVOKABLE QVariant    get(int index);
+    Q_INVOKABLE int         rowIndexFromId(int id);
 
 protected:
     ListItem *prototype;

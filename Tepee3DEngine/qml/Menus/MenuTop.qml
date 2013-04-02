@@ -15,7 +15,7 @@ Item
     property int  savedHeight;
     property bool isPressed;
 
-    Component.onCompleted:    {mainWindow.roomFaceIdChanged.connect(setListIndex)}
+    Component.onCompleted:    {mainWindow.roomFaceIdChanged.connect(setListIndex);}
 
     function startDrag(xPos, yPos)    {ySaved = yPos;savedHeight = menuTopMain.height}
 

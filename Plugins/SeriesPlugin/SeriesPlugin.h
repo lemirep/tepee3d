@@ -19,6 +19,7 @@
 #define SEARCH_SHOW_REQUEST 0
 #define SEARCH_EPISODE_REQUEST 1
 #define GET_SHOW_SUMMARY 2
+#define UPDATE_SHOW_SUMMARY 3
 
 #define RETRIEVE_SHOWS 0
 #define RETRIEVE_SEASONS_FOR_SHOW 1
@@ -36,7 +37,7 @@ class SeriesPlugin  : public Plugins::PluginBase
 
 public:
     SeriesPlugin();
-    int                          getPluginId();
+    int                         getPluginId();
     void                        initPlugin();
     Q_INVOKABLE QString         getPluginName();
     QString                     getPluginDescription();
@@ -44,6 +45,13 @@ public:
     PluginBase*                 createNewInstance();
     QString                     getRoomPluginQmlFile() const;
     QString                     getMenuPluginQmlFile() const;
+
+
+    // FOCUS STATE HANDLERS
+    void                onIdleFocusState();
+    void                onSelectedFocusState();
+    void                onFocusedFocusState();
+
     // DatabaseServiceUserInterface
     void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
@@ -53,6 +61,7 @@ public:
     Q_INVOKABLE                 QObject* getSeasonsModelFromSerieId(int serieId) const;
     Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const;
     Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
+    Q_INVOKABLE                 void     updateFollowedShows();
     Q_INVOKABLE                 void     searchForShow(QString showName);
     Q_INVOKABLE                 void     addShowToFollow(QString slug);
     Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
@@ -66,6 +75,7 @@ private:
     QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
     QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
 
+    void                        updateShowSummary(SerieSubListedItem *show);
     SerieSubListedItem *        parseShow(const QJsonObject& showObj);
     SeasonSubListedItem*        parseShowSeason(const QJsonObject& seasonObj);
     EpisodeListItem    *        parseShowEpisode(const QJsonObject& episodeObj);
@@ -74,13 +84,18 @@ private:
     void                        searchForShowCallBack(QNetworkReply *reply, void *data);
     void                        getShowSummaryCallBack(QNetworkReply *reply, void *data);
     void                        searchForEpisodeCallBack(QNetworkReply *reply, void *data);
-
+    void                        updateShowSummaryCallBack(QNetworkReply *reply, void *data);
 
     // DATABASE
     void                        addShowToDatabase(SerieSubListedItem *show);
     void                        addSeasonToDatabase(SeasonSubListedItem *season, const QString &showSlug);
     void                        addEpisodeToDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
+
+    void                        updateShowInDatabase(SerieSubListedItem *show);
+    void                        updateSeasonInDatabase(SeasonSubListedItem *season, const QString &showSlug);
     void                        updateEpisodeInDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
+
+    void                        removeShowFromDatabase(const QString &showSlug);
 
     void                        retrieveShowsFromDababase();
     void                        retrieveShowSeasonsFromDatabase(int showDbId, SerieSubListedItem *show);
