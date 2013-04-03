@@ -27,29 +27,18 @@ Item
         smooth : true
     }
 
-
-    Image
+    AddButton
     {
         id : add_show_to_follow
-        scale : add_show_to_follow_ma.pressed ? 0.9 : 1.0
-        height : parent.height - 20
-        fillMode: Image.PreserveAspectFit
-        source : "plus.png"
         anchors
         {
             left : parent.left
             verticalCenter : parent.verticalCenter
         }
-
-        MouseArea
+        onClicked :
         {
-            id : add_show_to_follow_ma
-            anchors.fill: parent
-            onClicked :
-            {
-                SeriesPlugin.addShowToFollow(slug)
-                SeriesPlugin.removeShowFromSearchResult(serieId)
-            }
+            SeriesPlugin.addShowToFollow(slug)
+            SeriesPlugin.removeShowFromSearchResult(serieId)
         }
     }
 

@@ -67,7 +67,9 @@ OTHER_FILES += \
     qmldir \
     SeasonListViewDelegate.qml \
     EpisodeListViewDelegate.qml \
-    SeriesSearchListViewDelegate.qml
+    SeriesSearchListViewDelegate.qml \
+    DetailedEpisodeView.qml \
+    SerieBackground.qml
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)

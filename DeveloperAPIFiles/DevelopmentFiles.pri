@@ -48,6 +48,9 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/Resources/Pictures/mag_glass.png \
                 $$PWD/qml/Resources/Pictures/round.png \
                 $$PWD/qml/Resources/Pictures/red_cross.png \
-                $$PWD/qml/Resources/Pictures/refresh.png
+                $$PWD/qml/Resources/Pictures/refresh.png \
+                $$PWD/qml/UIComponents/AddButton.qml \
+                $$PWD/qml/UIComponents/RefreshButton.qml \
+                $$PWD/qml/UIComponents/CloseButton.qml
 
 QT += sql

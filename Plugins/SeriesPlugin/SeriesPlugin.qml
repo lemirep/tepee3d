@@ -11,6 +11,9 @@ Item3D
     property bool isFocused : false;
     property bool addingShow : false;
     property bool consultingEpisode : false
+    property int  listviewRotateAngle : 15
+
+    Behavior on listviewRotateAngle {SmoothedAnimation {duration : 750; velocity : 5}}
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
@@ -48,18 +51,15 @@ Item3D
         }
     }
 
-
-    SequentialAnimation
+    ParallelAnimation
     {
         id : cube_anim_article
-        loops: 1
-        onLoopsChanged: {restart()}
         SmoothedAnimation
         {
             target : cube_picture
             property : "scale"
-            duration : 375
-            to : 1
+            duration : 1000
+            to : 0
             velocity : 1
         }
         SmoothedAnimation
@@ -69,15 +69,29 @@ Item3D
             property : "angle"
             to : cube_y_rotate.angle >= 360 ? 0 : 360
         }
+    }
+
+    ParallelAnimation
+    {
+        id : cube_anim_article_close
+        loops: 1
         SmoothedAnimation
         {
             target : cube_picture
             property : "scale"
-            duration : 375
+            duration : 1000
             to : 5
             velocity : 1
         }
+        SmoothedAnimation
+        {
+            target : cube_y_rotate
+            duration : 750
+            property : "angle"
+            to : cube_y_rotate.angle >= 360 ? 0 : 360
+        }
     }
+
 
     ParallelAnimation
     {
@@ -125,6 +139,23 @@ Item3D
         blending : true
     }
 
+    DetailedEpisodeView
+    {
+        enabled : isFocused
+        opacity : isFocused ? 1 : 0
+        id : detailed_episode_view
+        onIsShownChanged:
+        {
+            if (isShown)
+                listviewRotateAngle = 50
+            else
+            {
+                listviewRotateAngle = 15
+                cube_anim_article_close.restart()
+            }
+        }
+    }
+
     Item
     {
         id : followed_series_item
@@ -134,7 +165,7 @@ Item3D
         height : mainWindow.height / 2
         x : 80
         y : (mainWindow.height - height) / 2
-        transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: 15}
+        transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: listviewRotateAngle}
 
         states : [
             State
@@ -172,16 +203,12 @@ Item3D
             }
         ]
 
+
         Item
         {
             id : search_bar_container
             smooth : true
-            Rectangle
-            {
-                color : "grey"
-                opacity : 0.4
-                anchors.fill: parent
-            }
+            SerieBackground {anchors.fill: parent}
             width : parent.width
             height : 40
             anchors.bottom : parent.top
@@ -216,7 +243,6 @@ Item3D
                 {
                     id : search_input
                     width : parent.width - 20
-                    wrapMode: TextInput.Wrap
                     anchors
                     {
                         verticalCenter : parent.verticalCenter
@@ -256,12 +282,8 @@ Item3D
         {
             id : listview_containers
             anchors.fill: parent
-            Rectangle
-            {
-                color : "grey"
-                opacity : 0.4
-                anchors.fill: parent
-            }
+
+            SerieBackground {anchors.fill: parent}
             ListView
             {
                 id : search_result_listview
@@ -304,44 +326,27 @@ Item3D
                 spacing : 10
             }
         }
-        Image
-        {
-            id : add_show_button
-            height : 50
-            width : 50
-            scale : add_show_ma.pressed ? 0.9 : 1
-            source : addingShow ? "red_cross.png" : "plus.png"
-            anchors.top: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            MouseArea
-            {
-                id : add_show_ma
-                anchors.fill: parent
-                onClicked:
-                {
-                    addingShow = !addingShow
-                }
-            }
-        }
-        Image
+
+        AddButton
         {
             opacity : addingShow ? 0 : 1
-            id : refresh_show_button
-            height : 50
-            width : height
-            scale : refresh_show_ma.pressed ? 0.9 : 1
-            source : "refresh.png"
-            anchors.top : parent.bottom
-            anchors.left: add_show_button.right
-            MouseArea
-            {
-                id : refresh_show_ma
-                anchors.fill: parent
-                onClicked:
-                {
-                    SeriesPlugin.updateFollowedShows();
-                }
-            }
+            anchors.top: parent.bottom
+            anchors.right: parent.horizontalCenter
+            onClicked : {addingShow = !addingShow}
+        }
+        CloseButton
+        {
+            opacity : addingShow ? 1 : 0
+            anchors.top: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked : {addingShow = !addingShow}
+        }
+        RefreshButton
+        {
+            opacity : addingShow ? 0 : 1
+            anchors.top: parent.bottom
+            anchors.left: parent.horizontalCenter
+            onClicked : {SeriesPlugin.updateFollowedShows()}
         }
     }
 
@@ -354,15 +359,9 @@ Item3D
         height : mainWindow.height / 2
         x : mainWindow.width - (width + 80)
         y : (mainWindow.height - height) / 2
-        transform : Rotation { origin.x: mainWindow.width / 4; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: -15}
+        transform : Rotation { origin.x: mainWindow.width / 4; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: -listviewRotateAngle}
 
-
-        Rectangle
-        {
-            color : "grey"
-            opacity : 0.4
-            anchors.fill: season_list_view
-        }
+        SerieBackground    { anchors.fill: season_list_view }
         ListView
         {
             id : season_list_view
@@ -386,12 +385,7 @@ Item3D
             }
         }
 
-        Rectangle
-        {
-            color : "grey"
-            opacity : 0.4
-            anchors.fill: episodes_series_listview
-        }
+        SerieBackground    { anchors.fill: episodes_series_listview }
         ListView
         {
             id : episodes_series_listview

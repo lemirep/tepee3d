@@ -98,6 +98,9 @@ Item
         {
             cube_effect.texture = img_src
             cube_anim_article.restart()
+            detailed_episode_view.title = episodeTitle
+            detailed_episode_view.summary = episodeOverview
+            detailed_episode_view.isShown = true
 //            seriesplugin_item.consultingEpisode = true;
 //            rotate_cube.restart()
         }

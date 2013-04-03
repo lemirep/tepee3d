@@ -43,30 +43,21 @@ Item
         text : series_name
     }
 
-    Image
+    CloseButton
     {
         id : followed_series_delegate_remove_button
-        source : "red_cross.png"
-        scale : followed_series_delegate_remove_button_ma.pressed ? 0.9 : 1
         height : parent.height - 20
-        fillMode: Image.PreserveAspectFit
         anchors
         {
             verticalCenter : parent.verticalCenter
             right : followed_series_delegate_pic.left
             rightMargin : 5
         }
-
-        MouseArea
+        onClicked:
         {
-            id : followed_series_delegate_remove_button_ma
-            anchors.fill: parent
-            onClicked:
-            {
-                SeriesPlugin.removeShowFromFollowedModel(serieId)
-                season_list_view.model = ""
-                episodes_series_listview.model = ""
-            }
+            SeriesPlugin.removeShowFromFollowedModel(serieId)
+            season_list_view.model = ""
+            episodes_series_listview.model = ""
         }
     }
 
