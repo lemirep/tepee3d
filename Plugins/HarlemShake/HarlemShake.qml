@@ -19,19 +19,23 @@ Item3D
     property real savedYPos;
     property vector3d savedCameraOrientation;
     property bool isFocused : false;
+    property bool delayAnimHarlem : false;
 
-    Audio {
-          id: playMusic
-          source: "HS.mp3"
-          autoPlay: true
-      }
+    Audio
+    {
+        id: playMusic
+        source: "HS.mp3"
+        autoPlay: false
+        volume : 0.15
+    }
+
     position : Qt.vector3d(0, 0, 0)
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
     // HAS TO BE IMPLEMENTED
     function roomLeft()    {}
     // HAS TO BE IMPLEMENTED
-    function switchToIdleFocusView()    {plugin_base.moveCamera(); isFocused = false}
+    function switchToIdleFocusView()    {plugin_base.moveCamera(); isFocused = false; playMusic.stop(); delayAnimHarlem = false}
     // HAS TO BE IMPLEMENTED
     function switchToSelectedFocusView()    {isFocused = false}
     // HAS TO BE IMPLEMENTED
@@ -46,6 +50,9 @@ Item3D
         widgetPos.z += hs_container.z
         plugin_base.moveCamera(eyePos, widgetPos);
         isFocused = true;
+
+        playMusic.play();
+        harlem_timer.start()
     }
 
 
@@ -67,18 +74,24 @@ Item3D
         }
     ]
     Timer {
-
-        interval: 7000
+        id : harlem_timer
+        interval: 18500
         repeat: false
-        running: true
-        onTriggered: {buttonsHS.enabled = true;
-            ra_orange.running = true;color_animation_orange.running = true; scale_animation_orange.running = true;
-            ra_blue.running = true;color_animation_blue.running = true; scale_animation_blue.running = true;
-            ra_red.running = true;color_animation_red.running = true; scale_animation_red.running = true;
-            scale_animation_bat.running = true;
-        }
-
+        running: false
+        onTriggered: {delayAnimHarlem = true;}
     }
+    Timer
+    {
+        id : stop_timer
+        repeat : false
+        running:false
+        onTriggered:
+        {
+            playMusic.stop();
+            delayAnimHarlem = false;
+        }
+    }
+
     Item3D
     {
         id : buttons
@@ -107,7 +120,7 @@ Item3D
             ]
             SequentialAnimation {
                 id : color_animation_orange
-                running : false
+                running : delayAnimHarlem
                 loops : Animation.Infinite
                 PropertyAnimation {target:effectorange;properties: "color"; to: "green"; duration: 1000; }
                 PropertyAnimation {target:effectorange; properties: "color"; to: "red"; duration: 1000; }
@@ -115,13 +128,13 @@ Item3D
             }
             SequentialAnimation {
                 id : scale_animation_orange
-                running : false
+                running : delayAnimHarlem
                 loops : Animation.Infinite
                 NumberAnimation{ target: cube_orange;property: "scale"; to: 0.50;duration : 1500;easing.type: Easing.InOutElastic}
                 PauseAnimation { duration: 100 }
                 NumberAnimation {target: cube_orange;property: "scale";to: 1.5;duration : 1500; easing.type: Easing.InOutElastic}
             }
-            RotationAnimation {id :ra_orange; target: xRT; running: false; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
+            RotationAnimation {id :ra_orange; target: xRT; running: delayAnimHarlem; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
         }
 
         Cube
@@ -149,7 +162,7 @@ Item3D
             ]
             SequentialAnimation {
                 id : color_animation_red
-                running : false
+                running : delayAnimHarlem
                 loops : Animation.Infinite
                 PropertyAnimation {target:effectred;properties: "color"; to: "orange"; duration: 1000; }
                 PropertyAnimation {target:effectred; properties: "color"; to: "yellow"; duration: 1000; }
@@ -157,13 +170,13 @@ Item3D
             }
             SequentialAnimation {
                 id : scale_animation_red
-                running : false
+                running : delayAnimHarlem
                 loops : Animation.Infinite
                 NumberAnimation{ target: cube_red;property: "scale"; to: 0.80;duration : 1500;easing.type: Easing.InOutElastic}
                 PauseAnimation { duration: 500 }
                 NumberAnimation {target: cube_red;property: "scale";to: 1.7;duration : 1500; easing.type: Easing.InOutElastic}
             }
-            RotationAnimation {id :ra_red; target: zRT; running: false; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
+            RotationAnimation {id :ra_red; target: zRT; running: delayAnimHarlem; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
 
         }
 
@@ -191,7 +204,7 @@ Item3D
             onClicked:{cube_plugin.effect.color = "blue";}
             SequentialAnimation {
                 id : color_animation_blue
-                running : false
+                running : delayAnimHarlem
                 loops : Animation.Infinite
                 PropertyAnimation {target:effectblue;properties: "color"; to: "yellow"; duration: 1000; }
                 PropertyAnimation {target:effectblue; properties: "color"; to: "red"; duration: 1000; }
@@ -199,13 +212,13 @@ Item3D
             }
             SequentialAnimation {
                 id : scale_animation_blue
-                running : false
+                running : delayAnimHarlem
                 loops : Animation.Infinite
                 NumberAnimation{ target: cube_blue;property: "scale"; to: 0.50;duration : 1500;easing.type: Easing.InOutElastic}
                 PauseAnimation { duration: 200 }
                 NumberAnimation {target: cube_blue;property: "scale";to: 1.5;duration : 1500; easing.type: Easing.InOutElastic}
             }
-            RotationAnimation {id :ra_blue; target: yRT; running: false; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
+            RotationAnimation {id :ra_blue; target: yRT; running: delayAnimHarlem; loops: Animation.Infinite; property: "angle"; from: 0; to : 360.0; duration: 3000; }
 
 
         }
@@ -216,7 +229,7 @@ Item3D
     Item3D
     {
         id : buttonsHS
-        enabled : false
+        enabled : delayAnimHarlem
         Cube
         {
             id : cube_yellow
@@ -341,20 +354,6 @@ Item3D
         }
     }
 
-    Rectangle
-    {
-        id : focusRec
-        enabled : isFocused
-        opacity : enabled ? 0.3 : 0
-        Behavior on opacity {SmoothedAnimation {velocity : 1; duration : -1}}
-        color : "grey"
-        x : mainWindow.width / 4
-        y : mainWindow.height / 4
-        width : mainWindow.width / 2
-        height : mainWindow.height / 2
-    }
-
-
     Item3D
     {
         id : cube_plugin
@@ -365,9 +364,10 @@ Item3D
         // APPLY TRANSFORMATIONS SO THAT PLUGIN MODEL FACES US
         transform : [Rotation3D {id : yBat; angle : 180; axis : Qt.vector3d(0, 1, 0)}]
 
-        SequentialAnimation {
+        SequentialAnimation
+        {
             id : scale_animation_bat
-            running : false
+            running : delayAnimHarlem
             loops : Animation.Infinite
             NumberAnimation{ target: cube_plugin;property: "scale"; to:0.04;duration : 1500;easing.type: Easing.InOutElastic}
             PauseAnimation { duration: 200 }
@@ -405,37 +405,6 @@ Item3D
 
         onHoverMove :
         {
-            // SHOW 3 ARROWS ONE FOR EACH AXIS
-            // THE USER PRESSES THE ARROW HE WISHES
-            // THE THE OBJECT CAN MOVE WITH THE MOUSE ACCORDING TO THE SELECTED AXIS
-
-            console.log("Hover Moved Signal has been triggered " + x + " " + y);
-            console.log("Item Pos " + cube_plugin.position)
-            if (savedX === -10000 && savedY === -10000)
-            {
-                console.log("-------------")
-                savedX = x;
-                savedY = y;
-                savedXPos = cube_plugin.x
-                savedYPos = cube_plugin.y
-
-
-                savedCameraOrientation = plugin_base.getCameraOrientation();
-                console.log("><><><><> " + savedCameraOrientation + " " + savedXPos + " " + savedYPos)
-            }
-            else
-            {
-                var xDiff = ((x  * savedXPos) / savedX);
-                var yDiff = ((y  * savedYPos) / savedY);
-                cube_plugin.x = xDiff;
-                cube_plugin.y = yDiff;
-                console.log("Item Pos After" + cube_plugin.position)
-
-            }
-
-            // GET ITEM AXIS ON WHICH IT CAN MOVE
-            // ITEM POS VALUE ON AXIS / WINDOW WIDTH IF X
-            // ITEM POS VALUE ON AXIS / WINDOW WIDTH IF Y
         }
 
         SequentialAnimation {

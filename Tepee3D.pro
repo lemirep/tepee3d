@@ -3,8 +3,11 @@ SUBDIRS     =  BufferedTextureSource \
                RoomLibrary       \
                ServicesLibraries \
                Tepee3DEngine \
-               Plugins \
-               UnitTests
+               Plugins
+
+linux {
+SUBDIRS    +=  UnitTests
+}
 
 OTHER_FILES += Documentation/config.qdocconf \
                Documentation/install.qdoc \

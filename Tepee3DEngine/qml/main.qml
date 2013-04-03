@@ -2,6 +2,7 @@
 import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
+import QtQuick.Window 2.0
 import BufferedTextureSourcePlugin 1.0
 
 Viewport
@@ -65,6 +66,9 @@ Viewport
     // FOR 16 / 9
     width: 1280
     height: 768
+
+//    width : Screen.width
+//    height : Screen.height
 
 //        width: 1680
 //        height: 1050

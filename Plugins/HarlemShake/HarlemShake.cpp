@@ -59,7 +59,6 @@ void    HarlemShake::receiveResultFromHttpRequest(QNetworkReply *reply, int requ
 
 void HarlemShake::onFocusStateChanged()
 {
-
 }
 
 void HarlemShake::onIdleFocusState()
@@ -70,7 +69,6 @@ void HarlemShake::onIdleFocusState()
 void HarlemShake::onSelectedFocusState()
 {
     qDebug() << "Selected focus handler";
-    this->initPlugin();
 }
 
 void HarlemShake::onFocusedFocusState()

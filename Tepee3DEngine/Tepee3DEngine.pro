@@ -105,21 +105,20 @@ qnx {
     PACKAGE_ARGS = \
         $${PWD}/bar-descriptor.xml $$TARGET \
         -e $${PWD}/icon.png res/icon.png \
-        -e $$[QT_INSTALL_LIBS]/libQtCore.so.5 lib/libQtCore.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtGui.so.5 lib/libQtGui.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtOpenGL.so.5 lib/libQtOpenGL.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtNetwork.so.5 lib/libQtNetwork.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtWidgets.so.5 lib/libQtWidgets.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtQuick.so.5 lib/libQtQuick.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtQml.so.5 lib/libQtQml.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtSql.so.5 lib/libQtSql.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt3DQuick.so.5 lib/libQt3DQuick.so.5  \
-        -e $$[QT_INSTALL_LIBS]/libQt3D.so.5 lib/libQt3D.so.5   \
-        -e $$[QT_INSTALL_LIBS]/libQtV8.so.5 lib/libQtV8.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtXmlPatterns.so.5 lib/libQtXmlPatterns.so.5 \
-        -e $$[QT_INSTALL_PLUGINS]/platforms/libqnx.so plugins/platforms/libqnx.so \
+        -e $$[QT_INSTALL_LIBS]/libQt5Core.so.5 lib/libQt5Core.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5Gui.so.5 lib/libQt5Gui.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5OpenGL.so.5 lib/libQt5OpenGL.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5Network.so.5 lib/libQt5Network.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5Widgets.so.5 lib/libQt5Widgets.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5Quick.so.5 lib/libQt5Quick.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5Qml.so.5 lib/libQt5Qml.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt5Sql.so.5 lib/libQt5Sql.so.5 \
+        -e $$[QT_INSTALL_LIBS]/libQt53DQuick.so.5 lib/libQt53DQuick.so.5  \
+        -e $$[QT_INSTALL_LIBS]/libQt53D.so.5 lib/libQt53D.so.5   \
+        -e $$[QT_INSTALL_LIBS]/libQt5V8.so.5 lib/libQt5V8.so.5 \
+        -e $$[QT_INSTALL_PLUGINS]/platforms/libqqnx.so plugins/platforms/libqqnx.so \
         -e qml qml \
-        -e $$[QT_INSTALL_IMPORTS]/ imports/
+#        -e $$[QT_INSTALL_IMPORTS]/ imports/
 
     package.target = $${TARGET}.bar
     package.depends = $$TARGET
@@ -130,7 +129,7 @@ qnx {
 
     QMAKE_EXTRA_TARGETS += package
 
-    OTHER_FILES += qnx/bar-descriptor.xml
+#    OTHER_FILES += bar-descriptor.xml
 }
 
 
