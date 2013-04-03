@@ -27,21 +27,20 @@ Item3D
         eyePos.z += (-10)
 
         var widgetPos = plugin_base.getRoomPosition();
-        widgetPos.x += cube.x
-        widgetPos.y += cube.y
-        widgetPos.z += cube.z
+        widgetPos.x += cube_picture.x
+        widgetPos.y += cube_picture.y
+        widgetPos.z += cube_picture.z
         plugin_base.moveCamera(eyePos, widgetPos);
         isFocused = true;
     }
 
     Cube
     {
-        id : cube
+        id : cube_picture
         scale : 5
         effect : cube_effect
         transform : [Rotation3D {id : cube_x_rotate; axis : Qt.vector3d(0, 0, 1); angle : -90},
-            Rotation3D {id : cube_y_rotate;axis : Qt.vector3d(0, 1, 0); angle : 45}]
-
+                    Rotation3D {id : cube_y_rotate;axis : Qt.vector3d(0, 1, 0); angle : 45}]
         onClicked :
         {
             console.log("------------------")
@@ -57,7 +56,7 @@ Item3D
         onLoopsChanged: {restart()}
         SmoothedAnimation
         {
-            target : cube
+            target : cube_picture
             property : "scale"
             duration : 375
             to : 1
@@ -72,7 +71,7 @@ Item3D
         }
         SmoothedAnimation
         {
-            target : cube
+            target : cube_picture
             property : "scale"
             duration : 375
             to : 5
@@ -94,7 +93,7 @@ Item3D
         {
             SmoothedAnimation
             {
-                target : cube
+                target : cube_picture
                 property : "scale"
                 duration : 375
                 to : 1
@@ -102,7 +101,7 @@ Item3D
             }
             SmoothedAnimation
             {
-                target : cube
+                target : cube_picture
                 property : "scale"
                 duration : 375
                 to : 5
@@ -147,7 +146,7 @@ Item3D
                 PropertyChanges    {target : followed_series_listview; opacity : 0}
                 AnchorChanges      {target : followed_series_listview; anchors.left : listview_containers.right}
                 PropertyChanges    {target : search_bar_container; opacity : 1}
-                when : addingShow
+                when : isFocused && addingShow
             },
             State
             {
@@ -158,7 +157,7 @@ Item3D
                 PropertyChanges    {target : followed_series_listview; opacity : 1}
                 AnchorChanges      {target : followed_series_listview; anchors.left : listview_containers.left}
                 PropertyChanges    {target : search_bar_container; opacity : 0}
-                when : !addingShow
+                when : isFocused && !addingShow
             }
         ]
 
@@ -326,6 +325,7 @@ Item3D
         }
         Image
         {
+            opacity : addingShow ? 0 : 1
             id : refresh_show_button
             height : 50
             width : height
@@ -403,9 +403,9 @@ Item3D
                 bottom : parent.bottom
                 topMargin : 5
             }
-            populate: Transition {
-                NumberAnimation { properties: "x,y"; duration: 1000 }
-            }
+//            populate: Transition {
+//                NumberAnimation { properties: "x,y"; duration: 1000 }
+//            }
             clip : true
             delegate : EpisodeListViewDelegate   {
                 episodeNumber : model.episodeNumber

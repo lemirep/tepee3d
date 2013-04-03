@@ -183,7 +183,7 @@ QList<Models::ListItem *> Models::ListModel::takeRows(int row, int count, const 
     {
         beginRemoveRows(index, row, row + count - 1);
         for (int i = 0; i < count; i++)
-            items << this->items.takeAt(i);
+            items << this->items.takeAt(row);
         endRemoveRows();
         emit (countChanged(this->rowCount()));
     }

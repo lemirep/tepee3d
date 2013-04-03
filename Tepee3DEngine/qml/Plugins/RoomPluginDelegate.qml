@@ -19,6 +19,7 @@ Item
             room_plugins_list_view.currentIndex = index;
             // ASK THE CURRENT ROOM TO SET THE PLUGIN TO THE FOCUSED FOCUSSTATE
             roomManager.askFocusStateForPlugin(pluginId, 2);
+            menuRightMain.isShown = !menuRightMain.isShown
         }
         onPressAndHold:
         {
