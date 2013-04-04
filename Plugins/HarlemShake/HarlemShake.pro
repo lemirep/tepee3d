@@ -60,7 +60,8 @@ OTHER_FILES += \
     HS.mp3 \
     HarlemShake.qml \
     Menu.qml \
-    qmlharlemshake.qmlproject
+    qmlharlemshake.qmlproject \
+    CustomCube.qml
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
