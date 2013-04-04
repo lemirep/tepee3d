@@ -31,7 +31,7 @@ Item3D
 
     Timer {
         id : harlem_timer_intro
-        interval: 5000
+        interval: 18500
         repeat: false
         running: false
         onTriggered: {delayAnimHarlem = true;}
@@ -39,7 +39,7 @@ Item3D
 
     Timer {
         id : harlem_timer_total
-        interval: 25000
+        interval: playMusic.duration
         repeat: false
         running: false
         onTriggered: {delayAnimHarlem = false;playMusic.stop();}
