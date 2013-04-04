@@ -1,7 +1,6 @@
 qml_folder.source = ../../plugins_qml
 qml_folder.target = ./
 
-
  TEMPLATE        = lib
  CONFIG         += qt plugin
  QT             += quick
@@ -21,7 +20,6 @@ include (../../DeveloperAPIFiles/DevelopmentFiles.pri)
  TARGET          = HarlemShake                     #NAME OF THE PLUGIN LIBRAY
  DESTDIR         = ../../widget_plugins             #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder
-
 
 # # install
 # target.path = plugins/build
@@ -97,41 +95,6 @@ defineTest(copyToDestDir) {
     message($$QMAKE_POST_LINK)
     export(QMAKE_POST_LINK)
 }
-
-
-#FOR BLACKBERRY PLAYBOOK
-qnx {
-    QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''
-
-    PACKAGE_ARGS = \
-        $${PWD}/bar-descriptor.xml $$TARGET \
-        -e $${PWD}/icon.png res/icon.png \
-        -e $$[QT_INSTALL_LIBS]/libQtCore.so.5 lib/libQtCore.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtGui.so.5 lib/libQtGui.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtOpenGL.so.5 lib/libQtOpenGL.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtNetwork.so.5 lib/libQtNetwork.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtWidgets.so.5 lib/libQtWidgets.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtQuick.so.5 lib/libQtQuick.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtQml.so.5 lib/libQtQml.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtSql.so.5 lib/libQtSql.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtV8.so.5 lib/libQtV8.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQtXmlPatterns.so.5 lib/libQtXmlPatterns.so.5 \
-        -e $$[QT_INSTALL_PLUGINS]/platforms/libqnx.so plugins/platforms/libqnx.so \
-        -e $$[QT_INSTALL_IMPORTS]/ imports/
-
-    package.target = $${TARGET}.bar
-    package.depends = $$TARGET
-    package.commands = blackberry-nativepackager \
-        -package $${TARGET}.bar \
-        -devMode -debugToken $$(DEBUG_TOKEN) \
-        $${PACKAGE_ARGS}
-
-    QMAKE_EXTRA_TARGETS += package
-
-    OTHER_FILES += bar-descriptor.xml
-}
-
-
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)

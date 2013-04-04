@@ -24,21 +24,8 @@ include(Services/Services.pri)
 # Include Plugins Sources
 include(Plugins/Plugins.pri)
 
-# Please do not modify the following two lines. Required for deployment.
-#include(qmlapplicationviewer/qmlapplicationviewer.pri)
-#qtcAddDeployment()
-
 OTHER_FILES += \
-    qtc_packaging/debian_harmattan/rules \
-    qtc_packaging/debian_harmattan/README \
-    qtc_packaging/debian_harmattan/manifest.aegis \
-    qtc_packaging/debian_harmattan/copyright \
-    qtc_packaging/debian_harmattan/control \
-    qtc_packaging/debian_harmattan/compat \
-    qtc_packaging/debian_harmattan/changelog \
     splashscreen.png \
-    icon.png \
-    bar-descriptor.xml \
     qml/TepeeCamera.qml \
     qml/Menus/qmldir \
     qml/Menus/MenuTop.qml \
@@ -99,37 +86,5 @@ OTHER_FILES += \
     qml/Resources/Pictures/home_buttom.png \
     qml/Resources/Pictures/refresh.png
 
-qnx {
-    QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''
-
-    PACKAGE_ARGS = \
-        $${PWD}/bar-descriptor.xml $$TARGET \
-        -e $${PWD}/icon.png res/icon.png \
-        -e $$[QT_INSTALL_LIBS]/libQt5Core.so.5 lib/libQt5Core.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5Gui.so.5 lib/libQt5Gui.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5OpenGL.so.5 lib/libQt5OpenGL.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5Network.so.5 lib/libQt5Network.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5Widgets.so.5 lib/libQt5Widgets.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5Quick.so.5 lib/libQt5Quick.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5Qml.so.5 lib/libQt5Qml.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt5Sql.so.5 lib/libQt5Sql.so.5 \
-        -e $$[QT_INSTALL_LIBS]/libQt53DQuick.so.5 lib/libQt53DQuick.so.5  \
-        -e $$[QT_INSTALL_LIBS]/libQt53D.so.5 lib/libQt53D.so.5   \
-        -e $$[QT_INSTALL_LIBS]/libQt5V8.so.5 lib/libQt5V8.so.5 \
-        -e $$[QT_INSTALL_PLUGINS]/platforms/libqqnx.so plugins/platforms/libqqnx.so \
-        -e qml qml \
-#        -e $$[QT_INSTALL_IMPORTS]/ imports/
-
-    package.target = $${TARGET}.bar
-    package.depends = $$TARGET
-    package.commands = blackberry-nativepackager \
-        -package $${TARGET}.bar \
-        -devMode -debugToken $$(DEBUG_TOKEN) \
-        $${PACKAGE_ARGS}
-
-    QMAKE_EXTRA_TARGETS += package
-
-#    OTHER_FILES += bar-descriptor.xml
-}
 
 

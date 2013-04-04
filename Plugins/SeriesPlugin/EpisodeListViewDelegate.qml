@@ -85,7 +85,7 @@ Item
         text : episodeAiring.getHours() + ":"
                + ((episodeAiring.getMinutes() < 10) ? ("0" + episodeAiring.getMinutes()) : episodeAiring.getMinutes())
                + "-" + episodeAiring.getDate()
-               + "/" + episodeAiring.getMonth()
+               + "/" + (episodeAiring.getMonth() + 1)
                + "/" + episodeAiring.getFullYear()
     }
 

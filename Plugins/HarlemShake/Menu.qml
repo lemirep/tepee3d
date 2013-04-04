@@ -5,7 +5,6 @@ import QtQuick 2.0
 Item
 {
     anchors.fill: parent
-
     Rectangle
     {
         color : "transparent"
@@ -15,5 +14,4 @@ Item
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
-
 }
