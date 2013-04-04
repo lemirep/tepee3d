@@ -24,8 +24,6 @@
  */
 BasicRoom::BasicRoom() : RoomBase()
 {
-    // REGISTER TYPE TO QML ENGINE SO ELEMENT CAN BE USED
-//    qmlRegisterType<BasicRoom>("Room", 1, 0, "RoomProperties");
 }
 
 /*!
@@ -58,9 +56,11 @@ QObject*    BasicRoom::getObject()
  */
 void    BasicRoom::updateRoom()
 {
-   // qDebug() << "Updating " << this->getRoomName();
-//    foreach (Plugins::PluginBase* plugin, this->getWidgetsList())
-//    {
-      //  qDebug() << "Updating " << plugin->getPluginName();
-//    }
+    foreach (Models::ListItem* pluginItem, this->getRoomPluginsModel()->toList())
+    {
+        Plugins::PluginBase *plugin = NULL;
+        if ((plugin = reinterpret_cast<Models::PluginModelItem *>(pluginItem)->getPlugin()) != NULL &&
+                plugin->needsUpdating())
+            plugin->updatePlugin();
+    }
 }

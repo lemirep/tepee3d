@@ -166,7 +166,6 @@ void    Services::ServicesManager::loadServicesLibraries()
         serviceDirectory.cdUp();
     }
 #endif
-    serviceDirectory.cdUp();
     serviceDirectory.cd(SERVICE_LIBRARIES_DIRECTORY);
 
     qDebug() << "SERVICE DIR " << serviceDirectory.absolutePath();

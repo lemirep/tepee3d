@@ -99,11 +99,6 @@ void Room::RoomManager::restoreRooms()
 {
     qDebug() << "RoomManager::Restoring Rooms";
     Room::RoomLoader::restoreRoomsFromDatabase();
-    // WHILE WAITING FOR ROOMS RESTORATION TO WORK
-//    this->addNewRoom("RoomTest1");
-//    this->addNewRoom("RoomTest2");
-//    this->addNewRoom("RoomTest3");
-//    this->addNewRoom("RoomTest4");
 }
 
 /*!
@@ -122,15 +117,6 @@ void    Room::RoomManager::exposeContentToQml(QQmlContext *context)
     context->setContextProperty("roomModel", this->roomModel);
     context->setContextProperty("roomManager", this);
 }
-
-///*!
-// * Called when the result \a list of a previously executed query is received from the database service.
-// * The parameter \a id is used to tell which query this call is the result of.
-// */
-
-//void    Room::RoomManager::receiveResultFromSQLQuery(QList<QSqlRecord> list, int id)
-//{
-//}
 
 /*!
  * Returns the model containing the rooms.
@@ -207,7 +193,6 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
         this->unsetFocusPluginsFromRoom();
     }
     this->currentRoom = room;
-
     if (this->currentRoom != NULL)
     {
         this->currentRoom->enterRoom();
@@ -408,7 +393,6 @@ void        Room::RoomManager::loadRoomLibrary()
         roomDirectory.cdUp();
     }
 #endif
-    roomDirectory.cdUp();
     roomDirectory.cd(ROOM_LIBRARY_DIRECTORY);
 
     qDebug() << "ROOM DIR " << roomDirectory.absolutePath();

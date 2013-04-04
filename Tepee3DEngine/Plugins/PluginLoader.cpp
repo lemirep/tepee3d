@@ -37,7 +37,6 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
         pluginsDir.cdUp();
     }
 #endif
-    pluginsDir.cdUp();
     pluginsDir.cd(WIDGET_PLUGIN_DIRECTORY);
 
     // LOOP THROUGH EACH FILE OF THE PLUGIN DIR AND LOAD THE PLUGINS

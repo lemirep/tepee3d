@@ -1,4 +1,4 @@
-qml_folder.source = ../../plugins_qml
+qml_folder.source = ../../Tepee3DEngine/plugins_qml
 qml_folder.target = ./
 
  TEMPLATE        = lib
@@ -18,7 +18,7 @@ SOURCES += \
 include (../../DeveloperAPIFiles/DevelopmentFiles.pri)
 
  TARGET          = HarlemShake                     #NAME OF THE PLUGIN LIBRAY
- DESTDIR         = ../../widget_plugins             #WHERE TO PUT THE LIBRARY
+ DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries             #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder
 
 # # install

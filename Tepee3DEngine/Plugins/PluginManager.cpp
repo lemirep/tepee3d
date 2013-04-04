@@ -42,11 +42,6 @@ Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
     this->loadLocalPlugins();
-    // THE SIGNAL MAPPER WILL BE USED TO MANAGE CONNECTIONS BETWEEN
-    // PLUGINS AND THE SERVICE MANAGER, AUTOMATICALLY PASSING THE PLUGIN
-    // INSTANCE TO SERVICE SIGNALS SO THAT THE SERVICE AUTOMATICALLY RESPONDS TO THE PLUGIN
-    // WHO MADE THE REQUEST
-//    this->signalMapper = new QSignalMapper(this);
 }
 
 /*!

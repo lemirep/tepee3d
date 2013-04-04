@@ -25,6 +25,6 @@ HEADERS +=   \
     databaseThread.h \
     manageBDD.h
 
-DESTDIR = ../../libraries/services_lib
+DESTDIR = ../../Tepee3DEngine/libraries/services_lib
 
 INCLUDEPATH += ../../DeveloperAPIFiles/Services

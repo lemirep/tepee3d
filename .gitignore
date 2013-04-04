@@ -10,6 +10,7 @@ Makefile
 moc_*.cpp
 *.so
 *.pro.user
-plugins_qml
 font-awesome
 Tepee3D_Doc
+Tepee3DEngine/libraries
+Tepee3DEngine/plugins_qml

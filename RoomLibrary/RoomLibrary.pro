@@ -14,7 +14,7 @@ SOURCES += BasicRoom.cpp
 
 HEADERS += BasicRoom.h
 
-DESTDIR = ../libraries/room_library
+DESTDIR = ../Tepee3DEngine/libraries/room_library
 
 include(../DeveloperAPIFiles/DevelopmentFiles.pri)
 

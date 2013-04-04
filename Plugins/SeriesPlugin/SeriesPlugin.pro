@@ -1,4 +1,4 @@
-qml_folder.source = ../../plugins_qml
+qml_folder.source = ../../Tepee3DEngine/plugins_qml
 qml_folder.target = ./
 
   TEMPLATE        = lib
@@ -10,14 +10,14 @@ qml_folder.target = ./
     include (../../DeveloperAPIFiles/DevelopmentFiles.pri)
 
  TARGET          = SeriesPlugin
- DESTDIR         = ../../widget_plugins
+ DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries
  DESTDIRQML      = qml_folder
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
     files = $$1
     unix {
         QMAKE_POST_LINK  += rm -fr $$qml_folder.source/$$TARGET $$escape_expand(\\n\\t)
-        QMAKE_POST_LINK  += mkdir $$qml_folder.source/$$TARGET $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK  += mkdir -p $$qml_folder.source/$$TARGET $$escape_expand(\\n\\t)
     }
     win32 {
         DDIR = $$qml_folder.source/$${TARGET}

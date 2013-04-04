@@ -9,8 +9,7 @@
 #include "PluginInterface.h"
 #include "PluginBase.h"
 
-#define WIDGET_PLUGIN_DIRECTORY "widget_plugins"
-#define QML_EXTENSION_PLUGIN_DIRECTORY "qml_extension_plugins"
+#define WIDGET_PLUGIN_DIRECTORY "libraries/widget_libraries"
 
 namespace Plugins
 {

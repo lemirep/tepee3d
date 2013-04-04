@@ -236,11 +236,21 @@ void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &reques
 }
 
 /*!
- * Returns a boolean telling whether this pluugin needs logical updating every seconds or not.
+ * Returns a boolean telling whether this plugin needs logical updating every seconds or not.
  */
 bool    Plugins::PluginBase::needsUpdating() const
 {
     return false;
+}
+
+/*!
+ * If the plugin needs to be updated, reimplement this method in your base class to suit your need.
+ * It will be called every second when the plugin is in the current room.
+ *
+ * \sa needsUpdating();
+ */
+void Plugins::PluginBase::updatePlugin()
+{
 }
 
 /*!

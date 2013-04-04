@@ -1,6 +1,5 @@
 TEMPLATE    = subdirs
-SUBDIRS     =  BufferedTextureSource \
-               RoomLibrary       \
+SUBDIRS     =  RoomLibrary       \
                ServicesLibraries \
                Tepee3DEngine \
                Plugins

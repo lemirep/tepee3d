@@ -4,6 +4,7 @@
 #include <QQmlEngine>
 #include <QVector3D>
 #include <iostream>
+#include <PluginModelItem.h>
 #include "RoomBase.h"
 
 #define BASICROOM_QML_FILE "Room.qml"
