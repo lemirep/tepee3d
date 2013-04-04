@@ -9,7 +9,7 @@ TestPlugin::TestPlugin() : PluginBase()
 
 int TestPlugin::getPluginId()
 {
-    return 1;
+    return 6;
 }
 
 void TestPlugin::initPlugin()
