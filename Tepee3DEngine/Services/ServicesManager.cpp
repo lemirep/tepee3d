@@ -152,7 +152,7 @@ void Services::ServicesManager::libraryInitialized()
  */
 void    Services::ServicesManager::loadServicesLibraries()
 {
-    QDir    serviceDirectory = QApplication::applicationDirPath();
+    QDir    serviceDirectory = QCoreApplication::applicationDirPath();
 
     // GO TO LIB DIRECTORIES
 #if defined(Q_OS_WIN)

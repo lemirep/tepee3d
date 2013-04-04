@@ -2,8 +2,6 @@
 #define QMLVIEWPROPERTIES_H
 
 #include <QObject>
-#include <QApplication>
-#include <QDesktopWidget>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
 #include <QQmlContext>
@@ -19,7 +17,6 @@ private:
     QQuickView                  *viewer;
     QQmlEngine                  *qmlEngine;
     QQmlContext                 *qmlContext;
-    QDesktopWidget              *desktopWidget;
 
     explicit QmlViewProperties(QObject *parent = 0);
 

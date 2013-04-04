@@ -4,13 +4,12 @@
 #include <QObject>
 #include <QLibrary>
 #include <QDir>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QPluginLoader>
 #include <QSqlRecord>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QHttpMultiPart>
-#include <QSignalMapper>
 #include "ServiceInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"

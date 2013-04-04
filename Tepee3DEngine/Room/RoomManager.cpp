@@ -393,7 +393,7 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 
 void        Room::RoomManager::loadRoomLibrary()
 {
-    QDir    roomDirectory = QApplication::applicationDirPath();
+    QDir    roomDirectory = QCoreApplication::applicationDirPath();
 
     // GO TO ROOM LIB DIRECTORIES
     //////////////// THIS PART WILL MOVE TO UTILS////////////////////////////

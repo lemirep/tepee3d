@@ -4,10 +4,8 @@ QML_IMPORT_PATH = qml/Tepee3DEngine
 QT += qml
 QT += quick
 QT += multimedia
-QT += widgets
 QT += 3dquick
 QT += sql
-QT += testlib
 
 SOURCES += main.cpp
 
@@ -86,5 +84,8 @@ OTHER_FILES += \
     qml/Resources/Pictures/home_buttom.png \
     qml/Resources/Pictures/refresh.png
 
+qnx {
+    OTHER_FILES += bar-descriptor.xml
+}
 
 

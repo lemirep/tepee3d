@@ -1,6 +1,7 @@
 #ifndef ROOMMANAGER_H
 #define ROOMMANAGER_H
 
+#include <QCoreApplication>
 #include <QTimer>
 #include <PluginManager.h>
 #include <QVector3D>

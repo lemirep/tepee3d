@@ -1,8 +1,7 @@
 #ifndef QMLVIEWMANAGER_H
 #define QMLVIEWMANAGER_H
 
-#include <QApplication>
-#include <QDesktopWidget>
+#include <QCoreApplication>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
 #include <QQmlContext>

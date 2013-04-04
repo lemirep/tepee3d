@@ -23,7 +23,7 @@
 
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
-    QDir    pluginsDir = QApplication::applicationDirPath();
+    QDir    pluginsDir = QCoreApplication::applicationDirPath();
 
     // GO TO THE PLUGINS DIRECTORY
 #if defined(Q_OS_WIN)

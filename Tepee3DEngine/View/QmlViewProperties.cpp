@@ -34,7 +34,7 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     this->viewer = new QQuickView();                     //USED TO DISPLAY QML
     this->qmlEngine = this->viewer->engine();            //RETRIEVED FROM THE VIEWER USED TO INSTANCIATE AND INSERT NEW QML COMPONENTS FROM PLUGINS
     this->qmlContext = this->viewer->rootContext();      //USED TO SET PROPERTIES TO QML FOR MODELS
-    this->desktopWidget = QApplication::desktop();       //USED TO RETRIEVE SCREEN SIZE
+    qDebug() << "QmlViewProperties Constructor";
 }
 
 /*!

@@ -2,7 +2,7 @@
 #define PLUGINLOADER_H
 
 #include <QList>
-#include <QApplication>
+#include <QCoreApplication>
 #include <QPluginLoader>
 #include <QQmlExtensionPlugin>
 #include <QDir>

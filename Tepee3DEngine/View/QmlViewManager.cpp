@@ -126,7 +126,7 @@ bool    View::QmlViewManager::initView()
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
-    QUrl localFile = QUrl::fromLocalFile(QApplication::applicationDirPath() + "/qml/main.qml");
+    QUrl localFile = QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/qml/main.qml");
     if (localFile.isValid())
     {
         this->viewProperties->setViewerSource(localFile);
