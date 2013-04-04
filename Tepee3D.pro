@@ -22,10 +22,10 @@ linux:win32 {
     }
 }
 
-qnx {
-    OTHER_FILES += bar-descriptor.xml
-    OTHER_FILES += qnx/icon.png
-}
+#qnx {
+#    OTHER_FILES += bar-descriptor.xml
+#    OTHER_FILES += qnx/icon.png
+#}
 
 #qnx {
 #    QMAKE_LFLAGS += '-Wl,-rpath,\'./app/native/lib\''

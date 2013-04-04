@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8' standalone='no'?>
+<qnx xmlns="http://www.qnx.com/schemas/application/1.0">
+    <id>com.example.tepee3dengine</id>
+    <name>Tepee3DEngine</name>
+    <versionNumber>1.0.0</versionNumber>
+    <description>Tepee3D - The future of UI right now !</description>
+    <initialWindow>
+        <systemChrome>none</systemChrome>
+        <transparent>false</transparent>
+        <autoOrients>true</autoOrients>
+        <aspectRatio>landscape</aspectRatio>
+    </initialWindow>
+    <publisher>TepeeTeam</publisher>
+    <copyright>2013</copyright>
+    <env var="QML_IMPORT_PATH" value="app/native/imports"/>
+    <env var="QT_PLUGIN_PATH" value="app/native/plugins"/>
+    <env var="LD_LIBRARY_PATH" value="app/native/lib"/>
+    <arg>-platform</arg>
+    <arg>qnx</arg>
+    <action system="true">run_native</action>
+    <asset type="Qnx/Elf" entry="true" path="Tepee3DEngine/Tepee3DEngine">Tepee3DEngine</asset>
+    <asset path="%SRC_DIR%/Tepee3DEngine/qml">qml</asset>
+    <!-- These values will be replaced when deploying in Qt Creator -->
+    <asset path="%QT_INSTALL_LIBS%">lib</asset>
+    <asset path="%QT_INSTALL_PLUGINS%">plugins</asset>
+<!--    <asset path="%QT_INSTALL_IMPORTS%">imports</asset>-->
+    <asset path="/home/lemire_p/work/tepee3d/qnx/icon.png">icon.png</asset>
+<!--    libraries Service | Room | Plugins-->
+    <asset path="%SRC_DIR%/Tepee3DEngine/libraries">libraries</asset>
+<!--    Plugins Qml Files-->
+    <asset path="%SRC_DIR%/Tepee3DEngine/plugins_qml">plugins_qml</asset>
+    <icon>
+        <image>icon.png</image>
+    </icon>
+</qnx>
