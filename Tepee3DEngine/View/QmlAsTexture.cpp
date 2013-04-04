@@ -35,10 +35,10 @@ QSGNode*    QmlAsTexture::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData 
             emit textureChanged();
     }
 
-    if (this->texture && this->effectItem)
-        this->effectItem->triggerDynamicTextureUpdate();
+    //if (this->texture && this->effectItem)
+    //     this->effectItem->triggerDynamicTextureUpdate();
 
-//    this->update();
+    //    this->update();
     return oldNode;
 }
 
