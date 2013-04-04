@@ -45,7 +45,7 @@ Plugins::PluginBase* HarlemShake::createNewInstance()
     return new HarlemShake();
 }
 
-void    HarlemShake::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void *)
+void    HarlemShake::receiveResultFromSQLQuery( QList<QSqlRecord> q, int , void *)
 {
     if (q.size() < 2)
         return ;
