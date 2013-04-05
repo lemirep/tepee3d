@@ -76,3 +76,8 @@ void WatchPlugin::onFocusedFocusState()
     qDebug() << "Focused focus handler";
 }
 
+QString WatchPlugin::getTime()
+{
+    return QTime::currentTime().toString();
+
+}

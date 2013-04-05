@@ -63,7 +63,7 @@ OTHER_FILES += \
     WatchPlugin.qml \
     Menu.qml \
     qmldir \
-    AlarmClock-1.dae
+    AlarmClock-2.dae
 
 
 # deploy qml files to correct dir

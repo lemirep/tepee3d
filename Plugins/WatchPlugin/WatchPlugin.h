@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QQuickItem>
 #include <PluginBase.h>
-
+#include <QDateTime>
 class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
@@ -33,6 +33,7 @@ public:
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
+    Q_INVOKABLE QString     getTime();
 private slots :
 
     void                    onFocusStateChanged();
