@@ -1,6 +1,6 @@
 qml_folder.source = ../../Tepee3DEngine/plugins_qml
 qml_folder.target = ./
-SUBDIRS  = qttweetlib
+
  TEMPLATE        = lib
  CONFIG         += qt plugin
  QT             += quick
@@ -65,11 +65,13 @@ INCLUDEPATH += $$PWD/qttweetlib
 DEPENDPATH += $$PWD/qttweetlib
 LIBS += -L$$PWD/qttweetlib -lqtweetlib
 
+OTHER_FILES += \
+    Menu.qml \
+    TwitterPlugin.qml \
+    qttweetlib/libqtweetlib.so.1.0.0 \
+    qttweetlib/libqtweetlib.so.1.0 \
+    qttweetlib/libqtweetlib.so.1 \
+    qttweetlib/libqtweetlib.so
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)
-
-OTHER_FILES += \
-    Menu.qml \
-    TwitterPlugin.qml
-

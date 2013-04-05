@@ -3,6 +3,7 @@
 TwitterPlugin::TwitterPlugin() : PluginBase()
 {
     qDebug() << "CREATION OF TwitterPlugin";
+    this->initPlugin();
 }
 
 int TwitterPlugin::getPluginId()
@@ -13,6 +14,10 @@ int TwitterPlugin::getPluginId()
 void TwitterPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
+    m_oauthTwitter = new OAuthTwitter(this);
+    m_oauthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
+    connect(m_oauthTwitter, SIGNAL(authorizeXAuthFinished()), this, SLOT(xauthFinished()));
+    connect(m_oauthTwitter, SIGNAL(authorizeXAuthError()), this, SLOT(xauthError()));
 }
 
 QString TwitterPlugin::getPluginName()
@@ -45,7 +50,7 @@ Plugins::PluginBase* TwitterPlugin::createNewInstance()
     return new TwitterPlugin();
 }
 
-void    TwitterPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int id, void *)
+void    TwitterPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int , void *)
 {
     if (q.size() < 2)
         return ;
@@ -80,3 +85,12 @@ void TwitterPlugin::onFocusedFocusState()
     qDebug() << "Focused focus handler";
 }
 
+void TwitterPlugin::xauthFinished()
+{
+    qDebug() << "xauth successfull";
+}
+
+void TwitterPlugin::xauthError()
+{
+    qDebug() << "xauth fail";
+}

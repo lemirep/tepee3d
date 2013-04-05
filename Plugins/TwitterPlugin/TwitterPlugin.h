@@ -46,6 +46,8 @@ public:
 private slots :
 
     void                    onFocusStateChanged();
+    void                    xauthFinished();
+    void                    xauthError();
 };
 
 
