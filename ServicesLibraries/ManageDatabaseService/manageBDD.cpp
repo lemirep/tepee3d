@@ -44,7 +44,7 @@ ManageBDD::~ManageBDD()
  */
 bool ManageBDD::openDatabase(const QString& dbName)
 {
-    this->localDBName = QDir::currentPath() + "/" + dbName;
+    this->localDBName = QDir::currentPath() + "/databases/" + dbName;
     qDebug() << localDBName;
     this->dataBase.setHostName("localhost");
     this->dataBase.setDatabaseName(localDBName);

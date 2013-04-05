@@ -32,6 +32,13 @@
     <asset path="%SRC_DIR%/Tepee3DEngine/plugins_qml">plugins_qml</asset>
 <!--    DeveloperAPIFiles-->
     <asset path="%SRC_DIR%/Tepee3DEngine/DeveloperAPIFiles">DeveloperAPIFiles</asset>
+<!--    Databases files-->
+    <asset path="%SRC_DIR%/Tepee3DEngine/databases">databases</asset>
+<!--    Permissions-->
+    <permission>access_internet</permission>
+    <permission>narrow_landscape_exit</permission>
+    <permission>post_notification</permission>
+    <permission>access_shared</permission>
     <icon>
         <image>icon.png</image>
     </icon>
