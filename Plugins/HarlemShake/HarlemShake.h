@@ -12,7 +12,6 @@ class HarlemShake : public Plugins::PluginBase          // MANDATORY FOR PLUGIN 
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.HarlemShake")
 
 private:
-
     QQmlContext *context;
 
 protected:
@@ -28,7 +27,6 @@ public:
     Q_INVOKABLE QString     getPluginDescription();
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
-
     QString                 getRoomPluginQmlFile() const;
     QString                 getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface

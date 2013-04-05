@@ -57,21 +57,25 @@ defineTest(copyToDestDir) {
 }
 
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/qttweetlib/release/ -lqtweetlib
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/qttweetlib/debug/ -lqtweetlib
-else:unix: LIBS += -L$$PWD/qttweetlib/ -lqtweetlib
+#win32:CONFIG(release, debug|release): LIBS += -L$$PWD/qttweetlib/release/ -lqtweetlib
+#else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/qttweetlib/debug/ -lqtweetlib
+#else:unix: LIBS += -L$$PWD/qttweetlib/ -lqtweetlib
 
-INCLUDEPATH += $$PWD/qttweetlib
-DEPENDPATH += $$PWD/qttweetlib
-LIBS += -L$$PWD/qttweetlib -lqtweetlib
+#INCLUDEPATH += $$PWD/qttweetlib
+#DEPENDPATH += $$PWD/qttweetlib
+#LIBS += qttweetlib/libqtweetlib.so.1.0.0 \
+#    qttweetlib/libqtweetlib.so.1.0 \
+#    qttweetlib/libqtweetlib.so.1 \
+#    qttweetlib/libqtweetlib.so
+
+
+INCLUDEPATH +=  ./qttweetlib
+LIBS +=  -L./qttweetlib -lqtweetlib
+
 
 OTHER_FILES += \
     Menu.qml \
     TwitterPlugin.qml \
-    qttweetlib/libqtweetlib.so.1.0.0 \
-    qttweetlib/libqtweetlib.so.1.0 \
-    qttweetlib/libqtweetlib.so.1 \
-    qttweetlib/libqtweetlib.so
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)

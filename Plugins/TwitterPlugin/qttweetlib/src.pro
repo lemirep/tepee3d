@@ -4,8 +4,8 @@ QT       += gui
 TEMPLATE = lib
 TARGET = qtweetlib
 DESTDIR = ./
-CONFIG += create_prl
-INCLUDEPATH += ..
+#INCLUDEPATH += ..
+CONFIG+= staticlib
 
 windows: {
 	DEFINES += QTWEETLIB_MAKEDLL

@@ -14,10 +14,10 @@ int TwitterPlugin::getPluginId()
 void TwitterPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
-    m_oauthTwitter = new OAuthTwitter(this);
-    m_oauthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
-    connect(m_oauthTwitter, SIGNAL(authorizeXAuthFinished()), this, SLOT(xauthFinished()));
-    connect(m_oauthTwitter, SIGNAL(authorizeXAuthError()), this, SLOT(xauthError()));
+    //m_oauthTwitter = new OAuthTwitter(this);
+    //m_oauthTwitter->setNetworkAccessManager(new QNetworkAccessManager(this));
+    //connect(m_oauthTwitter, SIGNAL(authorizeXAuthFinished()), this, SLOT(xauthFinished()));
+    //connect(m_oauthTwitter, SIGNAL(authorizeXAuthError()), this, SLOT(xauthError()));
 }
 
 QString TwitterPlugin::getPluginName()
