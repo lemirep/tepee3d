@@ -60,13 +60,22 @@ Item3D
         enabled: isFocused
         x : ((mainWindow.width / 2) - mainWindow.width / 12)
         y : ((mainWindow.height / 2) - mainWindow.height / 25)
-        Text
-        {
-            visible: isFocused
-            text    : time;
-            color : "red"
-            font.pixelSize: 50
-        }
+       // Rectangle
+        //{
+          //  visible: false
+           // height : 100
+            //width: 250
+            //color : "black"
+            Text
+            {
+                visible: isFocused
+                text    : time;
+                color : "red"
+                font.pixelSize: 50
+                //            font.family : "Helvetica [Cronyx]"
+                textFormat: Text.PlainText
+            }
+        //}
     }
 
 }

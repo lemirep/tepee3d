@@ -6,6 +6,7 @@
 #include <QQuickItem>
 #include <PluginBase.h>
 #include <QDateTime>
+#include <QLCDNumber>
 class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
