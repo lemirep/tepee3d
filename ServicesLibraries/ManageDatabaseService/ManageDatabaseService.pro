@@ -27,4 +27,4 @@ HEADERS +=   \
 
 DESTDIR = ../../Tepee3DEngine/libraries/services_lib
 
-INCLUDEPATH += ../../DeveloperAPIFiles/Services
+INCLUDEPATH += ../../Tepee3DEngine/DeveloperAPIFiles/Services

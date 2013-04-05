@@ -52,7 +52,7 @@ Item3D
             console.log("v State " + newFocusStateValue + "  "  + focusState);
             // IF THE PLUGIN HAS NEVER BEEN LOADED WE LOAD IT
             if (newFocusStateValue === 0 && !plugin_loader.item)
-                plugin_loader.source =  "../../Tepee3DEngine/plugins_qml/" + pluginName + "/" + roomQmlFile;
+                plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
             if (!plugin_loader.item)
                 return ;
             // CALL THE FOCUS HANDLER MATCHING THE NEW FOCUS STATE
@@ -61,7 +61,7 @@ Item3D
                 // TELL THE PARENT ROOM THERE IS A PLUGIN FOCUSED
                 room_item.isAPluginFocused = true;
                 console.log("MENU IS >>>> " + menuQmlFile)
-                mainWindow.pluginMenuSource = "../../Tepee3DEngine/plugins_qml/" + pluginName + "/" + menuQmlFile;
+                mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
                 plugin_loader.item.switchToFocusedView();
             }
             else

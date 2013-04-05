@@ -7,7 +7,7 @@ qml_folder.target = ./
   QT             += gui
 
  #include development files
-    include (../../DeveloperAPIFiles/DevelopmentFiles.pri)
+    include (../../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
  TARGET          = SeriesPlugin
  DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries

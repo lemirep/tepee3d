@@ -22,7 +22,7 @@ HEADERS         = \
     TestPlugin.cpp
 
 #include development files
-include (../../DeveloperAPIFiles/DevelopmentFiles.pri)
+include (../../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
  TARGET          = TestPlugin                    #NAME OF THE PLUGIN LIBRAY
  DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries             #WHERE TO PUT THE LIBRARY

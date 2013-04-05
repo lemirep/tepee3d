@@ -16,6 +16,6 @@ HEADERS += BasicRoom.h
 
 DESTDIR = ../Tepee3DEngine/libraries/room_library
 
-include(../DeveloperAPIFiles/DevelopmentFiles.pri)
+include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
 

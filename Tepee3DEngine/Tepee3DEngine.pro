@@ -12,7 +12,7 @@ SOURCES += main.cpp
 win32:DESTDIR = ./
 
 # Include Shared Development Files
-include(../DeveloperAPIFiles/DevelopmentFiles.pri)
+include(DeveloperAPIFiles/DevelopmentFiles.pri)
 # Include QmlViewManagement
 include(View/View.pri)
 # Include Room Sources

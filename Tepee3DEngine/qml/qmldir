@@ -1,19 +1,18 @@
 # QMLDIR File for BufferedTextureSourcePlugin
 #module BufferedTextureSource
-plugin BufferedTextureSource ../../qml_extension_plugins/
+#plugin BufferedTextureSource ../../qml_extension_plugins/
 #plugin RoomLibrary ../../libraries/room_library/
 
-
 # QML FILES FOR GENERAL USE
-Carousel 1.0 ../../DeveloperAPIFiles/qml/Carousel.qml
+Carousel 1.0 ../DeveloperAPIFiles/qml/Carousel.qml
 # FOR FILE BROWSER
-FileExplorer 1.0 ../../DeveloperAPIFiles/qml/FileExplorer.qml
-FileLoader 1.0 ../../DeveloperAPIFiles/qml/FileLoader.qml
-FileDelegate 1.0 ../../DeveloperAPIFiles/qml/FileDelegate.qml
-FolderDelegate 1.0 ../../DeveloperAPIFiles/qml/FolderDelegate.qml
+FileExplorer 1.0 ../DeveloperAPIFiles/qml/FileExplorer.qml
+FileLoader 1.0 ../DeveloperAPIFiles/qml/FileLoader.qml
+FileDelegate 1.0 ../DeveloperAPIFiles/qml/FileDelegate.qml
+FolderDelegate 1.0 ../DeveloperAPIFiles/qml/FolderDelegate.qml
 
 # QML FILES FOR PLUGINS
-PluginBase 1.0 ../../DeveloperAPIFiles/qml/PluginBase.qml
+PluginBase 1.0 ../DeveloperAPIFiles/qml/PluginBase.qml
 
 # QML FOR MENUS
 MenuBottom 1.0 Menus/MenuBottom.qml
@@ -39,9 +38,9 @@ RoomPluginDelegate 1.0 Plugins/RoomPluginDelegate.qml
 NotificationManager 1.0 Notifications/NotificationManager.qml
 
 # QML FOR UICOMPONENTS
-TextInputComponent 1.0 ../../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
+TextInputComponent 1.0 ../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
 
 # JS FILES
 RoomManagement 1.0 js/RoomManagement.js
 Walls 1.0 js/Walls.js
-CameraManagement 1.0 ../../DeveloperAPIFiles/js/CameraManagement.js
+CameraManagement 1.0 ../DeveloperAPIFiles/js/CameraManagement.js

@@ -1,5 +1,5 @@
 # QML FILES FOR PLUGINS
-PluginBase 1.0 ../../DeveloperAPIFiles/qml/PluginBase.qml
+PluginBase 1.0 ../DeveloperAPIFiles/qml/PluginBase.qml
 
 Room 1.0 ../Rooms/Room.qml
 RoomDelegate 1.0 ../Rooms/RoomDelegate.qml
