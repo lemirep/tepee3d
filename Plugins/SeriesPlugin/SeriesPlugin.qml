@@ -271,6 +271,7 @@ Item3D
                         anchors.fill: parent
                         onClicked:
                         {
+                            console.log("calling show search")
                             SeriesPlugin.searchForShow(search_input.text)
                         }
                     }

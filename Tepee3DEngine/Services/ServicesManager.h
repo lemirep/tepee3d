@@ -30,6 +30,8 @@ namespace Services
 class ServicesManager : public QObject, public View::QmlContentExposerInterface
 {
     Q_OBJECT
+    Q_INTERFACES(View::QmlContentExposerInterface)
+
 public:
     void    exposeContentToQml(QQmlContext *context);
     static  ServicesManager*        getInstance(QObject *parent = 0);

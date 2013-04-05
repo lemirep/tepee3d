@@ -16,5 +16,6 @@ public :
 
 };
 }
+Q_DECLARE_INTERFACE(Services::DatabaseServiceUserInterface, "com.tepee3d.Services.DatabaseServiceUserInterface/1.0")
 
 #endif // DATABASEUSER_H

@@ -29,7 +29,7 @@ NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId, voi
 void    NetworkReplyRepeater::receiveNetworkReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    Services::WebServiceUserInterface* wbUser = dynamic_cast<Services::WebServiceUserInterface*>(this->receiver);
+    Services::WebServiceUserInterface* wbUser = qobject_cast<Services::WebServiceUserInterface*>(this->receiver);
     if (wbUser)
         wbUser->receiveResultFromHttpRequest(reply, this->requestId, this->data);
     else

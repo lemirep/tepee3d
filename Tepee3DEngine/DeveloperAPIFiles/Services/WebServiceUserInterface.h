@@ -21,5 +21,7 @@ public :
     //void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *);
 };
 }
+Q_DECLARE_INTERFACE(Services::WebServiceUserInterface, "com.tepee3d.Services.WebServiceUserInterface/1.0")
+
 
 #endif // WEBSERVICEUSERINTERFACE_H

@@ -21,6 +21,8 @@ namespace   Room
 class RoomManager : public QObject, public View::QmlContentExposerInterface
 {
     Q_OBJECT
+    Q_INTERFACES(View::QmlContentExposerInterface)
+
 public:
     ~RoomManager();
     static RoomManager*     getInstance(QObject *parent = NULL);

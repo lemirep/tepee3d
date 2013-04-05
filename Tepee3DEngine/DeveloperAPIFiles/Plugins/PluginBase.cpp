@@ -141,6 +141,13 @@ Plugins::PluginBase::PluginBase() : QObject()
 }
 
 /*!
+ * Virtual destructors of a PluginBase instance. Primarly needed for dynamc_cast safety.
+ */
+Plugins::PluginBase::~PluginBase()
+{
+}
+
+/*!
  * \fn void Plugins::PluginBase::initPlugin()
  *
  * Initializes the plugins. You must implement this method and perform

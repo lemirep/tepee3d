@@ -144,7 +144,7 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
 {
     qDebug() << "Connecting user to WebServices";
     // HTTP
-    if (dynamic_cast<Services::WebServiceUserInterface*>(user) != NULL)
+    if (qobject_cast<Services::WebServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int, void*)),
                          this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int, void*)));
     qWarning() << "Object does not implement WebServiceUserInterface";
@@ -157,7 +157,7 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
 bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
 {
     // HTTP
-    if (dynamic_cast<Services::WebServiceUserInterface*>(user) != NULL)
+    if (qobject_cast<Services::WebServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int, void*)),
                          this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int, void*)));
     qWarning() << "Object does not implement WebServiceUserInterface";

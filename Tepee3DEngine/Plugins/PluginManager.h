@@ -32,6 +32,7 @@ namespace Plugins
 class PluginManager : public QObject, public View::QmlContentExposerInterface
 {
     Q_OBJECT
+    Q_INTERFACES(View::QmlContentExposerInterface)
 public:
     ~PluginManager();
 

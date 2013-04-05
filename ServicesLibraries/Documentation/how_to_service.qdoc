@@ -172,6 +172,9 @@
  This file should directly be inserted in the Tepee3D Services include directory which
  is located at DevelopmentFiles/Services/.
 
+ You need to have a Q_DECLARE_INTERFACE macro in order to later use qobject_cast on subscribers
+ to check whether they can access your service.
+
  A simple Service Interface could look like the following:
 
  \code
@@ -186,6 +189,7 @@
 
  };
  }
+ Q_DECLARE_INTERFACE(Services::ExampleServiceUserInterface, "com.tepee3d.Services.ExampleServiceUserInterface/1.0)
 
  #endif // EXAMPLESERVICEUSERINTERFACE_H
 
@@ -194,6 +198,9 @@
  If the use of your service requires method to be implemented, you should declare
  pure virtual method in the interface. For example the WebServiceUserInterface contains
  a method for receiving network request that users of the service must implement.
+
+ Note that subscribers to the service will need to have a Q_INTERFACES(Services::ExampleServiceUserInterface)
+ right below the Q_OBJECT macro in their header file.
 
  \code
  virtual void receiveResultFromHttpRequest(QNetworkReply *) = 0;
@@ -225,7 +232,7 @@
  bool ExempleServiceManager::connectServiceToUser(QObject *user)
  {
     // CALLED TO REGISTER A USER TO THE SERVICE
-    if (dynamic_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
+    if (qobject_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
     {
         // DO SIGNAL CONNECTIONS HERE
         ...
@@ -235,7 +242,7 @@
  bool ExempleServiceManager::disconnectServiceFromUser(QObject *user)
  {
     // CALLED TO UNREGISTER A USER FROM THE SERVICE
-    if (dynamic_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
+    if (qobject_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
     {
         // DO SIGNAL DISCONNECTION HERE
         ...

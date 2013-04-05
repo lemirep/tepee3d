@@ -12,12 +12,13 @@ Room::RoomLoader*   Room::RoomLoader::instance = NULL;
 
 Room::RoomLoader::RoomLoader(QObject *parent) : QObject(parent)
 {
+    // CONNECT TO DATABASE SERVICE
+    Services::ServicesManager::connectObjectToServices(this);
+    // DATABASE CALLBACKS
     this->pFunc[SEARCH_FOR_ROOM] = &Room::RoomLoader::searchForRoomEditUpdateCallback;
     this->pFunc[GENERIC_RESULT] = &Room::RoomLoader::genericResultCallback;
     this->pFunc[RESTORE_ROOMS] = &Room::RoomLoader::restoreRoomsCallback;
-    // CONNECT TO DATABASE SERVICE
     qDebug() << "Connection RoomLoader to services";
-    Services::ServicesManager::connectObjectToServices(this);
 }
 
 Room::RoomLoader::~RoomLoader()

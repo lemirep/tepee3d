@@ -22,10 +22,14 @@ class PluginBase : public QObject,
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)
+    Q_INTERFACES(Services::DatabaseServiceUserInterface)
+    Q_INTERFACES(Services::WebServiceUserInterface)
+    Q_INTERFACES(View::QmlContentExposerInterface)
 
 public:
 
     explicit PluginBase();
+    virtual  ~PluginBase();     // AS THE CLASS IS SUBJECT TO DYNAMIC CAST, THIS IS NECESSARY
     virtual int                 getPluginId()               = 0;
     virtual bool                needsUpdating()             const;  // BY DEFAULT RETURNS FALSE
     virtual void                updatePlugin();

@@ -25,6 +25,7 @@
     class RoomLoader : public QObject, public Services::DatabaseServiceUserInterface
     {
         Q_OBJECT
+        Q_INTERFACES(Services::DatabaseServiceUserInterface)
 
     private:
         RoomLoader(QObject *parent = 0);
