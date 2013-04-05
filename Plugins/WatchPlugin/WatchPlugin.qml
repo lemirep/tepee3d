@@ -20,7 +20,7 @@ Item3D
     function switchToFocusedView()
     {
         var eyePos = plugin_base.getRoomPosition();
-        eyePos.z += (-10)
+        eyePos.z = (-10)
 
         var widgetPos = plugin_base.getRoomPosition();
         widgetPos.x += alarm_clock_container.x
@@ -59,23 +59,26 @@ Item3D
         id : printclock
         enabled: isFocused
         x : ((mainWindow.width / 2) - mainWindow.width / 12)
-        y : ((mainWindow.height / 2) - mainWindow.height / 25)
-       // Rectangle
-        //{
-          //  visible: false
-           // height : 100
-            //width: 250
-            //color : "black"
+        y : ((mainWindow.height / 2) - mainWindow.height / 17)
+        Rectangle
+        {
+            visible: isFocused
+            height : 80
+            width: 181
+            color : "black"
+            FontLoader { id: ledFont; source: "./led_real.ttf" }
             Text
             {
-                visible: isFocused
-                text    : time;
+                anchors{
+                    verticalCenter : parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+                font.family: ledFont.name
                 color : "red"
+                text: time
                 font.pixelSize: 50
-                //            font.family : "Helvetica [Cronyx]"
-                textFormat: Text.PlainText
             }
-        //}
+        }
     }
 
 }
