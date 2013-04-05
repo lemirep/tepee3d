@@ -73,7 +73,8 @@ OTHER_FILES += \
     js/pocket.js \
     js/lib/sha1.js \
     TestPlugin.qml \
-    js/storage.js
+    js/storage.js \
+    storage.qml
 
 # Copies the given files to the destination directory
 defineTest(copyToDestDir) {
@@ -143,6 +144,7 @@ defineTest(copyToDestDir) {
 
 #    OTHER_FILES += bar-descriptor.xml
 #}
+
 
 
 

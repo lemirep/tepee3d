@@ -27,7 +27,7 @@ public:
     int                     getPluginId();
     void                    initPlugin();
     Q_INVOKABLE QString     getPluginName();
-    Q_INVOKABLE QString                 getPluginDescription();
+    Q_INVOKABLE QString     getPluginDescription();
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
 

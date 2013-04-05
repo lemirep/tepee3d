@@ -17,14 +17,16 @@
     along with NewsFlow. If not, see <http://www.gnu.org/licenses/>.
 */
 
-Qt.include("xauth.js")
-Qt.include("storage.js")
+Qt.include("xauth.js");
+Qt.include("storage.js");
+
+
 
 var Twitter = function() {
 
     // token
-    var oauth_token = "";
-    var oauth_token_secret = "";
+    var oauth_token = "317385464-FcPKqOIc0zZm7b8tHeDOVlX0m0WU9ru7K6yKBQPV";
+    var oauth_token_secret = "ewCRwatHBEdBLIhZnth3IWoxddADI6R3c6sr3mUZag";
     // XAuth specific parameters
     var OAUTH_REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token";
     var OAUTH_ACCESS_TOKEN_URL = "https://api.twitter.com/oauth/access_token";
@@ -71,8 +73,8 @@ var Twitter = function() {
     var TIME_TEST_URL = "https://api.twitter.com/1/help/test.json";
 
     // Sorry... These aren't public
-    var CONSUMER_KEY = "XCL6luL7vjkEQ2s4bjRiFg";
-    var CONSUMER_SECRET = "wpIYreMj0GM3Uo6GZGcHCbPlObFN3nevdURE2LZalM";
+    var CONSUMER_KEY = "dWfUgmTyH7l59WzviWFGtw";
+    var CONSUMER_SECRET = "OYk8jVEeNqsw1Qv44lXDbbHtNbtI7ulsrPRhqPx4Opk";
 
     var sig = "hmac-sha1";
     var xauth = new XAuth();
@@ -133,7 +135,7 @@ var Twitter = function() {
     this.login = function() {
         if(hasToken) {
             console.log("login - loading home");
-            loadTimeline(HOME_TIMELINE_URL, false);
+           modelBatman(HOME_TIMELINE_URL, false);
             return;
         }
         console.log( "Loading tokens from DB" );
@@ -165,7 +167,8 @@ var Twitter = function() {
          }
          tokenDBCounter++;
          if(tokenDBCounter==2) {
-             if(token.indexOf("-")>0) {
+             if (token.indexOf("-"))
+             {
                 console.log("use existing tokens");
                 hasToken = true;
                 xauth.setTokenAndSecret(token, tokenSecret);

@@ -17,8 +17,8 @@
     along with NewsFlow. If not, see <http://www.gnu.org/licenses/>.
 */
 
-Qt.include("twitter.js")
-Qt.include("storage.js")
+Qt.include("twitter.js");
+Qt.include("storage.js");
 
 var tweets;
 var tweetsHome;

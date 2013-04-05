@@ -1,4 +1,5 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
+import QtQuick.LocalStorage 2.0
 import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
@@ -27,10 +28,14 @@ Item3D
     function getTimeLine()
     {
         console.log("CALL TWITTER <<<<<<<<<<<<<<<<<<<<<");
-        Script.getTwitterTimeAndLogin();
+            Script.getTwitterTimeAndLogin();
+
+        //var db = LocalStorage.openDatabaseSync("TestPlugin", "1.0", "KeyValueStorage", 10,"QSQLITE")
+
+        console.log("<<<------------------GETTOKEN");
+
         console.log("<<<------------------");
     }
-
     position : Qt.vector3d(0, 0, 0)
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}

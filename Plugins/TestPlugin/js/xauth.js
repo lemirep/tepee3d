@@ -27,7 +27,7 @@ function XAuth() {
     var OAUTH_CONSUMER_SECRET = "wpIYreMj0GM3Uo6GZGcHCbPlObFN3nevdURE2LZalM";
     var HMACSHA1SignatureType = "HMAC-SHA1";
 
-    var OAuthVersion = "1.0";
+    var OAuthVersion = "1.1";
     var OAuthParameterPrefix = "oauth_";
 
     var OAuthConsumerKeyKey = "oauth_consumer_key";
