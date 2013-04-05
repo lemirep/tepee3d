@@ -12,8 +12,6 @@ qml_folder.target = ./
  TEMPLATE        = lib
  CONFIG         += qt plugin
  QT             += quick
- QT             += gui
-QT              += sql
 
 HEADERS         = \
     TestPlugin.h

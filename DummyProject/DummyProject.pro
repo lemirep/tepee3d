@@ -4,7 +4,6 @@ qml_folder.target = ./
   TEMPLATE        = lib
   CONFIG         += qt plugin
   QT             += quick
-  QT             += gui
 
  #include development files
     include (../DeveloperAPIFiles/DevelopmentFiles.pri)

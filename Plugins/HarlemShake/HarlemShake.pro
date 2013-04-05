@@ -2,10 +2,8 @@ qml_folder.source = ../../Tepee3DEngine/plugins_qml
 qml_folder.target = ./
 
  TEMPLATE        = lib
- CONFIG         += qt plugin
- QT             += quick
- QT             += gui
- QT              += sql
+ CONFIG          += qt plugin
+ QT              += quick
  QT              += multimedia
 
 HEADERS += \
