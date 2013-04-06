@@ -88,13 +88,14 @@ Item3D
     {
         id : printclock
         enabled: isFocused
-        x : ((mainWindow.width / 2) - mainWindow.width / 12)
-        y : ((mainWindow.height / 2) - mainWindow.height / 17)
+        x : ((mainWindow.width / 2) - (mainWindow.width / 3.4))
+        y : ((mainWindow.height / 2)- (mainWindow.width / 30))
         Rectangle
         {
             visible: isFocused
-            height : 80
-            width: 181
+            height : 125
+            width: 285
+            radius : 5
             color : "black"
             Text
             {
@@ -113,13 +114,14 @@ Item3D
     {
         id : printclock_selected
         enabled: isNotFocused
-        x : ((mainWindow.width / 2) - mainWindow.width / 26)
-        y : ((mainWindow.height / 2) - mainWindow.height / 35)
+        x : ((mainWindow.width / 2) - (mainWindow.width / 7.2))
+        y : ((mainWindow.height / 2) - (mainWindow.width / 65))
         Rectangle
         {
             visible: isNotFocused
-            height : 40
-            width: 85
+            height : 58
+            width: 137
+            radius : 4
             color : "black"
             Text
             {
