@@ -62,10 +62,10 @@ View::QmlViewProperties* View::QmlViewProperties::getInstance(QObject *parent)
 void    View::QmlViewProperties::exposeContentToQml(QObject *exposer)
 {
     qDebug() << "Exposing Qml Content";
-    QmlContentExposerInterface* interface = NULL;
+    View::QmlContentExposerInterface* viewInterface = NULL;
 
-    if ((interface = qobject_cast<QmlContentExposerInterface *>(exposer)) != NULL)
-        interface->exposeContentToQml(View::QmlViewProperties::getInstance()->qmlContext);
+    if ((viewInterface = qobject_cast<View::QmlContentExposerInterface *>(exposer)) != NULL)
+        viewInterface->exposeContentToQml(View::QmlViewProperties::getInstance()->qmlContext);
 }
 
 /*!
