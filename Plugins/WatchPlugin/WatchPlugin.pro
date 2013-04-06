@@ -64,7 +64,7 @@ OTHER_FILES += \
     Menu.qml \
     qmldir \
     AlarmClock-2.dae \
-    led_real.ttf
+    enhanced_led_board-7.ttf
 
 
 # deploy qml files to correct dir

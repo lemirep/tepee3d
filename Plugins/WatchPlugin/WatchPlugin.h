@@ -39,6 +39,5 @@ private slots :
 
     void                    onFocusStateChanged();
 
-
 };
 #endif // WATCHPLUGIN_H
