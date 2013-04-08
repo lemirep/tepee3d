@@ -26,6 +26,9 @@
 ManageBDD::ManageBDD() : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
+    this->applicationPath = QCoreApplication::applicationDirPath();
+    this->localDBName = "";
+    this->databasePath = "";
 }
 
 /*!
@@ -44,13 +47,61 @@ ManageBDD::~ManageBDD()
  */
 bool ManageBDD::openDatabase(const QString& dbName)
 {
-    this->localDBName = QDir::currentPath() + "/databases/" + dbName;
+    // CLEAR DB PATH IN CASE
+    this->localDBName = "";
+#ifdef Q_OS_QNX
+    // ON QNX, DATABASE HAVE TO BE COPIED TO THE data DIRECTORY
+    // IN ORDER TO BE USED
+
+    if (this->databasePath.isEmpty())
+    {
+        QDir dbDir(this->applicationPath);
+        dbDir.cdUp();
+        dbDir.cdUp();
+        dbDir.cd("data");
+        this->databasePath = dbDir.absolutePath();
+    }
+    QFile dbFile(this->databasePath + "/" + dbName);
+    qDebug() << dbFile.fileName();
+    if (!dbFile.exists())
+    {
+        qDebug() << "File doesn't exist";
+        QFile dbTemplate(this->applicationPath + "/databases/" + dbName);
+        qDebug() << "Trying to copy " << dbTemplate.fileName();
+        if (dbTemplate.exists())
+        {
+            qDebug() << "Database Template exists";
+            if (dbTemplate.copy(dbFile.fileName()))
+            {
+                this->localDBName = dbFile.fileName();
+                qDebug() << "File Copied Successfully";
+            }
+        }
+    }
+    else
+        qDebug() << "File already exists";
+
+#endif
+
+#ifdef Q_OS_WIN32
+    // ON WINDOWS THE SQL DATABASES MUST BE IN THE APPDATA DIRECTORY
+    // OTHERWISE THE PROGRAM AS TO BE RUN AS ADMINISTRATOR TO SAVE IN THE BDD
+
+
+#endif
+
+#ifdef Q_OS_LINUX
+    // ON LINUX DATABASES CAN BE READ DIRECTLY FROM THE databases DIRECTORY
+    // OF THE APPLICATION
+    if (this->databasePath.isEmpty())
+        this->databasePath = QDir::currentPath() + "/databases/";
+    this->localDBName =  this->databasePath + dbName;
+#endif
+
     qDebug() << localDBName;
     this->dataBase.setHostName("localhost");
     this->dataBase.setDatabaseName(localDBName);
 
-    // ON WINDOWS THE SQL DATABASES MUST BE IN THE APPDATA DIRECTORY
-    // OTHERWISE THE PROGRAM AS TO BE RUN AS ADMINISTRATOR TO SAVE IN THE BDD
 
     // THE DATABASE IS NOW CONTAINED IN THE TEPEE3DENGINE
     // THIS ALLOWS US TO PROVIDE A DATABASE SCHEMA WITHOUT HAVING TO

@@ -1,14 +1,14 @@
 #ifndef MANAGEBDD_H
 #define MANAGEBDD_H
 
+#include <QCoreApplication>
 #include <QObject>
 #include <QString>
 #include <QVariant>
 #include <QSqlDatabase>
 #include <QSqlRecord>
 #include <QList>
-#include <iostream>
-#include <string.h>
+#include <QFile>
 #include <QtSql>
 
 class ManageBDD : public QObject
@@ -30,6 +30,8 @@ private :
     QSqlDatabase    dataBase;
     QList<QString>  fieldName ;
     QList<QString>  value;
+    QString         applicationPath;
+    QString         databasePath;
 };
 
 #endif // MANAGEBDD_H

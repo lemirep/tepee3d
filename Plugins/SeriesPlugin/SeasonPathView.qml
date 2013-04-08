@@ -17,34 +17,29 @@ Item
         focus : true
         flickDeceleration : 200
         pathItemCount : 10
+        preferredHighlightBegin: 0.50
+        preferredHighlightEnd : 0.55
         path : Path {
             id : season_path
             property real x_target : mainWindow.width / 6
-            startX : x_target
-            startY : mainWindow.height / 2
+            startX : 0
+            startY : 0
+            PathPercent {value : 0}
+            PathAttribute {name : "delZ"; value : 0.5}
+            PathAttribute {name : "delScale"; value : 0.4}
+            PathAttribute {name : "delAngle"; value : 30}
+            // CENTER
+            PathLine { x: season_path.x_target; y: height / 2;}
+            PathPercent {value : 0.5}
             PathAttribute {name : "delScale"; value : 1}
             PathAttribute {name : "delZ"; value : 1}
             PathAttribute {name : "delAngle"; value : 0}
-            // TOP
-            PathCurve { x: 0; y: 0;}
-            PathAttribute {name : "delZ"; value : 0.5}
-            PathAttribute {name : "delScale"; value : 0.4}
-            PathAttribute {name : "delAngle"; value : 30}
-            // BETWEEN TOP AND BOTTOM
-            PathCurve { x: -100; y: mainWindow.height / 2;}
-            PathAttribute {name : "delZ"; value : 0.5}
-            PathAttribute {name : "delScale"; value : 0.3}
-            PathAttribute {name : "delAngle"; value : 60}
             // BOTTOM
-            PathCurve { x: 0; y: mainWindow.height;}
+            PathLine { x: 0; y: mainWindow.height;}
+            PathPercent {value : 1}
             PathAttribute {name : "delZ"; value : 0.5}
             PathAttribute {name : "delScale"; value : 0.4}
             PathAttribute {name : "delAngle"; value : 30}
-            // BACK TO START
-            PathCurve { x: season_path.startX; y: mainWindow.height / 2}
-            PathAttribute {name : "delScale"; value : 1}
-            PathAttribute {name : "delAngle"; value : 0}
-            PathAttribute {name : "delZ"; value : 0.5}
         }
         delegate : SeasonListViewDelegate {
             img_src : model.imageUrl

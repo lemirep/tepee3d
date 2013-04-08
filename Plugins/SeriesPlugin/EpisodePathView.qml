@@ -16,39 +16,33 @@ Item
         anchors.fill : parent
         focus : true
         flickDeceleration : 200
+        preferredHighlightBegin: 0.50
+        preferredHighlightEnd : 0.55
         path :  Path {
             id : episode_path
             property real x_target : width / 2
-            startX : x_target
-            startY : mainWindow.height / 2
+            // TOP
+            startX : width
+            startY : 0
+            PathPercent {value : 0}
+            PathAttribute {name : "delScale"; value : 0.5}
+            PathAttribute {name : "delZ"; value : 0.5}
+            PathAttribute {name : "delAngle"; value : 60}
+            PathAttribute {name : "delOpacity"; value : 0.7}
+            // MIDDLE
+            PathCurve { x: episode_path.x_target; y: height / 2}
+            PathPercent {value : 0.5}
             PathAttribute {name : "delScale"; value : 1}
             PathAttribute {name : "delZ"; value : 1}
             PathAttribute {name : "delAngle"; value : 0}
             PathAttribute {name : "delOpacity"; value : 1}
-            // TOP
-            PathCurve { x: width; y: 0}
-            PathAttribute {name : "delScale"; value : 0.5}
-            PathAttribute {name : "delZ"; value : 0.5}
-            PathAttribute {name : "delAngle"; value : -60}
-            PathAttribute {name : "delOpacity"; value : 0.7}
-            // BETWEEN TOP AND BOTTOM
-            PathCurve { x: 3 * width / 2; y: mainWindow.height / 2}
-            PathAttribute {name : "delScale"; value : 0.3}
-            PathAttribute {name : "delZ"; value : 0.4}
-            PathAttribute {name : "delAngle"; value : -120}
-            PathAttribute {name : "delOpacity"; value : 0.3}
             // BOTTOM
             PathCurve { x: width; y: mainWindow.height}
+            PathPercent {value : 1.0}
             PathAttribute {name : "delScale"; value : 0.5}
             PathAttribute {name : "delZ"; value : 0.5}
             PathAttribute {name : "delAngle"; value : -60}
             PathAttribute {name : "delOpacity"; value : 0.7}
-            // BACK TO START
-            PathCurve { x: episode_path.startX; y: mainWindow.height / 2}
-            PathAttribute {name : "delScale"; value : 1}
-            PathAttribute {name : "delZ"; value : 1}
-            PathAttribute {name : "delAngle"; value : 0}
-            PathAttribute {name : "delOpacity"; value : 1}
         }
         delegate : EpisodeListViewDelegate   {
             episodeNumber : model.episodeNumber
