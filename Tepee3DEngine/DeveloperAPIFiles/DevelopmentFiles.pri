@@ -5,7 +5,8 @@ SOURCES += $$PWD/Plugins/PluginBase.cpp         \
            $$PWD/Rooms/RoomProperties.cpp       \
            $$PWD/Rooms/RoomModelItem.cpp        \
            $$PWD/Models/ListModel.cpp           \
-           $$PWD/Models/SubListedListModel.cpp
+           $$PWD/Models/SubListedListModel.cpp  \
+           $$PWD/Utils.cpp
 
 HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Plugins/PluginModelItem.h	\
@@ -22,7 +23,8 @@ HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Models/SubListedListModel.h    \
            $$PWD/Models/SubListedListItem.h     \
            $$PWD/Plugins/PluginEnums.h          \
-           $$PWD/View/QmlContentExposerInterface.h
+           $$PWD/View/QmlContentExposerInterface.h \
+           $$PWD/Utils.h
 
 
 INCLUDEPATH += $$PWD
@@ -40,6 +42,7 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/UIComponents/TextInputComponent.qml \
                 $$PWD/qml/Resources/Pictures/text_input_border.png \
                 $$PWD/qml/Resources/Pictures/text_input_border_selected.png \
+                $$PWD/qml/Resources/Pictures/small_arrow.png \
                 $$PWD/qml/FileExplorer.qml \
                 $$PWD/qml/FileDelegate.qml \
                 $$PWD/qml/FolderDelegate.qml \
@@ -51,6 +54,8 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/Resources/Pictures/refresh.png \
                 $$PWD/qml/UIComponents/AddButton.qml \
                 $$PWD/qml/UIComponents/RefreshButton.qml \
-                $$PWD/qml/UIComponents/CloseButton.qml
+                $$PWD/qml/UIComponents/CloseButton.qml \
+                $$PWD/qml/UIComponents/BackButton.qml \
+                $$PWD/qml/UIComponents/ForwardButton.qml
 
 QT += sql

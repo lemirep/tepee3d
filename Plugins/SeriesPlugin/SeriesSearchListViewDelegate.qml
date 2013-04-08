@@ -9,9 +9,6 @@ Item
     property string series_name : ""
     property string slug : ""
 
-    scale : search_series_delegate_ma.pressed ? 0.9 : 1.0
-    Behavior on scale {SmoothedAnimation {velocity : 10}}
-
     Rectangle
     {
         id : search_serie_delegate_bg
@@ -26,7 +23,6 @@ Item
         anchors.fill: parent
         smooth : true
     }
-
     AddButton
     {
         id : add_show_to_follow
@@ -68,22 +64,5 @@ Item
         }
         asynchronous : true
         source : img_src
-    }
-    MouseArea
-    {
-        id : search_series_delegate_ma
-        anchors
-        {
-            left : add_show_to_follow.right
-            right : parent.right
-            top : parent.top
-            bottom : parent.bottom
-        }
-        onClicked:
-        {
-            cube_effect.texture = img_src
-            rotate_cube.restart()
-            search_result_listview.currentIndex = index;
-        }
     }
 }

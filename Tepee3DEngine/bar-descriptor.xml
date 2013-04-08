@@ -25,7 +25,7 @@
     <asset path="%QT_INSTALL_LIBS%">lib</asset>
     <asset path="%QT_INSTALL_PLUGINS%">plugins</asset>
     <asset path="%QT_INSTALL_IMPORTS%">imports</asset>
-    <asset path="/home/lemire_p/work/tepee3d/qnx/icon.png">icon.png</asset>
+    <asset path="%SRC_DIR%/qnx/icon.png">icon.png</asset>
 <!--    libraries Service | Room | Plugins-->
     <asset path="%SRC_DIR%/Tepee3DEngine/libraries">libraries</asset>
 <!--    Plugins Qml Files-->

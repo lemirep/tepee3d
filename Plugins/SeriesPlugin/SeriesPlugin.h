@@ -1,3 +1,30 @@
+/****************************************************************************
+**
+** Copyright (C) Paul Lemire, Tepee3DTeam and/or its subsidiary(-ies).
+** Contact: paul.lemire@epitech.eu
+** Contact: tepee3d_2014@labeip.epitech.eu
+**
+** This file is part of the Tepee3D project
+**
+** GNU Lesser General Public License Usage
+** This file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3.0 as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU General Public License version 3.0 requirements will be
+** met: http://www.gnu.org/copyleft/gpl.html.
+**
+**
+****************************************************************************/
+
 #ifndef SERIESPLUGIN_H
 #define SERIESPLUGIN_H
 
@@ -35,6 +62,7 @@ class SeriesPlugin  : public Plugins::PluginBase
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.SeriesPlugin")
 
+    Q_PROPERTY(bool addShow WRITE setAddShow READ addShow NOTIFY addShowChanged)
 public:
     SeriesPlugin();
     int                         getPluginId();
@@ -68,9 +96,13 @@ public:
     Q_INVOKABLE                 void     removeShowFromSearchResult(int showId);
     Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
 
+    bool                                 addShow() const;
+    void                                 setAddShow(bool value);
+
 private:
     Models::SubListedListModel* followedSeriesModel;
     Models::SubListedListModel* searchSeriesModel;
+    bool                        m_addShow;
 
     QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
     QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
@@ -107,6 +139,10 @@ private:
     void                        retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void                        checkIfDatabaseSchemaExists(QList<QSqlRecord> result, void *data);
     void                        genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+
+signals :
+
+    void                        addShowChanged();
 };
 
 #endif // SERIESPLUGIN_H

@@ -4,6 +4,25 @@ import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Window 2.0
 
+//Item
+//{
+//    width : 1280
+//    height : 768
+//    color : "transparent"
+// FOR 16 / 9
+//        width: 1280
+//        height: 768
+
+//    width : Screen.width
+//    height : Screen.height
+
+//        width: 1680
+//        height: 1050
+// FOR 4 / 3
+//    width : 1024
+//    height : 728
+//    focus : true
+
 Viewport
 {
     id : mainWindow
@@ -62,19 +81,13 @@ Viewport
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
 
-    // FOR 16 / 9
-    width: 1280
-    height: 768
+    //        anchors.fill: parent
+                width : 1024
+                height : 600
 
 //    width : Screen.width
 //    height : Screen.height
 
-//        width: 1680
-//        height: 1050
-    // FOR 4 / 3
-    //    width : 1024
-    //    height : 728
-    //    focus : true
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
     blending : true     // ALLOW TRANSPARENCY
@@ -127,3 +140,5 @@ Viewport
     NotificationManager    {id : notification}
     FpsCounter {}
 }
+
+//}

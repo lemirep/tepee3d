@@ -8,56 +8,36 @@ Item
     property string img_src : ""
     property string series_name : ""
     property string slug : ""
+    property string serie_overview;
+    property string serie_year;
+    property string serie_network;
+    property string serie_air_day;
+    property string serie_air_time;
+    property date serie_last_update;
+    property real rotAngle : PathView.onPath ? PathView.delAngle : 0
+    property bool isCurrentItem : PathView.isCurrentItem
 
 
-    scale : followed_series_delegate_ma.pressed ? 0.9 : 1.0
-    Behavior on scale {SmoothedAnimation {velocity : 10}}
+    //    scale : followed_series_delegate_ma.pressed ? 0.9 : 1.0
+    z : PathView.onPath ? PathView.delZ : 0
+    scale : PathView.onPath ? PathView.delScale : 0
+    transform : Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: rotAngle}
 
-    Rectangle
+    onIsCurrentItemChanged:
     {
-        id : followed_serie_delegate_bg
-        color : "grey"
-        opacity : 0.4
-        border
+        if (isCurrentItem)
         {
-            width : 1
-            color : "darkgrey"
-        }
-        radius : 15
-        anchors.fill: parent
-        smooth : true
-    }
-
-    Text
-    {
-        id : followed_series_delegate_text
-        anchors
-        {
-            left : parent.left
-            verticalCenter : parent.verticalCenter
-            leftMargin : 10
-            right : followed_series_delegate_remove_button.left
-            rightMargin : 10
-        }
-        color : "white"
-        text : series_name
-    }
-
-    CloseButton
-    {
-        id : followed_series_delegate_remove_button
-        height : parent.height - 20
-        anchors
-        {
-            verticalCenter : parent.verticalCenter
-            right : followed_series_delegate_pic.left
-            rightMargin : 5
-        }
-        onClicked:
-        {
-            SeriesPlugin.removeShowFromFollowedModel(serieId)
-            season_list_view.model = ""
-            episodes_series_listview.model = ""
+            serie_detailed_view.serie_title = series_name;
+            serie_detailed_view.serie_slug = slug;
+            serie_detailed_view.serie_id = serieId;
+            serie_detailed_view.serie_air_day = serie_air_day;
+            serie_detailed_view.serie_air_time = serie_air_time;
+            serie_detailed_view.serie_network = serie_network
+            serie_detailed_view.serie_overview = serie_overview
+            serie_detailed_view.serie_last_update = "Last Update on the : " + serie_last_update.getDate() + "/" + (serie_last_update.getMonth() + 1) + "/" + serie_last_update.getFullYear()
+            serie_detailed_view.serie_year = serie_year
+            if (!rotate_cube.running)
+                rotate_cube.restart()
         }
     }
 
@@ -74,28 +54,38 @@ Item
             margins : 10
         }
         asynchronous : true
-        source : img_src
+        source : img_src.replace(".jpg", "-300.jpg")
+    }
+
+    Text
+    {
+        id : followed_series_delegate_text
+        anchors
+        {
+            right : followed_series_delegate_pic.horizontalCenter
+            top : followed_series_delegate_pic.bottom
+            topMargin : 10
+        }
+        color : "white"
+        text : series_name
+        font.pointSize: 14
     }
 
     MouseArea
-    {       
+    {
         id : followed_series_delegate_ma
-        anchors
-        {
-            left : parent.left
-            right : followed_series_delegate_remove_button.left
-            top : parent.top
-            bottom : parent.bottom
-        }
-
+        anchors.fill : followed_series_delegate_pic
         onClicked:
         {
-            cube_effect.texture = img_src
-            rotate_cube.restart()
-            followed_series_listview.currentIndex = index;
-            console.log("serieId " + serieId)
-            season_list_view.model = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
-            episodes_series_listview.model = null;
+            if (isCurrentItem)
+            {
+                console.log("serieId " + serieId)
+                followed_series_view.state = "seasons_shows_view"
+                season_pathview_container.model = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
+                episodes_pathview_container.model = null;
+            }
+            else
+                followed_series_pathview.currentIndex = index;
         }
     }
 }

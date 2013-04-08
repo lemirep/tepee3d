@@ -7,31 +7,29 @@ Item
     height : mainWindow.height/ 2
     x : (mainWindow.width - width) / 2
     property alias title : episodeTitle.text
-    property alias summary : episodeSummary.text
-    property bool isShown : false;
+    property alias summary : episode_overview_text.text
+    property alias image_src : episode_delegate_pic.source
+    property bool isShown : (opacity > 0.1)
 
     states : [
-    State
+        State
         {
             name : "viewShown"
             PropertyChanges {target : detail_view_item; y : (mainWindow.height - detail_view_item.height) / 2}
-            PropertyChanges {target : detail_view_item; opacity : 1}
             when : isShown
         },
         State
         {
             name : "viewHidden"
             PropertyChanges {target : detail_view_item; y : -mainWindow.height}
-            PropertyChanges {target : detail_view_item; opacity : 0}
             when : !isShown
         }
-        ]
+    ]
 
     transitions : [
         Transition
         {
             SmoothedAnimation {target : detail_view_item; properties : "y"; duration : 750; velocity : 50}
-            SmoothedAnimation {target : detail_view_item; properties : "opacity"; duration : 2000; velocity : 1}
         }
     ]
 
@@ -56,24 +54,71 @@ Item
         }
     }
 
-    Text
+    Flickable
     {
-        id : episodeSummary
-        color : "white"
-        width : parent.width - 20
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        clip : true
         anchors
         {
             top : episodeTitle.bottom
             left : parent.left
-            topMargin : 20
+            right : parent.right
+            bottom : close_button.top
+            topMargin : 5
             leftMargin : 10
             rightMargin : 10
+        }
+        Rectangle
+        {
+            color : "red"
+            anchors.fill: parent
+        }
+
+        flickableDirection: Flickable.VerticalFlick
+        contentWidth: parent.width - 20
+        contentHeight: flickable_item.height
+        Item
+        {
+            id : flickable_item
+            width : parent.width
+            height: episode_overview_text.height + episode_delegate_pic.height
+            Image
+            {
+                id : episode_delegate_pic
+                fillMode : Image.PreserveAspectFit
+                asynchronous : true
+                width : parent.width - 20
+                anchors
+                {
+                    top : parent.top
+                    left : parent.left
+                    right : parent.right
+                    leftMargin : 20
+                    topMargin : 5
+                }
+                source : img_src
+            }
+
+            Text
+            {
+                id : episode_overview_text
+                text : episodeOverview
+                width : parent.width - 20
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                anchors
+                {
+                    top : episode_delegate_pic.bottom
+                    topMargin : 5
+                }
+
+                color : "white"
+                font.pointSize: 12
+            }
         }
     }
 
     CloseButton
     {
+        id : close_button
         anchors
         {
             right : parent.right
@@ -81,8 +126,7 @@ Item
         }
         onClicked :
         {
-            isShown = false;
-            seriesplugin_item.listviewRotateAngle = 15;
+            seriesplugin_item.consultingEpisode = !seriesplugin_item.consultingEpisode
         }
     }
 }

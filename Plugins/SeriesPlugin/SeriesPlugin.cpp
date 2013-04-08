@@ -1,7 +1,35 @@
+/****************************************************************************
+**
+** Copyright (C) Paul Lemire, Tepee3DTeam and/or its subsidiary(-ies).
+** Contact: paul.lemire@epitech.eu
+** Contact: tepee3d_2014@labeip.epitech.eu
+**
+** This file is part of the Tepee3D project
+**
+** GNU Lesser General Public License Usage
+** This file may be used under the terms of the GNU Lesser
+** General Public License version 2.1 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU Lesser General Public License version 2.1 requirements
+** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 3.0 as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL included in the
+** packaging of this file.  Please review the following information to
+** ensure the GNU General Public License version 3.0 requirements will be
+** met: http://www.gnu.org/copyleft/gpl.html.
+**
+**
+****************************************************************************/
+
 #include "SeriesPlugin.h"
 
 SeriesPlugin::SeriesPlugin() : PluginBase()
 {
+    this->m_addShow = false;
     // WEBSERVICES CALLBACKS HASH
     this->webServicesCallBacks[SEARCH_SHOW_REQUEST] = &SeriesPlugin::searchForShowCallBack;
     this->webServicesCallBacks[SEARCH_EPISODE_REQUEST] = &SeriesPlugin::searchForEpisodeCallBack;
@@ -14,9 +42,9 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->databaseCallBacks[CHECK_IF_DATABASE_FORMAT_EXISTS] = &SeriesPlugin::checkIfDatabaseSchemaExists;
     this->databaseCallBacks[GENERIC_REQUEST] = &SeriesPlugin::genericDatabaseCallBack;
     // CREATE SERIES MODEL
-    this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
+    this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
     // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
-    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem("", "", ""));
+    this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
 }
 // ALL the function should be implemented
 
@@ -173,6 +201,17 @@ void SeriesPlugin::removeShowFromFollowedModel(int showId)
     }
 }
 
+bool SeriesPlugin::addShow() const
+{
+    return this->m_addShow;
+}
+
+void SeriesPlugin::setAddShow(bool value)
+{
+    this->m_addShow = value;
+    emit addShowChanged();
+}
+
 SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
 {
     if (!showObj.isEmpty())
@@ -180,7 +219,14 @@ SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
         QJsonObject imageObj = showObj.value("images").toObject();
         SerieSubListedItem *showItem =  new SerieSubListedItem(showObj.value("url").toString().replace("http://trakt.tv/show/", ""),
                                                                showObj.value("title").toString(),
-                                                               imageObj.value("poster").toString());
+                                                               imageObj.value("poster").toString(),
+                                                               showObj.value("overview").toString(),
+                                                               QString::number(showObj.value("year").toDouble()),
+                                                               showObj.value("network").toString(),
+                                                               QDateTime::fromTime_t(showObj.value("last_updated").toDouble()),
+                                                               showObj.value("air_day").toString(),
+                                                               showObj.value("air_time").toString(),
+                                                               showObj.value("tvdb_id").toDouble());
         QJsonArray seasonsArray = showObj.value("seasons").toArray();
         foreach (QJsonValue seasonObj, seasonsArray)
         {
@@ -316,13 +362,27 @@ void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString insertShowRequest = "INSERT OR REPLACE INTO show (serieTitle, serieSlug, serieImage) VALUES (\"";
+        QString insertShowRequest = "INSERT OR REPLACE INTO show (serieTitle, serieSlug, serieImage, serieOverview, serieYear, serieNetwork, serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId) VALUES (\"";
         insertShowRequest += show->data(SerieSubListedItem::serieName).toString();
         insertShowRequest += "\", \"";
         insertShowRequest +=  show->data(SerieSubListedItem::slug).toString();
         insertShowRequest += "\", \"";
         insertShowRequest +=  show->data(SerieSubListedItem::imageUrl).toString();
-        insertShowRequest += "\");";
+        insertShowRequest += "\", \"";
+        insertShowRequest += show->data(SerieSubListedItem::serieOverview).toString();
+        insertShowRequest += "\", \"";
+        insertShowRequest += show->data(SerieSubListedItem::serieYear).toString();
+        insertShowRequest += "\", \"";
+        insertShowRequest += show->data(SerieSubListedItem::serieNetwork).toString();
+        insertShowRequest += "\", ";
+        insertShowRequest += QString::number(show->data(SerieSubListedItem::serieLastUpdate).toDateTime().toTime_t());
+        insertShowRequest += ", \"";
+        insertShowRequest += show->data(SerieSubListedItem::serieAirDay).toString();
+        insertShowRequest += "\", \"";
+        insertShowRequest += show->data(SerieSubListedItem::serieAirTime).toString().replace(":", "-");
+        insertShowRequest += "\", ";
+        insertShowRequest += QString::number(show->data(SerieSubListedItem::serieTvdbId).toInt());
+        insertShowRequest += ");";
 
         emit executeSQLQuery(insertShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* season, show->submodel()->toList())
@@ -483,7 +543,10 @@ void SeriesPlugin::removeShowFromDatabase(const QString &showSlug)
 
 void SeriesPlugin::retrieveShowsFromDababase()
 {
-    QString retrieveShowsRequest = "SELECT serieId, serieTitle, serieSlug, serieImage FROM show;";
+    QString retrieveShowsRequest = "SELECT serieId, serieTitle, serieSlug, serieImage, ";
+    retrieveShowsRequest += "serieOverview, serieYear, serieNetwork, ";
+    retrieveShowsRequest += "serieLastUpdate, serieAirDay, serieAirTime";
+    retrieveShowsRequest += " FROM show;";
     emit executeSQLQuery(retrieveShowsRequest, this, RETRIEVE_SHOWS, DATABASE_NAME);
 }
 
@@ -522,7 +585,14 @@ void SeriesPlugin::retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result, v
             int showId = record.value(0).toInt();
             SerieSubListedItem *show = new SerieSubListedItem(record.value(2).toString(),
                                                               record.value(1).toString(),
-                                                              record.value(3).toString());
+                                                              record.value(3).toString(),
+                                                              record.value(4).toString(),
+                                                              record.value(5).toString(),
+                                                              record.value(6).toString(),
+                                                              QDateTime::fromTime_t(record.value(7).toDouble()),
+                                                              record.value(8).toString(),
+                                                              record.value(9).toString(),
+                                                              record.value(10).toInt());
             this->retrieveShowSeasonsFromDatabase(showId, show);
             this->followedSeriesModel->appendRow(show);
         }

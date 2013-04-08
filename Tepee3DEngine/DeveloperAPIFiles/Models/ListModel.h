@@ -31,7 +31,6 @@ public:
     QList<ListItem *>       takeRows(int row = -2, int count = -1, const QModelIndex &index = QModelIndex());
     bool                    removeRow(int row, const QModelIndex &index = QModelIndex());
     bool                    removeRows(int row, int count, const QModelIndex &index = QModelIndex());
-    void                    clear();
 
     ListItem*               find(int itemId) const;
     int                     getRowFromItem(ListItem *item) const;
@@ -40,6 +39,7 @@ public:
 
     Q_INVOKABLE QVariant    get(int index);
     Q_INVOKABLE int         rowIndexFromId(int id);
+    Q_INVOKABLE void        clear();
 
 protected:
     ListItem *prototype;

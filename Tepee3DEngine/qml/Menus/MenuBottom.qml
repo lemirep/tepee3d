@@ -135,52 +135,53 @@ Item
         {
             id : plugin_menu_loader
             anchors.fill: parent
+            enabled : isShown
             onLoaded:
             {
                 "Menu Loaded"
             }
         }
-        Clock
-        {
-            anchors
-            {
-                verticalCenter : parent.verticalCenter
-                left : parent.left
-                leftMargin :  mainWindow.menuMinimumWidth
-            }
-        }
-        Image
-        {
-            id : homeRoom_button
-            anchors
-            {
-                verticalCenter : parent.verticalCenter
-                right : parent.right
-                rightMargin :  mainWindow.menuMinimumWidth
-            }
-            source : "../Resources/Pictures/home_buttom.png"
-            opacity: (mainWindow.inRoom()) ? 1 : 0
-            smooth : true
-            scale : homeRoom_button_ma.pressed ? 0.5 :  1
-            MouseArea
-            {
-                id : homeRoom_button_ma
-                anchors.fill: parent
-                onClicked: mainWindow.moveCameraHomeRoom()
-            }
-            Text
-            {
-                anchors
-                {
-                    bottomMargin:  homeRoom_button.height + mainWindow.menuMinimumWidth
-                    horizontalCenter : parent.horizontalCenter
-                    bottom: parent.bottom
-                }
-                color : "white"
-                text: (mainWindow.inRoom()) ? "Your are in room " + mainWindow.getcurrentIdRoom() : "Your are in Global View"
+//        Clock
+//        {
+//            anchors
+//            {
+//                verticalCenter : parent.verticalCenter
+//                left : parent.left
+//                leftMargin :  mainWindow.menuMinimumWidth
+//            }
+//        }
+//        Image
+//        {
+//            id : homeRoom_button
+//            anchors
+//            {
+//                verticalCenter : parent.verticalCenter
+//                right : parent.right
+//                rightMargin :  mainWindow.menuMinimumWidth
+//            }
+//            source : "../Resources/Pictures/home_buttom.png"
+//            opacity: (mainWindow.inRoom()) ? 1 : 0
+//            smooth : true
+//            scale : homeRoom_button_ma.pressed ? 0.5 :  1
+//            MouseArea
+//            {
+//                id : homeRoom_button_ma
+//                anchors.fill: parent
+//                onClicked: mainWindow.moveCameraHomeRoom()
+//            }
+//            Text
+//            {
+//                anchors
+//                {
+//                    bottomMargin:  homeRoom_button.height + mainWindow.menuMinimumWidth
+//                    horizontalCenter : parent.horizontalCenter
+//                    bottom: parent.bottom
+//                }
+//                color : "white"
+//                text: (mainWindow.inRoom()) ? "Your are in room " + mainWindow.getcurrentIdRoom() : "Your are in Global View"
 
-            }
-        }
+//            }
+//        }
     }
     Image
     {
