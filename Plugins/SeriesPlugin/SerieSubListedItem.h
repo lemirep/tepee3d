@@ -39,7 +39,7 @@ public:
 
     enum    SeriesModelItemRoles
     {
-        serieId = Qt::UserRole + 1,
+        serieTvdbId = Qt::UserRole + 1,
         slug,
         serieName,
         imageUrl,
@@ -48,15 +48,15 @@ public:
         serieNetwork,
         serieLastUpdate,
         serieAirDay,
-        serieAirTime,
-        serieTvdbId
+        serieAirTime
     };
 
     explicit SerieSubListedItem(QObject *parent = 0);
-    explicit SerieSubListedItem(QString slug, QString serieName, QString imageUrl,
-                                QString overview, QString year, QString network,
-                                QDateTime lastUpdate, QString airDay, QString airTime,
-                                int tvDbId, QObject *parent = 0);
+    explicit SerieSubListedItem( int tvDbId,
+                                 QString slug, QString serieName, QString imageUrl,
+                                 QString overview, QString year, QString network,
+                                 QDateTime lastUpdate, QString airDay, QString airTime,
+                                 QObject *parent = 0);
     ~SerieSubListedItem();
 
     int             id() const;
@@ -66,7 +66,6 @@ public:
     Models::ListModel*  submodel()   const;
 
 private :
-    int m_serieId;
     QString m_serieName;
     QString m_imageUrl;
     QString m_slug;
@@ -79,8 +78,6 @@ private :
     int     m_tvDbId;
 
     Models::SubListedListModel*  seasonModel;
-    static int nextSerieId;
-
 };
 
 #endif // SERIESUBLISTEDITEM_H

@@ -31,8 +31,8 @@ Item
              PathAttribute {name : "delAngle"; value : 60}
          }
          delegate : SeriesListViewDelegate {
+             serieId : model.serieTvdbId
              slug : model.slug
-             serieId : model.serieId
              img_src : model.imageUrl
              series_name: model.serieName
              serie_overview: model.serieOverview

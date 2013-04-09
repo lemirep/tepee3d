@@ -28,18 +28,16 @@
 #include "SerieSubListedItem.h"
 #include <QDebug>
 
-int SerieSubListedItem::nextSerieId = 0;
-
 SerieSubListedItem::SerieSubListedItem(QObject *parent) : Models::SubListedListItem(parent)
 {
 }
 
-SerieSubListedItem::SerieSubListedItem(QString slug, QString serieName, QString imageUrl,
+SerieSubListedItem::SerieSubListedItem(int tvDbId, QString slug, QString serieName, QString imageUrl,
                                        QString overview, QString year, QString network,
                                        QDateTime lastUpdate, QString airDay, QString airTime,
-                                       int tvDbId, QObject *parent) : Models::SubListedListItem(parent)
+                                       QObject *parent) : Models::SubListedListItem(parent)
 {
-    this->m_serieId = nextSerieId++;
+    this->m_tvDbId = tvDbId;
     this->m_serieName = serieName;
     this->m_imageUrl = imageUrl;
     this->m_slug = slug;
@@ -49,7 +47,6 @@ SerieSubListedItem::SerieSubListedItem(QString slug, QString serieName, QString 
     this->m_airDay = airDay;
     this->m_airTime = airTime;
     this->m_lastUpdate = lastUpdate;
-    this->m_tvDbId = tvDbId;
 
     // INIT SEASON MODELS HERE
     this->seasonModel = new Models::SubListedListModel(new SeasonSubListedItem(-1, -1, ""));
@@ -62,14 +59,14 @@ SerieSubListedItem::~SerieSubListedItem()
 
 int SerieSubListedItem::id() const
 {
-    return this->m_serieId;
+    return this->m_tvDbId;
 }
 
 QVariant SerieSubListedItem::data(int role) const
 {
     switch (role)
     {
-    case serieId:
+    case serieTvdbId:
         return this->id();
     case slug:
         return this->m_slug;
@@ -89,8 +86,6 @@ QVariant SerieSubListedItem::data(int role) const
         return this->m_airDay;
     case serieAirTime:
         return this->m_airTime;
-    case serieTvdbId:
-        return this->m_tvDbId;
     default :
         return QVariant();
     }
@@ -100,7 +95,7 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
 {
     QHash<int, QByteArray> hashRoles;
 
-    hashRoles[serieId] = "serieId";
+    hashRoles[serieTvdbId] = "serieTvdbId";
     hashRoles[serieName] = "serieName";
     hashRoles[imageUrl] = "imageUrl";
     hashRoles[slug] = "slug";
@@ -110,7 +105,6 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
     hashRoles[serieLastUpdate] = "serieLastUpdate";
     hashRoles[serieAirDay] = "serieAirDay";
     hashRoles[serieAirTime] = "serieAirTime";
-    hashRoles[serieTvdbId] = "serieTvdbId";
 
     return hashRoles;
 }
@@ -118,8 +112,6 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
 Models::ListModel *SerieSubListedItem::submodel() const
 {
     // RETURN SEASONS MODEL FOR SHOW
-    qDebug() << "Season Model Size " << this->seasonModel->rowCount();
-
     return (Models::ListModel*)this->seasonModel;
 }
 

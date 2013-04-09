@@ -63,6 +63,6 @@ Item
             margins : 10
         }
         asynchronous : true
-        source : img_src
+        source : img_src.replace(".jpg", "-138.jpg")
     }
 }

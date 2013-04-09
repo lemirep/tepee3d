@@ -49,8 +49,7 @@ Item
             anchors
             {
                 verticalCenter: parent.verticalCenter
-                left: parent.left
-                leftMargin : 50
+                horizontalCenter : add_show_button_text.horizontalCenter
             }
             onClicked : {SeriesPlugin.addShow = true; menuBottomMain.isShown = false}
         }
@@ -65,7 +64,8 @@ Item
             {
                 top : add_show_button.bottom
                 topMargin : 25
-                horizontalCenter : add_show_button.horizontalCenter
+                left: parent.left
+                leftMargin : 10
             }
         }
 

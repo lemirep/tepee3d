@@ -19,11 +19,10 @@ Item
     {
         if (isCurrentItem)
         {
-//            cube_effect.texture = img_src
             if (!rotate_cube.running)
                 rotate_cube.restart()
             if (show_pathview_container.currentIndex != -1)
-                episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_container.currentIndex).serieId, season)
+                episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_container.currentIndex).serieTvdbId, season)
         }
     }
 
@@ -37,8 +36,8 @@ Item
         cache : true
         anchors
         {
-         horizontalCenter : parent.horizontalCenter
-         top : parent.top
+            horizontalCenter : parent.horizontalCenter
+            top : parent.top
         }
     }
 
@@ -66,7 +65,7 @@ Item
             if (isCurrentItem)
             {
                 if (show_pathview_container.currentIndex != -1)
-                    episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_container.currentIndex).serieId, season)
+                    episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_container.currentIndex).serieTvdbId, season)
             }
         }
     }

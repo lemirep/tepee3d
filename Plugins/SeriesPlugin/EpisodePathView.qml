@@ -18,6 +18,7 @@ Item
         flickDeceleration : 200
         preferredHighlightBegin: 0.50
         preferredHighlightEnd : 0.55
+        pathItemCount : 8
         path :  Path {
             id : episode_path
             property real x_target : width / 2
@@ -27,7 +28,7 @@ Item
             PathPercent {value : 0}
             PathAttribute {name : "delScale"; value : 0.5}
             PathAttribute {name : "delZ"; value : 0.5}
-            PathAttribute {name : "delAngle"; value : 60}
+            PathAttribute {name : "delAngle"; value : -60}
             PathAttribute {name : "delOpacity"; value : 0.7}
             // MIDDLE
             PathCurve { x: episode_path.x_target; y: height / 2}

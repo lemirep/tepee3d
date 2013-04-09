@@ -3,26 +3,22 @@ import QtQuick 2.0
 Item
 {
     id : detail_view_item
-    width : mainWindow.width / 2
-    height : mainWindow.height/ 2
-    x : (mainWindow.width - width) / 2
     property alias title : episodeTitle.text
     property alias summary : episode_overview_text.text
     property alias image_src : episode_delegate_pic.source
-    property bool isShown : (opacity > 0.1)
 
     states : [
         State
         {
             name : "viewShown"
             PropertyChanges {target : detail_view_item; y : (mainWindow.height - detail_view_item.height) / 2}
-            when : isShown
+            when : seriesplugin_item.consultingEpisode
         },
         State
         {
             name : "viewHidden"
             PropertyChanges {target : detail_view_item; y : -mainWindow.height}
-            when : !isShown
+            when : !seriesplugin_item.consultingEpisode
         }
     ]
 
@@ -67,12 +63,6 @@ Item
             leftMargin : 10
             rightMargin : 10
         }
-        Rectangle
-        {
-            color : "red"
-            anchors.fill: parent
-        }
-
         flickableDirection: Flickable.VerticalFlick
         contentWidth: parent.width - 20
         contentHeight: flickable_item.height
@@ -95,13 +85,11 @@ Item
                     leftMargin : 20
                     topMargin : 5
                 }
-                source : img_src
             }
 
             Text
             {
                 id : episode_overview_text
-                text : episodeOverview
                 width : parent.width - 20
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 anchors

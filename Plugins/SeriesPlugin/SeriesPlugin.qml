@@ -218,7 +218,6 @@ Item3D
                 }
             }
 
-
             Item
             {
                 id : season_episode_item
@@ -237,12 +236,6 @@ Item3D
                     }
                 }
 
-                DetailedEpisodeView
-                {
-                    id : detailed_episode_view
-                    enabled : (opacity === 1)
-                    opacity : (consultingEpisode) ? 1 : 0
-                }
 
                 EpisodePathView
                 {
@@ -264,6 +257,20 @@ Item3D
                         topMargin : 50
                     }
                     onClicked : {followed_series_view.state = "shows_view";}
+                }
+                DetailedEpisodeView
+                {
+                    id : detailed_episode_view
+                    enabled : (opacity === 1)
+                    opacity : (consultingEpisode) ? 1 : 0
+                    anchors
+                    {
+                        fill : parent
+                        leftMargin : mainWindow.width / 4
+                        rightMargin : mainWindow.width / 4
+                        topMargin : mainWindow.height / 8
+                        bottomMargin : mainWindow.height / 8
+                    }
                 }
             }
         }

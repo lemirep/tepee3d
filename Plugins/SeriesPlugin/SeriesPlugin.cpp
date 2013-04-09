@@ -35,11 +35,11 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->webServicesCallBacks[SEARCH_EPISODE_REQUEST] = &SeriesPlugin::searchForEpisodeCallBack;
     this->webServicesCallBacks[GET_SHOW_SUMMARY] = &SeriesPlugin::getShowSummaryCallBack;
     this->webServicesCallBacks[UPDATE_SHOW_SUMMARY] = &SeriesPlugin::updateShowSummaryCallBack;
+    this->webServicesCallBacks[GET_SICKBEARD_SHOWS] = &SeriesPlugin::retrieveSickBeardShowsCallBack;
     // DATABASE CALLBACKS HASH
     this->databaseCallBacks[RETRIEVE_SHOWS] = &SeriesPlugin::retrieveShowsFromDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_EPISODES_FOR_SHOW_SEASON] = &SeriesPlugin::retrieveEpisodesForShowSeasonDatabaseCallBack;
-    this->databaseCallBacks[CHECK_IF_DATABASE_FORMAT_EXISTS] = &SeriesPlugin::checkIfDatabaseSchemaExists;
     this->databaseCallBacks[GENERIC_REQUEST] = &SeriesPlugin::genericDatabaseCallBack;
     // CREATE SERIES MODEL
     this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
@@ -201,6 +201,13 @@ void SeriesPlugin::removeShowFromFollowedModel(int showId)
     }
 }
 
+void SeriesPlugin::retrieveSickBeardShows()
+{
+    emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+                                                    this->m_sickBeardApiKey + "?/cmd=shows")),
+                               GET_SICKBEARD_SHOWS, NULL);
+}
+
 bool SeriesPlugin::addShow() const
 {
     return this->m_addShow;
@@ -212,12 +219,35 @@ void SeriesPlugin::setAddShow(bool value)
     emit addShowChanged();
 }
 
+QString SeriesPlugin::sickBeardApi() const
+{
+    return this->m_sickBeardApiKey;
+}
+
+QString SeriesPlugin::sickBeardUrl() const
+{
+    return this->m_sickBeardUrl;
+}
+
+void SeriesPlugin::setSickBeardUrl(const QString &sickBeardUrl)
+{
+    this->m_sickBeardUrl = sickBeardUrl;
+    emit sickBeardUrlChanged();
+}
+
+void SeriesPlugin::setSickBeardApi(const QString &sickBeardApi)
+{
+    this->m_sickBeardApiKey = sickBeardApi;
+    emit sickBeardApiChanged();
+}
+
 SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
 {
     if (!showObj.isEmpty())
     {
         QJsonObject imageObj = showObj.value("images").toObject();
-        SerieSubListedItem *showItem =  new SerieSubListedItem(showObj.value("url").toString().replace("http://trakt.tv/show/", ""),
+        SerieSubListedItem *showItem =  new SerieSubListedItem(static_cast<int>(showObj.value("tvdb_id").toDouble()),
+                                                               showObj.value("url").toString().replace("http://trakt.tv/show/", ""),
                                                                showObj.value("title").toString(),
                                                                imageObj.value("poster").toString(),
                                                                showObj.value("overview").toString(),
@@ -225,8 +255,7 @@ SerieSubListedItem *SeriesPlugin::parseShow(const QJsonObject& showObj)
                                                                showObj.value("network").toString(),
                                                                QDateTime::fromTime_t(showObj.value("last_updated").toDouble()),
                                                                showObj.value("air_day").toString(),
-                                                               showObj.value("air_time").toString(),
-                                                               showObj.value("tvdb_id").toDouble());
+                                                               showObj.value("air_time").toString());
         QJsonArray seasonsArray = showObj.value("seasons").toArray();
         foreach (QJsonValue seasonObj, seasonsArray)
         {
@@ -312,7 +341,7 @@ void SeriesPlugin::getShowSummaryCallBack(QNetworkReply *reply, void *data)
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
             SerieSubListedItem *showItem = parseShow(jsonDoc.object());
-            if (showItem != NULL)
+            if (showItem != NULL && this->followedSeriesModel->find(showItem->id()) == NULL)
             {
                 this->followedSeriesModel->appendRow(showItem);
                 this->addShowToDatabase(showItem);
@@ -353,6 +382,31 @@ void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
             // RESTORES THE OLD SHOW ITEM
             this->followedSeriesModel->appendRow(oldShow);
         }
+    }
+}
+
+void SeriesPlugin::retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *data)
+{
+    Q_UNUSED(data)
+    if (reply != NULL)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        delete reply;
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            QJsonObject mainObj = jsonDoc.object();
+            if (mainObj.value("result").toString().compare("success") == 0)
+            {
+                QJsonArray showsArray = mainObj.value("data").toArray();
+                foreach (QJsonValue value, showsArray)
+                {
+                    if (!value.isNull() && !value.isUndefined() && value.isObject())
+                        this->addShowToFollow(value.toObject().keys().first());
+                }
+            }
+        }
+        else
+            qDebug() << "Failed to Retrieve SickBeardShows";
     }
 }
 
@@ -545,7 +599,7 @@ void SeriesPlugin::retrieveShowsFromDababase()
 {
     QString retrieveShowsRequest = "SELECT serieId, serieTitle, serieSlug, serieImage, ";
     retrieveShowsRequest += "serieOverview, serieYear, serieNetwork, ";
-    retrieveShowsRequest += "serieLastUpdate, serieAirDay, serieAirTime";
+    retrieveShowsRequest += "serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId";
     retrieveShowsRequest += " FROM show;";
     emit executeSQLQuery(retrieveShowsRequest, this, RETRIEVE_SHOWS, DATABASE_NAME);
 }
@@ -583,7 +637,8 @@ void SeriesPlugin::retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result, v
         foreach (QSqlRecord record, result)
         {
             int showId = record.value(0).toInt();
-            SerieSubListedItem *show = new SerieSubListedItem(record.value(2).toString(),
+            SerieSubListedItem *show = new SerieSubListedItem(record.value(10).toInt(),
+                                                              record.value(2).toString(),
                                                               record.value(1).toString(),
                                                               record.value(3).toString(),
                                                               record.value(4).toString(),
@@ -591,8 +646,7 @@ void SeriesPlugin::retrieveShowsFromDatabaseCallBack(QList<QSqlRecord> result, v
                                                               record.value(6).toString(),
                                                               QDateTime::fromTime_t(record.value(7).toDouble()),
                                                               record.value(8).toString(),
-                                                              record.value(9).toString(),
-                                                              record.value(10).toInt());
+                                                              record.value(9).toString());
             this->retrieveShowSeasonsFromDatabase(showId, show);
             this->followedSeriesModel->appendRow(show);
         }
@@ -636,10 +690,6 @@ void SeriesPlugin::retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecor
                                                               (record.value(4).toInt() != 0)));
         }
     }
-}
-
-void SeriesPlugin::checkIfDatabaseSchemaExists(QList<QSqlRecord> result, void *data)
-{
 }
 
 void SeriesPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
