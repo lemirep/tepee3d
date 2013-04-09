@@ -5,6 +5,7 @@ Item
     id : carousel
     property alias model : carousel_path_view.model
     property alias delegate : carousel_path_view.delegate
+    property alias pathItemCount : carousel_path_view.pathItemCount
     property int depth : 550
 
     Path
@@ -44,11 +45,10 @@ Item
         id : carousel_path_view
         anchors.fill: parent
         path : carousel_path
-        pathItemCount: 8
+        pathItemCount: 7
         smooth : true
         focus : true
-//        snapMode : PathView.NoSnap
-        preferredHighlightBegin: 0.45
+        preferredHighlightBegin: 0.50
         preferredHighlightEnd : 0.55
     }
 }

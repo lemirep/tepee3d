@@ -82,11 +82,11 @@ Viewport
 
 
     //        anchors.fill: parent
-                width : 1024
-                height : 600
+//    width : 1024
+//    height : 600
 
-//    width : Screen.width
-//    height : Screen.height
+        width : Screen.width
+        height : Screen.height
 
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
@@ -136,9 +136,8 @@ Viewport
     Skybox            {source : "Resources/Textures/skybox"}
     RoomsContainer    {id : roomContainer}
     MenuCenter        {id : menu_center; anchors.fill : parent}
-    //    BufferedTextureSource    {sourceItem : menu_center}
     NotificationManager    {id : notification}
-    FpsCounter {}
+//    FpsCounter {}
 }
 
 //}
