@@ -11,6 +11,7 @@ Item3D
     property string roomQmlFile : ""
     property string menuQmlFile : ""
     property string pluginName : ""
+    property vector3d pluginPosition : Qt.vector3d(0, 0, 0)
 
     // TO ASK FOR A GIVEN FOCUS STATE CALL
     // plugin_base.askForFocusState(State)
@@ -94,5 +95,9 @@ Item3D
         }
     }
 
-    Loader    {id : plugin_loader}
+    Item3D
+    {
+        position : plugin_base.pluginPosition
+        Loader    {id : plugin_loader}
+    }
 }

@@ -69,6 +69,7 @@ public:
     SeriesPlugin();
     int                         getPluginId();
     void                        initPlugin();
+    void                        clearPluginBeforeRemoval();
     Q_INVOKABLE QString         getPluginName();
     QString                     getPluginDescription();
     PluginBase*                 getPluginBase();

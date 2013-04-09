@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector3D>
 #include <QQuickItem>
+#include <qmath.h>
 #include "PluginBase.h"
 #include "RoomInterface.h"
 #include "RoomProperties.h"
@@ -34,7 +35,8 @@ public:
 
     void                                    setRoomQmlFile(const QString &file);
     void                                    addWidgetToRoom(Plugins::PluginBase *widget);
-    void                                    removeWidgetFromRoom(Plugins::PluginBase *widget);
+    void                                    removeWidgetFromRoom(Models::PluginModelItem *pluginItem);
+    void                                    placeWidgetsInSpace();
 
     void                                    enterRoom();
     void                                    leaveRoom();

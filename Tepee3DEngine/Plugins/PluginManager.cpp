@@ -117,6 +117,16 @@ void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
 }
 
 /*!
+ * Performs the necessary cleaning, disconnections of signals from \a roomPlugin
+ * so that it can properly be deleted.
+ */
+void Plugins::PluginManager::cleanPluginBeforeRemoval(Plugins::PluginBase *roomPlugin)
+{
+    roomPlugin->clearPluginBeforeRemoval();
+    Services::ServicesManager::disconnectObjectFromServices(roomPlugin);
+}
+
+/*!
  * Exposes to QML Context \a context all Plugins entities required by the Tepee3DEngine.
  */
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)

@@ -234,17 +234,46 @@ void        Room::RoomBase::addWidgetToRoom(Plugins::PluginBase *widget)
     QObject::connect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
                      this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
     this->roomProperties->getRoomPluginsModel()->appendRow(new Models::PluginModelItem(widget));
+    this->placeWidgetsInSpace();
 }
 
 /*!
  * Removes the plugin \a widget from the current room, disconnecting signals as well.
  */
-void        Room::RoomBase::removeWidgetFromRoom(Plugins::PluginBase *widget)
+void        Room::RoomBase::removeWidgetFromRoom(Models::PluginModelItem *pluginItem)
 {
+    Plugins::PluginBase *widget = pluginItem->getPlugin();
     QObject::disconnect(this, SIGNAL(roomEntered()), widget, SIGNAL(roomEntered()));
     QObject::disconnect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
     QObject::disconnect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
                         this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
+
+    this->roomProperties->getRoomPluginsModel()->removeRow(this->roomProperties->getRoomPluginsModel()->getRowFromItem(pluginItem));
+    delete widget;
+    this->placeWidgetsInSpace();
+}
+
+/*!
+ * Places all the plugins in the room so that they don't collide
+ */
+void Room::RoomBase::placeWidgetsInSpace()
+{
+    int idx;
+    qreal   posAngle = (2 * M_PI / this->roomProperties->getRoomPluginsModel()->rowCount());
+    qreal   radius = this->getScale().x() / 4 * ((this->roomProperties->getRoomPluginsModel()->rowCount() / 10) + 1);
+
+    const QList<Models::ListItem*> pluginItemsList = this->roomProperties->getRoomPluginsModel()->toList();
+
+    foreach (Models::ListItem *item, pluginItemsList)
+    {
+        qreal pluginPosAngle = posAngle * idx++;
+        Plugins::PluginBase* widget = reinterpret_cast<Models::PluginModelItem*>(item)->getPlugin();
+        widget->setPluginPosition(QVector3D(qCos(pluginPosAngle) * radius,
+                                            0,
+                                            qSin(pluginPosAngle) * radius));
+        item->triggerItemUpdate();
+    }
+    qDebug() << "Placing Widgets In Room";
 }
 
 /*!
@@ -255,7 +284,7 @@ void        Room::RoomBase::updateRoom()
 {
     // FOR LOGICAL UPDATE ONLY HAPPENS EVERY HALF SECONDS
     // IF YOU NEED TO UPDATE THE VIEW, USE A TIMER IN YOUR PLUGIN WITH A 50MS DURATION
-    qDebug() << "Room is updated -> but you should should have implemented this method in the room subclass";
+    qWarning() << "Room is updated -> but you should should have implemented this method in the room subclass";
 }
 
 /*!

@@ -165,7 +165,7 @@ void        Room::RoomManager::placeNewRoomInSpace()
     foreach (Models::ListItem *item, roomItemList)
     {
         qreal roomPosAngle = posAngle * idx++;
-        Room::RoomBase* room = ((Models::RoomModelItem *)(item))->getRoom();
+        Room::RoomBase* room = reinterpret_cast<Models::RoomModelItem *>(item)->getRoom();
         room->setPosition(QVector3D(qCos(roomPosAngle) * radius,
                                     qCos(M_PI * idx) * 10,
                                     qSin(roomPosAngle) * radius));
@@ -206,7 +206,6 @@ void        Room::RoomManager::setCurrentRoom(Room::RoomBase *room)
  *
  * \sa setCurrentRoom(Room::RoomBase *room)
  */
-
 void        Room::RoomManager::setCurrentRoom(int roomId)
 {
     Models::RoomModelItem *roomItem = NULL;
@@ -220,7 +219,6 @@ void        Room::RoomManager::setCurrentRoom(int roomId)
 /*!
  * Adds a new room with the name specified by \a roomName inside the 3D space
  */
-
 void        Room::RoomManager::addNewRoom(QString roomName)
 {
     qDebug() << "Adding New Room";
@@ -247,7 +245,6 @@ void        Room::RoomManager::addNewRoom(QString roomName)
 /*!
  * Removes the room specified by \a roomModelId from the Tepee3D engine.
  */
-
 void        Room::RoomManager::deleteRoom(int roomModelId)
 {
     if (this->currentRoom != NULL && this->currentRoom->getRoomId() == roomModelId)
@@ -309,7 +306,6 @@ void Room::RoomManager::askFocusStateForPlugin(int pluginId, int focusState)
  * Sets the focus state of all plugins of the current room to idle, used when a change of view occurs and the plugins
  * should'nt keep the focus
  */
-
 void        Room::RoomManager::unsetFocusPluginsFromRoom()
 {
     if (this->currentRoom == NULL)
@@ -329,7 +325,6 @@ void        Room::RoomManager::unsetFocusPluginsFromRoom()
  * instance of the plugin defined by \a pluginModelId ensuring it behaves only in the room´s
  * scope.
  */
-
 void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 {
     if (this->currentRoom == NULL)
@@ -356,17 +351,14 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
 /*!
  * Removes the plugin specified by \a pluginModelId from the current room.
  */
-
 void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
 {
     Models::PluginModelItem* pluginItem = (Models::PluginModelItem*)this->currentRoom->getRoomPluginsModel()->find(pluginModelId);
 
     if (pluginItem != NULL)
     {
-        Plugins::PluginBase* plugin = pluginItem->getPlugin();
-        Services::ServicesManager::disconnectObjectFromServices(plugin);
-        this->currentRoom->getRoomPluginsModel()->removeRow(this->currentRoom->getRoomPluginsModel()->getRowFromItem(pluginItem));
-        delete plugin;
+        Plugins::PluginManager::cleanPluginBeforeRemoval(pluginItem->getPlugin());
+        this->currentRoom->removeWidgetFromRoom(pluginItem);
     }
 }
 
@@ -375,7 +367,6 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
  * Using a library allow for future enhancement and eventual changes in shape without having
  * to change the logic employed. The library is loaded from a path relative to the application path.
  */
-
 void        Room::RoomManager::loadRoomLibrary()
 {
     QDir    roomDirectory = QCoreApplication::applicationDirPath();

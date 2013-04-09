@@ -58,6 +58,10 @@ void SeriesPlugin::initPlugin()
     this->retrieveShowsFromDababase();
 }
 
+void SeriesPlugin::clearPluginBeforeRemoval()
+{
+}
+
 QString SeriesPlugin::getPluginName()
 {
     return QString("SeriesPlugin");

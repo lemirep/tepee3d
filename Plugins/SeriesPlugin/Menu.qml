@@ -83,6 +83,7 @@ Item
 
         Text
         {
+            id : refresh_show_button_text
             text : "Refresh Shows"
             font.pointSize: 14
             color : "white"
@@ -91,6 +92,32 @@ Item
                 top : refresh_show_button.bottom
                 topMargin : 25
                 horizontalCenter : refresh_show_button.horizontalCenter
+            }
+        }
+
+        RefreshButton
+        {
+            id : sync_with_sickbeard_button
+            anchors
+            {
+                verticalCenter : parent.verticalCenter
+                horizontalCenter : sync_with_sickbeard_text.horizontalCenter
+            }
+            onClicked : {SeriesPlugin.retrieveSickBeardShows()}
+        }
+
+        Text
+        {
+            id : sync_with_sickbeard_text
+            text : "Sync with SickBeard"
+            font.pointSize: 14
+            color : "white"
+            anchors
+            {
+                top : sync_with_sickbeard_button.bottom
+                topMargin : 25
+                left : refresh_show_button_text.right
+                leftMargin : 10
             }
         }
     }

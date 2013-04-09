@@ -18,7 +18,8 @@ public:
         pluginId    =   Qt::UserRole + 1,
         pluginName,
         pluginRoomQmlFile,
-        pluginMenuQmlFile
+        pluginMenuQmlFile,
+        pluginPosition
     };
 
     explicit PluginModelItem(Plugins::PluginBase *plugin, QObject *parent = 0);

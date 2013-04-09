@@ -19,6 +19,10 @@ void TestPlugin::initPlugin()
     //   this->executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/show/summary.json/9a67e6b3bc1cbd1d92fdc56a03b51267/the-walking-dead")), 1);
 }
 
+void TestPlugin::clearPluginBeforeRemoval()
+{
+}
+
 QString TestPlugin::getPluginName()
 {
     return QString("TestPlugin");

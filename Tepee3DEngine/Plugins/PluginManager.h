@@ -43,6 +43,7 @@ public:
     static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
     static PluginBase*          getNewInstanceOfPlugin(PluginBase* plugin);
     static void                 initRoomPlugin(PluginBase* roomPlugin);
+    static void                 cleanPluginBeforeRemoval(PluginBase *roomPlugin);
 
 private:
     explicit PluginManager(QObject *parent = 0);

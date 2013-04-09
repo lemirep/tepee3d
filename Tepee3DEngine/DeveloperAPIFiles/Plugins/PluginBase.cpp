@@ -214,6 +214,22 @@ void    Plugins::PluginBase::askForFocusState(Plugins::PluginEnums::PluginState 
 }
 
 /*!
+ *  Return the position vector of the plugin in the room.
+ */
+QVector3D Plugins::PluginBase::getPluginPosition() const
+{
+    return this->m_position;
+}
+
+/*!
+ * Sets the plugin's position to \a position;
+ */
+void Plugins::PluginBase::setPluginPosition(const QVector3D &position)
+{
+    this->m_position = position;
+}
+
+/*!
  * Handler for idle focusState. Your implementation should override this method to behave
  * the way you would like your plugin to behave.
  */

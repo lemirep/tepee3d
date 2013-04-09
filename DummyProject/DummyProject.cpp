@@ -16,6 +16,10 @@ void DummyProject::initPlugin()
     this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")),1);
 }
 
+void DummyProject::clearPluginBeforeRemoval()
+{
+}
+
 QString DummyProject::getPluginName()
 {
     return QString("DummyProject");

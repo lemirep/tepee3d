@@ -15,6 +15,10 @@ void HarlemShake::initPlugin()
     qDebug() << " INITIALIZING PLUGINS ";
 }
 
+void HarlemShake::clearPluginBeforeRemoval()
+{
+}
+
 QString HarlemShake::getPluginName()
 {
     return QString("HarlemShake");

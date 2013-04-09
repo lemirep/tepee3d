@@ -258,6 +258,7 @@ Item3D
             pluginRoomId: roomId
             pluginId : model.pluginId
             pluginName : model.pluginName
+            pluginPosition: model.pluginPosition
             roomQmlFile : model.pluginRoomQmlFile
             menuQmlFile : model.pluginMenuQmlFile
         }

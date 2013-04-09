@@ -26,6 +26,7 @@ public:
     TestPlugin();
     int                     getPluginId();
     void                    initPlugin();
+    void                    clearPluginBeforeRemoval();
     Q_INVOKABLE QString     getPluginName();
     Q_INVOKABLE QString     getPluginDescription();
     PluginBase*             getPluginBase();

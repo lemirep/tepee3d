@@ -15,6 +15,10 @@ void WatchPlugin::initPlugin()
     qDebug() << " INITIALIZING PLUGINS ";
 }
 
+void WatchPlugin::clearPluginBeforeRemoval()
+{
+}
+
 QString WatchPlugin::getPluginName()
 {
     return QString("WatchPlugin");

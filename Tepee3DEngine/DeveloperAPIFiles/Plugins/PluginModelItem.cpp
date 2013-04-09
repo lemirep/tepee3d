@@ -28,6 +28,7 @@ Models::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *p
 Models::PluginModelItem::~PluginModelItem()
 {
     qDebug() << "DELETING PLUGIN MODEL ITEM";
+    delete this->plugin;
 }
 
 /*!
@@ -53,6 +54,8 @@ QVariant    Models::PluginModelItem::data(int role)    const
         return this->plugin->getRoomPluginQmlFile();
     case pluginMenuQmlFile :
         return this->plugin->getMenuPluginQmlFile();
+    case pluginPosition :
+        return this->plugin->getPluginPosition();
     default :
         return QVariant();
     }
@@ -69,6 +72,7 @@ QHash<int, QByteArray> Models::PluginModelItem::roleNames()   const
     roles[pluginName] = "pluginName";
     roles[pluginRoomQmlFile] = "pluginRoomQmlFile";
     roles[pluginMenuQmlFile] = "pluginMenuQmlFile";
+    roles[pluginPosition] = "pluginPosition";
 
     return roles;
 }
