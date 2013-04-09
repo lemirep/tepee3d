@@ -216,11 +216,11 @@ void SeriesPlugin::retrieveSickBeardShows()
 
 void SeriesPlugin::saveSickBeardConfig()
 {
-    QString saveSBConfig = "UPDATE config SET sickbeard_url = \"";
-    saveSBConfig += this->sickBeardUrl();
-    saveSBConfig += "\", sickbeard_api_key = \"";
-    saveSBConfig += this->sickBeardApi();
-    saveSBConfig += "\" ;";
+    QString saveSBConfig = "UPDATE config SET sickbeard_url = '";
+    saveSBConfig += Utils::escapeSqlQuery(this->sickBeardUrl());
+    saveSBConfig += "', sickbeard_api_key = '";
+    saveSBConfig += Utils::escapeSqlQuery(this->sickBeardApi());
+    saveSBConfig += "' ;";
     emit executeSQLQuery(saveSBConfig, this, GENERIC_REQUEST, DATABASE_NAME);
 }
 
@@ -438,25 +438,26 @@ void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString insertShowRequest = "INSERT OR REPLACE INTO show (serieTitle, serieSlug, serieImage, serieOverview, serieYear, serieNetwork, serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId) VALUES (\"";
-        insertShowRequest += show->data(SerieSubListedItem::serieName).toString();
-        insertShowRequest += "\", \"";
-        insertShowRequest +=  show->data(SerieSubListedItem::slug).toString();
-        insertShowRequest += "\", \"";
-        insertShowRequest +=  show->data(SerieSubListedItem::imageUrl).toString();
-        insertShowRequest += "\", \"";
-        insertShowRequest += show->data(SerieSubListedItem::serieOverview).toString();
-        insertShowRequest += "\", \"";
-        insertShowRequest += show->data(SerieSubListedItem::serieYear).toString();
-        insertShowRequest += "\", \"";
-        insertShowRequest += show->data(SerieSubListedItem::serieNetwork).toString();
-        insertShowRequest += "\", ";
+        QString insertShowRequest = "INSERT OR REPLACE INTO show (serieTitle, serieSlug, serieImage, serieOverview, serieYear, serieNetwork, serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId) VALUES ('";
+        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieName).toString());
+        insertShowRequest += "', '";
+        insertShowRequest +=  Utils::escapeSqlQuery(show->data(SerieSubListedItem::slug).toString());
+        insertShowRequest += "', '";
+        insertShowRequest +=  Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString());
+        insertShowRequest += "', '";
+        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieOverview).toString());
+//        insertShowRequest += "titi";
+        insertShowRequest += "', '";
+        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieYear).toString());
+        insertShowRequest += "', '";
+        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieNetwork).toString());
+        insertShowRequest += "', ";
         insertShowRequest += QString::number(show->data(SerieSubListedItem::serieLastUpdate).toDateTime().toTime_t());
-        insertShowRequest += ", \"";
-        insertShowRequest += show->data(SerieSubListedItem::serieAirDay).toString();
-        insertShowRequest += "\", \"";
-        insertShowRequest += show->data(SerieSubListedItem::serieAirTime).toString().replace(":", "-");
-        insertShowRequest += "\", ";
+        insertShowRequest += ", '";
+        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieAirDay).toString());
+        insertShowRequest += "', '";
+        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieAirTime).toString());
+        insertShowRequest += "', ";
         insertShowRequest += QString::number(show->data(SerieSubListedItem::serieTvdbId).toInt());
         insertShowRequest += ");";
 
@@ -474,15 +475,15 @@ void SeriesPlugin::addSeasonToDatabase(SeasonSubListedItem *season, const QStrin
     if (season != NULL)
     {
         QString insertSeasonRequest = "INSERT OR REPLACE INTO seasons (showId, seasonNumber, seasonEpisodesCount, seasonImage) VALUES (";
-        insertSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        insertSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
         insertSeasonRequest += showSlug;
-        insertSeasonRequest += "\"), ";
+        insertSeasonRequest += "'), ";
         insertSeasonRequest += QString::number(season->data(SeasonSubListedItem::seasonId).toInt());
         insertSeasonRequest += ", ";
         insertSeasonRequest += QString::number(season->data(SeasonSubListedItem::episodeCount).toInt());
-        insertSeasonRequest += ", \"";
+        insertSeasonRequest += ", '";
         insertSeasonRequest += season->data(SeasonSubListedItem::imageUrl).toString();
-        insertSeasonRequest += "\");";
+        insertSeasonRequest += "');";
 
         emit executeSQLQuery(insertSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* episode, season->submodel()->toList())
@@ -500,27 +501,27 @@ void SeriesPlugin::addEpisodeToDatabase(EpisodeListItem *episode, const QString&
     {
         QString insertEpisodeRequest = "INSERT OR REPLACE INTO episodes (showId, seasonId, episodeTitle, ";
         insertEpisodeRequest += "episodeNumber, episodeSummary, episodeAiring, episodeSeen, episodeImage) VALUES (";
-        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
         insertEpisodeRequest += showSlug;
-        insertEpisodeRequest += "\"), ";
+        insertEpisodeRequest += "'), ";
         insertEpisodeRequest += "(SELECT seasonId FROM seasons WHERE showId = ";
-        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
+        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
         insertEpisodeRequest += showSlug;
-        insertEpisodeRequest += "\") AND seasonNumber = ";
+        insertEpisodeRequest += "') AND seasonNumber = ";
         insertEpisodeRequest += QString::number(season);
-        insertEpisodeRequest += "), \"";
-        insertEpisodeRequest += episode->data(EpisodeListItem::episodeTitle).toString();
-        insertEpisodeRequest += "\", ";
+        insertEpisodeRequest += "), '";
+        insertEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeTitle).toString());
+        insertEpisodeRequest += "', ";
         insertEpisodeRequest += episode->data(EpisodeListItem::episodeNumber).toString();
-        insertEpisodeRequest += ", \"";
-        insertEpisodeRequest += episode->data(EpisodeListItem::episodeSummary).toString();
-        insertEpisodeRequest += "\", ";
+        insertEpisodeRequest += ", '";
+        insertEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeSummary).toString());
+        insertEpisodeRequest += "', ";
         insertEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t());
         insertEpisodeRequest += ", ";
         insertEpisodeRequest += episode->data(EpisodeListItem::episodeSeen).toBool() ? "1": "0";
-        insertEpisodeRequest += ", \"";
-        insertEpisodeRequest += episode->data(EpisodeListItem::imageUrl).toString();
-        insertEpisodeRequest += "\");";
+        insertEpisodeRequest += ", '";
+        insertEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::imageUrl).toString());
+        insertEpisodeRequest += "');";
         emit executeSQLQuery(insertEpisodeRequest, this, GENERIC_REQUEST, DATABASE_NAME);
     }
 }
@@ -530,11 +531,11 @@ void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
     if (show != NULL)
     {
         QString updateShowRequest = "UPDATE show SET showImage = ";
-        updateShowRequest += "\"";
-        updateShowRequest += show->data(SerieSubListedItem::imageUrl).toString();
-        updateShowRequest += "\" WHERE serieSlug = \"";
-        updateShowRequest += show->data(SerieSubListedItem::slug).toString();
-        updateShowRequest += "\";";
+        updateShowRequest += "'";
+        updateShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString());
+        updateShowRequest += "' WHERE serieSlug = '";
+        updateShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::slug).toString());
+        updateShowRequest += "';";
         emit executeSQLQuery(updateShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* season, show->submodel()->toList())
         {
@@ -550,11 +551,11 @@ void SeriesPlugin::updateSeasonInDatabase(SeasonSubListedItem *season, const QSt
     {
         QString updateSeasonRequest = "UPDATE seasons SET seasonEpisodeCount = ";
         updateSeasonRequest += QString::number(season->data(SeasonSubListedItem::episodeCount).toInt());
-        updateSeasonRequest += ", seasonImage = \"";
-        updateSeasonRequest += season->data(SeasonSubListedItem::imageUrl).toString();
-        updateSeasonRequest += "\" WHERE showId = (SELECT serieId FROM show WHERE serieSlug = \"";
-        updateSeasonRequest += showSlug;
-        updateSeasonRequest += "\") AND seasonNumber = ";
+        updateSeasonRequest += ", seasonImage = '";
+        updateSeasonRequest += Utils::escapeSqlQuery(season->data(SeasonSubListedItem::imageUrl).toString());
+        updateSeasonRequest += "\" WHERE showId = (SELECT serieId FROM show WHERE serieSlug = '";
+        updateSeasonRequest += Utils::escapeSqlQuery(showSlug);
+        updateSeasonRequest += "') AND seasonNumber = ";
         updateSeasonRequest += QString::number(season->data(SeasonSubListedItem::seasonId).toInt());
         updateSeasonRequest += ";";
         emit (executeSQLQuery(updateSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME));
@@ -571,24 +572,24 @@ void SeriesPlugin::updateEpisodeInDatabase(EpisodeListItem *episode, const QStri
 {
     if (episode != NULL)
     {
-        QString updateEpisodeRequest = "UPDATE episodes SET episodeTitle = \"";
-        updateEpisodeRequest += episode->data(EpisodeListItem::episodeTitle).toString();
-        updateEpisodeRequest += "\", episodeSummary = \"";
-        updateEpisodeRequest += episode->data(EpisodeListItem::episodeSummary).toString();
-        updateEpisodeRequest += "\", episodeAiring = ";
+        QString updateEpisodeRequest = "UPDATE episodes SET episodeTitle = '";
+        updateEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeTitle).toString());
+        updateEpisodeRequest += "', episodeSummary = '";
+        updateEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeSummary).toString());
+        updateEpisodeRequest += "', episodeAiring = ";
         updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t());
-        updateEpisodeRequest += ", episodeImage = \"";
-        updateEpisodeRequest += episode->data(EpisodeListItem::imageUrl).toString();
-        updateEpisodeRequest += "\", episodeSeen = ";
+        updateEpisodeRequest += ", episodeImage = '";
+        updateEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::imageUrl).toString());
+        updateEpisodeRequest += "', episodeSeen = ";
         updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeSeen).toBool() ? 1 : 0);
         updateEpisodeRequest += " WHERE showID = ";
-        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
-        updateEpisodeRequest += showSlug;
-        updateEpisodeRequest += "\") AND seasonId = ";
+        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
+        updateEpisodeRequest += Utils::escapeSqlQuery(showSlug);
+        updateEpisodeRequest += "') AND seasonId = ";
         updateEpisodeRequest += "(SELECT seasonId FROM seasons WHERE showId = ";
-        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
-        updateEpisodeRequest += showSlug;
-        updateEpisodeRequest += "\") AND seasonNumber = ";
+        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
+        updateEpisodeRequest += Utils::escapeSqlQuery(showSlug);
+        updateEpisodeRequest += "') AND seasonNumber = ";
         updateEpisodeRequest += QString::number(season);
         updateEpisodeRequest += ") AND episodeNumber = ";
         updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeNumber).toInt());
@@ -600,17 +601,17 @@ void SeriesPlugin::updateEpisodeInDatabase(EpisodeListItem *episode, const QStri
 void SeriesPlugin::removeShowFromDatabase(const QString &showSlug)
 {
     QString removeEpisodesRequest = "DELETE FROM episodes WHERE showId = ";
-    removeEpisodesRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
-    removeEpisodesRequest += showSlug + "\");";
+    removeEpisodesRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
+    removeEpisodesRequest += Utils::escapeSqlQuery(showSlug) + "');";
 
     QString removeSeasonRequest = "DELETE FROM seasons WHERE showId = ";
-    removeSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = \"";
-    removeSeasonRequest += showSlug + "\");";
+    removeSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
+    removeSeasonRequest += Utils::escapeSqlQuery(showSlug) + "');";
 
     QString removeShowRequest = "DELETE FROM show WHERE serieSlug = ";
-    removeShowRequest += "\"";
-    removeShowRequest += showSlug;
-    removeShowRequest += "\";";
+    removeShowRequest += "'";
+    removeShowRequest += Utils::escapeSqlQuery(showSlug);
+    removeShowRequest += "';";
 
     emit executeSQLQuery(removeEpisodesRequest, this, GENERIC_REQUEST, DATABASE_NAME);
     emit executeSQLQuery(removeSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME);

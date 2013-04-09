@@ -39,6 +39,7 @@
 #include <WebServiceUserInterface.h>
 #include <SubListedListModel.h>
 #include <QJsonDocument>
+#include <Utils.h>
 
 #include "SerieSubListedItem.h"
 

@@ -37,3 +37,8 @@ QJsonDocument Utils::QJsonDocumentFromReply(QNetworkReply *reply)
         return QJsonDocument::fromJson(reply->readAll());
     return QJsonDocument::fromJson("{}");
 }
+
+QString & Utils::escapeSqlQuery(QString query)
+{
+    return query.replace("'", "''");
+}

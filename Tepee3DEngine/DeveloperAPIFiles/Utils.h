@@ -37,6 +37,7 @@ class Utils
 public:
     Utils();
     static  QJsonDocument QJsonDocumentFromReply(QNetworkReply *reply);
+    static  QString &     escapeSqlQuery(QString query);
 };
 
 #endif // UTILS_H
