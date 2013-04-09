@@ -48,6 +48,7 @@ Item
             left : parent.left
             margins : 10
         }
+        font.pointSize: 12
     }
 
     Flickable
