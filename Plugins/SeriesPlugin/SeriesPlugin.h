@@ -53,6 +53,7 @@
 #define RETRIEVE_SEASONS_FOR_SHOW 1
 #define RETRIEVE_EPISODES_FOR_SHOW_SEASON 2
 #define GENERIC_REQUEST 3
+#define RETRIEVE_SICKBEARD_CONFIG 4
 
 #define DATABASE_NAME "SeriesPlugin.sql"
 #define TRAKT_API_KEY "9a67e6b3bc1cbd1d92fdc56a03b51267"
@@ -62,7 +63,7 @@ class SeriesPlugin  : public Plugins::PluginBase
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.SeriesPlugin")
 
-    Q_PROPERTY(bool addShow WRITE setAddShow READ addShow NOTIFY addShowChanged)
+    Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
     Q_PROPERTY(QString sickBeardUrl WRITE setSickBeardUrl READ sickBeardUrl NOTIFY sickBeardUrlChanged)
     Q_PROPERTY(QString sickBeardApi WRITE setSickBeardApi READ sickBeardApi NOTIFY sickBeardApiChanged)
 public:
@@ -99,9 +100,10 @@ public:
     Q_INVOKABLE                 void     removeShowFromSearchResult(int showId);
     Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
     Q_INVOKABLE                 void     retrieveSickBeardShows();
+    Q_INVOKABLE                 void     saveSickBeardConfig();
 
-    bool                                 addShow() const;
-    void                                 setAddShow(bool value);
+    QString                              pluginState() const;
+    void                                 setPluginState(const QString& value);
 
     QString                              sickBeardApi() const;
     QString                              sickBeardUrl() const;
@@ -113,7 +115,7 @@ private:
     Models::SubListedListModel* searchSeriesModel;
     QString                     m_sickBeardUrl;
     QString                     m_sickBeardApiKey;
-    bool                        m_addShow;
+    QString                     m_pluginState;
 
     QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
     QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
@@ -131,6 +133,7 @@ private:
     void                        retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *data);
 
     // DATABASE
+    void                        retrieveSickBeardConfig();
     void                        addShowToDatabase(SerieSubListedItem *show);
     void                        addSeasonToDatabase(SeasonSubListedItem *season, const QString &showSlug);
     void                        addEpisodeToDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
@@ -150,10 +153,11 @@ private:
     void                        retrieveSeasonsForShowDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void                        retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void                        genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    void                        retrieveSickBeardConfigCallBack(QList<QSqlRecord> result, void *data);
 
 signals :
 
-    void                        addShowChanged();
+    void                        pluginStateChanged();
     void                        sickBeardUrlChanged();
     void                        sickBeardApiChanged();
 };

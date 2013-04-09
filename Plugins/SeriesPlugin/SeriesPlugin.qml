@@ -9,7 +9,6 @@ Item3D
     position : Qt.vector3d(0, 0, 0)
 
     property bool isFocused : false;
-    property bool addShow : SeriesPlugin.addShow
     property bool consultingEpisode : false
     property int  listviewRotateAngle : 15
 
@@ -30,10 +29,12 @@ Item3D
         eyePos.z += (-10)
 
         var widgetPos = plugin_base.getRoomPosition();
-        widgetPos.x += cube_picture.x
-        widgetPos.y += cube_picture.y
-        widgetPos.z += cube_picture.z
-        plugin_base.moveCamera(eyePos, widgetPos);
+        widgetPos.x += plugin_base.pluginPosition.x
+        widgetPos.y += plugin_base.pluginPosition.y
+        widgetPos.z += plugin_base.pluginPosition.z
+        var up = Qt.vector3d(0, 1, 0)
+        console.log("POSITION ------> P" + plugin_base.pluginPosition + " R " + plugin_base.getRoomPosition() + " W " + widgetPos)
+        plugin_base.moveCamera(eyePos, widgetPos, up);
         isFocused = true;
         followed_series_view.state = "shows_view"
     }
@@ -143,11 +144,61 @@ Item3D
         opacity : isFocused ? 1 : 0
         width : mainWindow.width
         height : mainWindow.height
+        state : SeriesPlugin.pluginState
+
+        states : [
+            State {name : "shows_view";
+                PropertyChanges {target: followed_series_view; state : "shows_view"}
+                PropertyChanges {target : followed_series_view; opacity : 1}
+                PropertyChanges {target : sickbeard_config; opacity : 0}
+                PropertyChanges {target : search_bar_container; opacity : 0}
+            },
+            State {name : "seasons_shows_view";
+                PropertyChanges {target: followed_series_view; state: "seasons_shows_view"}
+                PropertyChanges {target : followed_series_view; opacity : 1}
+                PropertyChanges {target : sickbeard_config; opacity : 0}
+                PropertyChanges {target : search_bar_container; opacity : 0}
+            },
+            State {name : "search_shows";
+                PropertyChanges {target : followed_series_view; opacity : 0}
+                PropertyChanges {target : sickbeard_config; opacity : 0}
+                PropertyChanges {target : search_bar_container; opacity : 1}
+            },
+            State {name : "configure_sickbeard";
+                PropertyChanges {target: followed_series_view; state : "shows_view"}
+                PropertyChanges {target : followed_series_view; opacity : 0}
+                PropertyChanges {target : sickbeard_config; opacity : 1}
+                PropertyChanges {target : search_bar_container; opacity : 0}
+            }
+        ]
+
+        transitions: [
+        Transition {
+            NumberAnimation { target: followed_series_view; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: sickbeard_config; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: search_bar_container; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+        }]
 
         SearchSerie
         {
             id : search_bar_container
-            opacity : (addShow) ? 1 : 0
+            opacity : 0
+            enabled : opacity === 1
+            width : parent.width / 3
+            anchors
+            {
+                top : parent.top
+                topMargin : 100
+                horizontalCenter : parent.horizontalCenter
+                bottom : parent.bottom
+                bottomMargin : 100
+            }
+        }
+
+        SickBeardConfig
+        {
+            id : sickbeard_config
+            opacity : 0
             enabled : opacity === 1
             width : parent.width / 3
             anchors
@@ -164,7 +215,7 @@ Item3D
         {
             id : followed_series_view
             enabled : opacity === 1
-            opacity : (addShow) ? 0 : 1
+            opacity : 0
             anchors.fill: parent
 
             states :    [
@@ -181,7 +232,10 @@ Item3D
                     PropertyChanges {target: season_episode_item; opacity : 1}
                 }
             ]
-            transitions : [Transition { NumberAnimation {duration : 750} }]
+            transitions : [Transition {
+                    NumberAnimation { target: show_view_item; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                    NumberAnimation { target: season_episode_item; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                }]
 
             Item
             {

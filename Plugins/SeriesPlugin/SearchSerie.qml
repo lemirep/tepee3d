@@ -100,7 +100,7 @@ Item
                 top : search_result_listview.bottom
                 horizontalCenter : search_result_listview.horizontalCenter
             }
-            onClicked : { SeriesPlugin.addShow = false; }
+            onClicked : { SeriesPlugin.pluginState = "shows_view"; }
         }
     }
 }

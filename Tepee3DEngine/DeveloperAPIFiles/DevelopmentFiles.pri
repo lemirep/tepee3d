@@ -48,6 +48,8 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/FolderDelegate.qml \
                 $$PWD/qml/FileLoader.qml \
                 $$PWD/qml/Resources/Pictures/plus.png \
+                $$PWD/qml/Resources/Pictures/ok.png \
+                $$PWD/qml/Resources/Pictures/spanner.png \
                 $$PWD/qml/Resources/Pictures/mag_glass.png \
                 $$PWD/qml/Resources/Pictures/round.png \
                 $$PWD/qml/Resources/Pictures/red_cross.png \
@@ -56,6 +58,8 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/UIComponents/RefreshButton.qml \
                 $$PWD/qml/UIComponents/CloseButton.qml \
                 $$PWD/qml/UIComponents/BackButton.qml \
-                $$PWD/qml/UIComponents/ForwardButton.qml
+                $$PWD/qml/UIComponents/ForwardButton.qml \
+                $$PWD/qml/UIComponents/OkButton.qml \
+                $$PWD/qml/UIComponents/SettingsButton.qml
 
 QT += sql

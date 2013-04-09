@@ -73,7 +73,8 @@ OTHER_FILES += \
     SeriePathView.qml \
     SeasonPathView.qml \
     EpisodePathView.qml \
-    SearchSerie.qml
+    SearchSerie.qml \
+    SickBeardConfig.qml
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)

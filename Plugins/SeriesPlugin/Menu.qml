@@ -3,13 +3,35 @@ import QtQuick 2.0
 Item
 {
     anchors.fill: parent
-    property bool addShow : SeriesPlugin.addShow
+    state : SeriesPlugin.pluginState
+
+    states : [
+        State
+        {
+            name : "search_shows"
+            PropertyChanges {target : adding_show_menu; opacity : 1}
+            PropertyChanges {target : normal_menu; opacity : 0}
+        },
+        State
+        {
+            name : "shows_view"
+            PropertyChanges {target : adding_show_menu; opacity : 0}
+            PropertyChanges {target : normal_menu; opacity : 1}
+        }
+
+    ]
+
+    transitions: [
+    Transition {
+        NumberAnimation { target: adding_show_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+        NumberAnimation { target: normal_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+    }]
 
     Item
     {
         id : adding_show_menu
         enabled : opacity === 1
-        opacity : (addShow) ? 1 : 0
+        opacity : 0
         anchors.fill: parent
         CloseButton
         {
@@ -20,7 +42,7 @@ Item
                 left: parent.left
                 leftMargin : 50
             }
-            onClicked : {SeriesPlugin.addShow = false; menuBottomMain.isShown = false}
+            onClicked : {SeriesPlugin.pluginState = "shows_view"; menuBottomMain.isShown = false}
         }
         Text
         {
@@ -36,88 +58,131 @@ Item
         }
     }
 
-    Item
+    Row
     {
         id : normal_menu
         enabled : opacity === 1
         anchors.fill: parent
-        opacity : (addShow) ? 0 : 1
+        opacity : 0
+        spacing : 15
 
-        AddButton
+        Item
         {
-            id : add_show_button
-            anchors
+            width : add_show_button_text.width
+            height : parent.height
+            AddButton
             {
-                verticalCenter: parent.verticalCenter
-                horizontalCenter : add_show_button_text.horizontalCenter
+                id : add_show_button
+                anchors
+                {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter : add_show_button_text.horizontalCenter
+                }
+                onClicked : {SeriesPlugin.pluginState = "search_shows"; menuBottomMain.isShown = false}
             }
-            onClicked : {SeriesPlugin.addShow = true; menuBottomMain.isShown = false}
-        }
 
-        Text
-        {
-            id : add_show_button_text
-            text : "Add a Show"
-            font.pointSize: 14
-            color : "white"
-            anchors
+            Text
             {
-                top : add_show_button.bottom
-                topMargin : 25
-                left: parent.left
-                leftMargin : 10
-            }
-        }
+                id : add_show_button_text
+                text : "Add a Show"
+                font.pointSize: 14
+                color : "white"
+                anchors
+                {
+                    top : add_show_button.bottom
+                    topMargin : 25
+                    horizontalCenter : parent.horizontalCenter
 
-        RefreshButton
-        {
-            id : refresh_show_button
-            anchors
-            {
-                verticalCenter: parent.verticalCenter
-                left: add_show_button_text.right
-                leftMargin : 100
-            }
-            onClicked : {SeriesPlugin.updateFollowedShows(); menuBottomMain.isShown = false}
-        }
-
-        Text
-        {
-            id : refresh_show_button_text
-            text : "Refresh Shows"
-            font.pointSize: 14
-            color : "white"
-            anchors
-            {
-                top : refresh_show_button.bottom
-                topMargin : 25
-                horizontalCenter : refresh_show_button.horizontalCenter
+                }
             }
         }
 
-        RefreshButton
+        Item
         {
-            id : sync_with_sickbeard_button
-            anchors
+            width : refresh_show_button_text.width
+            height : parent.height
+            RefreshButton
             {
-                verticalCenter : parent.verticalCenter
-                horizontalCenter : sync_with_sickbeard_text.horizontalCenter
+                id : refresh_show_button
+                anchors
+                {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter : refresh_show_button_text.horizontalCenter
+                }
+                onClicked : {SeriesPlugin.updateFollowedShows(); menuBottomMain.isShown = false}
             }
-            onClicked : {SeriesPlugin.retrieveSickBeardShows()}
+
+            Text
+            {
+                id : refresh_show_button_text
+                text : "Refresh Shows"
+                font.pointSize: 14
+                color : "white"
+                anchors
+                {
+                    top : refresh_show_button.bottom
+                    topMargin : 25
+                    horizontalCenter : parent.horizontalCenter
+                }
+            }
         }
 
-        Text
+        Item
         {
-            id : sync_with_sickbeard_text
-            text : "Sync with SickBeard"
-            font.pointSize: 14
-            color : "white"
-            anchors
+            width : sync_with_sickbeard_text.width
+            height : parent.height
+            RefreshButton
             {
-                top : sync_with_sickbeard_button.bottom
-                topMargin : 25
-                left : refresh_show_button_text.right
-                leftMargin : 10
+                id : sync_with_sickbeard_button
+                anchors
+                {
+                    verticalCenter : parent.verticalCenter
+                    horizontalCenter : sync_with_sickbeard_text.horizontalCenter
+                }
+                onClicked : {SeriesPlugin.retrieveSickBeardShows(); menuBottomMain.isShown = false}
+            }
+
+            Text
+            {
+                id : sync_with_sickbeard_text
+                text : "Sync with SickBeard"
+                font.pointSize: 14
+                color : "white"
+                anchors
+                {
+                    top : sync_with_sickbeard_button.bottom
+                    topMargin : 25
+                    horizontalCenter : parent.horizontalCenter
+                }
+            }
+        }
+
+        Item
+        {
+            width : set_sickbeard_config_text.width
+            height : parent.height
+            SettingsButton
+            {
+                id : set_sickbeard_config
+                anchors
+                {
+                    verticalCenter : parent.verticalCenter
+                    horizontalCenter : set_sickbeard_config_text.horizontalCenter
+                }
+                onClicked : {SeriesPlugin.pluginState = "configure_sickbeard"; menuBottomMain.isShown = false}
+            }
+            Text
+            {
+                id : set_sickbeard_config_text
+                text : "Configure SickBeard"
+                font.pointSize: 14
+                color : "white"
+                anchors
+                {
+                    top : set_sickbeard_config.bottom
+                    topMargin : 25
+                    horizontalCenter : parent.horizontalCenter
+                }
             }
         }
     }

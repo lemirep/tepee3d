@@ -29,7 +29,6 @@
 
 SeriesPlugin::SeriesPlugin() : PluginBase()
 {
-    this->m_addShow = false;
     // WEBSERVICES CALLBACKS HASH
     this->webServicesCallBacks[SEARCH_SHOW_REQUEST] = &SeriesPlugin::searchForShowCallBack;
     this->webServicesCallBacks[SEARCH_EPISODE_REQUEST] = &SeriesPlugin::searchForEpisodeCallBack;
@@ -41,6 +40,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_EPISODES_FOR_SHOW_SEASON] = &SeriesPlugin::retrieveEpisodesForShowSeasonDatabaseCallBack;
     this->databaseCallBacks[GENERIC_REQUEST] = &SeriesPlugin::genericDatabaseCallBack;
+    this->databaseCallBacks[RETRIEVE_SICKBEARD_CONFIG] = &SeriesPlugin::retrieveSickBeardConfigCallBack;
     // CREATE SERIES MODEL
     this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
     // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
@@ -56,6 +56,8 @@ int SeriesPlugin::getPluginId()
 void SeriesPlugin::initPlugin()
 {
     this->retrieveShowsFromDababase();
+    this->retrieveSickBeardConfig();
+    this->setPluginState("shows_view");
 }
 
 void SeriesPlugin::clearPluginBeforeRemoval()
@@ -212,15 +214,25 @@ void SeriesPlugin::retrieveSickBeardShows()
                                GET_SICKBEARD_SHOWS, NULL);
 }
 
-bool SeriesPlugin::addShow() const
+void SeriesPlugin::saveSickBeardConfig()
 {
-    return this->m_addShow;
+    QString saveSBConfig = "UPDATE config SET sickbeard_url = \"";
+    saveSBConfig += this->sickBeardUrl();
+    saveSBConfig += "\", sickbeard_api_key = \"";
+    saveSBConfig += this->sickBeardApi();
+    saveSBConfig += "\" ;";
+    emit executeSQLQuery(saveSBConfig, this, GENERIC_REQUEST, DATABASE_NAME);
 }
 
-void SeriesPlugin::setAddShow(bool value)
+QString SeriesPlugin::pluginState() const
 {
-    this->m_addShow = value;
-    emit addShowChanged();
+    return this->m_pluginState;
+}
+
+void SeriesPlugin::setPluginState(const QString& value)
+{
+    this->m_pluginState = value;
+    emit pluginStateChanged();
 }
 
 QString SeriesPlugin::sickBeardApi() const
@@ -412,6 +424,12 @@ void SeriesPlugin::retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *da
         else
             qDebug() << "Failed to Retrieve SickBeardShows";
     }
+}
+
+void SeriesPlugin::retrieveSickBeardConfig()
+{
+    QString sickbeardConfigRequest = "SELECT sickbeard_url, sickbeard_api_key FROM config WHERE id = 0;";
+    emit executeSQLQuery(sickbeardConfigRequest, this, RETRIEVE_SICKBEARD_CONFIG, DATABASE_NAME);
 }
 
 // DATABASE
@@ -700,6 +718,18 @@ void SeriesPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
     Q_UNUSED(result)
     Q_UNUSED(data)
+}
+
+void SeriesPlugin::retrieveSickBeardConfigCallBack(QList<QSqlRecord> result, void *data)
+{
+    Q_UNUSED(data)
+    if (result.size() == 2)
+    {
+        result.pop_front();
+        this->setSickBeardUrl(result.first().value(0).toString());
+        this->setSickBeardApi(result.first().value(1).toString());
+        qDebug() << "Retrived SB Conf " << this->sickBeardApi() << " " << this->sickBeardUrl();
+    }
 }
 
 
