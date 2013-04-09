@@ -21,7 +21,7 @@ you can dowload them at this address : \l {https://gitorious.org/tepee3d/tepee3d
 
  Select your .pro file and copy the content of the template below
  \code
-  qml_folder.source =PATH_WHERE_YOUR_SAVE_YOUR_PLUGIN_LIB
+  qml_folder.source = PATH_WHERE_YOUR_SAVE_YOUR_PLUGIN_LIB
   qml_folder.target = ./
 
   TEMPLATE        = lib
@@ -116,10 +116,10 @@ copyToDestDir($$OTHER_FILES)
 
 In your header file :
 \code
-class ClassName : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
+class ClassName : public Plugins::PluginBase                // MANDATORY FOR PLUGIN DEVELOPMENT
 {
-    Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
-    Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.testplugin") // REPLACE testplugin BY YOUR PLUGIN NAME
+    Q_OBJECT                                                // NECESSARY FOR QOBJECT INHERITANCE
+    Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.YourPlugin") // REPLACE testplugin BY YOUR PLUGIN NAME
 
 ...
   \endcode
@@ -133,20 +133,18 @@ In your cpp file :
 
 This class should implemente this list of methods :
 \code
-   int                     	getPluginId();
-    void                    	initPlugin();
-    Q_INVOKABLE QString         getPluginName();
-    QString                 	getPluginDescription();
-    PluginBase*            	getPluginBase();
-    PluginBase*             	createNewInstance();
-    QString                 	getRoomPluginQmlFile() const;
-    QString                 	getMenuPluginQmlFile() const;
+    int                     getPluginId();
+    void                    initPlugin();
+    Q_INVOKABLE QString     getPluginName();
+    Q_INVOKABLE QString     getPluginDescription();
+    PluginBase*             getPluginBase();
+    PluginBase*             createNewInstance();
+    QString                 getRoomPluginQmlFile() const;
+    QString                 getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface
-    void  		        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
+    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
-    void      		        receiveResultFromHttpRequest(QNetworkReply * reply);
-    void      		        exposeContentToQml(QQmlContext *context);
-\endcode
+    void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
 
 \section1 Add your qml 
 When your create your qml file, you can link your main qml file with function getRoomPluginQmlFile(). In this example, Widget.qml is your qml file.
@@ -159,15 +157,8 @@ QString YourClass::getRoomPluginQmlFile() const
 \endcode
 \section1 Tips
 \section2 Interacting with c++ class and qml
-In your main class, implement the function exposeContentToQml in this way :
-\code
-void   Yourclass::exposeContentToQml(QQmlContext *context)
-{
-    this->context = context;
-    this->context->setContextProperty("apc",this);
-}
-\endcode
-Now you have an element "apc" in your qml file and you can call every invokable function from your cpp class in your qml.
+The plugin C++ class is exposed to the qml context by default.
+You have an element "PluginName" in your qml file and you can call every invokable function from your cpp class in your qml.
 In order to call a qml function from your cpp class, you should process as described below :
 \code
 QQmlComponent component(this->context->engine(), PATH_TO_YOUR_WIDGETFILE);
@@ -179,16 +170,18 @@ QQmlComponent component(this->context->engine(), PATH_TO_YOUR_WIDGETFILE);
                 Q_ARG(QVariant, msg));
         delete object;
 \endcode
+
 \section2 Interaction with the database
 If you want execute a query in the database of the application, you just have to use the signal executeSQLQuery in this way :
 \code
- emit (PluginBase::executeSQLQuery(YOURQUERY,this,ID_QUERY));
+    emit executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data = NULL);
+N.B : "data" is a callback function.
 \endcode
 You will receive the answer of your query in the function receiveResultFromSQLQuery
 \section1 Results
 When you have compiled your project, if you are under linux you will have a file .so or .dll under windows. Now you just have to upload your file on tepee website in order for it to be tested by the tepee team.
 
 \section1 Plugins exemple
-You can download the source of a test plugin at \l{https://gitorious.org/tepee3d/tepee3d/trees/master/TestPlugin}
+You can download the source of a start plugin at \l{https://gitorious.org/tepee3d/tepee3d/trees/master/DummyProject}
 
 */

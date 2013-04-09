@@ -1,5 +1,6 @@
 QMAKE_PRL_BUILD_DIR = /home/qwerty/Desktop/eip/tepee3d/Plugins/TwitterPlugin/qttweetlib
 QMAKE_PRO_INPUT = src.pro
-QMAKE_PRL_TARGET = libqtweetlib.so.1.0.0
-QMAKE_PRL_CONFIG = include_source_dir lex yacc warn_on debug uic resources qt warn_on incremental link_prl gdb_dwarf_index def_files_disabled exceptions no_mocdepend stl qt_no_framework debug declarative_debug create_prl moc thread dll
+QMAKE_PRL_TARGET = libqtweetlib.a
+QMAKE_PRL_CONFIG = include_source_dir lex yacc warn_on debug uic resources qt warn_on incremental link_prl gdb_dwarf_index def_files_disabled exceptions no_mocdepend stl qt_no_framework debug declarative_debug create_prl staticlib static staticlib moc thread
 QMAKE_PRL_VERSION = 1.0.0
+QMAKE_PRL_LIBS = -L/usr/lib/i386-linux-gnu  -lQtGui -lQtNetwork -lQtCore -lpthread  
