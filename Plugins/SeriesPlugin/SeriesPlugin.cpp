@@ -324,6 +324,7 @@ EpisodeListItem *SeriesPlugin::parseShowEpisode(const QJsonObject& episodeObj)
 // WEB SERVICES CALL BACKS
 void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
 {
+    Q_UNUSED(data)
     if (reply != NULL)
     {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
@@ -438,28 +439,21 @@ void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString insertShowRequest = "INSERT OR REPLACE INTO show (serieTitle, serieSlug, serieImage, serieOverview, serieYear, serieNetwork, serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId) VALUES ('";
-        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieName).toString());
-        insertShowRequest += "', '";
-        insertShowRequest +=  Utils::escapeSqlQuery(show->data(SerieSubListedItem::slug).toString());
-        insertShowRequest += "', '";
-        insertShowRequest +=  Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString());
-        insertShowRequest += "', '";
-        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieOverview).toString());
-//        insertShowRequest += "titi";
-        insertShowRequest += "', '";
-        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieYear).toString());
-        insertShowRequest += "', '";
-        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieNetwork).toString());
-        insertShowRequest += "', ";
-        insertShowRequest += QString::number(show->data(SerieSubListedItem::serieLastUpdate).toDateTime().toTime_t());
-        insertShowRequest += ", '";
-        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieAirDay).toString());
-        insertShowRequest += "', '";
-        insertShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieAirTime).toString());
-        insertShowRequest += "', ";
-        insertShowRequest += QString::number(show->data(SerieSubListedItem::serieTvdbId).toInt());
-        insertShowRequest += ");";
+        QString insertShowRequest = QString("INSERT OR REPLACE INTO show "
+                                            "(serieTitle, serieSlug, serieImage,"
+                                            " serieOverview, serieYear, serieNetwork, "
+                                            "serieLastUpdate, serieAirDay, serieAirTime,"
+                                            " serieTvDbId) VALUES ('%1', '%2', '%3', '%4','%5','%6',%7, '%8', '%9', %10);")
+                .arg(Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieName).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::slug).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieOverview).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieYear).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieNetwork).toString()),
+                     QString::number(show->data(SerieSubListedItem::serieLastUpdate).toDateTime().toTime_t()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieAirDay).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::serieAirTime).toString()))
+                .arg(show->data(SerieSubListedItem::serieTvdbId).toInt());
 
         emit executeSQLQuery(insertShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* season, show->submodel()->toList())
@@ -474,16 +468,14 @@ void SeriesPlugin::addSeasonToDatabase(SeasonSubListedItem *season, const QStrin
 {
     if (season != NULL)
     {
-        QString insertSeasonRequest = "INSERT OR REPLACE INTO seasons (showId, seasonNumber, seasonEpisodesCount, seasonImage) VALUES (";
-        insertSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-        insertSeasonRequest += showSlug;
-        insertSeasonRequest += "'), ";
-        insertSeasonRequest += QString::number(season->data(SeasonSubListedItem::seasonId).toInt());
-        insertSeasonRequest += ", ";
-        insertSeasonRequest += QString::number(season->data(SeasonSubListedItem::episodeCount).toInt());
-        insertSeasonRequest += ", '";
-        insertSeasonRequest += season->data(SeasonSubListedItem::imageUrl).toString();
-        insertSeasonRequest += "');";
+        QString insertSeasonRequest = QString("INSERT OR REPLACE INTO seasons "
+                                              "(showId, seasonNumber, seasonEpisodesCount, seasonImage) "
+                                              "VALUES ((SELECT serieId FROM show WHERE serieSlug = '%1'), "
+                                              " %2, %3, '%4');")
+                .arg(Utils::escapeSqlQuery(showSlug),
+                     QString::number(season->data(SeasonSubListedItem::seasonId).toInt()),
+                     QString::number(season->data(SeasonSubListedItem::episodeCount).toInt()),
+                     Utils::escapeSqlQuery(season->data(SeasonSubListedItem::imageUrl).toString()));
 
         emit executeSQLQuery(insertSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* episode, season->submodel()->toList())
@@ -499,29 +491,23 @@ void SeriesPlugin::addEpisodeToDatabase(EpisodeListItem *episode, const QString&
 {
     if (episode != NULL)
     {
-        QString insertEpisodeRequest = "INSERT OR REPLACE INTO episodes (showId, seasonId, episodeTitle, ";
-        insertEpisodeRequest += "episodeNumber, episodeSummary, episodeAiring, episodeSeen, episodeImage) VALUES (";
-        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-        insertEpisodeRequest += showSlug;
-        insertEpisodeRequest += "'), ";
-        insertEpisodeRequest += "(SELECT seasonId FROM seasons WHERE showId = ";
-        insertEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-        insertEpisodeRequest += showSlug;
-        insertEpisodeRequest += "') AND seasonNumber = ";
-        insertEpisodeRequest += QString::number(season);
-        insertEpisodeRequest += "), '";
-        insertEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeTitle).toString());
-        insertEpisodeRequest += "', ";
-        insertEpisodeRequest += episode->data(EpisodeListItem::episodeNumber).toString();
-        insertEpisodeRequest += ", '";
-        insertEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeSummary).toString());
-        insertEpisodeRequest += "', ";
-        insertEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t());
-        insertEpisodeRequest += ", ";
-        insertEpisodeRequest += episode->data(EpisodeListItem::episodeSeen).toBool() ? "1": "0";
-        insertEpisodeRequest += ", '";
-        insertEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::imageUrl).toString());
-        insertEpisodeRequest += "');";
+        QString getShowIdRequest = QString("(SELECT serieId FROM show WHERE serieSlug = '%1')")
+                .arg(Utils::escapeSqlQuery(showSlug));
+        QString getSeasonIdRequest = QString("(SELECT seasonId FROM seasons WHERE showId = %1 AND seasonNumber = %2)")
+                .arg(getShowIdRequest,
+                     QString::number(season));
+        QString insertEpisodeRequest = QString("INSERT OR REPLACE INTO episodes (showId, seasonId, episodeTitle, "
+                                               "episodeNumber, episodeSummary, episodeAiring, episodeSeen, episodeImage)"
+                                               "VALUES (%1, %2, '%3', '%4', '%5', %6, %7, '%8');")
+                .arg(getShowIdRequest,
+                     getSeasonIdRequest,
+                     Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeTitle).toString()),
+                     episode->data(EpisodeListItem::episodeNumber).toString(),
+                     Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeSummary).toString()),
+                     QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t()),
+                     episode->data(EpisodeListItem::episodeSeen).toBool() ? "1": "0",
+                     Utils::escapeSqlQuery(episode->data(EpisodeListItem::imageUrl).toString()));
+
         emit executeSQLQuery(insertEpisodeRequest, this, GENERIC_REQUEST, DATABASE_NAME);
     }
 }
@@ -530,12 +516,9 @@ void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString updateShowRequest = "UPDATE show SET showImage = ";
-        updateShowRequest += "'";
-        updateShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString());
-        updateShowRequest += "' WHERE serieSlug = '";
-        updateShowRequest += Utils::escapeSqlQuery(show->data(SerieSubListedItem::slug).toString());
-        updateShowRequest += "';";
+        QString updateShowRequest = QString("UPDATE show SET showImage = '%1' WHERE serieSlug = '%2';")
+                .arg(Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString()),
+                     Utils::escapeSqlQuery(show->data(SerieSubListedItem::slug).toString()));
         emit executeSQLQuery(updateShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* season, show->submodel()->toList())
         {
@@ -549,15 +532,13 @@ void SeriesPlugin::updateSeasonInDatabase(SeasonSubListedItem *season, const QSt
 {
     if (season != NULL)
     {
-        QString updateSeasonRequest = "UPDATE seasons SET seasonEpisodeCount = ";
-        updateSeasonRequest += QString::number(season->data(SeasonSubListedItem::episodeCount).toInt());
-        updateSeasonRequest += ", seasonImage = '";
-        updateSeasonRequest += Utils::escapeSqlQuery(season->data(SeasonSubListedItem::imageUrl).toString());
-        updateSeasonRequest += "\" WHERE showId = (SELECT serieId FROM show WHERE serieSlug = '";
-        updateSeasonRequest += Utils::escapeSqlQuery(showSlug);
-        updateSeasonRequest += "') AND seasonNumber = ";
-        updateSeasonRequest += QString::number(season->data(SeasonSubListedItem::seasonId).toInt());
-        updateSeasonRequest += ";";
+        QString updateSeasonRequest = QString("UPDATE seasons SET seasonEpisodeCount = %1, seasonImage = '%2'"
+                                              " WHERE showId = (SELECT serieId FROM show WHERE serieSlug = '%3')"
+                                              " AND seasonNumber = %4 ;")
+                .arg(QString::number(season->data(SeasonSubListedItem::episodeCount).toInt()),
+                     Utils::escapeSqlQuery(season->data(SeasonSubListedItem::imageUrl).toString()),
+                     Utils::escapeSqlQuery(showSlug),
+                     QString::number(season->data(SeasonSubListedItem::seasonId).toInt()));
         emit (executeSQLQuery(updateSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME));
         foreach (Models::ListItem* episode, season->submodel()->toList())
         {
@@ -572,46 +553,38 @@ void SeriesPlugin::updateEpisodeInDatabase(EpisodeListItem *episode, const QStri
 {
     if (episode != NULL)
     {
-        QString updateEpisodeRequest = "UPDATE episodes SET episodeTitle = '";
-        updateEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeTitle).toString());
-        updateEpisodeRequest += "', episodeSummary = '";
-        updateEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeSummary).toString());
-        updateEpisodeRequest += "', episodeAiring = ";
-        updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t());
-        updateEpisodeRequest += ", episodeImage = '";
-        updateEpisodeRequest += Utils::escapeSqlQuery(episode->data(EpisodeListItem::imageUrl).toString());
-        updateEpisodeRequest += "', episodeSeen = ";
-        updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeSeen).toBool() ? 1 : 0);
-        updateEpisodeRequest += " WHERE showID = ";
-        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-        updateEpisodeRequest += Utils::escapeSqlQuery(showSlug);
-        updateEpisodeRequest += "') AND seasonId = ";
-        updateEpisodeRequest += "(SELECT seasonId FROM seasons WHERE showId = ";
-        updateEpisodeRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-        updateEpisodeRequest += Utils::escapeSqlQuery(showSlug);
-        updateEpisodeRequest += "') AND seasonNumber = ";
-        updateEpisodeRequest += QString::number(season);
-        updateEpisodeRequest += ") AND episodeNumber = ";
-        updateEpisodeRequest += QString::number(episode->data(EpisodeListItem::episodeNumber).toInt());
-        updateEpisodeRequest += ";";
+        QString getShowIdRequest = QString("(SELECT serieId FROM show WHERE serieSlug = '%1')")
+                .arg(Utils::escapeSqlQuery(showSlug));
+        QString getSeasonIdRequest = QString("(SELECT seasonId FROM seasons WHERE showId = %1 AND seasonNumber = %2)")
+                .arg(getShowIdRequest,
+                     QString::number(season));
+        QString updateEpisodeRequest = QString("UPDATE episodes SET episodeTitle = '%1', episodeSummary = '%2'"
+                                               ", episodeAiring = %3, episodeImage = '%4', episodeSeen = %5"
+                                               " WHERE showId = %6 AND seasonId = %7 AND episodeId = %8;")
+                .arg(Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeTitle).toString()),
+                     Utils::escapeSqlQuery(episode->data(EpisodeListItem::episodeSummary).toString()),
+                     QString::number(episode->data(EpisodeListItem::episodeAiring).toDateTime().toTime_t()),
+                     Utils::escapeSqlQuery(episode->data(EpisodeListItem::imageUrl).toString()),
+                     episode->data(EpisodeListItem::episodeSeen).toBool() ? "1" : "0",
+                     getShowIdRequest,
+                     getSeasonIdRequest,
+                     QString::number(episode->data(EpisodeListItem::episodeNumber).toInt()));
         emit executeSQLQuery(updateEpisodeRequest, this, GENERIC_REQUEST, DATABASE_NAME);
     }
 }
 
 void SeriesPlugin::removeShowFromDatabase(const QString &showSlug)
 {
-    QString removeEpisodesRequest = "DELETE FROM episodes WHERE showId = ";
-    removeEpisodesRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-    removeEpisodesRequest += Utils::escapeSqlQuery(showSlug) + "');";
+    QString removeEpisodesRequest = QString("DELETE FROM episodes WHERE showId = "
+                                            "(SELECT serieId FROM show WHERE serieSlug = '%1');")
+            .arg(Utils::escapeSqlQuery(showSlug));
 
-    QString removeSeasonRequest = "DELETE FROM seasons WHERE showId = ";
-    removeSeasonRequest += "(SELECT serieId FROM show WHERE serieSlug = '";
-    removeSeasonRequest += Utils::escapeSqlQuery(showSlug) + "');";
+    QString removeSeasonRequest = QString("DELETE FROM seasons WHERE showId = "
+                                          "(SELECT serieId FROM show WHERE serieSlug = '%1');")
+            .arg(Utils::escapeSqlQuery(showSlug));
 
-    QString removeShowRequest = "DELETE FROM show WHERE serieSlug = ";
-    removeShowRequest += "'";
-    removeShowRequest += Utils::escapeSqlQuery(showSlug);
-    removeShowRequest += "';";
+    QString removeShowRequest = QString("DELETE FROM show WHERE serieSlug = '%1';")
+            .arg(Utils::escapeSqlQuery(showSlug));
 
     emit executeSQLQuery(removeEpisodesRequest, this, GENERIC_REQUEST, DATABASE_NAME);
     emit executeSQLQuery(removeSeasonRequest, this, GENERIC_REQUEST, DATABASE_NAME);
@@ -620,34 +593,30 @@ void SeriesPlugin::removeShowFromDatabase(const QString &showSlug)
 
 void SeriesPlugin::retrieveShowsFromDababase()
 {
-    QString retrieveShowsRequest = "SELECT serieId, serieTitle, serieSlug, serieImage, ";
-    retrieveShowsRequest += "serieOverview, serieYear, serieNetwork, ";
-    retrieveShowsRequest += "serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId";
-    retrieveShowsRequest += " FROM show;";
+    QString retrieveShowsRequest = QString("SELECT serieId, serieTitle, serieSlug, serieImage, "
+                                           "serieOverview, serieYear, serieNetwork, "
+                                           "serieLastUpdate, serieAirDay, serieAirTime, serieTvDbId"
+                                           " FROM show;");
     emit executeSQLQuery(retrieveShowsRequest, this, RETRIEVE_SHOWS, DATABASE_NAME);
 }
 
 void SeriesPlugin::retrieveShowSeasonsFromDatabase(int showDbId, SerieSubListedItem *show)
 {
-    QString retrieveSeasonsRequest = "SELECT showId, seasonId, seasonNumber, seasonEpisodesCount, seasonImage ";
-    retrieveSeasonsRequest += "FROM seasons WHERE showId = ";
-    retrieveSeasonsRequest += QString::number(showDbId);
-    retrieveSeasonsRequest += ";";
+    QString retrieveSeasonsRequest = QString("SELECT showId, seasonId, seasonNumber, seasonEpisodesCount, "
+                                             "seasonImage FROM seasons WHERE showId = %1;")
+            .arg(QString::number(showDbId));
     emit executeSQLQuery(retrieveSeasonsRequest, this, RETRIEVE_SEASONS_FOR_SHOW, DATABASE_NAME, (void *)show);
 }
 
 void SeriesPlugin::retrieveShowEpisodesFromDatabase(int showDbId, int seasonDbId, SeasonSubListedItem *season)
 {
-    QString retrieveEpisodesRequest = "SELECT episodeTitle, episodeNumber, episodeSummary, ";
-    retrieveEpisodesRequest += "episodeAiring, episodeSeen, episodeImage FROM episodes ";
-    retrieveEpisodesRequest += "WHERE seasonId = ";
-    retrieveEpisodesRequest += QString::number(seasonDbId);
-    retrieveEpisodesRequest += " AND showId = ";
-    retrieveEpisodesRequest += QString::number(showDbId);
-    retrieveEpisodesRequest += ";";
+    QString retrieveEpisodesRequest = QString("SELECT episodeTitle, episodeNumber, episodeSummary, "
+                                              "episodeAiring, episodeSeen, episodeImage FROM episodes "
+                                              "WHERE seasonId = %1 AND showId = %2;")
+            .arg(QString::number(seasonDbId),
+                 QString::number(showDbId));
     emit executeSQLQuery(retrieveEpisodesRequest, this, RETRIEVE_EPISODES_FOR_SHOW_SEASON, DATABASE_NAME, (void *)season);
 }
-
 
 // DATABASE CALLBACKS
 

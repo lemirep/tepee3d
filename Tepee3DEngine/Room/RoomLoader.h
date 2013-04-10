@@ -43,12 +43,11 @@
         void                        saveRoom(RoomBase *room);
         void                        restoreRooms();
 
-        void                        searchForRoomEditUpdateCallback(QList<QSqlRecord> result);
-        void                        restoreRoomsCallback(QList<QSqlRecord> result);
-        void                        genericResultCallback(QList<QSqlRecord> result);
+        void                        searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data);
+        void                        restoreRoomsCallback(QList<QSqlRecord> result, void *data);
+        void                        genericResultCallback(QList<QSqlRecord> result, void *data);
 
-        RoomBase*                   roomToSave;
-        QHash<int, void (RoomLoader::*)(QList<QSqlRecord> result)>   pFunc;
+        QHash<int, void (RoomLoader::*)(QList<QSqlRecord> result, void *data)>   pFunc;
 
     public :
         static RoomLoader*          getInstance(QObject *parent = 0);

@@ -18,7 +18,6 @@ Room::RoomLoader::RoomLoader(QObject *parent) : QObject(parent)
     this->pFunc[SEARCH_FOR_ROOM] = &Room::RoomLoader::searchForRoomEditUpdateCallback;
     this->pFunc[GENERIC_RESULT] = &Room::RoomLoader::genericResultCallback;
     this->pFunc[RESTORE_ROOMS] = &Room::RoomLoader::restoreRoomsCallback;
-    qDebug() << "Connection RoomLoader to services";
 }
 
 Room::RoomLoader::~RoomLoader()
@@ -272,26 +271,26 @@ void    Room::RoomLoader::restoreRoomsFromDatabase()
 
 void    Room::RoomLoader::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
 {
-    (this->*this->pFunc[id])(result);
+    (this->*this->pFunc[id])(result, data);
 }
 
-void    Room::RoomLoader::genericResultCallback(QList<QSqlRecord> result)
+void    Room::RoomLoader::genericResultCallback(QList<QSqlRecord> result, void *data)
 {
-    Q_UNUSED(result);
+    Q_UNUSED(result)
+    Q_UNUSED(data)
 }
 
-void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result)
+void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data)
 {
-    qDebug() << "searchEditRoomCallBack";
     if (result.size() > 2)
-        this->updateExistingRoom(this->roomToSave);
+        this->updateExistingRoom(reinterpret_cast<Room::RoomBase*>(data));
     else
-        this->insertNewRoom(this->roomToSave);
+        this->insertNewRoom(reinterpret_cast<Room::RoomBase*>(data));
 }
 
-void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result)
+void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, void *data)
 {
-    qDebug() << "restoreRoomsCallback";
+    Q_UNUSED(data)
     if (result.size() > 1) // FIRST RECORD IS STATUS COUNT OF RECORDINGS
     {
         result.pop_front();
@@ -312,79 +311,57 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result)
 
 void    Room::RoomLoader::saveRoom(Room::RoomBase *room)
 {
-    this->roomToSave = room;
-    qDebug() << "RoomLoader::saveRoom " << "SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";";
-    emit executeSQLQuery("SELECT * FROM room WHERE name=\"" + room->getRoomName() + "\";", this, SEARCH_FOR_ROOM, DB_NAME, NULL);
+    QString request = QString("SELECT * FROM room WHERE name= '%1';")
+            .arg(Utils::escapeSqlQuery(room->getRoomName()));
+    emit executeSQLQuery(request, this, SEARCH_FOR_ROOM, DB_NAME, (void *)room);
 }
 
 void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)
 {
-    QString request = "UPDATE room SET ";
-    request += "name=\"";
-    request += room->getRoomName();
-    request += "\", ";
-    request += "modelFile=\"";
-    request += room->getRoomQmlFile();
-    request += "\", ";
-    request += "posX=";
-    request += QString::number(room->getPosition().x());
-    request += ", ";
-    request += "posY=";
-    request += QString::number(room->getPosition().y());
-    request += ", ";
-    request += "posZ=";
-    request += QString::number(room->getPosition().z());
-    request += ", ";
-    request += "scaleX=";
-    request += QString::number(room->getScale().x());
-    request += ", ";
-    request += "scaleY=";
-    request += QString::number(room->getScale().y());
-    request += ", ";
-    request += "scaleZ=";
-    request += QString::number(room->getScale().z());
-    request += " WHERE ";
-    request += "name=\"";
-    request += room->getRoomName();
-    request += "\";";
-    qDebug() << request;
+    if (room == NULL)
+        return;
+    QString request = QString("UPDATE room SET name = '%1', modelFile = '%2', "
+                              "posX = %3, posY = %4, posZ = %5,"
+                              "scaleX = %6, scaleY = %7, scaleZ = %8 "
+                              "WHERE name = '%9';")
+            .arg(Utils::escapeSqlQuery(room->getRoomName()),
+                 room->getRoomQmlFile(),
+                 QString::number(room->getPosition().x()),
+                 QString::number(room->getPosition().y()),
+                 QString::number(room->getPosition().z()),
+                 QString::number(room->getScale().x()),
+                 QString::number(room->getScale().y()),
+                 QString::number(room->getScale().z()),
+                 Utils::escapeSqlQuery(room->getRoomName()));
     emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
 {
-    QString request = "INSERT INTO room (name, modelFile, posX, posY, posZ, scaleX, scaleY, scaleZ) VALUES (\"";
-    request += room->getRoomName();
-    request += "\", \"";
-    request += room->getRoomQmlFile();
-    request += "\", ";
-    request += QString::number(room->getPosition().x());
-    request += ", ";
-    request += QString::number(room->getPosition().y());
-    request += ", ";
-    request += QString::number(room->getPosition().z());
-    request += ", ";
-    request += QString::number(room->getScale().x());
-    request += ", ";
-    request += QString::number(room->getScale().y());
-    request += ", ";
-    request += QString::number(room->getScale().z());
-    request += ");";
-    qDebug() << request;
+    if (room == NULL)
+        return;
+    QString request = QString("INSERT INTO room "
+                              "(name, modelFile, posX, posY, posZ, scaleX, scaleY, scaleZ) "
+                              "VALUES ('%1', '%2', %3, %4, %5, %6, %7, %8);")
+            .arg(Utils::escapeSqlQuery(room->getRoomName()),
+                 Utils::escapeSqlQuery(room->getRoomQmlFile()),
+                 QString::number(room->getPosition().x()),
+                 QString::number(room->getPosition().y()),
+                 QString::number(room->getPosition().z()),
+                 QString::number(room->getScale().x()),
+                 QString::number(room->getScale().y()),
+                 QString::number(room->getScale().z()));
     emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::restoreRooms()
 {
-    QString request = "SELECT * FROM room;";
-    qDebug() << "RoomLoader::restoreRooms";
-    emit executeSQLQuery(request, this, RESTORE_ROOMS, DB_NAME, NULL);
+    emit executeSQLQuery("SELECT * FROM room;", this, RESTORE_ROOMS, DB_NAME, NULL);
 }
 
 void    Room::RoomLoader::deleteRoom(Room::RoomBase *room)
 {
-    QString request = "DELETE FROM room WHERE name = \"";
-    request += room->getRoomName();
-    request += "\";";
+    QString request = QString("DELETE FROM room WHERE name = '%1';")
+            .arg(Utils::escapeSqlQuery(room->getRoomName()));
     emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
 }
