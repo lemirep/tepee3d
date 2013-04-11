@@ -48,7 +48,8 @@ public:
         serieNetwork,
         serieLastUpdate,
         serieAirDay,
-        serieAirTime
+        serieAirTime,
+        serieOnSickbeard
     };
 
     explicit SerieSubListedItem(QObject *parent = 0);
@@ -56,7 +57,7 @@ public:
                                  QString slug, QString serieName, QString imageUrl,
                                  QString overview, QString year, QString network,
                                  QDateTime lastUpdate, QString airDay, QString airTime,
-                                 QObject *parent = 0);
+                                 bool serieOnSickbeard = false, QObject *parent = 0);
     ~SerieSubListedItem();
 
     int             id() const;
@@ -64,6 +65,8 @@ public:
     QHash<int, QByteArray>  roleNames() const;
 
     Models::ListModel*  submodel()   const;
+    void                setSerieOnSickBeard(bool value);
+
 
 private :
     QString m_serieName;
@@ -76,6 +79,7 @@ private :
     QString m_airDay;
     QString m_airTime;
     int     m_tvDbId;
+    bool    m_serieOnSickbeard;
 
     Models::SubListedListModel*  seasonModel;
 };

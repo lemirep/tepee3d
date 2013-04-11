@@ -35,6 +35,8 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->webServicesCallBacks[GET_SHOW_SUMMARY] = &SeriesPlugin::getShowSummaryCallBack;
     this->webServicesCallBacks[UPDATE_SHOW_SUMMARY] = &SeriesPlugin::updateShowSummaryCallBack;
     this->webServicesCallBacks[GET_SICKBEARD_SHOWS] = &SeriesPlugin::retrieveSickBeardShowsCallBack;
+    this->webServicesCallBacks[UPDATE_SICKBEARD_SHOW] = &SeriesPlugin::updateSickbeardShowCallBack;
+    this->webServicesCallBacks[UPDATE_SEASON_EPISODES_SICKBEARD] = &SeriesPlugin::updateShowSeasonFromSickNeardCallBack;
     // DATABASE CALLBACKS HASH
     this->databaseCallBacks[RETRIEVE_SHOWS] = &SeriesPlugin::retrieveShowsFromDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
@@ -207,12 +209,41 @@ void SeriesPlugin::removeShowFromFollowedModel(int showId)
     }
 }
 
+void SeriesPlugin::refreshSickbeardShow(int showId)
+{
+    SerieSubListedItem *sbShow = reinterpret_cast<SerieSubListedItem *>(this->followedSeriesModel->find(showId));
+    if (sbShow != NULL)
+        emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+                                                        this->m_sickBeardApiKey + "/?cmd=show&tvdbid="
+                                                        + QString::number(sbShow->id()))),
+                                   UPDATE_SICKBEARD_SHOW, (void *)sbShow);
+}
+
 void SeriesPlugin::retrieveSickBeardShows()
 {
     emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
-                                                    this->m_sickBeardApiKey + "?/cmd=shows")),
+                                                    this->m_sickBeardApiKey + "/?cmd=shows")),
                                GET_SICKBEARD_SHOWS, NULL);
 }
+
+void SeriesPlugin::addShowToSickBeard(int showId)
+{
+    emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+                                                    this->m_sickBeardApiKey + "/?cmd=show.addnew&tvdbid="
+                                                    + QString::number(showId))),
+                               ADD_SHOW_TO_SICKBEARD);
+}
+
+void SeriesPlugin::updateShowSeasonFromSickBeard(int showId, int seasonId)
+{
+    emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+                                                    this->m_sickBeardApiKey + "/?cmd=show.seasons&tvdbid="
+                                                    + QString::number(showId)
+                                                    + "&season="
+                                                    + QString::number(seasonId))),
+                               UPDATE_SEASON_EPISODES_SICKBEARD, (void *)new QPoint(showId, seasonId));
+}
+
 
 void SeriesPlugin::saveSickBeardConfig()
 {
@@ -223,6 +254,7 @@ void SeriesPlugin::saveSickBeardConfig()
     saveSBConfig += "' ;";
     emit executeSQLQuery(saveSBConfig, this, GENERIC_REQUEST, DATABASE_NAME);
 }
+
 
 QString SeriesPlugin::pluginState() const
 {
@@ -248,6 +280,8 @@ QString SeriesPlugin::sickBeardUrl() const
 void SeriesPlugin::setSickBeardUrl(const QString &sickBeardUrl)
 {
     this->m_sickBeardUrl = sickBeardUrl;
+    if (this->m_sickBeardUrl.endsWith("/"))
+        this->m_sickBeardUrl.chop(1);
     emit sickBeardUrlChanged();
 }
 
@@ -330,7 +364,6 @@ void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
         // DO NOT FORGET TO DELETE THE REPLY
         delete reply;
-        qDebug() << "searchShowCallBack";
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isArray())
         {
             QJsonArray showsResultArray = jsonDoc.array();
@@ -354,7 +387,6 @@ void SeriesPlugin::getShowSummaryCallBack(QNetworkReply *reply, void *data)
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
         // DO NOT FORGET TO DELETE THE REPLY
         delete reply;
-        qDebug() << "getShowSummary CallBack";
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
             SerieSubListedItem *showItem = parseShow(jsonDoc.object());
@@ -381,7 +413,6 @@ void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
         // DO NOT FORGET TO DELETE THE REPLY
         delete reply;
-        qDebug() << "getShowSummary CallBack";
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
             SerieSubListedItem *showItem = parseShow(jsonDoc.object());
@@ -414,11 +445,11 @@ void SeriesPlugin::retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *da
             QJsonObject mainObj = jsonDoc.object();
             if (mainObj.value("result").toString().compare("success") == 0)
             {
-                QJsonArray showsArray = mainObj.value("data").toArray();
-                foreach (QJsonValue value, showsArray)
+                QJsonObject showsArray = mainObj.value("data").toObject();
+                foreach (QString key, showsArray.keys())
                 {
-                    if (!value.isNull() && !value.isUndefined() && value.isObject())
-                        this->addShowToFollow(value.toObject().keys().first());
+                    this->addShowToFollow(key);
+                    this->refreshSickbeardShow(key.toInt());
                 }
             }
         }
@@ -427,6 +458,86 @@ void SeriesPlugin::retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *da
     }
 }
 
+void SeriesPlugin::updateSickbeardShowCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL && data != NULL)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        delete reply;
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            QJsonObject mainObj = jsonDoc.object();
+            if (mainObj.value("result").toString().compare("success") == 0)
+            {
+                QJsonObject dataObj = mainObj.take("data").toObject();
+                if (!dataObj.isEmpty())
+                {
+                    SerieSubListedItem *sbShow = reinterpret_cast<SerieSubListedItem *>(data);
+                    sbShow->setSerieOnSickBeard(true);
+                    QJsonArray seasons = dataObj.take("season_list").toArray();
+                    foreach (QJsonValue value, seasons)
+                    {
+                        if (sbShow->submodel()->find(value.toDouble()) != NULL)
+                            this->updateShowSeasonFromSickBeard(sbShow->id(), value.toDouble());
+                    }
+                }
+            }
+        }
+    }
+}
+
+void SeriesPlugin::updateShowSeasonFromSickNeardCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL && data != NULL)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        delete reply;
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            QJsonObject mainObj = jsonDoc.object();
+            if (mainObj.value("result").toString().compare("success") == 0)
+            {
+                QPoint *p = reinterpret_cast<QPoint*>(data);
+                Models::ListModel *episodesModel = NULL;
+                Models::SubListedListModel *seasonsModel = NULL;
+                QJsonObject showsArray = mainObj.value("data").toObject();
+                if ((seasonsModel = reinterpret_cast<Models::SubListedListModel*>
+                     (this->followedSeriesModel->subModelFromId(p->x()))) != NULL &&
+                        (episodesModel = reinterpret_cast<Models::ListModel*>(seasonsModel->subModelFromId(p->y()))) != NULL)
+                {
+                    foreach (QString key, showsArray.keys())
+                    {
+                        EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodesModel->find(key.toInt()));
+                        if (episode)
+                        {
+//                            qDebug() << "Episode Found " << key;
+                        }
+                        else
+                            qDebug() << "Episode Not Found";
+                    }
+                }
+                delete p;
+            }
+        }
+    }
+}
+
+void SeriesPlugin::addShowToSickBeardCallBack(QNetworkReply *reply, void *data)
+{
+    Q_UNUSED(data)
+    if (reply != NULL)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        delete reply;
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            QJsonObject mainObj = jsonDoc.object();
+            if (mainObj.value("result").toString().compare("success") == 0)
+                return;
+        }
+    }
+    qDebug() << "Error adding show to Sickbeard";
+}
 void SeriesPlugin::retrieveSickBeardConfig()
 {
     QString sickbeardConfigRequest = "SELECT sickbeard_url, sickbeard_api_key FROM config WHERE id = 0;";

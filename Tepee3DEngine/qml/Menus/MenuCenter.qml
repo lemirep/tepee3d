@@ -65,6 +65,7 @@ Item
         }
         onReleased :
         {
+            mouse.accepted = false
             if (obj)
             {
                 obj.dragEnd();

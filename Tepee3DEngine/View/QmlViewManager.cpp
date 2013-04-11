@@ -67,14 +67,14 @@ View::QmlViewManager* View::QmlViewManager::instance = NULL;
  */
 View::QmlViewManager::QmlViewManager() : QObject()
 {
-    this->viewProperties = View::QmlViewProperties::getInstance(this);
+    this->viewProperties = View::QmlViewProperties::getInstance(this);    
     this->servicesManager = Services::ServicesManager::getInstance(this);
     this->roomManager = Room::RoomManager::getInstance(this);
     this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 
+    QObject::connect(this->viewProperties, SIGNAL(quit()), this, SLOT(cleanBeforeClosing()));
     // ALL INSTANCES CREATED SHOULDN'T CALL OR REGISTER TO SERVICES UNTIL THOSE HAVE
     // BEEN PROPERLY INITIALIZED
-
     QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), this, SLOT(initView()));
     this->servicesManager->loadServicesLibraries();
 }
@@ -134,4 +134,9 @@ bool    View::QmlViewManager::initView()
         return true;
     }
     return false;
+}
+
+void View::QmlViewManager::cleanBeforeClosing()
+{
+    emit quit();
 }

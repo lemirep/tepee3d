@@ -74,7 +74,9 @@ OTHER_FILES += \
     SeasonPathView.qml \
     EpisodePathView.qml \
     SearchSerie.qml \
-    SickBeardConfig.qml
+    SickBeardConfig.qml \
+    sickbeard_logo.png \
+    halo.png
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)

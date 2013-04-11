@@ -44,17 +44,22 @@
 #include "SerieSubListedItem.h"
 
 #define PLUGIN_ID 10
+
 #define SEARCH_SHOW_REQUEST 0
 #define SEARCH_EPISODE_REQUEST 1
 #define GET_SHOW_SUMMARY 2
 #define UPDATE_SHOW_SUMMARY 3
 #define GET_SICKBEARD_SHOWS 4
+#define UPDATE_SICKBEARD_SHOW 5
+#define ADD_SHOW_TO_SICKBEARD 6
+#define UPDATE_SEASON_EPISODES_SICKBEARD 7
 
 #define RETRIEVE_SHOWS 0
 #define RETRIEVE_SEASONS_FOR_SHOW 1
 #define RETRIEVE_EPISODES_FOR_SHOW_SEASON 2
 #define GENERIC_REQUEST 3
 #define RETRIEVE_SICKBEARD_CONFIG 4
+
 
 #define DATABASE_NAME "SeriesPlugin.sql"
 #define TRAKT_API_KEY "9a67e6b3bc1cbd1d92fdc56a03b51267"
@@ -100,8 +105,11 @@ public:
     Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
     Q_INVOKABLE                 void     removeShowFromSearchResult(int showId);
     Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
+    Q_INVOKABLE                 void     refreshSickbeardShow(int showId);
     Q_INVOKABLE                 void     retrieveSickBeardShows();
     Q_INVOKABLE                 void     saveSickBeardConfig();
+    void                                 addShowToSickBeard(int showId);
+    void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
 
     QString                              pluginState() const;
     void                                 setPluginState(const QString& value);
@@ -132,6 +140,9 @@ private:
     void                        searchForEpisodeCallBack(QNetworkReply *reply, void *data);
     void                        updateShowSummaryCallBack(QNetworkReply *reply, void *data);
     void                        retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *data);
+    void                        updateSickbeardShowCallBack(QNetworkReply *reply, void *data);
+    void                        updateShowSeasonFromSickNeardCallBack(QNetworkReply *reply, void *data);
+    void                        addShowToSickBeardCallBack(QNetworkReply *reply, void *data);
 
     // DATABASE
     void                        retrieveSickBeardConfig();

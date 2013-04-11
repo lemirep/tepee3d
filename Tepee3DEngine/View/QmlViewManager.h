@@ -39,7 +39,7 @@ public:
     ~QmlViewManager();
 public slots:
     bool                        initView();
-
+    void                        cleanBeforeClosing();
 signals:
     void                        quit();
 

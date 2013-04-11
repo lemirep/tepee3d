@@ -21,14 +21,17 @@ Item
              PathAttribute {name : "delScale"; value : 1}
              PathAttribute {name : "delZ"; value : 1}
              PathAttribute {name : "delAngle"; value : 5}
+             PathAttribute {name : "delReflect"; value : 0.3}
              PathCurve { x: mainWindow.width / 6; y: mainWindow.height / 3;}
              PathAttribute {name : "delScale"; value : 0.7}
-             PathAttribute {name : "delZ"; value : 0.5}
+             PathAttribute {name : "delZ"; value : 0.7}
              PathAttribute {name : "delAngle"; value : 30}
+             PathAttribute {name : "delReflect"; value : 0.05}
              PathCurve { x: 0; y: mainWindow.height / 2;}
-             PathAttribute {name : "delScale"; value : 0.5}
+             PathAttribute {name : "delScale"; value : 0.4}
              PathAttribute {name : "delZ"; value : 0}
              PathAttribute {name : "delAngle"; value : 60}
+             PathAttribute {name : "delReflect"; value : 0}
          }
          delegate : SeriesListViewDelegate {
              serieId : model.serieTvdbId
@@ -41,8 +44,25 @@ Item
              serie_last_update: model.serieLastUpdate
              serie_air_day: model.serieAirDay
              serie_air_time: model.serieAirTime
+             serie_on_sickbeard: model.serieOnSickbeard
              width : 400
              height : 400
          }
+     }
+     Text
+     {
+         id : episode_title
+         style: Text.Outline
+         styleColor: "#0066cc"
+         color : "White"
+         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+         anchors
+         {
+             horizontalCenter: parent.horizontalCenter
+             bottom : parent.bottom
+             bottomMargin : mainWindow.height / 5
+         }
+         text : followed_series_pathview.currentItem.series_name
+         font.pointSize: 24
      }
 }

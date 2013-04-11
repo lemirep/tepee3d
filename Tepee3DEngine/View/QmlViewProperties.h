@@ -31,7 +31,7 @@ public:
     void                        showView();
 
 signals:
-    
+    void                        quit();
 public slots:
     
 };

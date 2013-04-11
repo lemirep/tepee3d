@@ -251,7 +251,7 @@ Item3D
                         left : parent.left
                         right : parent.horizontalCenter
                         top : parent.top
-                        bottom : parent.verticalCenter
+                        bottom : parent.bottom
                     }
                 }
 

@@ -35,7 +35,7 @@ SerieSubListedItem::SerieSubListedItem(QObject *parent) : Models::SubListedListI
 SerieSubListedItem::SerieSubListedItem(int tvDbId, QString slug, QString serieName, QString imageUrl,
                                        QString overview, QString year, QString network,
                                        QDateTime lastUpdate, QString airDay, QString airTime,
-                                       QObject *parent) : Models::SubListedListItem(parent)
+                                       bool serieOnSickbeard, QObject *parent) : Models::SubListedListItem(parent)
 {
     this->m_tvDbId = tvDbId;
     this->m_serieName = serieName;
@@ -47,6 +47,7 @@ SerieSubListedItem::SerieSubListedItem(int tvDbId, QString slug, QString serieNa
     this->m_airDay = airDay;
     this->m_airTime = airTime;
     this->m_lastUpdate = lastUpdate;
+    this->m_serieOnSickbeard = serieOnSickbeard;
 
     // INIT SEASON MODELS HERE
     this->seasonModel = new Models::SubListedListModel(new SeasonSubListedItem(-1, -1, ""));
@@ -86,6 +87,8 @@ QVariant SerieSubListedItem::data(int role) const
         return this->m_airDay;
     case serieAirTime:
         return this->m_airTime;
+    case serieOnSickbeard:
+        return this->m_serieOnSickbeard;
     default :
         return QVariant();
     }
@@ -105,6 +108,7 @@ QHash<int, QByteArray> SerieSubListedItem::roleNames() const
     hashRoles[serieLastUpdate] = "serieLastUpdate";
     hashRoles[serieAirDay] = "serieAirDay";
     hashRoles[serieAirTime] = "serieAirTime";
+    hashRoles[serieOnSickbeard] = "serieOnSickbeard";
 
     return hashRoles;
 }
@@ -113,6 +117,11 @@ Models::ListModel *SerieSubListedItem::submodel() const
 {
     // RETURN SEASONS MODEL FOR SHOW
     return (Models::ListModel*)this->seasonModel;
+}
+
+void SerieSubListedItem::setSerieOnSickBeard(bool value)
+{
+    this->m_serieOnSickbeard = value;
 }
 
 

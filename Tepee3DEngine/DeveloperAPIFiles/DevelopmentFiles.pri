@@ -60,6 +60,7 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/UIComponents/BackButton.qml \
                 $$PWD/qml/UIComponents/ForwardButton.qml \
                 $$PWD/qml/UIComponents/OkButton.qml \
-                $$PWD/qml/UIComponents/SettingsButton.qml
+                $$PWD/qml/UIComponents/SettingsButton.qml \
+                $$PWD/qml/UIComponents/ReflectedImage.qml
 
 QT += sql

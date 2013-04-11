@@ -12,6 +12,7 @@ Item
     property alias serie_last_update : serie_last_update_text.text
     property alias serie_air_day : serie_air_day_text.text
     property alias serie_air_time : serie_air_time_text.text
+    property bool  serie_on_sickbeard;
 
     Rectangle
     {
@@ -44,6 +45,7 @@ Item
             horizontalCenter : parent.horizontalCenter
         }
         color : "white"
+        font.pointSize: 12
     }
     Text
     {
@@ -56,6 +58,7 @@ Item
             topMargin : 5
         }
         color : "white"
+        font.pointSize: 12
     }
     Text
     {
@@ -67,6 +70,7 @@ Item
             leftMargin : 10
         }
         color : "white"
+        font.pointSize: 12
     }
     Text
     {
@@ -78,6 +82,7 @@ Item
             leftMargin : 10
         }
         color : "white"
+        font.pointSize: 12
     }
     Text
     {
@@ -90,6 +95,7 @@ Item
             topMargin : 5
         }
         color : "white"
+        font.pointSize: 12
     }
 
     Flickable
@@ -101,9 +107,10 @@ Item
             left : parent.left
             right : parent.right
             bottom : parent.bottom
-            topMargin : 5
+            topMargin : 15
             leftMargin : 10
             rightMargin : 10
+            bottomMargin : 10
         }
         flickableDirection: Flickable.VerticalFlick
         contentWidth : parent.width - 20
@@ -114,7 +121,21 @@ Item
             width : parent.width - 20
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color : "white"
+            font.pointSize: 12
         }
+    }
+
+    Image
+    {
+        visible : serie_on_sickbeard
+        height : 50
+        anchors
+        {
+            left : parent.left
+            bottom : parent.bottom
+        }
+        fillMode: Image.PreserveAspectFit
+        source : "sickbeard_logo.png"
     }
 
     CloseButton
@@ -125,8 +146,6 @@ Item
         {
             bottom : parent.bottom
             right : parent.right
-            leftMargin : 10
-            topMargin : 10
         }
         onClicked:
         {
