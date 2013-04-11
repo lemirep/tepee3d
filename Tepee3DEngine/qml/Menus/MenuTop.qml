@@ -1,6 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-
+import "../content"
 Item
 {
     id : menuTopMain
@@ -128,7 +128,19 @@ Item
             left : 2
             bottom : 1
         }
-
+        QuitButton
+            {
+                anchors
+                {
+                    left : room_faces_listview.right
+                    leftMargin : maxMenuWidth / 8
+                    right: parent.right
+                    rightMargin: maxMenuWidth / 8
+                    top :parent.top
+                    topMargin : maxMenuHeight / 5
+                    //verticalCenter: parent.verticalCenter
+                }
+            }
         GridView
         {
             id : room_faces_listview

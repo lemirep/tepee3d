@@ -1,6 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-import "../content"
+
 Item
 {
     id : menuLeftMain
@@ -224,15 +224,6 @@ Item
                 onClicked: {isInEditMode = !isInEditMode}
             }
             source : "../Resources/Pictures/edit.png"
-        }
-        QuitButton
-        {
-            anchors
-            {
-                top: parent.top
-                topMargin: 10
-                horizontalCenter: parent.horizontalCenter
-            }
         }
     }
 

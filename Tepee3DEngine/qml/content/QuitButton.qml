@@ -2,20 +2,20 @@ import QtQuick 2.0
 
 Item
 {
+    enabled: isShown
     width  : maxMenuWidth
     height: maxMenuHeight / 20
-
     // Quit Tepee3d buttom
     Rectangle
     {
         id : quitButtom
         color : "blue"
         width  : maxMenuWidth / 4
-        height: maxMenuHeight / 20
+        height: maxMenuHeight / 2
         radius : 5
         scale : quitMouse.pressed ? 0.8 : 1.0
         opacity : 0.9
-        anchors.horizontalCenter: parent.horizontalCenter
+       // anchors.horizontalCenter: parent.horizontalCenter
         border
         {
             width: 2;
@@ -30,12 +30,13 @@ Item
             }
             text : "Quit Tepee3D"
             color : "white"
+            font.pointSize: 25
         }
         MouseArea {
             id: quitMouse
+            // enabled: false
             anchors.fill: parent
             onClicked :{
-                rooms_list_view.opacity = 0
                 confirmation.opacity = 1;
                 quitButtom.opacity = 0;
             }
@@ -47,7 +48,7 @@ Item
         id : confirmation
         opacity : 0
         width  : maxMenuWidth / 2
-        height: maxMenuHeight / 4
+        height: maxMenuHeight / 1.5
         color : "blue"
         radius : 5
         anchors.horizontalCenter: parent.horizontalCenter
@@ -72,15 +73,15 @@ Item
         // No buttom
         Rectangle
         {
-            width: parent.width / 4
-            height :  parent.height / 4
+            width: parent.width / 3
+            height :  parent.height / 3
             color : "steelblue"
             anchors
             {
                 bottom : parent.bottom
                 bottomMargin : parent.height / 5
                 left : parent.left
-                leftMargin : parent.width / 5
+                leftMargin : parent.width / 10
             }
 
             Text
@@ -102,7 +103,6 @@ Item
             MouseArea {
                 anchors.fill: parent
                 onClicked :{
-                    rooms_list_view.opacity = 1
                     confirmation.opacity = 0;
                     quitButtom.opacity = 1;
                 }
@@ -110,15 +110,15 @@ Item
         }
         //Yes buttom
         Rectangle {
-            width: parent.width / 4
-            height :  parent.height / 4
+            width: parent.width / 3
+            height :  parent.height / 3
             color : "steelblue"
             anchors
             {
                 bottom : parent.bottom
                 bottomMargin : parent.height / 5
                 right : parent.right
-                rightMargin : parent.width / 5
+                rightMargin : parent.width / 10
             }
             Text
             {
@@ -140,11 +140,6 @@ Item
                 anchors.fill: parent
                 onClicked :{
                     Qt.quit();
-
-                    //until application realy quit
-                    rooms_list_view.opacity = 1
-                    confirmation.opacity = 0;
-                    quitButtom.opacity = 1;
                 }
             }
 
