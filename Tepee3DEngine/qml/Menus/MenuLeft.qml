@@ -1,6 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-
+import "../content"
 Item
 {
     id : menuLeftMain
@@ -12,8 +12,8 @@ Item
     property int  minMenuWidth : mainWindow.menuMinimumWidth
     property int  maxMenuWidth : mainWindow.width / 3
     property int  minMenuHeight : mainWindow.height / 2
-//    property int  minMenuHeight : mainWindow.height / 2
-//    property int  minMenuHeight : mainWindow.height / 2
+    //    property int  minMenuHeight : mainWindow.height / 2
+    //    property int  minMenuHeight : mainWindow.height / 2
     //    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
     property int  xSaved;
@@ -191,11 +191,11 @@ Item
 
                     var jsonMessage = {message : "newWindow Added", type : 0, callback : { func : testCallback, context : this}};
                     mainWindow.postNotification(jsonMessage);
-//                    mainWindow.postNotification(jsonMessage);
-//                    mainWindow.postNotification(jsonMessage);
-//                    mainWindow.postNotification(jsonMessage);
+                    //                    mainWindow.postNotification(jsonMessage);
+                    //                    mainWindow.postNotification(jsonMessage);
+                    //                    mainWindow.postNotification(jsonMessage);
                     // DISABLE BUTTON WHILE WAITING FOR CALLBACK
-//                    disableMenuButtons();
+                    //                    disableMenuButtons();
 
                     function testCallback()
                     {
@@ -224,6 +224,15 @@ Item
                 onClicked: {isInEditMode = !isInEditMode}
             }
             source : "../Resources/Pictures/edit.png"
+        }
+        QuitButton
+        {
+            anchors
+            {
+                top: parent.top
+                topMargin: 10
+                horizontalCenter: parent.horizontalCenter
+            }
         }
     }
 
