@@ -50,6 +50,7 @@ Item
             episodeTitle : model.episodeTitle
             episodeOverview : model.episodeSummary
             episodeAiring : model.episodeAiring
+            episodeSickbeardStatus:  model.episodeSickbeardStatus
             img_src : model.imageUrl
             width : mainWindow.width / 4
             height : mainWindow.height / 4

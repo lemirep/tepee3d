@@ -85,7 +85,7 @@ Item
             anchors.fill: parent
             model : SeriesPlugin.getSearchSeriesModel()
             delegate : SeriesSearchListViewDelegate {
-                slug : model.slug
+//                slug : model.slug
                 serieId : model.serieTvdbId
                 img_src : model.imageUrl
                 series_name: model.serieName

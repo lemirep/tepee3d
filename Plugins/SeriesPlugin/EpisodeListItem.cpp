@@ -5,8 +5,9 @@ EpisodeListItem::EpisodeListItem(QObject *parent) : Models::ListItem(parent)
 }
 
 EpisodeListItem::EpisodeListItem(int episodeId, int episodeNumber, int episodeSeason,
-                                 QString episodeTitle, QString episodeSummary, QString imageUrl,
-                                 QDateTime episodeAiring, bool episodeSeen, QObject *parent) : Models::ListItem(parent)
+                                 const QString &episodeTitle, const QString &episodeSummary, const QString &imageUrl,
+                                 QDateTime episodeAiring, bool episodeSeen,
+                                 const QString &episodeSickbeardStatus, QObject *parent) : Models::ListItem(parent)
 {
     this->m_episodeId = episodeId;
     this->m_episodeNumber = episodeNumber;
@@ -16,6 +17,7 @@ EpisodeListItem::EpisodeListItem(int episodeId, int episodeNumber, int episodeSe
     this->m_imageUrl = imageUrl;
     this->m_episodeAiring = episodeAiring;
     this->m_episodeSeen = episodeSeen;
+    this->m_episodeSickbeardStatus = episodeSickbeardStatus;
 }
 
 EpisodeListItem::~EpisodeListItem()
@@ -47,6 +49,8 @@ QVariant EpisodeListItem::data(int role) const
         return this->m_imageUrl;
     case episodeSeen:
         return this->m_episodeSeen;
+    case episodeSickbeardStatus:
+        return this->m_episodeSickbeardStatus;
     default:
         return QVariant();
     }
@@ -64,6 +68,19 @@ QHash<int, QByteArray> EpisodeListItem::roleNames() const
     roles[episodeAiring] = "episodeAiring";
     roles[imageUrl] = "imageUrl";
     roles[episodeSeen] = "episodeSeen";
+    roles[episodeSickbeardStatus] = "episodeSickbeardStatus";
 
     return roles;
+}
+
+void EpisodeListItem::setSickbeardStatus(const QString &status)
+{
+    this->m_episodeSickbeardStatus = status;
+    this->triggerItemUpdate();
+}
+
+void EpisodeListItem::setEpisodeSeen(bool value)
+{
+    this->m_episodeSeen = value;
+    this->triggerItemUpdate();
 }

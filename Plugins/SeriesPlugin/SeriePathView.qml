@@ -5,6 +5,7 @@ Item
      id : show_pathview_container
      property alias model : followed_series_pathview.model
      property alias currentIndex : followed_series_pathview.currentIndex
+     property alias currentItem : followed_series_pathview.currentItem
 
      PathView
      {
@@ -35,7 +36,6 @@ Item
          }
          delegate : SeriesListViewDelegate {
              serieId : model.serieTvdbId
-             slug : model.slug
              img_src : model.imageUrl
              series_name: model.serieName
              serie_overview: model.serieOverview

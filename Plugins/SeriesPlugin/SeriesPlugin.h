@@ -46,13 +46,12 @@
 #define PLUGIN_ID 10
 
 #define SEARCH_SHOW_REQUEST 0
-#define SEARCH_EPISODE_REQUEST 1
-#define GET_SHOW_SUMMARY 2
-#define UPDATE_SHOW_SUMMARY 3
-#define GET_SICKBEARD_SHOWS 4
-#define UPDATE_SICKBEARD_SHOW 5
-#define ADD_SHOW_TO_SICKBEARD 6
-#define UPDATE_SEASON_EPISODES_SICKBEARD 7
+#define GET_SHOW_SUMMARY 1
+#define UPDATE_SHOW_SUMMARY 2
+#define GET_SICKBEARD_SHOWS 3
+#define UPDATE_SICKBEARD_SHOW 4
+#define ADD_SHOW_TO_SICKBEARD 5
+#define UPDATE_SEASON_EPISODES_SICKBEARD 6
 
 #define RETRIEVE_SHOWS 0
 #define RETRIEVE_SEASONS_FOR_SHOW 1
@@ -72,6 +71,7 @@ class SeriesPlugin  : public Plugins::PluginBase
     Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
     Q_PROPERTY(QString sickBeardUrl WRITE setSickBeardUrl READ sickBeardUrl NOTIFY sickBeardUrlChanged)
     Q_PROPERTY(QString sickBeardApi WRITE setSickBeardApi READ sickBeardApi NOTIFY sickBeardApiChanged)
+    Q_PROPERTY(bool addToSickBeard WRITE setAddToSickBeard READ addToSickBeard NOTIFY addToSickBeardChanged)
 public:
     SeriesPlugin();
     int                         getPluginId();
@@ -101,14 +101,13 @@ public:
     Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
     Q_INVOKABLE                 void     updateFollowedShows();
     Q_INVOKABLE                 void     searchForShow(QString showName);
-    Q_INVOKABLE                 void     addShowToFollow(QString slug);
-    Q_INVOKABLE                 void     searchForEpisode(QString episodeName);
+    Q_INVOKABLE                 void     addShowToFollow(int serieId);
     Q_INVOKABLE                 void     removeShowFromSearchResult(int showId);
     Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
     Q_INVOKABLE                 void     refreshSickbeardShow(int showId);
     Q_INVOKABLE                 void     retrieveSickBeardShows();
     Q_INVOKABLE                 void     saveSickBeardConfig();
-    void                                 addShowToSickBeard(int showId);
+    void                                 addShowToSickBeard(QString showId);
     void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
 
     QString                              pluginState() const;
@@ -116,8 +115,10 @@ public:
 
     QString                              sickBeardApi() const;
     QString                              sickBeardUrl() const;
+    bool                                 addToSickBeard() const;
     void                                 setSickBeardUrl(const QString &sickBeardUrl);
     void                                 setSickBeardApi(const QString &sickBeardApi);
+    void                                 setAddToSickBeard(bool value);
 
 private:
     Models::SubListedListModel* followedSeriesModel;
@@ -125,6 +126,8 @@ private:
     QString                     m_sickBeardUrl;
     QString                     m_sickBeardApiKey;
     QString                     m_pluginState;
+    bool                        m_addToSickBeard;
+    bool                        m_synchingWithSB;
 
     QHash<int, void (SeriesPlugin::*)(QNetworkReply*, void*)> webServicesCallBacks;
     QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
@@ -137,7 +140,6 @@ private:
     // WEBSERVICES CALLBACK
     void                        searchForShowCallBack(QNetworkReply *reply, void *data);
     void                        getShowSummaryCallBack(QNetworkReply *reply, void *data);
-    void                        searchForEpisodeCallBack(QNetworkReply *reply, void *data);
     void                        updateShowSummaryCallBack(QNetworkReply *reply, void *data);
     void                        retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *data);
     void                        updateSickbeardShowCallBack(QNetworkReply *reply, void *data);
@@ -151,8 +153,8 @@ private:
     void                        addEpisodeToDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
 
     void                        updateShowInDatabase(SerieSubListedItem *show);
-    void                        updateSeasonInDatabase(SeasonSubListedItem *season, const QString &showSlug);
-    void                        updateEpisodeInDatabase(EpisodeListItem *episode, const QString &showSlug, int season);
+    void                        updateSeasonInDatabase(SeasonSubListedItem *season, int serieId);
+    void                        updateEpisodeInDatabase(EpisodeListItem *episode, int serieId, int season);
 
     void                        removeShowFromDatabase(const QString &showSlug);
 
@@ -172,6 +174,7 @@ signals :
     void                        pluginStateChanged();
     void                        sickBeardUrlChanged();
     void                        sickBeardApiChanged();
+    void                        addToSickBeardChanged();
 };
 
 #endif // SERIESPLUGIN_H

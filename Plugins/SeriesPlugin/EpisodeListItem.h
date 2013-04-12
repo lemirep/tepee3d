@@ -16,28 +16,33 @@ public:
         episodeSummary,
         episodeAiring,
         imageUrl,
-        episodeSeen
+        episodeSeen,
+        episodeSickbeardStatus
     };
 
     explicit EpisodeListItem(QObject *parent = 0);
     explicit EpisodeListItem(int episodeId, int episodeNumber, int episodeSeason,
-                             QString episodeTitle, QString episodeSummary, QString imageUrl,
-                             QDateTime episodeAiring, bool episodeSeen = false, QObject *parent = 0);
+                             const QString& episodeTitle, const QString& episodeSummary, const QString& imageUrl,
+                             QDateTime episodeAiring, bool episodeSeen = false,
+                             const QString& episodeSickbeardStatus = "", QObject *parent = 0);
     ~EpisodeListItem();
     int             id() const;
     QVariant        data(int role) const;
     QHash<int, QByteArray>  roleNames() const;
 
+    void    setSickbeardStatus(const QString& status);
+    void    setEpisodeSeen(bool value);
+
 private :
     int m_episodeId;
     int m_episodeNumber;
     int m_episodeSeason;
-
     bool m_episodeSeen;
 
     QString m_episodeTitle;
     QString m_episodeSummary;
     QString m_imageUrl;
+    QString m_episodeSickbeardStatus;
 
     QDateTime m_episodeAiring;
 };

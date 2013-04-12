@@ -22,10 +22,10 @@ Item
     ]
 
     transitions: [
-    Transition {
-        NumberAnimation { target: adding_show_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-        NumberAnimation { target: normal_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-    }]
+        Transition {
+            NumberAnimation { target: adding_show_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: normal_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+        }]
 
     Item
     {
@@ -58,18 +58,18 @@ Item
         }
     }
 
-    Row
+    Item
     {
         id : normal_menu
         enabled : opacity === 1
         anchors.fill: parent
         opacity : 0
-        spacing : 15
 
         Item
         {
             width : add_show_button_text.width
             height : parent.height
+            anchors.left: parent.left
             AddButton
             {
                 id : add_show_button
@@ -91,8 +91,6 @@ Item
                 {
                     top : add_show_button.bottom
                     topMargin : 25
-                    horizontalCenter : parent.horizontalCenter
-
                 }
             }
         }
@@ -101,6 +99,8 @@ Item
         {
             width : refresh_show_button_text.width
             height : parent.height
+            anchors.right : parent.horizontalCenter
+
             RefreshButton
             {
                 id : refresh_show_button
@@ -122,7 +122,6 @@ Item
                 {
                     top : refresh_show_button.bottom
                     topMargin : 25
-                    horizontalCenter : parent.horizontalCenter
                 }
             }
         }
@@ -131,6 +130,8 @@ Item
         {
             width : sync_with_sickbeard_text.width
             height : parent.height
+            anchors.left : parent.horizontalCenter
+
             RefreshButton
             {
                 id : sync_with_sickbeard_button
@@ -152,7 +153,6 @@ Item
                 {
                     top : sync_with_sickbeard_button.bottom
                     topMargin : 25
-                    horizontalCenter : parent.horizontalCenter
                 }
             }
         }
@@ -161,6 +161,8 @@ Item
         {
             width : set_sickbeard_config_text.width
             height : parent.height
+            anchors.right: parent.right
+
             SettingsButton
             {
                 id : set_sickbeard_config
@@ -181,7 +183,6 @@ Item
                 {
                     top : set_sickbeard_config.bottom
                     topMargin : 25
-                    horizontalCenter : parent.horizontalCenter
                 }
             }
         }

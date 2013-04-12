@@ -14,6 +14,10 @@ Item
     property alias serie_air_time : serie_air_time_text.text
     property bool  serie_on_sickbeard;
 
+    opacity : (show_pathview_container.model.count > 0) ? 1 : 0
+
+    Behavior on opacity {NumberAnimation {duration: 750}}
+
     Rectangle
     {
         color : "grey"
@@ -98,6 +102,19 @@ Item
         font.pointSize: 12
     }
 
+    Image
+    {
+        visible : serie_on_sickbeard
+        height : 50
+        anchors
+        {
+            left : parent.left
+            bottom : parent.bottom
+        }
+        fillMode: Image.PreserveAspectFit
+        source : "sickbeard_logo.png"
+    }
+
     Flickable
     {
         clip : true
@@ -123,19 +140,6 @@ Item
             color : "white"
             font.pointSize: 12
         }
-    }
-
-    Image
-    {
-        visible : serie_on_sickbeard
-        height : 50
-        anchors
-        {
-            left : parent.left
-            bottom : parent.bottom
-        }
-        fillMode: Image.PreserveAspectFit
-        source : "sickbeard_logo.png"
     }
 
     CloseButton

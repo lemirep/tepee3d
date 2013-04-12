@@ -9,6 +9,7 @@ Item
     property string episodeTitle
     property string episodeOverview
     property string img_src
+    property string episodeSickbeardStatus
 
     property real rotAngle : PathView.onPath ? PathView.delAngle : 0
     property bool isCurrentItem : PathView.isCurrentItem
@@ -60,6 +61,7 @@ Item
         }
         color : "white"
         text : episodeTitle
+        font.pointSize: 13
     }
 
     Text
@@ -77,6 +79,55 @@ Item
                + "-" + episodeAiring.getDate()
                + "/" + (episodeAiring.getMonth() + 1)
                + "/" + episodeAiring.getFullYear()
+    }
+
+    Item
+    {
+        visible : show_pathview_container.currentItem.serie_on_sickbeard
+        anchors
+        {
+            left : parent.left
+            bottom : parent.bottom
+        }
+
+        Image
+        {
+            id : sickbeard
+            source : "sickbeard_logo.png"
+            width : 20
+            fillMode: Image.PreserveAspectFit
+            anchors
+            {
+                bottom : parent.bottom
+                left : parent.left
+                margins : 4
+            }
+        }
+        Text
+        {
+            id : sickbeard_status
+            text : episodeSickbeardStatus
+            anchors
+            {
+                left : sickbeard.right
+                top : sickbeard.top
+                leftMargin : 10
+            }
+            color : "white"
+            font.pointSize: 13
+        }
+    }
+
+    OkButton
+    {
+        id : seen
+        width : 20
+        anchors
+        {
+            bottom : parent.bottom
+            right : parent.right
+            rightMargin : 10
+        }
     }
 
     //    back : Item {

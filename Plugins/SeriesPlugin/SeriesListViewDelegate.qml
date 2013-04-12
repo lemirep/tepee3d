@@ -8,7 +8,6 @@ Item
     property int serieId : -1;
     property string img_src : ""
     property string series_name : ""
-    property string slug : ""
     property string serie_overview;
     property string serie_year;
     property string serie_network;
@@ -31,7 +30,6 @@ Item
         if (isCurrentItem)
         {
             serie_detailed_view.serie_title = series_name;
-            serie_detailed_view.serie_slug = slug;
             serie_detailed_view.serie_id = serieId;
             serie_detailed_view.serie_air_day = serie_air_day;
             serie_detailed_view.serie_air_time = serie_air_time;
@@ -45,7 +43,7 @@ Item
         }
     }
 
-    ReflectedImage
+    Image
     {
         id : followed_series_delegate_pic
         fillMode: Image.PreserveAspectFit
@@ -59,72 +57,43 @@ Item
         }
         asynchronous : true
         source : img_src.replace(".jpg", "-300.jpg")
-        reflectRatio : 0.06
-        reflectOpacity : 0.3
-        Image
-        {
-            id : shadow
-    //        fillMode: Image.PreserveAspectFit
-            width : parent.width + 40
-            y : followed_series_delegate_pic.y
-            anchors
-            {
-                right : followed_series_delegate_pic.right
-                top : parent.bottom
-                topMargin : -40
-                rightMargin : -20
-            }
-            source : "halo.png"
-            asynchronous : true
+//        reflectRatio : 0.06
+//        reflectOpacity : 0.3
+//        Image
+//        {
+//            id : shadow
+//    //        fillMode: Image.PreserveAspectFit
+//            width : parent.width + 40
+//            y : followed_series_delegate_pic.y
+//            anchors
+//            {
+//                right : followed_series_delegate_pic.right
+//                top : parent.bottom
+//                topMargin : -40
+//                rightMargin : -20
+//            }
+//            source : "halo.png"
+//            asynchronous : true
 
+//        }
+
+        Rectangle
+        {
+            anchors.fill: parent
+            gradient: Gradient {
+                GradientStop
+                {
+                    position: 0.0
+                    color: "#00000000"
+                }
+                GradientStop
+                {
+                    position: 1.0
+                    color: "#02000000"
+                }
+            }
         }
     }
-
-
-
-//    ReflectedImage
-//    {
-//        id : followed_series_delegate_pic
-//        fillMode: Image.PreserveAspectFit
-//        height : parent.height - 10
-//        cache : true
-//        anchors
-//        {
-//            right : parent.right
-//            //            left : parent.left
-//            verticalCenter : parent.verticalCenter
-//            margins : 10
-//        }
-//        asynchronous : true
-//        reflectRatio : reflection
-//        source : img_src.replace(".jpg", "-300.jpg")
-//    }
-
-
-    //    DropShadow {
-    //            anchors.fill: followed_series_delegate_pic
-    //            horizontalOffset: 3
-    //            verticalOffset: 3
-    //            radius: 8.0
-    //            samples: 16
-    //            color: "grey"
-    //            source: followed_series_delegate_pic
-    //        }
-
-
-//    Text
-//    {
-//        id : followed_series_delegate_text
-//        anchors
-//        {
-//            right : followed_series_delegate_pic.horizontalCenter
-//            top : followed_series_delegate_pic.bottom
-//            topMargin : 10
-//        }
-//        color : "white"
-////        text : series_name
-//        font.pointSize: 14
-//    }
 
     MouseArea
     {

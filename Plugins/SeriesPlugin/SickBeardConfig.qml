@@ -4,14 +4,29 @@ Item
 {
     SerieBackground {anchors.fill: parent}
 
-    TextInputComponent
+    Text
     {
-        id : sb_url_input
-        placeHolder : "SickBeard Url : "
+        id : url_label
+        color : "white"
+        text : "Sickbeard Url : "
         anchors
         {
             top : parent.top
+            left : parent.left
             topMargin : 20
+            leftMargin : 10
+        }
+        font.pointSize: 13
+    }
+
+    TextInputComponent
+    {
+        id : sb_url_input
+        placeHolder : "URL"
+        anchors
+        {
+            top : url_label.bottom
+            topMargin : 10
             left : parent.left
             right : parent.right
             leftMargin : 10
@@ -20,13 +35,29 @@ Item
         text : SeriesPlugin.sickBeardUrl
         onAccepted : {SeriesPlugin.sickBeardUrl = sb_url_input.text}
     }
-    TextInputComponent
+
+    Text
     {
-        id : sb_key_input
-        placeHolder : "SickBeard API KEY : "
+        id : apikey_label
+        color : "white"
+        text : "Sickbeard API Key : "
         anchors
         {
             top : sb_url_input.bottom
+            left : parent.left
+            topMargin : 10
+            leftMargin : 10
+        }
+        font.pointSize: 13
+    }
+
+    TextInputComponent
+    {
+        id : sb_key_input
+        placeHolder : "API KEY"
+        anchors
+        {
+            top : apikey_label.bottom
             topMargin : 20
             left : parent.left
             right : parent.right
@@ -37,6 +68,42 @@ Item
         onAccepted : {SeriesPlugin.sickBeardApi = sb_key_input.text}
     }
 
+    Text
+    {
+        id : addshow_label
+        color : "white"
+        text : "Add show to Sickbeard when adding to the plugin ?"
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        width : parent.width - (20 + add_show_sickbeard.width + 10)
+        anchors
+        {
+            top : sb_key_input.bottom
+            left : parent.left
+            right : add_show_sickbeard
+            topMargin : 10
+            leftMargin : 10
+        }
+        font.pointSize: 12
+    }
+
+    CheckBox
+    {
+        id : add_show_sickbeard
+        checked : SeriesPlugin.addToSickBeard
+        onToggle :
+        {
+            console.log("Checked Changed " + checked);
+             SeriesPlugin.addToSickBeard = checked
+        }
+        anchors
+        {
+            top : addshow_label.top
+            right : parent.right
+            rightMargin : 10
+        }
+        width : 50
+    }
+
     OkButton
     {
         id : ok_button
@@ -44,7 +111,7 @@ Item
         anchors
         {
             right : parent.horizontalCenter
-            top : sb_key_input.bottom
+            top : add_show_sickbeard.bottom
             topMargin : 20
             rightMargin : 20
         }
@@ -64,7 +131,7 @@ Item
         anchors
         {
             left : parent.horizontalCenter
-            top : sb_key_input.bottom
+            top : add_show_sickbeard.bottom
             topMargin : 20
             leftMargin : 20
         }
