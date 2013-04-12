@@ -69,7 +69,9 @@ Item
         {
             width : add_show_button_text.width
             height : parent.height
-            anchors.left: parent.left
+            anchors.right: refresh_show_item.left
+            anchors.rightMargin: 25
+
             AddButton
             {
                 id : add_show_button
@@ -84,7 +86,7 @@ Item
             Text
             {
                 id : add_show_button_text
-                text : "Add a Show"
+                text : "Add New Shows"
                 font.pointSize: 14
                 color : "white"
                 anchors
@@ -97,9 +99,11 @@ Item
 
         Item
         {
+            id : refresh_show_item
             width : refresh_show_button_text.width
             height : parent.height
             anchors.right : parent.horizontalCenter
+            anchors.rightMargin: 10
 
             RefreshButton
             {
@@ -115,7 +119,7 @@ Item
             Text
             {
                 id : refresh_show_button_text
-                text : "Refresh Shows"
+                text : "Refresh All Shows"
                 font.pointSize: 14
                 color : "white"
                 anchors
@@ -128,9 +132,11 @@ Item
 
         Item
         {
+            id : refresh_sb_item
             width : sync_with_sickbeard_text.width
             height : parent.height
             anchors.left : parent.horizontalCenter
+            anchors.leftMargin: 10
 
             RefreshButton
             {
@@ -161,7 +167,8 @@ Item
         {
             width : set_sickbeard_config_text.width
             height : parent.height
-            anchors.right: parent.right
+            anchors.left: refresh_sb_item.right
+            anchors.leftMargin: 10
 
             SettingsButton
             {

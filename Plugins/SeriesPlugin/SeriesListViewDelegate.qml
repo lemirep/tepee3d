@@ -43,6 +43,31 @@ Item
         }
     }
 
+    //    DropShadow
+    //    {
+    //        anchors.fill: followed_series_delegate_pic
+    //        source : followed_series_delegate_pic
+    //        radius : 8
+    //        samples: 16
+    //        horizontalOffset: 5
+    //        verticalOffset: 5
+    //        opacity: 0.5
+    //        fast : true
+    //    }
+    Rectangle
+    {
+        width : followed_series_delegate_pic.width
+        height : followed_series_delegate_pic.height
+        anchors
+        {
+            top : followed_series_delegate_pic.top
+            left : followed_series_delegate_pic.left
+            leftMargin : 8
+            topMargin : 8
+        }
+        radius : 2
+        color : "#44000000"
+    }
     Image
     {
         id : followed_series_delegate_pic
@@ -57,43 +82,8 @@ Item
         }
         asynchronous : true
         source : img_src.replace(".jpg", "-300.jpg")
-//        reflectRatio : 0.06
-//        reflectOpacity : 0.3
-//        Image
-//        {
-//            id : shadow
-//    //        fillMode: Image.PreserveAspectFit
-//            width : parent.width + 40
-//            y : followed_series_delegate_pic.y
-//            anchors
-//            {
-//                right : followed_series_delegate_pic.right
-//                top : parent.bottom
-//                topMargin : -40
-//                rightMargin : -20
-//            }
-//            source : "halo.png"
-//            asynchronous : true
-
-//        }
-
-        Rectangle
-        {
-            anchors.fill: parent
-            gradient: Gradient {
-                GradientStop
-                {
-                    position: 0.0
-                    color: "#00000000"
-                }
-                GradientStop
-                {
-                    position: 1.0
-                    color: "#02000000"
-                }
-            }
-        }
     }
+
 
     MouseArea
     {
