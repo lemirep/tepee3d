@@ -26,6 +26,21 @@ Item
         }
     }
 
+    Rectangle
+    {
+        width : serie_season_delegate_pic.width
+        height : serie_season_delegate_pic.height
+        anchors
+        {
+            left : serie_season_delegate_pic.left
+            top : serie_season_delegate_pic.top
+            leftMargin : 4
+            topMargin : 4
+        }
+        color : "black"
+        opacity : 0.4
+    }
+
     Image
     {
         id : serie_season_delegate_pic

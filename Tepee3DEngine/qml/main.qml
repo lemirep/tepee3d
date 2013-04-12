@@ -1,27 +1,8 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
+//// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Window 2.0
-
-//Item
-//{
-//    width : 1280
-//    height : 768
-//    color : "transparent"
-// FOR 16 / 9
-//        width: 1280
-//        height: 768
-
-//    width : Screen.width
-//    height : Screen.height
-
-//        width: 1680
-//        height: 1050
-// FOR 4 / 3
-//    width : 1024
-//    height : 728
-//    focus : true
 
 Viewport
 {
@@ -53,6 +34,7 @@ Viewport
     function onRoomFaceSwitch()              {camera_movement_velocity = 100;}
     function postNotification(message)       {notification.sendMessage(message)}
 
+
     Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
 
     onCurrentRoomIdChanged:
@@ -81,12 +63,12 @@ Viewport
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
 
-    //        anchors.fill: parent
-//    width : 1024
-//    height : 600
+    //                anchors.fill: parent
+    width : 1024
+    height : 600
 
-        width : Screen.width
-        height : Screen.height
+    //        width : Screen.width
+    //        height : Screen.height
 
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
@@ -135,9 +117,8 @@ Viewport
 
     Skybox            {source : "Resources/Textures/skybox"}
     RoomsContainer    {id : roomContainer}
-    MenuCenter        {id : menu_center; anchors.fill : parent}
     NotificationManager    {id : notification}
-//    FpsCounter {}
+    //    FpsCounter {}
+    MenuCenter        {id : menu_center; anchors.fill : parent}
 }
 
-//}

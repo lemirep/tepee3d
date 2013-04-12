@@ -389,7 +389,7 @@ void SeriesPlugin::searchForShowCallBack(QNetworkReply *reply, void *data)
             foreach (QJsonValue showObj, showsResultArray)
             {
                 SerieSubListedItem *showItem = parseShow(showObj.toObject());
-                if (showItem != NULL)
+                if (showItem != NULL && showItem->id() > 0)
                     this->searchSeriesModel->appendRow(showItem);
             }
         }
@@ -435,7 +435,7 @@ void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
             if (showItem != NULL)
             {
                 // REPLACE OLDSHOW_ITEM BY SHOWITEM
-
+                delete oldShow;
                 this->followedSeriesModel->appendRow(showItem);
                 this->updateShowInDatabase(showItem);
             }
@@ -530,13 +530,13 @@ void SeriesPlugin::updateShowSeasonFromSickNeardCallBack(QNetworkReply *reply, v
                         QJsonObject episodeObj = showsArray.take(key).toObject();
                         EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodesModel->find(key.toInt()));
                         if (episode && !episodeObj.isEmpty())
-                        {
                             episode->setSickbeardStatus(episodeObj.take("status").toString());
-                            this->updateEpisodeInDatabase(episode, p->x(), p->y());
-                        }
                         else
                             qDebug() << "Episode Not Found";
                     }
+                    // UPDATE SHOW IN DB IF THIS IS THE WE HAVE DONE ALL THE SEASONS
+                    if (p->y() == seasonsModel->toList().last()->id())
+                        this->updateShowInDatabase(reinterpret_cast<SerieSubListedItem*>(this->followedSeriesModel->find(p->x())));
                 }
                 delete p;
             }
@@ -652,7 +652,7 @@ void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString updateShowRequest = QString("UPDATE show SET showImage = '%1', serieSickBeard = %2 WHERE serieTvDbId = %3;")
+        QString updateShowRequest = QString("UPDATE show SET serieImage = '%1', serieSickBeard = %2 WHERE serieTvDbId = %3;")
                 .arg(Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString()),
                      show->data(SerieSubListedItem::serieOnSickbeard).toBool() ? "1" : "0",
                      QString::number(show->id()));
@@ -669,7 +669,7 @@ void SeriesPlugin::updateSeasonInDatabase(SeasonSubListedItem *season,int serieI
 {
     if (season != NULL)
     {
-        QString updateSeasonRequest = QString("UPDATE seasons SET seasonEpisodeCount = %1, seasonImage = '%2'"
+        QString updateSeasonRequest = QString("UPDATE seasons SET seasonEpisodesCount = %1, seasonImage = '%2'"
                                               " WHERE showId = (SELECT serieId FROM show WHERE serieTvDbId = %3)"
                                               " AND seasonNumber = %4 ;")
                 .arg(QString::number(season->data(SeasonSubListedItem::episodeCount).toInt()),

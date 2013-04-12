@@ -123,7 +123,7 @@ Item
             top : serie_last_update_text.bottom
             left : parent.left
             right : parent.right
-            bottom : parent.bottom
+            bottom : remove_button.top
             topMargin : 15
             leftMargin : 10
             rightMargin : 10

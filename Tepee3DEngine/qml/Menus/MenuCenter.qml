@@ -12,7 +12,6 @@ Item
         property variant obj;
         anchors.fill: parent
         propagateComposedEvents: true // PROPAGATE COMPOSE EVENTS (CLICK, DBCLICK ...)
-
         onPressed:
         {
             savedX = mouseX;

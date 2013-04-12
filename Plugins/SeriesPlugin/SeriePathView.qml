@@ -16,6 +16,7 @@ Item
          model : SeriesPlugin.getFollowedSeriesModel();
          flickDeceleration : 200
          pathItemCount : 8
+         cacheItemCount : 8
          path : Path {
              startX : mainWindow.width / 3
              startY : mainWindow.height / 2
@@ -53,9 +54,12 @@ Item
      {
          id : episode_title
          style: Text.Outline
-         styleColor: "#0066cc"
+         styleColor: "#440033cc"
          color : "White"
+         width: mainWindow.width / 3
          wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+         visible : (followed_series_pathview.pathItemCount > 0)
+         horizontalAlignment: Text.AlignHCenter
          anchors
          {
              horizontalCenter: parent.horizontalCenter

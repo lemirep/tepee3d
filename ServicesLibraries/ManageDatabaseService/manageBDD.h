@@ -25,6 +25,7 @@ public slots:
     void    executeSQLQuery(const QString& Query, QObject *sender, int id, const QString &dbName, void *data);
 private :
     QString         localDBName;
+    QString         previousDbName;
     QString         field;
     QString         username;
     QSqlDatabase    dataBase;
@@ -32,6 +33,7 @@ private :
     QList<QString>  value;
     QString         applicationPath;
     QString         databasePath;
+    QHash<QString, QString> nameToPathHash;
 };
 
 #endif // MANAGEBDD_H

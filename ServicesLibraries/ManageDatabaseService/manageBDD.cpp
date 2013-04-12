@@ -29,6 +29,7 @@ ManageBDD::ManageBDD() : QObject()
     this->applicationPath = QCoreApplication::applicationDirPath();
     this->localDBName = "";
     this->databasePath = "";
+    this->previousDbName = "";
 }
 
 /*!
@@ -47,61 +48,66 @@ ManageBDD::~ManageBDD()
  */
 bool ManageBDD::openDatabase(const QString& dbName)
 {
-    // CLEAR DB PATH IN CASE
-    this->localDBName = "";
-#ifdef Q_OS_QNX
-    // ON QNX, DATABASE HAVE TO BE COPIED TO THE data DIRECTORY
-    // IN ORDER TO BE USED
+    // GET DB PATH FROM HASH OF SAVED DB PATHS
+    this->localDBName = this->nameToPathHash[dbName];
 
-    if (this->databasePath.isEmpty())
+    // IF DATABASE HAS NOT BEEN OPENED YET
+    if (this->localDBName.isNull() || this->localDBName.isEmpty())
     {
-        QDir dbDir(this->applicationPath);
-        dbDir.cdUp();
-        dbDir.cdUp();
-        dbDir.cd("data");
-        this->databasePath = dbDir.absolutePath();
-    }
-    QFile dbFile(this->databasePath + "/" + dbName);
-    qDebug() << dbFile.fileName();
-    if (!dbFile.exists())
-    {
-        qDebug() << "File doesn't exist";
-        QFile dbTemplate(this->applicationPath + "/databases/" + dbName);
-        qDebug() << "Trying to copy " << dbTemplate.fileName();
-        if (dbTemplate.exists())
+#ifdef Q_OS_QNX
+        // ON QNX, DATABASE HAVE TO BE COPIED TO THE data DIRECTORY
+        // IN ORDER TO BE USED
+        if (this->databasePath.isEmpty())
         {
-            qDebug() << "Database Template exists";
-            if (dbTemplate.copy(dbFile.fileName()))
+            QDir dbDir(this->applicationPath);
+            dbDir.cdUp();
+            dbDir.cdUp();
+            dbDir.cd("data");
+            this->databasePath = dbDir.absolutePath();
+        }
+        QFile dbFile(this->databasePath + "/" + dbName);
+        qDebug() << dbFile.fileName();
+        if (!dbFile.exists())
+        {
+            qDebug() << "File doesn't exist";
+            QFile dbTemplate(this->applicationPath + "/databases/" + dbName);
+            qDebug() << "Trying to copy " << dbTemplate.fileName();
+            if (dbTemplate.exists())
             {
-                this->localDBName = dbFile.fileName();
-                qDebug() << "File Copied Successfully";
+                qDebug() << "Database Template exists";
+                if (dbTemplate.copy(dbFile.fileName()))
+                {
+                    // OPENED DB PATH IS SAVED IN HASH
+                    this->nameToPathHash[dbName] = dbFile.fileName();
+                    this->localDBName = this->nameToPathHash[dbName];
+                    qDebug() << "File Copied Successfully";
+                }
             }
         }
-    }
-    else
-        qDebug() << "File already exists";
-
+        else
+            qDebug() << "File already exists";
 #endif
 
 #ifdef Q_OS_WIN32
-    // ON WINDOWS THE SQL DATABASES MUST BE IN THE APPDATA DIRECTORY
-    // OTHERWISE THE PROGRAM AS TO BE RUN AS ADMINISTRATOR TO SAVE IN THE BDD
+        // ON WINDOWS THE SQL DATABASES MUST BE IN THE APPDATA DIRECTORY
+        // OTHERWISE THE PROGRAM AS TO BE RUN AS ADMINISTRATOR TO SAVE IN THE BDD
 
 
 #endif
 
 #ifdef Q_OS_LINUX
-    // ON LINUX DATABASES CAN BE READ DIRECTLY FROM THE databases DIRECTORY
-    // OF THE APPLICATION
-    if (this->databasePath.isEmpty())
-        this->databasePath = QDir::currentPath() + "/databases/";
-    this->localDBName =  this->databasePath + dbName;
+        // ON LINUX DATABASES CAN BE READ DIRECTLY FROM THE databases DIRECTORY
+        // OF THE APPLICATION
+        if (this->databasePath.isEmpty())
+            this->databasePath = QDir::currentPath() + "/databases/";
+        this->nameToPathHash[dbName] = this->databasePath + dbName;
+        this->localDBName =  this->nameToPathHash[dbName];
 #endif
+    }
 
     qDebug() << localDBName;
     this->dataBase.setHostName("localhost");
     this->dataBase.setDatabaseName(localDBName);
-
 
     // THE DATABASE IS NOW CONTAINED IN THE TEPEE3DENGINE
     // THIS ALLOWS US TO PROVIDE A DATABASE SCHEMA WITHOUT HAVING TO
@@ -117,7 +123,13 @@ bool ManageBDD::openDatabase(const QString& dbName)
 void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data)
 {
     QList<QSqlRecord> results;
-    if (this->openDatabase(dbName))
+    if (dbName != this->previousDbName)
+    {
+        this->dataBase.close();
+        this->openDatabase(dbName);
+        this->previousDbName = dbName;
+    }
+    if (this->dataBase.isOpen())
     {
         qDebug() << "Received query : {" << query << "}";
         QSqlQuery sqlQuery(this->dataBase);
@@ -129,7 +141,6 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, c
         results.push_back(sqlQuery.record());
         while (sqlQuery.next())
             results.push_back(sqlQuery.record());
-        this->dataBase.close();
     }
     emit resultFromSQLQuery(results, sender, id, data);
 }
