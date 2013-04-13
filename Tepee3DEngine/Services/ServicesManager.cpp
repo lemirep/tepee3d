@@ -74,7 +74,7 @@ Services::ServicesManager* Services::ServicesManager::instance = NULL;
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
     this->services = QList<ServiceInterface*>();
-//    this->loadServicesLibraries();
+    //    this->loadServicesLibraries();
 }
 
 /*!
@@ -92,6 +92,12 @@ Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *par
  */
 void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 {
+    foreach (ServiceInterface* service, this->services)
+    {
+        View::QmlContentExposerInterface *exposer = NULL;
+        if ((exposer = qobject_cast<QmlContentExposerInterface*>(service->getLibraryQObject())) != NULL)
+            exposer->exposeContentToQml(context);
+    }
 }
 
 /*!
@@ -100,7 +106,7 @@ void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
  */
 void    Services::ServicesManager::connectObjectToServices(QObject *serviceUser)
 {
- Services::ServicesManager::getInstance()->connectObjectToServicesSlot(serviceUser);
+    Services::ServicesManager::getInstance()->connectObjectToServicesSlot(serviceUser);
 }
 
 /*!
