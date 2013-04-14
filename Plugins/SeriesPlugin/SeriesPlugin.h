@@ -52,6 +52,7 @@
 #define UPDATE_SICKBEARD_SHOW 4
 #define ADD_SHOW_TO_SICKBEARD 5
 #define UPDATE_SEASON_EPISODES_SICKBEARD 6
+#define UPDATE_UPDATED_SHOW 7
 
 #define RETRIEVE_SHOWS 0
 #define RETRIEVE_SEASONS_FOR_SHOW 1
@@ -99,6 +100,7 @@ public:
     Q_INVOKABLE                 QObject* getSeasonsModelFromSerieId(int serieId) const;
     Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const;
     Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
+    Q_INVOKABLE                 QObject* getShowsToAppearInTheWeek();
     Q_INVOKABLE                 void     updateFollowedShows();
     Q_INVOKABLE                 void     searchForShow(QString showName);
     Q_INVOKABLE                 void     addShowToFollow(int serieId);
@@ -109,6 +111,7 @@ public:
     Q_INVOKABLE                 void     saveSickBeardConfig();
     void                                 addShowToSickBeard(QString showId);
     void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
+    void                                 updateOnlineUpdatedShows();
 
     QString                              pluginState() const;
     void                                 setPluginState(const QString& value);
@@ -123,6 +126,7 @@ public:
 private:
     Models::SubListedListModel* followedSeriesModel;
     Models::SubListedListModel* searchSeriesModel;
+    Models::SubListedListModel* showsOfTheWeek;
     QString                     m_sickBeardUrl;
     QString                     m_sickBeardApiKey;
     QString                     m_pluginState;
@@ -145,6 +149,7 @@ private:
     void                        updateSickbeardShowCallBack(QNetworkReply *reply, void *data);
     void                        updateShowSeasonFromSickNeardCallBack(QNetworkReply *reply, void *data);
     void                        addShowToSickBeardCallBack(QNetworkReply *reply, void *data);
+    void                        updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *data);
 
     // DATABASE
     void                        retrieveSickBeardConfig();

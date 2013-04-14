@@ -35,7 +35,6 @@
 
         static void                 addParamToRoom(Room::RoomBase *room, QString attr, QString value);
         static void                 addParamToRoom(Room::RoomBase *room, int id, QString value);
-        static bool                 parseLine(std::string line, bool &header, Room::RoomBase *newroom);
 
         void                        updateExistingRoom(RoomBase *room);
         void                        insertNewRoom(RoomBase *room);
@@ -52,9 +51,6 @@
     public :
         static RoomLoader*          getInstance(QObject *parent = 0);
         ~RoomLoader();
-
-//         static bool                loadRoomFromFile(QString name);
-         static bool                saveRoomFile(Room::RoomBase *room);
 
          static void                saveRoomToDatabase(Room::RoomBase *room);
          static void                deleteRoomFromDatabase(Room::RoomBase *room);

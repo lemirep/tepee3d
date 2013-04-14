@@ -37,6 +37,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->webServicesCallBacks[UPDATE_SICKBEARD_SHOW] = &SeriesPlugin::updateSickbeardShowCallBack;
     this->webServicesCallBacks[UPDATE_SEASON_EPISODES_SICKBEARD] = &SeriesPlugin::updateShowSeasonFromSickNeardCallBack;
     this->webServicesCallBacks[ADD_SHOW_TO_SICKBEARD] = &SeriesPlugin::addShowToSickBeardCallBack;
+    this->webServicesCallBacks[UPDATE_UPDATED_SHOW] = &SeriesPlugin::updateOnlineUpdatedShowsCallBack;
     // DATABASE CALLBACKS HASH
     this->databaseCallBacks[RETRIEVE_SHOWS] = &SeriesPlugin::retrieveShowsFromDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
@@ -105,6 +106,7 @@ void SeriesPlugin::onSelectedFocusState()
 void SeriesPlugin::onFocusedFocusState()
 {
     qDebug() << "SeriesPlugin Focused";
+    this->updateOnlineUpdatedShows();
 }
 
 Plugins::PluginBase* SeriesPlugin::createNewInstance()
@@ -151,6 +153,28 @@ QObject *SeriesPlugin::getEpisodesFromSeasonAndShowId(int serieId, int seasonId)
 QObject *SeriesPlugin::getSearchSeriesModel() const
 {
     return this->searchSeriesModel;
+}
+
+QObject *SeriesPlugin::getShowsToAppearInTheWeek()
+{
+    // TIME AT THE END OF THE WEEK
+    QDateTime nowTime = QDateTime::currentDateTime();
+    QDateTime endWeekTime = nowTime.addDays(7);
+
+    foreach (Models::ListItem *showItem, this->followedSeriesModel->toList())
+    {
+        SerieSubListedItem* show = reinterpret_cast<SerieSubListedItem*>(showItem);
+        SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().takeFirst());
+        foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
+        {
+            EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
+            if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime &&
+                    episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime)
+            {
+                // ADD SHOW AND EPISODES TO TMP MODEL
+            }
+        }
+    }
 }
 
 void SeriesPlugin::updateFollowedShows()
@@ -242,6 +266,14 @@ void SeriesPlugin::updateShowSeasonFromSickBeard(int showId, int seasonId)
                                                     + "&season="
                                                     + QString::number(seasonId))),
                                UPDATE_SEASON_EPISODES_SICKBEARD, (void *)new QPoint(showId, seasonId));
+}
+
+void SeriesPlugin::updateOnlineUpdatedShows()
+{
+    emit executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/shows/updated.json/"\
+                                                    + QString(TRAKT_API_KEY)
+                                                    + "/" + QString::number(QDateTime::currentDateTime().addDays(-7).toTime_t())))
+                               , UPDATE_UPDATED_SHOW);
 }
 
 
@@ -467,7 +499,8 @@ void SeriesPlugin::retrieveSickBeardShowsCallBack(QNetworkReply *reply, void *da
                 this->m_synchingWithSB = true;
                 foreach (QString key, showsArray.keys())
                 {
-                    this->addShowToFollow(key.toInt());
+                    if (this->followedSeriesModel->find(key.toInt()) == NULL)
+                        this->addShowToFollow(key.toInt());
                     this->refreshSickbeardShow(key.toInt());
                 }
                 this->m_synchingWithSB = false;
@@ -561,6 +594,39 @@ void SeriesPlugin::addShowToSickBeardCallBack(QNetworkReply *reply, void *data)
     qDebug() << "Error adding show to Sickbeard";
 }
 
+void SeriesPlugin::updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL)
+    {
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
+        delete reply;
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            QJsonObject mainObj = jsonDoc.object();
+            QJsonArray  showsArray = mainObj.take("shows").toArray();
+            foreach (QJsonValue value, showsArray)
+            {
+                QJsonObject showObj = value.toObject();
+                if (!showObj.isEmpty())
+                {
+                    Models::ListItem *showItem = NULL;
+                    if ((showItem = this->followedSeriesModel->find(showObj.value("tvdb_id").toDouble())) != NULL)
+                    {
+                        if (showItem->data(SerieSubListedItem::serieLastUpdate).toDateTime() <
+                                QDateTime::fromTime_t(showObj.value("last_updated").toDouble()))
+                        {
+                            qDebug() << "Updating shows " << showItem->data(SerieSubListedItem::serieName).toString() << "Show " << showItem->data(SerieSubListedItem::serieLastUpdate).toDateTime() << "Stream "   << QDateTime::fromTime_t(showObj.value("last_updated").toDouble());
+                            this->updateShowSummary(reinterpret_cast<SerieSubListedItem*>(
+                                                        this->followedSeriesModel->takeRow(
+                                                        this->followedSeriesModel->rowIndexFromId(showItem->id()))));
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 void SeriesPlugin::retrieveSickBeardConfig()
 {
     QString sickbeardConfigRequest = "SELECT sickbeard_url, sickbeard_api_key, add_to_sickbeard FROM config WHERE id = 0;";
@@ -652,9 +718,10 @@ void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
-        QString updateShowRequest = QString("UPDATE show SET serieImage = '%1', serieSickBeard = %2 WHERE serieTvDbId = %3;")
+        QString updateShowRequest = QString("UPDATE show SET serieImage = '%1', serieSickBeard = %2, serieLastUpdate = %3 WHERE serieTvDbId = %4;")
                 .arg(Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString()),
                      show->data(SerieSubListedItem::serieOnSickbeard).toBool() ? "1" : "0",
+                     QString::number(show->data(SerieSubListedItem::serieLastUpdate).toDateTime().toTime_t()),
                      QString::number(show->id()));
         emit executeSQLQuery(updateShowRequest, this, GENERIC_REQUEST, DATABASE_NAME);
         foreach (Models::ListItem* season, show->submodel()->toList())

@@ -83,7 +83,7 @@ Item
 
     Item
     {
-        visible : show_pathview_container.currentItem.serie_on_sickbeard
+        visible : (show_pathview_container.currentItem) ? show_pathview_container.currentItem.serie_on_sickbeard : false
         anchors
         {
             left : parent.left

@@ -66,7 +66,7 @@ Item
              bottom : parent.bottom
              bottomMargin : mainWindow.height / 5
          }
-         text : followed_series_pathview.currentItem.series_name
+         text : (followed_series_pathview.currentItem) ? show_pathview_container.currentItem.series_name : ""
          font.pointSize: 24
      }
 }
