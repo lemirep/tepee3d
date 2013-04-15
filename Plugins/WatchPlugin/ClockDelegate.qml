@@ -6,10 +6,10 @@ Item {
     property int clockId;
     property double clockUtc;
     property string clockCity;
-    property int widthClock : Clock.width
+    property int widthClock : cl.width
     height: 30
     width: delegate.ListView.view.width
-   Clock { city: clockCity; shift: clockUtc }
+   Clock { id : cl;city: clockCity; shift: clockUtc }
 
     Text {
         anchors.fill: parent;

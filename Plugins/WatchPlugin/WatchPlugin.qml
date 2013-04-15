@@ -112,14 +112,14 @@ Item3D
         id : listview_container
         width: 360
         height: 360
-        opacity : isFocused
-        x : (mainWindow.width / 2)
-        y : (mainWindow.height / 2)
+        enabled :isFocused
+        x : (mainWindow.width / 3)
+        y : (mainWindow.height / 3)
         ListView {
             id: clockView
             anchors.fill: parent
             orientation: ListView.Horizontal
-            spacing: delegate.widthClock
+          // spacing: 10
             model: WatchPlugin.getClockModel();
             delegate: ClockDelegate
             {
