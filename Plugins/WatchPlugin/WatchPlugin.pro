@@ -76,7 +76,8 @@ OTHER_FILES += \
     clock.png \
     center.png \
     background.png \
-    plus.png
+    plus.png \
+    AddBox.qml
 
 
 # deploy qml files to correct dir

@@ -17,13 +17,13 @@ Item3D
     {
         plugin_base.moveCamera();
         isFocused= false;
-         modelAlarm.scale = 5;
+        modelAlarm.scale = 5;
     }
     // HAS TO BE IMPLEMENTED
     function switchToSelectedFocusView()
     {
         isFocused = false;
-         modelAlarm.scale = 5;
+        modelAlarm.scale = 5;
     }
     // HAS TO BE IMPLEMENTED
     function switchToFocusedView()
@@ -65,7 +65,6 @@ Item3D
         height: 250
         x : (mainWindow.width / 8)
         y : (mainWindow.height / 4)
-
         PathView {
             id: view
             smooth : true
@@ -81,12 +80,15 @@ Item3D
             clockCity : model.clockCity
             clockUtc : model.clockUtc
         }
-
         path: Path {
             startX: 0; startY: 0
-               PathQuad { x:listview_container.width ; y: 0; controlX: (listview_container.width / 2); controlY: (listview_container.height /2) }
+            PathQuad { x:listview_container.width ; y: 0; controlX: (listview_container.width / 2); controlY: (listview_container.height /2) }
         }
-        onDragStarted: console.log("DDDDDD-");
+    }
+    AddBox
+    {
+        id : addbox
+        visible: false
     }
 }
 Image
@@ -104,12 +106,12 @@ Image
         anchors.fill : parent
         onClicked :
         {
-            console.log("CLICK CLICK");
+            view.visible = false
+            addbox.visible = true;
         }
     }
     source : "./plus.png"
 }
-
 
 }
 
