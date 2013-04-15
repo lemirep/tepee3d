@@ -75,7 +75,8 @@ OTHER_FILES += \
     clock-night.png \
     clock.png \
     center.png \
-    background.png
+    background.png \
+    plus.png
 
 
 # deploy qml files to correct dir

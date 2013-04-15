@@ -21,7 +21,7 @@
 
 #define DATABASE_NAME "WatchPlugin.sql"
 #define RETRIEVE_CLOCK 0
-
+#define GENERIC_REQUEST 1
 
 class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
@@ -60,6 +60,8 @@ private:
     QHash<int, void (WatchPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
     void                    retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void retrieveClocksFromDababase();
+    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+
 
 };
 #endif // WATCHPLUGIN_H

@@ -7,7 +7,6 @@ Item3D
     id : alarm_clock_container
     position : Qt.vector3d(0, 0, 0);
     property bool isFocused : false;
-
     function roomEntered()
     {
     }
@@ -18,11 +17,13 @@ Item3D
     {
         plugin_base.moveCamera();
         isFocused= false;
+         modelAlarm.scale = 5;
     }
     // HAS TO BE IMPLEMENTED
     function switchToSelectedFocusView()
     {
-        isFocused = false;      
+        isFocused = false;
+         modelAlarm.scale = 5;
     }
     // HAS TO BE IMPLEMENTED
     function switchToFocusedView()
@@ -34,8 +35,9 @@ Item3D
         widgetPos.x += alarm_clock_container.x
         widgetPos.y += alarm_clock_container.y
         widgetPos.z += alarm_clock_container.z
-        plugin_base.moveCamera(eyePos, widgetPos);    
-        isFocused = false;
+        plugin_base.moveCamera(eyePos, widgetPos);
+        isFocused = true;
+        modelAlarm.scale = 0;
     }
 
     Item3D
@@ -55,80 +57,59 @@ Item3D
         }
     }
     FontLoader { id: ledFont; source: "./enhanced_led_board-7.ttf" }
-  /*  Item
-    {
-        id : printclock
-        enabled: isFocused
-        x : ((mainWindow.width / 2) - (mainWindow.width / 3.4))
-        y : ((mainWindow.height / 2)- (mainWindow.width / 30))
-        Rectangle
-        {
-            visible: isFocused
-            height : 125
-            width: 285
-            radius : 5
-            color : "black"
-            Text
-            {
-                anchors{
-                    verticalCenter : parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
-                }
-                font.family: ledFont.name
-                color : "red"
-                text: time
-                font.pixelSize: 34
-            }
-        }
-    }
-    Item
-    {
-        id : printclock_selected
-        enabled: isNotFocused
-        x : ((mainWindow.width / 2) - (mainWindow.width / 7.2))
-        y : ((mainWindow.height / 2) - (mainWindow.width / 65))
-        Rectangle
-        {
-            visible: isNotFocused
-            height : 58
-            width: 137
-            radius : 4
-            color : "black"
-            Text
-            {
-                anchors{
-                    verticalCenter : parent.verticalCenter
-                    horizontalCenter: parent.horizontalCenter
-                }
-                font.family: ledFont.name
-                color : "red"
-                text: time
-                font.pixelSize: 15
-            }
-        }
-    }
-*/
+
     Item {
         id : listview_container
-        width: 360
-        height: 360
-        enabled :isFocused
-        x : (mainWindow.width / 3)
-        y : (mainWindow.height / 3)
-        ListView {
-            id: clockView
-            anchors.fill: parent
-            orientation: ListView.Horizontal
-          // spacing: 10
-            model: WatchPlugin.getClockModel();
+        visible  : isFocused
+        width: mainWindow.width / 1.4
+        height: 250
+        x : (mainWindow.width / 8)
+        y : (mainWindow.height / 4)
+
+        PathView {
+            id: view
+            smooth : true
+            anchors.fill : parent
+            focus : true
+            flickDeceleration : 200
+            pathItemCount : 3
+            cacheItemCount : 6
+            model:  WatchPlugin.getClockModel();
             delegate: ClockDelegate
             {
-             clockId : model.clockId
-             clockCity : model.clockCity
-             clockUtc : model.clockUtc
+            clockId : model.clockId
+            clockCity : model.clockCity
+            clockUtc : model.clockUtc
+        }
+
+        path: Path {
+            startX: 0; startY: 0
+               PathQuad { x:listview_container.width ; y: 0; controlX: (listview_container.width / 2); controlY: (listview_container.height /2) }
+        }
+        onDragStarted: console.log("DDDDDD-");
+    }
+}
+Image
+{
+    id : add_clock_button
+    width : 50
+    height : 50
+    visible  : isFocused
+    smooth : true
+    scale : add_room_button_ma.pressed ? 0.9 : 1.0
+    anchors    {bottom : listview_container.bottom; horizontalCenter : listview_container.horizontalCenter}
+    MouseArea
+    {
+        id : add_room_button_ma
+        anchors.fill : parent
+        onClicked :
+        {
+            console.log("CLICK CLICK");
         }
     }
-    }
+    source : "./plus.png"
+}
+
 
 }
 
