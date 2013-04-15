@@ -98,16 +98,17 @@ Image
     height : 50
     visible  : isFocused
     smooth : true
-    scale : add_room_button_ma.pressed ? 0.9 : 1.0
+    scale : add_clock_button_ma.pressed ? 0.9 : 1.0
     anchors    {bottom : listview_container.bottom; horizontalCenter : listview_container.horizontalCenter}
     MouseArea
     {
-        id : add_room_button_ma
+        id : add_clock_button_ma
         anchors.fill : parent
         onClicked :
         {
-            view.visible = false
+            view.visible = false;
             addbox.visible = true;
+            add_clock_button.visible = false;
         }
     }
     source : "./plus.png"
