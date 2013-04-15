@@ -16,6 +16,7 @@
 #define SEARCH_FOR_ROOM 1
 #define GENERIC_RESULT 2
 #define RESTORE_ROOMS 3
+#define RESTORE_PLUGINS_TO_ROOM 4
 #define DB_NAME "Tepee3D.sql"
 
  namespace Room
@@ -33,11 +34,9 @@
 
         static      RoomLoader*     instance;
 
-        static void                 addParamToRoom(Room::RoomBase *room, QString attr, QString value);
-        static void                 addParamToRoom(Room::RoomBase *room, int id, QString value);
-
         void                        updateExistingRoom(RoomBase *room);
         void                        insertNewRoom(RoomBase *room);
+        void                        insertOrReplacePluginsForRoom(RoomBase *room);
         void                        deleteRoom(RoomBase *room);
         void                        saveRoom(RoomBase *room);
         void                        restoreRooms();
@@ -45,6 +44,7 @@
         void                        searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data);
         void                        restoreRoomsCallback(QList<QSqlRecord> result, void *data);
         void                        genericResultCallback(QList<QSqlRecord> result, void *data);
+        void                        restoreWidgetsForRoomCallback(QList<QSqlRecord> result, void *data);
 
         QHash<int, void (RoomLoader::*)(QList<QSqlRecord> result, void *data)>   pFunc;
 
@@ -55,11 +55,12 @@
          static void                saveRoomToDatabase(Room::RoomBase *room);
          static void                deleteRoomFromDatabase(Room::RoomBase *room);
          static void                restoreRoomsFromDatabase();
+         static void                addNewPluginToDatabase(Plugins::PluginBase *plugin);
 
          void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
 
     signals :
-         void                       executeSQLQuery(const QString &query, QObject *sender, int id, const QString &dbName, void *data);
+         void                       executeSQLQuery(const QString &query, QObject *sender, int id, const QString &dbName, void *data = NULL);
     };
  }
 

@@ -18,6 +18,7 @@ Room::RoomLoader::RoomLoader(QObject *parent) : QObject(parent)
     this->pFunc[SEARCH_FOR_ROOM] = &Room::RoomLoader::searchForRoomEditUpdateCallback;
     this->pFunc[GENERIC_RESULT] = &Room::RoomLoader::genericResultCallback;
     this->pFunc[RESTORE_ROOMS] = &Room::RoomLoader::restoreRoomsCallback;
+    this->pFunc[RESTORE_PLUGINS_TO_ROOM] = &Room::RoomLoader::restoreWidgetsForRoomCallback;
 }
 
 Room::RoomLoader::~RoomLoader()
@@ -30,98 +31,6 @@ Room::RoomLoader*   Room::RoomLoader::getInstance(QObject *parent)
     if (Room::RoomLoader::instance == NULL)
         Room::RoomLoader::instance = new Room::RoomLoader(parent);
     return Room::RoomLoader::instance;
-}
-
-void Room::RoomLoader::addParamToRoom(Room::RoomBase *room, QString attr, QString value)
-{
-    QVector3D vec;
-
-    if (attr == "Name")
-        room->setRoomName(value);
-    if (attr == "Qml")
-        room->setRoomQmlFile(value);
-    if (attr == "PosX")
-    {
-        vec = room->getPosition();
-        vec.setX(value.toDouble());
-        room->setPosition(vec);
-    }
-    if (attr == "PosY")
-    {
-        vec = room->getPosition();
-        vec.setY(value.toDouble());
-        room->setPosition(vec);
-    }
-    if (attr == "PosZ")
-    {
-        vec = room->getPosition();
-        vec.setZ(value.toDouble());
-        room->setPosition(vec);
-    }
-    if (attr == "ScaleX")
-    {
-        vec = room->getScale();
-        vec.setX(value.toDouble());
-        room->setScale(vec);
-    }
-    if (attr == "ScaleY")
-    {
-        vec = room->getScale();
-        vec.setY(value.toDouble());
-        room->setScale(vec);
-    }
-    if (attr == "ScaleZ")
-    {
-        vec = room->getScale();
-        vec.setZ(value.toDouble());
-        room->setScale(vec);
-    }
-}
-
-void Room::RoomLoader::addParamToRoom(Room::RoomBase *room, int id, QString value)
-{
-    QVector3D vec;
-
-    if (id == 1)
-        room->setRoomName(value);
-    if (id == 2)
-        room->setRoomQmlFile(value);
-    if (id == 3)
-    {
-        vec = room->getPosition();
-        vec.setX(value.toDouble());
-        room->setPosition(vec);
-    }
-    if (id == 4)
-    {
-        vec = room->getPosition();
-        vec.setY(value.toDouble());
-        room->setPosition(vec);
-    }
-    if (id == 5)
-    {
-        vec = room->getPosition();
-        vec.setZ(value.toDouble());
-        room->setPosition(vec);
-    }
-    if (id == 6)
-    {
-        vec = room->getScale();
-        vec.setX(value.toDouble());
-        room->setScale(vec);
-    }
-    if (id == 7)
-    {
-        vec = room->getScale();
-        vec.setY(value.toDouble());
-        room->setScale(vec);
-    }
-    if (id == 8)
-    {
-        vec = room->getScale();
-        vec.setZ(value.toDouble());
-        room->setScale(vec);
-    }
 }
 
 ////////////////// STATIC METHODS CALLBED BY ROOM MANAGER ///////////////////
@@ -158,6 +67,24 @@ void    Room::RoomLoader::genericResultCallback(QList<QSqlRecord> result, void *
     Q_UNUSED(data)
 }
 
+void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, void *data)
+{
+    if (result.size() > 1 && data != NULL)
+    {
+        Room::RoomBase *room = reinterpret_cast<Room::RoomBase*>(data);
+        result.pop_front();
+        foreach (QSqlRecord record, result)
+        {
+            qDebug() << "************************RESTORING WIDGET*****************************";
+            Plugins::PluginBase *plugin = Plugins::PluginManager::getNewInstanceOfPlugin(record.value(0).toDouble());
+            plugin->setPluginPosition(QVector3D(record.value(1).toDouble(),
+                                                record.value(2).toDouble(),
+                                                record.value(3).toDouble()));
+            Plugins::PluginLoader::addPluginToRoom(plugin, room);
+        }
+    }
+}
+
 void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data)
 {
     if (result.size() > 2)
@@ -177,12 +104,17 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, void *d
             Room::RoomBase *newroom = Room::RoomManager::getNewRoomInstance();
             newroom->setRoomQmlFile(record.value(2).toString());
             newroom->setRoomName(record.value(1).toString());
-            newroom->setPosition(QVector3D(record.value(3).toDouble(), record.value(4).toDouble(), record.value(5).toDouble()));
-            newroom->setScale(QVector3D(record.value(6).toDouble(), record.value(7).toDouble(), record.value(8).toDouble()));
+            newroom->setPosition(QVector3D(record.value(3).toDouble(),
+                                           record.value(4).toDouble(),
+                                           record.value(5).toDouble()));
+            newroom->setScale(QVector3D(record.value(6).toDouble(),
+                                        record.value(7).toDouble(),
+                                        record.value(8).toDouble()));
             qDebug() << "NEW ROOM : " << newroom->getRoomName() << " " << newroom->getPosition() << " " << newroom->getScale();
             Room::RoomManager::addRoomToModel(newroom);
             // ADD ALL PLUGINS OF THE ROOM
-//            emit executeSQLQuery();
+            emit executeSQLQuery(Plugins::PluginLoader::loadAllPluginForRoom(newroom),
+                                 this, RESTORE_PLUGINS_TO_ROOM, DB_NAME, (void *)newroom);
         }
     }
 }
@@ -213,14 +145,15 @@ void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)
                  QString::number(room->getScale().y()),
                  QString::number(room->getScale().z()),
                  Utils::escapeSqlQuery(room->getRoomName()));
-    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
+    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME);
+    this->insertOrReplacePluginsForRoom(room);
 }
 
 void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
 {
     if (room == NULL)
         return;
-    QString request = QString("INSERT INTO room "
+    QString request = QString("INSERT OR REPLACE INTO room "
                               "(name, modelFile, posX, posY, posZ, scaleX, scaleY, scaleZ) "
                               "VALUES ('%1', '%2', %3, %4, %5, %6, %7, %8);")
             .arg(Utils::escapeSqlQuery(room->getRoomName()),
@@ -231,7 +164,20 @@ void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
                  QString::number(room->getScale().x()),
                  QString::number(room->getScale().y()),
                  QString::number(room->getScale().z()));
-    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
+    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME);
+    this->insertOrReplacePluginsForRoom(room);
+}
+
+void Room::RoomLoader::insertOrReplacePluginsForRoom(Room::RoomBase *room)
+{
+    foreach (Models::ListItem *pluginItem, room->getRoomPluginsModel()->toList())
+    {
+        Plugins::PluginBase *plugin = NULL;
+        if ((plugin = reinterpret_cast<Models::PluginModelItem *>
+             (pluginItem)->getPlugin()) != NULL)
+            emit executeSQLQuery(Plugins::PluginLoader::addOrReplacePluginImpl(
+                                     plugin, room), this, GENERIC_RESULT, DB_NAME);
+    }
 }
 
 void    Room::RoomLoader::restoreRooms()

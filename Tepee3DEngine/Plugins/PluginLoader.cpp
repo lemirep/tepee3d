@@ -41,6 +41,16 @@ Plugins::PluginLoader*   Plugins::PluginLoader::getInstance(QObject *parent)
     return Plugins::PluginLoader::instance;
 }
 
+void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room)
+{
+    if (room != NULL && plugin != NULL)
+    {
+        qDebug() << "Adding new plugin to Room";
+        Plugins::PluginManager::initRoomPlugin(plugin);
+        room->addWidgetToRoom(plugin);
+    }
+}
+
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
     QDir    pluginsDir = QCoreApplication::applicationDirPath();
@@ -72,7 +82,7 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
         }
         else
         {
-           // qDebug("WIDGET PLUGIN FAILED TO LxxxxxxxxxxxxxxOAD");
+            // qDebug("WIDGET PLUGIN FAILED TO LxxxxxxxxxxxxxxOAD");
             qDebug() << "FAILED TO LOAD " << fileName;
             qDebug() << pluginLoader.errorString();
         }
@@ -89,47 +99,19 @@ QList<Plugins::PluginBase*>  Plugins::PluginLoader::getWidgetPlugins()
 
 QString     Plugins::PluginLoader::loadAllPluginForRoom(Room::RoomBase *room)
 {
-    return QString("SELECT widgetImpl.idWidgetImpl, widgetImpl.idRoom, room.name, widgetImpl.idUser,"
-                              "widgetImpl.idWidget, widgetImpl.posX, widgetImpl.posY, widgetImpl.posZ, "
-                              "widgetImpl.scaleX, widgetImpl.scaleY, widgetImpl.scaleZ, widget.name, "
-                              "widget.description, widget.localpath FROM widget, widgetImpl, room WHERE "
-                              "widgetImpl.idwidget = widget.idWidget AND widgetImpl.idRoom = room.idRoom AND "
-                              "room.name = '%1';") // TEMPORARY! Should be changed in the future
-                            .arg(room->getRoomName());
+    return QString("SELECT idWidget, posX, posY, posZ FROM widgetImpl "
+                   "WHERE idRoom = (SELECT idRoom FROM room WHERE name = '%1');")
+            .arg(room->getRoomName());
 }
 
-QString     Plugins::PluginLoader::loadAllPluginForUser(int idUser)
+QString     Plugins::PluginLoader::addOrReplacePluginImpl(Plugins::PluginBase *plugin, Room::RoomBase *room)
 {
-    return QString("SELECT widgetImpl.idWidgetImpl, widgetImpl.idRoom, room.name, widgetImpl.idUser,"
-                              "widgetImpl.idWidget, widgetImpl.posX, widgetImpl.posY, widgetImpl.posZ, "
-                              "widgetImpl.scaleX, widgetImpl.scaleY, widgetImpl.scaleZ, widget.name, "
-                              "widget.description, widget.localpath FROM widget, widgetImpl, room WHERE "
-                              "widgetImpl.idwidget = widget.idWidget AND widgetImpl.idUser = %1;")
-                              .arg(QString::number(idUser));
-}
-
-QString     Plugins::PluginLoader::addPluginImpl(PluginBase *plugin, Room::RoomBase *room, int idUser, const QVector3D &scale, const QVector3D &pos)
-{
-    return QString("INSERT INTO widgetImpl (idRoom, idWidget, idUser, posX, posY, posZ, scaleX, scaleY, scaleZ) VALUES"
-            " (%1, %2, %3, %4, %5, %6, %7, %8, %9);")
-            .arg(QString::number(1),// TEMPORARY! Should be changed in the future
-                 QString::number(1),// TEMPORARY! Should be changed in the future
-                 QString::number(idUser),
-                 QString::number(pos.x()),
-                 QString::number(pos.y()),
-                 QString::number(pos.z()),
-                 QString::number(scale.x()),
-                 QString::number(scale.y()),
-                 QString::number(scale.z()));
-}
-
-QString     Plugins::PluginLoader::addNewPlugin(PluginBase *plugin)
-{
-    return QString("INSERT INTO widget (name, description, localpath, minimalage) VALUES "
-            "('%1', '%2', '%3', %4);")
-            .arg(plugin->getPluginName(),
-                 plugin->getPluginDescription(),
-                 plugin->getRoomPluginQmlFile(),
-                 QString::number(3)); // TEMPORARY! Should be changed in the future
+    return QString("INSERT OR REPLACE INTO widgetImpl (idRoom, idWidget, posX, posY, posZ) VALUES"
+                   " ((SELECT idRoom FROM room WHERE name = '%1'), %2, %3, %4, %5);")
+            .arg(room->getRoomName(),
+                 QString::number(plugin->getPluginId()),
+                 QString::number(plugin->getPluginPosition().x()),
+                 QString::number(plugin->getPluginPosition().y()),
+                 QString::number(plugin->getPluginPosition().z()));
 }
 

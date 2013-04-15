@@ -282,6 +282,7 @@ void        Room::RoomManager::editRoom(int roomModelId, QString roomName, QVect
         editedRoom->setScale(roomScale);
         // UPDATE ROOM ITEM IN MODEL FOR QML UPDATE
         roomItem->triggerItemUpdate();
+        Room::RoomLoader::saveRoomToDatabase(editedRoom);
     }
 }
 
@@ -339,10 +340,10 @@ void        Room::RoomManager::addNewPluginToCurrentRoom(int pluginModelId)
     Plugins::PluginBase*    newPlugin = Plugins::PluginManager::getNewInstanceOfPlugin(pluginModelId);
     if (newPlugin != NULL)
     {
-        qDebug() << "Adding new plugin to Room";
         // INITIALIZE PLUGIN SERVICES ...
-        Plugins::PluginManager::initRoomPlugin(newPlugin);
-        this->currentRoom->addWidgetToRoom(newPlugin);
+        Plugins::PluginLoader::addPluginToRoom(newPlugin, this->currentRoom);
+        qDebug() << "<<<<<<<<<<<<<<<<<SAVING WIDGET IN ROOM>>>>>>>>>>>>>>>>>>>>>>>";
+        Room::RoomLoader::saveRoomToDatabase(this->currentRoom);
     }
     else
         qWarning() << "plugin Instance is NULL, cannot be added to room";
@@ -359,6 +360,7 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
     {
         Plugins::PluginManager::cleanPluginBeforeRemoval(pluginItem->getPlugin());
         this->currentRoom->removeWidgetFromRoom(pluginItem);
+        Room::RoomLoader::saveRoomToDatabase(this->currentRoom);
     }
 }
 
