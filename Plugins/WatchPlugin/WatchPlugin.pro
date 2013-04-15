@@ -50,10 +50,12 @@ defineTest(copyToDestDir) {
 
 HEADERS += \
     WatchPlugin.h \
-    WatchPlugin.h
+    WatchPlugin.h \
+    ClockListItem.h
 
 SOURCES += \
-    WatchPlugin.cpp
+    WatchPlugin.cpp \
+    ClockListItem.cpp
 
 
 OTHER_FILES += \
@@ -64,7 +66,16 @@ OTHER_FILES += \
     Menu.qml \
     qmldir \
     AlarmClock-2.dae \
-    enhanced_led_board-7.ttf
+    enhanced_led_board-7.ttf \
+    ClockDelegate.qml \
+    Clock.qml \
+    second.png \
+    minute.png \
+    hour.png \
+    clock-night.png \
+    clock.png \
+    center.png \
+    background.png
 
 
 # deploy qml files to correct dir
