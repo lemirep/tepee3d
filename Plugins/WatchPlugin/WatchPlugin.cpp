@@ -18,11 +18,13 @@ void WatchPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
     emit("CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))",this,GENERIC_REQUEST,DATABASE_NAME);
+    qDebug()  << "CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))";
     emit ("SELECT * FROM clock", this, RETRIEVE_CLOCK, DATABASE_NAME);
 }
 
 void WatchPlugin::clearPluginBeforeRemoval()
 {
+    delete this->clockModel;
 }
 
 QString WatchPlugin::getPluginName()
@@ -125,4 +127,11 @@ void WatchPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 void WatchPlugin::addClockToDB(QString city, QString utc)
 {
     emit("INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")",this,GENERIC_REQUEST,DATABASE_NAME);
+    qDebug() << "INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")";
+}
+
+void        WatchPlugin::ReInitModel()
+{
+    delete this->clockModel;
+    emit ("SELECT * FROM clock",this,RETRIEVE_CLOCK,DATABASE_NAME);
 }

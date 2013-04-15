@@ -51,7 +51,7 @@ public:
     Q_INVOKABLE QString     getTime();
     Q_INVOKABLE QObject*    getClockModel() const;
     Q_INVOKABLE void        addClockToDB(QString city, QString utc);
-
+    Q_INVOKABLE void        ReInitModel();
 private slots :
     void                    onFocusStateChanged();
 

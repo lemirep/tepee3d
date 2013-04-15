@@ -97,7 +97,9 @@ Rectangle {
                 view.visible = true;
                 addbox.visible = false;
                 add_clock_button.visible = true;
+
                 WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
+                WatchPlugin.ReInitModel();
             }
         }
     }
