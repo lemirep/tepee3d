@@ -3,6 +3,15 @@
 WatchPlugin::WatchPlugin() : PluginBase()
 {
     qDebug() << "CREATION OF WatchPlugin";
+    this->databaseCallBacks[RETRIEVE_CLOCK] = &WatchPlugin::retrieveClocksFromDatabaseCallBack;
+    this->clockModel = new Models::ListModel(new ClockListItem());
+
+    ClockListItem *test = new ClockListItem(1,2,"paris");
+    ClockListItem *test2 = new ClockListItem(2,3,"london");
+
+    this->clockModel->appendRow(test);
+    this->clockModel->appendRow(test2);
+
 }
 
 int WatchPlugin::getPluginId()
@@ -13,6 +22,7 @@ int WatchPlugin::getPluginId()
 void WatchPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
+
 }
 
 void WatchPlugin::clearPluginBeforeRemoval()
@@ -49,10 +59,9 @@ Plugins::PluginBase* WatchPlugin::createNewInstance()
     return new WatchPlugin();
 }
 
-void    WatchPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> q, int , void *)
+void    WatchPlugin::receiveResultFromSQLQuery( QList<QSqlRecord> result, int id, void *data)
 {
-    if (q.size() < 2)
-        return ;
+   (this->*this->databaseCallBacks[id])(result, data);
 }
 
 void    WatchPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *)
@@ -85,3 +94,28 @@ QString WatchPlugin::getTime()
     return QTime::currentTime().toString();
 
 }
+
+ QObject*  WatchPlugin::getClockModel() const
+ {
+     return this->clockModel;
+ }
+
+ void WatchPlugin::retrieveClocksFromDababase()
+ {
+     QString retrieveShowsRequest = QString("SELECT clockId, clockUtc, clockCity FROM clock;");
+     emit executeSQLQuery(retrieveShowsRequest, this, RETRIEVE_CLOCK, DATABASE_NAME);
+ }
+ void WatchPlugin::retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data)
+ {
+     Q_UNUSED(data)
+     if (result.size() > 1)
+     {
+         result.pop_front();
+         foreach (QSqlRecord record, result)
+         {
+             ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(1).toDouble(),record.value(2).toString());
+             this->clockModel->appendRow(clock);
+         }
+     }
+ }
+

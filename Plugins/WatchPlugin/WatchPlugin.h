@@ -1,19 +1,32 @@
 #ifndef WATCHPLUGIN_H
 #define WATCHPLUGIN_H
 
-#include <QtPlugin>
 #include <QDebug>
 #include <QQuickItem>
 #include <PluginBase.h>
 #include <QDateTime>
 #include <QLCDNumber>
+#include <QObject>
+#include <QtGui>
+#include "QtQml"
+#include <QQuickView>
+#include <QQuickItem>
+#include <QHash>
+#include <PluginBase.h>
+#include <DatabaseServiceUserInterface.h>
+#include <WebServiceUserInterface.h>
+#include <SubListedListModel.h>
+#include <Utils.h>
+#include "ClockListItem.h"
+
+#define DATABASE_NAME "WatchPlugin.sql"
+#define RETRIEVE_CLOCK 0
+
+
 class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.WatchPlugin")
-
-private:
-    QQmlContext *context;
 
 protected:
     void                onIdleFocusState();
@@ -36,9 +49,17 @@ public:
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
     Q_INVOKABLE QString     getTime();
-private slots :
+    Q_INVOKABLE                 QObject* getClockModel() const;
 
+private slots :
     void                    onFocusStateChanged();
+
+private:
+    QQmlContext *context;
+    Models::ListModel* clockModel;
+    QHash<int, void (WatchPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
+    void                    retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    void retrieveClocksFromDababase();
 
 };
 #endif // WATCHPLUGIN_H
