@@ -16,7 +16,7 @@ Item
             topMargin : 20
             leftMargin : 10
         }
-        font.pointSize: 13
+        font.pointSize: mainWindow.largeFontSize
     }
 
     TextInputComponent
@@ -48,7 +48,7 @@ Item
             topMargin : 10
             leftMargin : 10
         }
-        font.pointSize: 13
+        font.pointSize: mainWindow.largeFontSize
     }
 
     TextInputComponent
@@ -83,7 +83,7 @@ Item
             topMargin : 10
             leftMargin : 10
         }
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
 
     CheckBox

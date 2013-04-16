@@ -67,7 +67,7 @@ Item
             bottomMargin : 10
         }
         text : "Season " + season
-        font.pointSize: 14
+        font.pointSize: mainWindow.largeFontSize
     }
 
     MouseArea

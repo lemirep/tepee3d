@@ -43,7 +43,7 @@ Item
                 leftMargin : 10
             }
             color : "white"
-            font.pointSize: 12
+            font.pointSize: mainWindow.defaultFontSize
             onAccepted:    {SeriesPlugin.searchForShow(search_input.text); search_result.focus = true; search_input.text = ""}
         }
 

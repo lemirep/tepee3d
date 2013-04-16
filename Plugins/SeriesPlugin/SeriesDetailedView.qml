@@ -35,7 +35,7 @@ Item
             top : parent.top
             topMargin : 5
         }
-        font.pointSize: 14
+        font.pointSize: mainWindow.largeFontSize
         color : "white"
     }
 
@@ -49,7 +49,7 @@ Item
             horizontalCenter : parent.horizontalCenter
         }
         color : "white"
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -62,7 +62,7 @@ Item
             topMargin : 5
         }
         color : "white"
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -74,7 +74,7 @@ Item
             leftMargin : 10
         }
         color : "white"
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -86,7 +86,7 @@ Item
             leftMargin : 10
         }
         color : "white"
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -99,7 +99,7 @@ Item
             topMargin : 5
         }
         color : "white"
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
 
     Image
@@ -138,7 +138,7 @@ Item
             width : parent.width - 20
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color : "white"
-            font.pointSize: 12
+            font.pointSize: mainWindow.defaultFontSize
         }
     }
 

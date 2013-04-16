@@ -45,7 +45,7 @@ Item
         }
         color : "white"
         text : episodeNumber
-        font.pointSize: 14
+        font.pointSize: mainWindow.largeFontSize
     }
 
     Text
@@ -61,7 +61,7 @@ Item
         }
         color : "white"
         text : episodeTitle
-        font.pointSize: 13
+        font.pointSize: mainWindow.largeFontSize
     }
 
     Text

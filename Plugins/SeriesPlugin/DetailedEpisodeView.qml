@@ -48,7 +48,7 @@ Item
             left : parent.left
             margins : 10
         }
-        font.pointSize: 12
+        font.pointSize: mainWindow.defaultFontSize
     }
 
     Flickable
@@ -100,7 +100,7 @@ Item
                 }
 
                 color : "white"
-                font.pointSize: 12
+                font.pointSize: mainWindow.defaultFontSize
             }
         }
     }

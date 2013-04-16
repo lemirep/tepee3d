@@ -30,7 +30,7 @@ Item
             }
             text : "Quit Tepee3D"
             color : "white"
-            font.pointSize: 25
+            font.pointSize: mainWindow.largeFontSize
         }
         MouseArea {
             id: quitMouse
@@ -68,7 +68,7 @@ Item
             }
             text : "Are you sure ?"
             color : "white"
-            font.pointSize: 17
+            font.pointSize: mainWindow.largeFontSize
         }
         // No buttom
         Rectangle
@@ -93,7 +93,7 @@ Item
                 }
                 text : "No"
                 color : "white"
-                font.pointSize: 15
+                font.pointSize: mainWindow.defaultFontSize
             }
             border
             {
@@ -129,7 +129,7 @@ Item
                 }
                 text : "Yes"
                 color : "white"
-                font.pointSize: 15
+                font.pointSize: mainWindow.defaultFontSize
             }
             border
             {
