@@ -62,7 +62,7 @@ Item
             {
                 id : search_button_ma
                 anchors.fill: parent
-                onClicked:    {SeriesPlugin.searchForShow(search_input.text)}
+                onClicked:    {SeriesPlugin.searchForShow(search_input.text); search_result.focus = true; search_input.text = ""}
             }
         }
     }

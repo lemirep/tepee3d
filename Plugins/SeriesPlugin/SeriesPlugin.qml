@@ -309,13 +309,13 @@ Item3D
                     enabled : (opacity === 1)
                     opacity : (consultingEpisode) ? 0 : 1
                     Behavior on opacity {NumberAnimation {duration : 500}}
-                    width : 60
-                    height : 180
+                    width : 180
+                    height : 60
                     anchors
                     {
-                        right : parent.right
-                        verticalCenter : parent.verticalCenter
-                        rightMargin : mainWindow.menuMinimumWidth * 2
+                        horizontalCenter : parent.horizontalCenter
+                        top : parent.verticalCenter
+                        topMargin : parent.width / 6
                     }
                     Rectangle
                     {

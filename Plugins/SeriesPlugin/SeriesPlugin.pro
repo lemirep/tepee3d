@@ -76,6 +76,7 @@ OTHER_FILES += \
     SearchSerie.qml \
     SickBeardConfig.qml \
     sickbeard_logo.png \
+    dvdbox.png \
     halo.png
 
 # deploy qml files to correct dir

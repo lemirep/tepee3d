@@ -23,29 +23,45 @@ Item
 
     transform: [Rotation { origin.x: 0; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: rotAngle}]
 
-    Rectangle
+    Image
     {
-        color : "black"
-        opacity : 0.4
-        anchors.fill: parent
-        border
+        id : show_pic
+        fillMode: Image.PreserveAspectFit
+        source : (show_pathview_container.currentItem) ? show_pathview_container.currentItem.img_src.replace(".jpg", "-300.jpg") : "";
+        width: 180
+        opacity : 0.9
+    }
+    Image
+    {
+        id: dvd_cover
+        source: "dvdbox.png"
+        anchors
         {
-            width : 1
-            color : isCurrentItem ? "white" : "black"
+            left : show_pic.left
+            leftMargin : -23
+            right : show_pic.right
+            rightMargin : -5
+            top : show_pic.top
+            topMargin : -4
+            bottom : show_pic.bottom
+            bottomMargin : -6
         }
     }
+
     Text
     {
         id : episode_delegate_nbr_text
         anchors
         {
-            top : parent.top
-            left :parent.left
-            margins : 2
+            bottom : show_pic.bottom
+            left : show_pic.left
+            margins : 4
         }
         color : "white"
         text : episodeNumber
         font.pointSize: mainWindow.largeFontSize
+        style: Text.Outline
+        styleColor: "#cc9900"
     }
 
     Text
@@ -53,16 +69,15 @@ Item
         id : episode_delegate_text
         clip : true
         elide: Text.ElideRight
-        width : parent.width - 20
-        anchors
-        {
-            margins : 4
-            top : episode_delegate_nbr_text.bottom
-            left : episode_delegate_nbr_text.right
-        }
+        width : dvd_cover.width - 20
+        anchors.centerIn : dvd_cover
         color : "white"
         text : episodeTitle
         font.pointSize: mainWindow.largeFontSize
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        horizontalAlignment: Text.AlignHCenter
+        style: Text.Outline
+        styleColor: "#cc9900"
     }
 
     Text
@@ -70,9 +85,9 @@ Item
         id : episode_delegate__airing_text
         anchors
         {
-            right : parent.right
-            top : parent.top
-            margins : 4
+            right : dvd_cover.right
+            bottom : dvd_cover.bottom
+            margins : 10
         }
         color : "white"
         text : episodeAiring.getHours() + ":"
@@ -87,8 +102,8 @@ Item
         visible : (show_pathview_container.currentItem) ? show_pathview_container.currentItem.serie_on_sickbeard : false
         anchors
         {
-            left : parent.left
-            bottom : parent.bottom
+            top : dvd_cover.top
+            right : dvd_cover.right
         }
 
         Image
@@ -99,9 +114,10 @@ Item
             fillMode: Image.PreserveAspectFit
             anchors
             {
-                bottom : parent.bottom
-                left : parent.left
-                margins : 4
+                top : parent.top
+                right : parent.right
+                rightMargin : 8
+                topMargin : 4
             }
         }
         Text
@@ -110,12 +126,14 @@ Item
             text : episodeSickbeardStatus
             anchors
             {
-                left : sickbeard.right
+                right : sickbeard.left
                 top : sickbeard.top
-                leftMargin : 10
+                margins : 2
             }
             color : "white"
-            font.pointSize: 13
+            font.pointSize: mainWindow.smallFontSize
+            style: Text.Outline
+            styleColor: "#cc9900"
         }
     }
 
@@ -131,135 +149,13 @@ Item
         }
     }
 
-    //    back : Item {
-    //        id : back_item
-    //        anchors.fill: parent
-    //        anchors.margins : -100
-    //        enabled : flipped
-
-    //        Rectangle
-    //        {
-    //            color : "black"
-    //            opacity : 0.4
-    //            anchors.fill: parent
-    //            border
-    //            {
-    //                width : 1
-    //                color : isCurrentItem ? "white" : "black"
-    //            }
-    //        }
-    //        Text
-    //        {
-    //            id : episode_delegate_nbr_text_back
-    //            anchors
-    //            {
-    //                top : parent.top
-    //                left :parent.left
-    //                margins : 2
-    //            }
-    //            color : "white"
-    //            text : episodeNumber
-    //            font.pointSize: 14
-    //        }
-
-    //        Text
-    //        {
-    //            id : episode_delegate_text_back
-    //            clip : true
-    //            elide: Text.ElideRight
-    //            anchors
-    //            {
-    //                margins : 4
-    //                top : episode_delegate_nbr_text_back.bottom
-    //                left : episode_delegate_nbr_text_back.right
-    //            }
-    //            color : "white"
-    //            text : episodeTitle
-    //            font.pointSize: 13
-    //        }
-    //        Text
-    //        {
-    //            id : episode_delegate__airing_text_back
-    //            anchors
-    //            {
-    //                right : parent.right
-    //                top : parent.top
-    //                margins : 4
-    //            }
-    //            color : "white"
-    //            text : episodeAiring.getHours() + ":"
-    //                   + ((episodeAiring.getMinutes() < 10) ? ("0" + episodeAiring.getMinutes()) : episodeAiring.getMinutes())
-    //                   + "-" + episodeAiring.getDate()
-    //                   + "/" + (episodeAiring.getMonth() + 1)
-    //                   + "/" + episodeAiring.getFullYear()
-    //        }
-
-    //        Flickable
-    //        {
-    //            clip : true
-    //            anchors
-    //            {
-    //                top : episode_delegate_text_back.bottom
-    //                left : parent.left
-    //                right : parent.right
-    //                bottom : parent.bottom
-    //                topMargin : 5
-    //                leftMargin : 10
-    //                rightMargin : 10
-    //            }
-    //            flickableDirection: Flickable.VerticalFlick
-    //            contentWidth: parent.width - 20
-    //            contentHeight: flickable_item.height
-    //            Item
-    //            {
-    //                id : flickable_item
-    //                width : parent.width
-    //                height: episode_overview_text.height + episode_delegate_pic.height
-    //                Image
-    //                {
-    //                    id : episode_delegate_pic
-    //                    fillMode : Image.PreserveAspectFit
-    //                    asynchronous : true
-    //                    width : parent.width - 20
-    //                    anchors
-    //                    {
-    //                        top : parent.top
-    //                        left : parent.left
-    //                        right : parent.right
-    //                        leftMargin : 20
-    //                        topMargin : 5
-    //                    }
-    //                    cache : true
-    //                    source : img_src
-    //                }
-
-    //                Text
-    //                {
-    //                    id : episode_overview_text
-    //                    text : episodeOverview
-    //                    width : parent.width - 20
-    //                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    //                    anchors
-    //                    {
-    //                        top : episode_delegate_pic.bottom
-    //                        topMargin : 5
-    //                    }
-
-    //                    color : "white"
-    //                    font.pointSize: 12
-    //                }
-    //            }
-    //        }
-    //    }
-
     MouseArea
     {
         id : episode_delegate_ma
-        anchors.fill: parent
+        anchors.fill: dvd_cover
         onClicked:
         {
             followed_series_episodes_pathview.currentIndex = index;
-            console.log("path")
             if (isCurrentItem)
             {
                 detailed_episode_view.title = episodeTitle

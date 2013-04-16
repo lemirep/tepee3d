@@ -105,7 +105,7 @@ Item
         }
     }
 
-    CloseButton
+    BackButton
     {
         id : close_button
         anchors

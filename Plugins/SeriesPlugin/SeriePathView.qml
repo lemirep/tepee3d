@@ -57,8 +57,8 @@ Item
          styleColor: "#440033cc"
          color : "White"
          width: mainWindow.width / 3
-         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
          visible : (followed_series_pathview.pathItemCount > 0)
+         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
          horizontalAlignment: Text.AlignHCenter
          anchors
          {

@@ -73,19 +73,13 @@ bool ManageBDD::openDatabase(const QString& dbName)
             QFile dbTemplate(this->applicationPath + "/databases/" + dbName);
             qDebug() << "Trying to copy " << dbTemplate.fileName();
             if (dbTemplate.exists())
-            {
-                qDebug() << "Database Template exists";
-                if (dbTemplate.copy(dbFile.fileName()))
-                {
-                    // OPENED DB PATH IS SAVED IN HASH
-                    this->nameToPathHash[dbName] = dbFile.fileName();
-                    this->localDBName = this->nameToPathHash[dbName];
-                    qDebug() << "File Copied Successfully";
-                }
-            }
+               dbTemplate.copy(dbFile.fileName());
         }
         else
             qDebug() << "File already exists";
+        // OPENED DB PATH IS SAVED IN HASH
+        this->nameToPathHash[dbName] = dbFile.fileName();
+        this->localDBName = this->nameToPathHash[dbName];
 #endif
 
 #ifdef Q_OS_WIN32
