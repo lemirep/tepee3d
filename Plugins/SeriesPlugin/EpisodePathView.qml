@@ -5,7 +5,7 @@ Item
     id : episodes_pathview_container
     property alias model : followed_series_episodes_pathview.model
 
-    states : [State    {PropertyChanges {target: episode_path; x_target : followed_series_episodes_pathview.width / 2} when : !seriesplugin_item.consultingEpisode},
+    states : [State    {PropertyChanges {target: episode_path; x_target : 0} when : !seriesplugin_item.consultingEpisode},
               State    {PropertyChanges {target: episode_path; x_target : followed_series_episodes_pathview.width} when : seriesplugin_item.consultingEpisode}]
     transitions: Transition {SmoothedAnimation {target : episode_path; properties : "x_target"; duration : 750; velocity : 10}}
 
@@ -21,7 +21,7 @@ Item
         pathItemCount : 8
         path :  Path {
             id : episode_path
-            property real x_target : width / 2
+            property real x_target : 0
             // TOP
             startX : width
             startY : 0

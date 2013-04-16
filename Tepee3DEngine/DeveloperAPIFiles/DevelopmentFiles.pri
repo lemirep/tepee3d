@@ -43,6 +43,7 @@ OTHER_FILES +=  $$PWD/qml/Carousel.qml \
                 $$PWD/qml/Resources/Pictures/text_input_border.png \
                 $$PWD/qml/Resources/Pictures/text_input_border_selected.png \
                 $$PWD/qml/Resources/Pictures/small_arrow.png \
+                $$PWD/qml/Resources/Pictures/back_curved_arrow.png \
                 $$PWD/qml/FileExplorer.qml \
                 $$PWD/qml/FileDelegate.qml \
                 $$PWD/qml/FolderDelegate.qml \

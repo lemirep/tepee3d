@@ -173,11 +173,11 @@ Item3D
         ]
 
         transitions: [
-        Transition {
-            NumberAnimation { target: followed_series_view; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: sickbeard_config; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: search_bar_container; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-        }]
+            Transition {
+                NumberAnimation { target: followed_series_view; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                NumberAnimation { target: sickbeard_config; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                NumberAnimation { target: search_bar_container; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+            }]
 
         SearchSerie
         {
@@ -302,21 +302,52 @@ Item3D
                         bottom : parent.bottom
                     }
                 }
-                BackButton
+
+                Item
                 {
+                    id : tool_bar_episodes
+                    enabled : (opacity === 1)
+                    opacity : (consultingEpisode) ? 0 : 1
+                    Behavior on opacity {NumberAnimation {duration : 500}}
+                    width : 60
+                    height : 180
                     anchors
                     {
-                        top : parent.verticalCenter
-                        horizontalCenter : parent.horizontalCenter
-                        topMargin : 50
+                        right : parent.right
+                        verticalCenter : parent.verticalCenter
+                        rightMargin : mainWindow.menuMinimumWidth * 2
                     }
-                    onClicked : {followed_series_view.state = "shows_view";}
+                    Rectangle
+                    {
+                        color : "grey"
+                        opacity : 0.4
+                        radius : 5
+                        anchors.fill: parent
+                        border
+                        {
+                            width : 1
+                            color : "white"
+                        }
+                    }
+
+                    BackButton
+                    {
+                        anchors
+                        {
+                            bottom : parent.bottom
+                            horizontalCenter : parent.horizontalCenter
+                            leftMargin : 2
+                        }
+                        onClicked : {followed_series_view.state = "shows_view";}
+                    }
                 }
+
                 DetailedEpisodeView
                 {
                     id : detailed_episode_view
                     enabled : (opacity === 1)
                     opacity : (consultingEpisode) ? 1 : 0
+
                     anchors
                     {
                         fill : parent

@@ -53,6 +53,7 @@ Item
         id : episode_delegate_text
         clip : true
         elide: Text.ElideRight
+        width : parent.width - 20
         anchors
         {
             margins : 4
