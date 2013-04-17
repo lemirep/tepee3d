@@ -5,22 +5,8 @@ WatchPlugin::WatchPlugin() : PluginBase()
     qDebug() << "CREATION OF WatchPlugin";
     this->databaseCallBacks[RETRIEVE_CLOCK] = &WatchPlugin::retrieveClocksFromDatabaseCallBack;
     this->databaseCallBacks[GENERIC_REQUEST] = &WatchPlugin::genericDatabaseCallBack;
-
     this->clockModel = new Models::ListModel(new ClockListItem());
-
-    ClockListItem *test = new ClockListItem(1,2,"paris");
-    ClockListItem *test2 = new ClockListItem(2,3,"london");
-    ClockListItem *test3 = new ClockListItem(3,2,"madrid");
-    ClockListItem *test4 = new ClockListItem(4,3,"jonkoping");
-    ClockListItem *test5 = new ClockListItem(5,2,"washington");
-    ClockListItem *test6 = new ClockListItem(6,3,"nantes");
-    this->clockModel->appendRow(test);
-    this->clockModel->appendRow(test2);
-    this->clockModel->appendRow(test3);
-    this->clockModel->appendRow(test4);
-    this->clockModel->appendRow(test5);
-    this->clockModel->appendRow(test6);
-    emit("CREATE TABLE clock (clockId int, clockUtc double, clockCity varchar(255))",this,GENERIC_REQUEST,DATABASE_NAME);
+    this->initPlugin();
 }
 
 int WatchPlugin::getPluginId()
@@ -31,11 +17,14 @@ int WatchPlugin::getPluginId()
 void WatchPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
-
+    emit("CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))",this,GENERIC_REQUEST,DATABASE_NAME);
+    qDebug()  << "CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))";
+    emit ("SELECT * FROM clock", this, RETRIEVE_CLOCK, DATABASE_NAME);
 }
 
 void WatchPlugin::clearPluginBeforeRemoval()
 {
+    delete this->clockModel;
 }
 
 QString WatchPlugin::getPluginName()
@@ -133,4 +122,16 @@ void WatchPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
     Q_UNUSED(result)
     Q_UNUSED(data)
+}
+
+void WatchPlugin::addClockToDB(QString city, QString utc)
+{
+    emit("INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")",this,GENERIC_REQUEST,DATABASE_NAME);
+    qDebug() << "INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")";
+}
+
+void        WatchPlugin::ReInitModel()
+{
+    delete this->clockModel;
+    emit ("SELECT * FROM clock",this,RETRIEVE_CLOCK,DATABASE_NAME);
 }

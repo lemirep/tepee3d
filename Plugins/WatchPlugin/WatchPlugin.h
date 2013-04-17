@@ -49,8 +49,9 @@ public:
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
     Q_INVOKABLE QString     getTime();
-    Q_INVOKABLE                 QObject* getClockModel() const;
-
+    Q_INVOKABLE QObject*    getClockModel() const;
+    Q_INVOKABLE void        addClockToDB(QString city, QString utc);
+    Q_INVOKABLE void        ReInitModel();
 private slots :
     void                    onFocusStateChanged();
 
@@ -60,8 +61,6 @@ private:
     QHash<int, void (WatchPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
     void                    retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void retrieveClocksFromDababase();
-    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
-
-
+    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);    
 };
 #endif // WATCHPLUGIN_H
