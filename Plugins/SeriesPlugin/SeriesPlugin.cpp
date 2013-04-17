@@ -177,6 +177,45 @@ QObject *SeriesPlugin::getShowsToAppearInTheWeek()
     }
 }
 
+void SeriesPlugin::markEpisodeAsSeen(int serieId, int seasonId, int episodeId)
+{
+    Models::SubListedListItem *serieItem = NULL;
+    Models::SubListedListItem *seasonItem = NULL;
+    if ((serieItem = reinterpret_cast<Models::SubListedListItem*>(this->followedSeriesModel->find(serieId))) != NULL &&
+            serieItem->submodel() != NULL &&
+            (seasonItem = reinterpret_cast<Models::SubListedListItem*>(serieItem->submodel()->find(seasonId))) != NULL &&
+            seasonItem->submodel() != NULL)
+    {
+        EpisodeListItem *episodeItem = reinterpret_cast<EpisodeListItem *>(seasonItem->submodel()->find(episodeId));
+        if (episodeItem != NULL)
+        {
+            episodeItem->setEpisodeSeen(true);
+            this->updateEpisodeInDatabase(episodeItem, serieId, seasonId);
+        }
+    }
+}
+
+void SeriesPlugin::markSeasonAsSeen(int serieId, int seasonId)
+{
+    Models::SubListedListItem *serieItem = NULL;
+    Models::SubListedListItem *seasonItem = NULL;
+    if ((serieItem = reinterpret_cast<Models::SubListedListItem*>(this->followedSeriesModel->find(serieId))) != NULL &&
+            serieItem->submodel() != NULL &&
+            (seasonItem = reinterpret_cast<Models::SubListedListItem*>(serieItem->submodel()->find(seasonId))) != NULL &&
+            seasonItem->submodel() != NULL)
+    {
+        foreach (Models::ListItem *episodeItem, seasonItem->submodel()->toList())
+        {
+            EpisodeListItem *episode = reinterpret_cast<EpisodeListItem *>(episodeItem);
+            if (episode != NULL)
+            {
+                episode->setEpisodeSeen(true);
+                this->updateEpisodeInDatabase(episode, serieId, seasonId);
+            }
+        }
+    }
+}
+
 void SeriesPlugin::updateFollowedShows()
 {
     foreach (Models::ListItem *showItem, this->followedSeriesModel->takeRows())
@@ -618,7 +657,7 @@ void SeriesPlugin::updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *
                             qDebug() << "Updating shows " << showItem->data(SerieSubListedItem::serieName).toString() << "Show " << showItem->data(SerieSubListedItem::serieLastUpdate).toDateTime() << "Stream "   << QDateTime::fromTime_t(showObj.value("last_updated").toDouble());
                             this->updateShowSummary(reinterpret_cast<SerieSubListedItem*>(
                                                         this->followedSeriesModel->takeRow(
-                                                        this->followedSeriesModel->rowIndexFromId(showItem->id()))));
+                                                            this->followedSeriesModel->rowIndexFromId(showItem->id()))));
                         }
                     }
                 }

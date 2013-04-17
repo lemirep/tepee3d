@@ -101,6 +101,8 @@ public:
     Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const;
     Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
     Q_INVOKABLE                 QObject* getShowsToAppearInTheWeek();
+    Q_INVOKABLE                 void     markEpisodeAsSeen(int serieId, int seasonId, int episodeId);
+    Q_INVOKABLE                 void     markSeasonAsSeen(int serieId, int seasonId);
     Q_INVOKABLE                 void     updateFollowedShows();
     Q_INVOKABLE                 void     searchForShow(QString showName);
     Q_INVOKABLE                 void     addShowToFollow(int serieId);

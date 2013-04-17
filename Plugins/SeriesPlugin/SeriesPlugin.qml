@@ -332,6 +332,7 @@ Item3D
 
                     BackButton
                     {
+                        id : back_episode_button
                         anchors
                         {
                             bottom : parent.bottom
@@ -340,6 +341,29 @@ Item3D
                         }
                         onClicked : {followed_series_view.state = "shows_view";}
                     }
+
+                    Image
+                    {
+                        id : check_all_episode_season_button
+                        height : 50
+                        width : 50
+                        scale : check_all_button_ma.pressed ? 0.9 : 1
+                        source : "check_all.png"
+                        fillMode: Image.PreserveAspectFit
+                        MouseArea
+                        {
+                            id : check_all_button_ma
+                            anchors.fill: parent
+                            onClicked: {SeriesPlugin.markSeasonAsSeen(show_pathview_container.currentItem.serieId, season_pathview_container.currentItem.season)}
+                        }
+                        anchors
+                        {
+                            verticalCenter : parent.verticalCenter
+                            right : parent.right
+                            rightMargin : 5
+                        }
+                    }
+
                 }
 
                 DetailedEpisodeView

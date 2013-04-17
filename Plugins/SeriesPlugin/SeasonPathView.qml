@@ -4,6 +4,7 @@ Item
 {
     id : season_pathview_container
     property alias model : followed_series_season_pathview.model
+    property alias currentItem : followed_series_season_pathview.currentItem
 
     states : [State    {PropertyChanges {target: season_path; x_target : mainWindow.width / 6} when : !seriesplugin_item.consultingEpisode},
               State    {PropertyChanges {target: season_path; x_target : 0} when : seriesplugin_item.consultingEpisode}]

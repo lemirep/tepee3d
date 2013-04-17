@@ -10,6 +10,7 @@ Item
     property string episodeOverview
     property string img_src
     property string episodeSickbeardStatus
+    property bool   episodeSeen
 
     property real rotAngle : PathView.onPath ? PathView.delAngle : 0
     property bool isCurrentItem : PathView.isCurrentItem
@@ -85,14 +86,12 @@ Item
         id : episode_delegate__airing_text
         anchors
         {
-            right : dvd_cover.right
-            bottom : dvd_cover.bottom
-            margins : 10
+            left : show_pic.left
+            top : show_pic.top
+            margins : 2
         }
         color : "white"
-        text : episodeAiring.getHours() + ":"
-               + ((episodeAiring.getMinutes() < 10) ? ("0" + episodeAiring.getMinutes()) : episodeAiring.getMinutes())
-               + "-" + episodeAiring.getDate()
+        text : episodeAiring.getDate()
                + "/" + (episodeAiring.getMonth() + 1)
                + "/" + episodeAiring.getFullYear()
     }
@@ -141,11 +140,13 @@ Item
     {
         id : seen
         width : 20
+        visible : episodeSeen
         anchors
         {
-            bottom : parent.bottom
-            right : parent.right
+            bottom :dvd_cover.bottom
+            right : dvd_cover.right
             rightMargin : 10
+            bottomMargin : -5
         }
     }
 
