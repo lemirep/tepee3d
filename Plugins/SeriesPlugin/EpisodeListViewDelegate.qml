@@ -4,6 +4,7 @@ Item
 {
     id : episode_delegate_item
 
+    property int episodeId
     property int episodeNumber
     property date episodeAiring
     property string episodeTitle
@@ -14,9 +15,10 @@ Item
 
     property real rotAngle : PathView.onPath ? PathView.delAngle : 0
     property bool isCurrentItem : PathView.isCurrentItem
+    property real scaleValue : PathView.onPath ? PathView.delScale : 0
 
     z : PathView.onPath ? PathView.delZ : 0
-    scale : PathView.onPath ? PathView.delScale : 0
+    scale : episode_delegate_ma.pressed ? (scaleValue - 0.1) : scaleValue
     opacity :PathView.onPath ? PathView.delOpacity : 0
     Behavior on scale {NumberAnimation { duration: 750; easing.type: Easing.OutElastic }}
 
@@ -164,6 +166,10 @@ Item
                 detailed_episode_view.image_src = img_src.replace(".jpg", "-218.jpg")
                 seriesplugin_item.consultingEpisode = true
             }
+        }
+        onPressAndHold:
+        {
+            SeriesPlugin.markEpisodeAsSeen(show_pathview_container.currentItem.serieId, season_pathview_container.currentItem.season, episodeId, !episodeSeen)
         }
     }
 }

@@ -46,6 +46,7 @@ Item
             PathAttribute {name : "delOpacity"; value : 0.7}
         }
         delegate : EpisodeListViewDelegate   {
+            episodeId : model.episodeId
             episodeNumber : model.episodeNumber
             episodeTitle : model.episodeTitle
             episodeOverview : model.episodeSummary

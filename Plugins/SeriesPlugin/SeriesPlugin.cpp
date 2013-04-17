@@ -177,7 +177,7 @@ QObject *SeriesPlugin::getShowsToAppearInTheWeek()
     }
 }
 
-void SeriesPlugin::markEpisodeAsSeen(int serieId, int seasonId, int episodeId)
+void SeriesPlugin::markEpisodeAsSeen(int serieId, int seasonId, int episodeId, bool value)
 {
     Models::SubListedListItem *serieItem = NULL;
     Models::SubListedListItem *seasonItem = NULL;
@@ -189,7 +189,7 @@ void SeriesPlugin::markEpisodeAsSeen(int serieId, int seasonId, int episodeId)
         EpisodeListItem *episodeItem = reinterpret_cast<EpisodeListItem *>(seasonItem->submodel()->find(episodeId));
         if (episodeItem != NULL)
         {
-            episodeItem->setEpisodeSeen(true);
+            episodeItem->setEpisodeSeen(value);
             this->updateEpisodeInDatabase(episodeItem, serieId, seasonId);
         }
     }
