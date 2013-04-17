@@ -82,7 +82,6 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
         }
         else
         {
-            // qDebug("WIDGET PLUGIN FAILED TO LxxxxxxxxxxxxxxOAD");
             qDebug() << "FAILED TO LOAD " << fileName;
             qDebug() << pluginLoader.errorString();
         }
@@ -113,5 +112,11 @@ QString     Plugins::PluginLoader::addOrReplacePluginImpl(Plugins::PluginBase *p
                  QString::number(plugin->getPluginPosition().x()),
                  QString::number(plugin->getPluginPosition().y()),
                  QString::number(plugin->getPluginPosition().z()));
+}
+
+QString Plugins::PluginLoader::removeAllPluginsFromRoom(Room::RoomBase *room)
+{
+    return QString("DELETE FROM widgetImpl WHERE idRoom = (SELECT idRoom FROM room WHERE name = '%1');")
+            .arg(room->getRoomName());
 }
 

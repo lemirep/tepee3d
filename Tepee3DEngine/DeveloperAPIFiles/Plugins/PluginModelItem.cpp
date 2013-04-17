@@ -28,7 +28,8 @@ Models::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *p
 Models::PluginModelItem::~PluginModelItem()
 {
     qDebug() << "DELETING PLUGIN MODEL ITEM";
-    delete this->plugin;
+    // THE PLUGIN BASE INSTANCE IS DELETE WHEN THE QML VIEW IS DESTROYED
+//    delete this->plugin;
 }
 
 /*!

@@ -249,7 +249,6 @@ void        Room::RoomBase::removeWidgetFromRoom(Models::PluginModelItem *plugin
                         this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
 
     this->roomProperties->getRoomPluginsModel()->removeRow(this->roomProperties->getRoomPluginsModel()->getRowFromItem(pluginItem));
-    delete widget;
     this->placeWidgetsInSpace();
 }
 

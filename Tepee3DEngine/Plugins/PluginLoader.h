@@ -36,6 +36,7 @@ public :
     static void                     addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room);
     static QString                  loadAllPluginForRoom(Room::RoomBase *room);
     static QString                  addOrReplacePluginImpl(Plugins::PluginBase *plugin, Room::RoomBase *room);
+    static QString                  removeAllPluginsFromRoom(Room::RoomBase *room);
 signals :
 
 };

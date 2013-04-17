@@ -43,12 +43,13 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
  */
 Plugins::PluginQmlPluginProperties::~PluginQmlPluginProperties()
 {
-    if (this->plugin)
+    if (this->plugin != NULL)
     {
         QObject::disconnect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));
         QObject::disconnect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
         QObject::disconnect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
     }
+    delete this->plugin;
 }
 
 /*!

@@ -170,6 +170,8 @@ void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
 
 void Room::RoomLoader::insertOrReplacePluginsForRoom(Room::RoomBase *room)
 {
+    emit executeSQLQuery(Plugins::PluginLoader::removeAllPluginsFromRoom(room),
+                         this, GENERIC_RESULT, DB_NAME);
     foreach (Models::ListItem *pluginItem, room->getRoomPluginsModel()->toList())
     {
         Plugins::PluginBase *plugin = NULL;
