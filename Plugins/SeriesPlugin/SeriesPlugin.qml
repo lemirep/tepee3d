@@ -10,9 +10,7 @@ Item3D
 
     property bool isFocused : false;
     property bool consultingEpisode : false
-    property int  listviewRotateAngle : 15
-
-    Behavior on listviewRotateAngle {SmoothedAnimation {duration : 750; velocity : 5}}
+    property bool synchingWeb : SeriesPlugin.synchingWebServices
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
@@ -90,7 +88,28 @@ Item3D
         }
     }
 
-
+    SequentialAnimation
+    {
+        id : loading_animation
+        running: synchingWeb
+        loops : Animation.Infinite
+        SmoothedAnimation
+        {
+            target : cube_picture
+            property : "scale"
+            duration : 750
+            to : 1
+            velocity : 1
+        }
+        SmoothedAnimation
+        {
+            target : cube_picture
+            property : "scale"
+            duration : 750
+            to : 3
+            velocity : 1
+        }
+    }
     ParallelAnimation
     {
         id : rotate_cube

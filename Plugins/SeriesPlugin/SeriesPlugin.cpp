@@ -38,6 +38,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->webServicesCallBacks[UPDATE_SEASON_EPISODES_SICKBEARD] = &SeriesPlugin::updateShowSeasonFromSickNeardCallBack;
     this->webServicesCallBacks[ADD_SHOW_TO_SICKBEARD] = &SeriesPlugin::addShowToSickBeardCallBack;
     this->webServicesCallBacks[UPDATE_UPDATED_SHOW] = &SeriesPlugin::updateOnlineUpdatedShowsCallBack;
+    this->webServicesCallBacks[SEARCH_SICKBEARD_SHOW] = &SeriesPlugin::searchSickBeardEpisodeCallBack;
     // DATABASE CALLBACKS HASH
     this->databaseCallBacks[RETRIEVE_SHOWS] = &SeriesPlugin::retrieveShowsFromDatabaseCallBack;
     this->databaseCallBacks[RETRIEVE_SEASONS_FOR_SHOW] = &SeriesPlugin::retrieveSeasonsForShowDatabaseCallBack;
@@ -62,6 +63,9 @@ void SeriesPlugin::initPlugin()
     this->retrieveShowsFromDababase();
     this->retrieveSickBeardConfig();
     this->setPluginState("shows_view");
+    this->currentWebQueriesCount = 0;
+    QObject::connect(this, SIGNAL(executeHttpRequest(QNetworkRequest,int,QHttpMultiPart*,QObject*,int,void*)),
+                     this, SLOT(webQueryEmitted()));
 }
 
 void SeriesPlugin::clearPluginBeforeRemoval()
@@ -122,8 +126,10 @@ void    SeriesPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id
 
 void    SeriesPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
-    qDebug() << "Received WebService CallBack";
+    qDebug() << "Received WebService CallBack " << this->currentWebQueriesCount;
+    this->currentWebQueriesCount--;
     (this->*this->webServicesCallBacks[id])(reply, data);
+    emit synchingChanged();
 }
 
 // INVOKABLE AND UTILITY METHODS
@@ -273,7 +279,7 @@ void SeriesPlugin::refreshSickbeardShow(int showId)
 {
     SerieSubListedItem *sbShow = reinterpret_cast<SerieSubListedItem *>(this->followedSeriesModel->find(showId));
     if (sbShow != NULL)
-        emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+        Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
                                                         this->m_sickBeardApiKey + "/?cmd=show&tvdbid="
                                                         + QString::number(sbShow->id()))),
                                    UPDATE_SICKBEARD_SHOW, (void *)sbShow);
@@ -281,9 +287,20 @@ void SeriesPlugin::refreshSickbeardShow(int showId)
 
 void SeriesPlugin::retrieveSickBeardShows()
 {
-    emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+    Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
                                                     this->m_sickBeardApiKey + "/?cmd=shows")),
-                               GET_SICKBEARD_SHOWS, NULL);
+                               GET_SICKBEARD_SHOWS);
+}
+
+void SeriesPlugin::searchSickBeardEpisode(int serieId, int seasonId, int episodeId)
+{
+    Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+                                                 this->m_sickBeardApiKey +
+                                                 QString("/?cmd=episode.search&tvdbid=%1&season=%2&episode=%3")
+                                                 .arg(QString::number(serieId),
+                                                      QString::number(seasonId),
+                                                      QString::number(episodeId)))),
+                                               SEARCH_SICKBEARD_SHOW);
 }
 
 void SeriesPlugin::addShowToSickBeard(QString showId)
@@ -291,7 +308,7 @@ void SeriesPlugin::addShowToSickBeard(QString showId)
     qDebug() << this->m_sickBeardUrl + "/api/" +
                 this->m_sickBeardApiKey + "/?cmd=show.addnew&tvdbid="
                 + showId;
-    emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+    Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
                                                     this->m_sickBeardApiKey + "/?cmd=show.addnew&tvdbid="
                                                     + showId)),
                                ADD_SHOW_TO_SICKBEARD);
@@ -299,7 +316,7 @@ void SeriesPlugin::addShowToSickBeard(QString showId)
 
 void SeriesPlugin::updateShowSeasonFromSickBeard(int showId, int seasonId)
 {
-    emit executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
+    Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
                                                     this->m_sickBeardApiKey + "/?cmd=show.seasons&tvdbid="
                                                     + QString::number(showId)
                                                     + "&season="
@@ -309,7 +326,7 @@ void SeriesPlugin::updateShowSeasonFromSickBeard(int showId, int seasonId)
 
 void SeriesPlugin::updateOnlineUpdatedShows()
 {
-    emit executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/shows/updated.json/"\
+    Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/shows/updated.json/"\
                                                     + QString(TRAKT_API_KEY)
                                                     + "/" + QString::number(QDateTime::currentDateTime().addDays(-7).toTime_t())))
                                , UPDATE_UPDATED_SHOW);
@@ -322,7 +339,7 @@ void SeriesPlugin::saveSickBeardConfig()
             .arg(Utils::escapeSqlQuery(this->sickBeardUrl()),
                  Utils::escapeSqlQuery(this->sickBeardApi()),
                  this->m_addToSickBeard ? "1" : "0");
-    emit executeSQLQuery(saveSBConfig, this, GENERIC_REQUEST, DATABASE_NAME);
+    Plugins::PluginBase::executeSQLQuery(saveSBConfig, this, GENERIC_REQUEST, DATABASE_NAME);
 }
 
 // SERIESPLUGIN PROPERTIES
@@ -371,6 +388,11 @@ void SeriesPlugin::setAddToSickBeard(bool value)
 {
     this->m_addToSickBeard = value;
     emit addToSickBeardChanged();
+}
+
+bool SeriesPlugin::getSynching() const
+{
+    return (this->currentWebQueriesCount != 0);
 }
 
 // JSON PARSING OF TRAKTV SHOWS
@@ -666,6 +688,11 @@ void SeriesPlugin::updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *
     }
 }
 
+void SeriesPlugin::searchSickBeardEpisodeCallBack(QNetworkReply *reply, void *data)
+{
+
+}
+
 void SeriesPlugin::retrieveSickBeardConfig()
 {
     QString sickbeardConfigRequest = "SELECT sickbeard_url, sickbeard_api_key, add_to_sickbeard FROM config WHERE id = 0;";
@@ -947,6 +974,12 @@ void SeriesPlugin::retrieveSickBeardConfigCallBack(QList<QSqlRecord> result, voi
         this->setSickBeardApi(result.first().value(1).toString());
         this->setAddToSickBeard(result.first().value(2).toBool());
     }
+}
+
+void SeriesPlugin::webQueryEmitted()
+{
+    this->currentWebQueriesCount++;
+    emit synchingChanged();
 }
 
 

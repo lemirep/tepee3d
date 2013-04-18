@@ -161,10 +161,11 @@ Item
             followed_series_episodes_pathview.currentIndex = index;
             if (isCurrentItem)
             {
-                detailed_episode_view.title = episodeTitle
-                detailed_episode_view.summary = episodeOverview
-                detailed_episode_view.image_src = img_src.replace(".jpg", "-218.jpg")
                 seriesplugin_item.consultingEpisode = true
+                detailed_episode_view.title = currentItem.episodeTitle
+                detailed_episode_view.summary = currentItem.episodeOverview
+                detailed_episode_view.image_src = currentItem.img_src.replace(".jpg", "-218.jpg")
+                detailed_episode_view.serieSickBeard = show_pathview_container.currentItem.serie_on_sickbeard
             }
         }
         onPressAndHold:

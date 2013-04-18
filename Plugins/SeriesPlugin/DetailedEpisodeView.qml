@@ -6,6 +6,7 @@ Item
     property alias title : episodeTitle.text
     property alias summary : episode_overview_text.text
     property alias image_src : episode_delegate_pic.source
+    property bool  serieSickBeard : false
 
     states : [
         State
@@ -101,6 +102,33 @@ Item
 
                 color : "white"
                 font.pointSize: mainWindow.defaultFontSize
+            }
+        }
+    }
+
+    Image
+    {
+        enabled : visible
+        visible : serieSickBeard
+        source : "sickbeard_search.png"
+        width : 50
+        fillMode: Image.PreserveAspectFit
+        scale : sickbeard_search_ma.pressed ? 0.9 : 1
+        anchors
+        {
+            left : parent.left
+            bottom : parent.bottom
+        }
+
+        MouseArea
+        {
+            id : sickbeard_search_ma
+            anchors.fill: parent
+            onClicked:
+            {
+                SeriesPlugin.searchSickBeardEpisode(show_pathview_container.currentItem.serieId,
+                                                    season_pathview_container.currentItem.season,
+                                                    episodes_pathview_container.currentItem.episodeId);
             }
         }
     }
