@@ -280,26 +280,26 @@ void SeriesPlugin::refreshSickbeardShow(int showId)
     SerieSubListedItem *sbShow = reinterpret_cast<SerieSubListedItem *>(this->followedSeriesModel->find(showId));
     if (sbShow != NULL)
         Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
-                                                        this->m_sickBeardApiKey + "/?cmd=show&tvdbid="
-                                                        + QString::number(sbShow->id()))),
-                                   UPDATE_SICKBEARD_SHOW, (void *)sbShow);
+                                                                        this->m_sickBeardApiKey + "/?cmd=show&tvdbid="
+                                                                        + QString::number(sbShow->id()))),
+                                                   UPDATE_SICKBEARD_SHOW, (void *)sbShow);
 }
 
 void SeriesPlugin::retrieveSickBeardShows()
 {
     Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
-                                                    this->m_sickBeardApiKey + "/?cmd=shows")),
-                               GET_SICKBEARD_SHOWS);
+                                                                    this->m_sickBeardApiKey + "/?cmd=shows")),
+                                               GET_SICKBEARD_SHOWS);
 }
 
 void SeriesPlugin::searchSickBeardEpisode(int serieId, int seasonId, int episodeId)
 {
     Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
-                                                 this->m_sickBeardApiKey +
-                                                 QString("/?cmd=episode.search&tvdbid=%1&season=%2&episode=%3")
-                                                 .arg(QString::number(serieId),
-                                                      QString::number(seasonId),
-                                                      QString::number(episodeId)))),
+                                                                    this->m_sickBeardApiKey +
+                                                                    QString("/?cmd=episode.search&tvdbid=%1&season=%2&episode=%3")
+                                                                    .arg(QString::number(serieId),
+                                                                         QString::number(seasonId),
+                                                                         QString::number(episodeId)))),
                                                SEARCH_SICKBEARD_SHOW);
 }
 
@@ -309,27 +309,27 @@ void SeriesPlugin::addShowToSickBeard(QString showId)
                 this->m_sickBeardApiKey + "/?cmd=show.addnew&tvdbid="
                 + showId;
     Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
-                                                    this->m_sickBeardApiKey + "/?cmd=show.addnew&tvdbid="
-                                                    + showId)),
-                               ADD_SHOW_TO_SICKBEARD);
+                                                                    this->m_sickBeardApiKey + "/?cmd=show.addnew&tvdbid="
+                                                                    + showId)),
+                                               ADD_SHOW_TO_SICKBEARD);
 }
 
 void SeriesPlugin::updateShowSeasonFromSickBeard(int showId, int seasonId)
 {
     Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->m_sickBeardUrl + "/api/" +
-                                                    this->m_sickBeardApiKey + "/?cmd=show.seasons&tvdbid="
-                                                    + QString::number(showId)
-                                                    + "&season="
-                                                    + QString::number(seasonId))),
-                               UPDATE_SEASON_EPISODES_SICKBEARD, (void *)new QPoint(showId, seasonId));
+                                                                    this->m_sickBeardApiKey + "/?cmd=show.seasons&tvdbid="
+                                                                    + QString::number(showId)
+                                                                    + "&season="
+                                                                    + QString::number(seasonId))),
+                                               UPDATE_SEASON_EPISODES_SICKBEARD, (void *)new QPoint(showId, seasonId));
 }
 
 void SeriesPlugin::updateOnlineUpdatedShows()
 {
     Plugins::PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl("http://api.trakt.tv/shows/updated.json/"\
-                                                    + QString(TRAKT_API_KEY)
-                                                    + "/" + QString::number(QDateTime::currentDateTime().addDays(-7).toTime_t())))
-                               , UPDATE_UPDATED_SHOW);
+                                                                    + QString(TRAKT_API_KEY)
+                                                                    + "/" + QString::number(QDateTime::currentDateTime().addDays(-7).toTime_t())))
+                                               , UPDATE_UPDATED_SHOW);
 }
 
 
@@ -514,6 +514,37 @@ void SeriesPlugin::getShowSummaryCallBack(QNetworkReply *reply, void *data)
     }
 }
 
+void SeriesPlugin::fillMissingInfoFromPrevious(SerieSubListedItem *oldShow, SerieSubListedItem *updatedShow)
+{
+    if (oldShow != NULL && updatedShow != NULL)
+    {
+        updatedShow->setSerieOnSickBeard(oldShow->data(SerieSubListedItem::serieOnSickbeard).toBool());
+        Models::SubListedListModel *oldSeasonModel = reinterpret_cast<Models::SubListedListModel*>(oldShow->submodel());
+        Models::SubListedListModel *updatedSeasonModel = reinterpret_cast<Models::SubListedListModel*>(updatedShow->submodel());
+
+        if (oldSeasonModel != NULL && updatedSeasonModel != NULL)
+            foreach (Models::ListItem *oldSeasonItem, oldSeasonModel->toList())
+            {
+                Models::ListItem* updatedSeasonItem = updatedSeasonModel->find(oldSeasonItem->id());
+                if (updatedSeasonItem != NULL)
+                {
+                    Models::ListModel *oldEpisodeModel = reinterpret_cast<Models::SubListedListItem*>(oldSeasonItem)->submodel();
+                    Models::ListModel *updatedEpisodeModel = reinterpret_cast<Models::SubListedListItem*>(updatedSeasonItem)->submodel();
+                    if (oldEpisodeModel != NULL && updatedEpisodeModel != NULL)
+                        foreach (Models::ListItem* oldEpisodeItem, oldEpisodeModel->toList())
+                        {
+                            EpisodeListItem *oldEpisode = reinterpret_cast<EpisodeListItem*>(oldEpisodeItem);
+                            EpisodeListItem *newEpisode = reinterpret_cast<EpisodeListItem*>(updatedEpisodeModel->find(oldEpisode->id()));
+                            if (newEpisode == NULL)
+                                continue;
+                            newEpisode->setEpisodeSeen(oldEpisode->data(EpisodeListItem::episodeSeen).toBool());
+                            newEpisode->setSickbeardStatus(oldEpisodeItem->data(EpisodeListItem::episodeSickbeardStatus).toString());
+                        }
+                }
+            }
+    }
+}
+
 void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
 {
     if (reply != NULL && data != NULL)
@@ -529,7 +560,7 @@ void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
             {
                 // REPLACE OLDSHOW_ITEM BY SHOWITEM
                 // RESTORE DATA FROM OLDSHOW THAT ARE NOT OBTAINED IN THE WEB STREAM
-                showItem->setSerieOnSickBeard(oldShow->data(SerieSubListedItem::serieOnSickbeard).toBool());
+                this->fillMissingInfoFromPrevious(oldShow, showItem);
                 delete oldShow;
                 this->followedSeriesModel->appendRow(showItem);
                 this->updateShowInDatabase(showItem);

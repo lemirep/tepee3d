@@ -145,6 +145,7 @@ private:
     QHash<int, void (SeriesPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
 
     void                        updateShowSummary(SerieSubListedItem *show);
+    void                        fillMissingInfoFromPrevious(SerieSubListedItem *oldShow, SerieSubListedItem *updatedShow);
     SerieSubListedItem *        parseShow(const QJsonObject& showObj);
     SeasonSubListedItem*        parseShowSeason(const QJsonObject& seasonObj);
     EpisodeListItem    *        parseShowEpisode(const QJsonObject& episodeObj);
