@@ -71,8 +71,8 @@ Item3D
             anchors.fill : parent
             focus : true
             flickDeceleration : 200
-            pathItemCount : 3
-            cacheItemCount : 6
+            pathItemCount : 4
+            cacheItemCount : 8
             model:  WatchPlugin.getClockModel();
             delegate: ClockDelegate
             {

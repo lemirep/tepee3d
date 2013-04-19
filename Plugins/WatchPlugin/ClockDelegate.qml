@@ -9,11 +9,5 @@ Item {
     property int widthClock : cl.width
     height: 100
     width: 100
-   Clock { id : cl;city: clockCity; shift: clockUtc }
-
-    Text {
-        anchors.fill: parent;
-        text: clockId +" ("+clockCity+")"
-        color : "black"
-    }
+    Clock { id : cl;city: clockCity; shift: clockUtc }
 }

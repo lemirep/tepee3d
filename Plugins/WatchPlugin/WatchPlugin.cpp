@@ -17,9 +17,9 @@ int WatchPlugin::getPluginId()
 void WatchPlugin::initPlugin()
 {
     qDebug() << " INITIALIZING PLUGINS ";
-    emit("CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))",this,GENERIC_REQUEST,DATABASE_NAME);
-    qDebug()  << "CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))";
-    emit ("SELECT * FROM clock", this, RETRIEVE_CLOCK, DATABASE_NAME);
+    emit executeSQLQuery("CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))",this,GENERIC_REQUEST,DATABASE_NAME);
+    qDebug()  << "SELECT * FROM clock";
+    emit executeSQLQuery("SELECT * FROM clock", this, RETRIEVE_CLOCK, DATABASE_NAME);
 }
 
 void WatchPlugin::clearPluginBeforeRemoval()
@@ -90,7 +90,6 @@ void WatchPlugin::onFocusedFocusState()
 QString WatchPlugin::getTime()
 {
     return QTime::currentTime().toString();
-
 }
 
 QObject*  WatchPlugin::getClockModel() const
@@ -100,19 +99,21 @@ QObject*  WatchPlugin::getClockModel() const
 
 void WatchPlugin::retrieveClocksFromDababase()
 {
-    QString retrieveShowsRequest = QString("SELECT clockId, clockUtc, clockCity FROM clock;");
-    emit executeSQLQuery(retrieveShowsRequest, this, RETRIEVE_CLOCK, DATABASE_NAME);
+    QString retrieveClockRequest = QString("SELECT clockId, clockUtc, clockCity FROM clock;");
+    emit executeSQLQuery(retrieveClockRequest, this, RETRIEVE_CLOCK, DATABASE_NAME);
 }
 
 void WatchPlugin::retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
+    qDebug() << " IN retrieveClocksFromDatabaseCallBack";
     Q_UNUSED(data)
     if (result.size() > 1)
     {
         result.pop_front();
         foreach (QSqlRecord record, result)
         {
-            ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(1).toDouble(),record.value(2).toString());
+            qDebug() << record.value(1).toString() + " find !";
+            ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(2).toDouble(),record.value(1).toString());
             this->clockModel->appendRow(clock);
         }
     }
@@ -126,12 +127,13 @@ void WatchPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 
 void WatchPlugin::addClockToDB(QString city, QString utc)
 {
-    emit("INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")",this,GENERIC_REQUEST,DATABASE_NAME);
+    emit executeSQLQuery("INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")",this,GENERIC_REQUEST,DATABASE_NAME);
     qDebug() << "INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")";
 }
 
 void        WatchPlugin::ReInitModel()
 {
     delete this->clockModel;
-    emit ("SELECT * FROM clock",this,RETRIEVE_CLOCK,DATABASE_NAME);
+    this->clockModel = new Models::ListModel(new ClockListItem());
+    this->retrieveClocksFromDababase();
 }

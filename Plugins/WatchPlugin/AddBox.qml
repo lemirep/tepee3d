@@ -99,7 +99,8 @@ Rectangle {
                 add_clock_button.visible = true;
 
                 WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
-                WatchPlugin.ReInitModel();
+                WatchPlugin.getClockModel().clear();
+                WatchPlugin.reInitModel();
             }
         }
     }
