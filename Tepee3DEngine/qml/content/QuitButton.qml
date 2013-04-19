@@ -6,21 +6,14 @@ Item
     width  : maxMenuWidth
     height: maxMenuHeight / 20
     // Quit Tepee3d buttom
-    Rectangle
+    BorderImage
     {
         id : quitButtom
-        color : "blue"
+        source :  (quitMouse.pressed ) ? "../Resources/Pictures/delegate_selected.png" : "../Resources/Pictures/delegate.png"
         width  : maxMenuWidth / 4
         height: maxMenuHeight / 2
-        radius : 5
         scale : quitMouse.pressed ? 0.8 : 1.0
         opacity : 0.9
-       // anchors.horizontalCenter: parent.horizontalCenter
-        border
-        {
-            width: 2;
-            color: "white"
-        }
         Text
         {
             anchors
@@ -43,21 +36,15 @@ Item
         }
     }
     // ask confirmation to quit  ; Are you sure ? buttom
-    Rectangle
+    BorderImage
     {
         id : confirmation
         opacity : 0
         width  : maxMenuWidth / 2
         height: maxMenuHeight / 1.5
-        color : "blue"
-        radius : 5
         anchors.horizontalCenter: parent.horizontalCenter
         Behavior on opacity {SmoothedAnimation {velocity : 1}}
-        border
-        {
-            width: 2;
-            color: "white"
-        }
+        source :  "../Resources/Pictures/delegate.png"
         Text
         {
             anchors
@@ -71,11 +58,13 @@ Item
             font.pointSize: mainWindow.largeFontSize
         }
         // No buttom
-        Rectangle
+        BorderImage
         {
             width: parent.width / 3
             height :  parent.height / 3
-            color : "steelblue"
+            source :  "../Resources/Pictures/delegate_selected.png"
+
+            //  color : "steelblue"
             anchors
             {
                 bottom : parent.bottom
@@ -95,11 +84,7 @@ Item
                 color : "white"
                 font.pointSize: mainWindow.defaultFontSize
             }
-            border
-            {
-                width: 2;
-                color: "white"
-            }
+
             MouseArea {
                 anchors.fill: parent
                 onClicked :{
@@ -109,10 +94,10 @@ Item
             }
         }
         //Yes buttom
-        Rectangle {
+        BorderImage {
             width: parent.width / 3
             height :  parent.height / 3
-            color : "steelblue"
+            source :  "../Resources/Pictures/delegate_selected.png"
             anchors
             {
                 bottom : parent.bottom
@@ -130,12 +115,7 @@ Item
                 text : "Yes"
                 color : "white"
                 font.pointSize: mainWindow.defaultFontSize
-            }
-            border
-            {
-                width: 2;
-                color: "white"
-            }
+            }          
             MouseArea {
                 anchors.fill: parent
                 onClicked :{
