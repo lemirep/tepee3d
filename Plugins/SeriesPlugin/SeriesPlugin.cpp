@@ -749,6 +749,7 @@ void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
+        emit executeSQLQuery("BEGIN;", this, GENERIC_REQUEST, DATABASE_NAME);
         QString insertShowRequest = QString("INSERT OR REPLACE INTO show "
                                             "(serieTitle, serieSlug, serieImage,"
                                             " serieOverview, serieYear, serieNetwork, "
@@ -772,6 +773,7 @@ void SeriesPlugin::addShowToDatabase(SerieSubListedItem *show)
             this->addSeasonToDatabase(reinterpret_cast<SeasonSubListedItem *>(season),
                                       show->data(SerieSubListedItem::slug).toString());
         }
+        emit executeSQLQuery("COMMIT;", this, GENERIC_REQUEST, DATABASE_NAME);
     }
 }
 
@@ -828,6 +830,7 @@ void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
 {
     if (show != NULL)
     {
+        emit executeSQLQuery("BEGIN;", this, GENERIC_REQUEST, DATABASE_NAME);
         QString updateShowRequest = QString("UPDATE show SET serieImage = '%1', serieSickBeard = %2, serieLastUpdate = %3 WHERE serieTvDbId = %4;")
                 .arg(Utils::escapeSqlQuery(show->data(SerieSubListedItem::imageUrl).toString()),
                      show->data(SerieSubListedItem::serieOnSickbeard).toBool() ? "1" : "0",
@@ -839,6 +842,7 @@ void SeriesPlugin::updateShowInDatabase(SerieSubListedItem *show)
             this->updateSeasonInDatabase(reinterpret_cast<SeasonSubListedItem *>(season),
                                          show->id());
         }
+        emit executeSQLQuery("COMMIT;", this, GENERIC_REQUEST, DATABASE_NAME);
     }
 }
 
