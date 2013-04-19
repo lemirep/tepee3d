@@ -122,6 +122,8 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, c
         this->dataBase.close();
         this->openDatabase(dbName);
         this->previousDbName = dbName;
+        QSqlQuery sqlQuery(this->dataBase);
+        sqlQuery.exec("PRAGMA synchronous=OFF;");
     }
     if (this->dataBase.isOpen())
     {

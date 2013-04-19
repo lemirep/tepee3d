@@ -115,7 +115,7 @@ Item3D
             enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 1)
             effect : face_effect
             //            onHoverEnter : {console.log("North")}
-            onClicked : {console.log("Pressed");moveToFace(0)}
+            onClicked : {moveToFace(0)}
 //            onHoverEnter: {effect = face_effect_hover}
 //            onHoverLeave: {effect = face_effect}
         }
@@ -131,7 +131,7 @@ Item3D
             enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 0)
             effect : face_effect
             //            onHoverEnter : {console.log("South")}
-            onClicked : {console.log("Pressed");moveToFace(1)}
+            onClicked : {moveToFace(1)}
 //            onHoverEnter: {effect = face_effect_hover}
 //            onHoverLeave: {effect = face_effect}
         }
@@ -149,7 +149,7 @@ Item3D
             enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 2)
             effect : face_effect
             //            onHoverEnter : {console.log("West")}
-            onClicked : {console.log("Pressed");moveToFace(3)}
+            onClicked : {moveToFace(3)}
 //            onHoverEnter: {effect = face_effect_hover}
 //            onHoverLeave: {effect = face_effect}
         }
@@ -167,7 +167,7 @@ Item3D
             enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 3)
             effect : face_effect
             //            onHoverEnter : {console.log("East")}
-            onClicked : {console.log("Pressed");moveToFace(2)}
+            onClicked : {moveToFace(2)}
 //            onHoverEnter: {effect = face_effect_hover}
 //            onHoverLeave: {effect = face_effect}
         }
@@ -185,10 +185,7 @@ Item3D
             enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 5)
             effect : face_effect
             //            onHoverEnter : {console.log("Up")}
-            onClicked : {console.log("Pressed");moveToFace(4)}
-            onHoverEnter: {console.log("Enter")}
-            onHoverLeave: {console.log("Leave")}
-            onReleased : {console.log("Released")}
+            onClicked : {moveToFace(4)}
         }
 
         RoomWall
@@ -204,7 +201,7 @@ Item3D
             enabled : (!isCurrentRoom || isAPluginFocused || currentFaceId != 4)
             effect : face_effect
             //            onHoverEnter : {console.log("Down")}
-            onClicked : {console.log("Pressed");moveToFace(5)}
+            onClicked : {moveToFace(5)}
 //            onHoverEnter: {effect = face_effect_hover}
 //            onHoverLeave: {effect = face_effect}
         }
