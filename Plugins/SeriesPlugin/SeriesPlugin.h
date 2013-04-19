@@ -53,6 +53,7 @@
 #define ADD_SHOW_TO_SICKBEARD 5
 #define UPDATE_SEASON_EPISODES_SICKBEARD 6
 #define UPDATE_UPDATED_SHOW 7
+#define SEARCH_SICKBEARD_SHOW 8
 
 #define RETRIEVE_SHOWS 0
 #define RETRIEVE_SEASONS_FOR_SHOW 1
@@ -73,6 +74,7 @@ class SeriesPlugin  : public Plugins::PluginBase
     Q_PROPERTY(QString sickBeardUrl WRITE setSickBeardUrl READ sickBeardUrl NOTIFY sickBeardUrlChanged)
     Q_PROPERTY(QString sickBeardApi WRITE setSickBeardApi READ sickBeardApi NOTIFY sickBeardApiChanged)
     Q_PROPERTY(bool addToSickBeard WRITE setAddToSickBeard READ addToSickBeard NOTIFY addToSickBeardChanged)
+    Q_PROPERTY(bool synchingWebServices READ getSynching NOTIFY synchingChanged)
 public:
     SeriesPlugin();
     int                         getPluginId();
@@ -110,6 +112,7 @@ public:
     Q_INVOKABLE                 void     removeShowFromFollowedModel(int showId);
     Q_INVOKABLE                 void     refreshSickbeardShow(int showId);
     Q_INVOKABLE                 void     retrieveSickBeardShows();
+    Q_INVOKABLE                 void     searchSickBeardEpisode(int serieId, int seasonId, int episodeId);
     Q_INVOKABLE                 void     saveSickBeardConfig();
     void                                 addShowToSickBeard(QString showId);
     void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
@@ -125,7 +128,10 @@ public:
     void                                 setSickBeardApi(const QString &sickBeardApi);
     void                                 setAddToSickBeard(bool value);
 
+    bool                                 getSynching() const;
+
 private:
+    int                         currentWebQueriesCount;
     Models::SubListedListModel* followedSeriesModel;
     Models::SubListedListModel* searchSeriesModel;
     Models::SubListedListModel* showsOfTheWeek;
@@ -152,6 +158,7 @@ private:
     void                        updateShowSeasonFromSickNeardCallBack(QNetworkReply *reply, void *data);
     void                        addShowToSickBeardCallBack(QNetworkReply *reply, void *data);
     void                        updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *data);
+    void                        searchSickBeardEpisodeCallBack(QNetworkReply *reply, void *data);
 
     // DATABASE
     void                        retrieveSickBeardConfig();
@@ -176,12 +183,17 @@ private:
     void                        genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void                        retrieveSickBeardConfigCallBack(QList<QSqlRecord> result, void *data);
 
+private slots :
+
+    void                        webQueryEmitted();
+
 signals :
 
     void                        pluginStateChanged();
     void                        sickBeardUrlChanged();
     void                        sickBeardApiChanged();
     void                        addToSickBeardChanged();
+    void                        synchingChanged();
 };
 
 #endif // SERIESPLUGIN_H

@@ -528,6 +528,8 @@ void SeriesPlugin::updateShowSummaryCallBack(QNetworkReply *reply, void *data)
             if (showItem != NULL)
             {
                 // REPLACE OLDSHOW_ITEM BY SHOWITEM
+                // RESTORE DATA FROM OLDSHOW THAT ARE NOT OBTAINED IN THE WEB STREAM
+                showItem->setSerieOnSickBeard(oldShow->data(SerieSubListedItem::serieOnSickbeard).toBool());
                 delete oldShow;
                 this->followedSeriesModel->appendRow(showItem);
                 this->updateShowInDatabase(showItem);
