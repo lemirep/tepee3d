@@ -17,6 +17,8 @@ Item
          flickDeceleration : 200
          pathItemCount : 8
          cacheItemCount : 8
+         onCurrentIndexChanged : {serie_list_view.currentIndex = currentIndex}
+
          path : Path {
              startX : mainWindow.width / 3
              startY : mainWindow.height / 2
@@ -35,7 +37,7 @@ Item
              PathAttribute {name : "delAngle"; value : 60}
              PathAttribute {name : "delReflect"; value : 0}
          }
-         delegate : SeriesListViewDelegate {
+         delegate : SeriesPathViewDelegate {
              serieId : model.serieTvdbId
              img_src : model.imageUrl
              series_name: model.serieName

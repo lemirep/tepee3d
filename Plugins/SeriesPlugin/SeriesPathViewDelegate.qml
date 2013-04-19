@@ -29,7 +29,6 @@ Item
     {
         if (isCurrentItem)
         {
-            serie_detailed_view.serie_title = series_name;
             serie_detailed_view.serie_id = serieId;
             serie_detailed_view.serie_air_day = serie_air_day;
             serie_detailed_view.serie_air_time = serie_air_time;

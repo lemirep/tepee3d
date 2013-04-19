@@ -49,6 +49,8 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
     // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
     this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
+    // MODELS CONTAINING SHOWS TO APPEAR THIS WEEK
+    this->showsOfTheWeek = new Models::SubListedListModel(new SerieSubListedItem());
 }
 // ALL the function should be implemented
 
@@ -166,21 +168,28 @@ QObject *SeriesPlugin::getShowsToAppearInTheWeek()
     // TIME AT THE END OF THE WEEK
     QDateTime nowTime = QDateTime::currentDateTime();
     QDateTime endWeekTime = nowTime.addDays(7);
+    this->showsOfTheWeek->clear();
 
     foreach (Models::ListItem *showItem, this->followedSeriesModel->toList())
     {
         SerieSubListedItem* show = reinterpret_cast<SerieSubListedItem*>(showItem);
-        SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().takeFirst());
+        // BASED ON LAST SEASON ONLY
+        SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().first());
+        bool showIsThisWeek = false;
         foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
         {
             EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
             if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime &&
                     episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime)
             {
-                // ADD SHOW AND EPISODES TO TMP MODEL
+                showIsThisWeek = true;
+                break;
             }
         }
+        if (showIsThisWeek)
+            this->showsOfTheWeek->appendRow(show);
     }
+    return this->showsOfTheWeek;
 }
 
 void SeriesPlugin::markEpisodeAsSeen(int serieId, int seasonId, int episodeId, bool value)
@@ -690,6 +699,7 @@ void SeriesPlugin::addShowToSickBeardCallBack(QNetworkReply *reply, void *data)
 
 void SeriesPlugin::updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *data)
 {
+    Q_UNUSED(data)
     if (reply != NULL)
     {
         QJsonDocument jsonDoc = QJsonDocument::fromJson(reply->readAll());
@@ -723,7 +733,8 @@ void SeriesPlugin::updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *
 
 void SeriesPlugin::searchSickBeardEpisodeCallBack(QNetworkReply *reply, void *data)
 {
-
+    Q_UNUSED(reply)
+    Q_UNUSED(data)
 }
 
 void SeriesPlugin::retrieveSickBeardConfig()

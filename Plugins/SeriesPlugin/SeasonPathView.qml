@@ -42,7 +42,7 @@ Item
             PathAttribute {name : "delScale"; value : 0.4}
             PathAttribute {name : "delAngle"; value : 30}
         }
-        delegate : SeasonListViewDelegate {
+        delegate : SeasonPathViewDelegate {
             img_src : model.imageUrl
             season : model.seasonId
             width : 200

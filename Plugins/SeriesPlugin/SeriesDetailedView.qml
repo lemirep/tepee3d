@@ -3,7 +3,6 @@ import QtQuick 2.0
 Item
 {
     id : serie_detailed_view
-    property alias serie_title : serie_title_text.text
     property string serie_slug;
     property string serie_id;
     property alias serie_overview : serie_overview_text.text
@@ -28,25 +27,13 @@ Item
 
     Text
     {
-        id : serie_title_text
-        anchors
-        {
-            horizontalCenter : parent.horizontalCenter
-            top : parent.top
-            topMargin : 5
-        }
-        font.pointSize: mainWindow.largeFontSize
-        color : "white"
-    }
-
-    Text
-    {
         id : serie_year_text
         anchors
         {
-            top : serie_title_text.bottom
+            top : parent.top
             topMargin : 5
-            horizontalCenter : parent.horizontalCenter
+            rightMargin : 10
+            right : parent.right
         }
         color : "white"
         font.pointSize: mainWindow.defaultFontSize
@@ -57,7 +44,7 @@ Item
         anchors
         {
             left : parent.left
-            top : serie_year_text.bottom
+            top : serie_year_text.top
             leftMargin : 10
             topMargin : 5
         }

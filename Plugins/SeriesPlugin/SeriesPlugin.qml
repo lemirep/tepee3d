@@ -274,18 +274,34 @@ Item3D
                     }
                 }
 
+                SerieListView
+                {
+                    id : serie_list_view
+                    anchors
+                    {
+                        right : parent.right
+                        top : parent.top
+                        bottom : parent.verticalCenter
+                        left : parent.horizontalCenter
+                        leftMargin : 50
+                        rightMargin : 50
+                        topMargin : 50
+                        bottomMargin : 10
+                    }
+                }
+
                 SeriesDetailedView
                 {
                     id : serie_detailed_view
                     anchors
                     {
                         right : parent.right
-                        top : parent.top
+                        top : parent.verticalCenter
                         left : parent.horizontalCenter
                         bottom : parent.bottom
                         leftMargin : 50
                         rightMargin : 50
-                        topMargin : 100
+                        topMargin : 10
                         bottomMargin : 50
                     }
                 }

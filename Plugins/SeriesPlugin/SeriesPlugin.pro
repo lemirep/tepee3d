@@ -62,10 +62,7 @@ SOURCES += \
 OTHER_FILES += \
     SeriesPlugin.qml \
     Menu.qml \
-    SeriesListViewDelegate.qml \
     qmldir \
-    SeasonListViewDelegate.qml \
-    EpisodeListViewDelegate.qml \
     SeriesSearchListViewDelegate.qml \
     DetailedEpisodeView.qml \
     SerieBackground.qml \
@@ -79,7 +76,11 @@ OTHER_FILES += \
     dvdbox.png \
     sickbeard_search.png \
     check_all.png \
-    halo.png
+    halo.png \
+    SeriesPathViewDelegate.qml \
+    EpisodePathViewDelegate.qml \
+    SeasonPathViewDelegate.qml \
+    SerieListView.qml
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)

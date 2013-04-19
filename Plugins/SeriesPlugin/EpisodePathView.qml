@@ -46,7 +46,7 @@ Item
             PathAttribute {name : "delAngle"; value : -60}
             PathAttribute {name : "delOpacity"; value : 0.7}
         }
-        delegate : EpisodeListViewDelegate   {
+        delegate : EpisodePathViewDelegate   {
             episodeId : model.episodeId
             episodeNumber : model.episodeNumber
             episodeTitle : model.episodeTitle
