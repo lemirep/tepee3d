@@ -166,36 +166,58 @@ Item3D
         state : SeriesPlugin.pluginState
 
         states : [
-            State {name : "shows_view";
+            State
+            {
+                name : "shows_view";
                 PropertyChanges {target: followed_series_view; state : "shows_view"}
                 PropertyChanges {target : followed_series_view; opacity : 1}
                 PropertyChanges {target : sickbeard_config; opacity : 0}
                 PropertyChanges {target : search_bar_container; opacity : 0}
+                PropertyChanges {target: show_planning_view_item; opacity : 0}
             },
-            State {name : "seasons_shows_view";
+            State
+            {
+                name : "seasons_shows_view";
                 PropertyChanges {target: followed_series_view; state: "seasons_shows_view"}
                 PropertyChanges {target : followed_series_view; opacity : 1}
                 PropertyChanges {target : sickbeard_config; opacity : 0}
                 PropertyChanges {target : search_bar_container; opacity : 0}
+                PropertyChanges {target : show_planning_view_item; opacity : 0}
             },
-            State {name : "search_shows";
+            State
+            {
+                name : "search_shows";
                 PropertyChanges {target : followed_series_view; opacity : 0}
+                PropertyChanges {target: followed_series_view; state : "shows_view"}
                 PropertyChanges {target : sickbeard_config; opacity : 0}
                 PropertyChanges {target : search_bar_container; opacity : 1}
+                PropertyChanges {target : show_planning_view_item; opacity : 0}
             },
-            State {name : "configure_sickbeard";
+            State
+            {
+                name : "configure_sickbeard";
                 PropertyChanges {target: followed_series_view; state : "shows_view"}
                 PropertyChanges {target : followed_series_view; opacity : 0}
                 PropertyChanges {target : sickbeard_config; opacity : 1}
+                PropertyChanges {target : search_bar_container; opacity : 0}
+                PropertyChanges {target : show_planning_view_item; opacity : 0}
+            },
+            State
+            {
+                name : "show_planning_view"
+                PropertyChanges {target : show_planning_view_item; opacity : 1}
+                PropertyChanges {target : followed_series_view; state : "shows_view"}
+                PropertyChanges {target : followed_series_view; opacity : 0}
+                PropertyChanges {target : sickbeard_config; opacity : 0}
                 PropertyChanges {target : search_bar_container; opacity : 0}
             }
         ]
 
         transitions: [
             Transition {
-                NumberAnimation { target: followed_series_view; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-                NumberAnimation { target: sickbeard_config; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
-                NumberAnimation { target: search_bar_container; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                NumberAnimation {target : followed_series_view; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                NumberAnimation {target : sickbeard_config; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                NumberAnimation {target : search_bar_container; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
             }]
 
         SearchSerie
@@ -241,182 +263,42 @@ Item3D
                 State
                 {
                     name : "shows_view"
-                    PropertyChanges {target: show_view_item; opacity : 1}
+                    PropertyChanges {target: show_pathview_item; opacity : 1}
                     PropertyChanges {target: season_episode_item; opacity : 0}
                 },
                 State
                 {
                     name : "seasons_shows_view"
-                    PropertyChanges {target: show_view_item; opacity : 0}
+                    PropertyChanges {target: show_pathview_item; opacity : 0}
                     PropertyChanges {target: season_episode_item; opacity : 1}
                 }
             ]
             transitions : [Transition {
-                    NumberAnimation { target: show_view_item; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+                    NumberAnimation { target: show_pathview_item; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
                     NumberAnimation { target: season_episode_item; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
                 }]
 
-            Item
+
+            SeriePathViewContainer
             {
-                id : show_view_item
+                id : show_pathview_item
                 anchors.fill: parent
                 enabled : opacity === 1
-
-                SeriePathView
-                {
-                    id : show_pathview_container
-                    anchors
-                    {
-                        left : parent.left
-                        right : parent.horizontalCenter
-                        top : parent.top
-                        bottom : parent.bottom
-                    }
-                }
-
-                SerieListView
-                {
-                    id : serie_list_view
-                    anchors
-                    {
-                        right : parent.right
-                        top : parent.top
-                        bottom : parent.verticalCenter
-                        left : parent.horizontalCenter
-                        leftMargin : 50
-                        rightMargin : 50
-                        topMargin : 50
-                        bottomMargin : 10
-                    }
-                }
-
-                SeriesDetailedView
-                {
-                    id : serie_detailed_view
-                    anchors
-                    {
-                        right : parent.right
-                        top : parent.verticalCenter
-                        left : parent.horizontalCenter
-                        bottom : parent.bottom
-                        leftMargin : 50
-                        rightMargin : 50
-                        topMargin : 10
-                        bottomMargin : 50
-                    }
-                }
             }
 
-            Item
+            SeasonEpisodePathViewContainer
             {
                 id : season_episode_item
                 anchors.fill: parent
                 enabled : opacity === 1
-
-                SeasonPathView
-                {
-                    id : season_pathview_container
-                    anchors
-                    {
-                        left : parent.left
-                        right : parent.horizontalCenter
-                        top : parent.top
-                        bottom : parent.bottom
-                    }
-                }
-
-
-                EpisodePathView
-                {
-                    id : episodes_pathview_container
-                    anchors
-                    {
-                        left : parent.horizontalCenter
-                        right : parent.right
-                        top : parent.top
-                        bottom : parent.bottom
-                    }
-                }
-
-                Item
-                {
-                    id : tool_bar_episodes
-                    enabled : (opacity === 1)
-                    opacity : (consultingEpisode) ? 0 : 1
-                    Behavior on opacity {NumberAnimation {duration : 500}}
-                    width : 180
-                    height : 60
-                    anchors
-                    {
-                        horizontalCenter : parent.horizontalCenter
-                        top : parent.verticalCenter
-                        topMargin : parent.width / 6
-                    }
-                    Rectangle
-                    {
-                        color : "grey"
-                        opacity : 0.4
-                        radius : 5
-                        anchors.fill: parent
-                        border
-                        {
-                            width : 1
-                            color : "white"
-                        }
-                    }
-
-                    BackButton
-                    {
-                        id : back_episode_button
-                        anchors
-                        {
-                            bottom : parent.bottom
-                            horizontalCenter : parent.horizontalCenter
-                            leftMargin : 2
-                        }
-                        onClicked : {followed_series_view.state = "shows_view";}
-                    }
-
-                    Image
-                    {
-                        id : check_all_episode_season_button
-                        height : 50
-                        width : 50
-                        scale : check_all_button_ma.pressed ? 0.9 : 1
-                        source : "check_all.png"
-                        fillMode: Image.PreserveAspectFit
-                        MouseArea
-                        {
-                            id : check_all_button_ma
-                            anchors.fill: parent
-                            onClicked: {SeriesPlugin.markSeasonAsSeen(show_pathview_container.currentItem.serieId, season_pathview_container.currentItem.season)}
-                        }
-                        anchors
-                        {
-                            verticalCenter : parent.verticalCenter
-                            right : parent.right
-                            rightMargin : 5
-                        }
-                    }
-
-                }
-
-                DetailedEpisodeView
-                {
-                    id : detailed_episode_view
-                    enabled : (opacity === 1)
-                    opacity : (consultingEpisode) ? 1 : 0
-
-                    anchors
-                    {
-                        fill : parent
-                        leftMargin : mainWindow.width / 4
-                        rightMargin : mainWindow.width / 4
-                        topMargin : mainWindow.height / 8
-                        bottomMargin : mainWindow.height / 8
-                    }
-                }
             }
+        }
+
+        ShowPlanningView
+        {
+            id : show_planning_view_item
+            anchors.fill: parent
+            enabled : (opacity === 1)
         }
     }
 }

@@ -23,11 +23,11 @@
     <action>access_internet</action>
     <action>play_audio</action>
     <action>set_audio_volume</action>
-    <asset type="Qnx/Elf" path="Tepee3DEngine/Tepee3DEngine" entry="true">Tepee3DEngine</asset>
+    <asset path="Tepee3DEngine/Tepee3DEngine" entry="true" type="Qnx/Elf">Tepee3DEngine</asset>
     <asset path="%SRC_DIR%/Tepee3DEngine/qml">qml</asset>
     <asset path="%QT_INSTALL_LIBS%">lib</asset>
     <asset path="%QT_INSTALL_PLUGINS%">plugins</asset>
-    <asset path="%QT_INSTALL_IMPORTS%">imports</asset>
+    <asset path="%QT_INSTALL_QML%">imports</asset>
     <asset path="%SRC_DIR%/qnx/icon.png">icon.png</asset>
     <asset path="%SRC_DIR%/Tepee3DEngine/libraries">libraries</asset>
     <asset path="%SRC_DIR%/Tepee3DEngine/plugins_qml">plugins_qml</asset>

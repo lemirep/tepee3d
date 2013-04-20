@@ -113,6 +113,7 @@ void SeriesPlugin::onFocusedFocusState()
 {
     qDebug() << "SeriesPlugin Focused";
     this->updateOnlineUpdatedShows();
+    this->refreshShowsInPlanning();
 }
 
 Plugins::PluginBase* SeriesPlugin::createNewInstance()
@@ -122,13 +123,11 @@ Plugins::PluginBase* SeriesPlugin::createNewInstance()
 
 void    SeriesPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
 {
-    qDebug() << "Received DATABASE CallBack";
     (this->*this->databaseCallBacks[id])(result, data);
 }
 
 void    SeriesPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
-    qDebug() << "Received WebService CallBack " << this->currentWebQueriesCount;
     this->currentWebQueriesCount--;
     (this->*this->webServicesCallBacks[id])(reply, data);
     emit synchingChanged();
@@ -163,32 +162,8 @@ QObject *SeriesPlugin::getSearchSeriesModel() const
     return this->searchSeriesModel;
 }
 
-QObject *SeriesPlugin::getShowsToAppearInTheWeek()
+QObject *SeriesPlugin::getShowsToAppearInTheWeek() const
 {
-    // TIME AT THE END OF THE WEEK
-    QDateTime nowTime = QDateTime::currentDateTime();
-    QDateTime endWeekTime = nowTime.addDays(7);
-    this->showsOfTheWeek->clear();
-
-    foreach (Models::ListItem *showItem, this->followedSeriesModel->toList())
-    {
-        SerieSubListedItem* show = reinterpret_cast<SerieSubListedItem*>(showItem);
-        // BASED ON LAST SEASON ONLY
-        SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().first());
-        bool showIsThisWeek = false;
-        foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
-        {
-            EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
-            if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime &&
-                    episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime)
-            {
-                showIsThisWeek = true;
-                break;
-            }
-        }
-        if (showIsThisWeek)
-            this->showsOfTheWeek->appendRow(show);
-    }
     return this->showsOfTheWeek;
 }
 
@@ -210,7 +185,7 @@ void SeriesPlugin::markEpisodeAsSeen(int serieId, int seasonId, int episodeId, b
     }
 }
 
-void SeriesPlugin::markSeasonAsSeen(int serieId, int seasonId)
+void SeriesPlugin::markSeasonAsSeen(int serieId, int seasonId, bool value)
 {
     Models::SubListedListItem *serieItem = NULL;
     Models::SubListedListItem *seasonItem = NULL;
@@ -222,9 +197,9 @@ void SeriesPlugin::markSeasonAsSeen(int serieId, int seasonId)
         foreach (Models::ListItem *episodeItem, seasonItem->submodel()->toList())
         {
             EpisodeListItem *episode = reinterpret_cast<EpisodeListItem *>(episodeItem);
-            if (episode != NULL)
+            if (episode != NULL && episode->data(EpisodeListItem::episodeSeen).toBool() != value)
             {
-                episode->setEpisodeSeen(true);
+                episode->setEpisodeSeen(value);
                 this->updateEpisodeInDatabase(episode, serieId, seasonId);
             }
         }
@@ -339,6 +314,37 @@ void SeriesPlugin::updateOnlineUpdatedShows()
                                                                     + QString(TRAKT_API_KEY)
                                                                     + "/" + QString::number(QDateTime::currentDateTime().addDays(-7).toTime_t())))
                                                , UPDATE_UPDATED_SHOW);
+}
+
+void SeriesPlugin::refreshShowsInPlanning()
+{
+    // TIME AT THE END OF THE WEEK
+    QDateTime nowTime = QDateTime::currentDateTime();
+    QDateTime endWeekTime = nowTime.addDays(7);
+    this->showsOfTheWeek->clear();
+
+    foreach (Models::ListItem *showItem, this->followedSeriesModel->toList())
+    {
+        SerieSubListedItem* show = reinterpret_cast<SerieSubListedItem*>(showItem);
+        // BASED ON LAST SEASON ONLY
+        SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().first());
+        bool showIsThisWeek = false;
+        foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
+        {
+            EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
+            if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime &&
+                    episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime)
+            {
+                showIsThisWeek = true;
+                break;
+            }
+        }
+        if (showIsThisWeek)
+        {
+            qDebug() << "Found new Show in this week";
+            this->showsOfTheWeek->appendRow(show);
+        }
+    }
 }
 
 

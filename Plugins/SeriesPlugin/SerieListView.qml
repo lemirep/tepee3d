@@ -10,6 +10,11 @@ Item
         opacity : 0.2
         anchors.fill: parent
         radius : 5
+        border
+        {
+            width : 1
+            color : "white"
+        }
     }
 
     ListView
@@ -21,8 +26,6 @@ Item
         highlightFollowsCurrentItem: true
         preferredHighlightBegin: 0.5
         preferredHighlightEnd: 0.6
-        onCurrentIndexChanged : {show_pathview_container.currentIndex = currentIndex}
-
         highlight: Component{
             Rectangle
             {
@@ -32,6 +35,7 @@ Item
                 color : "#88006699"
                 Rectangle
                 {
+                    opacity : 0.4
                     radius : 5
                     anchors.fill : parent
                     gradient : Gradient {
@@ -43,6 +47,14 @@ Item
                         GradientStop { position: 1;    color: "#55FFFFFF" }
                     }
                 }
+                ForwardButton
+                {
+                    anchors
+                    {
+                        verticalCenter : parent.verticalCenter
+                        right : parent.right
+                    }
+                }
             }
         }
 
@@ -51,27 +63,68 @@ Item
             {
                 width : serie_list_view.width
                 height : 50
+                scale : delegate_serie_ma.pressed ? 0.9 : 1.0
+
+                Rectangle
+                {
+                    visible: (index > 0)
+                    color : "white"
+                    height: 1
+                    opacity : 0.4
+                    anchors
+                    {
+                        left : parent.left
+                        top : parent.top
+                        right : parent.right
+                        leftMargin : 40
+                        rightMargin : 40
+                    }
+                }
 
                 Text
                 {
                     id : serie_title
                     text : model.serieName
                     color : "white"
+                    width : parent.width - 40
+                    clip : true
+                    elide: Text.ElideRight
                     anchors
                     {
                         left : parent.left
                         verticalCenter : parent.verticalCenter
                         leftMargin : 10
                     }
-                    font.pointSize: mainWindow.defaultFontSize
+                    font.pixelSize: mainWindow.largeFontSize
                 }
+
+//                Image
+//                {
+//                    visible : model.serieOnSickbeard
+//                    height : 25
+//                    anchors
+//                    {
+//                        right : parent.right
+//                        verticalCenter : parent.verticalCenter
+//                        rightMargin : 10
+//                    }
+//                    fillMode: Image.PreserveAspectFit
+//                    source : "sickbeard_logo.png"
+//                }
 
                 MouseArea
                 {
+                    id : delegate_serie_ma
                     anchors.fill: parent
                     onClicked:
                     {
-                        serie_list_view.currentIndex = index;
+                        if (serie_list_view.currentIndex === index)
+                            show_pathview_item.state = "series_detailed_view";
+                        else
+                        {
+                            serie_list_view.currentIndex = index;
+                            show_pathview_container.currentIndex = currentIndex
+                        }
                     }
                 }
             }

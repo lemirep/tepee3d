@@ -30,7 +30,7 @@ Item
     {
         id : show_pic
         fillMode: Image.PreserveAspectFit
-        source : (show_pathview_container.currentItem) ? show_pathview_container.currentItem.img_src.replace(".jpg", "-300.jpg") : "";
+        source : (show_pathview_item.currentItem) ? show_pathview_item.currentItem.img_src.replace(".jpg", "-300.jpg") : "";
         width: 180
         opacity : 0.9
     }
@@ -76,7 +76,7 @@ Item
         anchors.centerIn : dvd_cover
         color : "white"
         text : episodeTitle
-        font.pointSize: mainWindow.largeFontSize
+        font.pixelSize: mainWindow.largeFontSize
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         horizontalAlignment: Text.AlignHCenter
         style: Text.Outline
@@ -96,11 +96,12 @@ Item
         text : episodeAiring.getDate()
                + "/" + (episodeAiring.getMonth() + 1)
                + "/" + episodeAiring.getFullYear()
+        font.pixelSize: mainWindow.smallFontSize
     }
 
     Item
     {
-        visible : (show_pathview_container.currentItem) ? show_pathview_container.currentItem.serie_on_sickbeard : false
+        visible : (show_pathview_item.currentItem) ? show_pathview_item.currentItem.serie_on_sickbeard : false
         anchors
         {
             top : dvd_cover.top
@@ -132,7 +133,7 @@ Item
                 margins : 2
             }
             color : "white"
-            font.pointSize: mainWindow.smallFontSize
+            font.pixelSize: mainWindow.smallFontSize
             style: Text.Outline
             styleColor: "#cc9900"
         }
@@ -165,12 +166,12 @@ Item
                 detailed_episode_view.title = currentItem.episodeTitle
                 detailed_episode_view.summary = currentItem.episodeOverview
                 detailed_episode_view.image_src = currentItem.img_src.replace(".jpg", "-218.jpg")
-                detailed_episode_view.serieSickBeard = show_pathview_container.currentItem.serie_on_sickbeard
+                detailed_episode_view.serieSickBeard = show_pathview_item.currentItem.serie_on_sickbeard
             }
         }
         onPressAndHold:
         {
-            SeriesPlugin.markEpisodeAsSeen(show_pathview_container.currentItem.serieId, season_pathview_container.currentItem.season, episodeId, !episodeSeen)
+            SeriesPlugin.markEpisodeAsSeen(show_pathview_item.currentItem.serieId, season_pathview_container.currentItem.season, episodeId, !episodeSeen)
         }
     }
 }

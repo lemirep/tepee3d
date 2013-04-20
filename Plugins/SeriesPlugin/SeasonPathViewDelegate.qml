@@ -21,8 +21,8 @@ Item
         {
             if (!rotate_cube.running)
                 rotate_cube.restart()
-            if (show_pathview_container.currentIndex != -1)
-                episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_container.currentIndex).serieTvdbId, season)
+            if (show_pathview_item.currentIndex != -1)
+                episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_item.currentIndex).serieTvdbId, season)
         }
     }
 
@@ -79,8 +79,8 @@ Item
             followed_series_season_pathview.currentIndex = index;
             if (isCurrentItem)
             {
-                if (show_pathview_container.currentIndex != -1)
-                    episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_container.currentIndex).serieTvdbId, season)
+                if (show_pathview_item.currentIndex !== -1)
+                    episodes_pathview_container.model = SeriesPlugin.getEpisodesFromSeasonAndShowId(SeriesPlugin.getFollowedSeriesModel().get(show_pathview_item.currentIndex).serieTvdbId, season)
             }
         }
     }

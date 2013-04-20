@@ -29,6 +29,7 @@ Item
     {
         if (isCurrentItem)
         {
+            serie_detailed_view.serie_title = series_name;
             serie_detailed_view.serie_id = serieId;
             serie_detailed_view.serie_air_day = serie_air_day;
             serie_detailed_view.serie_air_time = serie_air_time;
@@ -94,8 +95,8 @@ Item
             {
                 console.log("serieId " + serieId)
                 followed_series_view.state = "seasons_shows_view"
-                season_pathview_container.model = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
-                episodes_pathview_container.model = null;
+                season_episode_item.seasonModel = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
+                season_episode_item.episodeModel = null;
             }
             else
                 followed_series_pathview.currentIndex = index;

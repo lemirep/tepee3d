@@ -65,7 +65,7 @@ Item
                 detailed_episode_view.title = currentItem.episodeTitle
                 detailed_episode_view.summary = currentItem.episodeOverview
                 detailed_episode_view.image_src = currentItem.img_src.replace(".jpg", "-218.jpg")
-                detailed_episode_view.serieSickBeard = show_pathview_container.currentItem.serie_on_sickbeard
+                detailed_episode_view.serieSickBeard = show_pathview_item.currentItem.serie_on_sickbeard
             }
         }
     }

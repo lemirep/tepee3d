@@ -102,9 +102,9 @@ public:
     Q_INVOKABLE                 QObject* getSeasonsModelFromSerieId(int serieId) const;
     Q_INVOKABLE                 QObject* getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const;
     Q_INVOKABLE                 QObject* getSearchSeriesModel() const;
-    Q_INVOKABLE                 QObject* getShowsToAppearInTheWeek();
+    Q_INVOKABLE                 QObject* getShowsToAppearInTheWeek() const;
     Q_INVOKABLE                 void     markEpisodeAsSeen(int serieId, int seasonId, int episodeId, bool value);
-    Q_INVOKABLE                 void     markSeasonAsSeen(int serieId, int seasonId);
+    Q_INVOKABLE                 void     markSeasonAsSeen(int serieId, int seasonId, bool value = true);
     Q_INVOKABLE                 void     updateFollowedShows();
     Q_INVOKABLE                 void     searchForShow(QString showName);
     Q_INVOKABLE                 void     addShowToFollow(int serieId);
@@ -117,6 +117,7 @@ public:
     void                                 addShowToSickBeard(QString showId);
     void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
     void                                 updateOnlineUpdatedShows();
+    void                                 refreshShowsInPlanning();
 
     QString                              pluginState() const;
     void                                 setPluginState(const QString& value);

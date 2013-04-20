@@ -101,7 +101,7 @@ Item
                 }
 
                 color : "white"
-                font.pointSize: mainWindow.defaultFontSize
+                font.pixelSize: mainWindow.defaultFontSize
             }
         }
     }
@@ -126,7 +126,7 @@ Item
             anchors.fill: parent
             onClicked:
             {
-                SeriesPlugin.searchSickBeardEpisode(show_pathview_container.currentItem.serieId,
+                SeriesPlugin.searchSickBeardEpisode(show_pathview_item.currentItem.serieId,
                                                     season_pathview_container.currentItem.season,
                                                     episodes_pathview_container.currentItem.episodeId);
             }

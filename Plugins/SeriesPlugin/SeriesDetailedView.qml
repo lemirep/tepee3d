@@ -3,6 +3,7 @@ import QtQuick 2.0
 Item
 {
     id : serie_detailed_view
+    property alias serie_title : serie_title_text.text
     property string serie_slug;
     property string serie_id;
     property alias serie_overview : serie_overview_text.text
@@ -23,6 +24,25 @@ Item
         opacity : 0.2
         anchors.fill: parent
         radius : 5
+        border
+        {
+            width : 1
+            color : "white"
+        }
+    }
+
+    Text
+    {
+        id : serie_title_text
+        color : "white"
+        anchors
+        {
+            top : parent.top
+            horizontalCenter : parent.horizontalCenter
+            topMargin : 10
+        }
+
+        font.pixelSize: mainWindow.largeFontSize
     }
 
     Text
@@ -30,13 +50,12 @@ Item
         id : serie_year_text
         anchors
         {
-            top : parent.top
+            top : serie_title_text.bottom
             topMargin : 5
-            rightMargin : 10
-            right : parent.right
+            horizontalCenter : parent.horizontalCenter
         }
         color : "white"
-        font.pointSize: mainWindow.defaultFontSize
+        font.pixelSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -44,12 +63,12 @@ Item
         anchors
         {
             left : parent.left
-            top : serie_year_text.top
+            top : serie_year_text.bottom
             leftMargin : 10
             topMargin : 5
         }
         color : "white"
-        font.pointSize: mainWindow.defaultFontSize
+        font.pixelSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -61,7 +80,7 @@ Item
             leftMargin : 10
         }
         color : "white"
-        font.pointSize: mainWindow.defaultFontSize
+        font.pixelSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -73,7 +92,7 @@ Item
             leftMargin : 10
         }
         color : "white"
-        font.pointSize: mainWindow.defaultFontSize
+        font.pixelSize: mainWindow.defaultFontSize
     }
     Text
     {
@@ -86,13 +105,13 @@ Item
             topMargin : 5
         }
         color : "white"
-        font.pointSize: mainWindow.defaultFontSize
+        font.pixelSize: mainWindow.defaultFontSize
     }
 
     Image
     {
         visible : serie_on_sickbeard
-        height : 50
+        height : 40
         anchors
         {
             left : parent.left
@@ -125,7 +144,7 @@ Item
             width : parent.width - 20
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             color : "white"
-            font.pointSize: mainWindow.defaultFontSize
+            font.pixelSize: mainWindow.defaultFontSize
         }
     }
 

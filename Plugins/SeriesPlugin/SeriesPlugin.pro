@@ -76,11 +76,15 @@ OTHER_FILES += \
     dvdbox.png \
     sickbeard_search.png \
     check_all.png \
+    planning.png \
     halo.png \
     SeriesPathViewDelegate.qml \
     EpisodePathViewDelegate.qml \
     SeasonPathViewDelegate.qml \
-    SerieListView.qml
+    SerieListView.qml \
+    ShowPlanningView.qml \
+    SeriePathViewContainer.qml \
+    SeasonEpisodePathViewContainer.qml
 
 # deploy qml files to correct dir
 copyToDestDir($$OTHER_FILES)
