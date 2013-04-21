@@ -304,10 +304,24 @@ void Plugins::PluginBase::updatePlugin()
 }
 
 /*!
+ * Returns a Json representation of the plugin. This can be use for synching across multiple devices.
+ */
+QJsonDocument Plugins::PluginBase::toJsonRepresentation()
+{
+    QJsonObject pluginJsonObject;
+
+    pluginJsonObject.insert("id", QJsonValue(this->getPluginId()));
+    pluginJsonObject.insert("name", QJsonValue(this->getPluginName()));
+    pluginJsonObject.insert("description", QJsonValue(this->getPluginDescription()));
+
+    return QJsonDocument(pluginJsonObject);
+}
+
+/*!
  * Exposes the plugin C++ class to the QML Context \a context. That way the methods marked as
  * QINVOKABLE of the plugin class can be called by prefixing them with the PluginNames
  *
- *For more information, consider reading the following link : \l {http://qt-project.org/doc/qt-5.0/qtqml/qtqml-cppintegration-exposecppattributes.html}
+ * For more information, consider reading the following link : \l {http://qt-project.org/doc/qt-5.0/qtqml/qtqml-cppintegration-exposecppattributes.html}
  */
 void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
 {

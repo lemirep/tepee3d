@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QVector3D>
 #include <QQuickItem>
+#include <QJsonArray>
 #include <qmath.h>
 #include "PluginBase.h"
 #include "RoomInterface.h"
@@ -14,7 +15,7 @@
 namespace Room
 {
 
-class RoomBase : public QObject, Room::RoomInterface
+class RoomBase : public QObject, public Room::RoomInterface
 {
     Q_OBJECT
     Q_INTERFACES(Room::RoomInterface)
@@ -64,6 +65,8 @@ public:
 
     virtual RoomBase*                       createNewInstance() = 0;
     virtual QObject*                        getObject()         = 0;
+
+    virtual QJsonDocument                   toJsonRepresentation();
 
 
 signals :

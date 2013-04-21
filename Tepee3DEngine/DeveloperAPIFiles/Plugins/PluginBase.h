@@ -33,6 +33,7 @@
 #include <QQmlExtensionPlugin>
 #include <QHash>
 #include <QVector3D>
+#include <QJsonObject>
 #include "Utils.h"
 #include "PluginEnums.h"
 #include "PluginInterface.h"
@@ -69,6 +70,7 @@ public:
     virtual QString             getRoomPluginQmlFile()      const = 0;
     virtual QString             getMenuPluginQmlFile()      const = 0;
     virtual PluginBase*         createNewInstance()         = 0;
+    virtual QJsonDocument       toJsonRepresentation();
 
     // IS IMPLEMENTED HERE TO EXPOSE THE SUBCLASS
     // LETTING PLUGINS IMPLEMENT IT IS TOO DANGEROUS

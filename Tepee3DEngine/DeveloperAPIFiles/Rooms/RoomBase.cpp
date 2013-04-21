@@ -217,6 +217,27 @@ void        Room::RoomBase::setPosition(const QVector3D &position)
 }
 
 /*!
+ * Returns a Json representation of the room.
+ */
+QJsonDocument Room::RoomBase::toJsonRepresentation()
+{
+    QJsonObject roomJsonObject;
+
+    roomJsonObject.insert("id", QJsonValue(this->getRoomId()));
+    roomJsonObject.insert("name", QJsonValue(this->getRoomName()));
+
+    QJsonArray pluginsArray;
+    foreach (Models::ListItem *pluginItem, this->getRoomPluginsModel()->toList())
+    {
+        Models::PluginModelItem *pluginElem = reinterpret_cast<Models::PluginModelItem*>(pluginItem);
+        pluginsArray.append(pluginElem->getPlugin()->toJsonRepresentation().object());
+    }
+    roomJsonObject.insert("widgets", QJsonValue(pluginsArray));
+
+    return QJsonDocument(roomJsonObject);
+}
+
+/*!
  * Sets \a file as the room's qml representation file.
  */
 void        Room::RoomBase::setRoomQmlFile(const QString &file)
