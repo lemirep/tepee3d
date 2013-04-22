@@ -79,7 +79,8 @@ OTHER_FILES += \
     plus.png \
     AddBox.qml \
     edit.png \
-    delegate.png
+    delegate.png \
+    EditBox.qml
 
 
 # deploy qml files to correct dir

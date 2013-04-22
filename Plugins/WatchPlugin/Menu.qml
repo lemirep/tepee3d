@@ -1,7 +1,5 @@
 import QtQuick 2.0
 
-import QtQuick 2.0
-
 Item
 {
     anchors.fill: parent
@@ -19,13 +17,18 @@ Item
             name : "clocks_view"
             PropertyChanges {target : add_clock_menu; opacity : 0}
             PropertyChanges {target : normal_menu; opacity : 1}
+        },
+        State
+        {
+            name : "edit_clocks"
+            PropertyChanges {target : edit_clock_menu; opacity : 1}
+            PropertyChanges {target : normal_menu; opacity : 0}
         }
-
     ]
 
     transitions: [
         Transition {
-            NumberAnimation { target: add_clock_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: edit_clock_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
             NumberAnimation { target: normal_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
         }]
 
@@ -48,6 +51,25 @@ Item
         }
 
     }
+    Item
+    {
+        id : edit_clock_menu
+        enabled : opacity === 1
+        opacity : 0
+        anchors.fill: parent
+        EditBox
+        {
+            anchors
+            {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                leftMargin : parent.height / 3
+            }
+            //onClicked : {WatchPlugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
+        }
+
+    }
+
     Item
     {
         id : normal_menu
@@ -78,12 +100,7 @@ Item
                 {
                     id : add_clock_button_ma
                     anchors.fill : parent
-                    onClicked :
-                    {
-                     WatchPlugin.pluginState = "add_clocks";
-                    // menuBottomMain.isShown = false
-
-                    }
+                    onClicked : WatchPlugin.pluginState = "add_clocks";
                 }
                 source : "./plus.png"
             }
@@ -122,12 +139,7 @@ Item
                 {
                     id : edit_clock_button_ma
                     anchors.fill : parent
-                    onClicked :
-                    {
-                        //   view.visible = false;
-                        //  addbox.visible = true;
-                        //add_clock_button.visible = false;
-                    }
+                    onClicked : WatchPlugin.pluginState = "edit_clocks";
                 }
                 source : "./edit.png"
             }
@@ -168,7 +180,7 @@ Item
                     anchors.fill : parent
                     onClicked :
                     {
-                        //view.visible = false;
+                        view.visible = false;
                         //addbox.visible = true;
                         //remove_clock_button.visible = false;
                     }

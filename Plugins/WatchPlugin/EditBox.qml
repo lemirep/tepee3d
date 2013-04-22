@@ -83,22 +83,18 @@ Item {
         anchors.top : cityUtc.bottom
         anchors.topMargin: parent.height / 4
         anchors.horizontalCenter: parent.horizontalCenter
-        scale : add_ma.pressed ? 0.9 : 1.0
+        scale : save_ma.pressed ? 0.9 : 1.0
         Text
         {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            text:"Add"
+            text:"Save"
         }
         MouseArea{
-            id : add_ma
+            id : save_ma
             anchors.fill: parent
             onClicked:
-            {
-                menuBottomMain.isShown = false
-                WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
-                WatchPlugin.getClockModel().clear();
-                WatchPlugin.reInitModel();
+            {                
                 WatchPlugin.pluginState = "clocks_view"
             }
         }

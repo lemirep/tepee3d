@@ -64,12 +64,7 @@ Item3D
         width: mainWindow.width / 1.4
         height: 250
         x : (mainWindow.width / 8)
-        y : (mainWindow.height / 4)
-        Rectangle{
-            anchors.fill: parent
-            color : "white"
-        }
-
+        y : (mainWindow.height / 4)       
         PathView {
             id: view
             smooth : true
