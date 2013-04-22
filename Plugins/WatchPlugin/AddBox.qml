@@ -1,12 +1,10 @@
 import QtQuick 2.0
 
-Rectangle {
+Item {
     id: c
     height : parent.height
     width: parent.width /2
-    color : "blue"
-    radius: 1
-    opacity : 0.5
+    opacity : 1
     anchors {
         horizontalCenter: parent.horizontalCenter;
         verticalCenter: parent.verticalCenter;
@@ -17,26 +15,27 @@ Rectangle {
         text : "City : "
         opacity : 1
         font.pointSize: 16
+        color : "white"
         anchors.top : parent.top
         anchors.topMargin: 20
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 4
     }
-    Rectangle
-    {
-        anchors.top : parent.top
-        anchors.topMargin: 20
+    BorderImage {
+        anchors.verticalCenter: cityName.verticalCenter
         width: parent.width / 3
         height : parent.height / 8
         anchors.left: cityName.right
         opacity : 1
-        color : "red"
-        border { color: "green" ;width: 2}
+        source :  "./delegate.png"
         TextInput
         {
             id : cityNameInpout
-            anchors.fill: parent
-            color: "#151515"; selectionColor: "green"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 30
+            width:  parent.width
+            color: "white"; selectionColor: "blue"
             font.pixelSize: 16; font.bold: true
             maximumLength: 16
             focus : true
@@ -48,27 +47,29 @@ Rectangle {
     {
         id : cityUtc
         text : "UTC : "
+        color : "white"
         font.pointSize: 16
         anchors.top : cityName.bottom
         anchors.topMargin: parent.height / 4
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 4
     }
-    Rectangle
+   BorderImage
     {
-        anchors.top : cityUtc.top
-        //anchors.topMargin: 20
+        anchors.verticalCenter: cityUtc.verticalCenter
         width: parent.width / 3
         height : parent.height / 8
         anchors.left: cityUtc.right
         opacity : 1
-        color : "red"
-        border { color: "green" ;width: 2}
+        source :  "./delegate.png"
         TextInput
         {
             id : cityUtcInpout
-            anchors.fill: parent
-            color: "#151515"; selectionColor: "green"
+            width:  parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 30
+            color: "white"; selectionColor: "blue"
             font.pixelSize: 16; font.bold: true
             maximumLength: 2
             focus : true
@@ -94,10 +95,7 @@ Rectangle {
             anchors.fill: parent
             onClicked:
             {
-                view.visible = true;
-                addbox.visible = false;
-                add_clock_button.visible = true;
-
+                menuBottomMain.isShown = false
                 WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
                 WatchPlugin.getClockModel().clear();
                 WatchPlugin.reInitModel();

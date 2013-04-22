@@ -83,36 +83,8 @@ Item3D
         path: Path {
             startX: 0; startY: 0
             PathQuad { x:listview_container.width ; y: 0; controlX: (listview_container.width / 2); controlY: (listview_container.height /2) }
+            }
         }
     }
-    AddBox
-    {
-        id : addbox
-        visible: false
-    }
-}
-Image
-{
-    id : add_clock_button
-    width : 50
-    height : 50
-    visible  : isFocused
-    smooth : true
-    scale : add_clock_button_ma.pressed ? 0.9 : 1.0
-    anchors    {bottom : listview_container.bottom; horizontalCenter : listview_container.horizontalCenter}
-    MouseArea
-    {
-        id : add_clock_button_ma
-        anchors.fill : parent
-        onClicked :
-        {
-            view.visible = false;
-            addbox.visible = true;
-            add_clock_button.visible = false;
-        }
-    }
-    source : "./plus.png"
-}
-
 }
 

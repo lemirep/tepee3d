@@ -28,6 +28,8 @@ class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN 
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.WatchPlugin")
 
+    Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
+
 protected:
     void                onIdleFocusState();
     void                onSelectedFocusState();
@@ -48,10 +50,15 @@ public:
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
+
     Q_INVOKABLE QString     getTime();
     Q_INVOKABLE QObject*    getClockModel() const;
     Q_INVOKABLE void        addClockToDB(QString city, QString utc);
-    Q_INVOKABLE void        ReInitModel();
+    Q_INVOKABLE void        reInitModel();
+
+    QString                 pluginState() const;
+    void                    setPluginState(const QString& value);
+
 private slots :
     void                    onFocusStateChanged();
 
@@ -61,6 +68,11 @@ private:
     QHash<int, void (WatchPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
     void                    retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void retrieveClocksFromDababase();
-    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);    
+    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    QString                     m_pluginState;
+
+signals :
+    void                        pluginStateChanged();
+
 };
 #endif // WATCHPLUGIN_H

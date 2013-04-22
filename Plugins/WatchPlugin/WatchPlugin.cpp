@@ -20,6 +20,7 @@ void WatchPlugin::initPlugin()
     emit executeSQLQuery("CREATE TABLE clock (clockId INTEGER NOT NULL PRIMARY KEY, clockUtc double, clockCity varchar(255))",this,GENERIC_REQUEST,DATABASE_NAME);
     qDebug()  << "SELECT * FROM clock";
     emit executeSQLQuery("SELECT * FROM clock", this, RETRIEVE_CLOCK, DATABASE_NAME);
+    this->setPluginState("clocks_view");
 }
 
 void WatchPlugin::clearPluginBeforeRemoval()
@@ -131,9 +132,20 @@ void WatchPlugin::addClockToDB(QString city, QString utc)
     qDebug() << "INSERT INTO clock (clockUtc, clockCity) VALUES('" + city +"'," +  utc + ")";
 }
 
-void        WatchPlugin::ReInitModel()
+void        WatchPlugin::reInitModel()
 {
     delete this->clockModel;
     this->clockModel = new Models::ListModel(new ClockListItem());
     this->retrieveClocksFromDababase();
+}
+
+QString WatchPlugin::pluginState() const
+{
+    return this->m_pluginState;
+}
+
+void WatchPlugin::setPluginState(const QString& value)
+{
+    this->m_pluginState = value;
+    emit pluginStateChanged();
 }
