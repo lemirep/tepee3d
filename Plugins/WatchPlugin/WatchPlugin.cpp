@@ -149,3 +149,25 @@ void WatchPlugin::setPluginState(const QString& value)
     this->m_pluginState = value;
     emit pluginStateChanged();
 }
+
+QString        WatchPlugin::getCurrentCity(int index)
+{
+    ClockListItem *Item = reinterpret_cast<ClockListItem  *>(this->clockModel->find(index));
+    if (Item == NULL)
+    {
+        qDebug() << "Item with index <" << index << "> not found";
+        return "";
+    }
+    return Item->getClockCity();
+}
+
+double       WatchPlugin::getCurrentUtc(int index)
+{
+    ClockListItem *Item = reinterpret_cast<ClockListItem  *>(this->clockModel->find(index));
+    if (Item == NULL)
+    {
+        qDebug() << "Item with index <" << index << "> not found";
+        return 0;
+    }
+    return Item->getClockUtc();
+}

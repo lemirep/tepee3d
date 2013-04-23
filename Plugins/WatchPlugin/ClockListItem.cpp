@@ -48,3 +48,12 @@ QHash<int, QByteArray> ClockListItem::roleNames() const
     return roles;
 }
 
+QString ClockListItem::getClockCity() const
+{
+    return this->m_clockCity;
+}
+
+double ClockListItem::getClockUtc() const
+{
+    return this->m_clockUtc;
+}

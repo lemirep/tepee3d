@@ -54,7 +54,7 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 4
     }
-   BorderImage
+    BorderImage
     {
         anchors.verticalCenter: cityUtc.verticalCenter
         width: parent.width / 3
@@ -94,8 +94,11 @@ Item {
             id : save_ma
             anchors.fill: parent
             onClicked:
-            {                
-                WatchPlugin.pluginState = "clocks_view"
+            {
+                //WatchPlugin.pluginState = "clocks_view"
+                console.log("Current city : " + WatchPlugin.getCurrentCity(WatchPlugin.currentInd));
+                console.log("Current Utc : " + WatchPlugin.getCurrentUtc(WatchPlugin.currentInd));
+
             }
         }
     }

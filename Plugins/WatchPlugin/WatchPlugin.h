@@ -59,6 +59,8 @@ public:
     QString                 pluginState() const;
     void                    setPluginState(const QString& value);
 
+    Q_INVOKABLE QString                 getCurrentCity(int index);
+    Q_INVOKABLE double                 getCurrentUtc(int index);
 private slots :
     void                    onFocusStateChanged();
 
@@ -70,7 +72,6 @@ private:
     void retrieveClocksFromDababase();
     void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
     QString                     m_pluginState;
-
 signals :
     void                        pluginStateChanged();
 
