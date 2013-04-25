@@ -96,6 +96,7 @@ Item {
             onClicked:
             {
                 //WatchPlugin.pluginState = "clocks_view"
+                console.log("Current ID : " + WatchPlugin.getCurrentId(WatchPlugin.currentInd));
                 console.log("Current city : " + WatchPlugin.getCurrentCity(WatchPlugin.currentInd));
                 console.log("Current Utc : " + WatchPlugin.getCurrentUtc(WatchPlugin.currentInd));
 

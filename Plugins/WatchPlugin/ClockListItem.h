@@ -21,8 +21,9 @@ public:
     int             id() const;
     QVariant        data(int role) const;
     QHash<int, QByteArray>  roleNames() const;
-    QString getClockCity() const;
-    double getClockUtc() const;
+    QString          getClockCity() const;
+    double           getClockUtc() const;
+    int              getClockId() const;
 private:
     int m_clockId;
     double m_clockUtc;

@@ -23,17 +23,17 @@ void WatchPlugin::initPlugin()
     this->setPluginState("clocks_view");
 }
 
-void WatchPlugin::clearPluginBeforeRemoval()
+void        WatchPlugin::clearPluginBeforeRemoval()
 {
     delete this->clockModel;
 }
 
-QString WatchPlugin::getPluginName()
+QString     WatchPlugin::getPluginName()
 {
     return QString("WatchPlugin");
 }
 
-QString WatchPlugin::getPluginDescription()
+QString     WatchPlugin::getPluginDescription()
 {
     return QString("WatchPlugin Description");
 }
@@ -43,7 +43,7 @@ Plugins::PluginBase* WatchPlugin::getPluginBase()
     return this;
 }
 
-QString WatchPlugin::getRoomPluginQmlFile() const
+QString     WatchPlugin::getRoomPluginQmlFile() const
 {
     return QString("WatchPlugin.qml");
 }
@@ -171,3 +171,29 @@ double       WatchPlugin::getCurrentUtc(int index)
     }
     return Item->getClockUtc();
 }
+
+int       WatchPlugin::getCurrentId(int index)
+{
+    ClockListItem *Item = reinterpret_cast<ClockListItem  *>(this->clockModel->find(index));
+    if (Item == NULL)
+    {
+        qDebug() << "Item with index <" << index << "> not found";
+        return 0;
+    }
+    return Item->getClockId();
+}
+
+void WatchPlugin::updateClockDB(int clockId, QString city, double utc)
+{
+    QString updateClock = "UPDATE clock SET clockCity='"+ city + "', clockUtc='" + utc + "' WHERE clockId = " + clockId;
+    qDebug() << updateClock;
+    emit executeSQLQuery(updateClock, this, RETRIEVE_CLOCK, DATABASE_NAME);
+}
+
+void WatchPlugin::deleteClockDB(int clockId)
+{
+    QString deleteClock = "DELETE FROM clock WHERE clockId = " + clockId;
+    qDebug() << deleteClock;
+    emit executeSQLQuery(deleteClock, this, RETRIEVE_CLOCK, DATABASE_NAME);
+}
+

@@ -57,3 +57,8 @@ double ClockListItem::getClockUtc() const
 {
     return this->m_clockUtc;
 }
+
+int ClockListItem::getClockId() const
+{
+    return this->m_clockId;
+}

@@ -31,9 +31,9 @@ class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN 
     Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
 
 protected:
-    void                onIdleFocusState();
-    void                onSelectedFocusState();
-    void                onFocusedFocusState();
+    void                    onIdleFocusState();
+    void                    onSelectedFocusState();
+    void                    onFocusedFocusState();
 
 public:
     WatchPlugin();
@@ -59,21 +59,25 @@ public:
     QString                 pluginState() const;
     void                    setPluginState(const QString& value);
 
-    Q_INVOKABLE QString                 getCurrentCity(int index);
-    Q_INVOKABLE double                 getCurrentUtc(int index);
+    Q_INVOKABLE QString     getCurrentCity(int index);
+    Q_INVOKABLE double      getCurrentUtc(int index);
+    Q_INVOKABLE int         getCurrentId(int index);
+    Q_INVOKABLE void        updateClockDB(int clockId, QString city, double utc);
+    Q_INVOKABLE void        deleteClockDB(int clockId);
+
 private slots :
     void                    onFocusStateChanged();
 
 private:
-    QQmlContext *context;
-    Models::ListModel* clockModel;
+    QQmlContext*            context;
+    Models::ListModel*      clockModel;
     QHash<int, void (WatchPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
     void                    retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
-    void retrieveClocksFromDababase();
-    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
-    QString                     m_pluginState;
+    void                    retrieveClocksFromDababase();
+    void                    genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    QString                 m_pluginState;
 signals :
-    void                        pluginStateChanged();
+    void                    pluginStateChanged();
 
 };
 #endif // WATCHPLUGIN_H
