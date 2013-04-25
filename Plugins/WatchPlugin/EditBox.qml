@@ -39,7 +39,7 @@ Item {
             font.pixelSize: 16; font.bold: true
             maximumLength: 16
             focus : true
-            text : "Your city"
+            text : WatchPlugin.getCurrentCity()
         }
     }
 
@@ -54,7 +54,7 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 4
     }
-   BorderImage
+    BorderImage
     {
         anchors.verticalCenter: cityUtc.verticalCenter
         width: parent.width / 3
@@ -73,7 +73,7 @@ Item {
             font.pixelSize: 16; font.bold: true
             maximumLength: 2
             focus : true
-            text : "9"
+            text : WatchPlugin.getCurrentUtc()
         }
     }
     Rectangle
@@ -83,23 +83,25 @@ Item {
         anchors.top : cityUtc.bottom
         anchors.topMargin: parent.height / 4
         anchors.horizontalCenter: parent.horizontalCenter
-        scale : add_ma.pressed ? 0.9 : 1.0
+        scale : save_ma.pressed ? 0.9 : 1.0
         Text
         {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            text:"Add"
+            text:"Save"
         }
         MouseArea{
-            id : add_ma
+            id : save_ma
             anchors.fill: parent
             onClicked:
             {
-                menuBottomMain.isShown = false
-                WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
-                WatchPlugin.getClockModel().clear();
-                WatchPlugin.reInitModel();
-                WatchPlugin.pluginState = "clocks_view"
+
+                //WatchPlugin.pluginState = "clocks_view"
+               console.log("Current ID : " + WatchPlugin.getCurrentId());
+               console.log("Current city : " + WatchPlugin.getCurrentCity());
+               console.log("Current Utc : " + WatchPlugin.getCurrentUtc());
+                //console.log("CUUU = " +  view.currentIndex);
+
             }
         }
     }

@@ -7,7 +7,7 @@ Item {
     property double clockUtc;
     property string clockCity;
     property int widthClock : cl.width
-    height: 100
-    width: 100
+    height: cl.height
+    width: cl.width
     Clock { id : cl;city: clockCity; shift: clockUtc }
 }

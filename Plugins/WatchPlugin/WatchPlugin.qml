@@ -7,6 +7,7 @@ Item3D
     id : alarm_clock_container
     position : Qt.vector3d(0, 0, 0);
     property bool isFocused : false;
+
     function roomEntered()
     {
     }
@@ -71,48 +72,28 @@ Item3D
             anchors.fill : parent
             focus : true
             flickDeceleration : 200
+            preferredHighlightBegin: 0.5
+            preferredHighlightEnd: 0.5
             pathItemCount : 4
             cacheItemCount : 8
             model:  WatchPlugin.getClockModel();
+            onCurrentItemChanged :
+            {
+                WatchPlugin.setCurrentCity(view.currentIndex + 1);
+                WatchPlugin.setCurrentUtc(view.currentIndex + 1);
+                WatchPlugin.setCurrentId(view.currentIndex + 1);
+            }
             delegate: ClockDelegate
             {
-            clockId : model.clockId
-            clockCity : model.clockCity
-            clockUtc : model.clockUtc
+            clockId     : model.clockId
+            clockCity   : model.clockCity
+            clockUtc    : model.clockUtc
         }
         path: Path {
             startX: 0; startY: 0
             PathQuad { x:listview_container.width ; y: 0; controlX: (listview_container.width / 2); controlY: (listview_container.height /2) }
+            }
         }
     }
-    AddBox
-    {
-        id : addbox
-        visible: false
-    }
-}
-Image
-{
-    id : add_clock_button
-    width : 50
-    height : 50
-    visible  : isFocused
-    smooth : true
-    scale : add_clock_button_ma.pressed ? 0.9 : 1.0
-    anchors    {bottom : listview_container.bottom; horizontalCenter : listview_container.horizontalCenter}
-    MouseArea
-    {
-        id : add_clock_button_ma
-        anchors.fill : parent
-        onClicked :
-        {
-            view.visible = false;
-            addbox.visible = true;
-            add_clock_button.visible = false;
-        }
-    }
-    source : "./plus.png"
-}
-
 }
 

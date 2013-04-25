@@ -77,7 +77,11 @@ OTHER_FILES += \
     center.png \
     background.png \
     plus.png \
-    AddBox.qml
+    AddBox.qml \
+    edit.png \
+    delegate.png \
+    EditBox.qml \
+    RemoveBox.qml
 
 
 # deploy qml files to correct dir

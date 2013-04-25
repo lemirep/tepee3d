@@ -28,10 +28,12 @@ class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN 
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.WatchPlugin")
 
+    Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
+
 protected:
-    void                onIdleFocusState();
-    void                onSelectedFocusState();
-    void                onFocusedFocusState();
+    void                    onIdleFocusState();
+    void                    onSelectedFocusState();
+    void                    onFocusedFocusState();
 
 public:
     WatchPlugin();
@@ -48,19 +50,41 @@ public:
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
+
     Q_INVOKABLE QString     getTime();
     Q_INVOKABLE QObject*    getClockModel() const;
     Q_INVOKABLE void        addClockToDB(QString city, QString utc);
-    Q_INVOKABLE void        ReInitModel();
+    Q_INVOKABLE void        reInitModel();
+
+    QString                 pluginState() const;
+    void                    setPluginState(const QString& value);
+
+    Q_INVOKABLE QString     getCurrentCity() const;
+    Q_INVOKABLE double      getCurrentUtc() const;
+    Q_INVOKABLE int         getCurrentId() const;
+    Q_INVOKABLE void        updateClockDB(int clockId, QString city, double utc);
+    Q_INVOKABLE void        deleteClockDB(int clockId);
+    Q_INVOKABLE void        setCurrentId(int index);
+    Q_INVOKABLE void        setCurrentUtc(int index);
+    Q_INVOKABLE void        setCurrentCity(int index);
+
 private slots :
     void                    onFocusStateChanged();
 
 private:
-    QQmlContext *context;
-    Models::ListModel* clockModel;
+    QQmlContext*            context;
+    Models::ListModel*      clockModel;
     QHash<int, void (WatchPlugin::*)(QList<QSqlRecord>, void*)> databaseCallBacks;
     void                    retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
-    void retrieveClocksFromDababase();
-    void genericDatabaseCallBack(QList<QSqlRecord> result, void *data);    
+    void                    retrieveClocksFromDababase();
+    void                    genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    QString                 m_pluginState;
+    QString                 currentCity;
+    double                  currentUtc;
+    int                     currentId;
+
+signals :
+    void                    pluginStateChanged();
+
 };
 #endif // WATCHPLUGIN_H
