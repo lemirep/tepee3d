@@ -49,7 +49,7 @@
  * \sa View::QmlViewProperties
  * */
 
-View::QmlViewManager* View::QmlViewManager::instance = NULL;
+//View::QmlViewManager* View::QmlViewManager::instance = NULL;
 
 /*!
  * \fn void View::QmlViewManager::quit()
@@ -67,7 +67,8 @@ View::QmlViewManager* View::QmlViewManager::instance = NULL;
  */
 View::QmlViewManager::QmlViewManager() : QObject()
 {
-    this->viewProperties = View::QmlViewProperties::getInstance(this);    
+    qDebug() << "Init Core Engine";
+    this->viewProperties = View::QmlViewProperties::getInstance(this);
     this->servicesManager = Services::ServicesManager::getInstance(this);
     this->roomManager = Room::RoomManager::getInstance(this);
     this->pluginsManager  = Plugins::PluginManager::getInstance(this);
@@ -76,7 +77,22 @@ View::QmlViewManager::QmlViewManager() : QObject()
     // ALL INSTANCES CREATED SHOULDN'T CALL OR REGISTER TO SERVICES UNTIL THOSE HAVE
     // BEEN PROPERLY INITIALIZED
     QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), this, SLOT(initView()));
+}
+
+/*!
+ * Initializes the Tepee3DEngine
+ */
+void View::QmlViewManager::initCoreEngine()
+{
     this->servicesManager->loadServicesLibraries();
+}
+
+/*!
+ * Return this instance as a QObject so that it can be connected to signals
+ */
+QObject *View::QmlViewManager::getObject()
+{
+    return this;
 }
 
 
@@ -95,12 +111,12 @@ View::QmlViewManager::~QmlViewManager()
 /*!
  * Returns a singleton instance of the class.
  */
-View::QmlViewManager* View::QmlViewManager::getInstance()
-{
-    if (View::QmlViewManager::instance == NULL)
-        View::QmlViewManager::instance = new View::QmlViewManager();
-    return View::QmlViewManager::instance;
-}
+//View::QmlViewManager* View::QmlViewManager::getInstance()
+//{
+//    if (View::QmlViewManager::instance == NULL)
+//        View::QmlViewManager::instance = new View::QmlViewManager();
+//    return View::QmlViewManager::instance;
+//}
 
 /*!
  * Initialises the Tepee3DEngine services, view rendering and room management entities.
@@ -109,6 +125,8 @@ View::QmlViewManager* View::QmlViewManager::getInstance()
  */
 bool    View::QmlViewManager::initView()
 {
+    qDebug() << "Init View";
+
     // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
     Services::ServicesManager::connectObjectToServices(this->roomManager);
     // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER

@@ -24,7 +24,8 @@ HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Models/SubListedListItem.h     \
            $$PWD/Plugins/PluginEnums.h          \
            $$PWD/View/QmlContentExposerInterface.h \
-           $$PWD/Utils.h
+           $$PWD/Utils.h \
+           $$PWD/CoreLibraryInterface.h
 
 
 INCLUDEPATH += $$PWD

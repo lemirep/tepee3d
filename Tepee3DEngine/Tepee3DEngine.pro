@@ -13,14 +13,14 @@ win32:DESTDIR = ./
 
 # Include Shared Development Files
 include(DeveloperAPIFiles/DevelopmentFiles.pri)
-# Include QmlViewManagement
-include(View/View.pri)
-# Include Room Sources
-include(Room/Room.pri)
-# Include Services Sources
-include(Services/Services.pri)
-# Include Plugins Sources
-include(Plugins/Plugins.pri)
+## Include QmlViewManagement
+#include(View/View.pri)
+## Include Room Sources
+#include(Room/Room.pri)
+## Include Services Sources
+#include(Services/Services.pri)
+## Include Plugins Sources
+#include(Plugins/Plugins.pri)
 
 OTHER_FILES += \
     splashscreen.png \

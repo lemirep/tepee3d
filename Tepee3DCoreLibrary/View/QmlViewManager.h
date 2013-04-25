@@ -11,14 +11,16 @@
 #include "RoomManager.h"
 #include "ServicesManager.h"
 #include "QmlAsTexture.h"
-
+#include <CoreLibraryInterface.h>
 
 // DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
 namespace View
 {
-class QmlViewManager : public QObject
+class QmlViewManager : public QObject, public CoreLibraryInterface
 {
     Q_OBJECT
+    Q_INTERFACES(CoreLibraryInterface)
+    Q_PLUGIN_METADATA(IID "com.tepee3d.Core")
 
 private:
     // QML VIEW PROPERTIES
@@ -31,12 +33,14 @@ private:
     Plugins::PluginManager      *pluginsManager;
 
 private :
-    explicit QmlViewManager();
-    static   QmlViewManager      *instance;
+//    static   QmlViewManager      *instance;
 
 public:
-    static  QmlViewManager*     getInstance();
+//    static  QmlViewManager*     getInstance();
+    explicit QmlViewManager();
     ~QmlViewManager();
+    void                        initCoreEngine();
+    QObject*                    getObject();
 public slots:
     bool                        initView();
     void                        cleanBeforeClosing();
