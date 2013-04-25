@@ -108,15 +108,24 @@ void WatchPlugin::retrieveClocksFromDatabaseCallBack(QList<QSqlRecord> result, v
 {
     qDebug() << " IN retrieveClocksFromDatabaseCallBack";
     Q_UNUSED(data)
+    bool init  = true;
+    int firtclock = 1;
+
     if (result.size() > 1)
     {
         result.pop_front();
         foreach (QSqlRecord record, result)
         {
+            if (init)
+                firtclock = record.value(0).toInt();
+            init = false;
             qDebug() << record.value(1).toString() + " find !";
             ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(2).toDouble(),record.value(1).toString());
             this->clockModel->appendRow(clock);
         }
+        this->setCurrentCity(firtclock);
+        this->setCurrentId(firtclock);
+        this->setCurrentUtc(firtclock);
     }
 }
 
@@ -150,38 +159,57 @@ void WatchPlugin::setPluginState(const QString& value)
     emit pluginStateChanged();
 }
 
-QString        WatchPlugin::getCurrentCity(int index)
+void        WatchPlugin::setCurrentCity(int index)
 {
     ClockListItem *Item = reinterpret_cast<ClockListItem  *>(this->clockModel->find(index));
     if (Item == NULL)
     {
         qDebug() << "Item with index <" << index << "> not found";
-        return "";
+        this->currentCity = "";
+        return ;
     }
-    return Item->getClockCity();
+    this->currentCity = Item->getClockCity();
 }
 
-double       WatchPlugin::getCurrentUtc(int index)
+void       WatchPlugin::setCurrentUtc(int index)
 {
     ClockListItem *Item = reinterpret_cast<ClockListItem  *>(this->clockModel->find(index));
     if (Item == NULL)
     {
         qDebug() << "Item with index <" << index << "> not found";
-        return 0;
+        this->currentUtc = 0;
+        return ;
     }
-    return Item->getClockUtc();
+    this->currentUtc =  Item->getClockUtc();
 }
 
-int       WatchPlugin::getCurrentId(int index)
+void       WatchPlugin::setCurrentId(int index)
 {
     ClockListItem *Item = reinterpret_cast<ClockListItem  *>(this->clockModel->find(index));
     if (Item == NULL)
     {
         qDebug() << "Item with index <" << index << "> not found";
-        return 0;
+        this->currentId = 0;
+        return ;
     }
-    return Item->getClockId();
+    this->currentId = Item->getClockId();
 }
+
+QString     WatchPlugin::getCurrentCity() const
+{
+    return this->currentCity;
+}
+
+double      WatchPlugin::getCurrentUtc() const
+{
+    return this->currentUtc;
+}
+
+int         WatchPlugin::getCurrentId() const
+{
+    return this->currentId;
+}
+
 
 void WatchPlugin::updateClockDB(int clockId, QString city, double utc)
 {

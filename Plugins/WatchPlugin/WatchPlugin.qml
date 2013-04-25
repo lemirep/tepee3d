@@ -7,7 +7,6 @@ Item3D
     id : alarm_clock_container
     position : Qt.vector3d(0, 0, 0);
     property bool isFocused : false;
-    property alias currentInd: view.currentIndex
 
     function roomEntered()
     {
@@ -40,8 +39,6 @@ Item3D
         plugin_base.moveCamera(eyePos, widgetPos);
         isFocused = true;
         modelAlarm.scale = 0;
-        currentInd = view.currentIndex
-
     }
 
     Item3D
@@ -68,27 +65,29 @@ Item3D
         width: mainWindow.width / 1.4
         height: 250
         x : (mainWindow.width / 8)
-        y : (mainWindow.height / 4)       
+        y : (mainWindow.height / 4)
         PathView {
             id: view
             smooth : true
             anchors.fill : parent
             focus : true
             flickDeceleration : 200
+            preferredHighlightBegin: 0.5
+            preferredHighlightEnd: 0.5
             pathItemCount : 4
             cacheItemCount : 8
             model:  WatchPlugin.getClockModel();
-            onCurrentIndexChanged :
+            onCurrentItemChanged :
             {
-                console.log("index changed : " + view.currentIndex);
-                currentInd = view.currentIndex
-                console.log("currentInd in Watplugin : " + currentInd);
+                WatchPlugin.setCurrentCity(view.currentIndex + 1);
+                WatchPlugin.setCurrentUtc(view.currentIndex + 1);
+                WatchPlugin.setCurrentId(view.currentIndex + 1);
             }
             delegate: ClockDelegate
-            {            
-            clockId : model.clockId
-            clockCity : model.clockCity
-            clockUtc : model.clockUtc
+            {
+            clockId     : model.clockId
+            clockCity   : model.clockCity
+            clockUtc    : model.clockUtc
         }
         path: Path {
             startX: 0; startY: 0

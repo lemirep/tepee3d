@@ -80,7 +80,8 @@ OTHER_FILES += \
     AddBox.qml \
     edit.png \
     delegate.png \
-    EditBox.qml
+    EditBox.qml \
+    RemoveBox.qml
 
 
 # deploy qml files to correct dir

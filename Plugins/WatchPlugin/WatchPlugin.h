@@ -59,11 +59,14 @@ public:
     QString                 pluginState() const;
     void                    setPluginState(const QString& value);
 
-    Q_INVOKABLE QString     getCurrentCity(int index);
-    Q_INVOKABLE double      getCurrentUtc(int index);
-    Q_INVOKABLE int         getCurrentId(int index);
+    Q_INVOKABLE QString     getCurrentCity() const;
+    Q_INVOKABLE double      getCurrentUtc() const;
+    Q_INVOKABLE int         getCurrentId() const;
     Q_INVOKABLE void        updateClockDB(int clockId, QString city, double utc);
     Q_INVOKABLE void        deleteClockDB(int clockId);
+    Q_INVOKABLE void        setCurrentId(int index);
+    Q_INVOKABLE void        setCurrentUtc(int index);
+    Q_INVOKABLE void        setCurrentCity(int index);
 
 private slots :
     void                    onFocusStateChanged();
@@ -76,6 +79,10 @@ private:
     void                    retrieveClocksFromDababase();
     void                    genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
     QString                 m_pluginState;
+    QString                 currentCity;
+    double                  currentUtc;
+    int                     currentId;
+
 signals :
     void                    pluginStateChanged();
 

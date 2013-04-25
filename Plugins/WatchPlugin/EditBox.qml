@@ -39,7 +39,7 @@ Item {
             font.pixelSize: 16; font.bold: true
             maximumLength: 16
             focus : true
-            text : "Your city"
+            text : WatchPlugin.getCurrentCity()
         }
     }
 
@@ -73,7 +73,7 @@ Item {
             font.pixelSize: 16; font.bold: true
             maximumLength: 2
             focus : true
-            text : "9"
+            text : WatchPlugin.getCurrentUtc()
         }
     }
     Rectangle
@@ -95,10 +95,12 @@ Item {
             anchors.fill: parent
             onClicked:
             {
+
                 //WatchPlugin.pluginState = "clocks_view"
-                console.log("Current ID : " + WatchPlugin.getCurrentId(WatchPlugin.currentInd));
-                console.log("Current city : " + WatchPlugin.getCurrentCity(WatchPlugin.currentInd));
-                console.log("Current Utc : " + WatchPlugin.getCurrentUtc(WatchPlugin.currentInd));
+               console.log("Current ID : " + WatchPlugin.getCurrentId());
+               console.log("Current city : " + WatchPlugin.getCurrentCity());
+               console.log("Current Utc : " + WatchPlugin.getCurrentUtc());
+                //console.log("CUUU = " +  view.currentIndex);
 
             }
         }

@@ -4,7 +4,6 @@ Item
 {
     anchors.fill: parent
     state : WatchPlugin.pluginState
-
     states : [
         State
         {
@@ -22,6 +21,12 @@ Item
         {
             name : "edit_clocks"
             PropertyChanges {target : edit_clock_menu; opacity : 1}
+            PropertyChanges {target : normal_menu; opacity : 0}
+        },
+        State
+        {
+            name : "remove_clocks"
+            PropertyChanges {target : remove_clock_menu; opacity : 1}
             PropertyChanges {target : normal_menu; opacity : 0}
         }
     ]
@@ -70,6 +75,24 @@ Item
 
     }
 
+    Item
+    {
+        id : remove_clock_menu
+        enabled : opacity === 1
+        opacity : 0
+        anchors.fill: parent
+        RemoveBox
+        {
+            anchors
+            {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                leftMargin : parent.height / 3
+            }
+            //onClicked : {WatchPlugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
+        }
+
+    }
     Item
     {
         id : normal_menu
@@ -162,7 +185,6 @@ Item
             height : parent.height
             anchors.left : parent.horizontalCenter
             anchors.leftMargin: parent.height / 3
-
             Image
             {
                 id : remove_clock_button
@@ -180,6 +202,7 @@ Item
                     anchors.fill : parent
                     onClicked :
                     {
+                        WatchPlugin.pluginState = "remove_clocks";
                         view.visible = false;
                         //addbox.visible = true;
                         //remove_clock_button.visible = false;
