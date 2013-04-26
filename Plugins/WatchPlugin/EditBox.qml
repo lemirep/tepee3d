@@ -100,8 +100,7 @@ Item {
                console.log("Current ID : " + WatchPlugin.getCurrentId());
                console.log("Current city : " + WatchPlugin.getCurrentCity());
                console.log("Current Utc : " + WatchPlugin.getCurrentUtc());
-                //console.log("CUUU = " +  view.currentIndex);
-
+                //console.log("CUUU = " +  view.currentIndex);         
             }
         }
     }

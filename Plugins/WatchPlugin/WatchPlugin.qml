@@ -6,6 +6,7 @@ Item3D
 {
     id : alarm_clock_container
     position : Qt.vector3d(0, 0, 0);
+    signal messageReceived();
     property bool isFocused : false;
 
     function roomEntered()
@@ -38,6 +39,7 @@ Item3D
         widgetPos.z += alarm_clock_container.z
         plugin_base.moveCamera(eyePos, widgetPos);
         isFocused = true;
+        console.log("in focissssss");
         modelAlarm.scale = 0;
     }
 
@@ -76,12 +78,14 @@ Item3D
             preferredHighlightEnd: 0.5
             pathItemCount : 4
             cacheItemCount : 8
-            model:  WatchPlugin.getClockModel();
+            model:  WatchPlugin.getClockModel();            
             onCurrentItemChanged :
             {
                 WatchPlugin.setCurrentCity(view.currentIndex + 1);
                 WatchPlugin.setCurrentUtc(view.currentIndex + 1);
                 WatchPlugin.setCurrentId(view.currentIndex + 1);
+                alarm_clock_container.messageReceived();
+
             }
             delegate: ClockDelegate
             {

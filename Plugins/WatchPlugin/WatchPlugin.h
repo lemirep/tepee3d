@@ -85,6 +85,7 @@ private:
 
 signals :
     void                    pluginStateChanged();
+    void                    testSig();
 
 };
 #endif // WATCHPLUGIN_H

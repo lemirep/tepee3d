@@ -4,6 +4,17 @@ Item
 {
     anchors.fill: parent
     state : WatchPlugin.pluginState
+    id : mwr
+    signal messageReceived()
+
+    Component.onCompleted: {
+        mwr.messageReceived.connect(test)
+    }
+    function test()
+    {
+        console.log("YYYYYYYYYYYYYYYYYYYYYYYYYY");
+    }
+
     states : [
         State
         {
@@ -194,7 +205,7 @@ Item
                 scale : remove_clock_button_ma.pressed ? 0.9 : 1.0
                 anchors    {
                     verticalCenter: parent.verticalCenter
-                     horizontalCenter : remove_clock_button_text.horizontalCenter
+                    horizontalCenter : remove_clock_button_text.horizontalCenter
                 }
                 MouseArea
                 {
@@ -203,9 +214,6 @@ Item
                     onClicked :
                     {
                         WatchPlugin.pluginState = "remove_clocks";
-                        view.visible = false;
-                        //addbox.visible = true;
-                        //remove_clock_button.visible = false;
                     }
                 }
                 source : "./red_cross.png"
