@@ -23,6 +23,7 @@ Item
         clip : true
         anchors.fill: parent
         model : show_pathview_container.model
+        highlightFollowsCurrentItem: true
         highlightRangeMode : ListView.StrictlyEnforceRange
         highlight: Component{
             Rectangle

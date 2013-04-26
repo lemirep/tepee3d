@@ -87,7 +87,7 @@ Item
             {
                 id : add_show_button_text
                 text : "Add New Shows"
-                font.pointSize: mainWindow.defaultFontSize
+                font.pixelSize: mainWindow.defaultFontSize
                 color : "white"
                 anchors
                 {
@@ -120,7 +120,7 @@ Item
             {
                 id : refresh_show_button_text
                 text : "Refresh All Shows"
-                font.pointSize: mainWindow.defaultFontSize
+                font.pixelSize: mainWindow.defaultFontSize
                 color : "white"
                 anchors
                 {
@@ -153,7 +153,7 @@ Item
             {
                 id : sync_with_sickbeard_text
                 text : "Sync with SickBeard"
-                font.pointSize: mainWindow.defaultFontSize
+                font.pixelSize: mainWindow.defaultFontSize
                 color : "white"
                 anchors
                 {
@@ -184,7 +184,7 @@ Item
             {
                 id : set_sickbeard_config_text
                 text : "Configure SickBeard"
-                font.pointSize: mainWindow.defaultFontSize
+                font.pixelSize: mainWindow.defaultFontSize
                 color : "white"
                 anchors
                 {

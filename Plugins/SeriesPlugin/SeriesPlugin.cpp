@@ -47,6 +47,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
     this->databaseCallBacks[RETRIEVE_SICKBEARD_CONFIG] = &SeriesPlugin::retrieveSickBeardConfigCallBack;
     // CREATE SERIES MODEL
     this->followedSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
+    this->followedSeriesModel->setSorting(true);
     // THIS MODEL IS USED WHEN SEARCHING FOR SHOWS, SEASONS AND EPISODES SUBMODELS ARE NOT FILLED
     this->searchSeriesModel = new Models::SubListedListModel(new SerieSubListedItem());
     // MODELS CONTAINING SHOWS TO APPEAR THIS WEEK
@@ -113,7 +114,7 @@ void SeriesPlugin::onFocusedFocusState()
 {
     qDebug() << "SeriesPlugin Focused";
     this->updateOnlineUpdatedShows();
-    this->refreshShowsInPlanning();
+
 }
 
 Plugins::PluginBase* SeriesPlugin::createNewInstance()
@@ -316,33 +317,42 @@ void SeriesPlugin::updateOnlineUpdatedShows()
                                                , UPDATE_UPDATED_SHOW);
 }
 
-void SeriesPlugin::refreshShowsInPlanning()
+void SeriesPlugin::refreshShowsInPlanning(int scheduleType)
 {
     // TIME AT THE END OF THE WEEK
-    QDateTime nowTime = QDateTime::currentDateTime();
-    QDateTime endWeekTime = nowTime.addDays(7);
-    this->showsOfTheWeek->clear();
+    QDateTime nowTime = QDateTime::currentDateTime().addDays(-1);
+    QDateTime endWeekTime = nowTime.addDays(1);
+    if (scheduleType == 2)
+        endWeekTime = nowTime.addDays(6);
+    else if (scheduleType == 3)
+        endWeekTime = nowTime.addMonths(1);
+
+    // A CLEAR DELETES ALSO DATA FROM THE followedSeriesModel WHICH WE DON'T WANT TO DO
+    this->showsOfTheWeek->takeRows().clear();
 
     foreach (Models::ListItem *showItem, this->followedSeriesModel->toList())
     {
         SerieSubListedItem* show = reinterpret_cast<SerieSubListedItem*>(showItem);
         // BASED ON LAST SEASON ONLY
-        SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().first());
-        bool showIsThisWeek = false;
-        foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
+        if (show->submodel() != NULL)
         {
-            EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
-            if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime &&
-                    episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime)
+            SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().first());
+            bool showIsThisWeek = false;
+            foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
             {
-                showIsThisWeek = true;
-                break;
+                EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
+                if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime.toLocalTime() &&
+                        episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime.toLocalTime())
+                {
+                    showIsThisWeek = true;
+                    break;
+                }
             }
-        }
-        if (showIsThisWeek)
-        {
-            qDebug() << "Found new Show in this week";
-            this->showsOfTheWeek->appendRow(show);
+            if (showIsThisWeek)
+            {
+                qDebug() << "Found new Show in this week";
+                this->showsOfTheWeek->appendRow(show);
+            }
         }
     }
 }
@@ -477,7 +487,7 @@ EpisodeListItem *SeriesPlugin::parseShowEpisode(const QJsonObject& episodeObj)
                                    episodeObj.value("title").toString(),
                                    episodeObj.value("overview").toString(),
                                    image.value("screen").toString(),
-                                   QDateTime::fromTime_t(episodeObj.value("first_aired").toDouble()));
+                                   QDateTime::fromTime_t(episodeObj.value("first_aired").toDouble()).toLocalTime());
     }
     return NULL;
 }
@@ -1005,7 +1015,7 @@ void SeriesPlugin::retrieveEpisodesForShowSeasonDatabaseCallBack(QList<QSqlRecor
                                                               record.value(0).toString(),
                                                               record.value(2).toString(),
                                                               record.value(5).toString(),
-                                                              QDateTime::fromTime_t(record.value(3).toInt()),
+                                                              QDateTime::fromTime_t(record.value(3).toInt()).toLocalTime(),
                                                               record.value(4).toBool(),
                                                               record.value(6).toString()));
         }

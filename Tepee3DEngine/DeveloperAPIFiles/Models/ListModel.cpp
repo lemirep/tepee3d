@@ -101,6 +101,7 @@
 Models::ListModel::ListModel(Models::ListItem *prototype, QObject *parent) : QAbstractListModel(parent)
 {
     this->prototype = prototype;
+    this->sortEnabled = false;
 }
 
 /*!
@@ -216,6 +217,7 @@ void        Models::ListModel::appendRows(QList<Models::ListItem *> &items)
     }
     // NEEDED TO UPDATE VIEW
     this->endInsertRows();
+    this->sort();
     emit (countChanged(this->rowCount()));
 }
 
@@ -228,6 +230,7 @@ void       Models::ListModel::insertRow(int row, Models::ListItem *item)
     QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
     this->items.insert(row, item);
     this->endInsertRows();
+    this->sort();
     emit (countChanged(this->rowCount()));
 }
 
@@ -275,6 +278,33 @@ void        Models::ListModel::clear()
 {    
     this->removeRows(0, this->items.size());
     emit (countChanged(this->rowCount()));
+}
+
+bool Models::ListModel::sortingEnabled() const
+{
+    return this->sortEnabled;
+}
+
+void Models::ListModel::setSorting(bool value)
+{
+    this->sortEnabled = value;
+    emit sortingChanged(value);
+}
+
+bool compareFunc(void *a, void *b)
+{
+    return *reinterpret_cast<Models::ListItem *>(a) < *reinterpret_cast<Models::ListItem *>(b);
+}
+/*!
+ * Sorts the elements of the models
+ */
+void Models::ListModel::sort()
+{
+    if (this->sortEnabled)
+    {
+        qDebug() << "Sort";
+        qSort(this->items.begin(), this->items.end(), compareFunc);
+    }
 }
 
 /*!

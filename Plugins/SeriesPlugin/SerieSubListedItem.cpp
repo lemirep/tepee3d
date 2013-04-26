@@ -58,6 +58,11 @@ SerieSubListedItem::~SerieSubListedItem()
     delete this->seasonModel;
 }
 
+bool SerieSubListedItem::operator <(const Models::ListItem &nextItem)
+{
+    return (this->m_serieName.compare(nextItem.data(SerieSubListedItem::serieName).toString()) < 0);
+}
+
 int SerieSubListedItem::id() const
 {
     return this->m_tvDbId;

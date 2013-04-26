@@ -3,7 +3,6 @@
 
 #include <QQmlEngine>
 #include <QVector3D>
-#include <iostream>
 #include <PluginModelItem.h>
 #include "RoomBase.h"
 
@@ -17,10 +16,8 @@ class BasicRoom : public Room::RoomBase
 private:
 
 public:
-
     BasicRoom();
     ~BasicRoom();
-
 
     QObject*                        getObject();
     Room::RoomBase*                 createNewInstance();

@@ -6,6 +6,7 @@
 #include <QList>
 #include <QHash>
 #include <QByteArray>
+#include <QtAlgorithms>
 #include "ListItem.h"
 
 namespace Models
@@ -15,6 +16,7 @@ class ListModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(int count READ rowCount NOTIFY countChanged)
+    Q_PROPERTY(bool sorting READ sortingEnabled WRITE setSorting NOTIFY sortingChanged)
 public:
     explicit ListModel(ListItem *prototype, QObject *parent = 0);
     ~ListModel();
@@ -41,16 +43,23 @@ public:
     Q_INVOKABLE int         rowIndexFromId(int id);
     Q_INVOKABLE void        clear();
 
+    bool                    sortingEnabled() const;
+    void                    setSorting(bool value);
+
 protected:
     ListItem *prototype;
     QList<ListItem *> items;
+    bool        sortEnabled;
+
+private:
+    void                    sort();
 
 private slots :
     void        updateItem();
 
 signals :
     void        countChanged(int);
-
+    void        sortingChanged(bool);
 };
 
 }

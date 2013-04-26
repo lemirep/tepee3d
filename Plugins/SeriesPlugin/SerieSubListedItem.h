@@ -60,6 +60,8 @@ public:
                                  bool serieOnSickbeard = false, QObject *parent = 0);
     ~SerieSubListedItem();
 
+    bool            operator <(const ListItem &nextItem);
+
     int             id() const;
     QVariant        data(int role) const;
     QHash<int, QByteArray>  roleNames() const;

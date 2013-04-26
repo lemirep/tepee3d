@@ -49,6 +49,8 @@ Item
             bottom : show_pic.bottom
             bottomMargin : -6
         }
+        Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
+        scale : (show_pic.status == Image.Ready) ? 1 : 0
     }
 
     Text
@@ -95,7 +97,8 @@ Item
         color : "white"
         text : episodeAiring.getDate()
                + "/" + (episodeAiring.getMonth() + 1)
-               + "/" + episodeAiring.getFullYear()
+               + "/" + episodeAiring.getFullYear() + " - "
+               + episodeAiring.getHours() + ":" + episodeAiring.getMinutes();
         font.pixelSize: mainWindow.smallFontSize
     }
 

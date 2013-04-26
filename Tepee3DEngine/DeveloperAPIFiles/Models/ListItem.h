@@ -18,6 +18,7 @@ public :
     virtual QVariant data(int role) const = 0;
     virtual QHash<int, QByteArray> roleNames() const = 0;
     virtual void triggerItemUpdate() {emit dataChanged();}
+    virtual bool operator<(const ListItem &nextElem) {Q_UNUSED(nextElem); return false;}
 signals:
     void dataChanged();
 };

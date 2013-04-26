@@ -54,6 +54,8 @@ Item
             horizontalCenter : parent.horizontalCenter
             top : parent.top
         }
+        Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
+        scale : (status == Image.Ready) ? 1 : 0
     }
 
     Text

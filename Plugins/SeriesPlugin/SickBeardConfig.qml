@@ -16,7 +16,7 @@ Item
             topMargin : 20
             leftMargin : 10
         }
-        font.pointSize: mainWindow.largeFontSize
+        font.pixelSize: mainWindow.largeFontSize
     }
 
     TextInputComponent
@@ -48,7 +48,7 @@ Item
             topMargin : 10
             leftMargin : 10
         }
-        font.pointSize: mainWindow.largeFontSize
+        font.pixelSize: mainWindow.largeFontSize
     }
 
     TextInputComponent
@@ -79,11 +79,11 @@ Item
         {
             top : sb_key_input.bottom
             left : parent.left
-            right : add_show_sickbeard
+            right : add_show_sickbeard.left
             topMargin : 10
             leftMargin : 10
         }
-        font.pointSize: mainWindow.defaultFontSize
+        font.pixelSize: mainWindow.defaultFontSize
     }
 
     CheckBox

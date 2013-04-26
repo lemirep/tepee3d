@@ -114,10 +114,10 @@ public:
     Q_INVOKABLE                 void     retrieveSickBeardShows();
     Q_INVOKABLE                 void     searchSickBeardEpisode(int serieId, int seasonId, int episodeId);
     Q_INVOKABLE                 void     saveSickBeardConfig();
+    Q_INVOKABLE                 void     refreshShowsInPlanning(int scheduleType);
     void                                 addShowToSickBeard(QString showId);
     void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
     void                                 updateOnlineUpdatedShows();
-    void                                 refreshShowsInPlanning();
 
     QString                              pluginState() const;
     void                                 setPluginState(const QString& value);

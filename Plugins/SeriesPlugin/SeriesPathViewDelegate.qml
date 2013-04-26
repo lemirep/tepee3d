@@ -67,6 +67,7 @@ Item
         }
         radius : 2
         color : "#44000000"
+        scale : followed_series_delegate_pic.scale
     }
     Image
     {
@@ -82,8 +83,9 @@ Item
         }
         asynchronous : true
         source : img_src.replace(".jpg", "-300.jpg")
+        Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
+        scale : (status == Image.Ready) ? 1 : 0
     }
-
 
     MouseArea
     {
