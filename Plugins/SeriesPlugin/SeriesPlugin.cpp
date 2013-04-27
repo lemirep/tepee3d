@@ -151,10 +151,11 @@ QObject *SeriesPlugin::getSeasonsModelFromSerieId(int serieId) const
 
 QObject *SeriesPlugin::getEpisodesFromSeasonAndShowId(int serieId, int seasonId) const
 {
-    SerieSubListedItem *serie = (SerieSubListedItem *)this->followedSeriesModel->find(serieId);
-    SeasonSubListedItem *season = NULL;
-    if (serie != NULL && (season = (SeasonSubListedItem *)serie->submodel()->find(seasonId)) != NULL)
-        return season->submodel();
+    Models::SubListedListItem *item = reinterpret_cast<Models::SubListedListItem *>
+            (this->followedSeriesModel->find(serieId));
+    if (item != NULL && (item = reinterpret_cast<Models::SubListedListItem *>
+                         (item->submodel()->find(seasonId))) != NULL)
+        return item->submodel();
     return NULL;
 }
 
@@ -317,6 +318,25 @@ void SeriesPlugin::updateOnlineUpdatedShows()
                                                , UPDATE_UPDATED_SHOW);
 }
 
+void SeriesPlugin::getLastSeenEpisodeForShow(int showId, int &seasonId, int &episodeId)
+{
+    SerieSubListedItem *show = reinterpret_cast<SerieSubListedItem *>
+            (this->followedSeriesModel->find(showId));
+
+    if (show != NULL && (seasonId = -1) == (episodeId = -1))
+    {
+        foreach (Models::ListItem *seasonItem, show->submodel()->toList())
+            foreach (Models::ListItem *episodeItem,
+                     reinterpret_cast<Models::SubListedListItem *>(seasonItem)->submodel()->toList())
+                if (!episodeItem->data(EpisodeListItem::episodeSeen).toBool())
+                {
+                    seasonId = seasonItem->id();
+                    episodeId = episodeItem->id();
+                    return ;
+                }
+    }
+}
+
 void SeriesPlugin::refreshShowsInPlanning(int scheduleType)
 {
     // TIME AT THE END OF THE WEEK
@@ -340,9 +360,9 @@ void SeriesPlugin::refreshShowsInPlanning(int scheduleType)
             bool showIsThisWeek = false;
             foreach (Models::ListItem *episodeItem, lastSeason->submodel()->toList())
             {
-                EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
-                if (episode->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime.toLocalTime() &&
-                        episode->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime.toLocalTime())
+                //                EpisodeListItem *episode = reinterpret_cast<EpisodeListItem*>(episodeItem);
+                if (episodeItem->data(EpisodeListItem::episodeAiring).toDateTime() > nowTime.toLocalTime() &&
+                        episodeItem->data(EpisodeListItem::episodeAiring).toDateTime() < endWeekTime.toLocalTime())
                 {
                     showIsThisWeek = true;
                     break;
@@ -551,21 +571,19 @@ void SeriesPlugin::fillMissingInfoFromPrevious(SerieSubListedItem *oldShow, Seri
             foreach (Models::ListItem *oldSeasonItem, oldSeasonModel->toList())
             {
                 Models::ListItem* updatedSeasonItem = updatedSeasonModel->find(oldSeasonItem->id());
-                if (updatedSeasonItem != NULL)
-                {
-                    Models::ListModel *oldEpisodeModel = reinterpret_cast<Models::SubListedListItem*>(oldSeasonItem)->submodel();
-                    Models::ListModel *updatedEpisodeModel = reinterpret_cast<Models::SubListedListItem*>(updatedSeasonItem)->submodel();
-                    if (oldEpisodeModel != NULL && updatedEpisodeModel != NULL)
-                        foreach (Models::ListItem* oldEpisodeItem, oldEpisodeModel->toList())
-                        {
-                            EpisodeListItem *oldEpisode = reinterpret_cast<EpisodeListItem*>(oldEpisodeItem);
-                            EpisodeListItem *newEpisode = reinterpret_cast<EpisodeListItem*>(updatedEpisodeModel->find(oldEpisode->id()));
-                            if (newEpisode == NULL)
-                                continue;
-                            newEpisode->setEpisodeSeen(oldEpisode->data(EpisodeListItem::episodeSeen).toBool());
-                            newEpisode->setSickbeardStatus(oldEpisodeItem->data(EpisodeListItem::episodeSickbeardStatus).toString());
-                        }
-                }
+                if (updatedSeasonItem == NULL)
+                    continue;
+                Models::ListModel *oldEpisodeModel = reinterpret_cast<Models::SubListedListItem*>(oldSeasonItem)->submodel();
+                Models::ListModel *updatedEpisodeModel = reinterpret_cast<Models::SubListedListItem*>(updatedSeasonItem)->submodel();
+                if (oldEpisodeModel != NULL && updatedEpisodeModel != NULL)
+                    foreach (Models::ListItem* oldEpisodeItem, oldEpisodeModel->toList())
+                    {
+                        EpisodeListItem *newEpisode = reinterpret_cast<EpisodeListItem*>(updatedEpisodeModel->find(oldEpisodeItem->id()));
+                        if (newEpisode == NULL)
+                            continue;
+                        newEpisode->setEpisodeSeen(oldEpisodeItem->data(EpisodeListItem::episodeSeen).toBool());
+                        newEpisode->setSickbeardStatus(oldEpisodeItem->data(EpisodeListItem::episodeSickbeardStatus).toString());
+                    }
             }
     }
 }

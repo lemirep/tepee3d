@@ -118,6 +118,7 @@ public:
     void                                 addShowToSickBeard(QString showId);
     void                                 updateShowSeasonFromSickBeard(int showId, int seasonId);
     void                                 updateOnlineUpdatedShows();
+    void                                 getLastSeenEpisodeForShow(int showId, int &seasonId, int &episodeId);
 
     QString                              pluginState() const;
     void                                 setPluginState(const QString& value);

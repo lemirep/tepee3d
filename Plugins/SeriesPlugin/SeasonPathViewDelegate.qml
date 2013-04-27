@@ -39,6 +39,7 @@ Item
         }
         color : "black"
         opacity : 0.4
+        scale : serie_season_delegate_pic.scale
     }
 
     Image
