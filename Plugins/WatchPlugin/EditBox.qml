@@ -73,7 +73,7 @@ Item {
             font.pixelSize: 16; font.bold: true
             maximumLength: 2
             focus : true
-            text : WatchPlugin.getCurrentUtc()
+            text : WatchPlugin.currentItemChangedUtc
         }
     }
     Rectangle
@@ -95,12 +95,13 @@ Item {
             anchors.fill: parent
             onClicked:
             {
-
-                //WatchPlugin.pluginState = "clocks_view"
-               console.log("Current ID : " + WatchPlugin.getCurrentId());
-               console.log("Current city : " + WatchPlugin.getCurrentCity());
-               console.log("Current Utc : " + WatchPlugin.getCurrentUtc());
-                //console.log("CUUU = " +  view.currentIndex);         
+                WatchPlugin.updateClockDB(WatchPlugin.getCurrentId(), cityNameInpout.text, cityUtcInpout.text);
+                WatchPlugin.reInitModel()
+                WatchPlugin.pluginState = "clocks_view"
+                console.log("Current ID : " + WatchPlugin.getCurrentId());
+                console.log("Current city : " + WatchPlugin.getCurrentCity());
+                console.log("Current Utc : " + WatchPlugin.getCurrentUtc());
+                //console.log("CUUU = " +  view.currentIndex);
             }
         }
     }

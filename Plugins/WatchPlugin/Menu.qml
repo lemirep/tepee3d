@@ -36,6 +36,8 @@ Item
         Transition {
             NumberAnimation { target: edit_clock_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
             NumberAnimation { target: normal_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: remove_clock_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
+
         }]
 
     Item

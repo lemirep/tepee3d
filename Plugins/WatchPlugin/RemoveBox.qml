@@ -11,7 +11,7 @@ Rectangle
     {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        text:"Remove"
+        text:"Remove " + WatchPlugin.currentItemChangedCity
     }
     MouseArea{
         id : remove_ma

@@ -28,7 +28,8 @@ class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN 
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.WatchPlugin")
 
-    Q_PROPERTY(QString currentItemChangedCity WRITE setItemChangedCity() READ getItemChangedCity() NOTIFY ItemChangedCity)
+    Q_PROPERTY(QString currentItemChangedCity WRITE setItemChangedCity READ getItemChangedCity() NOTIFY ItemChangedCity)
+    Q_PROPERTY(double currentItemChangedUtc WRITE setItemChangedUtc READ getItemChangedUtc() NOTIFY ItemChangedUtc)
     Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
 
 protected:
@@ -59,17 +60,20 @@ public:
 
     QString                 pluginState() const;
     void                    setPluginState(const QString& value);
-    QString        getItemChangedCity() const;
-    void           setItemChangedCity(QString);
 
-   QString        currentItemChangedCity() const;
+    QString                 currentItemChangedCity() const;
+    QString                 getItemChangedCity() const;
+    void                    setItemChangedCity(QString);
 
+    double                  currentItemChangedUtc() const;
+    double                  getItemChangedUtc() const;
+    void                    setItemChangedUtc(double);
 
 
     Q_INVOKABLE QString     getCurrentCity() const;
     Q_INVOKABLE double      getCurrentUtc() const;
     Q_INVOKABLE int         getCurrentId() const;
-    Q_INVOKABLE void        updateClockDB(int clockId, QString city, double utc);
+    Q_INVOKABLE void        updateClockDB(int clockId, QString city, QString utc);
     Q_INVOKABLE void        deleteClockDB(int clockId);
     Q_INVOKABLE void        setCurrentId(int index);
     Q_INVOKABLE void        setCurrentUtc(int index);
@@ -92,5 +96,6 @@ private:
 signals :
     void                    pluginStateChanged();
     void                    ItemChangedCity();
+    void                    ItemChangedUtc();
 };
 #endif // WATCHPLUGIN_H
