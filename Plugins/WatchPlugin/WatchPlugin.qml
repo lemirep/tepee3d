@@ -83,9 +83,7 @@ Item3D
             {
                 WatchPlugin.setCurrentCity(view.currentIndex + 1);
                 WatchPlugin.setCurrentUtc(view.currentIndex + 1);
-                WatchPlugin.setCurrentId(view.currentIndex + 1);
-                alarm_clock_container.messageReceived();
-
+                WatchPlugin.setCurrentId(view.currentIndex + 1);              
             }
             delegate: ClockDelegate
             {

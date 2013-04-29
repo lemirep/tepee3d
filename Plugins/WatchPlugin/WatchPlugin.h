@@ -28,6 +28,7 @@ class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN 
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.WatchPlugin")
 
+    Q_PROPERTY(QString currentItemChangedCity WRITE setItemChangedCity() READ getItemChangedCity() NOTIFY ItemChangedCity)
     Q_PROPERTY(QString pluginState WRITE setPluginState READ pluginState NOTIFY pluginStateChanged)
 
 protected:
@@ -58,6 +59,12 @@ public:
 
     QString                 pluginState() const;
     void                    setPluginState(const QString& value);
+    QString        getItemChangedCity() const;
+    void           setItemChangedCity(QString);
+
+   QString        currentItemChangedCity() const;
+
+
 
     Q_INVOKABLE QString     getCurrentCity() const;
     Q_INVOKABLE double      getCurrentUtc() const;
@@ -70,7 +77,6 @@ public:
 
 private slots :
     void                    onFocusStateChanged();
-
 private:
     QQmlContext*            context;
     Models::ListModel*      clockModel;
@@ -85,7 +91,6 @@ private:
 
 signals :
     void                    pluginStateChanged();
-    void                    testSig();
-
+    void                    ItemChangedCity();
 };
 #endif // WATCHPLUGIN_H

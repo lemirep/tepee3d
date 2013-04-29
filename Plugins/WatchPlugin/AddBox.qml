@@ -97,7 +97,6 @@ Item {
             {
                 menuBottomMain.isShown = false
                 WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
-                WatchPlugin.getClockModel().clear();
                 WatchPlugin.reInitModel();
                 WatchPlugin.pluginState = "clocks_view"
             }

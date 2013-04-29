@@ -39,7 +39,7 @@ Item {
             font.pixelSize: 16; font.bold: true
             maximumLength: 16
             focus : true
-            text : WatchPlugin.getCurrentCity()
+            text : WatchPlugin.currentItemChangedCity
         }
     }
 

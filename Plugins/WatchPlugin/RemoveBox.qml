@@ -19,7 +19,6 @@ Rectangle
         onClicked:
         {
             WatchPlugin.deleteClockDB(WatchPlugin.getCurrentId());
-            WatchPlugin.getClockModel().clear();
             WatchPlugin.reInitModel();
             WatchPlugin.pluginState = "clocks_view"
         }

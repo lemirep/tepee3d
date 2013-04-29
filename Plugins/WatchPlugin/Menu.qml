@@ -4,16 +4,6 @@ Item
 {
     anchors.fill: parent
     state : WatchPlugin.pluginState
-    id : mwr
-    signal messageReceived()
-
-    Component.onCompleted: {
-        mwr.messageReceived.connect(test)
-    }
-    function test()
-    {
-        console.log("YYYYYYYYYYYYYYYYYYYYYYYYYY");
-    }
 
     states : [
         State
@@ -47,7 +37,6 @@ Item
             NumberAnimation { target: edit_clock_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
             NumberAnimation { target: normal_menu; property: "opacity"; duration: 750; easing.type: Easing.InOutQuad }
         }]
-
 
     Item
     {
@@ -213,6 +202,7 @@ Item
                     anchors.fill : parent
                     onClicked :
                     {
+
                         WatchPlugin.pluginState = "remove_clocks";
                     }
                 }

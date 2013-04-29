@@ -143,8 +143,9 @@ void WatchPlugin::addClockToDB(QString city, QString utc)
 
 void        WatchPlugin::reInitModel()
 {
-    delete this->clockModel;
-    this->clockModel = new Models::ListModel(new ClockListItem());
+    //delete this->clockModel;
+    //this->clockModel = new Models::ListModel(new ClockListItem());
+    this->clockModel->clear();
     this->retrieveClocksFromDababase();
 }
 
@@ -169,6 +170,9 @@ void        WatchPlugin::setCurrentCity(int index)
         return ;
     }
     this->currentCity = Item->getClockCity();
+    this->setItemChangedCity(Item->getClockCity());
+    emit ItemChangedCity();
+
 }
 
 void       WatchPlugin::setCurrentUtc(int index)
@@ -223,5 +227,14 @@ void WatchPlugin::deleteClockDB(int clockId)
     QString deleteClock = "DELETE FROM clock WHERE clockId = " + clockId;
     qDebug() << deleteClock;
     emit executeSQLQuery(deleteClock, this, RETRIEVE_CLOCK, DATABASE_NAME);
+}
+
+QString WatchPlugin::getItemChangedCity() const
+{
+    return this->currentCity;
+}
+void WatchPlugin::setItemChangedCity(QString c)
+{
+    this->currentCity = c;
 }
 
