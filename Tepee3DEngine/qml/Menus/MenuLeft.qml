@@ -137,15 +137,19 @@ Item
             enabled : (opacity === 1 && menuLeftRec.width === maxMenuWidth && !lockList)
             clip: true
             spacing: 10
+            width : menuLeftMain.width / 2;
             anchors
             {
-                fill: parent
-                margins : menuLeftMain.width / 8
+                horizontalCenter : parent.horizontalCenter
+                top : parent.top
+                bottom : parent.bottom
+                topMargin : menuLeftMain.width / 8
+                bottomMargin : menuLeftMain.width / 8
             }
             orientation: ListView.Vertical
             model : roomModel
             delegate: RoomDelegate {
-                width : menuLeftMain.width / 2;
+                width : rooms_list_view.width;
                 height : menuLeftMain.width / 3;
                 roomId : model.roomId
                 roomName : model.roomName
@@ -154,6 +158,42 @@ Item
                 editMode: isInEditMode
             }
             Component.onCompleted:{rooms_list_view.currentIndex = -1}
+
+            // Transition to apply to items that are removed
+            remove : Transition {
+                ParallelAnimation
+                {
+                    SmoothedAnimation {property : "x"; to : 400; duration : 200}
+                    NumberAnimation {property : "opacity"; to : 0; duration : 1200}
+                }
+            }
+            // Transition to apply to items that are added
+            add : Transition {
+                SequentialAnimation
+                {
+                    ParallelAnimation
+                    {
+                        NumberAnimation {property : "x"; to : -400; duration : 0}
+                        NumberAnimation {property : "opacity"; to : 0; duration : 0}
+                    }
+                    ParallelAnimation
+                    {
+                        SmoothedAnimation {property : "x"; to : 0; duration : 200}
+                        NumberAnimation {property : "opacity"; to : 1; duration : 1200}
+                    }
+                }
+            }
+
+            addDisplaced: add_remove__displaced_transition
+            removeDisplaced : add_remove_displaced_transition
+            // Transition to apply to items displaced by addition or removal of items
+            Transition
+            {
+                id : add_remove_displaced_transition
+                SmoothedAnimation {property : "y"; duration : 500}
+            }
+
+
         }
 
         Image

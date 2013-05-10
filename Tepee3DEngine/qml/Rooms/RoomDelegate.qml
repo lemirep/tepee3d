@@ -4,8 +4,6 @@ import QtQuick 2.0
 Item
 {
     id : item_room_del
-    width : rooms_list_view.delegate_width
-    height : rooms_list_view.delegate_height
 
     property int      roomId : 0
     property int      isSelected : rooms_list_view.currentIndex === index
@@ -14,7 +12,6 @@ Item
     property vector3d roomScale : Qt.vector3d(0, 0, 0)
     property bool     editMode;
 
-    anchors.horizontalCenter: parent.horizontalCenter
     scale : room_delegate_mouse_area.pressed ? 0.9 : 1.0
 
     Behavior on scale {SmoothedAnimation {velocity : 1; duration : -1}}
