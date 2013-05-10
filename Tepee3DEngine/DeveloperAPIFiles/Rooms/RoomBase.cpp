@@ -278,7 +278,7 @@ void        Room::RoomBase::removeWidgetFromRoom(Models::PluginModelItem *plugin
  */
 void Room::RoomBase::placeWidgetsInSpace()
 {
-    int idx;
+    int idx = 0;
     qreal   posAngle = (2 * M_PI / this->roomProperties->getRoomPluginsModel()->rowCount());
     qreal   radius = this->getScale().x() / 4 * ((this->roomProperties->getRoomPluginsModel()->rowCount() / 10) + 1);
 
