@@ -275,5 +275,37 @@ Item
             }
         }
     }
+
+    Item
+      {
+          id : newWindowsNotification
+          width: 75
+          height : 30
+          opacity : 1
+          property string notification_name: ""
+          x : 500
+          y : 500
+
+          Loader {
+              function getCallBack() {
+                  return sourceComponent;
+              }
+              id: testLoader
+              onStateChanged: {
+                   return this.getCallBack();
+              }
+          }
+
+
+
+          MouseArea {
+              id : testButtonAction
+              anchors.fill: parent
+             onClicked: {
+                testLoader.source = notification_name;
+                testLoader.getCallBack()
+              }
+          }
+      }
 }
 
