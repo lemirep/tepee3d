@@ -42,3 +42,25 @@ QString & Utils::escapeSqlQuery(QString query)
 {
     return query.replace("'", "''");
 }
+
+QString Utils::returnPlatformName()
+{
+#if defined Q_OS_LINUX
+    return "linux";
+#elif defined Q_OS_UNIX
+    return "unix";
+#elif defined Q_OS_WIN32
+    return "windows32";
+#elif defined Q_OS_WIN64
+    return "windows64";
+#elif defined Q_OS_QNX
+    return "qnx";
+#elif defined Q_OS_MACX
+    return "mac";
+#elif defined Q_OS_IOS
+    return "ios";
+#elif defined Q_OS_ANDROID
+    return "android";
+#endif
+}
+

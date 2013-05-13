@@ -29,6 +29,8 @@
 
 //class View::QmlViewProperties;
 
+#define GET_ONLINE_PLUGINS 0
+
 namespace Plugins
 {
 class PluginManager : public QObject,
@@ -51,14 +53,18 @@ public:
     static void                 cleanPluginBeforeRemoval(PluginBase *roomPlugin);
 
 private:
+
     explicit PluginManager(QObject *parent = 0);
     static PluginManager*               instance;
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
+    QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
 
+    void                        retrieveOnlinePluginsForCurrentPlatform();
+    void                        retrieveOnlinePlugindForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 signals :
-    void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *);
+    void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
 };
 }
 

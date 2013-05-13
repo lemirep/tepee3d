@@ -15,11 +15,18 @@
 /*!
  * Constructs a new NetworkReplyRepeater instance given a \a receiver and \a requestId.
  */
-NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId, void *data) : QObject()
+NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId, void *data, QHttpMultiPart *multiPart)
+    : QObject()
 {
     this->receiver = receiver;
     this->requestId = requestId;
     this->data = data;
+    this->multiPart = multiPart;
+}
+
+NetworkReplyRepeater::~NetworkReplyRepeater()
+{
+    delete this->multiPart;
 }
 
 /*!

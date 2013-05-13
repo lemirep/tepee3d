@@ -41,7 +41,54 @@ Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
+    this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePlugindForCurrentPlatformCallBack;
     this->loadLocalPlugins();
+}
+
+/*!
+ * Asks the Tepee3D server for a list of available plugins for the current platform.
+ */
+void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatform()
+{
+    // CREATE A JSON FOR THE REQUEST
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpPart httpPart;
+    httpPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    httpPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"json\""));
+
+    QJsonObject requestObj;
+    QJsonObject commandObj;
+
+    commandObj.insert("command", QJsonValue(QString("getPlugins")));
+    commandObj.insert("plateform", QJsonValue(Utils::returnPlatformName()));
+    requestObj.insert("request", QJsonValue(commandObj));
+
+    httpPart.setBody(QJsonDocument(requestObj).toJson());
+    multiPart->append(httpPart);
+
+    // EXECUTE THE REQUEST
+    emit executeHttpRequest(QNetworkRequest(QUrl()),
+                            WebServiceUserInterface::Post,
+                            multiPart,
+                            this,
+                            GET_ONLINE_PLUGINS);
+}
+
+/*!
+ * Parses the json list of plugins returned by the Tepee3D server that are available for the current platform.
+ */
+void Plugins::PluginManager::retrieveOnlinePlugindForCurrentPlatformCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL)
+    {
+        QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
+        delete reply;
+
+        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
+        {
+            // PARSE JSON ARRAY HERE
+        }
+    }
 }
 
 /*!
@@ -49,6 +96,7 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
  */
 void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
 {
+    (this->*this->webServicesCallBacks[requestId])(reply, data);
 }
 
 /*!
