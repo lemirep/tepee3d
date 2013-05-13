@@ -45,6 +45,13 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 }
 
 /*!
+ * Receives results from the webservice worker.
+ */
+void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
+{
+}
+
+/*!
  * Destroys a PluginManager instance.
  */
 Plugins::PluginManager::~PluginManager()

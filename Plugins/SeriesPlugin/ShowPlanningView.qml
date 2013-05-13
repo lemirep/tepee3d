@@ -164,8 +164,8 @@ Item
             right : parent.right
             bottom : parent.bottom
             top : separator_img.bottom
-            leftMargin : 25
-            rightMargin : 25
+            leftMargin : 30
+            rightMargin : 30
             bottomMargin : 60
         }
         delegate : show_planning_delegate
@@ -179,8 +179,8 @@ Item
         id : back_button
         anchors
         {
-            right : planned_show_gridview.right
-            bottom : planned_show_gridview.bottom
+            right : background_rec.right
+            bottom : background_rec.bottom
         }
         onClicked : {SeriesPlugin.pluginState = "shows_view"}
     }

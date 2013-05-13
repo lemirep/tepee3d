@@ -12,6 +12,7 @@
 #include "PluginQmlPluginProperties.h"
 #include "QmlViewProperties.h"
 #include "ServicesManager.h"
+#include "WebServiceUserInterface.h"
 
 
 // PLUGINS IN THE LOCAL DIRECTORY ARE ALL LOADED ON STARTUP
@@ -30,10 +31,13 @@
 
 namespace Plugins
 {
-class PluginManager : public QObject, public View::QmlContentExposerInterface
+class PluginManager : public QObject,
+                      public View::QmlContentExposerInterface,
+                      public Services::WebServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
+    Q_INTERFACES(Services::WebServiceUserInterface)
 public:
     ~PluginManager();
 
@@ -52,7 +56,9 @@ private:
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
 
+    void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 signals :
+    void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *);
 };
 }
 
