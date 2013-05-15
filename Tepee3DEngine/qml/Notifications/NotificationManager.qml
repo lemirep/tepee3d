@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "../js/NotificationManagement.js" as NotificationManagement
 
 Item
 {

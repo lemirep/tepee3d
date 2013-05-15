@@ -3,6 +3,9 @@ import QtQuick 2.0
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Window 2.0
+import "js/RoomManagement.js" as RoomManagement
+import "js/Walls.js" as Walls
+import "../DeveloperAPIFiles/js/CameraManagement.js" as CameraManagement
 
 Viewport
 {
@@ -20,9 +23,9 @@ Viewport
     property int   currentRoomId : -1;
     property int   currentRoomFaceId : 0;
 
-    property real   defaultFontSize : 12
-    property real   smallFontSize : 10
-    property real   largeFontSize : 13.5
+    property real   defaultFontSize : 14
+    property real   smallFontSize : 12
+    property real   largeFontSize : 16
 
     property alias pluginMenuSource : menu_center.pluginMenuSource
     property variant mouseObjectGrabber : null
@@ -68,11 +71,11 @@ Viewport
 
 
     //                anchors.fill: parent
-    //    width : 1024
-    //    height : 600
+        width : 1024
+        height : 600
 
-    width : Screen.width
-    height : Screen.height
+//    width : Screen.width
+//    height : Screen.height
 
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
