@@ -67,7 +67,7 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatform()
     multiPart->append(httpPart);
 
     // EXECUTE THE REQUEST
-    emit executeHttpRequest(QNetworkRequest(QUrl()),
+    emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
                             WebServiceUserInterface::Post,
                             multiPart,
                             this,
@@ -83,6 +83,8 @@ void Plugins::PluginManager::retrieveOnlinePlugindForCurrentPlatformCallBack(QNe
     {
         QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
         delete reply;
+
+        qDebug() << ">>>>>Tepee3D Serveur Response <<" << jsonDoc.toJson() << ">>";
 
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {

@@ -142,6 +142,10 @@ bool    View::QmlViewManager::initView()
 
     qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
+    qDebug() << "Testing TEPEE3D WEBSERVICES ------------- >>>>";
+    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
+    qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";
+
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
     QUrl localFile = QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/qml/main.qml");

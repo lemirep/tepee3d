@@ -52,6 +52,7 @@ public:
     static void                 initRoomPlugin(PluginBase* roomPlugin);
     static void                 cleanPluginBeforeRemoval(PluginBase *roomPlugin);
 
+    void                        retrieveOnlinePluginsForCurrentPlatform();
 private:
 
     explicit PluginManager(QObject *parent = 0);
@@ -60,7 +61,6 @@ private:
     static Models::ListModel*           onlineAvailablePluginsModel;
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
 
-    void                        retrieveOnlinePluginsForCurrentPlatform();
     void                        retrieveOnlinePlugindForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 signals :

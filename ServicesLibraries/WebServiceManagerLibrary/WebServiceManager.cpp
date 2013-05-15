@@ -164,7 +164,6 @@ bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
     return false;
 }
 
-
 QJsonObject*    WebServiceManager::QJsonFromReply(QNetworkReply *reply)
 {
     return new QJsonObject(QJsonDocument::fromJson(reply->readAll()).object());
