@@ -1,5 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Item
 {
@@ -85,16 +86,21 @@ Item
         State     {
             name: "menuShown"
             PropertyChanges    {target: menuLeftMain; width : maxMenuWidth; height : maxMenuHeight}
-            PropertyChanges    {target: menuLeftRec; width : maxMenuWidth; height : maxMenuHeight; opacity : mainWindow.menu_opacity_deployed}
+            PropertyChanges    {target: menuLeftRec; width : maxMenuWidth; height : maxMenuHeight; opacity :  menu_opacity_deployed}
+            PropertyChanges    {target: edit_image_button; opacity : 1}
             PropertyChanges    {target: add_room_button; opacity : 1}
+            PropertyChanges    {target: sky_room_view_button; opacity : 1}
             PropertyChanges    {target: arrow_image; opacity : 0}
             when: menuLeftMain.isShown
         },
         State {
             name: "menuHidden"
             PropertyChanges    {target: menuLeftMain; width : minMenuWidth; height : minMenuHeight}
-            PropertyChanges {target: menuLeftRec; width : minMenuWidth; height : minMenuHeight; opacity : mainWindow.menu_opacity_retracted}
-            PropertyChanges {target: add_room_button; opacity : 0}
+            PropertyChanges    {target: menuLeftRec; width : minMenuWidth; height : minMenuHeight; opacity :  menu_opacity_retracted}
+            PropertyChanges    {target: add_room_button; opacity : 0}
+            PropertyChanges    {target: edit_image_button; opacity : 0}
+            PropertyChanges    {target: add_room_button; opacity : 0}
+            PropertyChanges    {target: sky_room_view_button; opacity : 0}
             PropertyChanges    {target: arrow_image; opacity : 0.8}
             when: !menuLeftMain.isShown
         }]
@@ -114,17 +120,25 @@ Item
         }
     ]
 
-    BorderImage
+
+
+    Item
     {
         id : menuLeftRec
         anchors.fill: parent
-        opacity : 0
-        source : "../Resources/Pictures/panel_bg2.png"
 
-        border
+        BorderImage
         {
-            left : 2
-            bottom : 1
+            id : menu_back_img
+            anchors.fill: parent
+            source : "../Resources/Pictures/panel_bg2.png"
+            border
+            {
+                left : 2
+                bottom : 1
+            }
+            opacity : 0.7
+//            ZoomBlur    {opacity: isShown ? 1 : 0; anchors.fill: menu_back_img; source : menu_back_img; samples : 24; length : 48}
         }
 
         ListView
@@ -137,15 +151,19 @@ Item
             enabled : (opacity === 1 && menuLeftRec.width === maxMenuWidth && !lockList)
             clip: true
             spacing: 10
+            width : menuLeftMain.width / 2;
             anchors
             {
-                fill: parent
-                margins : menuLeftMain.width / 8
+                horizontalCenter : parent.horizontalCenter
+                top : parent.top
+                bottom : parent.bottom
+                topMargin : menuLeftMain.width / 8
+                bottomMargin : menuLeftMain.width / 8
             }
             orientation: ListView.Vertical
             model : roomModel
             delegate: RoomDelegate {
-                width : menuLeftMain.width / 2;
+                width : rooms_list_view.width;
                 height : menuLeftMain.width / 3;
                 roomId : model.roomId
                 roomName : model.roomName
@@ -154,6 +172,42 @@ Item
                 editMode: isInEditMode
             }
             Component.onCompleted:{rooms_list_view.currentIndex = -1}
+
+            // Transition to apply to items that are removed
+            remove : Transition {
+                ParallelAnimation
+                {
+                    SmoothedAnimation {property : "x"; to : 400; duration : 200}
+                    NumberAnimation {property : "opacity"; to : 0; duration : 1200}
+                }
+            }
+            // Transition to apply to items that are added
+            add : Transition {
+                SequentialAnimation
+                {
+                    ParallelAnimation
+                    {
+                        NumberAnimation {property : "x"; to : -400; duration : 0}
+                        NumberAnimation {property : "opacity"; to : 0; duration : 0}
+                    }
+                    ParallelAnimation
+                    {
+                        SmoothedAnimation {property : "x"; to : 0; duration : 200}
+                        NumberAnimation {property : "opacity"; to : 1; duration : 1200}
+                    }
+                }
+            }
+
+            addDisplaced: add_remove_displaced_transition
+            removeDisplaced : add_remove_displaced_transition
+            // Transition to apply to items displaced by addition or removal of items
+            Transition
+            {
+                id : add_remove_displaced_transition
+                SmoothedAnimation {property : "y"; duration : 500}
+            }
+
+
         }
 
         Image

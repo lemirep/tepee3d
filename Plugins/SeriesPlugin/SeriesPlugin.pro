@@ -78,6 +78,7 @@ OTHER_FILES += \
     check_all.png \
     planning.png \
     halo.png \
+    shadow_separator_h.png \
     SeriesPathViewDelegate.qml \
     EpisodePathViewDelegate.qml \
     SeasonPathViewDelegate.qml \

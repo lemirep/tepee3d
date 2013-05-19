@@ -32,20 +32,30 @@ Item
 
     Row
     {
+        id : planning_tab
         spacing : 5
+        height : 50
         anchors
         {
             left : background_rec.left
             right : background_rec.right
             top : background_rec.top
-            bottom : planned_show_gridview.top
         }
-        Rectangle
+        Item
         {
             width : ((background_rec.width - 10) / 3)
             height : parent.height
-            color : scheduleType == 1 ? "#44006699": "transparent"
-
+            Rectangle
+            {
+                color : scheduleType == 1 ? "#44006699": "transparent"
+                anchors
+                {
+                    left : parent.left
+                    top : parent.top
+                    bottom : parent.bottom
+                    right : separator_v_t.left
+                }
+            }
             Text
             {
                 anchors.centerIn: parent
@@ -58,7 +68,18 @@ Item
                 anchors.fill: parent
                 onClicked: scheduleType = 1
             }
-
+            Image
+            {
+                id : separator_v_t
+                source : "shadow_separator_v.png"
+                height : parent.height
+                anchors
+                {
+                    right: parent.right
+                }
+                fillMode: Image.Stretch
+                anchors.verticalCenter : parent.verticalCenter
+            }
         }
         Rectangle
         {
@@ -78,11 +99,21 @@ Item
                 onClicked: scheduleType = 2
             }
         }
-        Rectangle
+        Item
         {
             width : ((background_rec.width - 10) / 3)
             height : parent.height
-            color : scheduleType == 3 ? "#44006699": "transparent"
+            Rectangle
+            {
+                color : scheduleType == 3 ? "#44006699": "transparent"
+                anchors
+                {
+                    left : separator_v_m.right
+                    top : parent.top
+                    bottom : parent.bottom
+                    right : parent.right
+                }
+            }
             Text
             {
                 anchors.centerIn: parent
@@ -95,7 +126,32 @@ Item
                 anchors.fill: parent
                 onClicked: scheduleType = 3
             }
+            Image
+            {
+                id : separator_v_m
+                source : "shadow_separator_v.png"
+                height : parent.height
+                fillMode: Image.Stretch
+                anchors
+                {
+                    left : parent.left
+                    verticalCenter : parent.verticalCenter
+                }
+            }
         }
+    }
+
+    Image
+    {
+        id : separator_img
+        anchors
+        {
+            top : planning_tab.bottom
+            horizontalCenter : planning_tab.horizontalCenter
+        }
+        width : parent.width
+        fillMode: Image.Stretch
+        source : "shadow_separator_h.png"
     }
 
     GridView
@@ -104,8 +160,13 @@ Item
         model : SeriesPlugin.getShowsToAppearInTheWeek()
         anchors
         {
-            fill: background_rec
-            topMargin : 50
+            left : parent.left
+            right : parent.right
+            bottom : parent.bottom
+            top : separator_img.bottom
+            leftMargin : 30
+            rightMargin : 30
+            bottomMargin : 60
         }
         delegate : show_planning_delegate
         cellWidth: width / 5
@@ -118,8 +179,8 @@ Item
         id : back_button
         anchors
         {
-            right : planned_show_gridview.right
-            bottom : planned_show_gridview.bottom
+            right : background_rec.right
+            bottom : background_rec.bottom
         }
         onClicked : {SeriesPlugin.pluginState = "shows_view"}
     }

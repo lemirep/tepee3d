@@ -1,9 +1,18 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
+import QtGraphicalEffects 1.0
 
 Item
 {
     property alias pluginMenuSource : bottomMenu.pluginMenuSource
+
+    Rectangle
+    {
+        id : transparent_blur_rec
+        anchors.fill: parent
+        color : "black"
+        opacity : (topMenu.isShown || bottomMenu.isShown || leftMenu.isShown || rightMenu.isShown) ? 0.2 : 0
+    }
 
     MouseArea
     {
