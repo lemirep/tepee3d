@@ -53,17 +53,17 @@ copyToDestDir($$OTHER_FILES)
 
 HEADERS += \
    XBMCPlugin.h \
-    AudioLibrary.h \
-    VideoLibrary.h \
-    PlayerManager.h \
     IWebRequestDispatcher.h
+
 
 SOURCES += \
     XBMCPlugin.cpp \
-    AudioLibrary.cpp \
-    VideoLibrary.cpp \
     PlayerManager.cpp
 
 OTHER_FILES += \
     XBMCPlugin.qml \
     Menu.qml
+
+include (./Audio/Audio.pri)
+include (./Video/Video.pri)
+include (./Player/Player.pri)
