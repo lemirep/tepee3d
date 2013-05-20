@@ -50,11 +50,11 @@ Plugins::PluginBase* DummyProject::createNewInstance()
     return new DummyProject();
 }
 
-void    DummyProject::receiveResultFromSQLQuery( QList<QSqlRecord> , int )
+void    DummyProject::receiveResultFromSQLQuery( QList<QSqlRecord> , int , void *)
 {
 }
 
-void    DummyProject::receiveResultFromHttpRequest(QNetworkReply *reply, int )
+void    DummyProject::receiveResultFromHttpRequest(QNetworkReply *reply, int , void *)
 {
     qDebug() << reply->readAll();
 }

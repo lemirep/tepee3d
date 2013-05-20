@@ -27,9 +27,9 @@ public:
     QString                     getRoomPluginQmlFile() const;
     QString                     getMenuPluginQmlFile() const;
     // DatabaseServiceUserInterface
-    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id);
+    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
-    void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id);
+    void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, void *data);
 };
 
 #endif // DUMMYPROJECT_H
