@@ -61,7 +61,7 @@ private:
     static Models::ListModel*           onlineAvailablePluginsModel;
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
 
-    void                        retrieveOnlinePlugindForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
+    void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 signals :
     void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);

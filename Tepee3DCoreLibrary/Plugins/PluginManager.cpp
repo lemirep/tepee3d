@@ -41,7 +41,7 @@ Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
-    this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePlugindForCurrentPlatformCallBack;
+    this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack;
     this->loadLocalPlugins();
 }
 
@@ -77,7 +77,7 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatform()
 /*!
  * Parses the json list of plugins returned by the Tepee3D server that are available for the current platform.
  */
-void Plugins::PluginManager::retrieveOnlinePlugindForCurrentPlatformCallBack(QNetworkReply *reply, void *data)
+void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data)
 {
     if (reply != NULL)
     {
@@ -89,6 +89,8 @@ void Plugins::PluginManager::retrieveOnlinePlugindForCurrentPlatformCallBack(QNe
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
             // PARSE JSON ARRAY HERE
+            // WAITING FOR THE SERVER TO BE READY TO PURSUE
+            // DO NOT FORGET TO RESDTORE retrieveOnlinePluginsForCurrentPlatform as private
         }
     }
 }
