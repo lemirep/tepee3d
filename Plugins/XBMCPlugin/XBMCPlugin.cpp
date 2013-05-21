@@ -25,6 +25,7 @@ void XBMCPlugin::initPlugin()
     qDebug() << ">>>>>>>>>>>>>>>>>>> " << this->getXbmcServerRequestUrl().toString();
     // PluginBase::executeHttpGetRequest(QNetworkRequest(this->getXbmcServerRequestUrl()), 1);
     this->m_audioLibrary->retrieveAudioAlbums();
+    this->m_audioLibrary->retrieveAudioArtists();
 }
 
 void XBMCPlugin::clearPluginBeforeRemoval()
@@ -67,8 +68,7 @@ void    XBMCPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> reply, int id, v
 
 void    XBMCPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
-    qDebug() << "Result FROM XBMC PLUGIN REQUEST ***************";
-    qDebug() << reply->readAll();
+    qDebug() << "Result FROM XBMC PLUGIN REQUEST *************** Dispatching";
     this->networkRequestResultDispatch[id / 10]->receiveResultFromHttpRequest(reply, id % 10, data);
 }
 
@@ -125,8 +125,7 @@ void XBMCPlugin::performJsonRPCRequest(const QJsonObject& request, int requestId
 {
     qDebug() << QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson()).toString();
 
-    PluginBase::executeHttpPostRequest(QNetworkRequest(QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson())),
-                                       NULL,
+    PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson())),
                                        requestId,
                                        data);
 }

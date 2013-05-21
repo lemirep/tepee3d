@@ -1,4 +1,5 @@
 #include "AudioLibrary.h"
+#include <QDebug>
 
 AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
 {
@@ -14,6 +15,7 @@ int AudioLibrary::getMajorIDRequestHandled() const
 
 void AudioLibrary::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
+    qDebug() << "Receiving Request Result";
     (this->*this->webCallBacks[id])(reply, data);
 }
 
@@ -102,12 +104,16 @@ void AudioLibrary::retrieveSongs()
 
 void AudioLibrary::retrieveAudioAlbumsCallBack(QNetworkReply *reply, void *data)
 {
+    qDebug() << "Receiving Request Result Albums";
+    // PARSE JSON RESULT HERE
 }
 
 void AudioLibrary::retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data)
 {
+    qDebug() << "Receiving Request Artists";
 }
 
 void AudioLibrary::retrieveSongsCallBack(QNetworkReply *reply, void *data)
 {
+    // PARSEW JSON RESULT HERE
 }
