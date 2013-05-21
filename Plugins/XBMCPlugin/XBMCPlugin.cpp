@@ -6,6 +6,11 @@ XBMCPlugin::XBMCPlugin() : PluginBase()
     this->setXbmcServerPort(8033);
     this->setXbmcServerUserName("xbmc");
     this->setXbmcServerUrl(QUrl("192.168.1.14"));
+
+//    this->m_AudioLibrary = new AudioLibrary();
+//    QObject::connect(this->m_AudioLibrary, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
+//    this->networkRequestResultDispatch[audioLibrary->getMajorIDRequestHandled()] = this->m_AudioLibrary;
+
     this->initPlugin();
 }
 // ALL the function should be implemented
@@ -18,7 +23,8 @@ int XBMCPlugin::getPluginId()
 void XBMCPlugin::initPlugin()
 {
     qDebug() << ">>>>>>>>>>>>>>>>>>> " << this->getXbmcServerRequestUrl().toString();
-    PluginBase::executeHttpGetRequest(QNetworkRequest(this->getXbmcServerRequestUrl()), 1);
+    // PluginBase::executeHttpGetRequest(QNetworkRequest(this->getXbmcServerRequestUrl()), 1);
+    this->m_AudioLibrary->retrieveAudioAlbums();
 }
 
 void XBMCPlugin::clearPluginBeforeRemoval()
@@ -63,6 +69,7 @@ void    XBMCPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, v
 {
     qDebug() << "Result FROM XBMC PLUGIN REQUEST ***************";
     qDebug() << reply->readAll();
+    this->networkRequestResultDispatch[id / 10]->receiveResultFromHttpRequest(reply, id % 10, data);
 }
 
 void XBMCPlugin::setXbmcServerPort(int port)
@@ -112,4 +119,15 @@ QString XBMCPlugin::xbmcServerPassword() const
 QUrl XBMCPlugin::getXbmcServerRequestUrl() const
 {
     return QUrl("http://" + this->m_xbmcServerUserName + ":" + this->m_xbmcServerPassword + "@" + this->m_xbmcServerUrl.toString() + ":" + QString::number(this->m_xbmcServerPort) + "/jsonrpc");
+}
+
+void XBMCPlugin::performJsonRPCRequest(QJsonObject request, int requestId, void *data)
+{
+    qDebug() << QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson()).toString();
+
+    PluginBase::executeHttpPostRequest(QNetworkRequest(
+                                           QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson())),
+                                       NULL,
+                                       requestId,
+                                       data)
 }

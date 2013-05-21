@@ -30,7 +30,6 @@
 
 #include <QObject>
 #include <QtGui>
-#include "QtQml"
 #include <QQuickView>
 #include <QQuickItem>
 #include <QHash>

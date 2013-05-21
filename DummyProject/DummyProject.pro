@@ -15,21 +15,21 @@ qml_folder.target = ./
 defineTest(copyToDestDir) {
     files = $$1
     unix {
-        QMAKE_POST_LINK  += rm -fr PATH_TO_SAVE_YOUR_FILE/$$TARGET $$escape_expand(\\n\\t)
-        QMAKE_POST_LINK  += mkdir PATH_TO_SAVE_YOUR_FILE/$$TARGET $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK  += rm -fr $$qml_folder.source/$$TARGET $$escape_expand(\\n\\t)
+        QMAKE_POST_LINK  += mkdir $$qml_folder.source/$$TARGET $$escape_expand(\\n\\t)
     }
     win32 {
-        DDIR = PATH_TO_SAVE_YOUR_FILE/$${TARGET}
+        DDIR = $$qml_folder.source/$${TARGET}
         DESTDIR_WIN = $${DDIR}
         DESTDIR_WIN ~= s,/,\\,g
        QMAKE_POST_LINK +=$$quote(cmd /c del /s /f  /q  $${DESTDIR_WIN}$$escape_expand(\n\t))
      #   QMAKE_POST_LINK +=$$quote(cmd /c mkdir /y $${DDIR}escape_expand(\n\t))
     }
     for(FILE, files) {
-         DDIR = PATH_TO_SAVE_YOUR_FILE/$$TARGET/
+         DDIR = $$qml_folder.source/$$TARGET/
         # Replace slashes in paths with backslashes for Windows
         win32{
-        DDIR = PATH_TO_SAVE_YOUR_FILE/$${TARGET}
+        DDIR = $$qml_folder.source/$${TARGET}
         DESTDIR_WIN = $${DDIR}
         DESTDIR_WIN ~= s,/,\\,g
         PWD_WIN = $${PWD}

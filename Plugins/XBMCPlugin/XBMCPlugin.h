@@ -2,8 +2,6 @@
 #define XBMCPLUGIN_H
 
 #include <QObject>
-#include <QtGui>
-#include "QtQml"
 #include <QQuickView>
 #include <QQuickItem>
 #include <QHash>
@@ -11,6 +9,7 @@
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
 #include "IWebRequestDispatcher.h"
+#include <Audio/AudioLibrary.h>
 
 #define PLUGIN_ID 12
 
@@ -39,6 +38,12 @@ public:
 
     QString                     getRoomPluginQmlFile() const;
     QString                     getMenuPluginQmlFile() const;
+
+    // FOCUS STATE HANDLERS
+    void                onIdleFocusState();
+    void                onSelectedFocusState();
+    void                onFocusedFocusState();
+
     // DatabaseServiceUserInterface
     void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
@@ -55,19 +60,25 @@ public:
     QString                  xbmcServerPassword()   const;
 
 private:
-    QHash<int, void (IWebRequestDispatcher::*)(QNetworkReply *, int, void *)> networkRequestResultDispatch;
+    QHash<int, IWebRequestDispatcher*> networkRequestResultDispatch;
+
+    AudioLibrary    *m_AudioLibrary;
+
     int      m_xbmcServerPort;
     QUrl  m_xbmcServerUrl;
-   QString m_xbmcServerUserName;
-   QString m_xbmcServerPassword;
+    QString m_xbmcServerUserName;
+    QString m_xbmcServerPassword;
 
-   QUrl               getXbmcServerRequestUrl() const;
+    QUrl               getXbmcServerRequestUrl() const;
+
+private slots:
+    void                     performJsonRPCRequest(const QJsonObject& request, int requestId, void *data = NULL);
 
 signals:
-    void                xbmcServerUrlChanged();
-    void                xbmcServerPortChanged();
-    void                xbmcServerUserNameChanged();
-    void                xbmcServerPasswordChanged();
+    void                    xbmcServerUrlChanged();
+    void                    xbmcServerPortChanged();
+    void                    xbmcServerUserNameChanged();
+    void                    xbmcServerPasswordChanged();
 };
 
 #endif // XBMCPLUGIN_H
