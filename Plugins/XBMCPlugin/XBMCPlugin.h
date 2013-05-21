@@ -9,6 +9,7 @@
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
 #include "IWebRequestDispatcher.h"
+#include <QDebug>
 #include <Audio/AudioLibrary.h>
 
 #define PLUGIN_ID 12
@@ -40,9 +41,9 @@ public:
     QString                     getMenuPluginQmlFile() const;
 
     // FOCUS STATE HANDLERS
-    void                onIdleFocusState();
-    void                onSelectedFocusState();
-    void                onFocusedFocusState();
+//    void                onIdleFocusState();
+//    void                onSelectedFocusState();
+//    void                onFocusedFocusState();
 
     // DatabaseServiceUserInterface
     void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
@@ -62,7 +63,7 @@ public:
 private:
     QHash<int, IWebRequestDispatcher*> networkRequestResultDispatch;
 
-    AudioLibrary    *m_AudioLibrary;
+    AudioLibrary    *m_audioLibrary;
 
     int      m_xbmcServerPort;
     QUrl  m_xbmcServerUrl;
