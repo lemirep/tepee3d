@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <Package>
+     <DisplayName>Tepee3D Core Components</DisplayName>
+     <Description>Install Tepee3D</Description>
+     <Version>1.0.0-1</Version>
+     <ReleaseDate>2013-05-25</ReleaseDate>
+     <Name>com.tepee3dteam.tepee3d</Name>
+     <Licenses>
+         <License name="GNU License Agreement" file="license.txt" />
+     </Licenses>
+     <Translations>
+         <!-- <Translation>fr_fr.qm</Translation> -->
+     </Translations>
+     <Default>script</Default>
+     <Script>installscript.qs</Script>
+ </Package>

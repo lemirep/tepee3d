@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Installer>
+     <Name>Tepee3D</Name>
+     <Version>1.0.0</Version>
+     <Title>The Tepee3D Installer</Title>
+     <Publisher>The Tepee3DTeam</Publisher>
+     <ProductUrl>http://tepee3d.dyndns.org</ProductUrl>
+     <StartMenuDir>Tepee3D</StartMenuDir>
+     <TargetDir>@homeDir@/Programs/Tepee3D</TargetDir>
+ </Installer>
