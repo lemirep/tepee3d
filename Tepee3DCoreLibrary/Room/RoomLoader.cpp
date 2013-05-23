@@ -77,10 +77,13 @@ void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, v
         {
             qDebug() << "************************RESTORING WIDGET*****************************";
             Plugins::PluginBase *plugin = Plugins::PluginManager::getNewInstanceOfPlugin(record.value(0).toDouble());
-            plugin->setPluginPosition(QVector3D(record.value(1).toDouble(),
-                                                record.value(2).toDouble(),
-                                                record.value(3).toDouble()));
-            Plugins::PluginLoader::addPluginToRoom(plugin, room);
+            if (plugin != NULL)
+            {
+                plugin->setPluginPosition(QVector3D(record.value(1).toDouble(),
+                                                    record.value(2).toDouble(),
+                                                    record.value(3).toDouble()));
+                Plugins::PluginLoader::addPluginToRoom(plugin, room);
+            }
         }
     }
 }

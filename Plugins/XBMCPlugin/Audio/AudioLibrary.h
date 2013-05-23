@@ -7,9 +7,9 @@
 #include <QHash>
 #include <IWebRequestDispatcher.h>
 #include <SubListedListModel.h>
-#include "Models/AlbumModel.h"
-#include "Models/ArtistModel.h"
-#include "Models/SongModel.h"
+#include "AlbumModel.h"
+#include "ArtistModel.h"
+#include "SongModel.h"
 
 #define MAJOR_ID_REQUEST 1
 #define RETRIEVE_ALBUMS 0
