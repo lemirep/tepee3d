@@ -24,8 +24,9 @@ void XBMCPlugin::initPlugin()
 {
     qDebug() << ">>>>>>>>>>>>>>>>>>> " << this->getXbmcServerRequestUrl().toString();
     // PluginBase::executeHttpGetRequest(QNetworkRequest(this->getXbmcServerRequestUrl()), 1);
-    this->m_audioLibrary->retrieveAudioAlbums();
-    this->m_audioLibrary->retrieveAudioArtists();
+//    this->m_audioLibrary->retrieveAudioAlbums();
+    this->m_audioLibrary->retrieveAudioArtists(this->m_audioLibrary->getSongsLibraryModel());
+//    this->m_audioLibrary->retrieveAllSongs();
 }
 
 void XBMCPlugin::clearPluginBeforeRemoval()

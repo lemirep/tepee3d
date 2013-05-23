@@ -1,6 +1,7 @@
 #ifndef IWEBREQUESTDISPATCHER_H
 #define IWEBREQUESTDISPATCHER_H
 
+#include <Utils.h>
 #include <QNetworkReply>
 
 class IWebRequestDispatcher
