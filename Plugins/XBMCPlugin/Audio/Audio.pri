@@ -7,3 +7,6 @@ HEADERS +=  $$PWD/AudioLibrary.h \
                         $$PWD/Models/ArtistModel.h	\
                         $$PWD/Models/AlbumModel.h	\
                         $$PWD/Models/SongModel.h
+
+INCLUDEPATH += $$PWD
+INCLUDEPATH += $$PWD/Models

@@ -11,6 +11,7 @@
 #include "IWebRequestDispatcher.h"
 #include <QDebug>
 #include <Audio/AudioLibrary.h>
+#include <Video/VideoLibrary.h>
 
 #define PLUGIN_ID 12
 
@@ -26,6 +27,8 @@ class XBMCPlugin  : public Plugins::PluginBase
 
 public:
     XBMCPlugin();
+    virtual ~XBMCPlugin();
+
     int                          getPluginId();
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
@@ -64,6 +67,7 @@ private:
     QHash<int, IWebRequestDispatcher*> networkRequestResultDispatch;
 
     AudioLibrary    *m_audioLibrary;
+    VideoLibrary    *m_videoLibrary;
 
     int      m_xbmcServerPort;
     QUrl  m_xbmcServerUrl;

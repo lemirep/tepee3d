@@ -66,3 +66,4 @@ OTHER_FILES += \
 include (./Audio/Audio.pri)
 include (./Video/Video.pri)
 include (./Player/Player.pri)
+include (./Remote/Remote.pri)

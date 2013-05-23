@@ -8,12 +8,17 @@ XBMCPlugin::XBMCPlugin() : PluginBase()
     this->setXbmcServerUrl(QUrl("192.168.1.14"));
 
     this->m_audioLibrary = new AudioLibrary();
+    this->m_videoLibrary = new VideoLibrary();
     QObject::connect(this->m_audioLibrary, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
+    QObject::connect(this->m_videoLibrary, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
     this->networkRequestResultDispatch[this->m_audioLibrary->getMajorIDRequestHandled()] = this->m_audioLibrary;
-
+    this->networkRequestResultDispatch[this->m_videoLibrary->getMajorIDRequestHandled()] = this->m_videoLibrary;
     this->initPlugin();
 }
-// ALL the function should be implemented
+
+XBMCPlugin::~XBMCPlugin()
+{
+}
 
 int XBMCPlugin::getPluginId()
 {
@@ -24,8 +29,11 @@ void XBMCPlugin::initPlugin()
 {
     qDebug() << ">>>>>>>>>>>>>>>>>>> " << this->getXbmcServerRequestUrl().toString();
     // PluginBase::executeHttpGetRequest(QNetworkRequest(this->getXbmcServerRequestUrl()), 1);
-    this->m_audioLibrary->retrieveAudioAlbums();
-    this->m_audioLibrary->retrieveAudioArtists();
+//    this->m_audioLibrary->retrieveAudioAlbums();
+//    this->m_audioLibrary->retrieveAudioArtists(this->m_audioLibrary->getSongsLibraryModel());
+//    this->m_audioLibrary->retrieveAllSongs();
+//    this->m_videoLibrary->retrieveTVShows(this->m_videoLibrary->getTVShowsLibraryModel());
+    this->m_videoLibrary->retrieveMovies(this->m_videoLibrary->getMoviesLibraryModel());
 }
 
 void XBMCPlugin::clearPluginBeforeRemoval()
@@ -68,7 +76,6 @@ void    XBMCPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> reply, int id, v
 
 void    XBMCPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
-    qDebug() << "Result FROM XBMC PLUGIN REQUEST *************** Dispatching";
     this->networkRequestResultDispatch[id / 10]->receiveResultFromHttpRequest(reply, id % 10, data);
 }
 
@@ -123,8 +130,6 @@ QUrl XBMCPlugin::getXbmcServerRequestUrl() const
 
 void XBMCPlugin::performJsonRPCRequest(const QJsonObject& request, int requestId, void *data)
 {
-    qDebug() << QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson()).toString();
-
     PluginBase::executeHttpGetRequest(QNetworkRequest(QUrl(this->getXbmcServerRequestUrl().toString() + "?request=" + QJsonDocument(request).toJson())),
                                        requestId,
                                        data);
