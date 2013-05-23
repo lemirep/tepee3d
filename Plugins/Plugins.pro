@@ -2,7 +2,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    AgendaPlugin \
+#    AgendaPlugin \
     TestPlugin \
     SeriesPlugin \
     HarlemShake \
