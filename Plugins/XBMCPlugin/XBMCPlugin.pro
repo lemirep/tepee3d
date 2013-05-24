@@ -61,7 +61,8 @@ SOURCES += \
 
 OTHER_FILES += \
     XBMCPlugin.qml \
-    Menu.qml
+    Menu.qml \
+    RemoteItem.qml
 
 include (./Audio/Audio.pri)
 include (./Video/Video.pri)

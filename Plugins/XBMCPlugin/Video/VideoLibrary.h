@@ -10,8 +10,7 @@
 #include "MovieModel.h"
 #include <QDebug>
 
-#define MAJOR_ID_REQUEST 4
-#define REQUEST_ID_BUILDER(id) ((MAJOR_ID_REQUEST * 10) + id)
+#define MAJOR_ID_REQUEST_VIDEO 4
 #define RETRIEVE_MOVIES 0
 #define RETRIEVE_TVSHOWS 1
 #define RETRIEVE_TVSHOW_SEASONS 2

@@ -13,7 +13,7 @@ VideoLibrary::VideoLibrary(QObject *parent) : QObject(parent)
 
 int VideoLibrary::getMajorIDRequestHandled() const
 {
-    return MAJOR_ID_REQUEST;
+    return MAJOR_ID_REQUEST_VIDEO;
 }
 
 void VideoLibrary::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
@@ -45,7 +45,7 @@ void VideoLibrary::retrieveMovies(void *dataModel)
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("movies")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_MOVIES), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_MOVIES), dataModel);
 }
 
 void VideoLibrary::retrieveTVShows(void *dataModel)
@@ -71,7 +71,7 @@ void VideoLibrary::retrieveTVShows(void *dataModel)
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("tvshows")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_TVSHOWS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOWS), dataModel);
 }
 
 void VideoLibrary::retrieveTVShowSeasons(int tvShowId, void *dataModel)
@@ -95,7 +95,7 @@ void VideoLibrary::retrieveTVShowSeasons(int tvShowId, void *dataModel)
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("tvshows_seasons")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_TVSHOW_SEASONS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOW_SEASONS), dataModel);
 }
 
 void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, void *dataModel)
@@ -125,7 +125,7 @@ void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, void *dataMo
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("tvshows")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_TVSHOW_EPISODES), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOW_EPISODES), dataModel);
 }
 
 Models::ListModel *VideoLibrary::getMoviesLibraryModel() const

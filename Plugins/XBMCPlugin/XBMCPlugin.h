@@ -10,15 +10,19 @@
 #include "WebServiceUserInterface.h"
 #include "IWebRequestDispatcher.h"
 #include <QDebug>
-#include <Audio/AudioLibrary.h>
-#include <Video/VideoLibrary.h>
+#include "AudioLibrary.h"
+#include "VideoLibrary.h"
+#include "RemoteManager.h"
 
 #define PLUGIN_ID 12
+
+//class RemoteManager;
 
 class XBMCPlugin  : public Plugins::PluginBase
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.xbmcplugin")
+    Q_ENUMS(NavigationKeys)
 
     Q_PROPERTY(int xbmcServerPort WRITE setXbmcServerPort READ xbmcServerPort NOTIFY xbmcServerPortChanged)
     Q_PROPERTY(QUrl xbmcServerUrl WRITE setXbmcServerUrl READ xbmcServerUrl NOTIFY xbmcServerUrlChanged)
@@ -29,24 +33,50 @@ public:
     XBMCPlugin();
     virtual ~XBMCPlugin();
 
-    int                          getPluginId();
+    int                           getPluginId();
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
 
+    PluginBase*           getPluginBase();
+    PluginBase*           createNewInstance();
+
+    QString                  getRoomPluginQmlFile() const;
+    QString                  getMenuPluginQmlFile() const;
+
     Q_INVOKABLE QString         getPluginName();
+    Q_INVOKABLE QString         getPluginDescription();
 
-    QString                     getPluginDescription();
+    // REMOTE CONTROL ACTIONS
+    enum NavigationKeys
+    {
+        Up = 0,
+        Down,
+        Left,
+        Right,
+        Back,
+        Select,
+        Home
+    };
 
-    PluginBase*                 getPluginBase();
-    PluginBase*                 createNewInstance();
+    Q_INVOKABLE void               pressNavigationKey(NavigationKeys key);
 
-    QString                     getRoomPluginQmlFile() const;
-    QString                     getMenuPluginQmlFile() const;
+    // PLAYER ACTIONS
+    Q_INVOKABLE void               playAction();
+    Q_INVOKABLE void               pauseAction();
+    Q_INVOKABLE void               nextAction();
+    Q_INVOKABLE void               previousAction();
+
+    // MEDIA LIBRARIES
+    Q_INVOKABLE QObject*      getMoviesLibrary() const;
+    Q_INVOKABLE QObject*      getTVShowsLibrary() const;
+    Q_INVOKABLE QObject*      getAlbumsLibrary() const;
+    Q_INVOKABLE QObject*      getArtistsLibrary() const;
+    Q_INVOKABLE QObject*      getSongsLibrary() const;
 
     // FOCUS STATE HANDLERS
-//    void                onIdleFocusState();
-//    void                onSelectedFocusState();
-//    void                onFocusedFocusState();
+    void                        onIdleFocusState();
+    void                        onSelectedFocusState();
+    void                        onFocusedFocusState();
 
     // DatabaseServiceUserInterface
     void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
@@ -68,22 +98,23 @@ private:
 
     AudioLibrary    *m_audioLibrary;
     VideoLibrary    *m_videoLibrary;
+    RemoteManager   *m_remoteManager;
 
     int      m_xbmcServerPort;
     QUrl  m_xbmcServerUrl;
     QString m_xbmcServerUserName;
     QString m_xbmcServerPassword;
 
-    QUrl               getXbmcServerRequestUrl() const;
+    QUrl                       getXbmcServerRequestUrl() const;
 
 private slots:
-    void                     performJsonRPCRequest(const QJsonObject& request, int requestId, void *data = NULL);
+    void                        performJsonRPCRequest(const QJsonObject& request, int requestId, void *data = NULL);
 
 signals:
-    void                    xbmcServerUrlChanged();
-    void                    xbmcServerPortChanged();
-    void                    xbmcServerUserNameChanged();
-    void                    xbmcServerPasswordChanged();
+    void                        xbmcServerUrlChanged();
+    void                        xbmcServerPortChanged();
+    void                        xbmcServerUserNameChanged();
+    void                        xbmcServerPasswordChanged();
 };
 
 #endif // XBMCPLUGIN_H

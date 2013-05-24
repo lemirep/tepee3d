@@ -1,5 +1,7 @@
 #include "XBMCPlugin.h"
 
+// MANDATORY PLUGIN METHODS
+
 XBMCPlugin::XBMCPlugin() : PluginBase()
 {
     this->setXbmcServerPassword("0000");
@@ -9,15 +11,22 @@ XBMCPlugin::XBMCPlugin() : PluginBase()
 
     this->m_audioLibrary = new AudioLibrary();
     this->m_videoLibrary = new VideoLibrary();
+    this->m_remoteManager = new RemoteManager();
+
     QObject::connect(this->m_audioLibrary, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
     QObject::connect(this->m_videoLibrary, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
+    QObject::connect(this->m_remoteManager, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
+
     this->networkRequestResultDispatch[this->m_audioLibrary->getMajorIDRequestHandled()] = this->m_audioLibrary;
     this->networkRequestResultDispatch[this->m_videoLibrary->getMajorIDRequestHandled()] = this->m_videoLibrary;
+    this->networkRequestResultDispatch[this->m_remoteManager->getMajorIDRequestHandled()] = this->m_remoteManager;
     this->initPlugin();
 }
 
 XBMCPlugin::~XBMCPlugin()
 {
+    delete this->m_audioLibrary;
+    delete this->m_videoLibrary;
 }
 
 int XBMCPlugin::getPluginId()
@@ -27,13 +36,14 @@ int XBMCPlugin::getPluginId()
 
 void XBMCPlugin::initPlugin()
 {
-    qDebug() << ">>>>>>>>>>>>>>>>>>> " << this->getXbmcServerRequestUrl().toString();
-    // PluginBase::executeHttpGetRequest(QNetworkRequest(this->getXbmcServerRequestUrl()), 1);
-//    this->m_audioLibrary->retrieveAudioAlbums();
+//    // RETRIEVE AUDIO MEDIAS
+//    this->m_audioLibrary->retrieveAudioAlbums(this->m_audioLibrary->getAlbumsLibraryModel());
 //    this->m_audioLibrary->retrieveAudioArtists(this->m_audioLibrary->getSongsLibraryModel());
-//    this->m_audioLibrary->retrieveAllSongs();
+//    this->m_audioLibrary->retrieveAllSongs(this->m_audioLibrary->getSongsLibraryModel());
+//    // RETRIEVE VIDEO MEDIAS
 //    this->m_videoLibrary->retrieveTVShows(this->m_videoLibrary->getTVShowsLibraryModel());
-    this->m_videoLibrary->retrieveMovies(this->m_videoLibrary->getMoviesLibraryModel());
+//    this->m_videoLibrary->retrieveMovies(this->m_videoLibrary->getMoviesLibraryModel());
+    this->pressNavigationKey(Left);
 }
 
 void XBMCPlugin::clearPluginBeforeRemoval()
@@ -78,6 +88,22 @@ void    XBMCPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, v
 {
     this->networkRequestResultDispatch[id / 10]->receiveResultFromHttpRequest(reply, id % 10, data);
 }
+
+// FOCUS STATE HANDLERS
+
+void XBMCPlugin::onIdleFocusState()
+{
+}
+
+void XBMCPlugin::onSelectedFocusState()
+{
+}
+
+void XBMCPlugin::onFocusedFocusState()
+{
+}
+
+// XBMC CREDENTIALS MANIPULATION
 
 void XBMCPlugin::setXbmcServerPort(int port)
 {
@@ -134,3 +160,57 @@ void XBMCPlugin::performJsonRPCRequest(const QJsonObject& request, int requestId
                                        requestId,
                                        data);
 }
+
+
+// MEDIA LIBRARY
+
+QObject *XBMCPlugin::getMoviesLibrary() const
+{
+    return this->m_videoLibrary->getMoviesLibraryModel();
+}
+
+QObject *XBMCPlugin::getTVShowsLibrary() const
+{
+    return this->m_videoLibrary->getTVShowsLibraryModel();
+}
+
+QObject *XBMCPlugin::getAlbumsLibrary() const
+{
+    return this->m_audioLibrary->getAlbumsLibraryModel();
+}
+
+QObject *XBMCPlugin::getArtistsLibrary() const
+{
+    return this->m_audioLibrary->getArtistsLibraryModel();
+}
+
+QObject *XBMCPlugin::getSongsLibrary() const
+{
+    return this->m_audioLibrary->getSongsLibraryModel();
+}
+
+// REMOTE CONTROL ACTIONS
+
+void XBMCPlugin::pressNavigationKey(NavigationKeys key)
+{
+    this->m_remoteManager->moveKey(key);
+}
+
+// PLAYER ACTIONS
+
+void XBMCPlugin::playAction()
+{
+}
+
+void XBMCPlugin::pauseAction()
+{
+}
+
+void XBMCPlugin::nextAction()
+{
+}
+
+void XBMCPlugin::previousAction()
+{
+}
+
