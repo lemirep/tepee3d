@@ -93,7 +93,7 @@ QString GenericPlatformInitializer::getPlatformName() const
 #elif defined Q_OS_IOS
     return IOS_PLATFORM;
 #elif defined Q_OS_LINUX
-    #if define Q_PROCESSOR_X86_64
+    #if defined Q_PROCESSOR_X86_64
         return LINUX_64_PLATFORM;
     #else
         return LINUX_32_PLATFORM;

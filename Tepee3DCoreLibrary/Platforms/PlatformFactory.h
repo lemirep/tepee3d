@@ -6,7 +6,6 @@
 #include "GenericPlatformInitializer.h"
 #include "AndroidPlatformInitializer.h"
 
-
 class PlatformFactory
 {
 public:

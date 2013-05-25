@@ -34,14 +34,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     if ((coreEngine = qobject_cast<CoreLibraryInterface *>(loader.instance())) != NULL)
     {
         qDebug() << "Core Library Loaded";
-#ifdef Q_OS_ANDROID
-        // COPY FILES FROM APK TO CORRECT DIRECTORIES
-        libDir.cdUp();
-        QDir assetDirectory(".");
-        copyFilesFromAssetsAndroid(assetDirectory, libDir);
-#endif;
-
-
         coreEngine->initCoreEngine();
         QObject::connect(coreEngine->getObject(), SIGNAL(quit()), app, SLOT(quit()));
     }

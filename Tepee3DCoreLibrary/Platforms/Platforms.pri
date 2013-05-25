@@ -6,7 +6,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/PlatformFactory.cpp \
-    $$PWDGenericPlatformInitializer.cpp \
+    $$PWD/GenericPlatformInitializer.cpp \
     $$PWD/AndroidPlatformInitializer.cpp
 
 INCLUDEPATH += $$PWD
