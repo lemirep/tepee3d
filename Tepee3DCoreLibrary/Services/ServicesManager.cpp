@@ -158,7 +158,7 @@ void Services::ServicesManager::libraryInitialized()
  */
 void    Services::ServicesManager::loadServicesLibraries()
 {
-    QDir    serviceDirectory = Utils::getPlatformDataDir(SERVICE_LIBRARIES_DIRECTORY);
+    QDir    serviceDirectory = PlatformFactory::getPlatformInitializer()->getServicesSharedLibrariesDirectory();
 
     qDebug() << "SERVICE DIR " << serviceDirectory.absolutePath();
     // LOAD ALL SERVICES LIBRARIES FOUND IN DIRECTORY

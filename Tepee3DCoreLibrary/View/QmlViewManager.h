@@ -12,6 +12,7 @@
 #include "ServicesManager.h"
 #include "QmlAsTexture.h"
 #include <CoreLibraryInterface.h>
+#include "PlatformFactory.h"
 
 // DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
 namespace View

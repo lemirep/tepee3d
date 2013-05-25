@@ -371,7 +371,7 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
  */
 void        Room::RoomManager::loadRoomLibrary()
 {
-    QDir    roomDirectory = Utils::getPlatformDataDir(ROOM_LIBRARY_DIRECTORY);
+    QDir    roomDirectory = PlatformFactory::getPlatformInitializer()->getRoomSharedLibraryDirectory();
 
     qDebug() << "ROOM DIR " << roomDirectory.absolutePath();
 

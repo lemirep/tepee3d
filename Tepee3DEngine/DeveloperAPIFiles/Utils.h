@@ -34,26 +34,12 @@
 #include <QDir>
 #include <QCoreApplication>
 
-#ifndef Q_OS_ANDROID
-#define WIDGET_PLUGIN_DIRECTORY "libraries/widget_libraries"
-#define SERVICE_LIBRARIES_DIRECTORY "libraries/services_lib"
-#define ROOM_LIBRARY_DIRECTORY "libraries/room_library"
-#endif
-
-#ifdef Q_OS_ANDROID
-#define WIDGET_PLUGIN_DIRECTORY "lib"
-#define SERVICE_LIBRARIES_DIRECTORY "lib"
-#define ROOM_LIBRARY_DIRECTORY "lib"
-#endif
-
 class Utils
 {
 public:
     Utils();
     static  QJsonDocument QJsonDocumentFromReply(QNetworkReply *reply);
     static  QString &     escapeSqlQuery(QString query);
-    static  QString       returnPlatformName();
-    static QDir             getPlatformDataDir(QString directory = "");
 };
 
 #endif // UTILS_H

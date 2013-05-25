@@ -10,6 +10,7 @@
 #include "SubListedListModel.h"
 #include "RoomModelItem.h"
 #include "DatabaseServiceUserInterface.h"
+#include "PlatformFactory.h"
 
 #define ROOM_UPDATE_TIME 500
 
@@ -53,12 +54,12 @@ public:
 private:
     RoomManager(QObject *parent = 0);
 
-    static RoomManager              *instance;
-    static int                      roomInstances;
+    static RoomManager                 *instance;
+    static int                                       roomInstances;
 
-    RoomBase                        *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
-    RoomBase                        *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
-    QTimer                          *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
+    RoomBase                                 *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
+    RoomBase                                 *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
+    QTimer                                       *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
     Models::SubListedListModel      *roomModel;
 
     void                    loadRoomLibrary();

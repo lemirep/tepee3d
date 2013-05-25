@@ -15,6 +15,7 @@
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
 #include "QmlContentExposerInterface.h"
+#include "PlatformFactory.h"
 
 // THIS CLASS WILL BE THE INTERMEDIARY BETWEEN ALL SERVICES (APART FROM STATIC FUNCTIONS)
 // IT WILL CONNECT ALL THE NECESSARY SIGNAL

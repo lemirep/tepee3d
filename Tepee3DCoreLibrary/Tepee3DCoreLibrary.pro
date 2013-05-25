@@ -24,3 +24,6 @@ include(Room/Room.pri)
 include(Services/Services.pri)
 # Include Plugins Sources
 include(Plugins/Plugins.pri)
+# Include Platform Specific Sources
+include(Platforms/Platforms.pri)
+

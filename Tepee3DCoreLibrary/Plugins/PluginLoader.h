@@ -11,6 +11,7 @@
 #include "PluginBase.h"
 #include <PluginManager.h>
 #include <RoomBase.h>
+#include <PlatformFactory.h>
 
 #define PLUGIN_LOADED 1
 #define DB_NAME "Tepee3D.sql"

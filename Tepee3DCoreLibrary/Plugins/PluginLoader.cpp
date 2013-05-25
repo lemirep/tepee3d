@@ -28,7 +28,6 @@ Plugins::PluginLoader::PluginLoader(QObject *parent) : QObject(parent)
 {
 }
 
-
 Plugins::PluginLoader::~PluginLoader()
 {
 }
@@ -53,8 +52,7 @@ void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::R
 
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
-    QDir    pluginsDir = Utils::getPlatformDataDir(WIDGET_PLUGIN_DIRECTORY);
-
+    QDir    pluginsDir = PlatformFactory::getPlatformInitializer()->getWidgetSharedLibrariesDirectory();
     // LOOP THROUGH EACH FILE OF THE PLUGIN DIR AND LOAD THE PLUGINS
     foreach (QString fileName, pluginsDir.entryList(QDir::Files))
     {

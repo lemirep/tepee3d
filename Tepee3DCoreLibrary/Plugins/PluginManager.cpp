@@ -60,7 +60,7 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatform()
     QJsonObject commandObj;
 
     commandObj.insert("command", QJsonValue(QString("getPlugins")));
-    commandObj.insert("plateform", QJsonValue(Utils::returnPlatformName()));
+    commandObj.insert("plateform", QJsonValue(PlatformFactory::getPlatformInitializer()->getPlatformName()));
     requestObj.insert("request", QJsonValue(commandObj));
 
     httpPart.setBody(QJsonDocument(requestObj).toJson());

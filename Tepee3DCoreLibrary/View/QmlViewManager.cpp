@@ -59,7 +59,8 @@
 
 /*!
  * Constructs a QmlViewManager instance and initializes the Service Manager,
- * the Room Manager and the Plugin Manager as well as the View.
+ * the Room Manager and the Plugin Manager as well as the View. Platform specific initializations
+ * are also handled here.
  *
  * \sa Room::RoomManager
  * \sa Plugins::PluginManager
@@ -75,16 +76,19 @@ View::QmlViewManager::QmlViewManager() : QObject()
  */
 void View::QmlViewManager::initCoreEngine()
 {
-    this->viewProperties = View::QmlViewProperties::getInstance(this);
-    this->servicesManager = Services::ServicesManager::getInstance(this);
-    this->roomManager = Room::RoomManager::getInstance(this);
-    this->pluginsManager  = Plugins::PluginManager::getInstance(this);
+    if (PlatformFactory::getPlatformInitializer()->initPlatform())
+    {
+        this->viewProperties = View::QmlViewProperties::getInstance(this);
+        this->servicesManager = Services::ServicesManager::getInstance(this);
+        this->roomManager = Room::RoomManager::getInstance(this);
+        this->pluginsManager  = Plugins::PluginManager::getInstance(this);
 
-    QObject::connect(this->viewProperties, SIGNAL(quit()), this, SLOT(cleanBeforeClosing()));
-    // ALL INSTANCES CREATED SHOULDN'T CALL OR REGISTER TO SERVICES UNTIL THOSE HAVE
-    // BEEN PROPERLY INITIALIZED
-    QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), this, SLOT(initView()));
-    this->servicesManager->loadServicesLibraries();
+        QObject::connect(this->viewProperties, SIGNAL(quit()), this, SLOT(cleanBeforeClosing()));
+        // ALL INSTANCES CREATED SHOULDN'T CALL OR REGISTER TO SERVICES UNTIL THOSE HAVE
+        // BEEN PROPERLY INITIALIZED
+        QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), this, SLOT(initView()));
+        this->servicesManager->loadServicesLibraries();
+    }
 }
 
 /*!
@@ -148,7 +152,7 @@ bool    View::QmlViewManager::initView()
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
-    QUrl localFile = QUrl::fromLocalFile(Utils::getPlatformDataDir().absolutePath() + "/qml/main.qml");
+    QUrl localFile = QUrl::fromLocalFile(PlatformFactory::getPlatformInitializer()->getDataDirectory().absolutePath() + "/qml/main.qml");
     if (localFile.isValid())
     {
         this->viewProperties->setViewerSource(localFile);
