@@ -14,7 +14,7 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
 
 int AudioLibrary::getMajorIDRequestHandled() const
 {
-    return MAJOR_ID_REQUEST;
+    return MAJOR_ID_REQUEST_AUDIO;
 }
 
 void AudioLibrary::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
@@ -47,7 +47,7 @@ void AudioLibrary::retrieveAudioAlbums(void *dataModel)
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("albums")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_ALBUMS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_ALBUMS), dataModel);
 }
 
 void AudioLibrary::retrieveAudioArtists(void *dataModel)
@@ -67,7 +67,7 @@ void AudioLibrary::retrieveAudioArtists(void *dataModel)
     requestJson.insert("params", QJsonValue(paramObj));
     requestJson.insert("id", QJsonValue(QString("artists")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_ARTISTS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_ARTISTS), dataModel);
 }
 
 void AudioLibrary::retrieveAudioPlaylist()
@@ -94,7 +94,7 @@ void AudioLibrary::retrieveAllSongs(void *dataModel)
 {
     QJsonObject requestJson = this->getSongsRequestBaseJSON();
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_SONGS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
 void AudioLibrary::retrieveSongsForAlbum(int albumId, void *dataModel)
@@ -104,7 +104,7 @@ void AudioLibrary::retrieveSongsForAlbum(int albumId, void *dataModel)
 
     params.insert("albumid", QJsonValue(albumId));
      requestJson.insert("params", QJsonValue(params));
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_SONGS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
 void AudioLibrary::retrieveSongsForArtist(int artistId, void *dataModel)
@@ -114,7 +114,7 @@ void AudioLibrary::retrieveSongsForArtist(int artistId, void *dataModel)
 
     params.insert("artistid", QJsonValue(artistId));
     requestJson.insert("params", QJsonValue(params));
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_SONGS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
 void AudioLibrary::retrieveSongsForGenre(int genreId, void *dataModel)
@@ -124,7 +124,7 @@ void AudioLibrary::retrieveSongsForGenre(int genreId, void *dataModel)
 
     params.insert("genreid", QJsonValue(genreId));
     requestJson.insert("params", QJsonValue(params));
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_SONGS), dataModel);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO,RETRIEVE_SONGS), dataModel);
 }
 
 Models::ListModel *AudioLibrary::getArtistsLibraryModel() const

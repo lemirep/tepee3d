@@ -11,13 +11,11 @@
 #include "ArtistModel.h"
 #include "SongModel.h"
 
-#define MAJOR_ID_REQUEST 1
+#define MAJOR_ID_REQUEST_AUDIO 1
 #define RETRIEVE_ALBUMS 0
 #define RETRIEVE_ARTISTS 1
 #define RETRIEVE_SONGS 2
 #define RETRIEVE_PLAYLIST 3
-
-#define REQUEST_ID_BUILDER(id) ((MAJOR_ID_REQUEST * 10) + id)
 
 class AudioLibrary : public QObject, public IWebRequestDispatcher
 {

@@ -12,8 +12,6 @@
 #include <PluginManager.h>
 #include <RoomBase.h>
 
-#define WIDGET_PLUGIN_DIRECTORY "libraries/widget_libraries"
-
 #define PLUGIN_LOADED 1
 #define DB_NAME "Tepee3D.sql"
 

@@ -4,6 +4,8 @@
 #include <Utils.h>
 #include <QNetworkReply>
 
+#define REQUEST_ID_BUILDER(major, minor) ((major * 10) + minor)
+
 class IWebRequestDispatcher
 {
 public :

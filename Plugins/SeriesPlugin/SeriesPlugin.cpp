@@ -354,7 +354,7 @@ void SeriesPlugin::refreshShowsInPlanning(int scheduleType)
     {
         SerieSubListedItem* show = reinterpret_cast<SerieSubListedItem*>(showItem);
         // BASED ON LAST SEASON ONLY
-        if (show->submodel() != NULL)
+        if (show->submodel() != NULL && show->submodel()->rowCount() > 0)
         {
             SeasonSubListedItem *lastSeason = reinterpret_cast<SeasonSubListedItem *>(show->submodel()->toList().first());
             bool showIsThisWeek = false;
@@ -376,7 +376,6 @@ void SeriesPlugin::refreshShowsInPlanning(int scheduleType)
         }
     }
 }
-
 
 void SeriesPlugin::saveSickBeardConfig()
 {

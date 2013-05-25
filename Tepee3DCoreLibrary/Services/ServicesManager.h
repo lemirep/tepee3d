@@ -10,6 +10,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QHttpMultiPart>
+#include <Utils.h>
 #include "ServiceInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
@@ -22,7 +23,6 @@
 // QML CAN INVOKE METHODS DIRECTLY IF NEEDED
 
 
-#define SERVICE_LIBRARIES_DIRECTORY "libraries/services_lib"
 
 namespace Services
 {
