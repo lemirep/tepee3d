@@ -19,6 +19,7 @@ class PluginQmlPluginProperties : public QQuickItem
     Q_PROPERTY(int pluginId READ getPluginId WRITE setPluginId NOTIFY pluginIdChanged)
     Q_PROPERTY(int pluginRoomId READ getPluginRoomId WRITE setPluginRoomId NOTIFY pluginRoomIdChanged)
     Q_PROPERTY(Plugins::PluginEnums::PluginState focusState READ getFocusState NOTIFY focusStateChanged)
+    Q_ENUMS(Plugins::PluginEnums::PluginState)
 
 public:
     explicit PluginQmlPluginProperties();

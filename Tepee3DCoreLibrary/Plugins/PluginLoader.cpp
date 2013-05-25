@@ -53,21 +53,7 @@ void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::R
 
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
-    QDir    pluginsDir = QCoreApplication::applicationDirPath();
-
-    // GO TO THE PLUGINS DIRECTORY
-#if defined(Q_OS_WIN)
-    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
-        pluginsDir.cdUp();
-#elif defined(Q_OS_MAC)
-    if (pluginsDir.dirName() == "MacOS")
-    {
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-    }
-#endif
-    pluginsDir.cd(WIDGET_PLUGIN_DIRECTORY);
+    QDir    pluginsDir = Utils::getPlatformDataDir(WIDGET_PLUGIN_DIRECTORY);
 
     // LOOP THROUGH EACH FILE OF THE PLUGIN DIR AND LOAD THE PLUGINS
     foreach (QString fileName, pluginsDir.entryList(QDir::Files))

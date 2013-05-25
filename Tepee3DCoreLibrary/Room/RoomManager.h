@@ -12,7 +12,6 @@
 #include "DatabaseServiceUserInterface.h"
 
 #define ROOM_UPDATE_TIME 500
-#define ROOM_LIBRARY_DIRECTORY "libraries/room_library"
 
 class RoomLoader;
 
@@ -25,21 +24,21 @@ class RoomManager : public QObject, public View::QmlContentExposerInterface
 
 public:
     ~RoomManager();
-    static RoomManager*     getInstance(QObject *parent = NULL);
-    static Room::RoomBase*  getNewRoomInstance();
+    static RoomManager*             getInstance(QObject *parent = NULL);
+    static Room::RoomBase*       getNewRoomInstance();
 
-    void                    restoreRooms();
+    void                                          restoreRooms();
 
-    Models::ListModel*      getRoomModel() const;
-    static void             addRoomToModel(Room::RoomBase *room);
+    Models::ListModel*                 getRoomModel() const;
+    static void                                addRoomToModel(Room::RoomBase *room);
 
-    Plugins::PluginBase*    getPluginFromRoom(int roomId, int pluginId) const;
+    Plugins::PluginBase*              getPluginFromRoom(int roomId, int pluginId) const;
 
-    void                    setCurrentRoom(RoomBase *room);
-    RoomBase*               getCurrentRoom()    const;
+    void                                         setCurrentRoom(RoomBase *room);
+    RoomBase*                            getCurrentRoom()    const;
 
     // QmlContentExposer
-    void                    exposeContentToQml(QQmlContext *context);
+    void                                         exposeContentToQml(QQmlContext *context);
 
     // METHODS THAT CAN BE CALLED FROM QML
     Q_INVOKABLE    void     setCurrentRoom(int roomModelId);

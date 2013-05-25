@@ -68,6 +68,13 @@
 View::QmlViewManager::QmlViewManager() : QObject()
 {
     qDebug() << "Init Core Engine";
+}
+
+/*!
+ * Initializes the Tepee3DEngine
+ */
+void View::QmlViewManager::initCoreEngine()
+{
     this->viewProperties = View::QmlViewProperties::getInstance(this);
     this->servicesManager = Services::ServicesManager::getInstance(this);
     this->roomManager = Room::RoomManager::getInstance(this);
@@ -77,13 +84,6 @@ View::QmlViewManager::QmlViewManager() : QObject()
     // ALL INSTANCES CREATED SHOULDN'T CALL OR REGISTER TO SERVICES UNTIL THOSE HAVE
     // BEEN PROPERLY INITIALIZED
     QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), this, SLOT(initView()));
-}
-
-/*!
- * Initializes the Tepee3DEngine
- */
-void View::QmlViewManager::initCoreEngine()
-{
     this->servicesManager->loadServicesLibraries();
 }
 
@@ -148,7 +148,7 @@ bool    View::QmlViewManager::initView()
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
-    QUrl localFile = QUrl::fromLocalFile(QCoreApplication::applicationDirPath() + "/qml/main.qml");
+    QUrl localFile = QUrl::fromLocalFile(Utils::getPlatformDataDir().absolutePath() + "/qml/main.qml");
     if (localFile.isValid())
     {
         this->viewProperties->setViewerSource(localFile);

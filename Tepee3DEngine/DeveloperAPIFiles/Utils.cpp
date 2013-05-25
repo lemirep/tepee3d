@@ -45,15 +45,7 @@ QString & Utils::escapeSqlQuery(QString query)
 
 QString Utils::returnPlatformName()
 {
-#if defined Q_OS_LINUX
-    return "linux";
-#elif defined Q_OS_UNIX
-    return "unix";
-#elif defined Q_OS_WIN32
-    return "windows32";
-#elif defined Q_OS_WIN64
-    return "windows64";
-#elif defined Q_OS_QNX
+#if defined Q_OS_QNX
     return "qnx";
 #elif defined Q_OS_MACX
     return "mac";
@@ -61,6 +53,37 @@ QString Utils::returnPlatformName()
     return "ios";
 #elif defined Q_OS_ANDROID
     return "android";
+#elif defined Q_OS_LINUX
+    return "linux";
+#elif defined Q_OS_UNIX
+    return "unix";
+#elif defined Q_OS_WIN32
+    return "windows32";
+#elif defined Q_OS_WIN64
+    return "windows64";
 #endif
+}
+
+QDir Utils::getPlatformDataDir(QString directory)
+{
+    QDir    dir = QCoreApplication::applicationDirPath();
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug" || dir.dirName().toLower() == "release")
+       dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS")
+    {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+    }
+#endif
+#ifdef Q_OS_ANDROID
+   dir = QDir("/data/data/org.qtproject.example.Tepee3D");
+#endif
+   if (!directory.isEmpty())
+       dir.cd(directory);
+    return dir;
 }
 

@@ -158,21 +158,7 @@ void Services::ServicesManager::libraryInitialized()
  */
 void    Services::ServicesManager::loadServicesLibraries()
 {
-    QDir    serviceDirectory = QCoreApplication::applicationDirPath();
-
-    // GO TO LIB DIRECTORIES
-#if defined(Q_OS_WIN)
-    if (serviceDirectory.dirName().toLower() == "debug" || serviceDirectory.dirName().toLower() == "release")
-        serviceDirectory.cdUp();
-#elif defined(Q_OS_MAC)
-    if (serviceDirectory.dirName() == "MacOS")
-    {
-        serviceDirectory.cdUp();
-        serviceDirectory.cdUp();
-        serviceDirectory.cdUp();
-    }
-#endif
-    serviceDirectory.cd(SERVICE_LIBRARIES_DIRECTORY);
+    QDir    serviceDirectory = Utils::getPlatformDataDir(SERVICE_LIBRARIES_DIRECTORY);
 
     qDebug() << "SERVICE DIR " << serviceDirectory.absolutePath();
     // LOAD ALL SERVICES LIBRARIES FOUND IN DIRECTORY

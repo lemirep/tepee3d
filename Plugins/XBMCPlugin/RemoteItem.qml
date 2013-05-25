@@ -1,3 +1,4 @@
+
 import QtQuick 2.0
 
 Item
@@ -65,10 +66,42 @@ Item
                 var factor = 30;
                 joystick_elem.y_angle = cos_a * factor
                 joystick_elem.x_angle = sin_a * factor
+
+                console.log("cos a " + cos_a + " sin a" + sin_a);
+
+                if (Math.max(Math.abs(sin_a), Math.abs(cos_a)) >= 0.995)
+                {
+                    if (Math.abs(sin_a) > Math.abs(cos_a))
+                        XBMCPlugin.pressNavigationKey((sin_a > 0) ? XBMCPlugin.Up : XBMCPlugin.Down)
+                    else
+                        XBMCPlugin.pressNavigationKey((cos_a > 0) ? XBMCPlugin.Right : XBMCPlugin.Left)
+                }
             }
             onPressed:     {displaceCursor(mouseX - 75, mouseY - 75)}
             onPositionChanged:    {displaceCursor(mouseX - 75, mouseY - 75)}
             onReleased:    {displaceCursor(0, 0)}
         }
+    }
+
+    BackButton
+    {
+        id : back_button
+        anchors
+        {
+            top : joystick_item.bottom
+            right : joystick_item.left
+        }
+        onClicked : {XBMCPlugin.pressNavigationKey(XBMCPlugin.Back)}
+    }
+
+    OkButton
+    {
+        id : ok_button
+        anchors
+        {
+            top : joystick_item.bottom
+            left : joystick_item.right
+        }
+        onClicked : {XBMCPlugin.pressNavigationKey(XBMCPlugin.Select)}
     }
 }

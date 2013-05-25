@@ -7,7 +7,7 @@ XBMCPlugin::XBMCPlugin() : PluginBase()
     this->setXbmcServerPassword("0000");
     this->setXbmcServerPort(8033);
     this->setXbmcServerUserName("xbmc");
-    this->setXbmcServerUrl(QUrl("192.168.1.14"));
+    this->setXbmcServerUrl(QUrl("192.168.0.103"));
 
     this->m_audioLibrary = new AudioLibrary();
     this->m_videoLibrary = new VideoLibrary();

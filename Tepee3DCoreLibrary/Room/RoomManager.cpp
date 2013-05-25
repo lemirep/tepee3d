@@ -371,28 +371,14 @@ void        Room::RoomManager::removePluginFromCurrentRoom(int pluginModelId)
  */
 void        Room::RoomManager::loadRoomLibrary()
 {
-    QDir    roomDirectory = QCoreApplication::applicationDirPath();
-
-    // GO TO ROOM LIB DIRECTORIES
-    //////////////// THIS PART WILL MOVE TO UTILS////////////////////////////
-#if defined(Q_OS_WIN)
-    if (roomDirectory.dirName().toLower() == "debug" || roomDirectory.dirName().toLower() == "release")
-        roomDirectory.cdUp();
-#elif defined(Q_OS_MAC)
-    if (roomDirectory.dirName() == "MacOS")
-    {
-        roomDirectory.cdUp();
-        roomDirectory.cdUp();
-        roomDirectory.cdUp();
-    }
-#endif
-    roomDirectory.cd(ROOM_LIBRARY_DIRECTORY);
+    QDir    roomDirectory = Utils::getPlatformDataDir(ROOM_LIBRARY_DIRECTORY);
 
     qDebug() << "ROOM DIR " << roomDirectory.absolutePath();
 
     // LOAD ROOM LIBRARY
     foreach (const QString &filename, roomDirectory.entryList(QDir::Files))
     {
+        qDebug() << roomDirectory.absoluteFilePath(filename);
         QPluginLoader loader(roomDirectory.absoluteFilePath(filename));
         RoomInterface* roomInt = qobject_cast<RoomInterface *>(loader.instance());
         if (roomInt)
