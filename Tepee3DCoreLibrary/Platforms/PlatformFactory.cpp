@@ -10,7 +10,7 @@ IPlatformInitializer *PlatformFactory::getPlatformInitializer()
         PlatformFactory::platformInitializer = new AndroidPlatformInitializer();
 #else
         PlatformFactory::platformInitializer = new GenericPlatformInitializer();
-#endif;
-        return PlatformFactory::platformInitializer;
+#endif
     }
+    return PlatformFactory::platformInitializer;
 }
