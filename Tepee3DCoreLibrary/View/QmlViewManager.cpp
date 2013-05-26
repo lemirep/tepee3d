@@ -152,7 +152,11 @@ bool    View::QmlViewManager::initView()
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
+#if defined Q_OS_ANDROID
+    QUrl localFile = QUrl("assets:/qml/main.qml");
+#else
     QUrl localFile = QUrl::fromLocalFile(PlatformFactory::getPlatformInitializer()->getDataDirectory().absolutePath() + "/qml/main.qml");
+#endif
     if (localFile.isValid())
     {
         this->viewProperties->setViewerSource(localFile);

@@ -12,22 +12,26 @@ bool AndroidPlatformInitializer::initPlatform()
     if (QFile("assets:/qml/main.qml").exists())
     {
         qDebug() << "Copying Files Android";
-        QDir assetDirectory("assets:/qml/");
-        QDir assetDirectory2("assets:/plugins_qml/");
-        QDir assetDirectory3("assets:/DeveloperAPIFiles/");
+        QDir assetDirectory("assets:/databases/");
+        //QDir assetDirectory2("assets:/plugins_qml/");
+        //QDir assetDirectory3("assets:/DeveloperAPIFiles/");
 
-        foreach (QString entry, assetDirectory.entryList())
+        // qml
+        foreach (QString entry, assetDirectory.entryList(QDir::Files))
         {
-            qDebug() << "entry " << entry;
+            qDebug() << "Copying " << AndroidPlatformInitializer::getDataDirectory().absolutePath() + "/databases/"  + entry;
+            QFile(entry).copy(AndroidPlatformInitializer::getDataDirectory().absolutePath() + "/databases/"  + entry);
         }
-        foreach (QString entry, assetDirectory2.entryList())
-        {
-            qDebug() << "entry 2" << entry;
-        }
-        foreach (QString entry, assetDirectory3.entryList())
-        {
-            qDebug() << "entry 3" << entry;
-        }
+//        // plugins_qml
+//        foreach (QString entry, assetDirectory2.entryList())
+//        {
+//            qDebug() << "entry 2" << entry;
+//        }
+//        // databases
+//        foreach (QString entry, assetDirectory3.entryList())
+//        {
+//            qDebug() << "entry 3" << entry;
+//        }
     }
     qDebug() << "Copying Files Done";
     return true;
