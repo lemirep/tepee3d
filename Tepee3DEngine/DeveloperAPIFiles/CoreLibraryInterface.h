@@ -33,10 +33,9 @@
 class CoreLibraryInterface
 {
 public :
-    virtual void            initCoreEngine() = 0;
+    virtual void                 initCoreEngine() = 0;
     virtual QObject *       getObject() = 0;
-//signals:
-//    void                        quit();
+    virtual QString           getCoreVersion() = 0;
 };
 Q_DECLARE_INTERFACE(CoreLibraryInterface, "com.tepee3d.CoreInterface/1.0")
 

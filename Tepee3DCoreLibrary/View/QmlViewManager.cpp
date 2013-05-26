@@ -139,6 +139,11 @@ View::QmlViewManager::~QmlViewManager()
     delete this->viewProperties;
 }
 
+QString View::QmlViewManager::getCoreVersion()
+{
+    return CORE_VERSION;
+}
+
 /*!
  * Returns a singleton instance of the class.
  */

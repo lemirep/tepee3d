@@ -41,6 +41,8 @@
 #include "PlatformFactory.h"
 #include <CoreLibraryInterface.h>
 
+#define CORE_VERSION "0.1"
+
 // DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
 namespace View
 {
@@ -67,7 +69,9 @@ public:
 //    static  QmlViewManager*     getInstance();
     explicit QmlViewManager();
     ~QmlViewManager();
-    void                        initCoreEngine();
+
+    void                             initCoreEngine();
+    QString                       getCoreVersion();
     QObject*                    getObject();
 public slots:
     bool                        initView();
