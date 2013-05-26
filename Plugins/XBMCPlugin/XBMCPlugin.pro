@@ -13,7 +13,6 @@ HEADERS += \
    XBMCPlugin.h \
     IWebRequestDispatcher.h
 
-
 SOURCES += \
     XBMCPlugin.cpp
 

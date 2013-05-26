@@ -60,27 +60,27 @@ public:
 
     explicit PluginBase();
     virtual  ~PluginBase();     // AS THE CLASS IS SUBJECT TO DYNAMIC CAST, THIS IS NECESSARY
-    virtual int                 getPluginId()               = 0;
-    virtual bool                needsUpdating()             const;  // BY DEFAULT RETURNS FALSE
-    virtual void                updatePlugin();
-    virtual void                initPlugin()                = 0;        //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
-    virtual void                clearPluginBeforeRemoval()  = 0;
-    virtual QString             getPluginName()             = 0;
-    virtual QString             getPluginDescription()      = 0;
-    virtual QString             getRoomPluginQmlFile()      const = 0;
-    virtual QString             getMenuPluginQmlFile()      const = 0;
-    virtual PluginBase*         createNewInstance()         = 0;
-    virtual QJsonDocument       toJsonRepresentation();
+    virtual int                               getPluginId()               = 0;
+    virtual bool                            needsUpdating()             const;  // BY DEFAULT RETURNS FALSE
+    virtual void                            updatePlugin();
+    virtual void                            initPlugin()                = 0;        //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
+    virtual void                            clearPluginBeforeRemoval()          = 0;
+    virtual QString                      getPluginName()                             = 0;
+    virtual QString                      getPluginDescription()                     = 0;
+    virtual QString                      getRoomPluginQmlFile()      const  = 0;
+    virtual QString                      getMenuPluginQmlFile()       const  = 0;
+    virtual PluginBase*              createNewInstance()         = 0;
+    virtual QJsonDocument      toJsonRepresentation();
 
     // IS IMPLEMENTED HERE TO EXPOSE THE SUBCLASS
     // LETTING PLUGINS IMPLEMENT IT IS TOO DANGEROUS
-    void                        exposeContentToQml(QQmlContext *context);
-    PluginBase*                 getPluginBase();
-    PluginEnums::PluginState    getFocusState()             const;
-    void                        askForFocusState(PluginEnums::PluginState requestedState);
+    void                                        exposeContentToQml(QQmlContext *context);
+    PluginBase*                           getPluginBase();
+    PluginEnums::PluginState     getFocusState()             const;
+    void                                         askForFocusState(PluginEnums::PluginState requestedState);
     // IMPLEMENTATIONS SHOULDN'T BE ABLE TO CHANGE THE PLUGIN POSITION THEMSELVES
-    QVector3D                   getPluginPosition()         const;
-    void                        setPluginPosition(const QVector3D &position);
+    QVector3D                            getPluginPosition()         const;
+    void                                        setPluginPosition(const QVector3D &position);
 
 protected:
     // VARIABLES
@@ -119,7 +119,7 @@ public slots :
     // SLOTS CAN BE VIRTUAL
     virtual void    onRoomEntered();
     virtual void    onRoomLeft();
-    void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
+    void               setFocusState(Plugins::PluginEnums::PluginState requestedState);
 };
 
 }
