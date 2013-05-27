@@ -7,7 +7,7 @@ TestPlugin::TestPlugin() : PluginBase()
     //    this->initPlugin();
 }
 
-int TestPlugin::getPluginId()
+int TestPlugin::getPluginId() const
 {
     return 6;
 }
@@ -23,14 +23,19 @@ void TestPlugin::clearPluginBeforeRemoval()
 {
 }
 
-QString TestPlugin::getPluginName()
+QString TestPlugin::getPluginName() const
 {
     return QString("TestPlugin");
 }
 
-QString TestPlugin::getPluginDescription()
+QString TestPlugin::getPluginDescription() const
 {
     return QString("TestPlugin Description");
+}
+
+QString TestPlugin::getPluginVersion() const
+{
+    return PLUGIN_VERSION;
 }
 
 Plugins::PluginBase* TestPlugin::getPluginBase()

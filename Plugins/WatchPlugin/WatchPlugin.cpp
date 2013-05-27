@@ -9,7 +9,7 @@ WatchPlugin::WatchPlugin() : PluginBase()
     this->initPlugin();
 }
 
-int WatchPlugin::getPluginId()
+int WatchPlugin::getPluginId() const
 {
     return 32;
 }
@@ -28,14 +28,19 @@ void        WatchPlugin::clearPluginBeforeRemoval()
     delete this->clockModel;
 }
 
-QString     WatchPlugin::getPluginName()
+QString     WatchPlugin::getPluginName() const
 {
     return QString("WatchPlugin");
 }
 
-QString     WatchPlugin::getPluginDescription()
+QString     WatchPlugin::getPluginDescription() const
 {
     return QString("WatchPlugin Description");
+}
+
+QString WatchPlugin::getPluginVersion() const
+{
+    return PLUGIN_VERSION;
 }
 
 Plugins::PluginBase* WatchPlugin::getPluginBase()

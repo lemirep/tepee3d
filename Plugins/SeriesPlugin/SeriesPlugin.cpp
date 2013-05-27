@@ -55,7 +55,7 @@ SeriesPlugin::SeriesPlugin() : PluginBase()
 }
 // ALL the function should be implemented
 
-int SeriesPlugin::getPluginId()
+int SeriesPlugin::getPluginId() const
 {
     return PLUGIN_ID;
 }
@@ -75,14 +75,19 @@ void SeriesPlugin::clearPluginBeforeRemoval()
 {
 }
 
-QString SeriesPlugin::getPluginName()
+QString SeriesPlugin::getPluginName() const
 {
     return QString("SeriesPlugin");
 }
 
-QString SeriesPlugin::getPluginDescription()
+QString SeriesPlugin::getPluginDescription() const
 {
     return QString("SeriesPlugin.qml");
+}
+
+QString SeriesPlugin::getPluginVersion() const
+{
+    return PLUGIN_VERSION;
 }
 
 Plugins::PluginBase* SeriesPlugin::getPluginBase()

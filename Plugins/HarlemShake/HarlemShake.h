@@ -6,6 +6,8 @@
 #include <QQuickItem>
 #include <PluginBase.h>
 
+#define PLUGIN_VERSION "1.0.0"
+
 class HarlemShake : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
     Q_OBJECT                        // NECESSARY FOR QOBJECT INHERITANCE
@@ -21,11 +23,12 @@ protected:
 
 public:
     HarlemShake();
-    int                     getPluginId();
+    int                     getPluginId() const;
     void                    initPlugin();
     void                    clearPluginBeforeRemoval();
-    Q_INVOKABLE QString     getPluginName();
-    Q_INVOKABLE QString     getPluginDescription();
+    Q_INVOKABLE QString     getPluginName() const;
+    Q_INVOKABLE QString     getPluginDescription() const;
+    Q_INVOKABLE QString     getPluginVersion() const;
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
     QString                 getRoomPluginQmlFile() const;

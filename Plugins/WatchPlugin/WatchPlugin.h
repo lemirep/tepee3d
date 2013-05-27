@@ -22,6 +22,7 @@
 #define DATABASE_NAME "WatchPlugin.sql"
 #define RETRIEVE_CLOCK 0
 #define GENERIC_REQUEST 1
+#define PLUGIN_VERSION "1.0.0"
 
 class WatchPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
@@ -39,11 +40,12 @@ protected:
 
 public:
     WatchPlugin();
-    int                     getPluginId();
+    int                     getPluginId() const;
     void                    initPlugin();
     void                    clearPluginBeforeRemoval();
-    Q_INVOKABLE QString     getPluginName();
-    Q_INVOKABLE QString     getPluginDescription();
+    Q_INVOKABLE QString     getPluginName() const;
+    Q_INVOKABLE QString     getPluginDescription() const;
+    Q_INVOKABLE QString     getPluginVersion() const;
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
     QString                 getRoomPluginQmlFile() const;

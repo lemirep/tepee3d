@@ -5,7 +5,7 @@ HarlemShake::HarlemShake() : PluginBase()
     qDebug() << "CREATION OF HARLEMSHAKE";
 }
 
-int HarlemShake::getPluginId()
+int HarlemShake::getPluginId() const
 {
     return 1;
 }
@@ -19,14 +19,19 @@ void HarlemShake::clearPluginBeforeRemoval()
 {
 }
 
-QString HarlemShake::getPluginName()
+QString HarlemShake::getPluginName() const
 {
     return QString("HarlemShake");
 }
 
-QString HarlemShake::getPluginDescription()
+QString HarlemShake::getPluginDescription() const
 {
     return QString("HarlemShake Description");
+}
+
+QString HarlemShake::getPluginVersion() const
+{
+    return PLUGIN_VERSION;
 }
 
 Plugins::PluginBase* HarlemShake::getPluginBase()

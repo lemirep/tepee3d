@@ -7,6 +7,7 @@
 #include <PluginBase.h>
 
 #define  ASSIGNCOLOR 2
+#define  PLUGIN_VERSION "1.0.0"
 
 class TestPlugin : public Plugins::PluginBase          // MANDATORY FOR PLUGIN DEVELOPMENT
 {
@@ -24,11 +25,12 @@ protected:
 
 public:
     TestPlugin();
-    int                     getPluginId();
+    int                       getPluginId() const;
     void                    initPlugin();
     void                    clearPluginBeforeRemoval();
-    Q_INVOKABLE QString     getPluginName();
-    Q_INVOKABLE QString     getPluginDescription();
+    Q_INVOKABLE QString     getPluginName() const;
+    Q_INVOKABLE QString     getPluginDescription() const;
+    Q_INVOKABLE QString     getPluginVersion() const;
     PluginBase*             getPluginBase();
     PluginBase*             createNewInstance();
 

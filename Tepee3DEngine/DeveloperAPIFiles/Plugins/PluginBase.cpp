@@ -62,23 +62,29 @@
  */
 
 /*!
- * \fn int Plugins::PluginBase::getPluginId()
+ * \fn int Plugins::PluginBase::getPluginId() const
  *
- * Returns the id of the plugins.
+ * Returns the id of the plugins. This is the unique id you were provided during
+ * the plugin creation process online;
  */
 
 /*!
- * \fn QString Plugins::PluginBase::getPluginName()
+ * \fn QString Plugins::PluginBase::getPluginName() const
  *
  * Returns the name of the plugins.
  */
 
 /*!
- * \fn QString Plugins::PluginBase::getPluginDescription()
+ * \fn QString Plugins::PluginBase::getPluginDescription() const
  *
  * Returns a description of the plugin.
  */
 
+/*!
+  * \fn QString Plugins::PluginBase::getPluginVersion() const
+  *
+  * Returns the current version of the plugin, needed to check for updates.
+  */
 
 /*!
  * \fn QString Plugins::PluginBase::getRoomPluginQmlFile() const
@@ -306,13 +312,14 @@ void Plugins::PluginBase::updatePlugin()
 /*!
  * Returns a Json representation of the plugin. This can be use for synching across multiple devices.
  */
-QJsonDocument Plugins::PluginBase::toJsonRepresentation()
+QJsonDocument Plugins::PluginBase::toJsonRepresentation() const
 {
     QJsonObject pluginJsonObject;
 
     pluginJsonObject.insert("id", QJsonValue(this->getPluginId()));
     pluginJsonObject.insert("name", QJsonValue(this->getPluginName()));
     pluginJsonObject.insert("description", QJsonValue(this->getPluginDescription()));
+    pluginJsonObject.insert("version", QJsonValue(this->getPluginVersion()));
 
     return QJsonDocument(pluginJsonObject);
 }

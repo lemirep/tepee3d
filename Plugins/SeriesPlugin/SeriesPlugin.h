@@ -43,6 +43,7 @@
 #include "SerieSubListedItem.h"
 
 #define PLUGIN_ID 10
+#define PLUGIN_VERSION "1.0.0"
 
 #define SEARCH_SHOW_REQUEST 0
 #define GET_SHOW_SUMMARY 1
@@ -60,7 +61,6 @@
 #define GENERIC_REQUEST 3
 #define RETRIEVE_SICKBEARD_CONFIG 4
 
-
 #define DATABASE_NAME "SeriesPlugin.sql"
 #define TRAKT_API_KEY "9a67e6b3bc1cbd1d92fdc56a03b51267"
 
@@ -76,15 +76,16 @@ class SeriesPlugin  : public Plugins::PluginBase
     Q_PROPERTY(bool synchingWebServices READ getSynching NOTIFY synchingChanged)
 public:
     SeriesPlugin();
-    int                         getPluginId();
-    void                        initPlugin();
-    void                        clearPluginBeforeRemoval();
-    Q_INVOKABLE QString         getPluginName();
-    QString                     getPluginDescription();
+    int                                 getPluginId() const;
+    void                              initPlugin();
+    void                              clearPluginBeforeRemoval();
+    Q_INVOKABLE QString         getPluginName() const;
+    Q_INVOKABLE QString         getPluginDescription() const;
+    Q_INVOKABLE QString         getPluginVersion() const;
     PluginBase*                 getPluginBase();
     PluginBase*                 createNewInstance();
-    QString                     getRoomPluginQmlFile() const;
-    QString                     getMenuPluginQmlFile() const;
+    QString                         getRoomPluginQmlFile() const;
+    QString                         getMenuPluginQmlFile() const;
 
 
     // FOCUS STATE HANDLERS
