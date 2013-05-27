@@ -6,6 +6,8 @@
 #include "manageBDD.h"
 #include "DatabaseServiceUserInterface.h"
 
+#define SERVICE_ID 2
+#define SERVICE_VERSION "1.0.0"
 
 class DatabaseThread : public QThread, Services::ServiceInterface
 {
@@ -19,9 +21,11 @@ public:
     void        run();
     void        stop();
 
-    void        initLibraryConnection(QObject *parent);
-    bool        connectServiceToUser(QObject *user);
-    bool        disconnectServiceFromUser(QObject *user);
+    int               getServiceId() const;
+    void            initLibraryConnection(QObject *parent);
+    bool            connectServiceToUser(QObject *user);
+    bool            disconnectServiceFromUser(QObject *user);
+    QString      getServiceVersion() const;
     QObject*    getLibraryQObject();
 
 private slots:

@@ -65,7 +65,7 @@ public:
     static  ServicesManager*        getInstance(QObject *parent = 0);
     static  void                    connectObjectToServices(QObject *serviceUser);
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
-    void                            loadServicesLibraries();
+    void                               loadServicesLibraries();
 
 private:
     ServicesManager(QObject *parent = 0);

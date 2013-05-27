@@ -74,14 +74,6 @@
  * \inmodule Tepee3D
  */
 
-/*!
- * \fn void Room::RoomManager::executeSQLQuery(const QString &query, QObject *sender, int id)
- *
- * Emitted when a SQL \a query needs to be performed. The \a sender will received the result once executed with the \a id
- * to detect which query this call is the result of.
- */
-
-
 Room::RoomManager* Room::RoomManager::instance = NULL;
 int                Room::RoomManager::roomInstances = 0;
 

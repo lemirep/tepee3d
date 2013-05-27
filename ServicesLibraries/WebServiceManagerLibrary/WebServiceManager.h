@@ -37,6 +37,8 @@
 #include "WebServiceUserInterface.h"
 #include "NetworkReplyRepeater.h"
 
+#define SERVICE_ID 1
+#define SERVICE_VERSION "1.0.0"
 
 class WebServiceManager : public QObject, Services::ServiceInterface
 {
@@ -52,10 +54,12 @@ public:
 
     static  QJsonObject*    QJsonFromReply(QNetworkReply* reply);
 
+    int                       getServiceId() const;
     void                    initLibraryConnection(QObject *parent);
     bool                    connectServiceToUser(QObject *user);
     bool                    disconnectServiceFromUser(QObject *user);
-    QObject*                getLibraryQObject();
+    QObject*            getLibraryQObject();
+    QString               getServiceVersion() const;
 
 private:
     static  QNetworkAccessManager*  instance;

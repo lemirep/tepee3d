@@ -25,43 +25,20 @@
 **
 ****************************************************************************/
 
-#include "QmlViewManager.h"
+#include "CoreManager.h"
 // DEBUG
 #include <QDebug>
 
 
-/*!
- * \namespace View
- *
- * \brief The View namespace contains all the classes responsible
- * for the Qml view management or that interact between the view and
- * other modules such as Services or Plugins.
- *
- * \inmodule Tepee3D
- */
+
 
 /*!
- * \class View::QmlContentExposerInterface
+ * \class CoreManager
  * \code
- * #include <QmlContentExposerInterface.h>
+ * #include <CoreManager.h>
  * \endcode
- * \brief Has to be implemented in order to expose QML content to the QML context.
- *
- * \inmodule Tepee3D
- */
-
-/*!
- * \fn void View::QmlContentExposerInterface::exposeContentToQml(QQmlContext *context)
- *
- * Exposes QML content to the QML \a context.
- */
-
-/*!
- * \class View::QmlViewManager
- * \code
- * #include <QmlViewManager.h>
- * \endcode
- * \brief The View::QmlViewManager class manages the QML view.
+ * \brief The View::CoreManager class manages the QML view and all the modules
+ * needed in order to properly run Tepee3D.
  * It links services, widgets and models to the view
  *
  * It is a singleton class that hold the various singleton managers
@@ -74,18 +51,21 @@
  * \inmodule Tepee3D
  *
  * \sa View::QmlViewProperties
+ * \sa Room::RoomManager
+ * \sa Services::ServicesManager
+ * \sa Plugins::PluginManager
  * */
 
 //View::QmlViewManager* View::QmlViewManager::instance = NULL;
 
 /*!
- * \fn void View::QmlViewManager::quit()
+ * \fn void CoreManager::quit()
  *
  * Emitted to tell the QApplication it should be killed.
  */
 
 /*!
- * Constructs a QmlViewManager instance and initializes the Service Manager,
+ * Constructs a CoreManager instance and initializes the Service Manager,
  * the Room Manager and the Plugin Manager as well as the View. Platform specific initializations
  * are also handled here.
  *
@@ -93,7 +73,7 @@
  * \sa Plugins::PluginManager
  * \sa Services::ServicesManager
  */
-View::QmlViewManager::QmlViewManager() : QObject()
+CoreManager::CoreManager() : QObject()
 {
     qDebug() << "Init Core Engine";
 }
@@ -101,7 +81,7 @@ View::QmlViewManager::QmlViewManager() : QObject()
 /*!
  * Initializes the Tepee3DEngine
  */
-void View::QmlViewManager::initCoreEngine()
+void CoreManager::initCoreEngine()
 {
     if (PlatformFactory::getPlatformInitializer()->initPlatform())
     {
@@ -121,17 +101,16 @@ void View::QmlViewManager::initCoreEngine()
 /*!
  * Return this instance as a QObject so that it can be connected to signals
  */
-QObject *View::QmlViewManager::getObject()
+QObject *CoreManager::getObject()
 {
     return this;
 }
-
 
 /*!
  * Destroys a QmlViewManager instance releasing the instances of the Service Manager,
  * the Room Manager, the Plugin Manager and the View.
  */
-View::QmlViewManager::~QmlViewManager()
+CoreManager::~CoreManager()
 {
     delete this->servicesManager;
     delete this->roomManager;
@@ -139,27 +118,17 @@ View::QmlViewManager::~QmlViewManager()
     delete this->viewProperties;
 }
 
-QString View::QmlViewManager::getCoreVersion()
+QString CoreManager::getCoreVersion()
 {
     return CORE_VERSION;
 }
-
-/*!
- * Returns a singleton instance of the class.
- */
-//View::QmlViewManager* View::QmlViewManager::getInstance()
-//{
-//    if (View::QmlViewManager::instance == NULL)
-//        View::QmlViewManager::instance = new View::QmlViewManager();
-//    return View::QmlViewManager::instance;
-//}
 
 /*!
  * Initialises the Tepee3DEngine services, view rendering and room management entities.
  * Returns true if the view was correctly initialized, false otherwise.
  * Triggered when the ServicesManagers signals the libraries have been properly initialized.
  */
-bool    View::QmlViewManager::initView()
+bool    CoreManager::initView()
 {
     qDebug() << "Init View";
 
@@ -198,7 +167,7 @@ bool    View::QmlViewManager::initView()
     return false;
 }
 
-void View::QmlViewManager::cleanBeforeClosing()
+void CoreManager::cleanBeforeClosing()
 {
     emit quit();
 }

@@ -60,6 +60,11 @@ DatabaseThread::~DatabaseThread()
     this->stop();
 }
 
+int DatabaseThread::getServiceId() const
+{
+    return SERVICE_ID;
+}
+
 /*!
  * Initializes library connections with Qt Signals using \a parent.
  *
@@ -109,6 +114,11 @@ bool            DatabaseThread::disconnectServiceFromUser(QObject *user)
                             this, SIGNAL(executeSQLQuery(const QString&,QObject*,int, const QString &, void *)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
     return false;
+}
+
+QString DatabaseThread::getServiceVersion() const
+{
+    return SERVICE_VERSION;
 }
 
 /*!
@@ -163,3 +173,4 @@ void DatabaseThread::stop()
     else
         quit();
 }
+

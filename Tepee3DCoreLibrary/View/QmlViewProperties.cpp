@@ -28,6 +28,33 @@
 #include "QmlViewProperties.h"
 #include <QDebug>
 
+
+/*!
+ * \namespace View
+ *
+ * \brief The View namespace contains all the classes responsible
+ * for the Qml view management or that interact between the view and
+ * other modules such as Services or Plugins.
+ *
+ * \inmodule Tepee3D
+ */
+
+/*!
+ * \class View::QmlContentExposerInterface
+ * \code
+ * #include <QmlContentExposerInterface.h>
+ * \endcode
+ * \brief Has to be implemented in order to expose QML content to the QML context.
+ *
+ * \inmodule Tepee3D
+ */
+
+/*!
+ * \fn void View::QmlContentExposerInterface::exposeContentToQml(QQmlContext *context)
+ *
+ * Exposes QML content to the QML \a context.
+ */
+
 /*!
  * \class View::QmlViewProperties
  *
@@ -43,7 +70,6 @@
  * the Qml Engine and the Qml Context. More, this is where qml content is exposed to
  * the Qml Context to later be used directly from Qml files.
  *
- * \sa View::QmlViewManager
  *
  * \inmodule Tepee3D
  */

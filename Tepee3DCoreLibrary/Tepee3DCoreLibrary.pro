@@ -14,6 +14,10 @@ DEFINES += CORELIBRARY_LIBRARY
 
 DESTDIR = ../Tepee3DEngine/libraries/core
 
+HEADERS += CoreManager.h
+
+SOURCES += CoreManager.cpp
+
 # Include Shared Development Files
 include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 # Include QmlViewManagement

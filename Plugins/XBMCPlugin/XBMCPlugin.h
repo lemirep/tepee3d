@@ -15,6 +15,7 @@
 #include "RemoteManager.h"
 
 #define PLUGIN_ID 12
+#define PLUGIN_VERSION "1.0.0"
 
 //class RemoteManager;
 
@@ -33,7 +34,7 @@ public:
     XBMCPlugin();
     virtual ~XBMCPlugin();
 
-    int                           getPluginId();
+    int                           getPluginId() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
 
@@ -43,8 +44,9 @@ public:
     QString                  getRoomPluginQmlFile() const;
     QString                  getMenuPluginQmlFile() const;
 
-    Q_INVOKABLE QString         getPluginName();
-    Q_INVOKABLE QString         getPluginDescription();
+    Q_INVOKABLE QString         getPluginName() const;
+    Q_INVOKABLE QString         getPluginVersion() const;
+    Q_INVOKABLE QString         getPluginDescription() const;
 
     // REMOTE CONTROL ACTIONS
     enum NavigationKeys

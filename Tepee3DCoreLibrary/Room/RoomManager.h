@@ -91,9 +91,6 @@ private:
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace();
-
-signals:
-    void                    executeSQLQuery(const QString &query, QObject *sender, int id);
 };
 
 }

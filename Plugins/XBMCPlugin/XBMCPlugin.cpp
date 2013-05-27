@@ -29,7 +29,7 @@ XBMCPlugin::~XBMCPlugin()
     delete this->m_videoLibrary;
 }
 
-int XBMCPlugin::getPluginId()
+int XBMCPlugin::getPluginId() const
 {
     return PLUGIN_ID;
 }
@@ -50,12 +50,17 @@ void XBMCPlugin::clearPluginBeforeRemoval()
 {
 }
 
-QString XBMCPlugin::getPluginName()
+QString XBMCPlugin::getPluginName() const
 {
     return QString("XBMCPlugin");
 }
 
-QString XBMCPlugin::getPluginDescription()
+QString XBMCPlugin::getPluginVersion() const
+{
+    return PLUGIN_VERSION;
+}
+
+QString XBMCPlugin::getPluginDescription() const
 {
     return QString("XBMCPlugin.qml");
 }

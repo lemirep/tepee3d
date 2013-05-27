@@ -44,41 +44,32 @@
 #define CORE_VERSION "0.1"
 
 // DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
-namespace View
-{
-class QmlViewManager : public QObject, public CoreLibraryInterface
+class CoreManager : public QObject, public CoreLibraryInterface
 {
     Q_OBJECT
     Q_INTERFACES(CoreLibraryInterface)
     Q_PLUGIN_METADATA(IID "com.tepee3d.Core")
 
 private:
-    // QML VIEW PROPERTIES
-    QmlViewProperties           *viewProperties;
-    // ROOM MANAGER
-    Room::RoomManager           *roomManager;
-    // SERVICESMANAGER
-    Services::ServicesManager   *servicesManager;
-    // PLUGIN MANAGER
-    Plugins::PluginManager      *pluginsManager;
-
-private :
-//    static   QmlViewManager      *instance;
+    View::QmlViewProperties      *viewProperties;      // QML VIEW PROPERTIES
+    Room::RoomManager           *roomManager;       // ROOM MANAGER
+    Services::ServicesManager  *servicesManager;  // SERVICESMANAGER
+    Plugins::PluginManager         *pluginsManager;    // PLUGIN MANAGER
 
 public:
-//    static  QmlViewManager*     getInstance();
-    explicit QmlViewManager();
-    ~QmlViewManager();
+    explicit CoreManager();
+    ~CoreManager();
 
     void                             initCoreEngine();
     QString                       getCoreVersion();
     QObject*                    getObject();
+
 public slots:
     bool                        initView();
     void                        cleanBeforeClosing();
+
 signals:
     void                        quit();
 
 };
-}
 #endif // QMLVIEWMANAGER_H

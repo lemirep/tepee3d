@@ -196,6 +196,11 @@ QJsonObject*    WebServiceManager::QJsonFromReply(QNetworkReply *reply)
     return new QJsonObject(QJsonDocument::fromJson(reply->readAll()).object());
 }
 
+int WebServiceManager::getServiceId() const
+{
+    return SERVICE_ID;
+}
+
 /*!
  * Initializes library signal connection with \a parent.
  */
@@ -223,6 +228,11 @@ void            WebServiceManager::executeHttpRequest(QNetworkRequest request, i
 QObject*        WebServiceManager::getLibraryQObject()
 {
     return this;
+}
+
+QString WebServiceManager::getServiceVersion() const
+{
+    return SERVICE_VERSION;
 }
 
 
