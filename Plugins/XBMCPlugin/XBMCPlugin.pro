@@ -21,6 +21,8 @@ OTHER_FILES += \
     Menu.qml \
     RemoteItem.qml
 
+INCLUDEPATH += $$PWD
+
 include (./Audio/Audio.pri)
 include (./Video/Video.pri)
 include (./Player/Player.pri)

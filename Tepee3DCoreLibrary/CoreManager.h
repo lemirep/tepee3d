@@ -43,7 +43,6 @@
 
 #define CORE_VERSION "0.1"
 
-// DYNAMIC QML COMPONENT WILL BE LOADED USING QML LOADERS INSTEAD OF C++ CREATION
 class CoreManager : public QObject, public CoreLibraryInterface
 {
     Q_OBJECT
