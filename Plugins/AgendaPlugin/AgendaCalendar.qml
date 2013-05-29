@@ -5,10 +5,10 @@ Item
     id : monthly_view
 
     anchors.fill: parent
-    x : 500
-    y : (mainWindow.height * 0.1)
+    x : (mainWindow.height * 0.05)
+    y : (mainWindow.height * 0.05)
     width : (mainWindow.width * 0.8)
-    height : (mainWindow.height * 0.8)
+    height : (mainWindow.height * 0.9)
 
     property int daybeginning_month : {AgendaPlugin.getBeginDayOfTheMonth(); }
     property int monthlength : {AgendaPlugin.getMonthLength(); }
@@ -19,7 +19,7 @@ Item
 
         Text {
           x : ((mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 1))
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -31,7 +31,7 @@ Item
         }
      Text {
           x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 2)
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -43,7 +43,7 @@ Item
         }
         Text {
           x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 3)
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -55,7 +55,7 @@ Item
         }
         Text {
           x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 4)
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -67,7 +67,7 @@ Item
         }
         Text {
           x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 5)
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -79,7 +79,7 @@ Item
         }
         Text {
           x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 6)
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -91,7 +91,7 @@ Item
         }
         Text {
           x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 7)
-          y : (mainWindow.height * 0.1)
+          y : (mainWindow.height * 0.05)
           width : (mainWindow.width * 0.1)
           height : ((mainWindow.height * 0.8) / 7)
           verticalAlignment: Text.AlignVCenter
@@ -120,7 +120,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -131,7 +131,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -142,7 +142,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -153,7 +153,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -164,7 +164,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -175,7 +175,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -186,7 +186,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -202,7 +202,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -213,7 +213,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -224,7 +224,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -235,7 +235,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -246,7 +246,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -257,7 +257,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -268,7 +268,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -283,7 +283,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -294,7 +294,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -305,7 +305,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -316,7 +316,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -327,7 +327,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -338,7 +338,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -349,7 +349,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -365,7 +365,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -376,7 +376,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -387,7 +387,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -398,7 +398,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -409,7 +409,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -420,7 +420,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -431,7 +431,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -447,7 +447,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -458,7 +458,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -469,7 +469,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -480,7 +480,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -491,7 +491,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -502,7 +502,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -513,7 +513,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -529,7 +529,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -540,7 +540,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -551,7 +551,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -562,7 +562,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -573,7 +573,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -584,7 +584,7 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
@@ -595,10 +595,74 @@ Item
                enabled: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month)))
                opacity: ((daynb >= monthly_view.daybeginning_month) && (daynb < (monthly_view.monthlength + monthly_view.daybeginning_month))) ? 1 : 0
                x : (mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * (((daynb - 1) % 7) + 1))
-               y : (mainWindow.height * 0.1) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
+               y : (mainWindow.height * 0.05) + (((mainWindow.height * 0.8) / 7) * ((((daynb - 1) - ((daynb - 1) % 7)) / 7) + 1))
                width : (mainWindow.width * 0.1)
                height : ((mainWindow.height * 0.8) / 7)
             }
+        }
+    }
+     Item
+     {
+        Item {
+            x : (mainWindow.width * 0.1)
+            y : (mainWindow.height * 0.85)
+            width : (mainWindow.width * 0.1)
+            height : (mainWindow.height * 0.1)
+            BackButton
+            {
+                anchors
+                {
+                    horizontalCenter : parent.horizontalCenter
+                    verticalCenter : parent.verticalCenter
+                }
+                onClicked:
+                {
+                    AgendaPlugin.prevMonth()
+                    month_name.text = AgendaPlugin.getMonth()
+                    monthly_view.monthlength = AgendaPlugin.getMonthLength()
+                    monthly_view.daybeginning_month = AgendaPlugin.getBeginDayOfTheMonth()
+                    console.log(AgendaPlugin.getMonth());
+                }
+            }
+
+        }
+
+        Text {
+          id : month_name
+          x : ((mainWindow.width * 0.1) + ((mainWindow.width * 0.1) * 1))
+          y : (mainWindow.height * 0.85)
+          width : (mainWindow.width * 0.6)
+          height : (mainWindow.height * 0.1)
+          verticalAlignment: Text.AlignVCenter
+          horizontalAlignment: Text.AlignHCenter
+          text : {AgendaPlugin.getMonth();}
+          font.family : "Helvetica"
+          font.pointSize : 24
+          color : "white"
+        }
+
+        Item {
+            x : (mainWindow.width * 0.8)
+            y : (mainWindow.height * 0.85)
+            width : (mainWindow.width * 0.1)
+            height : (mainWindow.height * 0.1)
+            ForwardButton
+            {
+                anchors
+                {
+                    horizontalCenter : parent.horizontalCenter
+                    verticalCenter : parent.verticalCenter
+                }
+                onClicked:
+                {
+                    AgendaPlugin.nextMonth()
+                    month_name.text = AgendaPlugin.getMonth()
+                    monthly_view.monthlength = AgendaPlugin.getMonthLength()
+                    monthly_view.daybeginning_month = AgendaPlugin.getBeginDayOfTheMonth()
+                    console.log(AgendaPlugin.getMonth());
+                }
+            }
+
         }
     }
 }
