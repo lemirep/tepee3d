@@ -8,5 +8,4 @@ SUBDIRS += \
     HarlemShake \
     WatchPlugin \
     XBMCPlugin
-#    AgendaPlugin \
 #    TwitterPlugin
