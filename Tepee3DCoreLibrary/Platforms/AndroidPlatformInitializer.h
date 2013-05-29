@@ -31,7 +31,7 @@
 #include "IPlatformInitializer.h"
 
 #define ANDROID_LIB_DIR "/data/data/org.qtproject.example.Tepee3D/lib"
-#define ANDROID_DATA_DIR "/data/data/org.qtproject.example.Tepee3D"
+#define ANDROID_DATA_DIR "./"
 
 
 class AndroidPlatformInitializer : public IPlatformInitializer

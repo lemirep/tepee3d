@@ -39,26 +39,57 @@ bool AndroidPlatformInitializer::initPlatform()
     if (QFile("assets:/qml/main.qml").exists())
     {
         qDebug() << "Copying Files Android";
-        QDir assetDirectory("assets:/databases/");
-        //QDir assetDirectory2("assets:/plugins_qml/");
-        //QDir assetDirectory3("assets:/DeveloperAPIFiles/");
 
-        // qml
-        foreach (QString entry, assetDirectory.entryList(QDir::Files))
+        QList<QString> pathsList;
+
+        pathsList.prepend("qml/Resources/Textures/skybox");
+        pathsList.prepend("qml/Resources/Pictures");
+        pathsList.prepend("qml/Resources/Textures");
+        pathsList.prepend("qml/Resources/Models");
+        pathsList.prepend("qml/Resources");
+        pathsList.prepend("qml/Rooms");
+        pathsList.prepend("qml/Menus");
+        pathsList.prepend("qml/Notifications");
+        pathsList.prepend("qml/Plugins");
+        pathsList.prepend("qml/content");
+        pathsList.prepend("qml/js");
+        pathsList.prepend("qml");
+
+        pathsList.prepend("databases");
+
+        pathsList.prepend("DeveloperAPIFiles/qml/UIComponents");
+        pathsList.prepend("DeveloperAPIFiles/qml/Resources/Pictures");
+        pathsList.prepend("DeveloperAPIFiles/qml/Resources");
+        pathsList.prepend("DeveloperAPIFiles/qml");
+        pathsList.prepend("DeveloperAPIFiles/js");
+        pathsList.prepend("DeveloperAPIFiles");
+
+        pathsList.prepend("plugins_qml/SeriesPlugin");
+        pathsList.prepend("plugins_qml/WatchPlugin");
+        pathsList.prepend("plugins_qml/TestPlugin");
+        pathsList.prepend("plugins_qml/XBMCPlugin");
+        pathsList.prepend("plugins_qml/HarlemShake");
+        pathsList.prepend("plugins_qml");
+
+        foreach (QString dirEntry, pathsList)
         {
-            qDebug() << "Copying " << AndroidPlatformInitializer::getDataDirectory().absolutePath() + "/databases/"  + entry;
-            QFile(entry).copy(AndroidPlatformInitializer::getDataDirectory().absolutePath() + "/databases/"  + entry);
+            bool exists = QDir(dirEntry).exists();
+            if (!exists)
+            {
+                qDebug() << "Dir doesn't exist, creating it " << dirEntry;
+                exists = getDataDirectory().mkdir(dirEntry);
+            }
+            if (exists)
+            {
+                QDir tmpDir(dirEntry);
+                foreach (QString entry, QDir("assets:/" + dirEntry).entryList(QDir::Files))
+                {
+                    qDebug() << "Entry " << dirEntry << " -- >" << entry << " to " << tmpDir.absolutePath() + "/" + entry;
+                    if (!QFile::copy("assets:/" + dirEntry + "/" + entry, tmpDir.absolutePath() + "/" + entry))
+                        qDebug() << "Copy Failed";
+                }
+            }
         }
-//        // plugins_qml
-//        foreach (QString entry, assetDirectory2.entryList())
-//        {
-//            qDebug() << "entry 2" << entry;
-//        }
-//        // databases
-//        foreach (QString entry, assetDirectory3.entryList())
-//        {
-//            qDebug() << "entry 3" << entry;
-//        }
     }
     qDebug() << "Copying Files Done";
     return true;
