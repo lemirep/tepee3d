@@ -172,9 +172,9 @@ Item3D
             id : background
 
             x : (mainWindow.width * 0.1) - 10
-            y : (mainWindow.height * 0.1) - 10
+            y : (mainWindow.height * 0.05) - 10
             width : (mainWindow.width * 0.8) + 20
-            height : (mainWindow.height * 0.8) + 20
+            height : (mainWindow.height * 0.9) + 20
             opacity : 0.5
             gradient: Gradient {
                 GradientStop { position : 0.0; color : "steelblue"}

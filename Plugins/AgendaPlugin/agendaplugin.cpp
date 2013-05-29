@@ -8,7 +8,7 @@ AgendaPlugin::AgendaPlugin()
 
 // ALL the function should be implemented
 
-int AgendaPlugin::getPluginId()
+int AgendaPlugin::getPluginId() const
 {
     return PLUGIN_ID;
 }
@@ -18,8 +18,8 @@ void AgendaPlugin::initPlugin()
     this->m_synchingWithSB = false;
     this->setPluginState("shows_view");
     this->currentWebQueriesCount = 0;
-  //  QObject::connect(this, SIGNAL(executeHttpRequest(QNetworkRequest,int,QHttpMultiPart*,QObject*,int,void*)),
-    //                 this, SLOT(webQueryEmitted()));
+    QObject::connect(this, SIGNAL(executeHttpRequest(QNetworkRequest,int,QHttpMultiPart*,QObject*,int,void*)),
+                     this, SLOT(webQueryEmitted()));
     this->currentDate = QDate::currentDate();
     this->currentDate.setDate(this->currentDate.year(), this->currentDate.month(), 1);
 }
@@ -28,15 +28,21 @@ void AgendaPlugin::clearPluginBeforeRemoval()
 {
 }
 
-QString AgendaPlugin::getPluginName()
+QString AgendaPlugin::getPluginName() const
 {
     return QString("AgendaPlugin");
 }
 
-QString AgendaPlugin::getPluginDescription()
+QString AgendaPlugin::getPluginDescription() const
 {
     return QString("AgendaPlugin.qml");
 }
+
+QString AgendaPlugin::getPluginVersion() const
+{
+    return PLUGIN_VERSION;
+}
+
 
 Plugins::PluginBase* AgendaPlugin::getPluginBase()
 {
@@ -143,7 +149,7 @@ bool AgendaPlugin::getSynching() const
 
 QString AgendaPlugin::getMonth() const
 {
-    return QDate::longMonthName(this->currentDate.month());
+    return (QDate::longMonthName(this->currentDate.month()) + " " + QString::number(this->currentDate.year()));
 }
 
 int     AgendaPlugin::getBeginDayOfTheMonth() const
@@ -157,3 +163,14 @@ int     AgendaPlugin::getMonthLength() const
     return (this->currentDate.daysInMonth());
 }
 
+int AgendaPlugin::nextMonth()
+{
+    this->currentDate = this->currentDate.addMonths(1);
+    return 0;
+}
+
+int AgendaPlugin::prevMonth()
+{
+    this->currentDate = this->currentDate.addMonths(-1);
+    return 0;
+}

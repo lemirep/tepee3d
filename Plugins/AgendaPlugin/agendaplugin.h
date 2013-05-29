@@ -16,6 +16,7 @@
 #include <Utils.h>
 
 #define PLUGIN_ID 11
+#define PLUGIN_VERSION "0.5.1"
 
 #define DATABASE_NAME "AgendaPlugin.sql"
 
@@ -31,11 +32,12 @@ class AgendaPlugin : public Plugins::PluginBase
     Q_PROPERTY(bool synchingWebServices READ getSynching NOTIFY synchingChanged)
 public:
     AgendaPlugin();
-    int                         getPluginId();
+    int                         getPluginId() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
-    Q_INVOKABLE QString         getPluginName();
-    QString                     getPluginDescription();
+    Q_INVOKABLE QString         getPluginName() const;
+    Q_INVOKABLE QString         getPluginDescription() const;
+    Q_INVOKABLE QString         getPluginVersion() const;
     PluginBase*                 getPluginBase();
     PluginBase*                 createNewInstance();
     QString                     getRoomPluginQmlFile() const;
@@ -45,6 +47,8 @@ public:
     Q_INVOKABLE QString getMonth() const;
     Q_INVOKABLE int getBeginDayOfTheMonth() const;
     Q_INVOKABLE int getMonthLength() const;
+    Q_INVOKABLE int nextMonth();
+    Q_INVOKABLE int prevMonth();
 
     // FOCUS STATE HANDLERS
     void                onIdleFocusState();
