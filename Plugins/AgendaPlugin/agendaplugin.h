@@ -89,10 +89,10 @@ private:
 
 private slots :
 
-    void                        webQueryEmitted();
 
 signals :
 
+    void                        webQueryEmitted();
     void                        pluginStateChanged();
     void                        sickBeardUrlChanged();
     void                        sickBeardApiChanged();

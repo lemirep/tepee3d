@@ -19,7 +19,7 @@ void AgendaPlugin::initPlugin()
     this->setPluginState("shows_view");
     this->currentWebQueriesCount = 0;
     QObject::connect(this, SIGNAL(executeHttpRequest(QNetworkRequest,int,QHttpMultiPart*,QObject*,int,void*)),
-                     this, SLOT(webQueryEmitted()));
+                     this, SIGNAL(webQueryEmitted()));
     this->currentDate = QDate::currentDate();
     this->currentDate.setDate(this->currentDate.year(), this->currentDate.month(), 1);
 }

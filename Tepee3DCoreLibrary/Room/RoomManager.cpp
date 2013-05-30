@@ -407,7 +407,10 @@ void        Room::RoomManager::loadRoomLibrary()
             break;
         }
         else
+        {
             qWarning() << "FAILED TO LOAD ROOM LIBRARY" << loader.errorString();
+            loader.unload();
+        }
     }
 }
 

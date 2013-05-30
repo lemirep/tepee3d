@@ -95,6 +95,7 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
         {
             qDebug() << "FAILED TO LOAD " << fileName;
             qDebug() << pluginLoader.errorString();
+            pluginLoader.unload();
         }
     }
 }

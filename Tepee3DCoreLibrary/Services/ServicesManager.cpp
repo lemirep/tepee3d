@@ -204,6 +204,7 @@ void    Services::ServicesManager::loadServicesLibraries()
         {
             qCritical() << "ERRORS : "<< loader.errorString();
             qCritical() << "FAILED TO LOAD LIBRARY";
+            loader.unload();
         }
     }
 }
