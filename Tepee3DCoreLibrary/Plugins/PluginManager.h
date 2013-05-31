@@ -32,14 +32,15 @@
 #include <QSignalMapper>
 #include <QHash>
 #include <PluginBase.h>
+#include <QmlContentExposerInterface.h>
+#include <WebServiceUserInterface.h>
+#include <ListModel.h>
+#include <PluginModelItem.h>
+#include <ListItem.h>
 #include "PluginLoader.h"
-#include "QmlContentExposerInterface.h"
-#include "ListModel.h"
-#include "PluginModelItem.h"
 #include "PluginQmlPluginProperties.h"
 #include "QmlViewProperties.h"
 #include "ServicesManager.h"
-#include "WebServiceUserInterface.h"
 
 
 // PLUGINS IN THE LOCAL DIRECTORY ARE ALL LOADED ON STARTUP

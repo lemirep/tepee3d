@@ -257,7 +257,7 @@ QJsonDocument Room::RoomBase::toJsonRepresentation()
     foreach (Models::ListItem *pluginItem, this->getRoomPluginsModel()->toList())
     {
         Models::PluginModelItem *pluginElem = reinterpret_cast<Models::PluginModelItem*>(pluginItem);
-        pluginsArray.append(pluginElem->getPlugin()->toJsonRepresentation().object());
+        pluginsArray.append(pluginElem->getPlugin()->toJsonRepresentation());
     }
     roomJsonObject.insert("widgets", QJsonValue(pluginsArray));
 

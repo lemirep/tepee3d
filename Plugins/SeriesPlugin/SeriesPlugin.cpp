@@ -757,7 +757,7 @@ void SeriesPlugin::updateOnlineUpdatedShowsCallBack(QNetworkReply *reply, void *
                         if (showItem->data(SerieSubListedItem::serieLastUpdate).toDateTime() <
                                 QDateTime::fromTime_t(showObj.value("last_updated").toDouble()))
                         {
-                            qDebug() << "Updating shows " << showItem->data(SerieSubListedItem::serieName).toString() << "Show " << showItem->data(SerieSubListedItem::serieLastUpdate).toDateTime() << "Stream "   << QDateTime::fromTime_t(showObj.value("last_updated").toDouble());
+                            qDebug() << "**************************************Updating shows " << showItem->data(SerieSubListedItem::serieName).toString() << "Show " << showItem->data(SerieSubListedItem::serieLastUpdate).toDateTime() << "Stream "   << QDateTime::fromTime_t(showObj.value("last_updated").toDouble());
                             this->updateShowSummary(reinterpret_cast<SerieSubListedItem*>(
                                                         this->followedSeriesModel->takeRow(
                                                             this->followedSeriesModel->rowIndexFromId(showItem->id()))));

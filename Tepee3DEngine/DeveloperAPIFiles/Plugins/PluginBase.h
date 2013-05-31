@@ -71,7 +71,7 @@ public:
     virtual QString                      getRoomPluginQmlFile()      const  = 0;
     virtual QString                      getMenuPluginQmlFile()       const  = 0;
     virtual PluginBase*              createNewInstance()         = 0;
-    virtual QJsonDocument      toJsonRepresentation()         const;
+    virtual QJsonObject            toJsonRepresentation()         const;
 
     // IS IMPLEMENTED HERE TO EXPOSE THE SUBCLASS
     // LETTING PLUGINS IMPLEMENT IT IS TOO DANGEROUS

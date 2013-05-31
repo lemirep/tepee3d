@@ -331,6 +331,12 @@ void Models::ListModel::sort()
     {
         qDebug() << "Sort";
         qSort(this->items.begin(), this->items.end(), compareFunc);
+        foreach (Models::ListItem *item, this->items)
+        {
+            QModelIndex index = this->indexFromItem(item);
+            if (index.isValid())
+                emit dataChanged(index, index);
+        }
     }
 }
 

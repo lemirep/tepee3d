@@ -312,7 +312,7 @@ void Plugins::PluginBase::updatePlugin()
 /*!
  * Returns a Json representation of the plugin. This can be use for synching across multiple devices.
  */
-QJsonDocument Plugins::PluginBase::toJsonRepresentation() const
+QJsonObject Plugins::PluginBase::toJsonRepresentation() const
 {
     QJsonObject pluginJsonObject;
 
@@ -321,7 +321,7 @@ QJsonDocument Plugins::PluginBase::toJsonRepresentation() const
     pluginJsonObject.insert("description", QJsonValue(this->getPluginDescription()));
     pluginJsonObject.insert("version", QJsonValue(this->getPluginVersion()));
 
-    return QJsonDocument(pluginJsonObject);
+    return pluginJsonObject;
 }
 
 /*!

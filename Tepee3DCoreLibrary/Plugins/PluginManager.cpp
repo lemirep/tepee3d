@@ -88,7 +88,7 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatform()
     QJsonObject requestObj;
     QJsonObject commandObj;
 
-    commandObj.insert("command", QJsonValue(QString("getPlugins")));
+    commandObj.insert("command", QJsonValue(QString("getAvailablePluginsForPlatform")));
     commandObj.insert("plateform", QJsonValue(PlatformFactory::getPlatformInitializer()->getPlatformName()));
     requestObj.insert("request", QJsonValue(commandObj));
 
@@ -116,9 +116,18 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
 
     QJsonObject requestObj;
     QJsonObject commandObj;
+    QJsonObject pluginObj;
+    Models::PluginModelItem *pluginItem = reinterpret_cast<Models::PluginModelItem*>(this->locallyAvailablePluginsModel->find(pluginId));
+    Plugins::PluginBase *oldPlugin = NULL;
 
-    commandObj.insert("command", QJsonValue(QString("getPluginsVersion")));
-    commandObj.insert("plateform", QJsonValue(PlatformFactory::getPlatformInitializer()->getPlatformName()));
+    if (pluginItem == NULL || (oldPlugin = pluginItem->getPlugin()) == NULL)
+        return;
+    pluginObj = oldPlugin->toJsonRepresentation();
+    pluginObj.remove("description");
+    pluginObj.insert("plateform", QJsonValue(PlatformFactory::getPlatformInitializer()->getPlatformName()));
+
+    commandObj.insert("command", QJsonValue(QString("downloadPlugin")));
+    commandObj.insert("plugin", QJsonValue(pluginObj));
     requestObj.insert("request", QJsonValue(commandObj));
 
     httpPart.setBody(QJsonDocument(requestObj).toJson());
@@ -146,8 +155,19 @@ void Plugins::PluginManager::checkForPluginsUpdates()
     QJsonObject requestObj;
     QJsonObject commandObj;
 
+    QJsonArray pluginsArray;
+
+    foreach (Models::ListItem *pluginItem, this->locallyAvailablePluginsModel->toList())
+    {
+        Plugins::PluginBase*plugin = reinterpret_cast<Models::PluginModelItem*>(pluginItem)->getPlugin();
+        QJsonObject pluginObj = plugin->toJsonRepresentation();
+        pluginObj.remove("description");
+        pluginObj.insert("platform", PlatformFactory::getPlatformInitializer()->getPlatformName());
+        pluginsArray.append(QJsonValue(pluginObj));
+    }
+
     commandObj.insert("command", QJsonValue(QString("getPluginsVersion")));
-    commandObj.insert("plateform", QJsonValue(PlatformFactory::getPlatformInitializer()->getPlatformName()));
+    commandObj.insert("plugins", QJsonValue(pluginsArray));
     requestObj.insert("request", QJsonValue(commandObj));
 
     httpPart.setBody(QJsonDocument(requestObj).toJson());
