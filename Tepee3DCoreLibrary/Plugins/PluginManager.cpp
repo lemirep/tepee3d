@@ -173,6 +173,8 @@ void Plugins::PluginManager::checkForPluginsUpdates()
     httpPart.setBody(QJsonDocument(requestObj).toJson());
     multiPart->append(httpPart);
 
+    qDebug() << "JSON " << QJsonDocument(requestObj).toJson();
+
     // EXECUTE THE REQUEST
     emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
                             WebServiceUserInterface::Post,

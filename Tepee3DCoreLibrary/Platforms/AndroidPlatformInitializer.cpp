@@ -91,21 +91,32 @@ bool AndroidPlatformInitializer::initPlatform()
             }
         }
     }
+
+    QDir tmpServicesLibDir = AndroidPlatformInitializer::getServicesSharedLibrariesDirectory();
+    if (!tmpServicesLibDir.exists())
+        AndroidPlatformInitializer::getSharedLibraryDirectory().mkdir("services_lib");
     qDebug() << "Copying Files Done";
     return true;
 }
 
 QDir AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory() const
 {
+//    return QDir(ANDROID_LIB_DIR + "/widget_libraries");
     return QDir(ANDROID_LIB_DIR);
 }
 
 QDir AndroidPlatformInitializer::getServicesSharedLibrariesDirectory() const
 {
+//    return QDir(ANDROID_LIB_DIR + "/services_lib");
     return QDir(ANDROID_LIB_DIR);
 }
 
 QDir AndroidPlatformInitializer::getRoomSharedLibraryDirectory() const
+{
+    return QDir(ANDROID_LIB_DIR);
+}
+
+QDir AndroidPlatformInitializer::getSharedLibraryDirectory() const
 {
     return QDir(ANDROID_LIB_DIR);
 }

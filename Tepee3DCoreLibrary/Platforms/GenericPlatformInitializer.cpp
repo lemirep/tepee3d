@@ -92,6 +92,14 @@ QDir GenericPlatformInitializer::getRoomSharedLibraryDirectory() const
     return dir;
 }
 
+QDir GenericPlatformInitializer::getSharedLibraryDirectory() const
+{
+    QDir dir = QCoreApplication::applicationDirPath();
+
+    dir.cd(GENERIC_SHARED_LIBRARIES_DIR);
+    return dir;
+}
+
 QDir GenericPlatformInitializer::getWidgetSharedLibrariesDirectory() const
 {
     QDir    dir = QCoreApplication::applicationDirPath();

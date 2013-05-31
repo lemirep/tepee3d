@@ -150,7 +150,9 @@ bool    CoreManager::initView()
     qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- >>>>";
-    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
+    this->pluginsManager->checkForPluginsUpdates();
+//    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
+//    this->pluginsManager->downloadPluginFromServer(32);
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";
 
     // SET STARTING QML FILE
