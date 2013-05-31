@@ -101,6 +101,8 @@ Services::ServicesManager* Services::ServicesManager::instance = NULL;
 Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 {
     this->services = QList<ServiceInterface*>();
+    this->webServicesCallBacks[DOWNLOAD_SERVICE] = &Services::ServicesManager::dowloadServiceFromServerCallBack;
+    this->webServicesCallBacks[CHECK_SERVICES_VERSION] = &Services::ServicesManager::checkForServicesUpdatesCallBack;
     //    this->loadServicesLibraries();
 }
 
@@ -207,4 +209,28 @@ void    Services::ServicesManager::loadServicesLibraries()
             loader.unload();
         }
     }
+}
+
+/*!
+ * Implementation required to receive web services response. Mainly used to retrieve service libraries updates.
+ */
+void Services::ServicesManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
+{
+    (this->*this->webServicesCallBacks[requestId])(reply, data);
+}
+
+void Services::ServicesManager::checkForServicesUpdates()
+{
+}
+
+void Services::ServicesManager::downloadServiceFromServer(int serviceId)
+{
+}
+
+void Services::ServicesManager::checkForServicesUpdatesCallBack(QNetworkReply *reply, void *data)
+{
+}
+
+void Services::ServicesManager::dowloadServiceFromServerCallBack(QNetworkReply *reply, void *data)
+{
 }

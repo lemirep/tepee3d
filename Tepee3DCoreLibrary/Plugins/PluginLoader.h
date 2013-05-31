@@ -59,10 +59,11 @@ public :
     static void                     loadWidgetPlugins(); //TRIES TO LOAD EVERY PLUGIN IN DIR AND RETURN FALSE IF ERROR OCCURS
     static QList<PluginBase *>      getWidgetPlugins(); // RETURN LIST CONTAINING ALL THE LOADED PLUGINS
     static PluginLoader*            getInstance(QObject *parent = 0);
-    static void                     addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room);
+    static void                        addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room);
     static QString                  loadAllPluginForRoom(Room::RoomBase *room);
     static QString                  addOrReplacePluginImpl(Plugins::PluginBase *plugin, Room::RoomBase *room);
     static QString                  removeAllPluginsFromRoom(Room::RoomBase *room);
+    static bool                        installPluginOnPlatform();
 signals :
 
 };

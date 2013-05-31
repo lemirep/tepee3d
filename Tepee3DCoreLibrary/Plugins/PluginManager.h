@@ -57,6 +57,8 @@
 //class View::QmlViewProperties;
 
 #define GET_ONLINE_PLUGINS 0
+#define GET_PLUGINS_UPDATES 1
+#define DOWNLOAD_PLUGIN 2
 
 namespace Plugins
 {
@@ -74,12 +76,15 @@ public:
     void                        exposeContentToQml(QQmlContext *context);
 
     static PluginManager*       getInstance(QObject *parent = 0);
-    static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
-    static PluginBase*          getNewInstanceOfPlugin(PluginBase* plugin);
-    static void                 initRoomPlugin(PluginBase* roomPlugin);
-    static void                 cleanPluginBeforeRemoval(PluginBase *roomPlugin);
+    static PluginBase*             getNewInstanceOfPlugin(int pluginModelItemId);
+    static PluginBase*             getNewInstanceOfPlugin(PluginBase* plugin);
+    static void                          initRoomPlugin(PluginBase* roomPlugin);
+    static void                          cleanPluginBeforeRemoval(PluginBase *roomPlugin);
 
-    void                        retrieveOnlinePluginsForCurrentPlatform();
+    // WEB SERVICES
+    void                                    retrieveOnlinePluginsForCurrentPlatform();
+    void                                    downloadPluginFromServer(int pluginId);
+    void                                    checkForPluginsUpdates();
 private:
 
     explicit PluginManager(QObject *parent = 0);
@@ -88,8 +93,12 @@ private:
     static Models::ListModel*           onlineAvailablePluginsModel;
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
 
-    void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    // CALLBACKS
+    void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
+    void                        downloadPluginFromServerCallback(QNetworkReply *reply, void *data);
+    void                        checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
+
 signals :
     void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
 };

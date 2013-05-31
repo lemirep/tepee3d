@@ -132,6 +132,8 @@ bool    CoreManager::initView()
 {
     qDebug() << "Init View";
 
+    // CONNECT THE SERVICE MANAGER TO THE SERVICES
+    Services::ServicesManager::connectObjectToServices(this->servicesManager);
     // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
     Services::ServicesManager::connectObjectToServices(this->roomManager);
     // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER

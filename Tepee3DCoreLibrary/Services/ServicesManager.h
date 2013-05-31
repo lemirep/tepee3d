@@ -50,15 +50,19 @@
 // ADDITIONALLY THIS CLASS WILL CONTAIN Q_INVOKABLE METHODS AND BE EXPOSED TO THE QML ENGINE SO THAT
 // QML CAN INVOKE METHODS DIRECTLY IF NEEDED
 
-
+#define CHECK_SERVICES_VERSION 0
+#define DOWNLOAD_SERVICE 1
 
 namespace Services
 {
 
-class ServicesManager : public QObject, public View::QmlContentExposerInterface
+class ServicesManager : public QObject,
+                                          public View::QmlContentExposerInterface,
+                                          public Services::WebServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
+    Q_INTERFACES(Services::WebServiceUserInterface)
 
 public:
     void    exposeContentToQml(QQmlContext *context);
@@ -67,11 +71,18 @@ public:
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
     void                               loadServicesLibraries();
 
+    void                               receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    void                               checkForServicesUpdates();
+    void                               downloadServiceFromServer(int serviceId);
+
 private:
+    static ServicesManager          *instance;
     ServicesManager(QObject *parent = 0);
     QList<ServiceInterface*>        services;
-    static ServicesManager          *instance;
+    QHash<int, void (ServicesManager::*)(QNetworkReply *, void *)>      webServicesCallBacks;
 
+    void                               checkForServicesUpdatesCallBack(QNetworkReply *reply, void *data);
+    void                               dowloadServiceFromServerCallBack(QNetworkReply *reply, void *data);
 
 public slots :
     void                            connectObjectToServicesSlot(QObject *serviceUser);

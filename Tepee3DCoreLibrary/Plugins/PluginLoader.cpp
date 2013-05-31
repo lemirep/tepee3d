@@ -132,3 +132,7 @@ QString Plugins::PluginLoader::removeAllPluginsFromRoom(Room::RoomBase *room)
             .arg(room->getRoomName());
 }
 
+bool Plugins::PluginLoader::installPluginOnPlatform()
+{
+}
+
