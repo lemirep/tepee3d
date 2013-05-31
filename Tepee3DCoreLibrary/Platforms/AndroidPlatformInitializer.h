@@ -32,6 +32,9 @@
 
 #define ANDROID_LIB_DIR "/data/data/org.qtproject.example.Tepee3D/lib"
 #define ANDROID_DATA_DIR "./"
+#define ANDROID_SERVICES_DIR "services_lib"
+#define ANDROID_WIDGETS_DIR "widget_libraries"
+#define ANDROID_ROOM_DIR "room_library"
 
 
 class AndroidPlatformInitializer : public IPlatformInitializer
@@ -45,6 +48,8 @@ public:
     virtual QDir           getRoomSharedLibraryDirectory() const;
     virtual QDir           getSharedLibraryDirectory() const;
     virtual QString      getPlatformName() const;
+
+    bool                      copyLibToDir(QString src, QString dst);
 };
 
 #endif // ANDROIDPLATFORMINITIALIZER_H

@@ -93,27 +93,70 @@ bool AndroidPlatformInitializer::initPlatform()
     }
 
     QDir tmpServicesLibDir = AndroidPlatformInitializer::getServicesSharedLibrariesDirectory();
-    if (!tmpServicesLibDir.exists())
-        AndroidPlatformInitializer::getSharedLibraryDirectory().mkdir("services_lib");
+    qDebug() << "Service DIr Lib " << tmpServicesLibDir.absolutePath();
+    bool exists = false;
+    if (!(exists = tmpServicesLibDir.exists()))
+        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_SERVICES_DIR);
+    if (exists)
+    {
+        qDebug() << "Service Lib Dir Created";
+        QList<QString> serviceLibs;
+        serviceLibs.prepend("libManageDatabaseServiceLibrary.so");
+        serviceLibs.prepend("libWebServiceManagerLibrary.so");
+        foreach (QString serviceLib, serviceLibs)
+        {
+            this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + serviceLib,
+                               tmpServicesLibDir.absolutePath() + "/" + serviceLib);
+        }
+    }
+
+    // ROOM LIBRARY
+    QDir tmpRoomLibDir = AndroidPlatformInitializer::getRoomSharedLibraryDirectory();
+    qDebug() << "RoomDIr Lib " << tmpRoomLibDir.absolutePath();
+    if (!(exists = tmpRoomLibDir.exists()))
+           exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_ROOM_DIR);
+    if (exists)
+    {
+        QString libName = "libRoomLibrary.so";
+        this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
+                            tmpRoomLibDir.absolutePath() + "/" + libName);
+    }
+
+    // WIDGET LIBRARY
+
+    QDir tmpWidgetLibDir = AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory();
+    qDebug() << "Widget DIr Lib " << tmpWidgetLibDir.absolutePath();
+    if (!(exists = tmpWidgetLibDir.exists()))
+            exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_WIDGETS_DIR);
+    if (exists)
+        foreach (QString widgetLib, this->getSharedLibraryDirectory().entryList())
+        {
+            if (widgetLib.compare("libCoreLibrary.so") != 0 &&
+                    widgetLib.compare("libRoomLibrary.so") != 0 &&
+                        widgetLib.compare("libCoreLibrary.so") != 0 &&
+                    widgetLib.compare("libManageDatabaseServiceLibrary.so") != 0 &&
+                    widgetLib.compare("libWebServiceManagerLibrary.so") != 0 &&
+                widgetLib.compare("gdbserver") != 0)
+                this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + widgetLib,
+                                   this->getWidgetSharedLibrariesDirectory().absolutePath() + "/" + widgetLib);
+        }
     qDebug() << "Copying Files Done";
     return true;
 }
 
 QDir AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory() const
 {
-//    return QDir(ANDROID_LIB_DIR + "/widget_libraries");
-    return QDir(ANDROID_LIB_DIR);
+    return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_WIDGETS_DIR));
 }
 
 QDir AndroidPlatformInitializer::getServicesSharedLibrariesDirectory() const
 {
-//    return QDir(ANDROID_LIB_DIR + "/services_lib");
-    return QDir(ANDROID_LIB_DIR);
+    return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_SERVICES_DIR));
 }
 
 QDir AndroidPlatformInitializer::getRoomSharedLibraryDirectory() const
 {
-    return QDir(ANDROID_LIB_DIR);
+    return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_ROOM_DIR));
 }
 
 QDir AndroidPlatformInitializer::getSharedLibraryDirectory() const
@@ -129,4 +172,12 @@ QDir AndroidPlatformInitializer::getDataDirectory() const
 QString AndroidPlatformInitializer::getPlatformName() const
 {
     return ANDROID_PLATFORM;
+}
+
+bool AndroidPlatformInitializer::copyLibToDir(QString src, QString dst)
+{
+    if (QFile::exists(src))
+        if (QFile::copy(src, dst))
+            return QFile::remove(src);
+    return false;
 }

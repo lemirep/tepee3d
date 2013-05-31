@@ -51,6 +51,7 @@ public :
     virtual QDir           getWidgetSharedLibrariesDirectory() const = 0;
     virtual QDir           getServicesSharedLibrariesDirectory() const = 0;
     virtual QDir           getRoomSharedLibraryDirectory() const = 0;
+    virtual QDir           getSharedLibraryDirectory() const = 0;
     virtual QString      getPlatformName() const = 0;
 };
 

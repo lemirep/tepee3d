@@ -42,7 +42,7 @@ Viewport
     function postNotification(message)       {notification.sendMessage(message)}
 
 
-    Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView()}
+    Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView(); console.log("<><><><><>Width " + width + " Height " + height)}
 
     onCurrentRoomIdChanged:
     {
@@ -71,11 +71,11 @@ Viewport
 
 
     //                anchors.fill: parent
-        width : 1024
-        height : 600
+//        width : 1024
+//        height : 600
 
-//    width : Screen.width
-//    height : Screen.height
+    width : Screen.width
+    height : Screen.height
 
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
