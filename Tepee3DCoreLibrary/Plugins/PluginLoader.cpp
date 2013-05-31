@@ -134,5 +134,6 @@ QString Plugins::PluginLoader::removeAllPluginsFromRoom(Room::RoomBase *room)
 
 bool Plugins::PluginLoader::installPluginOnPlatform()
 {
+    return true;
 }
 
