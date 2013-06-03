@@ -92,7 +92,7 @@ QString MovieModel::getThumbnail() const
 
 void MovieModel::setThumbnail(const QString &thumbnail)
 {
-    this->m_thumbnail = thumbnail;
+    this->m_thumbnail = QUrl::toPercentEncoding(thumbnail);
 }
 
 QString MovieModel::getStudio() const

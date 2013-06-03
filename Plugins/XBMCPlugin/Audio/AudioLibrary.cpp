@@ -215,6 +215,7 @@ void AudioLibrary::retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data
                     ArtistModel* artist = this->parseJsonArtist(artistObj.toObject());
                     if (artist != NULL)
                     {
+                        qDebug() << "Adding artist";
                         reinterpret_cast<Models::ListModel*>(data)->appendRow(artist);
                         this->retrieveSongsForArtist(artist->id(), (void *)artist->submodel());
                     }

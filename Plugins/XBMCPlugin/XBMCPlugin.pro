@@ -19,7 +19,22 @@ SOURCES += \
 OTHER_FILES += \
     XBMCPlugin.qml \
     Menu.qml \
-    RemoteItem.qml
+    RemoteItem.qml \
+    AudioLibrary.qml \
+    Home.qml \
+    MoviesLibrary.qml \
+    ShowsLibrary.qml \
+    music.png \
+    movies.png \
+    remote.png \
+    shows.png \
+    empty_cd.png \
+    cdbox.png \
+    dvdbox.png \
+    shadow_separator_h.png \
+    ArtistLibrary.qml \
+    AlbumsLibrary.qml \
+    SongsLibrary.qml
 
 INCLUDEPATH += $$PWD
 

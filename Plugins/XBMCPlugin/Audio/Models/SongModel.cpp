@@ -118,7 +118,7 @@ QString SongModel::getThumbnail() const
 
 void SongModel::setThumbnail(const QString &thumbnail)
 {
-    this->m_thumbnail = thumbnail;
+    this->m_thumbnail = QUrl::toPercentEncoding(thumbnail);
 }
 
 QString SongModel::getFile() const

@@ -34,15 +34,15 @@ public:
     XBMCPlugin();
     virtual ~XBMCPlugin();
 
-    int                           getPluginId() const;
+    int                         getPluginId() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
 
-    PluginBase*           getPluginBase();
-    PluginBase*           createNewInstance();
+    PluginBase*                 getPluginBase();
+    PluginBase*                 createNewInstance();
 
-    QString                  getRoomPluginQmlFile() const;
-    QString                  getMenuPluginQmlFile() const;
+    QString                     getRoomPluginQmlFile() const;
+    QString                     getMenuPluginQmlFile() const;
 
     Q_INVOKABLE QString         getPluginName() const;
     Q_INVOKABLE QString         getPluginVersion() const;
@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE QObject*      getAlbumsLibrary() const;
     Q_INVOKABLE QObject*      getArtistsLibrary() const;
     Q_INVOKABLE QObject*      getSongsLibrary() const;
+    Q_INVOKABLE QUrl          getXBMCImageProviderUrl(const QString &imageUrl) const;
 
     // FOCUS STATE HANDLERS
     void                        onIdleFocusState();
@@ -90,10 +91,10 @@ public:
     void                        setXbmcServerUserName(const QString &username);
     void                        setXbmcServerPassword(const QString &password);
 
-    int                           xbmcServerPort()  const;
-    QUrl                       xbmcServerUrl()    const;
-    QString                  xbmcServerUserName() const;
-    QString                  xbmcServerPassword()   const;
+    int                         xbmcServerPort()  const;
+    QUrl                        xbmcServerUrl()    const;
+    QString                     xbmcServerUserName() const;
+    QString                     xbmcServerPassword()   const;
 
 private:
     QHash<int, IWebRequestDispatcher*> networkRequestResultDispatch;

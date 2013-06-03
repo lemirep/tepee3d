@@ -20,7 +20,6 @@ XBMCPlugin::XBMCPlugin() : PluginBase()
     this->networkRequestResultDispatch[this->m_audioLibrary->getMajorIDRequestHandled()] = this->m_audioLibrary;
     this->networkRequestResultDispatch[this->m_videoLibrary->getMajorIDRequestHandled()] = this->m_videoLibrary;
     this->networkRequestResultDispatch[this->m_remoteManager->getMajorIDRequestHandled()] = this->m_remoteManager;
-    this->initPlugin();
 }
 
 XBMCPlugin::~XBMCPlugin()
@@ -37,12 +36,12 @@ int XBMCPlugin::getPluginId() const
 void XBMCPlugin::initPlugin()
 {
 //    // RETRIEVE AUDIO MEDIAS
-//    this->m_audioLibrary->retrieveAudioAlbums(this->m_audioLibrary->getAlbumsLibraryModel());
-//    this->m_audioLibrary->retrieveAudioArtists(this->m_audioLibrary->getSongsLibraryModel());
-//    this->m_audioLibrary->retrieveAllSongs(this->m_audioLibrary->getSongsLibraryModel());
+    this->m_audioLibrary->retrieveAudioAlbums(this->m_audioLibrary->getAlbumsLibraryModel());
+    this->m_audioLibrary->retrieveAudioArtists(this->m_audioLibrary->getArtistsLibraryModel());
+    this->m_audioLibrary->retrieveAllSongs(this->m_audioLibrary->getSongsLibraryModel());
 //    // RETRIEVE VIDEO MEDIAS
-//    this->m_videoLibrary->retrieveTVShows(this->m_videoLibrary->getTVShowsLibraryModel());
-//    this->m_videoLibrary->retrieveMovies(this->m_videoLibrary->getMoviesLibraryModel());
+    this->m_videoLibrary->retrieveTVShows(this->m_videoLibrary->getTVShowsLibraryModel());
+    this->m_videoLibrary->retrieveMovies(this->m_videoLibrary->getMoviesLibraryModel());
     this->pressNavigationKey(Left);
 }
 
@@ -192,6 +191,11 @@ QObject *XBMCPlugin::getArtistsLibrary() const
 QObject *XBMCPlugin::getSongsLibrary() const
 {
     return this->m_audioLibrary->getSongsLibraryModel();
+}
+
+QUrl XBMCPlugin::getXBMCImageProviderUrl(const QString& imageUrl) const
+{
+    return QUrl("http://" + this->m_xbmcServerUserName + ":" + this->m_xbmcServerPassword + "@" + this->m_xbmcServerUrl.toString() + ":" + QString::number(this->m_xbmcServerPort) + "/image/" + imageUrl);
 }
 
 // REMOTE CONTROL ACTIONS

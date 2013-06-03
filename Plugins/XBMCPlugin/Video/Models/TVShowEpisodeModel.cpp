@@ -85,7 +85,7 @@ QString TVShowEpisodeModel::getThumbnail() const
 
 void TVShowEpisodeModel::setThumbnail(const QString &thumbnail)
 {
-    this->m_thumbnail = thumbnail;
+    this->m_thumbnail = QUrl::toPercentEncoding(thumbnail);
 }
 
 int TVShowEpisodeModel::getTVShowId() const
