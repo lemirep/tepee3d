@@ -46,7 +46,6 @@ int AudioLibrary::getMajorIDRequestHandled() const
 
 void AudioLibrary::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
-    qDebug() << "Receiving Request Result";
     (this->*this->webCallBacks[id])(reply, data);
 }
 
@@ -171,7 +170,6 @@ Models::ListModel *AudioLibrary::getSongsLibraryModel() const
 
 void AudioLibrary::retrieveAudioAlbumsCallBack(QNetworkReply *reply, void *data)
 {
-    qDebug() << "Receiving Request Result Albums";
     if (reply != NULL && data != NULL)
     {
         QJsonDocument jsonResponse = Utils::QJsonDocumentFromReply(reply);
@@ -199,7 +197,6 @@ void AudioLibrary::retrieveAudioAlbumsCallBack(QNetworkReply *reply, void *data)
 
 void AudioLibrary::retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data)
 {
-    qDebug() << "Receiving Request Artists";
     if (reply != NULL && data != NULL)
     {
         QJsonDocument jsonResponse = Utils::QJsonDocumentFromReply(reply);
@@ -227,7 +224,6 @@ void AudioLibrary::retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data
 
 void AudioLibrary::retrieveSongsCallBack(QNetworkReply *reply, void *data)
 {
-    qDebug() << "Receiving Request Songs";
     if (reply != NULL && data != NULL)
     {
         QJsonDocument jsonResponse = Utils::QJsonDocumentFromReply(reply);

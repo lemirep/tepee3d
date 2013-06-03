@@ -34,7 +34,10 @@ OTHER_FILES += \
     shadow_separator_h.png \
     ArtistLibrary.qml \
     AlbumsLibrary.qml \
-    SongsLibrary.qml
+    SongsLibrary.qml \
+    LibraryGridViewDelegate.qml \
+    MoviesGridView.qml \
+    MovieDetailView.qml
 
 INCLUDEPATH += $$PWD
 
