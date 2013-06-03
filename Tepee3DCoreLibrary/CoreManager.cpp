@@ -152,7 +152,7 @@ bool    CoreManager::initView()
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- >>>>";
 //    this->pluginsManager->checkForPluginsUpdates();
 //    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
-//    this->pluginsManager->downloadPluginFromServer(32);
+    this->pluginsManager->downloadPluginFromServer(32);
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";
 
     // SET STARTING QML FILE

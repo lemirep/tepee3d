@@ -211,17 +211,30 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
 void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *reply, void *data)
 {
     if (reply != NULL)
-    {
-        QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
+    {      
+        QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);   
         delete reply;
-
         qDebug() << ">>>>>Tepee3D Serveur Response <<" << jsonDoc.toJson() << ">>";
 
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
+            QJsonObject mainObjet = jsonDoc.object();
+            QString re =   mainObjet.value("file").toString();
+            QByteArray by = QByteArray::fromBase64(re.toLocal8Bit());
+            QFile file("K:\EIP\Tepee3DEngine\test.txt");
+            qDebug() << file.errorString();
+            file.open(QIODevice::WriteOnly);
+            file.write(by);
+            file.close();
+
+           qDebug() << "json valid";
 
         }
+        else
+            qDebug() << "json problem";
     }
+    else
+        qDebug() << "reply NULL";
 }
 
 /*!
