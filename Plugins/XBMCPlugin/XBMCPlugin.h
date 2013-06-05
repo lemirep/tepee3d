@@ -84,6 +84,7 @@ public:
     Q_INVOKABLE QObject*           getSongsLibrary() const;
     Q_INVOKABLE QUrl               getXBMCImageProviderUrl(const QString &imageUrl) const;
     Q_INVOKABLE void               saveXBMCAuthToDatabase();
+    Q_INVOKABLE void               getCurrentlyPlayedItem();
 
     // FOCUS STATE HANDLERS
     void                        onIdleFocusState();

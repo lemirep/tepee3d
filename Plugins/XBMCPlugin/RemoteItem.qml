@@ -127,7 +127,6 @@ Item
     {
         id : control_column
         width : parent.width
-        height : 148
         anchors
         {
             bottom : parent.bottom
@@ -139,7 +138,7 @@ Item
         {
             id : time_slider
             focus : true
-            height : 20
+            height : 40
             property real advance : 0.6
             anchors
             {
@@ -150,6 +149,7 @@ Item
             Rectangle
             {
                 color : "grey"
+                radius : 5
                 width : parent.width
                 height : 2
                 opacity : 0.8
@@ -158,7 +158,8 @@ Item
             Rectangle
             {
                 id : advance_slide
-                color : "#006699"
+                color : "#0099ff"
+                radius : 5
                 width : parent.width * time_slider.advance
                 height : 3
                 opacity : 0.8
@@ -202,33 +203,43 @@ Item
             Item
             {
                 id : positioner
-                width : 18
+                width : 36
                 height : width
                 anchors
                 {
                     verticalCenter : parent.verticalCenter
                     left : advance_slide.right
-                    leftMargin : -9
+                    leftMargin : -18
                 }
 
                 Rectangle
                 {
-                    width : 18
+                    width : 36
                     height: width
                     opacity : 0.4
                     radius : width / 2
                     smooth : true
-                    color : "#006699"
+                    color : "#0099ff"
+                    border
+                    {
+                        width : 1
+                        color : "#006699"
+                    }
                     anchors.centerIn: parent
                 }
                 Rectangle
                 {
-                    width : 8
+                    width : 16
                     height: width
                     opacity : 0.8
                     radius : width / 2
                     smooth : true
                     color : "#006699"
+                    border
+                    {
+                        width : 1
+                        color : "#0099ff"
+                    }
                     anchors.centerIn: parent
                 }
             }

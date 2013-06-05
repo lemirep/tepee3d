@@ -14,7 +14,7 @@ Item
     Item
     {
         anchors.centerIn: parent
-        scale : (delegate_item.height - 50) / show_image.height
+        scale : (delegate_item.height - 70) / show_image.height
 
         Image
         {

@@ -195,6 +195,11 @@ void XBMCPlugin::saveXBMCAuthToDatabase()
     emit executeSQLQuery(query, this, GENERIC_DATABASE_CALLBACK, DATABASE_NAME);
 }
 
+void XBMCPlugin::getCurrentlyPlayedItem()
+{
+    this->m_playerManager->getCurrentlyPlayerItem();
+}
+
 void XBMCPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
     Q_UNUSED(result)

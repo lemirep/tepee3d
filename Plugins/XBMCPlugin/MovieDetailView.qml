@@ -244,8 +244,8 @@ Item
         id : movie_pathview
         model : XBMCPlugin.getMoviesLibrary();
         pathItemCount: 10
-        preferredHighlightBegin: 0.45
-        preferredHighlightEnd: 0.55
+        preferredHighlightBegin: 0.47
+        preferredHighlightEnd: 0.47
         focus : true
         anchors
         {
@@ -273,26 +273,26 @@ Item
             startY: parent.y + (parent.height / 4)
             PathPercent {value : 0}
             PathAttribute {name : "delScale"; value : 0.6}
-            PathAttribute {name : "delAngle"; value : 30}
-            PathAttribute {name : "delZ"; value : -100}
-
-            PathCurve {x : parent.width / 2 - 100; y : parent.y + (parent.height / 4)}
             PathAttribute {name : "delAngle"; value : 60}
+            PathAttribute {name : "delZ"; value :0.5}
+
+//            PathCurve {x : parent.width / 2 - 100; y : parent.y + (parent.height / 4)}
+//            PathAttribute {name : "delAngle"; value : 60}
 
             // CENTER
             PathCurve {x : parent.width / 2; y : parent.y + (parent.height / 4)}
             PathAttribute {name : "delScale"; value : 0.8}
             PathAttribute {name : "delZ"; value : 1}
 
-            PathCurve {x : parent.width / 2 + 100; y : parent.y + (parent.height / 4)}
-            PathAttribute {name : "delAngle"; value : -60}
+//            PathCurve {x : parent.width / 2 + 100; y : parent.y + (parent.height / 4)}
+//            PathAttribute {name : "delAngle"; value : -60}
 
 
             //RIGHT
             PathCurve {x : parent.width; y : parent.y + (parent.height / 4)}
             PathAttribute {name : "delScale"; value : 0.6}
-            PathAttribute {name : "delAngle"; value : -30}
-            PathAttribute {name : "delZ"; value : -100}
+            PathAttribute {name : "delAngle"; value : -60}
+            PathAttribute {name : "delZ"; value : 0.5}
         }
 
         delegate : Component {
@@ -308,7 +308,8 @@ Item
                 property bool isCurrentItem : (movie_pathview.currentIndex === index)
                 fillMode: Image.PreserveAspectFit
                 z : PathView.onPath ? PathView.delZ : 0
-                scale : (PathView.onPath ? (!isCurrentItem) ? PathView.delScale : 1 : 0) * ((movie_pathview.height - 40) / height)
+//                scale : (PathView.onPath ? (!isCurrentItem) ? PathView.delScale : 1 : 0) * ((movie_pathview.height - 40) / height)
+                scale : (PathView.onPath) ? PathView.delScale * ((movie_pathview.height - 40) / height) : 0
                 property int rAngle : PathView.onPath ? (!isCurrentItem) ? PathView.delAngle : 0 : 0
                 transform: [Rotation { origin.x: width / 2; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: rAngle}]
                 source : XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail)
