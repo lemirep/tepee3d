@@ -3,7 +3,18 @@
 
 PlayerManager::PlayerManager(QObject *parent) : QObject(parent)
 {
-    this->webCallBacks[PLAY_MEDIA_CALLBACK] = &PlayerManager::playFileCallBack;
+    this->webCallBacks[GENERIC_CALLBACK] = &PlayerManager::genericCallBack;
+    this->webCallBacks[GET_ACTIVE_PLAYERS] = &PlayerManager::getActivesPlayersCallBack;
+}
+
+void PlayerManager::getActivesPlayers()
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.GetActivePlayers")));
+    requestJson.insert("id", QJsonValue(1));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_ACTIVE_PLAYERS));
 }
 
 void PlayerManager::playFile(const QString &file)
@@ -17,9 +28,11 @@ void PlayerManager::playFile(const QString &file)
 
     fileObj.insert("file", QJsonValue(file));
     paramObj.insert("item", QJsonValue(fileObj));
-    requestJson.insert("params", QJsonValue(requestJson));
+    requestJson.insert("params", QJsonValue(paramObj));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, PLAY_MEDIA_CALLBACK));
+    qDebug() << QJsonDocument(requestJson).toJson();
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
 }
 
 void PlayerManager::addToPlayList(const QString &file)
@@ -27,23 +40,75 @@ void PlayerManager::addToPlayList(const QString &file)
 
 }
 
-void PlayerManager::pauseCurrentPlayer()
+void PlayerManager::pause_resumeCurrentPlayer(int playerId)
 {
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.PlayPause")));
+    requestJson.insert("id", QJsonValue(1));
 
+    QJsonObject paramObj;
+    paramObj.insert("playerid", QJsonValue(playerId));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
 }
 
-void PlayerManager::resumeCurrentPlayer()
+void PlayerManager::playNext(int playerId)
 {
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.Player.GoNext")));
+    requestJson.insert("id", QJsonValue(1));
 
+    QJsonObject paramObj;
+    paramObj.insert("playerid", QJsonValue(playerId));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
 }
 
-void PlayerManager::playNext()
+void PlayerManager::playPrevious(int playerId)
 {
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.GoPrevious")));
+    requestJson.insert("id", QJsonValue(1));
 
+    QJsonObject paramObj;
+    paramObj.insert("playerid", QJsonValue(playerId));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
 }
 
-void PlayerManager::playPrevious()
+void PlayerManager::stopCurrentPlayer(int playerId)
 {
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.Stop")));
+    requestJson.insert("id", QJsonValue(1));
+
+    QJsonObject paramObj;
+    paramObj.insert("playerid", QJsonValue(playerId));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
+}
+
+void PlayerManager::seekCurrentPlayer(int advance)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.Seek")));
+    requestJson.insert("id", QJsonValue(1));
+
+    QJsonObject paramObj;
+    paramObj.insert("playerid", QJsonValue(0));
+    paramObj.insert("value", QJsonValue(advance));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
 
 }
 
@@ -58,7 +123,15 @@ void PlayerManager::receiveResultFromHttpRequest(QNetworkReply *reply, int id, v
 }
 
 
-void PlayerManager::playFileCallBack(QNetworkReply *reply, void *data)
+void PlayerManager::genericCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL)
+    {
+        qDebug() << "Reply -> " << reply->readAll();
+    }
+}
+
+void PlayerManager::getActivesPlayersCallBack(QNetworkReply *reply, void *data)
 {
     if (reply != NULL)
     {

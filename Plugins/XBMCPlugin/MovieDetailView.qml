@@ -231,6 +231,7 @@ Item
                 anchors.fill: parent
                 onClicked:
                 {
+                    console.log("Play Button Pressed to play file " + movieFile)
                     XBMCPlugin.playFile(movieFile)
                 }
             }

@@ -275,12 +275,12 @@ void XBMCPlugin::pressNavigationKey(NavigationKeys key)
 
 void XBMCPlugin::playAction()
 {
-    this->m_playerManager->resumeCurrentPlayer();
+    this->m_playerManager->pause_resumeCurrentPlayer();
 }
 
 void XBMCPlugin::pauseAction()
 {
-    this->m_playerManager->pauseCurrentPlayer();
+    this->m_playerManager->pause_resumeCurrentPlayer();
 }
 
 void XBMCPlugin::nextAction()
@@ -291,6 +291,16 @@ void XBMCPlugin::nextAction()
 void XBMCPlugin::previousAction()
 {
     this->m_playerManager->playPrevious();
+}
+
+void XBMCPlugin::stopAction()
+{
+    this->m_playerManager->stopCurrentPlayer();
+}
+
+void XBMCPlugin::seekAction(int durationPercent)
+{
+    this->m_playerManager->seekCurrentPlayer(durationPercent);
 }
 
 void XBMCPlugin::playFile(const QString &file)

@@ -115,7 +115,7 @@ Item
                         visible : (index === menu_button_listview.currentIndex)
                         anchors.fill: logo
                         radius: 8
-                        color: "blue"
+                        color: "#006699"
                         source: logo
                         fast : true
                         spread : 0.3
