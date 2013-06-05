@@ -5,12 +5,12 @@ GridView
     id : albums_library_gridview
     anchors.fill: parent
     cellWidth : width / 5
-    cellHeight : height / 2
+    cellHeight : cellWidth
     model : XBMCPlugin.getAlbumsLibrary();
     delegate : LibraryGridViewDelegate {
         width : albums_library_gridview.cellWidth
         height :albums_library_gridview.cellHeight
-        thumbnail: XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail)
+        thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
         title : model.albumTitle
     }
 }

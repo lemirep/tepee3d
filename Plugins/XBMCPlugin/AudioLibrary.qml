@@ -80,6 +80,7 @@ Item
             Loader
             {
                 opacity : (index === audio_content_listview.currentIndex) ? 1 : 0
+                enabled : (opacity === 1)
                 Behavior on opacity {NumberAnimation {duration : 750}}
                 width: audio_content_listview.width
                 height: audio_content_listview.height

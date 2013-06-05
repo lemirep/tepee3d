@@ -4,6 +4,8 @@ import QtQuick 2.0
 ListView
 {
     id : movie_flow_listview
+    property int currentMovieIdx;
+
     ListModel
     {
         id : movie_flow_model
@@ -22,6 +24,7 @@ ListView
     orientation: ListView.Vertical
     model : movie_flow_model
     interactive: false
+
     delegate: Component {
         Loader
         {
@@ -34,7 +37,7 @@ ListView
             height : movie_flow_listview.height
             source : model.source
 
-            function moveToDetailView() {movie_flow_listview.currentIndex = 0}
+            function moveToDetailView() {movie_flow_listview.currentIndex = 0;}
             function moveToGridView() {movie_flow_listview.currentIndex = 1}
         }
     }

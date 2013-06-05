@@ -48,7 +48,7 @@ class PluginBase : public QObject,
         Plugins::PluginInterface,
         public Services::DatabaseServiceUserInterface,
         public Services::WebServiceUserInterface,
-        public View::QmlContentExposerInterface
+        private View::QmlContentExposerInterface
 {
     Q_OBJECT
     Q_INTERFACES(Plugins::PluginInterface)

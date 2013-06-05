@@ -27,6 +27,26 @@ void PlayerManager::addToPlayList(const QString &file)
 
 }
 
+void PlayerManager::pauseCurrentPlayer()
+{
+
+}
+
+void PlayerManager::resumeCurrentPlayer()
+{
+
+}
+
+void PlayerManager::playNext()
+{
+
+}
+
+void PlayerManager::playPrevious()
+{
+
+}
+
 int PlayerManager::getMajorIDRequestHandled() const
 {
     return MAJOR_ID_REQUEST_PLAYER;

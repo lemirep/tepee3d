@@ -37,7 +37,14 @@ OTHER_FILES += \
     SongsLibrary.qml \
     LibraryGridViewDelegate.qml \
     MoviesGridView.qml \
-    MovieDetailView.qml
+    MovieDetailView.qml \
+    player_play.png \
+    player_pause.png \
+    player_stop.png \
+    player_forward.png \
+    player_backward.png \
+    player_fforward.png \
+    player_fbackward.png
 
 INCLUDEPATH += $$PWD
 

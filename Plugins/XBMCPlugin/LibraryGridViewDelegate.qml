@@ -11,33 +11,39 @@ Item
     scale : delegate_ma.pressed ? 0.9 : 1
     Behavior on scale {NumberAnimation {duration : 200; easing.type: Easing.InOutBack}}
 
-    Image
+    Item
     {
-        id : show_image
-        width : 180
         anchors.centerIn: parent
-        asynchronous : true
-        fillMode: Image.PreserveAspectFit
-        onStatusChanged: {if (status == Image.Error) source = "empty_cd.png"}
-        Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
-        scale : (status == Image.Ready) ? 1 : 0
-    }
-    Image
-    {
-        id : cd_cover
-        source : "dvdbox.png"
-        anchors
+        scale : (delegate_item.height - 50) / show_image.height
+
+        Image
         {
-            left : show_image.left
-            leftMargin : -23
-            right : show_image.right
-            rightMargin : -5
-            top : show_image.top
-            topMargin : -4
-            bottom : show_image.bottom
-            bottomMargin : -6
+            id : show_image
+            width : 180
+            asynchronous : true
+            anchors.centerIn: parent
+            fillMode: Image.PreserveAspectFit
+            onStatusChanged: {if (status == Image.Error) source = "empty_cd.png"}
+            Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
+            scale : (status == Image.Ready) ? 1 : 0
         }
-        scale :show_image.scale
+        Image
+        {
+            id : cd_cover
+            source : "dvdbox.png"
+            anchors
+            {
+                left : show_image.left
+                leftMargin : -23
+                right : show_image.right
+                rightMargin : -5
+                top : show_image.top
+                topMargin : -4
+                bottom : show_image.bottom
+                bottomMargin : -6
+            }
+            scale :show_image.scale
+        }
     }
     Rectangle
     {

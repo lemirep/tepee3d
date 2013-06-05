@@ -19,6 +19,12 @@ public:
     void                    playFile(const QString &file);
     void                    addToPlayList(const QString &file);
 
+    void                    pauseCurrentPlayer();
+    void                    resumeCurrentPlayer();
+    void                    playNext();
+    void                    playPrevious();
+
+
     int                     getMajorIDRequestHandled() const;
     void                    receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
 

@@ -45,6 +45,9 @@ Item
                     Loader
                     {
                         id : delegate_loader
+                        opacity : (index === main_listview.currentIndex) ? 1 : 0
+                        enabled : (opacity === 1)
+                        Behavior on opacity {NumberAnimation {duration : 500}}
                         anchors.fill: parent
                         source : model.libraryFile
                     }
