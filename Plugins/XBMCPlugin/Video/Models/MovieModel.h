@@ -2,6 +2,7 @@
 #define MOVIEMODEL_H
 
 #include <ListItem.h>
+#include <QUrl>
 
 class MovieModel : public Models::ListItem
 {

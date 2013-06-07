@@ -2,6 +2,7 @@
 #define TVSHOWEPISODEMODEL_H
 
 #include <ListItem.h>
+#include <QUrl>
 
 class TVShowEpisodeModel : public Models::ListItem
 {

@@ -19,7 +19,32 @@ SOURCES += \
 OTHER_FILES += \
     XBMCPlugin.qml \
     Menu.qml \
-    RemoteItem.qml
+    RemoteItem.qml \
+    AudioLibrary.qml \
+    Home.qml \
+    MoviesLibrary.qml \
+    ShowsLibrary.qml \
+    music.png \
+    movies.png \
+    remote.png \
+    shows.png \
+    empty_cd.png \
+    cdbox.png \
+    dvdbox.png \
+    shadow_separator_h.png \
+    ArtistLibrary.qml \
+    AlbumsLibrary.qml \
+    SongsLibrary.qml \
+    LibraryGridViewDelegate.qml \
+    MoviesGridView.qml \
+    MovieDetailView.qml \
+    player_play.png \
+    player_pause.png \
+    player_stop.png \
+    player_forward.png \
+    player_backward.png \
+    player_fforward.png \
+    player_fbackward.png
 
 INCLUDEPATH += $$PWD
 

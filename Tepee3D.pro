@@ -12,7 +12,7 @@ CONFIG += ordered
 
 # DOC APPEARS ONLY FOR WINDOWS AND LINUX PLATFORMS
 linux:win32 {
-    !qnx {
+    !qnx:!android {
         OTHER_FILES += Documentation/config.qdocconf \
                        Documentation/install.qdoc \
                        Documentation/vm_instruction.qdoc \
@@ -54,12 +54,18 @@ linux:win32 {
 #    bar-descriptor.xml
 
 android {
+
+OTHER_FILES += android/AndroidManifest.xml
+
 qml_folder.files += Tepee3DEngine/qml
 qml_folder.files += Tepee3DEngine/plugins_qml
 qml_folder.files += Tepee3DEngine/libraries
 qml_folder.files += Tepee3DEngine/databases
 qml_folder.path = android/assets
 INSTALLS += qml_folder
+DEPLOYMENT += qml_folder
 }
+
+
 
 

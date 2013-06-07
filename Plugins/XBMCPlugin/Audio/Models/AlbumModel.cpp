@@ -159,7 +159,7 @@ QString AlbumModel::getThumbnail() const
 
 void AlbumModel::setThumbnail(const QString &thumbnail)
 {
-    this->m_thumbnail = thumbnail;
+    this->m_thumbnail = QUrl::toPercentEncoding(thumbnail);
 }
 
 QString AlbumModel::getDescription() const

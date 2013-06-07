@@ -30,7 +30,7 @@
 
 #include <SubListedListItem.h>
 #include <ListModel.h>
-#include <QDebug>
+#include <QUrl>
 
 class ArtistModel : public Models::SubListedListItem
 {

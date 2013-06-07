@@ -109,7 +109,7 @@ QString ArtistModel::getThumbnail() const
 
 void ArtistModel::setThumbnail(const QString &thumbnail)
 {
-    this->m_thumbnail = thumbnail;
+    this->m_thumbnail = QUrl::toPercentEncoding(thumbnail);
 }
 
 QString ArtistModel::getGenre() const

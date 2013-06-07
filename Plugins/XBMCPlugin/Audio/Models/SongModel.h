@@ -30,7 +30,7 @@
 
 #include <ListModel.h>
 #include <ListItem.h>
-#include <QDebug>
+#include <QUrl>
 
 class SongModel : public Models::ListItem
 {

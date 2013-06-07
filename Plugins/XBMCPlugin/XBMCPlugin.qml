@@ -41,13 +41,10 @@ Item3D
         onClicked : {plugin_base.askForFocusedFocusState()}
     }
 
-    RemoteItem
+    Home
     {
-        id : remote_item
+        id : home_item
         enabled : (opacity === 1)
         opacity : isFocused ? 1 : 0
-        width : mainWindow.width
-        height : mainWindow.height
     }
-
 }

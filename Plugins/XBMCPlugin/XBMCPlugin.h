@@ -13,9 +13,14 @@
 #include "AudioLibrary.h"
 #include "VideoLibrary.h"
 #include "RemoteManager.h"
+#include "PlayerManager.h"
 
 #define PLUGIN_ID 12
 #define PLUGIN_VERSION "1.0.0"
+
+#define DATABASE_NAME "XBMCPlugin.sql"
+#define GENERIC_DATABASE_CALLBACK 0
+#define RETRIEVE_XBMC_AUTH 1
 
 //class RemoteManager;
 
@@ -34,15 +39,15 @@ public:
     XBMCPlugin();
     virtual ~XBMCPlugin();
 
-    int                           getPluginId() const;
+    int                         getPluginId() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
 
-    PluginBase*           getPluginBase();
-    PluginBase*           createNewInstance();
+    PluginBase*                 getPluginBase();
+    PluginBase*                 createNewInstance();
 
-    QString                  getRoomPluginQmlFile() const;
-    QString                  getMenuPluginQmlFile() const;
+    QString                     getRoomPluginQmlFile() const;
+    QString                     getMenuPluginQmlFile() const;
 
     Q_INVOKABLE QString         getPluginName() const;
     Q_INVOKABLE QString         getPluginVersion() const;
@@ -67,13 +72,19 @@ public:
     Q_INVOKABLE void               pauseAction();
     Q_INVOKABLE void               nextAction();
     Q_INVOKABLE void               previousAction();
+    Q_INVOKABLE void               stopAction();
+    Q_INVOKABLE void               seekAction(int durationPercent);
+    Q_INVOKABLE void               playFile(const QString &file);
 
     // MEDIA LIBRARIES
-    Q_INVOKABLE QObject*      getMoviesLibrary() const;
-    Q_INVOKABLE QObject*      getTVShowsLibrary() const;
-    Q_INVOKABLE QObject*      getAlbumsLibrary() const;
-    Q_INVOKABLE QObject*      getArtistsLibrary() const;
-    Q_INVOKABLE QObject*      getSongsLibrary() const;
+    Q_INVOKABLE QObject*           getMoviesLibrary() const;
+    Q_INVOKABLE QObject*           getTVShowsLibrary() const;
+    Q_INVOKABLE QObject*           getAlbumsLibrary() const;
+    Q_INVOKABLE QObject*           getArtistsLibrary() const;
+    Q_INVOKABLE QObject*           getSongsLibrary() const;
+    Q_INVOKABLE QUrl               getXBMCImageProviderUrl(const QString &imageUrl) const;
+    Q_INVOKABLE void               saveXBMCAuthToDatabase();
+    Q_INVOKABLE void               getCurrentlyPlayedItem();
 
     // FOCUS STATE HANDLERS
     void                        onIdleFocusState();
@@ -90,24 +101,32 @@ public:
     void                        setXbmcServerUserName(const QString &username);
     void                        setXbmcServerPassword(const QString &password);
 
-    int                           xbmcServerPort()  const;
-    QUrl                       xbmcServerUrl()    const;
-    QString                  xbmcServerUserName() const;
-    QString                  xbmcServerPassword()   const;
+    int                         xbmcServerPort()  const;
+    QUrl                        xbmcServerUrl()    const;
+    QString                     xbmcServerUserName() const;
+    QString                     xbmcServerPassword()   const;
 
 private:
-    QHash<int, IWebRequestDispatcher*> networkRequestResultDispatch;
+    QHash<int, IWebRequestDispatcher*>                                      networkRequestResultDispatch;
+    QHash<int, void (XBMCPlugin::*)(QList<QSqlRecord> result, void *data)>  databaseCallBacks;
 
     AudioLibrary    *m_audioLibrary;
     VideoLibrary    *m_videoLibrary;
+    PlayerManager   *m_playerManager;
     RemoteManager   *m_remoteManager;
 
-    int      m_xbmcServerPort;
-    QUrl  m_xbmcServerUrl;
-    QString m_xbmcServerUserName;
-    QString m_xbmcServerPassword;
+    int             m_xbmcServerPort;
+    QUrl            m_xbmcServerUrl;
+    QString         m_xbmcServerUserName;
+    QString         m_xbmcServerPassword;
 
     QUrl                       getXbmcServerRequestUrl() const;
+    void                       retrieveXBMCAuthFromDatabase();
+    void                       retrieveXBMCAuthFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    void                       genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+
+    void                       updateDataModels();
+
 
 private slots:
     void                        performJsonRPCRequest(const QJsonObject& request, int requestId, void *data = NULL);
@@ -117,6 +136,8 @@ signals:
     void                        xbmcServerPortChanged();
     void                        xbmcServerUserNameChanged();
     void                        xbmcServerPasswordChanged();
+
+
 };
 
 #endif // XBMCPLUGIN_H
