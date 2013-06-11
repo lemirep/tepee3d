@@ -221,12 +221,12 @@ void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *rep
             QJsonObject mainObjet = jsonDoc.object();
             QString re =   mainObjet.value("file").toString();
             QByteArray by = QByteArray::fromBase64(re.toLocal8Bit());
-            QFile file("K:\EIP\Tepee3DEngine\test.txt");
-            qDebug() << file.errorString();
-            file.open(QIODevice::WriteOnly);
+            QFile file(mainObjet.value("libname").toString());
+            if(file.open(QIODevice::WriteOnly))
+            {
             file.write(by);
             file.close();
-
+            }
            qDebug() << "json valid";
 
         }
