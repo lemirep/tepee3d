@@ -25,53 +25,47 @@
 **
 ****************************************************************************/
 
-#ifndef SONGMODEL_H
-#define SONGMODEL_H
 
-#include <PlayableItemModel.h>
+#ifndef PLAYABLEITEMMODEL_H
+#define PLAYABLEITEMMODEL_H
 
-class SongModel : public PlayableItemModel
+#include <ListItem.h>
+#include <QUrl>
+
+class PlayableItemModel : public Models::ListItem
 {
-    Q_OBJECT
+    // Q_OBJECT NEEDS TO BE OMITTED HERE
 public:
-
-    enum    SongModelItemRoles
+    enum PlayableItemModelRoles
     {
-        songId = PlayableItemModel::thumbnail + 1,
-        albumId,
-        artistId,
-        duration,
-        track,
-        genre
+        title = Qt::UserRole + 1,
+        rating,
+        file,
+        thumbnail
     };
 
-    SongModel(QObject *parent = 0, int songId = -1);
-    ~SongModel();
+    PlayableItemModel(QObject *parent = 0);
+    virtual ~PlayableItemModel();
+    virtual int id() const = 0;
 
-    int             id() const;
-    QVariant  data(int role) const;
-    QHash<int, QByteArray>  roleNames() const;
+    virtual QVariant data(int role) const;
+    virtual QHash<int, QByteArray> roleNames() const;
 
-    void setAlbumId(int albumId);
-    void setArtistId(int artistId);
-    void setDuration(int duration);
-    void setTrack(int track);
-    void setGenre(const QString &genre);
+    virtual QString getFile() const;
+    virtual QString getTitle() const;
+    virtual QString getThumbnail() const;
+    virtual int getRating() const;
 
-    int getAlbumId() const;
-    int getArtistId() const;
-    int getDuration() const;
-    int getTrack() const;
-    QString getGenre() const;
+    virtual void setTitle(const QString &title);
+    virtual void setFile(const QString &file);
+    virtual void setThumbnail(const QString &thumbnail);
+    virtual void setRating(int rating);
 
-
-private:
-    int             m_songId;
-    int             m_albumId;
-    int             m_artistId;
-    int             m_duration;
-    int             m_track;
-    QString    m_genre;
+protected :
+    int m_rating;
+    QString m_title;
+    QString m_file;
+    QString m_thumbnail;
 };
 
-#endif // SONGMODEL_H
+#endif // PLAYABLEITEMMODEL_H

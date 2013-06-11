@@ -28,7 +28,7 @@
 
 #include "SongModel.h"
 
-SongModel::SongModel(QObject *parent, int songId) : Models::ListItem(parent)
+SongModel::SongModel(QObject *parent, int songId) : PlayableItemModel(parent)
 {
     this->m_songId = songId;
     this->m_artistId = -1;
@@ -56,49 +56,27 @@ QVariant SongModel::data(int role) const
         return this->getArtistId();
     case duration:
         return this->getDuration();
-    case rating:
-        return this->getRating();
     case track:
         return this->getTrack();
-    case file:
-        return this->getFile();
-    case thumbnail:
-        return this->getThumbnail();
     case genre:
         return this->getGenre();
-    case title:
-        return this->getTitle();
     default:
-        return QVariant();
+        return PlayableItemModel::data(role);
     }
 }
 
 QHash<int, QByteArray> SongModel::roleNames() const
 {
-    QHash<int, QByteArray>  roleNames;
+    QHash<int, QByteArray>  roleNames = PlayableItemModel::roleNames();
 
     roleNames[songId] = "songId";
     roleNames[albumId] = "albumId";
     roleNames[artistId] = "artistId";
     roleNames[duration] = "duration";
-    roleNames[rating] = "rating";
     roleNames[track] = "track";
-    roleNames[file] = "file";
-    roleNames[thumbnail] = "thumbnail";
     roleNames[genre] = "genre";
-    roleNames[title] = "title";
 
     return roleNames;
-}
-
-QString SongModel::getTitle() const
-{
-    return this->m_title;
-}
-
-void SongModel::setTitle(const QString &title)
-{
-    this->m_title = title;
 }
 
 QString SongModel::getGenre() const
@@ -111,26 +89,6 @@ void SongModel::setGenre(const QString &genre)
     this->m_genre = genre;
 }
 
-QString SongModel::getThumbnail() const
-{
-    return this->m_thumbnail;
-}
-
-void SongModel::setThumbnail(const QString &thumbnail)
-{
-    this->m_thumbnail = QUrl::toPercentEncoding(thumbnail);
-}
-
-QString SongModel::getFile() const
-{
-    return this->m_file;
-}
-
-void SongModel::setFile(const QString &file)
-{
-    this->m_file = file;
-}
-
 int SongModel::getTrack() const
 {
     return this->m_track;
@@ -139,16 +97,6 @@ int SongModel::getTrack() const
 void SongModel::setTrack(int track)
 {
     this->m_track = track;
-}
-
-int SongModel::getRating() const
-{
-    return this->m_rating;
-}
-
-void SongModel::setRating(int rating)
-{
-    this->m_rating = rating;
 }
 
 int SongModel::getDuration() const

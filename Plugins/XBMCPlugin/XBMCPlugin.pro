@@ -11,10 +11,12 @@
 
 HEADERS += \
    XBMCPlugin.h \
-    IWebRequestDispatcher.h
+    IWebRequestDispatcher.h \
+    PlayableItemModel.h
 
 SOURCES += \
-    XBMCPlugin.cpp
+    XBMCPlugin.cpp \
+    PlayableItemModel.cpp
 
 OTHER_FILES += \
     XBMCPlugin.qml \
