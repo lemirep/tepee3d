@@ -36,7 +36,7 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
 
     this->artistsLibraryModel = new Models::SubListedListModel(new ArtistModel());
     this->albumsLibraryModel = new Models::SubListedListModel(new AlbumModel());
-    this->songsLibraryModel = new Models::ListModel(new SongModel());
+    this->songsLibraryModel = new Models::ListModel(new PlayableItemModel());
 }
 
 int AudioLibrary::getMajorIDRequestHandled() const

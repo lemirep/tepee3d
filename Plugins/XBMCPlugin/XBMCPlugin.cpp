@@ -199,7 +199,7 @@ void XBMCPlugin::saveXBMCAuthToDatabase()
 
 void XBMCPlugin::getCurrentlyPlayedItem()
 {
-    this->m_playerManager->getCurrentlyPlayerItem();
+    this->m_playerManager->getCurrentlyPlayedItem();
 }
 
 void XBMCPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
@@ -257,6 +257,11 @@ QObject *XBMCPlugin::getArtistsLibrary() const
 QObject *XBMCPlugin::getSongsLibrary() const
 {
     return this->m_audioLibrary->getSongsLibraryModel();
+}
+
+QObject *XBMCPlugin::getCurrentlyPlayedItemModel() const
+{
+    return this->m_playerManager->getCurrentlyPlayedItemModel();
 }
 
 QUrl XBMCPlugin::getXBMCImageProviderUrl(const QString& imageUrl) const

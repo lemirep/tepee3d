@@ -46,7 +46,7 @@ public:
 
     PlayableItemModel(QObject *parent = 0);
     virtual ~PlayableItemModel();
-    virtual int id() const = 0;
+    virtual int id() const;
 
     virtual QVariant data(int role) const;
     virtual QHash<int, QByteArray> roleNames() const;

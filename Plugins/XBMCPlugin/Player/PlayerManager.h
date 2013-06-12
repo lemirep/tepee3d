@@ -6,7 +6,12 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QList>
+#include <ListModel.h>
 #include "IWebRequestDispatcher.h"
+#include "PlayableItemModel.h"
+#include "MovieModel.h"
+#include "TVShowEpisodeModel.h"
+#include "SongModel.h"
 
 #define MAJOR_ID_REQUEST_PLAYER 2
 #define GENERIC_CALLBACK 0
@@ -23,38 +28,28 @@ public:
     void                    playFile(const QString &file);
     void                    addToPlayList(const QString &file);
 
-    void                    pause_resumeCurrentPlayer(int playerId = 0);
-    void                    playNext(int playerId = 0);
-    void                    playPrevious(int playerId = 0);
-    void                    stopCurrentPlayer(int playerId = 0);
+    void                    pause_resumeCurrentPlayer();
+    void                    playNext();
+    void                    playPrevious();
+    void                    stopCurrentPlayer();
     void                    seekCurrentPlayer(int advance);
-    void                    getCurrentlyPlayerItem();
+    void                    getCurrentlyPlayedItem();
 
     int                     getMajorIDRequestHandled() const;
     void                    receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
 
-
-    class                   PlayerEntity
-    {
-    public:
-        enum PlayerType
-        {
-            Audio = 0,
-            Video,
-            Picture
-        };
-
-        int                 playerId;
-        PlayerType          playerType;
-    };
+    Models::ListModel*      getCurrentlyPlayedItemModel() const;
 
 private:
     QHash<int, void (PlayerManager::*)(QNetworkReply *reply, void *data)>   webCallBacks;
-    QList<PlayerEntity>     activePlayers;
-private:
+    QList<void (PlayerManager::*)()>    playerActionQueue;
+    Models::ListModel                   *currentlyPlayerItems;
+    int                                 currentActivePlayer;
+
     void                    genericCallBack(QNetworkReply *reply, void *data);
     void                    getActivesPlayersCallBack(QNetworkReply *reply, void *data);
     void                    getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *data);
+    PlayableItemModel       *playableItemModelFromType(QString type);
 
 signals:
     void                    performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);

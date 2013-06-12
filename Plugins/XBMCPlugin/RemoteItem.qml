@@ -144,7 +144,7 @@ Item
             {
                 left : parent.left
                 right : parent.right
-                margins : 15
+                margins : 20
             }
             Rectangle
             {

@@ -35,6 +35,11 @@ PlayableItemModel::~PlayableItemModel()
 {
 }
 
+int PlayableItemModel::id() const
+{
+    return -1;
+}
+
 QVariant PlayableItemModel::data(int role) const
 {
     switch (role)

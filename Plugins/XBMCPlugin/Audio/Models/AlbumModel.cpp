@@ -30,7 +30,7 @@
 AlbumModel::AlbumModel(QObject *parent, int albumId) : Models::SubListedListItem(parent)
 {
     this->m_albumId = albumId;
-    this->songModel = new Models::ListModel(NULL);
+    this->songModel = new Models::ListModel(new SongModel());
 }
 
 AlbumModel::~AlbumModel()

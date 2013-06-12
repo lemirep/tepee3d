@@ -30,7 +30,7 @@
 ArtistModel::ArtistModel(QObject *parent, int artistId) : Models::SubListedListItem(parent)
 {
     this->m_artistId = artistId;
-    this->songModel = new Models::ListModel(NULL);
+    this->albumsModel = new Models::ListModel(new AlbumModel());
 }
 
 QString ArtistModel::getArtistName() const
@@ -45,7 +45,7 @@ void ArtistModel::setArtistName(const QString &artistName)
 
 ArtistModel::~ArtistModel()
 {
-    delete this->songModel;
+    delete this->albumsModel;
 }
 
 int ArtistModel::id() const
@@ -89,7 +89,7 @@ QVariant ArtistModel::data(int role) const
 
 Models::ListModel *ArtistModel::submodel() const
 {
-    return this->songModel;
+    return this->albumsModel;
 }
 
 QString ArtistModel::getMood() const

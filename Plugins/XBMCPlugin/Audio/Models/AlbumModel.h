@@ -28,6 +28,7 @@
 #ifndef ALBUMMODEL_H
 #define ALBUMMODEL_H
 
+#include <SongModel.h>
 #include <ListModel.h>
 #include <SubListedListItem.h>
 #include <QUrl>

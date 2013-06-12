@@ -82,6 +82,7 @@ public:
     Q_INVOKABLE QObject*           getAlbumsLibrary() const;
     Q_INVOKABLE QObject*           getArtistsLibrary() const;
     Q_INVOKABLE QObject*           getSongsLibrary() const;
+    Q_INVOKABLE QObject*           getCurrentlyPlayedItemModel() const;
     Q_INVOKABLE QUrl               getXBMCImageProviderUrl(const QString &imageUrl) const;
     Q_INVOKABLE void               saveXBMCAuthToDatabase();
     Q_INVOKABLE void               getCurrentlyPlayedItem();

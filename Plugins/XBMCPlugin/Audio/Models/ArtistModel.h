@@ -31,6 +31,7 @@
 #include <SubListedListItem.h>
 #include <ListModel.h>
 #include <QUrl>
+#include <AlbumModel.h>
 
 class ArtistModel : public Models::SubListedListItem
 {
@@ -78,7 +79,7 @@ private:
     QString m_thumbnail;
     QString m_mood;
 
-    Models::ListModel   *songModel;
+    Models::ListModel   *albumsModel;
 };
 
 #endif // ARTISTMODEL_H
