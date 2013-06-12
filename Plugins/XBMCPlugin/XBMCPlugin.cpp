@@ -86,6 +86,8 @@ void    XBMCPlugin::receiveResultFromSQLQuery(QList<QSqlRecord> reply, int id, v
 void    XBMCPlugin::receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data)
 {
     this->networkRequestResultDispatch[id / 10]->receiveResultFromHttpRequest(reply, id % 10, data);
+    reply->close();
+    delete reply;
 }
 
 // FOCUS STATE HANDLERS
