@@ -12,7 +12,14 @@ HEADERS += \
 SOURCES += \
     TestUnit.cpp
 
+DESTDIR         = ../Tepee3DEngine
+
 # Include Shared Development Files
-include(../DeveloperAPIFiles/DevelopmentFiles.pri)
+include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
+include(../Tepee3DCoreLibrary/Platforms/Platforms.pri)
+include(../Tepee3DCoreLibrary/Services/Services.pri)
+include(../Tepee3DCoreLibrary/Room/Room.pri)
+include(../Tepee3DCoreLibrary/Plugins/Plugins.pri)
+include(../Tepee3DCoreLibrary/View/View.pri)
 
 

@@ -53,20 +53,20 @@ class RoomManager : public QObject, public View::QmlContentExposerInterface
 public:
     ~RoomManager();
     static RoomManager*             getInstance(QObject *parent = NULL);
-    static Room::RoomBase*       getNewRoomInstance();
+    static Room::RoomBase*          getNewRoomInstance();
 
-    void                                          restoreRooms();
+    void                            restoreRooms();
 
-    Models::ListModel*                 getRoomModel() const;
-    static void                                addRoomToModel(Room::RoomBase *room);
+    Models::ListModel*              getRoomModel() const;
+    static void                     addRoomToModel(Room::RoomBase *room);
 
-    Plugins::PluginBase*              getPluginFromRoom(int roomId, int pluginId) const;
+    Plugins::PluginBase*            getPluginFromRoom(int roomId, int pluginId) const;
 
-    void                                         setCurrentRoom(RoomBase *room);
-    RoomBase*                            getCurrentRoom()    const;
+    void                            setCurrentRoom(RoomBase *room);
+    RoomBase*                       getCurrentRoom()    const;
 
     // QmlContentExposer
-    void                                         exposeContentToQml(QQmlContext *context);
+    void                            exposeContentToQml(QQmlContext *context);
 
     // METHODS THAT CAN BE CALLED FROM QML
     Q_INVOKABLE    void     setCurrentRoom(int roomModelId);
@@ -82,12 +82,12 @@ private:
     RoomManager(QObject *parent = 0);
 
     static RoomManager                 *instance;
-    static int                                       roomInstances;
+    static int                         roomInstances;
 
-    RoomBase                                 *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
-    RoomBase                                 *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
-    QTimer                                       *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
-    Models::SubListedListModel      *roomModel;
+    RoomBase                           *roomPrototype; // ROOM BASE FROM LIBRARY -> ALL CREATED ROOM WILL BE OF THIS TYPE
+    RoomBase                           *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
+    QTimer                             *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
+    Models::SubListedListModel         *roomModel;
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace();

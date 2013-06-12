@@ -328,6 +328,8 @@ Plugins::PluginBase* Plugins::PluginManager::getNewInstanceOfPlugin(int pluginMo
  */
 void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
 {
+    if (roomPlugin == NULL)
+        return ;
     // CONNECT OBJECT TO SERVICES
     Services::ServicesManager::connectObjectToServices(roomPlugin);
     // EXPOSE QML CONTENT FROM PLUGIN

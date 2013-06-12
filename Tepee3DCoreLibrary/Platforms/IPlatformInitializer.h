@@ -47,12 +47,12 @@ class IPlatformInitializer
 {
 public :
     virtual bool            initPlatform() = 0;
-    virtual QDir           getDataDirectory() const = 0;
-    virtual QDir           getWidgetSharedLibrariesDirectory() const = 0;
-    virtual QDir           getServicesSharedLibrariesDirectory() const = 0;
-    virtual QDir           getRoomSharedLibraryDirectory() const = 0;
-    virtual QDir           getSharedLibraryDirectory() const = 0;
-    virtual QString      getPlatformName() const = 0;
+    virtual QDir            getDataDirectory() const = 0;
+    virtual QDir            getWidgetSharedLibrariesDirectory() const = 0;
+    virtual QDir            getServicesSharedLibrariesDirectory() const = 0;
+    virtual QDir            getRoomSharedLibraryDirectory() const = 0;
+    virtual QDir            getSharedLibraryDirectory() const = 0;
+    virtual QString         getPlatformName() const = 0;
 };
 
 #endif // IPLATFORMINITIALIZER_H

@@ -77,15 +77,15 @@ public:
     void                        exposeContentToQml(QQmlContext *context);
 
     static PluginManager*       getInstance(QObject *parent = 0);
-    static PluginBase*             getNewInstanceOfPlugin(int pluginModelItemId);
-    static PluginBase*             getNewInstanceOfPlugin(PluginBase* plugin);
-    static void                          initRoomPlugin(PluginBase* roomPlugin);
-    static void                          cleanPluginBeforeRemoval(PluginBase *roomPlugin);
+    static PluginBase*          getNewInstanceOfPlugin(int pluginModelItemId);
+    static PluginBase*          getNewInstanceOfPlugin(PluginBase* plugin);
+    static void                 initRoomPlugin(PluginBase* roomPlugin);
+    static void                 cleanPluginBeforeRemoval(PluginBase *roomPlugin);
 
     // WEB SERVICES
-    void                                    retrieveOnlinePluginsForCurrentPlatform();
-    void                                    downloadPluginFromServer(int pluginId);
-    void                                    checkForPluginsUpdates();
+    void                        retrieveOnlinePluginsForCurrentPlatform();
+    void                        downloadPluginFromServer(int pluginId);
+    void                        checkForPluginsUpdates();
 private:
 
     explicit PluginManager(QObject *parent = 0);

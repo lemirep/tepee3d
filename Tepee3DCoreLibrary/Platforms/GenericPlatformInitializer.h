@@ -42,12 +42,12 @@ class GenericPlatformInitializer : public IPlatformInitializer
 public:
     GenericPlatformInitializer();
     bool        initPlatform();
-    QDir       getDataDirectory() const;
-    QDir       getWidgetSharedLibrariesDirectory() const;
-    QDir       getServicesSharedLibrariesDirectory() const;
-    QDir       getRoomSharedLibraryDirectory() const;
-    QDir       getSharedLibraryDirectory() const;
-    QString  getPlatformName() const;
+    QDir        getDataDirectory() const;
+    QDir        getWidgetSharedLibrariesDirectory() const;
+    QDir        getServicesSharedLibrariesDirectory() const;
+    QDir        getRoomSharedLibraryDirectory() const;
+    QDir        getSharedLibraryDirectory() const;
+    QString     getPlatformName() const;
 };
 
 #endif // GENERICPLATFORMINITIALIZER_H

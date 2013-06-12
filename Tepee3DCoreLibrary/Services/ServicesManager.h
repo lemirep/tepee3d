@@ -69,7 +69,7 @@ public:
     static  ServicesManager*        getInstance(QObject *parent = 0);
     static  void                    connectObjectToServices(QObject *serviceUser);
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
-    void                               loadServicesLibraries();
+    void                           loadServicesLibraries();
 
     void                               receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
     void                               checkForServicesUpdates();

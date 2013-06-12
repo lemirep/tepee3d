@@ -19,7 +19,8 @@ linux:win32 {
                        Documentation/how-to-plugins.qdoc \
                        Documentation/all_classes.qdoc \
                        Documentation/index.qdoc
-    }
+        SUBDIRS += UnitTests
+}
 }
 
 #OTHER_FILES += \
@@ -56,11 +57,11 @@ linux:win32 {
 android {
 
 OTHER_FILES += android/AndroidManifest.xml
-
-qml_folder.files += Tepee3DEngine/qml
-qml_folder.files += Tepee3DEngine/plugins_qml
-qml_folder.files += Tepee3DEngine/libraries
-qml_folder.files += Tepee3DEngine/databases
+qml_folder.files += Tepee3DEngine/qml/
+qml_folder.files += Tepee3DEngine/plugins_qml/
+qml_folder.files += Tepee3DEngine/libraries/
+qml_folder.files += Tepee3DEngine/databases/
+qml_folder.files += Tepee3DEngine/DeveloperAPIFiles/
 qml_folder.path = android/assets
 INSTALLS += qml_folder
 DEPLOYMENT += qml_folder

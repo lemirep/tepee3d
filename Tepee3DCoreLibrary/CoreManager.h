@@ -50,25 +50,25 @@ class CoreManager : public QObject, public CoreLibraryInterface
     Q_PLUGIN_METADATA(IID "com.tepee3d.Core")
 
 private:
-    View::QmlViewProperties      *viewProperties;      // QML VIEW PROPERTIES
-    Room::RoomManager           *roomManager;       // ROOM MANAGER
-    Services::ServicesManager  *servicesManager;  // SERVICESMANAGER
-    Plugins::PluginManager         *pluginsManager;    // PLUGIN MANAGER
+    View::QmlViewProperties         *viewProperties;   // QML VIEW PROPERTIES
+    Room::RoomManager               *roomManager;      // ROOM MANAGER
+    Services::ServicesManager       *servicesManager;  // SERVICESMANAGER
+    Plugins::PluginManager          *pluginsManager;   // PLUGIN MANAGER
 
 public:
     explicit CoreManager();
     ~CoreManager();
 
-    void                             initCoreEngine();
-    QString                       getCoreVersion();
-    QObject*                    getObject();
+    void                            initCoreEngine();
+    QString                         getCoreVersion();
+    QObject*                        getObject();
 
 public slots:
-    bool                        initView();
-    void                        cleanBeforeClosing();
+    bool                            initView();
+    void                            cleanBeforeClosing();
 
 signals:
-    void                        quit();
+    void                            quit();
 
 };
 #endif // QMLVIEWMANAGER_H
