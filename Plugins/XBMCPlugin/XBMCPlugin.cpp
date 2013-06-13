@@ -13,6 +13,8 @@ XBMCPlugin::XBMCPlugin() : PluginBase()
     QObject::connect(this->m_videoLibrary, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
     QObject::connect(this->m_remoteManager, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
     QObject::connect(this->m_playerManager, SIGNAL(performJsonRPCRequest(QJsonObject, int, void *)), this, SLOT(performJsonRPCRequest(QJsonObject,int,void*)));
+    QObject::connect(this->m_playerManager, SIGNAL(playingChanged()), this, SIGNAL(playingChanged()));
+    QObject::connect(this->m_playerManager, SIGNAL(playerAdvanceChanged()), this, SIGNAL(playerAdvanceChanged()));
 
     this->networkRequestResultDispatch[this->m_audioLibrary->getMajorIDRequestHandled()] = this->m_audioLibrary;
     this->networkRequestResultDispatch[this->m_videoLibrary->getMajorIDRequestHandled()] = this->m_videoLibrary;
@@ -34,6 +36,11 @@ int XBMCPlugin::getPluginId() const
     return PLUGIN_ID;
 }
 
+bool XBMCPlugin::needsUpdating() const
+{
+    return true;
+}
+
 void XBMCPlugin::initPlugin()
 {
     this->retrieveXBMCAuthFromDatabase();
@@ -41,6 +48,20 @@ void XBMCPlugin::initPlugin()
 
 void XBMCPlugin::clearPluginBeforeRemoval()
 {
+}
+
+void XBMCPlugin::updatePlugin()
+{
+    static char i = 0;
+
+    // Update Player State Frequently
+    this->m_playerManager->getCurrentPlayerState();
+    if (i == 15)
+    {
+        i = 0;
+        this->m_playerManager->getCurrentlyPlayedItem();
+    }
+    i++;
 }
 
 QString XBMCPlugin::getPluginName() const
@@ -102,7 +123,7 @@ void XBMCPlugin::onSelectedFocusState()
 
 void XBMCPlugin::onFocusedFocusState()
 {
-
+    this->m_playerManager->getActivesPlayers();
 }
 
 // XBMC CREDENTIALS MANIPULATION
@@ -154,12 +175,13 @@ QString XBMCPlugin::xbmcServerPassword() const
 QUrl XBMCPlugin::getXbmcServerRequestUrl() const
 {
     QUrl url;
-    url.setScheme("http");
-    url.setHost(this->m_xbmcServerUrl.host());
+    QUrl hostUrl(this->m_xbmcServerUrl);
+    url.setScheme(hostUrl.scheme());
+    url.setHost(hostUrl.host());
     url.setPort(this->m_xbmcServerPort);
     url.setUserName(this->m_xbmcServerUserName);
     url.setPassword(this->m_xbmcServerPassword);
-    url.setPath("/jsonrpc");
+    url.setPath(hostUrl.path() + "/jsonrpc");
     return url;
 }
 
@@ -195,6 +217,7 @@ void XBMCPlugin::saveXBMCAuthToDatabase()
                  this->m_xbmcServerUserName,
                  this->m_xbmcServerPassword);
     emit executeSQLQuery(query, this, GENERIC_DATABASE_CALLBACK, DATABASE_NAME);
+    this->updateDataModels();
 }
 
 void XBMCPlugin::getCurrentlyPlayedItem()
@@ -206,6 +229,16 @@ void XBMCPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
     Q_UNUSED(result)
     Q_UNUSED(data)
+}
+
+bool XBMCPlugin::getPlaying() const
+{
+    return this->m_playerManager->getIsPlaying();
+}
+
+double XBMCPlugin::getPlayerAdvance() const
+{
+    return this->m_playerManager->getPlayerAdvance();
 }
 
 void XBMCPlugin::updateDataModels()
@@ -267,12 +300,13 @@ QObject *XBMCPlugin::getCurrentlyPlayedItemModel() const
 QUrl XBMCPlugin::getXBMCImageProviderUrl(const QString& imageUrl) const
 {
     QUrl url;
-    url.setScheme("http");
-    url.setHost(this->m_xbmcServerUrl.host());
+    QUrl hostUrl(this->m_xbmcServerUrl);
+    url.setScheme(hostUrl.scheme());
+    url.setHost(hostUrl.host());
     url.setPort(this->m_xbmcServerPort);
     url.setUserName(this->m_xbmcServerUserName);
     url.setPassword(this->m_xbmcServerPassword);
-    url.setPath("/image/" + imageUrl);
+    url.setPath(hostUrl.path() + "/image/" + imageUrl);
     return url;
 }
 

@@ -134,6 +134,6 @@ void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
  */
 void    View::QmlViewProperties::showView()
 {
-//    this->viewer->show();
-    this->viewer->showFullScreen();
+    this->viewer->show();
+//    this->viewer->showFullScreen();
 }

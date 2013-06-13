@@ -82,6 +82,7 @@ Item
             margins : 10
         }
         asynchronous : true
+        onStatusChanged: {if (status == Image.Error) source = "dvd_box.png"}
         source : img_src.replace(".jpg", "-300.jpg")
         Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
         scale : (status == Image.Ready) ? 1 : 0

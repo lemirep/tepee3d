@@ -120,7 +120,6 @@ QNetworkAccessManager*  WebServiceManager::getInstance()
 void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multipart, QObject *sender, int requestId, void *data)
 {
     Q_UNUSED(multipart)
-    qDebug() << "Executing HttpGetRequest";
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data);
     QNetworkReply *reply = this->getInstance()->get(request);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
@@ -134,7 +133,6 @@ void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multip
 void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
 {
     Q_UNUSED(multipart)
-    qDebug() << "Executing HttpGetDelete";
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data);
     QNetworkReply*reply = this->getInstance()->deleteResource(request);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
@@ -146,7 +144,6 @@ void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *mu
  */
 void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
 {
-    qDebug() << "Executing HttpGetPost";
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multiPart);
     QNetworkReply *reply = this->getInstance()->post(request, multiPart);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
@@ -158,7 +155,6 @@ void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *mult
  */
 void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
 {
-    qDebug() << "Executing HttpGetPut";
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multiPart);
     QNetworkReply *reply = this->getInstance()->put(request, multiPart);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
@@ -217,7 +213,6 @@ void            WebServiceManager::initLibraryConnection(QObject *parent)
  */
 void            WebServiceManager::executeHttpRequest(QNetworkRequest request, int requestType, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
 {
-    qDebug() << "Executing HttpRequest";
     (this->*this->httpMethods[requestType])(request, multiPart, sender, requestId, data);
 }
 

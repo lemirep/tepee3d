@@ -31,6 +31,7 @@
 
 #include <ListItem.h>
 #include <QUrl>
+#include <QDebug>
 
 class PlayableItemModel : public Models::ListItem
 {
@@ -41,6 +42,7 @@ public:
         title = Qt::UserRole + 1,
         rating,
         file,
+        runtime,
         thumbnail
     };
 
@@ -55,14 +57,17 @@ public:
     virtual QString getTitle() const;
     virtual QString getThumbnail() const;
     virtual int getRating() const;
+    virtual int getRuntime() const;
 
     virtual void setTitle(const QString &title);
     virtual void setFile(const QString &file);
     virtual void setThumbnail(const QString &thumbnail);
     virtual void setRating(int rating);
+    virtual void setRuntime(int runtime);
 
 protected :
     int m_rating;
+    int m_runtime;
     QString m_title;
     QString m_file;
     QString m_thumbnail;

@@ -317,6 +317,7 @@ SongModel *AudioLibrary::parseJsonSong(const QJsonObject &jsonSong)
         song->setAlbumId(jsonSong.value("albumid").toDouble());
         song->setArtistId(jsonSong.value("artistid").toArray().first().toDouble());
         song->setDuration(jsonSong.value("duration").toDouble());
+        song->setRuntime(jsonSong.value("duration").toDouble());
         song->setFile(jsonSong.value("file").toString());
         song->setGenre(jsonSong.value("genre").toArray().first().toString());
         song->setRating(jsonSong.value("rating").toDouble());

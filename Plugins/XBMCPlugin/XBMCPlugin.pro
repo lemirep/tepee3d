@@ -34,6 +34,7 @@ OTHER_FILES += \
     cdbox.png \
     dvdbox.png \
     shadow_separator_h.png \
+    JoystickControl.png \
     ArtistLibrary.qml \
     AlbumsLibrary.qml \
     SongsLibrary.qml \

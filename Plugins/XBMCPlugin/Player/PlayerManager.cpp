@@ -6,8 +6,11 @@ PlayerManager::PlayerManager(QObject *parent) : QObject(parent)
     this->webCallBacks[GENERIC_CALLBACK] = &PlayerManager::genericCallBack;
     this->webCallBacks[GET_ACTIVE_PLAYERS] = &PlayerManager::getActivesPlayersCallBack;
     this->webCallBacks[GET_PLAYED_ITEM] = &PlayerManager::getCurrentlyPlayerItemCallBack;
+    this->webCallBacks[GET_PLAYER_STATE] = &PlayerManager::getCurrentPlayerStateCallBack;
     this->currentActivePlayer = -1;
-//    this->currentlyPlayerItems = new Models::ListModel(new PlayableItemModel());
+    this->currentlyPlayerItems = new Models::ListModel(new PlayableItemModel());
+    this->isPlayging = false;
+    this->playerAdvance = 0;
 }
 
 void PlayerManager::getActivesPlayers()
@@ -32,8 +35,6 @@ void PlayerManager::playFile(const QString &file)
     fileObj.insert("file", QJsonValue(file));
     paramObj.insert("item", QJsonValue(fileObj));
     requestJson.insert("params", QJsonValue(paramObj));
-
-    qDebug() << QJsonDocument(requestJson).toJson();
 
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
     this->getActivesPlayers();
@@ -60,8 +61,6 @@ void PlayerManager::pause_resumeCurrentPlayer()
     paramObj.insert("playerid", QJsonValue(this->currentActivePlayer));
     requestJson.insert("id", QJsonValue(1));
     requestJson.insert("params", QJsonValue(paramObj));
-
-    qDebug() << QJsonDocument(requestJson).toJson();
 
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
 }
@@ -175,7 +174,41 @@ void PlayerManager::getCurrentlyPlayedItem()
     requestJson.insert("params", QJsonValue(paramObj));
     requestJson.insert("id", QJsonValue(1));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYED_ITEM));
+}
+
+void PlayerManager::getCurrentPlayerState()
+{
+    if (this->currentActivePlayer == -1)
+    {
+        this->playerActionQueue.append(&PlayerManager::getCurrentPlayerState);
+        this->getActivesPlayers();
+        return ;
+    }
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.GetProperties")));
+
+    QJsonObject paramObj;
+    QJsonArray properties;
+    properties.prepend(QJsonValue(QString("percentage")));
+    properties.prepend(QJsonValue(QString("speed")));
+    paramObj.insert("playerid", QJsonValue(this->currentActivePlayer));
+    paramObj.insert("properties", QJsonValue(properties));
+    requestJson.insert("params", QJsonValue(paramObj));
+    requestJson.insert("id", QJsonValue(1));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYER_STATE));
+}
+
+bool PlayerManager::getIsPlaying() const
+{
+    return this->isPlayging;
+}
+
+double PlayerManager::getPlayerAdvance() const
+{
+    return this->playerAdvance;
 }
 
 int PlayerManager::getMajorIDRequestHandled() const
@@ -225,10 +258,14 @@ void PlayerManager::getActivesPlayersCallBack(QNetworkReply *reply, void *data)
              jsonRep.object().value("result").isArray() &&
              jsonRep.object().value("result").toArray().first().isObject())
         {
-            this->currentActivePlayer = jsonRep.object().value("result").toArray().first().toObject().value("playerid").toDouble();
-            while (!this->playerActionQueue.empty())
-                (this->*this->playerActionQueue.takeFirst())();
-            this->getCurrentlyPlayedItem();
+            if (jsonRep.object().value("result").toArray().size() > 0)
+            {
+                this->currentActivePlayer = jsonRep.object().value("result").toArray().first().toObject().value("playerid").toDouble();
+                while (!this->playerActionQueue.empty())
+                    (this->*this->playerActionQueue.takeFirst())();
+                this->getCurrentlyPlayedItem();
+            }
+            this->playerActionQueue.clear();
         }
     }
 }
@@ -246,6 +283,7 @@ void PlayerManager::getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *d
         {
             this->currentlyPlayerItems->clear();
             QJsonObject item = jsonRep.object().value("result").toObject().value("item").toObject();
+//            qDebug() << "Current Item Call Back " <<  QJsonDocument(item).toJson();
             PlayableItemModel *playableItem = this->playableItemModelFromType(item.value("type").toString());
             if (playableItem != NULL)
             {
@@ -253,7 +291,33 @@ void PlayerManager::getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *d
                 playableItem->setTitle(item.value("title").toString());
                 playableItem->setRating(item.value("rating").toDouble());
                 playableItem->setThumbnail(item.value("thumbnail").toString());
+                playableItem->setRuntime(item.value("runtime").toDouble());
                 this->currentlyPlayerItems->appendRow(playableItem);
+            }
+        }
+    }
+}
+
+void PlayerManager::getCurrentPlayerStateCallBack(QNetworkReply *reply, void *data)
+{
+    Q_UNUSED(data)
+    if (reply != NULL)
+    {
+        QJsonDocument jsonRep = QJsonDocument::fromJson(reply->readAll());
+        if  (!jsonRep.isNull() &&
+             !jsonRep.isEmpty() &&
+             jsonRep.isObject())
+        {
+            QJsonObject resultObj = jsonRep.object().value("result").toObject();
+//            qDebug() << "State CallBack " << QJsonDocument(jsonRep).toJson();
+            bool oldPlaying = this->isPlayging;
+            this->isPlayging = (resultObj.value("speed").toDouble() == 0) ? false : true;
+            if (oldPlaying != this->isPlayging)
+                emit playingChanged();
+            if (this->playerAdvance - (resultObj.value("percentage").toDouble() / 100) != 0)
+            {
+                this->playerAdvance = resultObj.value("percentage").toDouble() / 100;
+                emit playerAdvanceChanged();
             }
         }
     }

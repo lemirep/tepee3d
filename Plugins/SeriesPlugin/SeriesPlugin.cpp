@@ -421,9 +421,8 @@ bool SeriesPlugin::addToSickBeard() const
 
 void SeriesPlugin::setSickBeardUrl(const QString &sickBeardUrl)
 {
-    this->m_sickBeardUrl = sickBeardUrl;
-    if (this->m_sickBeardUrl.endsWith("/"))
-        this->m_sickBeardUrl.chop(1);
+    this->m_sickBeardUrl = QUrl(sickBeardUrl).toString();
+    qDebug() << "SICKBEARD URL " << this->m_sickBeardUrl;
     emit sickBeardUrlChanged();
 }
 

@@ -17,6 +17,7 @@
 #define GENERIC_CALLBACK 0
 #define GET_ACTIVE_PLAYERS 1
 #define GET_PLAYED_ITEM 2
+#define GET_PLAYER_STATE 3
 
 class PlayerManager : public QObject, public IWebRequestDispatcher
 {
@@ -34,6 +35,10 @@ public:
     void                    stopCurrentPlayer();
     void                    seekCurrentPlayer(int advance);
     void                    getCurrentlyPlayedItem();
+    void                    getCurrentPlayerState();
+
+    bool                    getIsPlaying() const;
+    double                  getPlayerAdvance() const;
 
     int                     getMajorIDRequestHandled() const;
     void                    receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
@@ -45,14 +50,19 @@ private:
     QList<void (PlayerManager::*)()>    playerActionQueue;
     Models::ListModel                   *currentlyPlayerItems;
     int                                 currentActivePlayer;
+    bool                                isPlayging;
+    double                              playerAdvance;
 
     void                    genericCallBack(QNetworkReply *reply, void *data);
     void                    getActivesPlayersCallBack(QNetworkReply *reply, void *data);
     void                    getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *data);
+    void                    getCurrentPlayerStateCallBack(QNetworkReply *reply, void *data);
     PlayableItemModel       *playableItemModelFromType(QString type);
 
 signals:
     void                    performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);
+    void                    playingChanged();
+    void                    playerAdvanceChanged();
 };
 
 #endif // PLAYERMANAGER_H

@@ -286,6 +286,9 @@ Item
           x : 500
           y : 500
 
+          // UNCOMMENT THIS WHEN WORKING
+          enabled : false
+
           Loader {
               function getCallBack() {
                   return sourceComponent;

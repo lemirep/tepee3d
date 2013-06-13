@@ -34,14 +34,18 @@ class XBMCPlugin  : public Plugins::PluginBase
     Q_PROPERTY(QUrl xbmcServerUrl WRITE setXbmcServerUrl READ xbmcServerUrl NOTIFY xbmcServerUrlChanged)
     Q_PROPERTY(QString xbmcServerUserName WRITE setXbmcServerUserName READ xbmcServerUserName NOTIFY xbmcServerUserNameChanged)
     Q_PROPERTY(QString xbmcServerPassword WRITE setXbmcServerPassword READ xbmcServerPassword NOTIFY xbmcServerPasswordChanged)
+    Q_PROPERTY(bool playing READ getPlaying NOTIFY playingChanged)
+    Q_PROPERTY(double playerAdvance READ getPlayerAdvance NOTIFY playerAdvanceChanged)
 
 public:
     XBMCPlugin();
     virtual ~XBMCPlugin();
 
     int                         getPluginId() const;
+    bool                        needsUpdating() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
+    void                        updatePlugin();
 
     PluginBase*                 getPluginBase();
     PluginBase*                 createNewInstance();
@@ -116,6 +120,7 @@ private:
     PlayerManager   *m_playerManager;
     RemoteManager   *m_remoteManager;
 
+    bool            m_playing;
     int             m_xbmcServerPort;
     QUrl            m_xbmcServerUrl;
     QString         m_xbmcServerUserName;
@@ -125,6 +130,8 @@ private:
     void                       retrieveXBMCAuthFromDatabase();
     void                       retrieveXBMCAuthFromDatabaseCallBack(QList<QSqlRecord> result, void *data);
     void                       genericDatabaseCallBack(QList<QSqlRecord> result, void *data);
+    bool                       getPlaying() const;
+    double                     getPlayerAdvance() const;
 
     void                       updateDataModels();
 
@@ -137,7 +144,8 @@ signals:
     void                        xbmcServerPortChanged();
     void                        xbmcServerUserNameChanged();
     void                        xbmcServerPasswordChanged();
-
+    void                        playingChanged();
+    void                        playerAdvanceChanged();
 
 };
 

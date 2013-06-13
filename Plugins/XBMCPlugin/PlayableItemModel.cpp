@@ -52,6 +52,8 @@ QVariant PlayableItemModel::data(int role) const
         return this->getFile();
     case thumbnail:
         return this->getThumbnail();
+    case runtime :
+        return this->getRuntime();
     default:
         return QVariant();
     }
@@ -65,6 +67,7 @@ QHash<int, QByteArray> PlayableItemModel::roleNames() const
     roleNames[file] = "file";
     roleNames[thumbnail] = "thumbnail";
     roleNames[rating] = "rating";
+    roleNames[runtime] = "runtime";
 
     return roleNames;
 }
@@ -89,6 +92,11 @@ int PlayableItemModel::getRating() const
     return this->m_rating;
 }
 
+int PlayableItemModel::getRuntime() const
+{
+    return this->m_runtime;
+}
+
 void PlayableItemModel::setTitle(const QString &title)
 {
     this->m_title = title;
@@ -101,12 +109,19 @@ void PlayableItemModel::setFile(const QString &file)
 
 void PlayableItemModel::setThumbnail(const QString &thumbnail)
 {
+    if (thumbnail.isNull())
+        this->m_thumbnail = "";
     this->m_thumbnail =  QUrl::toPercentEncoding(thumbnail);
 }
 
 void PlayableItemModel::setRating(int rating)
 {
     this->m_rating = rating;
+}
+
+void PlayableItemModel::setRuntime(int runtime)
+{
+    this->m_runtime = runtime;
 }
 
 

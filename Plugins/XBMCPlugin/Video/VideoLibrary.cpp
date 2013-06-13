@@ -36,6 +36,7 @@ void VideoLibrary::retrieveMovies(void *dataModel)
     properties.prepend(QJsonValue(QString("thumbnail")));
     properties.prepend(QJsonValue(QString("plot")));
     properties.prepend(QJsonValue(QString("year")));
+    properties.prepend(QJsonValue(QString("runtime")));
     properties.prepend(QJsonValue(QString("rating")));
     properties.prepend(QJsonValue(QString("file")));
     properties.prepend(QJsonValue(QString("streamdetails")));
@@ -119,6 +120,8 @@ void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, void *dataMo
     properties.prepend(QJsonValue(QString("tvshowid")));
     properties.prepend(QJsonValue(QString("firstaired")));
     properties.prepend(QJsonValue(QString("episode")));
+    properties.prepend(QJsonValue(QString("runtime")));
+
     paramObj.insert("properties", QJsonValue(properties));
 
     requestJson.insert("params", QJsonValue(paramObj));
@@ -282,6 +285,7 @@ TVShowEpisodeModel *VideoLibrary::parseTVShowEpisode(const QJsonObject &tvShowEp
         episode->setThumbnail(tvShowEpisodeObj.value("thumbnail").toString());
         episode->setTVShowId(tvShowEpisodeObj.value("tvshowid").toDouble());
         episode->setAired(tvShowEpisodeObj.value("firstaired").toString());
+        episode->setRuntime(tvShowEpisodeObj.value("runtime").toDouble());
         return episode;
     }
     return NULL;
@@ -300,6 +304,7 @@ MovieModel *VideoLibrary::parseMovie(const QJsonObject &movieObj)
         movie->setYear(movieObj.value("year").toDouble());
         movie->setRating(movieObj.value("rating").toDouble());
         movie->setFile(movieObj.value("file").toString());
+        movie->setRuntime(movieObj.value("runtime").toDouble());
         // PARSE STREAM DETAILS LATERS
         return movie;
     }

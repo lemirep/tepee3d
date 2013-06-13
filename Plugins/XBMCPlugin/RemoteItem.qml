@@ -4,7 +4,88 @@ import QtQuick 2.0
 Item
 {
     id : remote_item
-    property bool isPlaying : false
+    property bool isPlaying : XBMCPlugin.playing
+
+    Item
+    {
+        width : parent.width
+        anchors
+        {
+            top : parent.top
+            bottom : joystick_item.top
+            margins : 30
+        }
+
+        Rectangle
+        {
+            color : "black"
+            opacity : 0.3
+            anchors.fill: parent
+            radius : 5
+            smooth : true
+            border
+            {
+                width : 1
+                color : "white"
+            }
+        }
+
+        ListView
+        {
+            id : currently_playing_item
+            anchors.fill: parent
+            model : XBMCPlugin.getCurrentlyPlayedItemModel()
+            interactive : false
+            delegate : Component {
+                Item
+                {
+                    width : currently_playing_item.width
+                    height: currently_playing_item.height
+
+                    Text
+                    {
+                        id : title_item
+                        anchors.centerIn: parent
+                        color : "white"
+                        font.pixelSize: mainWindow.largeFontSize
+                        text : model.title
+                    }
+
+                    Text
+                    {
+                        anchors
+                        {
+                            horizontalCenter : title_item.horizontalCenter
+                            top : title_item.bottom
+                            topMargin : 5
+                        }
+                        color : "white"
+                        font.pixelSize: mainWindow.defaultFontSize
+                        text : " (" + Math.floor(model.runtime / 3600) + ":" + Math.floor((model.runtime % 3600) / 60)  + ":" + Math.floor((model.runtime % 3600) % 60) + ")";
+                    }
+
+                    Image
+                    {
+                        id : movie_pic
+                        height: parent.height - 20
+                        anchors
+                        {
+                            left : parent.left
+                            verticalCenter : parent.verticalCenter
+                            leftMargin : 15
+                        }
+                        fillMode: Image.PreserveAspectFit
+                        source : XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail)
+                    }
+                }
+            }
+        }
+
+
+    }
+
+
+
 
     Item
     {
@@ -13,32 +94,34 @@ Item
         height : width
         anchors.centerIn: parent
 
-        Rectangle
+        Item
         {
             id : joystick_elem
-            scale : joystick_ma.pressed ? 0.9 : 1
+            scale : joystick_ma.pressed ? 0.95 : 1
             property int x_angle : 0
             property int y_angle : 0
 
             x : 0 + y_angle
             y : 0 - x_angle
-            color : "black"
             width : joystick_item.width
             height : width
-            radius : width / 2
-            border
-            {
-                width : 1
-                color : "blue"
-            }
-            smooth : true
+
+            //            border
+            //            {
+            //                width : 1
+            //                color : "blue"
+            //            }
             transform: [Rotation { origin.x: 0; origin.y: joystick_elem.width / 2; axis { x: 1; y: 0; z: 0 } angle:  joystick_elem.x_angle},
                 Rotation { origin.x: joystick_elem.width / 2; origin.y:0; axis { x: 0; y: 1; z: 0 } angle:  joystick_elem.y_angle}]
+
+            Behavior on x_angle {NumberAnimation {duration : 250}}
+            Behavior on y_angle {NumberAnimation {duration : 250}}
             Image
             {
                 anchors.fill: parent
                 anchors.centerIn: parent
-                source : "red_cross.png"
+                fillMode: Image.PreserveAspectFit
+                source : "JoystickControl.png"
             }
         }
 
@@ -106,9 +189,6 @@ Item
         onClicked : {XBMCPlugin.pressNavigationKey(XBMCPlugin.Select)}
     }
 
-
-    //    Item
-    //    {
     Rectangle
     {
         color : "black"
@@ -139,7 +219,10 @@ Item
             id : time_slider
             focus : true
             height : 40
-            property real advance : 0.6
+            property bool sliding : false
+            property real tmp_advance : 0;
+            property real advance : sliding ? tmp_advance : XBMCPlugin.playerAdvance
+            enabled : isPlaying
             anchors
             {
                 left : parent.left
@@ -170,34 +253,32 @@ Item
             {
                 anchors.fill: parent
                 property bool lockedSlider : false
-                onClicked:
-                {
-                    time_slider.advance = mouseX / width
-                }
                 onPressed:
                 {
                     // IF PRESSED ON SLIDER
                     if (mouseX >= positioner.x && mouseX <= positioner.x + positioner.width)
                     {
-                        mouse.accepted = true;
                         lockedSlider = true;
                     }
+                    mouse.accepted = true;
                     main_listview.interactive = !lockedSlider
+                    console.log("Pressed ");
                 }
                 onPositionChanged:
                 {
-                    if (lockedSlider)
-                    {
-                        time_slider.advance = (mouseX / width < 0) ? 0 : (mouseX / width > 1) ? 1 : mouseX / width
+//                    if (lockedSlider)
+//                    {
+                        time_slider.tmp_advance = (mouseX / width < 0) ? 0 : (mouseX / width > 1) ? 1 : mouseX / width
                         mouse.accepted = true
-                    }
+//                    }
                 }
                 onReleased:
                 {
                     lockedSlider = false;
                     main_listview.interactive = !lockedSlider
                     // ASK PLAYER TO CHANGE TO NEW VALUE OF time_slider.advance
-                    XBMCPlugin.seekAction(time_slider.advance * 100)
+                    XBMCPlugin.seekAction(time_slider.tmp_advance * 100)
+                    console.log("Released ");
                 }
             }
             Item
@@ -306,7 +387,7 @@ Item
                 {
                     id : play_button_ma
                     anchors.fill: parent
-                    onClicked: {isPlaying ? XBMCPlugin.pauseAction() : XBMCPlugin.playAction()}
+                    onClicked: {isPlaying ? XBMCPlugin.pauseAction() : XBMCPlugin.playAction(); isPlaying = !isPlaying}
                 }
             }
 
@@ -341,5 +422,4 @@ Item
             }
         }
     }
-    //    }
 }
