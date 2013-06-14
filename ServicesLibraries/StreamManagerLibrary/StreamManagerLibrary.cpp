@@ -27,7 +27,7 @@ bool  StreamManagerLibrary::connectServiceToUser(QObject *user)
 bool  StreamManagerLibrary::disconnectServiceFromUser(QObject *user)
 {
     if (qobject_cast<Services::StreamServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject*, int, void*)),
+        return QObject::disconnect(user, SIGNAL(executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject*, int, void*)),
                          this, SLOT(executeStreamRequest(QNetworkRequest, int, QDataStream*, QObject*, int, void*)));
     qWarning() << "Object does not implement StreamServiceUserInterface";
     return false;

@@ -55,16 +55,16 @@ public:
 
     static  QJsonObject*    QJsonFromReply(QNetworkReply* reply);
 
-    int                       getServiceId() const;
-    void                    initLibraryConnection(QObject *parent);
+    int                     getServiceId() const;
+    void                    nitLibraryConnection(QObject *parent);
     bool                    connectServiceToUser(QObject *user);
     bool                    disconnectServiceFromUser(QObject *user);
-    QObject*            getLibraryQObject();
-    QString               getServiceVersion() const;
+    QObject*                getLibraryQObject();
+    QString                 getServiceVersion() const;
 
 private:
     static  QNetworkAccessManager*  instance;
-    QNetworkAccessManager*  getInstance();
+    QNetworkAccessManager*          getInstance();
     QHash<int, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*, int, void *)>       httpMethods;
 
 private slots:
