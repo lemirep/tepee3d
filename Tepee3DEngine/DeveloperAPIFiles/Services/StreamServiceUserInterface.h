@@ -13,7 +13,7 @@ public :
     //void executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject* sender, int, void *);
 };
 }
-Q_DECLARE_INTERFACE(Services::StreamServiceUserInterface, "com.tepee3d.Services.WebServiceUserInterface/1.0")
+Q_DECLARE_INTERFACE(Services::StreamServiceUserInterface, "com.tepee3d.Services.StreamServiceUserInterface/1.0")
 
 
 

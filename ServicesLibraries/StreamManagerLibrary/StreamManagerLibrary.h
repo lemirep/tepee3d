@@ -26,7 +26,8 @@ public:
     QString                 getServiceVersion() const;
 private slots:
     void executeStreamRequest(QNetworkRequest request, int requestType,
-                            QDataStream *stream, QObject *sender, int requestId, void *data);
+                              QDataStream *stream, QObject *sender,
+                              int requestId, void *data);
 private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*  getInstance();

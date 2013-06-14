@@ -189,7 +189,7 @@ bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
 {
     // HTTP
     if (qobject_cast<Services::WebServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int, void*)),
+        return QObject::disconnect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int, void*)),
                          this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int, void*)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
