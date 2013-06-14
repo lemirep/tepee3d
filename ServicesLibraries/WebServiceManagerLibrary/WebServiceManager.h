@@ -47,6 +47,7 @@ class WebServiceManager : public QObject, Services::ServiceInterface
     Q_PLUGIN_METADATA(IID "com.tepee3d.Services.webservices")
 public:
     WebServiceManager();
+    ~WebServiceManager();
     void          httpGet(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId, void *data);
     void          httpDelete(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId, void *data);
     void          httpPost(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId, void *data);

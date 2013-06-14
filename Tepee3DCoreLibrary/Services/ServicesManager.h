@@ -65,15 +65,16 @@ class ServicesManager : public QObject,
     Q_INTERFACES(Services::WebServiceUserInterface)
 
 public:
+    ~ServicesManager();
     void    exposeContentToQml(QQmlContext *context);
     static  ServicesManager*        getInstance(QObject *parent = 0);
     static  void                    connectObjectToServices(QObject *serviceUser);
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
-    void                           loadServicesLibraries();
+    void                            loadServicesLibraries();
 
-    void                               receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
-    void                               checkForServicesUpdates();
-    void                               downloadServiceFromServer(int serviceId);
+    void                            receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    void                            checkForServicesUpdates();
+    void                            downloadServiceFromServer(int serviceId);
 
 private:
     static ServicesManager          *instance;
@@ -81,8 +82,8 @@ private:
     QList<ServiceInterface*>        services;
     QHash<int, void (ServicesManager::*)(QNetworkReply *, void *)>      webServicesCallBacks;
 
-    void                               checkForServicesUpdatesCallBack(QNetworkReply *reply, void *data);
-    void                               dowloadServiceFromServerCallBack(QNetworkReply *reply, void *data);
+    void                            checkForServicesUpdatesCallBack(QNetworkReply *reply, void *data);
+    void                            dowloadServiceFromServerCallBack(QNetworkReply *reply, void *data);
 
 public slots :
     void                            connectObjectToServicesSlot(QObject *serviceUser);

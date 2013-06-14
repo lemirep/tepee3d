@@ -19,13 +19,13 @@ public:
     DatabaseThread();
     ~DatabaseThread();
     void        run();
-    void        stop();
+    Q_INVOKABLE void        stop();
 
-    int               getServiceId() const;
-    void            initLibraryConnection(QObject *parent);
-    bool            connectServiceToUser(QObject *user);
-    bool            disconnectServiceFromUser(QObject *user);
-    QString      getServiceVersion() const;
+    int         getServiceId() const;
+    void        initLibraryConnection(QObject *parent);
+    bool        connectServiceToUser(QObject *user);
+    bool        disconnectServiceFromUser(QObject *user);
+    QString     getServiceVersion() const;
     QObject*    getLibraryQObject();
 
 private slots:

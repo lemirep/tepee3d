@@ -269,6 +269,11 @@ void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, 
  */
 Plugins::PluginManager::~PluginManager()
 {
+    delete this->locallyAvailablePluginsModel;
+    delete this->onlineAvailablePluginsModel;
+    Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
+    Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
+    Plugins::PluginManager::instance = NULL;
 }
 
 /*!

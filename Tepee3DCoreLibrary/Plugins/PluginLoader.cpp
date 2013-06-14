@@ -57,6 +57,9 @@ Plugins::PluginLoader::PluginLoader(QObject *parent) : QObject(parent)
 
 Plugins::PluginLoader::~PluginLoader()
 {
+    for (int i = 0; i < Plugins::PluginLoader::widgetPlugins.size(); i++)
+        delete Plugins::PluginLoader::widgetPlugins.takeFirst();
+    Plugins::PluginLoader::instance = NULL;
 }
 
 

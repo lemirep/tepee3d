@@ -106,6 +106,15 @@ Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
     //    this->loadServicesLibraries();
 }
 
+Services::ServicesManager::~ServicesManager()
+{
+    for (int i = 0; i < this->services.size(); i++)
+    {
+        delete this->services.takeFirst();
+    }
+    Services::ServicesManager::instance = NULL;
+}
+
 /*!
  * Returns the singleton instance of the ServiceManager class. Constructs an instance with \a parent if it hasn't been done before.
  */

@@ -45,12 +45,13 @@ class ServiceInterface
 {
 
 public :
+    virtual                     ~ServiceInterface()  {}
     virtual void                initLibraryConnection(QObject *parent) = 0;
     virtual bool                connectServiceToUser(QObject *user) = 0;
     virtual bool                disconnectServiceFromUser(QObject *user) = 0;
-    virtual int                   getServiceId() const = 0;
-    virtual QString          getServiceVersion() const = 0;
-    virtual QObject*       getLibraryQObject() = 0;
+    virtual int                 getServiceId() const = 0;
+    virtual QString             getServiceVersion() const = 0;
+    virtual QObject*            getLibraryQObject() = 0;
 };
 
 }

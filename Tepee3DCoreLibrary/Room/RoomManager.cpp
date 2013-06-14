@@ -126,6 +126,9 @@ void Room::RoomManager::restoreRooms()
 Room::RoomManager::~RoomManager()
 {
     delete this->roomModel;
+    delete this->roomPrototype;
+    delete this->roomUpdateTimer;
+    Room::RoomManager::instance = NULL;
 }
 
 /*!

@@ -179,7 +179,64 @@ void TestUnit::releaseServiceManager()
 }
 
 
+// FULL ENGINE TEST
 
+void TestUnit::initCoreManager()
+{
+    // INIT PLATFORM
+    QVERIFY(PlatformFactory::getPlatformInitializer()->initPlatform() == true);
+
+    this->pluginManager = Plugins::PluginManager::getInstance(this);
+    QVERIFY(this->pluginManager != NULL);
+
+    this->servicesManager = Services::ServicesManager::getInstance(this);
+    QVERIFY(this->servicesManager != NULL);
+    this->servicesManager->loadServicesLibraries();
+
+    this->roomManager = Room::RoomManager::getInstance(this);
+    QVERIFY(this->roomManager != NULL);
+
+    this->viewManager = View::QmlViewProperties::getInstance(this);
+    QVERIFY(this->viewManager != NULL);
+}
+
+void TestUnit::initManagers()
+{
+    // CONNECT THE SERVICE MANAGER TO THE SERVICES
+    Services::ServicesManager::connectObjectToServices(this->servicesManager);
+    // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
+    Services::ServicesManager::connectObjectToServices(this->roomManager);
+    // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
+    Services::ServicesManager::connectObjectToServices(this->pluginManager);
+
+    // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
+    View::QmlViewProperties::exposeContentToQml(this->roomManager);
+    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
+    View::QmlViewProperties::exposeContentToQml(this->pluginManager);
+}
+
+void TestUnit::launchViewTesting()
+{
+
+}
+
+void TestUnit::launchRoomViewTesting()
+{
+
+}
+
+void TestUnit::launchPluginsViewTesting()
+{
+
+}
+
+void TestUnit::releaseCoreManager()
+{
+    delete this->roomManager;
+    delete this->pluginManager;
+    delete this->servicesManager;
+    delete this->viewManager;
+}
 
 // TEST ROOM DataBase Saving
 

@@ -88,6 +88,8 @@
  */
 
 
+QNetworkAccessManager* WebServiceManager::instance = NULL;
+
 /*!
  * Constructs a WebServiceManager instance.
  */
@@ -97,6 +99,12 @@ WebServiceManager::WebServiceManager() : QObject()
     this->httpMethods[Services::WebServiceUserInterface::Delete] = &WebServiceManager::httpDelete;
     this->httpMethods[Services::WebServiceUserInterface::Post] = &WebServiceManager::httpPost;
     this->httpMethods[Services::WebServiceUserInterface::Put] = &WebServiceManager::httpPut;
+}
+
+WebServiceManager::~WebServiceManager()
+{
+    delete WebServiceManager::instance;
+    WebServiceManager::instance = NULL;
 }
 
 /*!
@@ -229,6 +237,3 @@ QString WebServiceManager::getServiceVersion() const
 {
     return SERVICE_VERSION;
 }
-
-
-QNetworkAccessManager* WebServiceManager::instance = NULL;
