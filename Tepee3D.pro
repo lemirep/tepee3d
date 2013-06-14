@@ -11,17 +11,13 @@ message($$QMAKESPEC)
 CONFIG += ordered
 
 # DOC APPEARS ONLY FOR WINDOWS AND LINUX PLATFORMS
-linux:win32 {
-    !qnx:!android {
-        OTHER_FILES += Documentation/config.qdocconf \
-                       Documentation/install.qdoc \
-                       Documentation/vm_instruction.qdoc \
-                       Documentation/how-to-plugins.qdoc \
-                       Documentation/all_classes.qdoc \
-                       Documentation/index.qdoc
-        SUBDIRS += UnitTests
-}
-}
+SUBDIRS += UnitTests
+OTHER_FILES += Documentation/config.qdocconf \
+               Documentation/install.qdoc \
+               Documentation/vm_instruction.qdoc \
+               Documentation/how-to-plugins.qdoc \
+               Documentation/all_classes.qdoc \
+               Documentation/index.qdoc
 
 #OTHER_FILES += \
 #    android/src/org/kde/necessitas/ministro/IMinistro.aidl \
@@ -55,7 +51,6 @@ linux:win32 {
 #    bar-descriptor.xml
 
 android {
-
 OTHER_FILES += android/AndroidManifest.xml
 qml_folder.files += Tepee3DEngine/qml/
 qml_folder.files += Tepee3DEngine/plugins_qml/
