@@ -196,8 +196,8 @@ void TestUnit::initCoreManager()
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
 
-    this->viewManager = View::QmlViewProperties::getInstance(this);
-    QVERIFY(this->viewManager != NULL);
+//    this->viewManager = View::QmlViewProperties::getInstance(this);
+//    QVERIFY(this->viewManager != NULL);
 }
 
 void TestUnit::initManagers()
@@ -210,9 +210,9 @@ void TestUnit::initManagers()
     Services::ServicesManager::connectObjectToServices(this->pluginManager);
 
     // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
-    View::QmlViewProperties::exposeContentToQml(this->roomManager);
-    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
-    View::QmlViewProperties::exposeContentToQml(this->pluginManager);
+//    View::QmlViewProperties::exposeContentToQml(this->roomManager);
+//    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
+//    View::QmlViewProperties::exposeContentToQml(this->pluginManager);
 }
 
 void TestUnit::launchViewTesting()
@@ -235,7 +235,7 @@ void TestUnit::releaseCoreManager()
     delete this->roomManager;
     delete this->pluginManager;
     delete this->servicesManager;
-    delete this->viewManager;
+//    delete this->viewManager;
 }
 
 // TEST ROOM DataBase Saving
