@@ -51,7 +51,7 @@ private:
 
 public:
     ~QmlViewProperties();
-    static QmlViewProperties*   getInstance(QObject *parent = 0);
+    static QmlViewProperties*   getInstance(QObject *parent);
     static void                 exposeContentToQml(QObject* exposer);
 
     void                        setViewerSource(const QUrl& sourceFile);
