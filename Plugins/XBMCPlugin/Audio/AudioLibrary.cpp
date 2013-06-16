@@ -127,9 +127,11 @@ void AudioLibrary::retrieveSongsForAlbum(int albumId, void *dataModel)
 {
     QJsonObject requestJson = this->getSongsRequestBaseJSON();
     QJsonObject params = requestJson.take("params").toObject();
+    QJsonObject filter;
 
-    params.insert("albumid", QJsonValue(albumId));
-     requestJson.insert("params", QJsonValue(params));
+    filter.insert("albumid", QJsonValue(albumId));
+    params.insert("filter", QJsonValue(filter));
+    requestJson.insert("params", QJsonValue(params));
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
@@ -137,8 +139,10 @@ void AudioLibrary::retrieveSongsForArtist(int artistId, void *dataModel)
 {
     QJsonObject requestJson = this->getSongsRequestBaseJSON();
     QJsonObject params = requestJson.take("params").toObject();
+    QJsonObject filter;
 
-    params.insert("artistid", QJsonValue(artistId));
+    filter.insert("artistid", QJsonValue(artistId));
+    params.insert("filter", QJsonValue(filter));
     requestJson.insert("params", QJsonValue(params));
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
@@ -147,8 +151,10 @@ void AudioLibrary::retrieveSongsForGenre(int genreId, void *dataModel)
 {
     QJsonObject requestJson = this->getSongsRequestBaseJSON();
     QJsonObject params = requestJson.take("params").toObject();
+    QJsonObject filter;
 
-    params.insert("genreid", QJsonValue(genreId));
+    filter.insert("genreid", QJsonValue(genreId));
+    params.insert("filter", QJsonValue(filter));
     requestJson.insert("params", QJsonValue(params));
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO,RETRIEVE_SONGS), dataModel);
 }
@@ -238,7 +244,14 @@ void AudioLibrary::retrieveSongsCallBack(QNetworkReply *reply, void *data)
                     SongModel*  song = this->parseJsonSong(songObj.toObject());
                     if (song != NULL)
                         reinterpret_cast<Models::ListModel*>(data)->appendRow(song);
+                    else
+                        qDebug() << "Song is NULL";
                 }
+            }
+            else
+            {
+                qDebug() << "Not expected json song";
+                qDebug() << jsonResponse.toJson();
             }
         }
     }

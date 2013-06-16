@@ -183,6 +183,16 @@ void Plugins::PluginManager::checkForPluginsUpdates()
                             GET_PLUGINS_UPDATES);
 }
 
+Models::ListModel *Plugins::PluginManager::getLocallyAvailablePlugins() const
+{
+    return Plugins::PluginManager::locallyAvailablePluginsModel;
+}
+
+Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins() const
+{
+    return Plugins::PluginManager::onlineAvailablePluginsModel;
+}
+
 /*!
  * Parses the json list of plugins returned by the Tepee3D server that are available for the current platform.
  */

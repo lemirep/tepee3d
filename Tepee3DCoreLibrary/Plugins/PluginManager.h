@@ -86,6 +86,10 @@ public:
     void                        retrieveOnlinePluginsForCurrentPlatform();
     void                        downloadPluginFromServer(int pluginId);
     void                        checkForPluginsUpdates();
+
+    Models::ListModel*          getLocallyAvailablePlugins() const;
+    Models::ListModel*          getOnlineAvailablePlugins() const;
+
 private:
 
     explicit PluginManager(QObject *parent = 0);

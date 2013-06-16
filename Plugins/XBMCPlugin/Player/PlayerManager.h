@@ -55,7 +55,7 @@ private:
 
     void                    genericCallBack(QNetworkReply *reply, void *data);
     void                    getActivesPlayersCallBack(QNetworkReply *reply, void *data);
-    void                    getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *data);
+    void                    getCurrentlyPlayedItemCallBack(QNetworkReply *reply, void *data);
     void                    getCurrentPlayerStateCallBack(QNetworkReply *reply, void *data);
     PlayableItemModel       *playableItemModelFromType(QString type);
 

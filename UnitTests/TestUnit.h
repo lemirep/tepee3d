@@ -62,6 +62,7 @@ private slots:
 
     //    FULL ENGINE TEST
     void    initCoreManager();
+    void    initDataModels();
     void    initManagers();
     void    launchViewTesting();
     void    launchRoomViewTesting();

@@ -5,7 +5,7 @@ PlayerManager::PlayerManager(QObject *parent) : QObject(parent)
 {
     this->webCallBacks[GENERIC_CALLBACK] = &PlayerManager::genericCallBack;
     this->webCallBacks[GET_ACTIVE_PLAYERS] = &PlayerManager::getActivesPlayersCallBack;
-    this->webCallBacks[GET_PLAYED_ITEM] = &PlayerManager::getCurrentlyPlayerItemCallBack;
+    this->webCallBacks[GET_PLAYED_ITEM] = &PlayerManager::getCurrentlyPlayedItemCallBack;
     this->webCallBacks[GET_PLAYER_STATE] = &PlayerManager::getCurrentPlayerStateCallBack;
     this->currentActivePlayer = -1;
     this->currentlyPlayerItems = new Models::ListModel(new PlayableItemModel());
@@ -230,7 +230,7 @@ PlayableItemModel *PlayerManager::playableItemModelFromType(QString type)
 {
     if (type.compare("movie") == 0)
         return new MovieModel();
-    else if (type.compare("music") == 0)
+    else if (type.compare("song") == 0)
         return new SongModel();
     else if (type.compare("show") == 0)
         return new TVShowEpisodeModel();
@@ -270,7 +270,7 @@ void PlayerManager::getActivesPlayersCallBack(QNetworkReply *reply, void *data)
     }
 }
 
-void PlayerManager::getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *data)
+void PlayerManager::getCurrentlyPlayedItemCallBack(QNetworkReply *reply, void *data)
 {
     Q_UNUSED(data)
     if (reply != NULL)
@@ -283,7 +283,6 @@ void PlayerManager::getCurrentlyPlayerItemCallBack(QNetworkReply *reply, void *d
         {
             this->currentlyPlayerItems->clear();
             QJsonObject item = jsonRep.object().value("result").toObject().value("item").toObject();
-//            qDebug() << "Current Item Call Back " <<  QJsonDocument(item).toJson();
             PlayableItemModel *playableItem = this->playableItemModelFromType(item.value("type").toString());
             if (playableItem != NULL)
             {
@@ -309,7 +308,6 @@ void PlayerManager::getCurrentPlayerStateCallBack(QNetworkReply *reply, void *da
              jsonRep.isObject())
         {
             QJsonObject resultObj = jsonRep.object().value("result").toObject();
-//            qDebug() << "State CallBack " << QJsonDocument(jsonRep).toJson();
             bool oldPlaying = this->isPlayging;
             this->isPlayging = (resultObj.value("speed").toDouble() == 0) ? false : true;
             if (oldPlaying != this->isPlayging)

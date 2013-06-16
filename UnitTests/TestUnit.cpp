@@ -74,10 +74,13 @@ void TestUnit::initServicesManager()
 
 void TestUnit::loadServicesLibraries()
 {
-    QBENCHMARK_ONCE
-    {
-        this->servicesManager->loadServicesLibraries();
-    }
+    QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
+    QEventLoop waitingLoop;
+    QObject::connect(this->servicesManager, SIGNAL(librariesInitialized()), &waitingLoop, SLOT(quit()));
+    this->servicesManager->loadServicesLibraries();
+    waitingLoop.exec();
+    QObject::disconnect(this->servicesManager, SIGNAL(librariesInitialized()), &waitingLoop, SLOT(quit()));
+    QCOMPARE(initializedSignalSpy.count(), 1);
 }
 
 void TestUnit::connectObjectToServices()
@@ -144,6 +147,7 @@ void TestUnit::initPluginManager()
     this->pluginManager = Plugins::PluginManager::getInstance();
     QVERIFY(this->pluginManager != NULL);
     QVERIFY(Plugins::PluginLoader::getWidgetPlugins().size() > 0);
+    QVERIFY(this->pluginManager->getLocallyAvailablePlugins()->rowCount() > 0);
 }
 
 
@@ -185,19 +189,39 @@ void TestUnit::initCoreManager()
 {
     // INIT PLATFORM
     QVERIFY(PlatformFactory::getPlatformInitializer()->initPlatform() == true);
-
-    this->pluginManager = Plugins::PluginManager::getInstance(this);
-    QVERIFY(this->pluginManager != NULL);
-
     this->servicesManager = Services::ServicesManager::getInstance(this);
     QVERIFY(this->servicesManager != NULL);
-    this->servicesManager->loadServicesLibraries();
-
+    this->pluginManager = Plugins::PluginManager::getInstance(this);
+    QVERIFY(this->pluginManager != NULL);
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
+    QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
+//    this->servicesManager->loadServicesLibraries();
+//    while (true)
+//    {
+//        if (initializedSignalSpy.count() > 0)
+//            break;
+//    }
+}
 
-//    this->viewManager = View::QmlViewProperties::getInstance(this);
-//    QVERIFY(this->viewManager != NULL);
+void TestUnit::initDataModels()
+{
+    Room::RoomBase *testRoom = Room::RoomManager::getNewRoomInstance();
+    QVERIFY(testRoom != NULL);
+    Models::SubListedListModel *roomsModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL));
+    QVERIFY(roomsModel != NULL);
+    roomsModel->appendRow(new Models::RoomModelItem(testRoom));
+
+    foreach (Models::ListItem *pluginItem, this->pluginManager->getLocallyAvailablePlugins()->toList())
+    {
+        Plugins::PluginBase *widget = reinterpret_cast<Models::PluginModelItem *>(pluginItem)->getPlugin();
+        QVERIFY(widget != NULL);
+        testRoom->addWidgetToRoom(widget);
+    }
+    QCOMPARE(testRoom->getRoomPluginsModel()->rowCount(), this->pluginManager->getLocallyAvailablePlugins()->rowCount());
+    testRoom->removeWidgetFromRoom(reinterpret_cast<Models::PluginModelItem *>(testRoom->getRoomPluginsModel()->takeRow()));
+    QCOMPARE(testRoom->getRoomPluginsModel()->rowCount(), this->pluginManager->getLocallyAvailablePlugins()->rowCount() - 1);
+    delete testRoom;
 }
 
 void TestUnit::initManagers()
@@ -210,9 +234,9 @@ void TestUnit::initManagers()
     Services::ServicesManager::connectObjectToServices(this->pluginManager);
 
     // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
-//    View::QmlViewProperties::exposeContentToQml(this->roomManager);
-//    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
-//    View::QmlViewProperties::exposeContentToQml(this->pluginManager);
+    View::QmlViewProperties::exposeContentToQml(this->roomManager);
+    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
+    View::QmlViewProperties::exposeContentToQml(this->pluginManager);
 }
 
 void TestUnit::launchViewTesting()
@@ -235,7 +259,7 @@ void TestUnit::releaseCoreManager()
     delete this->roomManager;
     delete this->pluginManager;
     delete this->servicesManager;
-//    delete this->viewManager;
+    //    delete this->viewManager;
 }
 
 // TEST ROOM DataBase Saving
