@@ -137,6 +137,7 @@ Models::ListModel::ListModel(Models::ListItem *prototype, QObject *parent) : QAb
 Models::ListModel::~ListModel()
 {
     delete this->prototype;
+    this->prototype = NULL;
     this->clear();
 }
 

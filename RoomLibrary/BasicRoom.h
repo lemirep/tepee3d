@@ -44,7 +44,7 @@ private:
 
 public:
     BasicRoom();
-    ~BasicRoom();
+    virtual ~BasicRoom();
 
     QObject*                        getObject();
     Room::RoomBase*                 createNewInstance();

@@ -92,6 +92,8 @@ Room::RoomBase::RoomBase() : QObject()
  */
 Room::RoomBase::~RoomBase()
 {
+    qDebug() << "Deleting RoomBase";
+    delete this->roomProperties;
 }
 
 /*!

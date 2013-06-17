@@ -55,6 +55,7 @@ Room::RoomProperties::RoomProperties(QObject *parent) : QObject(parent)
  */
 Room::RoomProperties::~RoomProperties()
 {
+    delete this->pluginsModel;
 }
 
 /*!

@@ -56,7 +56,7 @@ protected:
 
 public:
     RoomBase();
-    ~RoomBase();
+    virtual ~RoomBase();
 
     int                                     getRoomId()        const;
     RoomBase*                               getRoomBase();
