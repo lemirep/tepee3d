@@ -15,6 +15,7 @@
 #define RETRIEVE_TVSHOWS 1
 #define RETRIEVE_TVSHOW_SEASONS 2
 #define RETRIEVE_TVSHOW_EPISODES 3
+#define REFRESH_VIDEO_LIBRARY 4
 
 class VideoLibrary : public QObject, public IWebRequestDispatcher
 {
@@ -29,6 +30,8 @@ public:
     void                retrieveTVShows(void *dataModel);
     void                retrieveTVShowSeasons(int tvShowId, void *dataModel);
     void                retrieveTVShowEpisodes(int tvShowId, int season, void *dataModel);
+    void                refreshVideoLibrary();
+    void                reloadDataModels();
 
     Models::ListModel *getMoviesLibraryModel() const;
     Models::ListModel *getTVShowsLibraryModel() const;
@@ -44,6 +47,7 @@ private:
     void            retrieveTVShowsCallBack(QNetworkReply *reply, void *data);
     void            retrieveTVShowSeasonsCallBack(QNetworkReply *reply, void *data);
     void            retrieveTVShowEpisodesCallBack(QNetworkReply *reply, void *data);
+    void            refreshVideoLibraryCallBack(QNetworkReply *reply, void *data);
 
     TVShowModel *parseTVShow(const QJsonObject& tvShowObj);
     TVShowSeasonModel *parseTVShowSeason(const QJsonObject &tvShowSeasonObj);

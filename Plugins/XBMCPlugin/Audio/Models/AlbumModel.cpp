@@ -36,6 +36,7 @@ AlbumModel::AlbumModel(QObject *parent, int albumId) : Models::SubListedListItem
 AlbumModel::~AlbumModel()
 {
     delete this->songModel;
+    this->songModel = NULL;
 }
 
 int AlbumModel::id() const

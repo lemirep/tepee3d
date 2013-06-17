@@ -6,6 +6,7 @@ VideoLibrary::VideoLibrary(QObject *parent) : QObject(parent)
     this->webCallBacks[RETRIEVE_TVSHOWS] = &VideoLibrary::retrieveTVShowsCallBack;
     this->webCallBacks[RETRIEVE_TVSHOW_SEASONS] = &VideoLibrary::retrieveTVShowSeasonsCallBack;
     this->webCallBacks[RETRIEVE_TVSHOW_EPISODES] = &VideoLibrary::retrieveTVShowEpisodesCallBack;
+    this->webCallBacks[REFRESH_VIDEO_LIBRARY] = &VideoLibrary::refreshVideoLibraryCallBack;
 
     this->tvShowsLibraryModel = new Models::SubListedListModel(new TVShowModel());
     this->moviesLibraryModel = new Models::ListModel(new MovieModel());
@@ -131,6 +132,26 @@ void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, void *dataMo
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOW_EPISODES), dataModel);
 }
 
+void VideoLibrary::refreshVideoLibrary()
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("VideoLibrary.Scan")));
+
+    // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
+    requestJson.insert("id", QJsonValue(QString("refresh")));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, REFRESH_VIDEO_LIBRARY));
+}
+
+void VideoLibrary::reloadDataModels()
+{
+    this->moviesLibraryModel->clear();
+    this->tvShowsLibraryModel->clear();
+    this->retrieveMovies(this->moviesLibraryModel);
+    this->retrieveTVShows(this->tvShowsLibraryModel);
+}
+
 Models::ListModel *VideoLibrary::getMoviesLibraryModel() const
 {
     return this->moviesLibraryModel;
@@ -239,6 +260,21 @@ void VideoLibrary::retrieveTVShowEpisodesCallBack(QNetworkReply *reply, void *da
                     }
                 }
             }
+        }
+    }
+}
+
+void VideoLibrary::refreshVideoLibraryCallBack(QNetworkReply *reply, void *data)
+{
+    Q_UNUSED(data)
+    if (reply != NULL)
+    {
+        QJsonDocument jsonResponse = Utils::QJsonDocumentFromReply(reply);
+        if (!jsonResponse.isNull() && !jsonResponse.isEmpty() && jsonResponse.isObject())
+        {
+            QString result = jsonResponse.object().value("result").toString();
+            if (result.compare("OK") == 0)
+                this->reloadDataModels();
         }
     }
 }

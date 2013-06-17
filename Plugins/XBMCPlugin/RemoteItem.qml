@@ -19,7 +19,7 @@ Item
         Rectangle
         {
             color : "black"
-            opacity : 0.3
+            opacity : 0.1
             anchors.fill: parent
             radius : 5
             smooth : true
@@ -192,7 +192,7 @@ Item
     Rectangle
     {
         color : "black"
-        opacity : 0.3
+        opacity : 0.1
         radius : 5
         smooth : true
         border

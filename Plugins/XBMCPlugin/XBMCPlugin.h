@@ -90,6 +90,7 @@ public:
     Q_INVOKABLE QUrl               getXBMCImageProviderUrl(const QString &imageUrl) const;
     Q_INVOKABLE void               saveXBMCAuthToDatabase();
     Q_INVOKABLE void               getCurrentlyPlayedItem();
+    Q_INVOKABLE void               refreshLibraries();
 
     // FOCUS STATE HANDLERS
     void                        onIdleFocusState();

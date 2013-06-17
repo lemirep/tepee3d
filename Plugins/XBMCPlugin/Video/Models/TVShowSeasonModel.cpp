@@ -9,6 +9,7 @@ TVShowSeasonModel::TVShowSeasonModel(QObject *parent, int seasonId) : Models::Su
 TVShowSeasonModel::~TVShowSeasonModel()
 {
     delete this->episodeModel;
+    this->episodeModel = NULL;
 }
 
 int TVShowSeasonModel::id() const

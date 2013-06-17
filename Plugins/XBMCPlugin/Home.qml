@@ -75,7 +75,14 @@ Item
         {
             anchors.fill: parent
             color : "black"
-            opacity : 0.4
+            opacity : 0.1
+            border
+            {
+                width : 1
+                color : "white"
+            }
+            radius : 5
+            smooth : true
         }
         Image
         {
@@ -118,7 +125,7 @@ Item
                         color: "#006699"
                         source: logo
                         fast : true
-                        spread : 0.3
+                        spread : 0.6
                     }
                 }
             }

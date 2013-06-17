@@ -47,7 +47,9 @@ OTHER_FILES += \
     player_forward.png \
     player_backward.png \
     player_fforward.png \
-    player_fbackward.png
+    player_fbackward.png \
+    AlbumDetailView.qml \
+    ArtistAlbumsView.qml
 
 INCLUDEPATH += $$PWD
 

@@ -43,6 +43,7 @@
 #define RETRIEVE_ARTISTS 1
 #define RETRIEVE_SONGS 2
 #define RETRIEVE_PLAYLIST 3
+#define REFRESH_AUDIO_LIBRARY 4
 
 class AudioLibrary : public QObject, public IWebRequestDispatcher
 {
@@ -58,12 +59,14 @@ public:
     void                      retrieveAudioPlaylist();
     void                      retrieveAllSongs(void *dataModel);
     void                      retrieveSongsForAlbum(int albumId,void *dataModel);
-    void                      retrieveSongsForArtist(int artistId, void *dataModel);
+    void                      retrieveAlbumsForArtist(int artistId, void *dataModel);
     void                      retrieveSongsForGenre(int genreId, void *dataModel);
+    void                      refreshAudioLibrary();
+    void                      reloadDataModels();
 
-    Models::ListModel *getArtistsLibraryModel() const;
-    Models::ListModel *getAlbumsLibraryModel() const;
-    Models::ListModel *getSongsLibraryModel() const;
+    Models::ListModel *       getArtistsLibraryModel() const;
+    Models::ListModel *       getAlbumsLibraryModel() const;
+    Models::ListModel *       getSongsLibraryModel() const;
 
 private:
 
@@ -71,19 +74,20 @@ private:
 
     Models::SubListedListModel  *artistsLibraryModel;
     Models::SubListedListModel  *albumsLibraryModel;
-    Models::ListModel                  *songsLibraryModel;
-    Models::ListModel                  *songsPlayListModel;
+    Models::ListModel           *songsLibraryModel;
+    Models::ListModel           *songsPlayListModel;
 
     void                     retrieveAudioAlbumsCallBack(QNetworkReply *reply, void *data);
     void                     retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data);
     void                     retrieveSongsCallBack(QNetworkReply *reply, void *data);
     void                     retrieveAudioPlaylistCallBack(QNetworkReply *reply, void *data);
+    void                     refreshAudioLibraryCallBack(QNetworkReply *reply, void *data);
 
-    QJsonObject      getSongsRequestBaseJSON();
+    QJsonObject              getSongsRequestBaseJSON();
 
-   AlbumModel*       parseJsonAlbum(const QJsonObject & jsonAlbum);
-   ArtistModel*         parseJsonArtist(const QJsonObject & jsonArtist);
-   SongModel*         parseJsonSong(const QJsonObject & jsonSong);
+   AlbumModel*               parseJsonAlbum(const QJsonObject & jsonAlbum);
+   ArtistModel*              parseJsonArtist(const QJsonObject & jsonArtist);
+   SongModel*                parseJsonSong(const QJsonObject & jsonSong);
 
 signals:
     void                     performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);

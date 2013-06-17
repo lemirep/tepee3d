@@ -29,6 +29,7 @@
 #define ARTISTMODEL_H
 
 #include <SubListedListItem.h>
+#include <SubListedListModel.h>
 #include <ListModel.h>
 #include <QUrl>
 #include <AlbumModel.h>
@@ -79,7 +80,7 @@ private:
     QString m_thumbnail;
     QString m_mood;
 
-    Models::ListModel   *albumsModel;
+    Models::SubListedListModel   *albumsModel;
 };
 
 #endif // ARTISTMODEL_H

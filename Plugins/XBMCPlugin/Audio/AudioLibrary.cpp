@@ -33,6 +33,7 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
     this->webCallBacks[RETRIEVE_ALBUMS] = &AudioLibrary::retrieveAudioAlbumsCallBack;
     this->webCallBacks[RETRIEVE_ARTISTS] = &AudioLibrary::retrieveAudioArtistsCallBack;
     this->webCallBacks[RETRIEVE_SONGS] = &AudioLibrary::retrieveSongsCallBack;
+    this->webCallBacks[REFRESH_AUDIO_LIBRARY] = &AudioLibrary::refreshAudioLibraryCallBack;
 
     this->artistsLibraryModel = new Models::SubListedListModel(new ArtistModel());
     this->albumsLibraryModel = new Models::SubListedListModel(new AlbumModel());
@@ -58,6 +59,7 @@ void AudioLibrary::retrieveAudioAlbums(void *dataModel)
 
     QJsonObject paramObj;
     QJsonArray   properties;
+    QJsonObject sortObj;
 
     properties.prepend(QJsonValue(QString("title")));
     properties.prepend(QJsonValue(QString("artistid")));
@@ -67,6 +69,8 @@ void AudioLibrary::retrieveAudioAlbums(void *dataModel)
     properties.prepend(QJsonValue(QString("thumbnail")));
     properties.prepend(QJsonValue(QString("year")));
     properties.prepend(QJsonValue(QString("mood")));
+    sortObj.insert("order", QJsonValue(QString("ascending")));
+    sortObj.insert("method", QJsonValue(QString("album")));
     paramObj.insert("properties", QJsonValue(properties));
 
     requestJson.insert("params", QJsonValue(paramObj));
@@ -84,12 +88,16 @@ void AudioLibrary::retrieveAudioArtists(void *dataModel)
 
     QJsonObject paramObj;
     QJsonArray   properties;
+    QJsonObject sortObj;
 
     properties.prepend(QJsonValue(QString("thumbnail")));
     properties.prepend(QJsonValue(QString("born")));
     properties.prepend(QJsonValue(QString("mood")));
     properties.prepend(QJsonValue(QString("genre")));
+    sortObj.insert("order", QJsonValue(QString("ascending")));
+    sortObj.insert("method", QJsonValue(QString("artist")));
     paramObj.insert("properties", QJsonValue(properties));
+    paramObj.insert("sort", QJsonValue(sortObj));
     requestJson.insert("params", QJsonValue(paramObj));
     requestJson.insert("id", QJsonValue(QString("artists")));
 
@@ -135,16 +143,33 @@ void AudioLibrary::retrieveSongsForAlbum(int albumId, void *dataModel)
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
-void AudioLibrary::retrieveSongsForArtist(int artistId, void *dataModel)
+void AudioLibrary::retrieveAlbumsForArtist(int artistId, void *dataModel)
 {
-    QJsonObject requestJson = this->getSongsRequestBaseJSON();
-    QJsonObject params = requestJson.take("params").toObject();
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("AudioLibrary.GetAlbums")));
+
+    QJsonObject paramObj;
+    QJsonArray   properties;
     QJsonObject filter;
 
     filter.insert("artistid", QJsonValue(artistId));
-    params.insert("filter", QJsonValue(filter));
-    requestJson.insert("params", QJsonValue(params));
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
+    properties.prepend(QJsonValue(QString("title")));
+    properties.prepend(QJsonValue(QString("artistid")));
+    properties.prepend(QJsonValue(QString("description")));
+    properties.prepend(QJsonValue(QString("genre")));
+    properties.prepend(QJsonValue(QString("rating")));
+    properties.prepend(QJsonValue(QString("thumbnail")));
+    properties.prepend(QJsonValue(QString("year")));
+    properties.prepend(QJsonValue(QString("mood")));
+
+    paramObj.insert("filter", QJsonValue(filter));
+    paramObj.insert("properties", QJsonValue(properties));
+
+    requestJson.insert("params", QJsonValue(paramObj));
+    requestJson.insert("id", QJsonValue(QString("albums")));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_ALBUMS), dataModel);
 }
 
 void AudioLibrary::retrieveSongsForGenre(int genreId, void *dataModel)
@@ -157,6 +182,28 @@ void AudioLibrary::retrieveSongsForGenre(int genreId, void *dataModel)
     params.insert("filter", QJsonValue(filter));
     requestJson.insert("params", QJsonValue(params));
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO,RETRIEVE_SONGS), dataModel);
+}
+
+void AudioLibrary::refreshAudioLibrary()
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("AudioLibrary.Scan")));
+
+    // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
+    requestJson.insert("id", QJsonValue(QString("refresh")));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, REFRESH_AUDIO_LIBRARY));
+}
+
+void AudioLibrary::reloadDataModels()
+{
+    this->albumsLibraryModel->clear();
+    this->artistsLibraryModel->clear();
+    this->songsLibraryModel->clear();
+    this->retrieveAudioAlbums(this->albumsLibraryModel);
+    this->retrieveAudioArtists(this->artistsLibraryModel);
+    this->retrieveAllSongs(this->songsLibraryModel);
 }
 
 Models::ListModel *AudioLibrary::getArtistsLibraryModel() const
@@ -219,7 +266,7 @@ void AudioLibrary::retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data
                     if (artist != NULL)
                     {
                         reinterpret_cast<Models::ListModel*>(data)->appendRow(artist);
-                        this->retrieveSongsForArtist(artist->id(), (void *)artist->submodel());
+                        this->retrieveAlbumsForArtist(artist->id(), (void *)artist->submodel());
                     }
                 }
             }
@@ -259,6 +306,21 @@ void AudioLibrary::retrieveSongsCallBack(QNetworkReply *reply, void *data)
 
 void AudioLibrary::retrieveAudioPlaylistCallBack(QNetworkReply *reply, void *data)
 {
+}
+
+void AudioLibrary::refreshAudioLibraryCallBack(QNetworkReply *reply, void *data)
+{
+    Q_UNUSED(data)
+    if (reply != NULL)
+    {
+        QJsonDocument jsonResponse = Utils::QJsonDocumentFromReply(reply);
+        if (!jsonResponse.isNull() && !jsonResponse.isEmpty() && jsonResponse.isObject())
+        {
+            QString result = jsonResponse.object().value("result").toString();
+            if (result.compare("OK") == 0)
+                this->reloadDataModels();
+        }
+    }
 }
 
 QJsonObject AudioLibrary::getSongsRequestBaseJSON( )

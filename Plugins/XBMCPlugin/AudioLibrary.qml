@@ -46,13 +46,21 @@ Item
                 Rectangle
                 {
                     anchors.fill: parent
-                    color : (top_banner_listview.currentIndex === index) ? "blue" : "black"
-                    opacity : 0.3
+                    color : "black"
+                    opacity : (index === top_banner_listview.currentIndex) ? 0.3 : 0.1
+                    border
+                    {
+                        width : 1
+                        color : "white"
+                    }
                 }
                 Text
                 {
+                    id : text_sort
                     anchors.centerIn: parent
                     text : model.name
+                    color : "white"
+                    font.pixelSize: mainWindow.largeFontSize
                 }
                 MouseArea
                 {

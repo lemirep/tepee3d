@@ -225,6 +225,12 @@ void XBMCPlugin::getCurrentlyPlayedItem()
     this->m_playerManager->getCurrentlyPlayedItem();
 }
 
+void XBMCPlugin::refreshLibraries()
+{
+    this->m_audioLibrary->refreshAudioLibrary();
+    this->m_videoLibrary->refreshVideoLibrary();
+}
+
 void XBMCPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
     Q_UNUSED(result)
@@ -243,18 +249,8 @@ double XBMCPlugin::getPlayerAdvance() const
 
 void XBMCPlugin::updateDataModels()
 {
-    this->m_audioLibrary->getAlbumsLibraryModel()->clear();
-    this->m_audioLibrary->getArtistsLibraryModel()->clear();
-    this->m_audioLibrary->getSongsLibraryModel()->clear();
-    this->m_videoLibrary->getTVShowsLibraryModel()->clear();
-    this->m_videoLibrary->getMoviesLibraryModel()->clear();
-    //    // RETRIEVE VIDEO MEDIAS
-    this->m_videoLibrary->retrieveTVShows(this->m_videoLibrary->getTVShowsLibraryModel());
-    this->m_videoLibrary->retrieveMovies(this->m_videoLibrary->getMoviesLibraryModel());
-    //    // RETRIEVE AUDIO MEDIAS
-    this->m_audioLibrary->retrieveAudioAlbums(this->m_audioLibrary->getAlbumsLibraryModel());
-    this->m_audioLibrary->retrieveAudioArtists(this->m_audioLibrary->getArtistsLibraryModel());
-    this->m_audioLibrary->retrieveAllSongs(this->m_audioLibrary->getSongsLibraryModel());
+    this->m_videoLibrary->reloadDataModels();
+    this->m_audioLibrary->reloadDataModels();
 }
 
 void XBMCPlugin::performJsonRPCRequest(const QJsonObject& request, int requestId, void *data)

@@ -9,6 +9,7 @@ TVShowModel::TVShowModel(QObject *parent, int tvShowId) : Models::SubListedListI
 TVShowModel::~TVShowModel()
 {
     delete this->seasonModels;
+    this->seasonModels = NULL;
 }
 
 int TVShowModel::id() const
