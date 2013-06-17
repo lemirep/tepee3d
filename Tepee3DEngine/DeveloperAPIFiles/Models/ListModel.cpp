@@ -272,7 +272,9 @@ bool        Models::ListModel::removeRow(int row, const QModelIndex &index)
     if (row >= 0 && row < this->items.size())
     {
         beginRemoveRows(index, row, row);
-        delete this->items.takeAt(row);
+        Models::ListItem *item = this->items.takeAt(row);
+        delete item;
+        item = NULL;
         endRemoveRows();
         emit (countChanged(this->rowCount()));
         return true;
@@ -291,7 +293,11 @@ bool        Models::ListModel::removeRows(int row, int count, const QModelIndex 
     {
         beginRemoveRows(index, row, row + count - 1);
         for (int i = 0; i < count; i++)
-            delete this->items.takeAt(row);
+        {
+            Models::ListItem *item = this->items.takeAt(row);
+            delete item;
+            item = NULL;
+        }
         endRemoveRows();
         emit (countChanged(this->rowCount()));
         return true;

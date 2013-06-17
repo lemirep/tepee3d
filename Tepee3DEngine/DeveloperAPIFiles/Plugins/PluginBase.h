@@ -120,7 +120,7 @@ public slots :
     // SLOTS CAN BE VIRTUAL
     virtual void    onRoomEntered();
     virtual void    onRoomLeft();
-    void               setFocusState(Plugins::PluginEnums::PluginState requestedState);
+    void            setFocusState(Plugins::PluginEnums::PluginState requestedState);
 };
 
 }

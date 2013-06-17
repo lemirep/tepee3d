@@ -52,11 +52,8 @@ void TestUnit::takeItemsOnTestModel()
 
 void TestUnit::clearItemOnTestModel()
 {
-    QBENCHMARK_ONCE
-    {
-        this->testModel->clear();
-        QCOMPARE(this->testModel->rowCount(), 0);
-    }
+    this->testModel->clear();
+    QCOMPARE(this->testModel->rowCount(), 0);
 }
 
 void TestUnit::releaseTestModel()
@@ -196,15 +193,15 @@ void TestUnit::initCoreManager()
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
     QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
-//    this->servicesManager->loadServicesLibraries();
-//    while (true)
-//    {
-//        if (initializedSignalSpy.count() > 0)
-//            break;
-//    }
+    this->servicesManager->loadServicesLibraries();
+    //    while (true)
+    //    {
+    //        if (initializedSignalSpy.count() > 0)
+    //            break;
+    //    }
 }
 
-void TestUnit::initDataModels()
+void TestUnit::testRoomLoadingDestroying()
 {
     Room::RoomBase *testRoom = Room::RoomManager::getNewRoomInstance();
     QVERIFY(testRoom != NULL);
@@ -237,6 +234,102 @@ void TestUnit::initManagers()
     View::QmlViewProperties::exposeContentToQml(this->roomManager);
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginManager);
+}
+
+void TestUnit::testAdditionOfPluginsToRooms()
+{
+    this->roomManager->addNewRoom("RoomTest1");
+    this->roomManager->addNewRoom("RoomTest2");
+    this->roomManager->addNewRoom("RoomTest3");
+    this->roomManager->addNewRoom("RoomTest4");
+    QCOMPARE(this->roomManager->getRoomModel()->rowCount(), 4);
+
+    // TEST THAT PLUGINS ARE PROPERLY ADDED TO THE ROOMS
+    foreach (Models::ListItem *roomItem, this->roomManager->getRoomModel()->toList())
+    {
+        Room::RoomBase *room = reinterpret_cast<Models::RoomModelItem *>(roomItem)->getRoom();
+        QVERIFY(room != NULL);
+        this->roomManager->setCurrentRoom(room);
+        QCOMPARE(this->roomManager->getCurrentRoom(), room);
+        this->roomManager->setCurrentRoom(roomItem->id());
+        QCOMPARE(this->roomManager->getCurrentRoom(), room);
+
+        foreach (Models::ListItem *pluginItem, this->pluginManager->getLocallyAvailablePlugins()->toList())
+            this->roomManager->addNewPluginToCurrentRoom(pluginItem->id());
+
+        QCOMPARE(this->roomManager->getCurrentRoom()->getRoomPluginsModel()->rowCount(), this->pluginManager->getLocallyAvailablePlugins()->rowCount());
+    }
+}
+
+void TestUnit::testPluginFocusStates()
+{
+    // CHECK THAT PLUGIN ARE PROPERLY LOADED IN THE ROOM AND CAN ASK FOR FOCUS STATES
+    qRegisterMetaType<Plugins::PluginEnums::PluginState>("Plugins::PluginEnums::PluginState");
+    foreach (Models::ListItem *pluginItem, this->roomManager->getCurrentRoom()->getRoomPluginsModel()->toList())
+    {
+        Plugins::PluginBase *plugin = reinterpret_cast<Models::PluginModelItem *>(pluginItem)->getPlugin();
+        QVERIFY(plugin != NULL);
+        qDebug() << "ID {" << plugin->getPluginId() << "}";
+        qDebug() << "Name {" << plugin->getPluginName() << "}";
+        qDebug() << "Description  {" << plugin->getPluginDescription() << "}";
+
+        QSignalSpy spy(plugin, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)));
+        plugin->askForFocusState(Plugins::PluginEnums::pluginIdleState);
+        plugin->askForFocusState(Plugins::PluginEnums::pluginSelectedState);
+        plugin->askForFocusState(Plugins::PluginEnums::pluginFocusedState);
+        plugin->askForFocusState(Plugins::PluginEnums::pluginSelectedState);
+        plugin->askForFocusState(Plugins::PluginEnums::pluginIdleState);
+        QCOMPARE(spy.count(), 5);
+    }
+
+    Plugins::PluginBase *plugin1 = reinterpret_cast<Models::PluginModelItem *>(this->roomManager->getCurrentRoom()->getRoomPluginsModel()->toList().first())->getPlugin();
+    Plugins::PluginBase *plugin2 = reinterpret_cast<Models::PluginModelItem *>(this->roomManager->getCurrentRoom()->getRoomPluginsModel()->toList().last())->getPlugin();
+
+    QCOMPARE(plugin1->getFocusState(), Plugins::PluginEnums::pluginIdleState);
+    QCOMPARE(plugin2->getFocusState(), Plugins::PluginEnums::pluginIdleState);
+
+    // CHECK THAT IF A PLUGIN IS IN SELECTED AND ANOTHER ASKS IT, THE ASKER GETS THE SELECTED STATE
+    plugin1->askForFocusState(Plugins::PluginEnums::pluginSelectedState);
+    QCOMPARE(plugin1->getFocusState(), Plugins::PluginEnums::pluginSelectedState);
+
+    plugin2->askForFocusState(Plugins::PluginEnums::pluginSelectedState);
+    QCOMPARE(plugin2->getFocusState(), Plugins::PluginEnums::pluginSelectedState);
+    QCOMPARE(plugin1->getFocusState(), Plugins::PluginEnums::pluginIdleState);
+
+    // CHECK THAT IF A PLUGIN IS FOCUSED, NO OTHER PLUGIN CAN BECOME FOCUSED
+    plugin2->askForFocusState(Plugins::PluginEnums::pluginFocusedState);
+    QCOMPARE(plugin2->getFocusState(), Plugins::PluginEnums::pluginFocusedState);
+    plugin1->askForFocusState(Plugins::PluginEnums::pluginFocusedState);
+    QCOMPARE(plugin2->getFocusState(), Plugins::PluginEnums::pluginIdleState);
+    QCOMPARE(plugin1->getFocusState(), Plugins::PluginEnums::pluginFocusedState);
+}
+
+void TestUnit::testRoomEnteringLeavingSignals()
+{
+    // THE CURRENT ROOM IS THE LAST, CHECK THAT IF THE ROOM CHANGES THE roomLeft SIGNAL IS TRIGGERED FOR THE ROOM AND ITS PLUGINS
+    Room::RoomBase *lastRoom = this->roomManager->getCurrentRoom();
+    QSignalSpy roomLeftSigSpy(lastRoom, SIGNAL(roomLeft()));
+    this->roomManager->setCurrentRoom(this->roomManager->getRoomModel()->toList().first()->id());
+    QCOMPARE(roomLeftSigSpy.count(), 1);
+    QSignalSpy roomEnteredSpy(lastRoom, SIGNAL(roomEntered()));
+    this->roomManager->setCurrentRoom(lastRoom);
+    QCOMPARE(roomEnteredSpy.count(), 1);
+}
+
+void TestUnit::testPluginBehaviorOnRoomEnteringLeaving()
+{
+    Plugins::PluginBase *roomPlugin = reinterpret_cast<Models::PluginModelItem *>(this->roomManager->
+                                                                                 getCurrentRoom()->
+                                                                                 getRoomPluginsModel()->
+                                                                                 toList().first())->getPlugin();
+    QVERIFY(roomPlugin != NULL);
+    QSignalSpy pluginEntered(roomPlugin, SIGNAL(roomEntered()));
+    roomPlugin->onRoomEntered();
+    QCOMPARE(pluginEntered.count(), 1);
+
+    QSignalSpy pluginLeft(roomPlugin, SIGNAL(roomLeft()));
+    roomPlugin->onRoomLeft();
+    QCOMPARE(pluginLeft.count(), 1);
 }
 
 void TestUnit::launchViewTesting()

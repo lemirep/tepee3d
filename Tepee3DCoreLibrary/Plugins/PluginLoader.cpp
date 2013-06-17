@@ -57,7 +57,7 @@ Plugins::PluginLoader::PluginLoader(QObject *parent) : QObject(parent)
 
 Plugins::PluginLoader::~PluginLoader()
 {
-    for (int i = 0; i < Plugins::PluginLoader::widgetPlugins.size(); i++)
+    while (!Plugins::PluginLoader::widgetPlugins.empty())
         delete Plugins::PluginLoader::widgetPlugins.takeFirst();
     Plugins::PluginLoader::instance = NULL;
 }
@@ -82,6 +82,10 @@ void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::R
 
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
+    // RM PREVIOUSLY LOADED WIDGETS
+    while (!Plugins::PluginLoader::widgetPlugins.empty())
+        delete Plugins::PluginLoader::widgetPlugins.takeFirst();
+
     QDir    pluginsDir = PlatformFactory::getPlatformInitializer()->getWidgetSharedLibrariesDirectory();
     // LOOP THROUGH EACH FILE OF THE PLUGIN DIR AND LOAD THE PLUGINS
     foreach (QString fileName, pluginsDir.entryList(QDir::Files))
@@ -92,7 +96,7 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
         if (plugin)
         {
             qDebug() << "WIDGET PLUGIN LOADED";
-            widgetPlugins.append(plugin->getPluginBase());
+            Plugins::PluginLoader::widgetPlugins.append(plugin->getPluginBase());
         }
         else
         {
@@ -108,7 +112,7 @@ void    Plugins::PluginLoader::loadWidgetPlugins()
  */
 QList<Plugins::PluginBase*>  Plugins::PluginLoader::getWidgetPlugins()
 {
-    return widgetPlugins;
+    return Plugins::PluginLoader::widgetPlugins;
 }
 
 QString     Plugins::PluginLoader::loadAllPluginForRoom(Room::RoomBase *room)

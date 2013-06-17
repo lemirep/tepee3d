@@ -108,10 +108,8 @@ Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
 
 Services::ServicesManager::~ServicesManager()
 {
-    for (int i = 0; i < this->services.size(); i++)
-    {
+    while (!this->services.empty())
         delete this->services.takeFirst();
-    }
     Services::ServicesManager::instance = NULL;
 }
 

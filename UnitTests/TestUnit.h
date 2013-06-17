@@ -62,8 +62,12 @@ private slots:
 
     //    FULL ENGINE TEST
     void    initCoreManager();
-    void    initDataModels();
+    void    testRoomLoadingDestroying();
     void    initManagers();
+    void    testAdditionOfPluginsToRooms();
+    void    testPluginFocusStates();
+    void    testRoomEnteringLeavingSignals();
+    void    testPluginBehaviorOnRoomEnteringLeaving();
     void    launchViewTesting();
     void    launchRoomViewTesting();
     void    launchPluginsViewTesting();

@@ -393,10 +393,9 @@ void        Room::RoomBase::focusStateChangeRequest(Plugins::PluginEnums::Plugin
         if ((plugin = ((Models::PluginModelItem*)(pluginItem))->getPlugin()) != NULL)
             if (plugin != requester && plugin->getFocusState() != Plugins::PluginEnums::pluginIdleState)
             {
-                if (plugin->getFocusState() == Plugins::PluginEnums::pluginFocusedState)
+                if (plugin->getFocusState() == Plugins::PluginEnums::pluginSelectedState ||
+                        plugin->getFocusState() == Plugins::PluginEnums::pluginFocusedState)
                     plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
-                else if (plugin->getFocusState() == Plugins::PluginEnums::pluginSelectedState)
-                    requestAccepted = false;
                 break;
             }
     }
