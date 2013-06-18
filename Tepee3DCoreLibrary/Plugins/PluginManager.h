@@ -34,6 +34,7 @@
 #include <PluginBase.h>
 #include <QmlContentExposerInterface.h>
 #include <WebServiceUserInterface.h>
+#include <StreamServiceUserInterface.h>
 #include <ListModel.h>
 #include <PluginModelItem.h>
 #include <ListItem.h>
@@ -60,16 +61,20 @@
 #define GET_ONLINE_PLUGINS 0
 #define GET_PLUGINS_UPDATES 1
 #define DOWNLOAD_PLUGIN 2
+#define STREAM_PLUGIN 3
 
 namespace Plugins
 {
 class PluginManager : public QObject,
                       public View::QmlContentExposerInterface,
-                      public Services::WebServiceUserInterface
+                      public Services::WebServiceUserInterface,
+                      public Services::StreamServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
     Q_INTERFACES(Services::WebServiceUserInterface)
+    Q_INTERFACES(Services::StreamServiceUserInterface)
+
 public:
     ~PluginManager();
 
@@ -97,15 +102,21 @@ private:
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
+    QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    streamServicesCallBacks;
 
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    void                        receiveStreamFromRequest(QDataStream *stream, int requestId, void *data);
+
     // CALLBACKS
     void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void                        downloadPluginFromServerCallback(QNetworkReply *reply, void *data);
+
     void                        checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
 
 signals :
     void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
+    void executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject* sender, int, void *data = NULL);
+
 };
 }
 

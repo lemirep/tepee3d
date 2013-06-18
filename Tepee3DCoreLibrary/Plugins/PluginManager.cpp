@@ -70,7 +70,6 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
     this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack;
     this->webServicesCallBacks[DOWNLOAD_PLUGIN] = &Plugins::PluginManager::downloadPluginFromServerCallback;
-    this->webServicesCallBacks[GET_PLUGINS_UPDATES] = &Plugins::PluginManager::checkForPluginsUpdatesCallBack;
     this->loadLocalPlugins();
 }
 
@@ -134,12 +133,19 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
     multiPart->append(httpPart);
 
     // EXECUTE THE REQUEST
-    emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-                            WebServiceUserInterface::Post,
+  emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
+                          WebServiceUserInterface::Post,
                             multiPart,
                             this,
                             DOWNLOAD_PLUGIN);
+   // QDataStream *content = new QDataStream();
+    //emit executeStreamRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
+      //                        1,
+        //                      content,
+          //                    this,
+            //                  STREAM_PLUGIN);
 }
+
 
 /*!
  * Sends a list of the plugins currently installed and asking the server if any was updated.
@@ -247,6 +253,7 @@ void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *rep
         qDebug() << "reply NULL";
 }
 
+
 /*!
  * Callback triggered when checking if downloaded plugins are up to date.
  */
@@ -272,6 +279,14 @@ void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply
 void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
 {
     (this->*this->webServicesCallBacks[requestId])(reply, data);
+}
+
+void Plugins::PluginManager::receiveStreamFromRequest(QDataStream *stream, int requestId, void *data)
+{
+(void) stream;
+(void) requestId;
+(void) data;
+    qDebug() << "receive stream";
 }
 
 /*!

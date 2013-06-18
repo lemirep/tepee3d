@@ -41,6 +41,7 @@
 #include "ServiceInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
+#include "StreamServiceUserInterface.h"
 #include "QmlContentExposerInterface.h"
 #include "PlatformFactory.h"
 
@@ -58,11 +59,14 @@ namespace Services
 
 class ServicesManager : public QObject,
                                           public View::QmlContentExposerInterface,
-                                          public Services::WebServiceUserInterface
+                                          public Services::WebServiceUserInterface,
+                                          public Services::StreamServiceUserInterface
+
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
     Q_INTERFACES(Services::WebServiceUserInterface)
+    Q_INTERFACES(Services::StreamServiceUserInterface)
 
 public:
     ~ServicesManager();
@@ -72,6 +76,7 @@ public:
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
     void                            loadServicesLibraries();
 
+    void                            receiveStreamFromRequest(QDataStream *stream, int requestId, void *data);
     void                            receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
     void                            checkForServicesUpdates();
     void                            downloadServiceFromServer(int serviceId);
@@ -93,6 +98,7 @@ public slots :
 signals :
     void                            librariesInitialized();
     void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
+    void executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject* sender, int, void *data = NULL);
 };
 
 }

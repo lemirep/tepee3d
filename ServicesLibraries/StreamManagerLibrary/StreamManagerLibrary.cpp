@@ -15,7 +15,7 @@ bool  StreamManagerLibrary::connectServiceToUser(QObject *user)
 {
     qDebug() << "Connecting user to StreamServices";
     if (qobject_cast<Services::StreamServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeStreaRequset(const QNetworkRequest&, int, QDataStream*, QObject*, int, void*)),
+        return QObject::connect(user, SIGNAL(executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject*, int, void*)),
                          this, SLOT(executeStreamRequest(QNetworkRequest, int, QDataStream*, QObject*, int, void*)));
     qWarning() << "Object does not implement StreamServiceUserInterface";
     return false;
@@ -48,9 +48,10 @@ void            StreamManagerLibrary::initLibraryConnection(QObject *parent)
     emit (initialized());
 }
 
-void            StreamManagerLibrary::executeStreamRequest(QNetworkRequest request, int requestType, QDataStream *multiPart, QObject *sender, int requestId, void *data)
+void            StreamManagerLibrary::executeStreamRequest(QNetworkRequest request, int requestType, QDataStream *stream, QObject *sender, int requestId, void *data)
 {
     qDebug() << "Executing StreamRequest";
+
 }
 
 /*!

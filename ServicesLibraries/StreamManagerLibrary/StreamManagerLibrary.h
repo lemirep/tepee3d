@@ -31,6 +31,7 @@ private slots:
 private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*  getInstance();
+    signals:
 signals:
     void initialized();
 };
