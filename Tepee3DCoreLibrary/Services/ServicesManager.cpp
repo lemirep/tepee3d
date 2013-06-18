@@ -221,6 +221,14 @@ void    Services::ServicesManager::loadServicesLibraries()
 /*!
  * Implementation required to receive web services response. Mainly used to retrieve service libraries updates.
  */
+
+void Services::ServicesManager::receiveStreamFromRequest(QDataStream *stream, int requestId, void *data)
+{
+    (void) stream;
+    (void) requestId;
+    (void) data;
+}
+
 void Services::ServicesManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
 {
     (this->*this->webServicesCallBacks[requestId])(reply, data);
