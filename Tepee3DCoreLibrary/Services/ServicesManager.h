@@ -92,7 +92,7 @@ public slots :
 
 signals :
     void                            librariesInitialized();
-
+    void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
 };
 
 }
