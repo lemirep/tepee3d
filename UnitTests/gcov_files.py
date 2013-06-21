@@ -23,21 +23,21 @@ def gcov_source_file(file_entry):
             print ex
         
 def main(args):
-    if len(args) == 0:
-        print "Not Enough Args"
+    if len(args) != 1:
+        print "./gcov_files source_dir"
     else:
-        for arg in args:
-            browse_source_dir(arg)
+        arg = args[0]
+        browse_source_dir(arg)
         try:
-            return_value = subprocess.call("lcov --base-directory . --directory . -c -o coverage.info", shell=True)
+            return_value = subprocess.call("lcov --base-directory " + arg + " --directory " + arg + " -c -o " + arg + "/coverage.info", shell=True)
             print "Returned {" + str(return_value) + "}"
             if return_value != 0 :
                 exit(return_value)
-            return_value = subprocess.call("genhtml -o ./coverage -t Coverage coverage.info", shell=True)
+            return_value = subprocess.call("genhtml -o " + arg + "/coverage -t Coverage " + arg + "/coverage.info", shell=True)
             print "Returned {" + str(return_value) + "}"
             if return_value != 0 :
                 exit(return_value)
-            subprocess.call("rm *.gcda *.gcno coverage.info && make clean", shell=True)
+            subprocess.call("cd " + arg + " && rm *.gcda *.gcno coverage.info && make clean", shell=True)
         except OSError as ex:
             print ex;
 
