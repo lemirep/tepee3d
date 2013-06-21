@@ -1,8 +1,10 @@
 #include "TestUnit.h"
 
+// MODELS TESTS
+
 void TestUnit::initTestModel()
 {
-    this->testModel = new Models::ListModel(new Models::PluginModelItem(NULL, NULL));
+    this->testModel = new Models::ListModel(new TestModelItem(-1, NULL));
 }
 
 void TestUnit::appendOnTestModel()
@@ -11,7 +13,7 @@ void TestUnit::appendOnTestModel()
 
     for(int i = 0; i < 10; i++)
     {
-        testItems << new Models::PluginModelItem(NULL, NULL);
+        testItems << new TestModelItem(i, NULL);
     }
     this->testModel->appendRow(testItems.takeFirst());
     QCOMPARE(this->testModel->rowCount(), 1);
@@ -50,10 +52,49 @@ void TestUnit::takeItemsOnTestModel()
 
 }
 
+void TestUnit::triggerItemUpdateOnTestModel()
+{
+    Models::ListItem *item = new TestModelItem(-1, NULL);
+    QVERIFY(item != NULL);
+    QSignalSpy itemUpdateSigSpy(item, SIGNAL(dataChanged()));
+    item->triggerItemUpdate();
+    QCOMPARE(itemUpdateSigSpy.count(), 1);
+}
+
 void TestUnit::clearItemOnTestModel()
 {
     this->testModel->clear();
     QCOMPARE(this->testModel->rowCount(), 0);
+}
+
+void TestUnit::testComparisonOnTestModel()
+{
+    QList<Models::ListItem *> testItems;
+    QString charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    for(int i = 0; i < 30; i++)
+    {
+        TestModelItem *item = new TestModelItem(i, NULL);
+        QString tmData = QString(charset[qrand() % (charset.size() - 1)]);
+        tmData.append(charset[qrand() % (charset.size() - 1)]);
+        tmData.append(charset[qrand() % (charset.size() - 1)]);
+        tmData.append(charset[qrand() % (charset.size() - 1)]);
+        item->setData(tmData);
+        testItems.append(item);
+    }
+    this->testModel->appendRows(testItems);
+    this->testModel->setSorting(true);
+    QList<Models::ListItem *> resultList = this->testModel->toList();
+    QCOMPARE(resultList.size(), 30);
+    QString previous = "";
+    foreach (Models::ListItem *item, resultList)
+    {
+        if (!previous.isEmpty())
+        {
+            qDebug() << reinterpret_cast<TestModelItem *>(item)->getData() << " " << previous << QString::compare(reinterpret_cast<TestModelItem *>(item)->getData(), previous);
+            QVERIFY(QString::compare(reinterpret_cast<TestModelItem *>(item)->getData(), previous) >= 0);
+        }
+        previous = reinterpret_cast<TestModelItem *>(item)->getData();
+    }
 }
 
 void TestUnit::releaseTestModel()
@@ -319,9 +360,9 @@ void TestUnit::testRoomEnteringLeavingSignals()
 void TestUnit::testPluginBehaviorOnRoomEnteringLeaving()
 {
     Plugins::PluginBase *roomPlugin = reinterpret_cast<Models::PluginModelItem *>(this->roomManager->
-                                                                                 getCurrentRoom()->
-                                                                                 getRoomPluginsModel()->
-                                                                                 toList().first())->getPlugin();
+                                                                                  getCurrentRoom()->
+                                                                                  getRoomPluginsModel()->
+                                                                                  toList().first())->getPlugin();
     QVERIFY(roomPlugin != NULL);
     QSignalSpy pluginEntered(roomPlugin, SIGNAL(roomEntered()));
     roomPlugin->onRoomEntered();

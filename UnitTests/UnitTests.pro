@@ -8,9 +8,11 @@ QT += testlib
 
 HEADERS += \
       TestUnit.h
-
 SOURCES += \
     TestUnit.cpp
+
+# Include TestModelItem
+include(./TestClasses/TestClasses.pri);
 
 # Include Shared Development Files
 include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)

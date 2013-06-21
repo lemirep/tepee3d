@@ -236,6 +236,8 @@ void        Models::ListModel::appendRow(Models::ListItem *item)
  */
 void        Models::ListModel::appendRows(QList<Models::ListItem *> &items)
 {
+    if (items.size() == 0)
+        return ;
     // NEEDED TO UPDATE VIEW
     this->beginInsertRows(QModelIndex(), this->rowCount(), this->rowCount() + items.size() - 1);
     foreach(Models::ListItem *item, items)
@@ -321,8 +323,12 @@ bool Models::ListModel::sortingEnabled() const
 
 void Models::ListModel::setSorting(bool value)
 {
+    if (value == this->sortingEnabled())
+        return;
     this->sortEnabled = value;
     emit sortingChanged(value);
+    if (this->sortEnabled)
+        this->sort();
 }
 
 bool compareFunc(void *a, void *b)

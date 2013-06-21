@@ -6,6 +6,7 @@
 #define TESTING
 #endif
 
+#include "TestModelItem.h"
 #include <QtTest/QtTest>
 #include <QList>
 #include <ListModel.h>
@@ -34,7 +35,9 @@ private slots:
     void    appendOnTestModel();
     void    removeOnTestModel();
     void    takeItemsOnTestModel();
+    void    triggerItemUpdateOnTestModel();
     void    clearItemOnTestModel();
+    void    testComparisonOnTestModel();
     void    releaseTestModel();
 
     //    SERVICES
