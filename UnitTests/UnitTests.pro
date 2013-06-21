@@ -28,10 +28,5 @@ linux {
         LIBS += -lgcov
         QMAKE_CXXFLAGS_DEBUG += --coverage
         DEFINES += "COVERAGE_AND_UNITTESTS"
-
-#        target_folder.files += $$SOURCES
-#        target_folder.files += $$HEADERS
-#        target_folder.path = .
-#        INSTALLS += target_folder
     }
 }
