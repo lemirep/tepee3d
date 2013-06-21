@@ -9,6 +9,8 @@
 #include <QtAlgorithms>
 #include "ListItem.h"
 
+bool compareFunc(void *a, void *b);
+
 namespace Models
 {
 
