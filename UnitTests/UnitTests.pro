@@ -23,10 +23,12 @@ include(../Tepee3DCoreLibrary/View/View.pri)
 linux {
 
     QMAKE_CXXFLAGS_DEBUG += -Wundef -Wunused-function -Wunused -Wmissing-declarations
+    QMAKE_CXXFLAGS_RELEASE += -Wundef -Wunused-function -Wunused -Wmissing-declarations
 
     coverage {
         LIBS += -lgcov
         QMAKE_CXXFLAGS_DEBUG += --coverage
+        QMAKE_CXXFLAGS_RELEASE += --coverage
         DEFINES += "COVERAGE_AND_UNITTESTS"
     }
 }
