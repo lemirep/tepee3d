@@ -20,6 +20,9 @@ include(../Tepee3DCoreLibrary/Room/Room.pri)
 include(../Tepee3DCoreLibrary/Plugins/Plugins.pri)
 include(../Tepee3DCoreLibrary/View/View.pri)
 
+
+DEFINES += "COVERAGE_AND_UNITTESTS"
+
 linux {
 
     QMAKE_CXXFLAGS_DEBUG += -Wundef -Wunused-function -Wunused -Wmissing-declarations
@@ -29,6 +32,5 @@ linux {
         LIBS += -lgcov
         QMAKE_CXXFLAGS_DEBUG += --coverage
         QMAKE_CXXFLAGS_RELEASE += --coverage
-        DEFINES += "COVERAGE_AND_UNITTESTS"
     }
 }
