@@ -12,8 +12,6 @@ HEADERS += \
 SOURCES += \
     TestUnit.cpp
 
-DESTDIR         = ../Tepee3DEngine
-
 # Include Shared Development Files
 include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 include(../Tepee3DCoreLibrary/Platforms/Platforms.pri)
@@ -22,4 +20,18 @@ include(../Tepee3DCoreLibrary/Room/Room.pri)
 include(../Tepee3DCoreLibrary/Plugins/Plugins.pri)
 include(../Tepee3DCoreLibrary/View/View.pri)
 
+linux {
 
+    QMAKE_CXXFLAGS_DEBUG += -Wundef -Wunused-function -Wunused -Wmissing-declarations
+
+    coverage {
+        LIBS += -lgcov
+        QMAKE_CXXFLAGS_DEBUG += --coverage
+        DEFINES += "COVERAGE_AND_UNITTESTS"
+
+#        target_folder.files += $$SOURCES
+#        target_folder.files += $$HEADERS
+#        target_folder.path = .
+#        INSTALLS += target_folder
+    }
+}

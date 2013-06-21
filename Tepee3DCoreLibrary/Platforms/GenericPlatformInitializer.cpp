@@ -51,6 +51,10 @@ QDir GenericPlatformInitializer::getDataDirectory() const
         dir.cdUp();
     }
 #endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
+#endif
     return dir;
 }
 
@@ -68,6 +72,10 @@ QDir GenericPlatformInitializer::getServicesSharedLibrariesDirectory() const
         dir.cdUp();
         dir.cdUp();
     }
+#endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
 #endif
     dir.cd(GENERIC_SERVICES_LIBRARIES_DIR);
     return dir;
@@ -88,6 +96,10 @@ QDir GenericPlatformInitializer::getRoomSharedLibraryDirectory() const
         dir.cdUp();
     }
 #endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
+#endif
     dir.cd(GENERIC_ROOM_LIBRARY_DIR);
     return dir;
 }
@@ -95,7 +107,10 @@ QDir GenericPlatformInitializer::getRoomSharedLibraryDirectory() const
 QDir GenericPlatformInitializer::getSharedLibraryDirectory() const
 {
     QDir dir = QCoreApplication::applicationDirPath();
-
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
+#endif
     dir.cd(GENERIC_SHARED_LIBRARIES_DIR);
     return dir;
 }
@@ -114,6 +129,10 @@ QDir GenericPlatformInitializer::getWidgetSharedLibrariesDirectory() const
         dir.cdUp();
         dir.cdUp();
     }
+#endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
 #endif
     dir.cd(GENERIC_WIDGET_LIBRARIES_DIR);
     return dir;

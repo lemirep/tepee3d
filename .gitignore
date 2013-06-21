@@ -15,3 +15,5 @@ Tepee3D_Doc
 Tepee3DEngine/libraries
 Tepee3DEngine/plugins_qml
 android/
+*.gcda
+*.gcno

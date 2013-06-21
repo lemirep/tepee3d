@@ -88,4 +88,3 @@ qnx {
     OTHER_FILES += bar-descriptor.xml
 }
 
-
