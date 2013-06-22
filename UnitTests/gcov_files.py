@@ -6,38 +6,37 @@ import sys
 import os
 
 def browse_source_dir(entry):
-    print "Entry " + entry
-    if os.path.isfile(entry):
-        gcov_source_file(entry);
-    elif os.path.isdir(entry):
-        for file_entry in os.listdir(entry):
-            gcov_source_file(file_entry)
+#    print "Entry " + entry
+    if os.path.isdir(entry):
+        gcov_source_file(entry)
 
-
-def gcov_source_file(file_entry):
-    if file_entry.endswith(".cpp") or file_entry.endswith(".h"):
-        try:
-            return_value = subprocess.call("gcov " + file_entry, shell=True)
-            print "Returned {" + str(return_value) + "}"
-        except OSError as ex:
-            print ex
+def gcov_source_file(folder_entry):
+    try:
+        print "gcov -o " + folder_entry + " *.cpp"
+        return_value = subprocess.call("gcov -o " + folder_entry + " *.cpp", shell=True)
+        print "Returned {" + str(return_value) + "}"
+    except OSError as ex:
+        print ex
         
 def main(args):
-    if len(args) != 1:
-        print "./gcov_files source_dir"
+    if len(args) <= 1:
+        print "./gcov_files source_dir source_dir ..."
     else:
-        arg = args[0]
-        browse_source_dir(arg)
         try:
-            return_value = subprocess.call("lcov --base-directory " + arg + " --directory " + arg + " -c -o " + arg + "/coverage.info", shell=True)
-            print "Returned {" + str(return_value) + "}"
-            if return_value != 0 :
-                exit(return_value)
+            arg = args[0]
+            for path in args:
+                return_value = subprocess.call("lcov --base-directory " + path + " --directory " + path + " -c -o " + path + "/coverage.info", shell=True)
+                print "Returned {" + str(return_value) + "}"
+                if not path is arg:
+                    subprocess.call("cat " + path + "/coverage.info >> " + arg + "/coverage.info", shell=True)
+
+            print "genhtml -o " + arg + "/coverage -t Coverage " + arg + "/coverage.info"
             return_value = subprocess.call("genhtml -o " + arg + "/coverage -t Coverage " + arg + "/coverage.info", shell=True)
             print "Returned {" + str(return_value) + "}"
             if return_value != 0 :
                 exit(return_value)
-            subprocess.call("cd " + arg + " && rm *.gcda *.gcno coverage.info && make clean", shell=True)
+            for path in args:
+                subprocess.call("cd " + path + " && rm *.gcda *.gcno coverage.info && make clean", shell=True)
         except OSError as ex:
             print ex;
 
