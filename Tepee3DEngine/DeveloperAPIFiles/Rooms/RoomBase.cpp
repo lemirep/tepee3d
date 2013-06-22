@@ -93,6 +93,9 @@ Room::RoomBase::RoomBase() : QObject()
 Room::RoomBase::~RoomBase()
 {
     qDebug() << "Deleting RoomBase";
+    QList<Models::ListItem *> plugins = this->roomProperties->getRoomPluginsModel()->toList();
+    foreach (Models::ListItem *widget, plugins)
+        this->removeWidgetFromRoom(reinterpret_cast<Models::PluginModelItem *>(widget));
     delete this->roomProperties;
 }
 
@@ -297,7 +300,6 @@ void        Room::RoomBase::removeWidgetFromRoom(Models::PluginModelItem *plugin
     QObject::disconnect(this, SIGNAL(roomLeft()), widget, SIGNAL(roomLeft()));
     QObject::disconnect(widget, SIGNAL(askForFocusState(Plugins::PluginEnums::PluginState,QObject*)),
                         this, SLOT(focusStateChangeRequest(Plugins::PluginEnums::PluginState, QObject*)));
-
     this->roomProperties->getRoomPluginsModel()->removeRow(this->roomProperties->getRoomPluginsModel()->getRowFromItem(pluginItem));
     this->placeWidgetsInSpace();
 }

@@ -15,7 +15,7 @@ def browse_source_dir(entry):
 
 
 def gcov_source_file(file_entry):
-    if file_entry.endswith(".cpp"):
+    if file_entry.endswith(".cpp") or file_entry.endswith(".h"):
         try:
             return_value = subprocess.call("gcov " + file_entry, shell=True)
             print "Returned {" + str(return_value) + "}"

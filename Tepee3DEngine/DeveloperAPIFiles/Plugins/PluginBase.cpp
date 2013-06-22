@@ -178,6 +178,7 @@ Plugins::PluginBase::PluginBase() : QObject()
  */
 Plugins::PluginBase::~PluginBase()
 {
+    qDebug() << "Deleting PluginBase";
 }
 
 /*!

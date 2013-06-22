@@ -22,7 +22,7 @@ class TestUnit : public QObject
     Q_OBJECT
 
 private:
-    Models::ListModel           *testModel;
+    Models::SubListedListModel  *testModel;
     Services::ServicesManager   *servicesManager;
     Room::RoomManager           *roomManager;
     Plugins::PluginManager      *pluginManager;
@@ -38,6 +38,8 @@ private slots:
     void    triggerItemUpdateOnTestModel();
     void    clearItemOnTestModel();
     void    testComparisonOnTestModel();
+    void    findItemsInTestModel();
+    void    retrieveSubModelInTestModel();
     void    releaseTestModel();
 
     //    SERVICES

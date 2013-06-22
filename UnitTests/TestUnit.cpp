@@ -4,7 +4,7 @@
 
 void TestUnit::initTestModel()
 {
-    this->testModel = new Models::ListModel(new TestModelItem(-1, NULL));
+    this->testModel = new Models::SubListedListModel(new TestModelItem(-1, NULL));
 }
 
 void TestUnit::appendOnTestModel()
@@ -20,6 +20,13 @@ void TestUnit::appendOnTestModel()
     this->testModel->appendRows(testItems);
     QCOMPARE(this->testModel->rowCount(), testItems.size() + 1);
 
+    TestModelItem *item = new TestModelItem(10);
+    TestModelItem *item2 = new TestModelItem(11);
+    this->testModel->insertRow(900, NULL);
+    this->testModel->insertRow(900, item);
+    QCOMPARE(this->testModel->rowIndexFromId(10), 10);
+    this->testModel->insertRow(5, item2);
+    QCOMPARE(this->testModel->rowIndexFromId(11), 5);
 }
 
 void TestUnit::removeOnTestModel()
@@ -43,13 +50,10 @@ void TestUnit::takeItemsOnTestModel()
 
     takenItems.append(this->testModel->takeRow(this->testModel->rowCount() - 1));
     QVERIFY(takenItems.first() == takenItems.last());
-
-
     oldCount = this->testModel->rowCount();
-
     takenItems = this->testModel->takeRows();
     QCOMPARE(takenItems.size(), oldCount);
-
+    QVERIFY(this->testModel->takeRow(300) == NULL);
 }
 
 void TestUnit::triggerItemUpdateOnTestModel()
@@ -95,6 +99,23 @@ void TestUnit::testComparisonOnTestModel()
         }
         previous = reinterpret_cast<TestModelItem *>(item)->getData();
     }
+}
+
+void TestUnit::findItemsInTestModel()
+{
+    QVERIFY(this->testModel->get(300) != this->testModel->get(10));
+    QCOMPARE(this->testModel->rowIndexFromId(-10), -1);
+    QVERIFY(this->testModel->indexFromItem(this->testModel->toList().last()) != this->testModel->indexFromItem(NULL));
+    QVERIFY(this->testModel->indexFromItem(NULL) == QModelIndex());
+}
+
+void TestUnit::retrieveSubModelInTestModel()
+{
+    QVERIFY(this->testModel->subModelFromId(-5) == NULL);
+    TestModelItem *item = reinterpret_cast<TestModelItem *>(this->testModel->find(10));
+    QVERIFY(item != NULL);
+    QVERIFY(item->submodel() != NULL);
+    QVERIFY(item->submodel() == this->testModel->subModelFromId(item->id()));
 }
 
 void TestUnit::releaseTestModel()
@@ -185,7 +206,12 @@ void TestUnit::initPluginManager()
     this->pluginManager = Plugins::PluginManager::getInstance();
     QVERIFY(this->pluginManager != NULL);
     QVERIFY(Plugins::PluginLoader::getWidgetPlugins().size() > 0);
-    QVERIFY(this->pluginManager->getLocallyAvailablePlugins()->rowCount() > 0);
+    QCOMPARE(this->pluginManager->getLocallyAvailablePlugins()->rowCount(), Plugins::PluginLoader::getWidgetPlugins().size());
+    int previousSize = this->pluginManager->getLocallyAvailablePlugins()->rowCount();
+    this->pluginManager->loadLocalPlugins();
+    qDebug() << "Loaded " << previousSize;
+    QCOMPARE(this->pluginManager->getLocallyAvailablePlugins()->rowCount(), Plugins::PluginLoader::getWidgetPlugins().size());
+    QCOMPARE(this->pluginManager->getLocallyAvailablePlugins()->rowCount(), previousSize);
 }
 
 
@@ -193,6 +219,7 @@ void TestUnit::requestNewPluginInstance()
 {
     QVERIFY(this->pluginManager->getNewInstanceOfPlugin(reinterpret_cast<Plugins::PluginBase*>(NULL)) == NULL);
     QVERIFY(this->pluginManager->getNewInstanceOfPlugin(Plugins::PluginLoader::getWidgetPlugins().first()) != NULL);
+    QVERIFY(this->pluginManager->getNewInstanceOfPlugin(Plugins::PluginLoader::getWidgetPlugins().last()) != NULL);
 }
 
 void TestUnit::initNewPlugin()
@@ -254,7 +281,7 @@ void TestUnit::testRoomLoadingDestroying()
     {
         Plugins::PluginBase *widget = reinterpret_cast<Models::PluginModelItem *>(pluginItem)->getPlugin();
         QVERIFY(widget != NULL);
-        testRoom->addWidgetToRoom(widget);
+        testRoom->addWidgetToRoom(widget->createNewInstance());
     }
     QCOMPARE(testRoom->getRoomPluginsModel()->rowCount(), this->pluginManager->getLocallyAvailablePlugins()->rowCount());
     testRoom->removeWidgetFromRoom(reinterpret_cast<Models::PluginModelItem *>(testRoom->getRoomPluginsModel()->takeRow()));

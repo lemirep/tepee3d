@@ -54,9 +54,11 @@ Models::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *p
  */
 Models::PluginModelItem::~PluginModelItem()
 {
+    // ENSURE THAT THE PLUGIN ABOUT TO BE DELETED IS A PLUGIN CREATED FROM AN INSTANCE OF
+    // A PLUGIN FROM THE PLUGIN LOADER LIST AND NOT A PLUGIN LOADER PLUGIN ITSELF
     qDebug() << "DELETING PLUGIN MODEL ITEM";
-    // THE PLUGIN BASE INSTANCE IS DELETE WHEN THE QML VIEW IS DESTROYED
-//    delete this->plugin;
+    if (this->plugin != NULL)
+        delete this->plugin;
 }
 
 /*!

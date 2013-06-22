@@ -125,6 +125,7 @@ void Room::RoomManager::restoreRooms()
  */
 Room::RoomManager::~RoomManager()
 {
+    this->prepareWidgetsForRemoval();
     delete this->roomModel;
     delete this->roomPrototype;
     delete this->roomUpdateTimer;
@@ -195,6 +196,19 @@ void        Room::RoomManager::placeNewRoomInSpace()
         item->triggerItemUpdate();
     }
     qDebug() << "Placing room in space";
+}
+
+void Room::RoomManager::prepareWidgetsForRemoval()
+{
+    foreach (Models::ListItem *roomItem, this->roomModel->toList())
+        foreach (Models::ListItem *pluginItem,
+                 reinterpret_cast<Models::RoomModelItem *>(roomItem)->
+                 getRoom()->
+                 getRoomPluginsModel()->
+                 toList())
+            Plugins::PluginManager::cleanPluginBeforeRemoval(
+                        reinterpret_cast<Models::PluginModelItem *>
+                        (pluginItem)->getPlugin());
 }
 
 /*!
@@ -272,9 +286,9 @@ void        Room::RoomManager::deleteRoom(int roomModelId)
     if (this->currentRoom != NULL && this->currentRoom->getRoomId() == roomModelId)
         this->setCurrentRoom((Room::RoomBase *)NULL);
 
-    Models::RoomModelItem* roomItem = (Models::RoomModelItem *)(this->roomModel->find(roomModelId));
+    Models::RoomModelItem* roomItem = reinterpret_cast<Models::RoomModelItem *>(
+                this->roomModel->takeRow(this->roomModel->rowIndexFromId(roomModelId)));
     Room::RoomBase* deletedRoom = (roomItem != NULL) ? roomItem->getRoom() : NULL;
-    this->roomModel->removeRow(this->roomModel->getRowFromItem(roomItem), QModelIndex());
     if (deletedRoom != NULL)
     {
         Room::RoomManager::roomInstances--;

@@ -299,6 +299,7 @@ Plugins::PluginManager::~PluginManager()
     Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
     Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
     Plugins::PluginManager::instance = NULL;
+    Plugins::PluginLoader::unloadPlugins();
 }
 
 /*!
@@ -318,11 +319,11 @@ Plugins::PluginManager* Plugins::PluginManager::getInstance(QObject *parent)
  */
 void Plugins::PluginManager::loadLocalPlugins()
 {
-    PluginLoader::loadWidgetPlugins();
     if (Plugins::PluginManager::locallyAvailablePluginsModel == NULL)
         Plugins::PluginManager::locallyAvailablePluginsModel = new Models::ListModel(new Models::PluginModelItem(NULL, NULL));
     else
         Plugins::PluginManager::locallyAvailablePluginsModel->clear();
+    PluginLoader::loadWidgetPlugins();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())
     {
         Plugins::PluginManager::locallyAvailablePluginsModel->appendRow(new Models::PluginModelItem(plugin, this));
@@ -374,6 +375,8 @@ void    Plugins::PluginManager::initRoomPlugin(PluginBase *roomPlugin)
  */
 void Plugins::PluginManager::cleanPluginBeforeRemoval(Plugins::PluginBase *roomPlugin)
 {
+    if (roomPlugin == NULL)
+        return ;
     roomPlugin->clearPluginBeforeRemoval();
     Services::ServicesManager::disconnectObjectFromServices(roomPlugin);
 }

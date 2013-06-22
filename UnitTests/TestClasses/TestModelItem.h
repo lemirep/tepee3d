@@ -6,6 +6,7 @@
 
 class TestModelItem : public Models::SubListedListItem
 {
+
 public :
     enum TestModelEnums
     {
@@ -14,8 +15,8 @@ public :
     };
 
 public:
-    TestModelItem(int id, QObject *parent);
-    virtual ~TestModelItem();
+    TestModelItem(int id, QObject *parent = 0);
+    ~TestModelItem();
 
     // SubListedListItem interface
 public:

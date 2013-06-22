@@ -256,6 +256,8 @@ void        Models::ListModel::appendRows(QList<Models::ListItem *> &items)
  */
 void       Models::ListModel::insertRow(int row, Models::ListItem *item)
 {
+    if (item == NULL)
+        return ;
     this->beginInsertRows(QModelIndex(), row, row);
     QObject::connect(item, SIGNAL(dataChanged()), this, SLOT(updateItem()));
     this->items.insert(row, item);
@@ -327,8 +329,7 @@ void Models::ListModel::setSorting(bool value)
         return;
     this->sortEnabled = value;
     emit sortingChanged(value);
-    if (this->sortEnabled)
-        this->sort();
+    this->sort();
 }
 
 bool compareFunc(void *a, void *b)
@@ -342,7 +343,6 @@ void Models::ListModel::sort()
 {
     if (this->sortEnabled)
     {
-        qDebug() << "Sort";
         qSort(this->items.begin(), this->items.end(), compareFunc);
         foreach (Models::ListItem *item, this->items)
         {

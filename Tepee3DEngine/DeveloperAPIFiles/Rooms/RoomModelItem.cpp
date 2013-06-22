@@ -56,6 +56,8 @@ Models::RoomModelItem::RoomModelItem(Room::RoomBase *room, QObject *parent) : Su
  */
 Models::RoomModelItem::~RoomModelItem()
 {
+    if (this->room != NULL)
+        delete this->room;
 }
 
 /*!

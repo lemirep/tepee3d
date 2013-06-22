@@ -91,6 +91,7 @@ private:
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace();
+    void                    prepareWidgetsForRemoval();
 };
 
 }

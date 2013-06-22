@@ -30,6 +30,7 @@
 
 SerieSubListedItem::SerieSubListedItem(QObject *parent) : Models::SubListedListItem(parent)
 {
+    this->seasonModel = NULL;
 }
 
 SerieSubListedItem::SerieSubListedItem(int tvDbId, QString slug, QString serieName, QString imageUrl,
@@ -55,7 +56,8 @@ SerieSubListedItem::SerieSubListedItem(int tvDbId, QString slug, QString serieNa
 
 SerieSubListedItem::~SerieSubListedItem()
 {
-    delete this->seasonModel;
+    if (this->seasonModel != NULL)
+        delete this->seasonModel;
 }
 
 bool SerieSubListedItem::operator <(const Models::ListItem &nextItem)

@@ -48,26 +48,15 @@
  * case an instance of the given plugin is saved in a list.
  */
 
-Plugins::PluginLoader*   Plugins::PluginLoader::instance = NULL;
 QList<Plugins::PluginBase *> Plugins::PluginLoader::widgetPlugins = QList<Plugins::PluginBase *>();
 
 Plugins::PluginLoader::PluginLoader(QObject *parent) : QObject(parent)
 {
 }
 
-Plugins::PluginLoader::~PluginLoader()
+void Plugins::PluginLoader::unloadPlugins()
 {
-    while (!Plugins::PluginLoader::widgetPlugins.empty())
-        delete Plugins::PluginLoader::widgetPlugins.takeFirst();
-    Plugins::PluginLoader::instance = NULL;
-}
-
-
-Plugins::PluginLoader*   Plugins::PluginLoader::getInstance(QObject *parent)
-{
-    if (Plugins::PluginLoader::instance == NULL)
-        Plugins::PluginLoader::instance = new Plugins::PluginLoader(parent);
-    return Plugins::PluginLoader::instance;
+   Plugins::PluginLoader::widgetPlugins.clear();
 }
 
 void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room)
@@ -83,8 +72,7 @@ void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::R
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
     // RM PREVIOUSLY LOADED WIDGETS
-    while (!Plugins::PluginLoader::widgetPlugins.empty())
-        delete Plugins::PluginLoader::widgetPlugins.takeFirst();
+    Plugins::PluginLoader::unloadPlugins();
 
     QDir    pluginsDir = PlatformFactory::getPlatformInitializer()->getWidgetSharedLibrariesDirectory();
     // LOOP THROUGH EACH FILE OF THE PLUGIN DIR AND LOAD THE PLUGINS

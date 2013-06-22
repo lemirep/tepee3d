@@ -53,12 +53,10 @@ class PluginLoader :  public QObject
 private :
     PluginLoader(QObject *parent = 0); // PRIVATE SO THAT IT CANNOT  BE CALLED
     static QList<PluginBase *>      widgetPlugins; //LIST CONTAINING ALL THE PLUGINS
-    static      PluginLoader*       instance;
 public :
-    ~PluginLoader();
+    static void                     unloadPlugins();
     static void                     loadWidgetPlugins(); //TRIES TO LOAD EVERY PLUGIN IN DIR AND RETURN FALSE IF ERROR OCCURS
     static QList<PluginBase *>      getWidgetPlugins(); // RETURN LIST CONTAINING ALL THE LOADED PLUGINS
-    static PluginLoader*            getInstance(QObject *parent = 0);
     static void                     addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room);
     static QString                  loadAllPluginForRoom(Room::RoomBase *room);
     static QString                  addOrReplacePluginImpl(Plugins::PluginBase *plugin, Room::RoomBase *room);
