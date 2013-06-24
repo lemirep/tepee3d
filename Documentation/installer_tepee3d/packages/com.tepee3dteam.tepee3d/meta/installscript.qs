@@ -19,7 +19,7 @@
             component.addOperation("CreateShortcut", "@TargetDir@/Tepee3DEngine.bat","@DesktopDir@/Tepee3D.lnk");
 	 }
 	 if (installer.value("os") === "x11") {
-            component.addOperation("CreateDesktopEntry", "Tepee3D","Type=1", "Name=Tepee3D", "Exec=@TargetDir@/Tepee3DEngine.sh");
+            component.addOperation("CreateDesktopEntry", "Tepee3D.desktop", "Type=Application Name=Tepee3D Exec=@TargetDir@/Tepee3DEngine.sh Terminal=true");
 	 }
 
      } catch (e) {
