@@ -87,6 +87,7 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     this->viewer = new QQuickView();                     //USED TO DISPLAY QML
     this->qmlEngine = this->viewer->engine();            //RETRIEVED FROM THE VIEWER USED TO INSTANCIATE AND INSERT NEW QML COMPONENTS FROM PLUGINS
     this->qmlContext = this->viewer->rootContext();      //USED TO SET PROPERTIES TO QML FOR MODELS
+    this->qmlEngine->setIncubationController(NULL);
     QObject::connect((QObject*)this->qmlEngine, SIGNAL(quit()), this, SIGNAL(quit()));
     QObject::connect(this->viewer, SIGNAL(closing(QQuickCloseEvent*)), this, SIGNAL(quit()));
 }

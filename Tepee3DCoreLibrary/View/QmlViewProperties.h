@@ -32,6 +32,7 @@
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickItem>
 #include <QQmlContext>
+#include <QQmlEngine>
 #include "QmlContentExposerInterface.h"
 
 namespace View
