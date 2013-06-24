@@ -176,8 +176,18 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
     qDebug() << "Connecting user to WebServices";
     // HTTP
     if (qobject_cast<Services::WebServiceUserInterface*>(user) != NULL)
-        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int, void*)),
-                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int, void*)));
+        return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&,
+                                                                Services::WebServiceUserInterface::WebServiceRequestType,
+                                                                QHttpMultiPart*,
+                                                                QObject*,
+                                                                int,
+                                                                void*)),
+                         this, SLOT(executeHttpRequest(QNetworkRequest,
+                                                       Services::WebServiceUserInterface::WebServiceRequestType,
+                                                       QHttpMultiPart*,
+                                                       QObject*,
+                                                       int,
+                                                       void*)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
 }
@@ -189,8 +199,18 @@ bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
 {
     // HTTP
     if (qobject_cast<Services::WebServiceUserInterface*>(user) != NULL)
-        return QObject::disconnect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject*, int, void*)),
-                         this, SLOT(executeHttpRequest(QNetworkRequest, int, QHttpMultiPart*, QObject*, int, void*)));
+        return QObject::disconnect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&,
+                                                                   Services::WebServiceUserInterface::WebServiceRequestType,
+                                                                   QHttpMultiPart*,
+                                                                   QObject*,
+                                                                   int,
+                                                                   void*)),
+                         this, SLOT(executeHttpRequest(QNetworkRequest,
+                                                       Services::WebServiceUserInterface::WebServiceRequestType,
+                                                       QHttpMultiPart*,
+                                                       QObject*,
+                                                       int,
+                                                       void*)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
 }
@@ -219,7 +239,8 @@ void            WebServiceManager::initLibraryConnection(QObject *parent)
  * \a sender will receive the result of the request along with \a requestId to make it easier to recognize which
  * request it was.
  */
-void            WebServiceManager::executeHttpRequest(QNetworkRequest request, int requestType, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
+void            WebServiceManager::executeHttpRequest(QNetworkRequest request, Services::WebServiceUserInterface::WebServiceRequestType requestType,
+                                                      QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
 {
     (this->*this->httpMethods[requestType])(request, multiPart, sender, requestId, data);
 }

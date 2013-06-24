@@ -88,6 +88,7 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     this->qmlEngine = this->viewer->engine();            //RETRIEVED FROM THE VIEWER USED TO INSTANCIATE AND INSERT NEW QML COMPONENTS FROM PLUGINS
     this->qmlContext = this->viewer->rootContext();      //USED TO SET PROPERTIES TO QML FOR MODELS
     QObject::connect((QObject*)this->qmlEngine, SIGNAL(quit()), this, SIGNAL(quit()));
+    QObject::connect(this->viewer, SIGNAL(closing(QQuickCloseEvent*)), this, SIGNAL(quit()));
 }
 
 /*!
@@ -135,6 +136,6 @@ void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
  */
 void    View::QmlViewProperties::showView()
 {
-//    this->viewer->show();
-    this->viewer->showFullScreen();
+    this->viewer->show();
+//    this->viewer->showFullScreen();
 }

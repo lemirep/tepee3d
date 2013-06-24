@@ -5,15 +5,17 @@ QT       -= gui
 
 CONFIG += qt plugin
 
-TARGET = StreamManagerLibrary
+TARGET = FileDownloaderLibrary
 
-DEFINES += STREAMMANAGERLIBRARY_LIBRARY
+DEFINES += FILEDOWNLOADERLIBRARY_LIBRARY
 
 HEADERS += \
-    StreamManagerLibrary.h
+    FileDownloaderLibrary.h \
+    FileDownloadJob.h
 
 SOURCES += \
-    StreamManagerLibrary.cpp
+    FileDownloaderLibrary.cpp \
+    FileDownloadJob.cpp
 
 DESTDIR = ../../Tepee3DEngine/libraries/services_lib
 

@@ -145,14 +145,14 @@ bool    CoreManager::initView()
     View::QmlViewProperties::exposeContentToQml(this->pluginsManager);
 
     // TELLS ROOM MANAGER TO RESTORE ROOMS
-    this->roomManager->restoreRooms();
+//    this->roomManager->restoreRooms();
 
     qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- >>>>";
 //    this->pluginsManager->checkForPluginsUpdates();
 //    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
-    this->pluginsManager->downloadPluginFromServer(32);
+//    this->pluginsManager->downloadPluginFromServer(32);
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";
 
     // SET STARTING QML FILE
@@ -161,14 +161,21 @@ bool    CoreManager::initView()
 
     if (localFile.isValid())
     {
+        qDebug() << "SETTING VIEW SOURCE";
         this->viewProperties->setViewerSource(localFile);
         this->viewProperties->showView();
         return true;
     }
+    qDebug() << "VIEW SOURCE NOT VALID";
     return false;
 }
 
 void CoreManager::cleanBeforeClosing()
 {
+    qDebug() << "CLEANING BEFORE CLOSING";
+    delete this->roomManager;
+    delete this->pluginsManager;
+    delete this->servicesManager;
+    delete this->viewProperties;
     emit quit();
 }

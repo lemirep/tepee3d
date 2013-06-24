@@ -127,7 +127,7 @@
  */
 
 /*!
- * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
+ * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request, Services::WebServiceUserInterface::WebServiceRequestType requestType, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
  *
  * Emitted when a network \a request needs to be performed, with the \a requestType to identify the type HTTP request and a \a multipart which can be null to transmit
  * data through the request. The reply will be transmitted to \a sender along with the \a data pointer and \a requestId of his choice.

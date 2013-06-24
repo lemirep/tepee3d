@@ -65,10 +65,10 @@ public:
 private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*          getInstance();
-    QHash<int, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*, int, void *)>       httpMethods;
+    QHash<Services::WebServiceUserInterface::WebServiceRequestType, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*, int, void *)>       httpMethods;
 
 private slots:
-    void executeHttpRequest(QNetworkRequest request, int requestType,
+    void executeHttpRequest(QNetworkRequest request, Services::WebServiceUserInterface::WebServiceRequestType requestType,
                             QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data);
 signals:
     void initialized();

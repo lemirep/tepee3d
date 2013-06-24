@@ -56,9 +56,10 @@ class PluginBase : public QObject,
     Q_INTERFACES(Services::WebServiceUserInterface)
     Q_INTERFACES(View::QmlContentExposerInterface)
 
-public:
-
+protected:
+    // PLUGINS CANNOT BE INSTANCIATED DIRECTLY ONLY CREATED BY getPluginBase
     explicit PluginBase();
+public:
     virtual  ~PluginBase();     // AS THE CLASS IS SUBJECT TO DYNAMIC CAST, THIS IS NECESSARY
     virtual int                         getPluginId()                    const  = 0;
     virtual bool                        needsUpdating()                  const;  // BY DEFAULT RETURNS FALSE
@@ -110,7 +111,12 @@ protected:
     // Defines all signals that a plugin can emit or receive
 signals :
     void    executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data = NULL);
-    void    executeHttpRequest(const QNetworkRequest &request, int requestType, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data);
+    void    executeHttpRequest(const QNetworkRequest &request,
+                               Services::WebServiceUserInterface::WebServiceRequestType requestType,
+                               QHttpMultiPart *multipart,
+                               QObject *sender,
+                               int requestId,
+                               void *data);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState, QVariant previousFocusState);
     void    roomEntered();

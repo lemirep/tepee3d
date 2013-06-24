@@ -34,7 +34,7 @@
 #include <PluginBase.h>
 #include <QmlContentExposerInterface.h>
 #include <WebServiceUserInterface.h>
-#include <StreamServiceUserInterface.h>
+#include <FileDownloaderServiceUserInterface.h>
 #include <ListModel.h>
 #include <PluginModelItem.h>
 #include <ListItem.h>
@@ -66,14 +66,14 @@
 namespace Plugins
 {
 class PluginManager : public QObject,
-                      public View::QmlContentExposerInterface,
-                      public Services::WebServiceUserInterface,
-                      public Services::StreamServiceUserInterface
+        public View::QmlContentExposerInterface,
+        public Services::WebServiceUserInterface,
+        public Services::FileDownloaderServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
     Q_INTERFACES(Services::WebServiceUserInterface)
-    Q_INTERFACES(Services::StreamServiceUserInterface)
+    Q_INTERFACES(Services::FileDownloaderServiceUserInterface)
 
 public:
     ~PluginManager();
@@ -105,7 +105,12 @@ private:
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    streamServicesCallBacks;
 
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
-    void                        receiveStreamFromRequest(QDataStream *stream, int requestId, void *data);
+
+    // FileDownloaderServiceUserInterface interface
+    void onDownloadFinished(const QFile &, int requestId, void *data);
+    void onDownloadProgress(const QFile &, int progress, int requestId, void *data);
+    void onDownloadStarted(const QFile &, int requestId, void *data);
+    void onDownloadError(const QFile &, int requestId, void *data);
 
     // CALLBACKS
     void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
@@ -114,8 +119,19 @@ private:
     void                        checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
 
 signals :
-    void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
-    void executeStreamRequest(const QNetworkRequest&, int, QDataStream*, QObject* sender, int, void *data = NULL);
+    void executeHttpRequest(const QNetworkRequest&,
+                            Services::WebServiceUserInterface::WebServiceRequestType,
+                            QHttpMultiPart*,
+                            QObject* sender,
+                            int requestId,
+                            void *data = NULL);
+    void executeFileDownloader(const QNetworkRequest&,
+                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType type,
+                               QHttpMultiPart *multiPart,
+                               QFile &,
+                               QObject* sender,
+                               int requestId,
+                               void *data = NULL);
 
 };
 }

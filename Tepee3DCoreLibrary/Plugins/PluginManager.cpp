@@ -281,12 +281,24 @@ void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, 
     (this->*this->webServicesCallBacks[requestId])(reply, data);
 }
 
-void Plugins::PluginManager::receiveStreamFromRequest(QDataStream *stream, int requestId, void *data)
+void Plugins::PluginManager::onDownloadFinished(const QFile &, int requestId, void *data)
 {
-(void) stream;
-(void) requestId;
-(void) data;
-    qDebug() << "receive stream";
+
+}
+
+void Plugins::PluginManager::onDownloadProgress(const QFile &, int progress, int requestId, void *data)
+{
+
+}
+
+void Plugins::PluginManager::onDownloadStarted(const QFile &, int requestId, void *data)
+{
+
+}
+
+void Plugins::PluginManager::onDownloadError(const QFile &, int requestId, void *data)
+{
+
 }
 
 /*!

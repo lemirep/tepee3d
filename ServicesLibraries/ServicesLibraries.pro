@@ -2,6 +2,6 @@
 TEMPLATE = subdirs
 SUBDIRS = ManageDatabaseService \
           WebServiceManagerLibrary \
-           StreamManagerLibrary
+          FileDownloaderLibrary
 
 OTHER_FILES += Documentation/how_to_service.qdoc

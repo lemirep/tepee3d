@@ -41,7 +41,7 @@
 #include "ServiceInterface.h"
 #include "DatabaseServiceUserInterface.h"
 #include "WebServiceUserInterface.h"
-#include "StreamServiceUserInterface.h"
+#include "FileDownloaderServiceUserInterface.h"
 #include "QmlContentExposerInterface.h"
 #include "PlatformFactory.h"
 
@@ -94,7 +94,12 @@ public slots :
 
 signals :
     void                            librariesInitialized();
-    void executeHttpRequest(const QNetworkRequest&, int, QHttpMultiPart*, QObject* sender, int, void *data = NULL);
+    void executeHttpRequest(const QNetworkRequest&,
+                            Services::WebServiceUserInterface::WebServiceRequestType,
+                            QHttpMultiPart*,
+                            QObject* sender,
+                            int requestId,
+                            void *data = NULL);
 };
 
 }

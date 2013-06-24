@@ -183,7 +183,7 @@ void    Services::ServicesManager::disconnectObjectFromServicesSlot(QObject *ser
 void Services::ServicesManager::libraryInitialized()
 {
     static int initializedLibCount = 0;
-    qDebug() << "Library Initialized Slot Triggered" ;
+    qDebug() << "Library Initialized Slot Triggered" << initializedLibCount;
     initializedLibCount++;
     if (initializedLibCount == this->services.size())
         emit (librariesInitialized());
@@ -204,11 +204,7 @@ void    Services::ServicesManager::loadServicesLibraries()
         QPluginLoader loader(serviceDirectory.absoluteFilePath(filename));
         ServiceInterface* service = qobject_cast<ServiceInterface *>(loader.instance());
         if (service)
-        {
             this->services.push_back(service);
-            service->initLibraryConnection(this);
-            qDebug() << "LIBRARY INITIALIZED";
-        }
         else
         {
             qCritical() << "ERRORS : "<< loader.errorString();
@@ -216,6 +212,8 @@ void    Services::ServicesManager::loadServicesLibraries()
             loader.unload();
         }
     }
+    foreach (ServiceInterface *service, this->services)
+        service->initLibraryConnection(this);
 }
 
 /*!

@@ -28,6 +28,7 @@
 #ifndef ROOMPROPERTIES_H
 #define ROOMPROPERTIES_H
 
+#include <QDebug>
 #include <QVector3D>
 #include <QObject>
 #include "ListModel.h"
