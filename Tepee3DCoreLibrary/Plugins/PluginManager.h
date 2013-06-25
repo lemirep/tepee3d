@@ -62,7 +62,7 @@
 #define GET_PLUGINS_UPDATES 1
 #define DOWNLOAD_PLUGIN 2
 #define STREAM_PLUGIN 3
-
+#define DOWNLOAD_FILE 4
 namespace Plugins
 {
 class PluginManager : public QObject,
@@ -90,6 +90,10 @@ public:
     // WEB SERVICES
     void                        retrieveOnlinePluginsForCurrentPlatform();
     void                        downloadPluginFromServer(int pluginId);
+
+    // FILE DOWNLPAD SERVICE
+    void                        downloadFileFromServer(QString file);
+
     void                        checkForPluginsUpdates();
 
     Models::ListModel*          getLocallyAvailablePlugins() const;

@@ -70,7 +70,35 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
     this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack;
     this->webServicesCallBacks[DOWNLOAD_PLUGIN] = &Plugins::PluginManager::downloadPluginFromServerCallback;
+
     this->loadLocalPlugins();
+}
+
+
+void Plugins::PluginManager::downloadFileFromServer(QString file)
+{
+    qDebug() << "in DownFILE";
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpPart httpPart;
+    httpPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    httpPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"json\""));
+
+    QJsonObject requestObj;
+    QJsonObject commandObj;
+
+    commandObj.insert("command", QJsonValue(QString("downloadFile")));
+    commandObj.insert("file", file);
+    requestObj.insert("request", QJsonValue(commandObj));
+
+    httpPart.setBody(QJsonDocument(requestObj).toJson());
+    multiPart->append(httpPart);
+    QFile test("./test");
+         executeFileDownloader(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
+                               FileDownloaderServiceUserInterface::Post,
+                               multiPart,
+                               test,
+                               this,
+                               DOWNLOAD_FILE);
 }
 
 /*!
