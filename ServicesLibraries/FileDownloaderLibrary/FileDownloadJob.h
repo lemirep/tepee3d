@@ -34,7 +34,7 @@ public :
 
 public slots:
 
-    void onProgress(int received, int total);
+    void onProgress(qint64, qint64);
     void onError(QNetworkReply::NetworkError);
     void onFinished();
     void onReadReady();
