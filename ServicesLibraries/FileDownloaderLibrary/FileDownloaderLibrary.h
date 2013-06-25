@@ -46,9 +46,6 @@ private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*  getInstance();
 
-
-
-    QList<FileDownloadJob *> jobsQueue;
     bool                     downloadInProgress;
 
 

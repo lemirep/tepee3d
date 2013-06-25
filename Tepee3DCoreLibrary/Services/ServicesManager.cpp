@@ -186,7 +186,10 @@ void Services::ServicesManager::libraryInitialized()
     qDebug() << "Library Initialized Slot Triggered" << initializedLibCount;
     initializedLibCount++;
     if (initializedLibCount == this->services.size())
+    {
         emit (librariesInitialized());
+        initializedLibCount = 0;
+    }
 }
 
 /*!

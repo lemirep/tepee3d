@@ -12,8 +12,6 @@ FileDownloaderLibrary::~FileDownloaderLibrary()
         delete FileDownloaderLibrary::instance;
         FileDownloaderLibrary::instance = NULL;
     }
-    while (!this->jobsQueue.empty())
-        delete this->jobsQueue.takeFirst();
 }
 
 QNetworkAccessManager*  FileDownloaderLibrary::getInstance()
@@ -29,18 +27,18 @@ bool  FileDownloaderLibrary::connectServiceToUser(QObject *user)
     if (qobject_cast<Services::FileDownloaderServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeFileDownloader(const QNetworkRequest&,
                                                                    Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                   QHttpMultiPart *multiPart,
+                                                                   QHttpMultiPart *,
                                                                    QFile &,
-                                                                   QObject* sender,
-                                                                   int requestId,
-                                                                   void *data)),
+                                                                   QObject*,
+                                                                   int,
+                                                                   void *)),
                                 this, SLOT(executeFileDownloader(const QNetworkRequest&,
                                                                  Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                 QHttpMultiPart *multiPart,
+                                                                 QHttpMultiPart *,
                                                                  QFile &,
-                                                                 QObject* sender,
-                                                                 int requestId,
-                                                                 void *data)));
+                                                                 QObject* ,
+                                                                 int ,
+                                                                 void *)));
     qWarning() << "Object does not implement FileDownloaderServiceUserInterface";
     return false;
 }
@@ -118,8 +116,8 @@ void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob, con
     {
         currentJob->setReply(reply);
         QObject::connect(reply, SIGNAL(finished()), currentJob, SLOT(onFinished()));
-        QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), currentJob, SLOT(onProgress()));
-        QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), currentJob, SLOT(onError()));
+        QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), currentJob, SLOT(onProgress(int, int)));
+        QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), currentJob, SLOT(onError(QNetworkReply::NetworkError)));
         QObject::connect(reply, SIGNAL(readyRead()), currentJob, SLOT(onReadReady()));
         currentJob->downloadStarted();
     }

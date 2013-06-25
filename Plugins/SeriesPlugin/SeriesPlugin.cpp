@@ -67,7 +67,9 @@ void SeriesPlugin::initPlugin()
     this->retrieveSickBeardConfig();
     this->setPluginState("shows_view");
     this->currentWebQueriesCount = 0;
-    QObject::connect(this, SIGNAL(executeHttpRequest(QNetworkRequest,int,QHttpMultiPart*,QObject*,int,void*)),
+    QObject::connect(this, SIGNAL(executeHttpRequest(QNetworkRequest,
+                                                     Services::WebServiceUserInterface::WebServiceRequestType,
+                                                     QHttpMultiPart*,QObject*,int,void*)),
                      this, SLOT(webQueryEmitted()));
 }
 

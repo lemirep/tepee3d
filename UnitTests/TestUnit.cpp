@@ -260,13 +260,15 @@ void TestUnit::initCoreManager()
     QVERIFY(this->pluginManager != NULL);
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
+    this->viewManager = View::QmlViewProperties::getInstance(this);
     QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
     this->servicesManager->loadServicesLibraries();
-    //    while (true)
-    //    {
-    //        if (initializedSignalSpy.count() > 0)
-    //            break;
-    //    }
+    while (true)
+    {
+        if (initializedSignalSpy.count() > 0)
+            break;
+        qApp->processEvents();
+    }
 }
 
 void TestUnit::testRoomLoadingDestroying()
@@ -402,7 +404,7 @@ void TestUnit::testPluginBehaviorOnRoomEnteringLeaving()
 
 void TestUnit::launchViewTesting()
 {
-
+    this->viewManager->showView();
 }
 
 void TestUnit::launchRoomViewTesting()

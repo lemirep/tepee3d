@@ -97,6 +97,7 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
  */
 View::QmlViewProperties::~QmlViewProperties()
 {
+    this->viewer->close();
     delete this->viewer;
 }
 
