@@ -63,6 +63,7 @@ Item
                 var offsetY = mouseY - savedY;
                 var offsetX = mouseX - savedX;
                 obj.dragMoved(offsetX, offsetY);
+                mouse.accepted = true;
             }
             else if (mainWindow.mouseObjectGrabber)
             {
@@ -73,9 +74,9 @@ Item
         }
         onReleased :
         {
-            mouse.accepted = false
             if (obj)
             {
+                mouse.accepted = true
                 obj.dragEnd();
                 obj.isPressed = false;
             }
