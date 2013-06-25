@@ -38,6 +38,10 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
     this->artistsLibraryModel = new Models::SubListedListModel(new ArtistModel());
     this->albumsLibraryModel = new Models::SubListedListModel(new AlbumModel());
     this->songsLibraryModel = new Models::ListModel(new PlayableItemModel());
+
+    this->m_asyncRequests = 0;
+
+    QObject::connect(this, SIGNAL(asyncRequestChanged()), this, SLOT(checkForRemoval()));
 }
 
 int AudioLibrary::getMajorIDRequestHandled() const
@@ -51,7 +55,7 @@ void AudioLibrary::receiveResultFromHttpRequest(QNetworkReply *reply, int id, vo
 }
 
 
-void AudioLibrary::retrieveAudioAlbums(void *dataModel)
+void AudioLibrary::retrieveAudioAlbums(Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -76,11 +80,11 @@ void AudioLibrary::retrieveAudioAlbums(void *dataModel)
     requestJson.insert("params", QJsonValue(paramObj));
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("albums")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_ALBUMS), dataModel);
 }
 
-void AudioLibrary::retrieveAudioArtists(void *dataModel)
+void AudioLibrary::retrieveAudioArtists(Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -100,38 +104,18 @@ void AudioLibrary::retrieveAudioArtists(void *dataModel)
     paramObj.insert("sort", QJsonValue(sortObj));
     requestJson.insert("params", QJsonValue(paramObj));
     requestJson.insert("id", QJsonValue(QString("artists")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_ARTISTS), dataModel);
 }
 
-void AudioLibrary::retrieveAudioPlaylist()
-{
-    //    QJsonObject requestJson;
-    //    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
-    //    requestJson.insert("method", QJsonValue(QString("AudioLibrary.GetArtists")));
-
-    //    QJsonObject paramObj;
-    //    QJsonArray   properties;
-
-    //    properties.prepend(QJsonValue(QString("thumbnail")));
-    //    properties.prepend(QJsonValue(QString("born")));
-    //    properties.prepend(QJsonValue(QString("mood")));
-    //    properties.prepend(QJsonValue(QString("genre")));
-    //    paramObj.insert("properties", QJsonValue(properties));
-    //    requestJson.insert("params", QJsonValue(paramObj));
-    //    requestJson.insert("id", QJsonValue(QString("artists")));
-
-    //    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(RETRIEVE_ARTISTS));
-}
-
-void AudioLibrary::retrieveAllSongs(void *dataModel)
+void AudioLibrary::retrieveAllSongs(Models::ListModel *dataModel)
 {
     QJsonObject requestJson = this->getSongsRequestBaseJSON();
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
-void AudioLibrary::retrieveSongsForAlbum(int albumId, void *dataModel)
+void AudioLibrary::retrieveSongsForAlbum(int albumId, Models::ListModel *dataModel)
 {
     QJsonObject requestJson = this->getSongsRequestBaseJSON();
     QJsonObject params = requestJson.take("params").toObject();
@@ -140,10 +124,11 @@ void AudioLibrary::retrieveSongsForAlbum(int albumId, void *dataModel)
     filter.insert("albumid", QJsonValue(albumId));
     params.insert("filter", QJsonValue(filter));
     requestJson.insert("params", QJsonValue(params));
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_SONGS), dataModel);
 }
 
-void AudioLibrary::retrieveAlbumsForArtist(int artistId, void *dataModel)
+void AudioLibrary::retrieveAlbumsForArtist(int artistId, Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -168,20 +153,8 @@ void AudioLibrary::retrieveAlbumsForArtist(int artistId, void *dataModel)
 
     requestJson.insert("params", QJsonValue(paramObj));
     requestJson.insert("id", QJsonValue(QString("albums")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, RETRIEVE_ALBUMS), dataModel);
-}
-
-void AudioLibrary::retrieveSongsForGenre(int genreId, void *dataModel)
-{
-    QJsonObject requestJson = this->getSongsRequestBaseJSON();
-    QJsonObject params = requestJson.take("params").toObject();
-    QJsonObject filter;
-
-    filter.insert("genreid", QJsonValue(genreId));
-    params.insert("filter", QJsonValue(filter));
-    requestJson.insert("params", QJsonValue(params));
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO,RETRIEVE_SONGS), dataModel);
 }
 
 void AudioLibrary::refreshAudioLibrary()
@@ -191,16 +164,17 @@ void AudioLibrary::refreshAudioLibrary()
     requestJson.insert("method", QJsonValue(QString("AudioLibrary.Scan")));
 
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
-    requestJson.insert("id", QJsonValue(QString("refresh")));
-
+    //    requestJson.insert("id", QJsonValue(QString("refresh")));
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, REFRESH_AUDIO_LIBRARY));
 }
 
 void AudioLibrary::reloadDataModels()
 {
-    this->albumsLibraryModel->clear();
-    this->artistsLibraryModel->clear();
-    this->songsLibraryModel->clear();
+    // MODELS ARE SAVED IN CASE THEY ARE STILL SYNCHRONOUS REQUESTS GOING ON
+    this->dirtyModelItem.append(this->albumsLibraryModel->takeRows());
+    this->dirtyModelItem.append(this->artistsLibraryModel->takeRows());
+    this->dirtyModelItem.append(this->songsLibraryModel->takeRows());
+
     this->retrieveAudioAlbums(this->albumsLibraryModel);
     this->retrieveAudioArtists(this->artistsLibraryModel);
     this->retrieveAllSongs(this->songsLibraryModel);
@@ -240,11 +214,12 @@ void AudioLibrary::retrieveAudioAlbumsCallBack(QNetworkReply *reply, void *data)
                     if (album != NULL)
                     {
                         reinterpret_cast<Models::ListModel*>(data)->appendRow(album);
-                        this->retrieveSongsForAlbum(album->id(), (void *)album->submodel());
+                        this->retrieveSongsForAlbum(album->id(), album->submodel());
                     }
                 }
             }
         }
+        this->decreaseAsyncRequest();
     }
 }
 
@@ -266,11 +241,12 @@ void AudioLibrary::retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data
                     if (artist != NULL)
                     {
                         reinterpret_cast<Models::ListModel*>(data)->appendRow(artist);
-                        this->retrieveAlbumsForArtist(artist->id(), (void *)artist->submodel());
+                        this->retrieveAlbumsForArtist(artist->id(), artist->submodel());
                     }
                 }
             }
         }
+        this->decreaseAsyncRequest();
     }
 }
 
@@ -301,11 +277,8 @@ void AudioLibrary::retrieveSongsCallBack(QNetworkReply *reply, void *data)
                 qDebug() << jsonResponse.toJson();
             }
         }
+        this->decreaseAsyncRequest();
     }
-}
-
-void AudioLibrary::retrieveAudioPlaylistCallBack(QNetworkReply *reply, void *data)
-{
 }
 
 void AudioLibrary::refreshAudioLibraryCallBack(QNetworkReply *reply, void *data)
@@ -402,3 +375,31 @@ SongModel *AudioLibrary::parseJsonSong(const QJsonObject &jsonSong)
     }
     return NULL;
 }
+
+void AudioLibrary::increaseAsyncRequest()
+{
+    this->m_asyncRequests++;
+    emit asyncRequestChanged();
+}
+
+void AudioLibrary::decreaseAsyncRequest()
+{
+    this->m_asyncRequests--;
+    emit asyncRequestChanged();
+}
+
+void AudioLibrary::checkForRemoval()
+{
+    if (this->m_asyncRequests == 0 && !this->dirtyModelItem.empty())
+    {
+        qDebug() << "Freeing Audio Models >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..";
+        foreach (QList<Models::ListItem *> dirtyList, this->dirtyModelItem)
+        {
+            qDebug() << "AUDIO ";
+            qDebug() << "Items in list " << dirtyList.size();
+//            while (!dirtyList.empty())
+//                delete dirtyList.takeFirst();
+        }
+    }
+}
+

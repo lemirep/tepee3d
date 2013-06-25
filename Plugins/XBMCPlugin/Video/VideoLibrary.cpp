@@ -10,6 +10,8 @@ VideoLibrary::VideoLibrary(QObject *parent) : QObject(parent)
 
     this->tvShowsLibraryModel = new Models::SubListedListModel(new TVShowModel());
     this->moviesLibraryModel = new Models::ListModel(new MovieModel());
+    this->m_asyncRequests = 0;
+    QObject::connect(this, SIGNAL(asyncRequestChanged()), this, SLOT(checkForRemoval()));
 }
 
 int VideoLibrary::getMajorIDRequestHandled() const
@@ -22,7 +24,7 @@ void VideoLibrary::receiveResultFromHttpRequest(QNetworkReply *reply, int id, vo
     (this->*this->webCallBacks[id])(reply, data);
 }
 
-void VideoLibrary::retrieveMovies(void *dataModel)
+void VideoLibrary::retrieveMovies(Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -46,11 +48,11 @@ void VideoLibrary::retrieveMovies(void *dataModel)
     requestJson.insert("params", QJsonValue(paramObj));
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("movies")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_MOVIES), dataModel);
 }
 
-void VideoLibrary::retrieveTVShows(void *dataModel)
+void VideoLibrary::retrieveTVShows(Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -72,11 +74,11 @@ void VideoLibrary::retrieveTVShows(void *dataModel)
     requestJson.insert("params", QJsonValue(paramObj));
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("tvshows")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOWS), dataModel);
 }
 
-void VideoLibrary::retrieveTVShowSeasons(int tvShowId, void *dataModel)
+void VideoLibrary::retrieveTVShowSeasons(int tvShowId, Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -96,11 +98,11 @@ void VideoLibrary::retrieveTVShowSeasons(int tvShowId, void *dataModel)
     requestJson.insert("params", QJsonValue(paramObj));
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("tvshows_seasons")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOW_SEASONS), dataModel);
 }
 
-void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, void *dataModel)
+void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, Models::ListModel *dataModel)
 {
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
@@ -128,7 +130,7 @@ void VideoLibrary::retrieveTVShowEpisodes(int tvShowId, int season, void *dataMo
     requestJson.insert("params", QJsonValue(paramObj));
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("tvshows")));
-
+    this->increaseAsyncRequest();
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, RETRIEVE_TVSHOW_EPISODES), dataModel);
 }
 
@@ -140,14 +142,15 @@ void VideoLibrary::refreshVideoLibrary()
 
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
     requestJson.insert("id", QJsonValue(QString("refresh")));
-
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_VIDEO, REFRESH_VIDEO_LIBRARY));
 }
 
 void VideoLibrary::reloadDataModels()
 {
-    this->moviesLibraryModel->clear();
-    this->tvShowsLibraryModel->clear();
+    // MODELS ARE SAVED IN CASE THEY ARE STILL SYNCHRONOUS REQUESTS GOING ON
+    this->dirtyModelItem.append(this->moviesLibraryModel->takeRows());
+    this->dirtyModelItem.append(this->tvShowsLibraryModel->takeRows());
+
     this->retrieveMovies(this->moviesLibraryModel);
     this->retrieveTVShows(this->tvShowsLibraryModel);
 }
@@ -169,7 +172,7 @@ void VideoLibrary::retrieveMoviesCallBack(QNetworkReply *reply, void *data)
         QJsonDocument jsonResponse = Utils::QJsonDocumentFromReply(reply);
         if (!jsonResponse.isNull() && !jsonResponse.isEmpty() && jsonResponse.isObject())
         {
-//            qDebug() << jsonResponse.toJson();
+            //            qDebug() << jsonResponse.toJson();
             QJsonObject resultObj = jsonResponse.object().value("result").toObject();
             QJsonArray  moviesArray;
             if (!resultObj.isEmpty())
@@ -184,6 +187,7 @@ void VideoLibrary::retrieveMoviesCallBack(QNetworkReply *reply, void *data)
                 }
             }
         }
+        this->decreaseAsyncRequest();
     }
 }
 
@@ -204,12 +208,13 @@ void VideoLibrary::retrieveTVShowsCallBack(QNetworkReply *reply, void *data)
                     TVShowModel *tvShow = this->parseTVShow(tvShowObj.toObject());
                     if (tvShow != NULL)
                     {
-                        this->retrieveTVShowSeasons(tvShow->id(), (void *)tvShow->submodel());
+                        this->retrieveTVShowSeasons(tvShow->id(), tvShow->submodel());
                         reinterpret_cast<Models::ListModel *>(data)->appendRow(tvShow);
                     }
                 }
             }
         }
+        this->decreaseAsyncRequest();
     }
 }
 
@@ -236,6 +241,7 @@ void VideoLibrary::retrieveTVShowSeasonsCallBack(QNetworkReply *reply, void *dat
                 }
             }
         }
+        this->decreaseAsyncRequest();
     }
 }
 
@@ -261,6 +267,7 @@ void VideoLibrary::retrieveTVShowEpisodesCallBack(QNetworkReply *reply, void *da
                 }
             }
         }
+        this->decreaseAsyncRequest();
     }
 }
 
@@ -345,5 +352,31 @@ MovieModel *VideoLibrary::parseMovie(const QJsonObject &movieObj)
         return movie;
     }
     return NULL;
+}
+
+void VideoLibrary::increaseAsyncRequest()
+{
+    this->m_asyncRequests++;
+    emit asyncRequestChanged();
+}
+
+void VideoLibrary::decreaseAsyncRequest()
+{
+    this->m_asyncRequests--;
+    emit asyncRequestChanged();
+}
+
+void VideoLibrary::checkForRemoval()
+{
+    if (this->m_asyncRequests == 0 && !this->dirtyModelItem.empty())
+    {
+        qDebug() << "Freeing Video Models >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..";
+        foreach (QList<Models::ListItem *> dirtyList, this->dirtyModelItem)
+        {
+            qDebug() << "VIDEO TO RREMOVE : " << dirtyList.size();
+            //            while (!dirtyList.empty())
+            //                delete dirtyList.takeFirst();
+        }
+    }
 }
 

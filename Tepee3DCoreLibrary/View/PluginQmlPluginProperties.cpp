@@ -76,7 +76,6 @@ Plugins::PluginQmlPluginProperties::~PluginQmlPluginProperties()
         QObject::disconnect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
         QObject::disconnect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
     }
-    delete this->plugin;
 }
 
 /*!
@@ -145,6 +144,8 @@ void    Plugins::PluginQmlPluginProperties::findPluginForRoomAndPluginId()
     {
         qDebug() << "Plugin and roomId are valid";
         this->plugin = View::ViewToModelMapper::getPluginFromRoom(this->pluginRoomId, this->pluginId);
+        if (this->plugin == NULL)
+            return ;
         QObject::connect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));
         QObject::connect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
         QObject::connect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));

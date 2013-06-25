@@ -42,7 +42,6 @@
 #define RETRIEVE_ALBUMS 0
 #define RETRIEVE_ARTISTS 1
 #define RETRIEVE_SONGS 2
-#define RETRIEVE_PLAYLIST 3
 #define REFRESH_AUDIO_LIBRARY 4
 
 class AudioLibrary : public QObject, public IWebRequestDispatcher
@@ -51,16 +50,14 @@ class AudioLibrary : public QObject, public IWebRequestDispatcher
 public:
     AudioLibrary(QObject *parent = 0);
 
-    int                         getMajorIDRequestHandled() const;
+    int                       getMajorIDRequestHandled() const;
     void                      receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
 
-    void                      retrieveAudioAlbums(void *dataModel);
-    void                      retrieveAudioArtists(void *dataModel);
-    void                      retrieveAudioPlaylist();
-    void                      retrieveAllSongs(void *dataModel);
-    void                      retrieveSongsForAlbum(int albumId,void *dataModel);
-    void                      retrieveAlbumsForArtist(int artistId, void *dataModel);
-    void                      retrieveSongsForGenre(int genreId, void *dataModel);
+    void                      retrieveAudioAlbums(Models::ListModel *dataModel);
+    void                      retrieveAudioArtists(Models::ListModel *dataModel);
+    void                      retrieveAllSongs(Models::ListModel *dataModel);
+    void                      retrieveSongsForAlbum(int albumId, Models::ListModel *dataModel);
+    void                      retrieveAlbumsForArtist(int artistId, Models::ListModel *dataModel);
     void                      refreshAudioLibrary();
     void                      reloadDataModels();
 
@@ -80,7 +77,6 @@ private:
     void                     retrieveAudioAlbumsCallBack(QNetworkReply *reply, void *data);
     void                     retrieveAudioArtistsCallBack(QNetworkReply *reply, void *data);
     void                     retrieveSongsCallBack(QNetworkReply *reply, void *data);
-    void                     retrieveAudioPlaylistCallBack(QNetworkReply *reply, void *data);
     void                     refreshAudioLibraryCallBack(QNetworkReply *reply, void *data);
 
     QJsonObject              getSongsRequestBaseJSON();
@@ -89,8 +85,18 @@ private:
    ArtistModel*              parseJsonArtist(const QJsonObject & jsonArtist);
    SongModel*                parseJsonSong(const QJsonObject & jsonSong);
 
+   int                       m_asyncRequests;
+   QList< QList<Models::ListItem *> > dirtyModelItem;
+
+   void                      increaseAsyncRequest();
+   void                      decreaseAsyncRequest();
+
+private slots:
+   void                      checkForRemoval();
+
 signals:
     void                     performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);
+    void                     asyncRequestChanged();
 };
 
 #endif // AUDIOLIBRARY_H

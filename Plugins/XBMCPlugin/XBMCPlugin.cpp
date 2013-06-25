@@ -29,6 +29,8 @@ XBMCPlugin::~XBMCPlugin()
 {
     delete this->m_audioLibrary;
     delete this->m_videoLibrary;
+    delete this->m_playerManager;
+    delete this->m_remoteManager;
 }
 
 int XBMCPlugin::getPluginId() const
@@ -251,6 +253,7 @@ void XBMCPlugin::updateDataModels()
 {
     this->m_videoLibrary->reloadDataModels();
     this->m_audioLibrary->reloadDataModels();
+    this->m_playerManager->reloadPlaylists();
 }
 
 void XBMCPlugin::performJsonRPCRequest(const QJsonObject& request, int requestId, void *data)

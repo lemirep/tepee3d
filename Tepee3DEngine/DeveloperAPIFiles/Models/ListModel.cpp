@@ -208,7 +208,7 @@ QList<Models::ListItem *> Models::ListModel::takeRows(int row, int count, const 
         row = 0;
     if (count == -1)
         count = this->items.size();
-    if (row >= 0 && (row + count) <= this->items.size())
+    if (row >= 0 && count > 0 && (row + count) <= this->items.size())
     {
         beginRemoveRows(index, row, row + count - 1);
         for (int i = 0; i < count; i++)

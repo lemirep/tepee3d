@@ -23,18 +23,18 @@ class VideoLibrary : public QObject, public IWebRequestDispatcher
 public:
     VideoLibrary(QObject *parent = 0);
 
-    int                     getMajorIDRequestHandled()  const;
-    void                  receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
+    int                 getMajorIDRequestHandled()  const;
+    void                receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
 
-    void                retrieveMovies(void *dataModel);
-    void                retrieveTVShows(void *dataModel);
-    void                retrieveTVShowSeasons(int tvShowId, void *dataModel);
-    void                retrieveTVShowEpisodes(int tvShowId, int season, void *dataModel);
+    void                retrieveMovies(Models::ListModel *dataModel);
+    void                retrieveTVShows(Models::ListModel *dataModel);
+    void                retrieveTVShowSeasons(int tvShowId, Models::ListModel *dataModel);
+    void                retrieveTVShowEpisodes(int tvShowId, int season, Models::ListModel *dataModel);
     void                refreshVideoLibrary();
     void                reloadDataModels();
 
-    Models::ListModel *getMoviesLibraryModel() const;
-    Models::ListModel *getTVShowsLibraryModel() const;
+    Models::ListModel   *getMoviesLibraryModel() const;
+    Models::ListModel   *getTVShowsLibraryModel() const;
 
 private:
 
@@ -42,20 +42,30 @@ private:
 
     Models::ListModel   *moviesLibraryModel;
     Models::ListModel   *tvShowsLibraryModel;
+    int                       m_asyncRequests;
+    QList< QList<Models::ListItem *> > dirtyModelItem;
 
-    void            retrieveMoviesCallBack(QNetworkReply *reply, void *data);
-    void            retrieveTVShowsCallBack(QNetworkReply *reply, void *data);
-    void            retrieveTVShowSeasonsCallBack(QNetworkReply *reply, void *data);
-    void            retrieveTVShowEpisodesCallBack(QNetworkReply *reply, void *data);
-    void            refreshVideoLibraryCallBack(QNetworkReply *reply, void *data);
 
-    TVShowModel *parseTVShow(const QJsonObject& tvShowObj);
-    TVShowSeasonModel *parseTVShowSeason(const QJsonObject &tvShowSeasonObj);
-    TVShowEpisodeModel *parseTVShowEpisode(const QJsonObject &tvShowEpisodeObj);
-    MovieModel *parseMovie(const QJsonObject &movieObj);
+    void                retrieveMoviesCallBack(QNetworkReply *reply, void *data);
+    void                retrieveTVShowsCallBack(QNetworkReply *reply, void *data);
+    void                retrieveTVShowSeasonsCallBack(QNetworkReply *reply, void *data);
+    void                retrieveTVShowEpisodesCallBack(QNetworkReply *reply, void *data);
+    void                refreshVideoLibraryCallBack(QNetworkReply *reply, void *data);
+
+    TVShowModel         *parseTVShow(const QJsonObject& tvShowObj);
+    TVShowSeasonModel   *parseTVShowSeason(const QJsonObject &tvShowSeasonObj);
+    TVShowEpisodeModel  *parseTVShowEpisode(const QJsonObject &tvShowEpisodeObj);
+    MovieModel          *parseMovie(const QJsonObject &movieObj);
+
+    void                      increaseAsyncRequest();
+    void                      decreaseAsyncRequest();
+private slots:
+    void                      checkForRemoval();
 
 signals:
-    void        performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);
+    void                performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);
+    void                asyncRequestChanged();
+
 };
 
 #endif // VIDEOLIBRARY_H

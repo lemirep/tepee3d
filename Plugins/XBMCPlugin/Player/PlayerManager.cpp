@@ -7,8 +7,11 @@ PlayerManager::PlayerManager(QObject *parent) : QObject(parent)
     this->webCallBacks[GET_ACTIVE_PLAYERS] = &PlayerManager::getActivesPlayersCallBack;
     this->webCallBacks[GET_PLAYED_ITEM] = &PlayerManager::getCurrentlyPlayedItemCallBack;
     this->webCallBacks[GET_PLAYER_STATE] = &PlayerManager::getCurrentPlayerStateCallBack;
+    this->webCallBacks[GET_PLAYLISTS] = &PlayerManager::getPlaylistsCallBack;
+    this->webCallBacks[GET_PLAYLIST_ITEMS] = &PlayerManager::getPlaylistItemsCallBack;
     this->currentActivePlayer = -1;
     this->currentlyPlayerItems = new Models::ListModel(new PlayableItemModel());
+    this->playlistsModels = new Models::SubListedListModel(new PlaylistModelItem(NULL));
     this->isPlayging = false;
     this->playerAdvance = 0;
 }
@@ -38,11 +41,50 @@ void PlayerManager::playFile(const QString &file)
 
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
     this->getActivesPlayers();
+    this->reloadPlaylists();
 }
 
 void PlayerManager::addToPlayList(const QString &file)
 {
 
+}
+
+void PlayerManager::reloadPlaylists()
+{
+    this->playlistsModels->clear();
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.GetPlaylists")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYLISTS), (void *)this->playlistsModels);
+}
+
+void PlayerManager::getPlaylistItems(PlaylistModelItem *playlist)
+{
+    playlist->submodel()->clear();
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.GetItems")));
+    requestJson.insert("id", QJsonValue(QString("playlist_items")));
+
+    QJsonObject paramObj;
+    QJsonArray   properties;
+
+    properties.prepend(QString("title"));
+    properties.prepend(QString("file"));
+    properties.prepend(QString("thumbnail"));
+    properties.prepend(QString("rating"));
+    properties.prepend(QString("runtime"));
+    paramObj.insert("playlistid", QJsonValue(playlist->id()));
+    paramObj.insert("properties", QJsonValue(properties));
+    requestJson.insert("params", QJsonValue(paramObj));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYLIST_ITEMS), (void *)playlist->submodel());
+}
+
+Models::ListModel *PlayerManager::getPlaylistsModel() const
+{
+    return this->playlistsModels;
 }
 
 void PlayerManager::pause_resumeCurrentPlayer()
@@ -318,5 +360,40 @@ void PlayerManager::getCurrentPlayerStateCallBack(QNetworkReply *reply, void *da
                 emit playerAdvanceChanged();
             }
         }
+    }
+}
+
+void PlayerManager::getPlaylistsCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL && data != NULL)
+    {
+        QJsonDocument jsonRep = QJsonDocument::fromJson(reply->readAll());
+        if  (!jsonRep.isNull() &&
+             !jsonRep.isEmpty() &&
+             jsonRep.isObject())
+        {
+            QJsonArray resultObj = jsonRep.object().value("result").toArray();
+            foreach (QJsonValue playlistValue, resultObj)
+            {
+                QJsonObject playlistObj = playlistValue.toObject();
+                if (!playlistObj.isEmpty())
+                {
+                    PlaylistModelItem *playlistItem = new PlaylistModelItem(playlistObj.value("playlistid").toDouble(),
+                                                                            PlaylistModelItem::typeFromString(playlistObj.value("type").toString()),
+                                                                            NULL);
+                    this->getPlaylistItems(playlistItem);
+                    reinterpret_cast<Models::ListModel *>(data)->appendRow(playlistItem);
+                }
+            }
+        }
+    }
+}
+
+void PlayerManager::getPlaylistItemsCallBack(QNetworkReply *reply, void *data)
+{
+    if (reply != NULL && data != NULL)
+    {
+        QJsonDocument jsonRep = QJsonDocument::fromJson(reply->readAll());
+        qDebug() << "RESPONSE " << jsonRep.toJson();
     }
 }

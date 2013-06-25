@@ -28,16 +28,23 @@ public:
     RemoteManager(QObject *parent = 0);
     ~RemoteManager();
 
-    void        receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
-    int           getMajorIDRequestHandled() const;
+    void            receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
+    int             getMajorIDRequestHandled() const;
 
-    void        moveKey(int key);
+    void            moveKey(int key);
+
+    void            rebootSystem();
+    void            shutdownSystem();
+    void            suspendSystem();
+    void            hibernateSystem();
+
+
 
 private:
     QHash<NavigationKeys, QString>   webServiceMethods;
-    void        moveKeyCallBack(QNetworkReply *reply);
+    void            moveKeyCallBack(QNetworkReply *reply);
 signals:
-    void                     performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);
+    void            performJsonRPCRequest(const QJsonObject &request, int requestId, void *data = NULL);
 };
 
 #endif // REMOTEMANAGER_H
