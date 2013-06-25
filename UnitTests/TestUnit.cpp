@@ -47,6 +47,7 @@ void TestUnit::takeItemsOnTestModel()
     QCOMPARE(takenItems.size(), 1);
 
     this->testModel->appendRows(takenItems);
+    QCOMPARE(this->testModel->rowCount(), oldCount);
 
     takenItems.append(this->testModel->takeRow(this->testModel->rowCount() - 1));
     QVERIFY(takenItems.first() == takenItems.last());
@@ -404,7 +405,7 @@ void TestUnit::testPluginBehaviorOnRoomEnteringLeaving()
 
 void TestUnit::launchViewTesting()
 {
-    this->viewManager->showView();
+//    this->viewManager->showView();
 }
 
 void TestUnit::launchRoomViewTesting()
