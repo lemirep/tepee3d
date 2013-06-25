@@ -31,7 +31,7 @@ void    FileDownloadJob::downloadStarted()
     reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadStarted(this->file, this->requestId, this->data);
 }
 
-void    FileDownloadJob::onProgress(int received, int total)
+void    FileDownloadJob::onProgress(qint64 received, qint64 total)
 {
     reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadProgress(this->file, (double)received / total * 100, this->requestId, this->data);
 }
@@ -39,18 +39,19 @@ void    FileDownloadJob::onProgress(int received, int total)
 void    FileDownloadJob::onError(QNetworkReply::NetworkError error)
 {
     reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadError(this->file, this->requestId, this->data);
-    qWarning() << error;
+    qWarning() << "Error number : " << error;
 }
 
 void    FileDownloadJob::onFinished()
 {
     reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadFinished(this->file, this->requestId, this->data);
-    // DESTROYS THE OBJECT
+    // DESTROYS THE OBJECT  
     delete this;
 }
 
 void    FileDownloadJob::onReadReady()
 {
+
     const int readBuffSize = 256;
     char buff[readBuffSize];
     int read = 0;

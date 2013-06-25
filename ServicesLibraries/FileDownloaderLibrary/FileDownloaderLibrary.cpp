@@ -116,7 +116,7 @@ void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob, con
     {
         currentJob->setReply(reply);
         QObject::connect(reply, SIGNAL(finished()), currentJob, SLOT(onFinished()));
-        QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), currentJob, SLOT(onProgress(int, int)));
+        QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), currentJob, SLOT(onProgress(qint64, qint64)));
         QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), currentJob, SLOT(onError(QNetworkReply::NetworkError)));
         QObject::connect(reply, SIGNAL(readyRead()), currentJob, SLOT(onReadReady()));
         currentJob->downloadStarted();

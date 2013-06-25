@@ -129,9 +129,9 @@ signals :
                             QObject* sender,
                             int requestId,
                             void *data = NULL);
-    void executeFileDownloader(const QNetworkRequest&,
-                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType type,
-                               QHttpMultiPart *multiPart,
+    void executeFileDownloader(const QNetworkRequest,
+                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
+                               QHttpMultiPart *,
                                QFile &,
                                QObject* sender,
                                int requestId,

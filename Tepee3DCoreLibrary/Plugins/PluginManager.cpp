@@ -94,7 +94,7 @@ void Plugins::PluginManager::downloadFileFromServer(QString file)
     multiPart->append(httpPart);
     QFile test("./test");
          executeFileDownloader(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-                               FileDownloaderServiceUserInterface::Post,
+                             FileDownloaderServiceUserInterface::Post,
                                multiPart,
                                test,
                                this,
@@ -326,7 +326,7 @@ void Plugins::PluginManager::onDownloadStarted(const QFile &, int requestId, voi
 
 void Plugins::PluginManager::onDownloadError(const QFile &, int requestId, void *data)
 {
-
+    qDebug() << "in onDownloadError";
 }
 
 /*!
