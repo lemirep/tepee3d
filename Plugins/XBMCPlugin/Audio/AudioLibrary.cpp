@@ -41,7 +41,7 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
 
     this->m_asyncRequests = 0;
 
-    QObject::connect(this, SIGNAL(asyncRequestChanged()), this, SLOT(checkForRemoval()));
+//    QObject::connect(this, SIGNAL(asyncRequestChanged()), this, SLOT(checkForRemoval()));
 }
 
 int AudioLibrary::getMajorIDRequestHandled() const
@@ -171,9 +171,9 @@ void AudioLibrary::refreshAudioLibrary()
 void AudioLibrary::reloadDataModels()
 {
     // MODELS ARE SAVED IN CASE THEY ARE STILL SYNCHRONOUS REQUESTS GOING ON
-    this->dirtyModelItem.append(this->albumsLibraryModel->takeRows());
-    this->dirtyModelItem.append(this->artistsLibraryModel->takeRows());
-    this->dirtyModelItem.append(this->songsLibraryModel->takeRows());
+//    this->dirtyModelItem.append(this->albumsLibraryModel->takeRows());
+//    this->dirtyModelItem.append(this->artistsLibraryModel->takeRows());
+//    this->dirtyModelItem.append(this->songsLibraryModel->takeRows());
 
     this->retrieveAudioAlbums(this->albumsLibraryModel);
     this->retrieveAudioArtists(this->artistsLibraryModel);
@@ -327,6 +327,7 @@ AlbumModel *AudioLibrary::parseJsonAlbum(const QJsonObject &jsonAlbum)
 {
     if (!jsonAlbum.isEmpty())
     {
+        qDebug() << "Parsing album";
         AlbumModel *album = new AlbumModel(NULL, jsonAlbum.value("albumid").toDouble());
         album->setArtistId(jsonAlbum.value("artistid").toArray().first().toDouble());
         album->setDescription(jsonAlbum.value("description").toString());
@@ -345,6 +346,7 @@ ArtistModel *AudioLibrary::parseJsonArtist(const QJsonObject &jsonArtist)
 {
     if (!jsonArtist.isEmpty())
     {
+        qDebug() << "Parsing artist";
         ArtistModel *artist = new ArtistModel(NULL, jsonArtist.value("artistid").toDouble());
         artist->setArtistName(jsonArtist.value("artist").toString());
         artist->setBirthDate(jsonArtist.value("born").toString());
@@ -360,6 +362,7 @@ SongModel *AudioLibrary::parseJsonSong(const QJsonObject &jsonSong)
 {
     if (!jsonSong.isEmpty())
     {
+        qDebug() << "Parsing song";
         SongModel *song = new SongModel(NULL, jsonSong.value("songid").toDouble());
         song->setAlbumId(jsonSong.value("albumid").toDouble());
         song->setArtistId(jsonSong.value("artistid").toArray().first().toDouble());

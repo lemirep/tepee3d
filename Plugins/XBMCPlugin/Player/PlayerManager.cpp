@@ -57,7 +57,7 @@ void PlayerManager::reloadPlaylists()
     requestJson.insert("method", QJsonValue(QString("Playlist.GetPlaylists")));
     requestJson.insert("id", QJsonValue(QString("playlists")));
 
-    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYLISTS), (void *)this->playlistsModels);
+//    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYLISTS), (void *)this->playlistsModels);
 }
 
 void PlayerManager::getPlaylistItems(PlaylistModelItem *playlist)

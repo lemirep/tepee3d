@@ -33,6 +33,7 @@ OTHER_FILES += \
     empty_cd.png \
     cdbox.png \
     dvdbox.png \
+    smoke.png \
     shadow_separator_h.png \
     JoystickControl.png \
     ArtistLibrary.qml \

@@ -248,7 +248,6 @@ void TestUnit::releaseServiceManager()
     delete this->servicesManager;
 }
 
-
 // FULL ENGINE TEST
 
 void TestUnit::initCoreManager()
@@ -261,7 +260,7 @@ void TestUnit::initCoreManager()
     QVERIFY(this->pluginManager != NULL);
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
-//    this->viewManager = View::QmlViewProperties::getInstance(this);
+    this->viewManager = View::QmlViewProperties::getInstance(this);
     QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
     this->servicesManager->loadServicesLibraries();
     while (true)

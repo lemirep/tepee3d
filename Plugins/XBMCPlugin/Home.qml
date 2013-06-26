@@ -1,11 +1,49 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import QtQuick.Particles 2.0
 
 Item
 {
     id : home_elem
     width : mainWindow.width
     height : mainWindow.height
+
+    ParticleSystem {id : particle_system}
+    Emitter
+    {
+        id : smoke_emitter
+        height: 1
+        anchors
+        {
+            left : menu_bar.left
+            right : menu_bar.right
+            top : menu_bar.top
+        }
+        size: 128
+        sizeVariation: 64
+        lifeSpan: 3000
+        lifeSpanVariation: 1000
+        system: particle_system
+        emitRate: 20
+        acceleration: PointDirection{ y: -60; xVariation: 20 }
+        velocity: PointDirection{xVariation: 5; yVariation: 20}
+        enabled : true
+    }
+    ImageParticle {
+        system : particle_system
+        source: "smoke.png"
+        color: "#ffffff"
+        alpha: 0.95
+        opacity: 0.3
+        rotationVariation: 180
+    }
+    Turbulence
+    {
+        system : particle_system
+        width: parent.width
+        height: parent.height * 0.8
+        strength: 60
+    }
 
     ListModel
     {
@@ -71,6 +109,21 @@ Item
             bottom : parent.bottom
             bottomMargin : 50
         }
+
+
+
+        //        ItemParticle
+        //        {
+        //            system: particle_system
+        //            fade : true
+        //            delegate: Component {
+        //                Rectangle
+        //                {
+        //                    color : "orange"
+        //                }
+        //            }
+        //        }
+
         Rectangle
         {
             anchors.fill: parent
