@@ -57,7 +57,11 @@ DatabaseThread::DatabaseThread() : QThread()
  */
 DatabaseThread::~DatabaseThread()
 {
-    this->stop();
+    if (this->isRunning())
+    {
+        this->quit();
+        this->wait();
+    }
 }
 
 int DatabaseThread::getServiceId() const
@@ -96,7 +100,7 @@ bool            DatabaseThread::connectServiceToUser(QObject *user)
     // SQL
     if (qobject_cast<Services::DatabaseServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeSQLQuery(const QString &, QObject *, int, const QString&, void *)),
-                         this, SIGNAL(executeSQLQuery(const QString&,QObject*,int, const QString &, void *)));
+                                this, SIGNAL(executeSQLQuery(const QString&,QObject*,int, const QString &, void *)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
     return false;
 }
@@ -110,8 +114,8 @@ bool            DatabaseThread::disconnectServiceFromUser(QObject *user)
 {
     // SQL
     if (qobject_cast<Services::DatabaseServiceUserInterface*>(user) != NULL)
-       return QObject::disconnect(user, SIGNAL(executeSQLQuery(const QString &, QObject *,int, const QString &, void *)),
-                            this, SIGNAL(executeSQLQuery(const QString&,QObject*,int, const QString &, void *)));
+        return QObject::disconnect(user, SIGNAL(executeSQLQuery(const QString &, QObject *,int, const QString &, void *)),
+                                   this, SIGNAL(executeSQLQuery(const QString&,QObject*,int, const QString &, void *)));
     qWarning() << "Object does not implement DatabaseServiceUserInterface";
     return false;
 }

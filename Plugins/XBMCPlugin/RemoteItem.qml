@@ -13,7 +13,8 @@ Item
         {
             top : parent.top
             bottom : joystick_item.top
-            margins : 30
+            leftMargin : 30
+            rightMargin : 30
         }
 
         Rectangle
@@ -80,12 +81,7 @@ Item
                 }
             }
         }
-
-
     }
-
-
-
 
     Item
     {
@@ -234,17 +230,29 @@ Item
                 color : "grey"
                 radius : 5
                 width : parent.width
-                height : 2
+                height : 10
                 opacity : 0.8
+                border
+                {
+                    width : 1
+                    color : "darkgrey"
+                }
+
                 anchors.centerIn: parent
             }
             Rectangle
             {
                 id : advance_slide
                 color : "#0099ff"
+                border
+                {
+                    width : 1
+                    color : "#6699ff"
+                }
+
                 radius : 5
                 width : parent.width * time_slider.advance
-                height : 3
+                height : 12
                 opacity : 0.8
                 anchors.verticalCenter : parent.verticalCenter
                 anchors.left: parent.left

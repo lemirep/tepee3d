@@ -174,9 +174,9 @@ bool    CoreManager::initView()
 void CoreManager::cleanBeforeClosing()
 {
     qDebug() << "CLEANING BEFORE CLOSING";
+    delete this->viewProperties;
     delete this->roomManager;
     delete this->pluginsManager;
     delete this->servicesManager;
-    delete this->viewProperties;
     emit quit();
 }

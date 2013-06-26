@@ -70,6 +70,7 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
  */
 Plugins::PluginQmlPluginProperties::~PluginQmlPluginProperties()
 {
+    // PLUGIN IS NOT OWNED BY THIS CLASS
     if (this->plugin != NULL)
     {
         QObject::disconnect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));

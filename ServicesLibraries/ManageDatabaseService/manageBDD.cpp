@@ -26,6 +26,7 @@
 ManageBDD::ManageBDD() : QObject()
 {
     this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
+    qDebug() << "DB CONNECTION VALID ? " << this->dataBase.isValid();
     this->applicationPath = QCoreApplication::applicationDirPath();
     this->localDBName = "";
     this->databasePath = "";
@@ -37,7 +38,7 @@ ManageBDD::ManageBDD() : QObject()
  */
 ManageBDD::~ManageBDD()
 {
-    if (this->dataBase.open())
+    if (this->dataBase.isOpen())
         this->dataBase.close();
     this->dataBase.removeDatabase(this->dataBase.connectionName());
 }
@@ -106,7 +107,10 @@ bool ManageBDD::openDatabase(const QString& dbName)
     // THE DATABASE IS NOW CONTAINED IN THE TEPEE3DENGINE
     // THIS ALLOWS US TO PROVIDE A DATABASE SCHEMA WITHOUT HAVING TO
     // CREATE IT ON THE FIRST BOOT
-    return this->dataBase.open();
+    qDebug() << "Trying to open db";
+    bool value = this->dataBase.open();
+    qDebug() << "Database open " << value;
+    return value;
 }
 
 /*!
@@ -119,11 +123,17 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, c
     QList<QSqlRecord> results;
     if (dbName != this->previousDbName)
     {
+        qDebug() << "1";
         this->dataBase.close();
+        qDebug() << "2";
         this->openDatabase(dbName);
+        qDebug() << "3";
         this->previousDbName = dbName;
+        qDebug() << "4";
         QSqlQuery sqlQuery(this->dataBase);
+        qDebug() << "5";
         sqlQuery.exec("PRAGMA synchronous=OFF;");
+        qDebug() << "6";
     }
     if (this->dataBase.isOpen())
     {
