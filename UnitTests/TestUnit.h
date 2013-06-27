@@ -76,6 +76,7 @@ private slots:
     void    launchViewTesting();
     void    launchRoomViewTesting();
     void    launchPluginsViewTesting();
+    void    closeView();
     void    releaseCoreManager();
 
 };

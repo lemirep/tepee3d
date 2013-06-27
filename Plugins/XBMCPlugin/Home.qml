@@ -19,8 +19,8 @@ Item
             right : menu_bar.right
             top : menu_bar.top
         }
-        size: 150
-        sizeVariation: 64
+        size: 256
+        sizeVariation: 128
         lifeSpan: 3000
         lifeSpanVariation: 1000
         system: particle_system
@@ -33,8 +33,8 @@ Item
         system : particle_system
         source: "smoke.png"
         color: "#ffffff"
-        alpha: 0.95
-        opacity: 0.3
+        alpha: 0.9
+        opacity: 0.5
         rotationVariation: 180
     }
     Turbulence

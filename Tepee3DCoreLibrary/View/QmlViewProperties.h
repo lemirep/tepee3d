@@ -57,6 +57,7 @@ public:
 
     void                        setViewerSource(const QUrl& sourceFile);
     void                        showView();
+    void                        closeView();
 
 signals:
     void                        quit();

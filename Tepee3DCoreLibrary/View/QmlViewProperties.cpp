@@ -141,3 +141,11 @@ void    View::QmlViewProperties::showView()
     this->viewer->show();
 //    this->viewer->showFullScreen();
 }
+
+/*!
+ * Closes the view. The closing signal emitted by the call to close will trigger the emission of the quit signal.
+ */
+void View::QmlViewProperties::closeView()
+{
+    this->viewer->close();
+}

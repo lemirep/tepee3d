@@ -404,7 +404,15 @@ void TestUnit::testPluginBehaviorOnRoomEnteringLeaving()
 
 void TestUnit::launchViewTesting()
 {
-//    this->viewManager->showView();
+    QUrl localFile = QUrl::fromLocalFile(
+                PlatformFactory::getPlatformInitializer()->
+                getDataDirectory().absolutePath()
+                + "/qml/main.qml");
+
+    QVERIFY(localFile.isValid());
+    this->viewManager->setViewerSource(localFile);
+    this->viewManager->showView();
+    this->viewManager->showView();
 }
 
 void TestUnit::launchRoomViewTesting()
@@ -417,12 +425,17 @@ void TestUnit::launchPluginsViewTesting()
 
 }
 
+void TestUnit::closeView()
+{
+    this->viewManager->closeView();
+}
+
 void TestUnit::releaseCoreManager()
 {
     delete this->roomManager;
     delete this->pluginManager;
     delete this->servicesManager;
-    //    delete this->viewManager;
+    delete this->viewManager;
 }
 
 // TEST ROOM DataBase Saving
