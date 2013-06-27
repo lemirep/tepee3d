@@ -260,7 +260,8 @@ void TestUnit::initCoreManager()
     QVERIFY(this->pluginManager != NULL);
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
-    this->viewManager = View::QmlViewProperties::getInstance(this);
+//    this->viewManager = View::QmlViewProperties::getInstance(this);
+//    QVERIFY(this->viewManager != NULL);
     QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
     this->servicesManager->loadServicesLibraries();
     while (true)
@@ -410,9 +411,9 @@ void TestUnit::launchViewTesting()
                 + "/qml/main.qml");
 
     QVERIFY(localFile.isValid());
-    this->viewManager->setViewerSource(localFile);
-    this->viewManager->showView();
-    this->viewManager->showView();
+//    this->viewManager->setViewerSource(localFile);
+//    this->viewManager->showView();
+//    this->viewManager->showView();
 }
 
 void TestUnit::launchRoomViewTesting()
@@ -427,7 +428,7 @@ void TestUnit::launchPluginsViewTesting()
 
 void TestUnit::closeView()
 {
-    this->viewManager->closeView();
+//    this->viewManager->closeView();
 }
 
 void TestUnit::releaseCoreManager()
@@ -435,7 +436,7 @@ void TestUnit::releaseCoreManager()
     delete this->roomManager;
     delete this->pluginManager;
     delete this->servicesManager;
-    delete this->viewManager;
+//    delete this->viewManager;
 }
 
 // TEST ROOM DataBase Saving
