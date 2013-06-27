@@ -46,6 +46,7 @@ public:
     };
 
     SongModel(QObject *parent = 0, int songId = -1);
+    SongModel(const SongModel& song);
     ~SongModel();
 
     int             id() const;

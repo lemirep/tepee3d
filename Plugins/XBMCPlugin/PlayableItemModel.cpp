@@ -31,6 +31,18 @@ PlayableItemModel::PlayableItemModel(QObject *parent) : Models::ListItem(parent)
 {
 }
 
+PlayableItemModel::PlayableItemModel(const PlayableItemModel &item) : Models::ListItem(NULL)
+{
+    if (&item != this)
+    {
+        this->m_rating = item.getRating();
+        this->m_runtime = item.getRuntime();
+        this->m_title = item.getTitle();
+        this->m_file = item.getFile();
+        this->m_thumbnail = item.getThumbnail();
+    }
+}
+
 PlayableItemModel::~PlayableItemModel()
 {
 }

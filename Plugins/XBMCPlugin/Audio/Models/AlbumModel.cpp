@@ -33,9 +33,33 @@ AlbumModel::AlbumModel(QObject *parent, int albumId) : Models::SubListedListItem
     this->songModel = new Models::ListModel(new SongModel());
 }
 
+AlbumModel::AlbumModel(const AlbumModel &album) : Models::SubListedListItem(NULL)
+{
+    if (this != &album)
+    {
+        this->m_albumId = album.id();
+        this->m_albumYear = album.getAlbumYear();
+        this->m_rating = album.getRating();
+        this->m_artistId = album.getArtistId();
+        this->m_albumTitle = album.getAlbumTitle();
+        this->m_genre = album.getGenre();
+        this->m_mood = album.getMood();
+        this->m_thumbnail = album.getThumbnail();
+        this->m_description = album.getDescription();
+
+        this->songModel = new Models::ListModel(new SongModel());
+        foreach (Models::ListItem *listItem, album.submodel()->toList())
+        {
+            SongModel *copySong = new SongModel(*(reinterpret_cast<SongModel *>(listItem)));
+            this->songModel->appendRow(copySong);
+        }
+    }
+}
+
 AlbumModel::~AlbumModel()
 {
-    delete this->songModel;
+    if (this->songModel != NULL)
+        delete this->songModel;
     this->songModel = NULL;
 }
 

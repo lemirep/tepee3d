@@ -41,7 +41,7 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
 
     this->m_asyncRequests = 0;
 
-//    QObject::connect(this, SIGNAL(asyncRequestChanged()), this, SLOT(checkForRemoval()));
+    QObject::connect(this, SIGNAL(asyncRequestChanged()), this, SLOT(checkForRemoval()));
 }
 
 int AudioLibrary::getMajorIDRequestHandled() const
@@ -164,20 +164,21 @@ void AudioLibrary::refreshAudioLibrary()
     requestJson.insert("method", QJsonValue(QString("AudioLibrary.Scan")));
 
     // "ID IS TRANSMITTED BACK WITH RESPONSE TO IDENTITFY THE QUERY
-    //    requestJson.insert("id", QJsonValue(QString("refresh")));
+    requestJson.insert("id", QJsonValue(QString("refreshAudio")));
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_AUDIO, REFRESH_AUDIO_LIBRARY));
 }
 
 void AudioLibrary::reloadDataModels()
 {
     // MODELS ARE SAVED IN CASE THEY ARE STILL SYNCHRONOUS REQUESTS GOING ON
-//    this->dirtyModelItem.append(this->albumsLibraryModel->takeRows());
-//    this->dirtyModelItem.append(this->artistsLibraryModel->takeRows());
-//    this->dirtyModelItem.append(this->songsLibraryModel->takeRows());
+    this->albumsLibraryModel->clear();
+    this->songsLibraryModel->clear();
+    // CANNOT BE CLEARED DIRECTLY HAS THERE MAY BE REQUESTS GOING ON
+    this->dirtyModelItem.append(this->artistsLibraryModel->takeRows());
 
-    this->retrieveAudioAlbums(this->albumsLibraryModel);
+    //    ARTISTS RETURN ALBUMS THAT RETURN SONGS SO WE CAN FILL ALL OF THEM IN ONE PASS
+    //    WHEN ALL REQUESTS HAVE BEEN ANSWERED
     this->retrieveAudioArtists(this->artistsLibraryModel);
-    this->retrieveAllSongs(this->songsLibraryModel);
 }
 
 Models::ListModel *AudioLibrary::getArtistsLibraryModel() const
@@ -327,7 +328,6 @@ AlbumModel *AudioLibrary::parseJsonAlbum(const QJsonObject &jsonAlbum)
 {
     if (!jsonAlbum.isEmpty())
     {
-        qDebug() << "Parsing album";
         AlbumModel *album = new AlbumModel(NULL, jsonAlbum.value("albumid").toDouble());
         album->setArtistId(jsonAlbum.value("artistid").toArray().first().toDouble());
         album->setDescription(jsonAlbum.value("description").toString());
@@ -346,7 +346,6 @@ ArtistModel *AudioLibrary::parseJsonArtist(const QJsonObject &jsonArtist)
 {
     if (!jsonArtist.isEmpty())
     {
-        qDebug() << "Parsing artist";
         ArtistModel *artist = new ArtistModel(NULL, jsonArtist.value("artistid").toDouble());
         artist->setArtistName(jsonArtist.value("artist").toString());
         artist->setBirthDate(jsonArtist.value("born").toString());
@@ -362,7 +361,6 @@ SongModel *AudioLibrary::parseJsonSong(const QJsonObject &jsonSong)
 {
     if (!jsonSong.isEmpty())
     {
-        qDebug() << "Parsing song";
         SongModel *song = new SongModel(NULL, jsonSong.value("songid").toDouble());
         song->setAlbumId(jsonSong.value("albumid").toDouble());
         song->setArtistId(jsonSong.value("artistid").toArray().first().toDouble());
@@ -393,15 +391,35 @@ void AudioLibrary::decreaseAsyncRequest()
 
 void AudioLibrary::checkForRemoval()
 {
-    if (this->m_asyncRequests == 0 && !this->dirtyModelItem.empty())
+    // ALL REQUESTS HAVE BEEN EMITTED AND RECEIVED
+    // COPYINGS DATA FROM ARTIST MODELS TO ALBUM AND SONG MODELS
+    if (this->m_asyncRequests == 0)
     {
-        qDebug() << "Freeing Audio Models >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..";
-        foreach (QList<Models::ListItem *> dirtyList, this->dirtyModelItem)
+        foreach (Models::ListItem *artistItem, this->artistsLibraryModel->toList())
         {
-            qDebug() << "AUDIO ";
-            qDebug() << "Items in list " << dirtyList.size();
-//            while (!dirtyList.empty())
-//                delete dirtyList.takeFirst();
+            ArtistModel *artist = reinterpret_cast<ArtistModel *>(artistItem);
+            foreach (Models::ListItem *albumItem, artist->submodel()->toList())
+            {
+                AlbumModel *album = reinterpret_cast<AlbumModel *>(albumItem);
+                this->albumsLibraryModel->appendRow(new AlbumModel(*album));
+                foreach (Models::ListItem *songItem, album->submodel()->toList())
+                {
+                    SongModel *song = reinterpret_cast<SongModel *>(songItem);
+                    this->songsLibraryModel->appendRow(new SongModel(*song));
+                }
+            }
+        }
+
+        if (!this->dirtyModelItem.empty())
+        {
+            qDebug() << "Freeing Audio Models >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..";
+            foreach (QList<Models::ListItem *> dirtyList, this->dirtyModelItem)
+            {
+                qDebug() << "AUDIO ";
+                qDebug() << "Items in list " << dirtyList.size();
+                while (!dirtyList.empty())
+                    delete dirtyList.takeFirst();
+            }
         }
     }
 }

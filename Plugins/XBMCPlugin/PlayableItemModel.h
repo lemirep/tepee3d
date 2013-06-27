@@ -47,6 +47,7 @@ public:
     };
 
     PlayableItemModel(QObject *parent = 0);
+    PlayableItemModel(const PlayableItemModel &item);
     virtual ~PlayableItemModel();
     virtual int id() const;
 

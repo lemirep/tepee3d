@@ -52,6 +52,7 @@ public:
     };
 
     explicit AlbumModel(QObject *parent = 0, int albumId = -1);
+    AlbumModel(const AlbumModel &album);
     ~AlbumModel();
 
     int                 id() const;

@@ -35,6 +35,19 @@ SongModel::SongModel(QObject *parent, int songId) : PlayableItemModel(parent)
     this->m_albumId = -1;
 }
 
+SongModel::SongModel(const SongModel &song) : PlayableItemModel(song)
+{
+    if (&song != this)
+    {
+        this->m_songId = song.id();
+        this->m_albumId = song.getAlbumId();
+        this->m_artistId = song.getArtistId();
+        this->m_duration = song.getDuration();
+        this->m_track = song.getTrack();
+        this->m_genre = song.getGenre();
+    }
+}
+
 SongModel::~SongModel()
 {
 }
