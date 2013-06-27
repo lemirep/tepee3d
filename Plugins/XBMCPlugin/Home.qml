@@ -19,7 +19,7 @@ Item
             right : menu_bar.right
             top : menu_bar.top
         }
-        size: 128
+        size: 150
         sizeVariation: 64
         lifeSpan: 3000
         lifeSpanVariation: 1000

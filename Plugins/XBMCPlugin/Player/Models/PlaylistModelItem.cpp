@@ -50,6 +50,8 @@ QHash<int, QByteArray> PlaylistModelItem::roleNames() const
 
     roleNames[playlistId] = "playlistId";
     roleNames[playlistType] = "playlistType";
+
+    return roleNames;
 }
 
 PlaylistModelItem::PlaylistTypes PlaylistModelItem::getPlaylistType() const

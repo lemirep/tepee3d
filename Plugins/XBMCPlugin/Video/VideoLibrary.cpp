@@ -374,8 +374,8 @@ void VideoLibrary::checkForRemoval()
         foreach (QList<Models::ListItem *> dirtyList, this->dirtyModelItem)
         {
             qDebug() << "VIDEO TO RREMOVE : " << dirtyList.size();
-            //            while (!dirtyList.empty())
-            //                delete dirtyList.takeFirst();
+            while (!dirtyList.empty())
+                delete dirtyList.takeFirst();
         }
     }
 }
