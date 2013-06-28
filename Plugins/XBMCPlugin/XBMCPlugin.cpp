@@ -233,6 +233,26 @@ void XBMCPlugin::refreshLibraries()
     this->m_videoLibrary->refreshVideoLibrary();
 }
 
+void XBMCPlugin::addArtistToPlaylist(const int artistId)
+{
+    this->m_playerManager->addArtistToPlaylist(artistId);
+}
+
+void XBMCPlugin::addAlbumToPlaylist(const int albumId)
+{
+    this->m_playerManager->addAlbumToPlaylist(albumId);
+}
+
+void XBMCPlugin::addMovieToPlaylist(const int movieId)
+{
+    this->m_playerManager->addMovieToPlaylist(movieId);
+}
+
+void XBMCPlugin::addEpisodeToPlaylist(const int episodeId)
+{
+    this->m_playerManager->addEpisodeToPlaylist(episodeId);
+}
+
 void XBMCPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)
 {
     Q_UNUSED(result)
@@ -296,6 +316,11 @@ QObject *XBMCPlugin::getCurrentlyPlayedItemModel() const
     return this->m_playerManager->getCurrentlyPlayedItemModel();
 }
 
+QObject *XBMCPlugin::getPlaylists() const
+{
+    return this->m_playerManager->getPlaylistsModel();
+}
+
 QUrl XBMCPlugin::getXBMCImageProviderUrl(const QString& imageUrl) const
 {
     QUrl url;
@@ -351,5 +376,10 @@ void XBMCPlugin::seekAction(int durationPercent)
 void XBMCPlugin::playFile(const QString &file)
 {
     this->m_playerManager->playFile(file);
+}
+
+void XBMCPlugin::playPlaylist(int playlistId, int position)
+{
+    this->m_playerManager->playPlaylist(playlistId, position);
 }
 

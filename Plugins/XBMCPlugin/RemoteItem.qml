@@ -34,7 +34,13 @@ Item
         ListView
         {
             id : currently_playing_item
-            anchors.fill: parent
+            anchors
+            {
+                left : parent.left
+                right : parent.horizontalCenter
+                top : parent.top
+                bottom : parent.bottom
+            }
             model : XBMCPlugin.getCurrentlyPlayedItemModel()
             interactive : false
             delegate : Component {
@@ -46,7 +52,14 @@ Item
                     Text
                     {
                         id : title_item
-                        anchors.centerIn: parent
+                        anchors
+                        {
+                            left : movie_pic.right
+                            right : parent.right
+                            verticalCenter : parent.verticalCenter
+                        }
+                        horizontalAlignment: Text.AlignHCenter
+                        elide : Text.ElideRight
                         color : "white"
                         font.pixelSize: mainWindow.largeFontSize
                         text : model.title
@@ -68,7 +81,7 @@ Item
                     Image
                     {
                         id : movie_pic
-                        height: parent.height - 20
+                        height: parent.height - 40
                         anchors
                         {
                             left : parent.left
@@ -79,6 +92,29 @@ Item
                         source : XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail)
                     }
                 }
+            }
+        }
+
+        ListView
+        {
+            id : playlist_listview
+            clip : true
+            anchors
+            {
+                left : parent.horizontalCenter
+                right : parent.right
+                top : parent.top
+                bottom : parent.bottom
+            }
+            snapMode : ListView.SnapOneItem
+            model : XBMCPlugin.getPlaylists();
+            orientation : ListView.Horizontal
+            delegate : PlaylistDelegate {
+                width : playlist_listview.width
+                height: playlist_listview.height
+                idPlaylist: model.playlistId
+                stringType : model.playlistTypeString
+                itemModel : playlist_listview.model.subModelFromId(model.playlistId)
             }
         }
     }
@@ -274,11 +310,11 @@ Item
                 }
                 onPositionChanged:
                 {
-//                    if (lockedSlider)
-//                    {
-                        time_slider.tmp_advance = (mouseX / width < 0) ? 0 : (mouseX / width > 1) ? 1 : mouseX / width
-                        mouse.accepted = true
-//                    }
+                    //                    if (lockedSlider)
+                    //                    {
+                    time_slider.tmp_advance = (mouseX / width < 0) ? 0 : (mouseX / width > 1) ? 1 : mouseX / width
+                    mouse.accepted = true
+                    //                    }
                 }
                 onReleased:
                 {

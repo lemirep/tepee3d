@@ -79,6 +79,7 @@ public:
     Q_INVOKABLE void               stopAction();
     Q_INVOKABLE void               seekAction(int durationPercent);
     Q_INVOKABLE void               playFile(const QString &file);
+    Q_INVOKABLE void               playPlaylist(int playlistId, int position);
 
     // MEDIA LIBRARIES
     Q_INVOKABLE QObject*           getMoviesLibrary() const;
@@ -87,10 +88,15 @@ public:
     Q_INVOKABLE QObject*           getArtistsLibrary() const;
     Q_INVOKABLE QObject*           getSongsLibrary() const;
     Q_INVOKABLE QObject*           getCurrentlyPlayedItemModel() const;
+    Q_INVOKABLE QObject*           getPlaylists() const;
     Q_INVOKABLE QUrl               getXBMCImageProviderUrl(const QString &imageUrl) const;
     Q_INVOKABLE void               saveXBMCAuthToDatabase();
     Q_INVOKABLE void               getCurrentlyPlayedItem();
     Q_INVOKABLE void               refreshLibraries();
+    Q_INVOKABLE void               addArtistToPlaylist(const int artistId);
+    Q_INVOKABLE void               addAlbumToPlaylist(const int albumId);
+    Q_INVOKABLE void               addMovieToPlaylist(const int movieId);
+    Q_INVOKABLE void               addEpisodeToPlaylist(const int episodeId);
 
     // FOCUS STATE HANDLERS
     void                        onIdleFocusState();

@@ -9,7 +9,7 @@ public :
     enum PlaylistModelItemRoles
     {
         playlistId = Qt::UserRole + 1,
-        playlistType
+        playlistTypeString
     };
 
     enum PlaylistTypes
@@ -22,14 +22,12 @@ public :
 private:
 
     int m_playlistId;
-    PlaylistTypes m_playlistType;
+    QString       m_playlistTypeString;
     Models::ListModel *m_playlistItemsModel;
 
 public :
-    static PlaylistTypes typeFromString(QString typeString);
-
     PlaylistModelItem(QObject *parent = 0);
-    PlaylistModelItem(int playlistId, PlaylistModelItem::PlaylistTypes playlistType, QObject *parent = 0);
+    PlaylistModelItem(int playlistId, const QString& playlistTypeString, QObject *parent = 0);
     ~PlaylistModelItem();
 
 
@@ -42,5 +40,5 @@ public:
     int id() const;
     QVariant data(int role) const;
     QHash<int, QByteArray> roleNames() const;
-    PlaylistTypes getPlaylistType() const;
+    QString       getPlaylistTypeString() const;
 };

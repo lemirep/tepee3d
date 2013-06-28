@@ -3,14 +3,18 @@
 PlaylistModelItem::PlaylistModelItem(QObject *parent) : Models::SubListedListItem(parent)
 {
     this->m_playlistItemsModel = new Models::ListModel(new PlayableItemModel(NULL));
+    this->m_playlistTypeString = "";
+    this->m_playlistId = -1;
 }
 
-PlaylistModelItem::PlaylistModelItem(int playlistId, PlaylistModelItem::PlaylistTypes playlistType, QObject *parent)
+PlaylistModelItem::PlaylistModelItem(int playlistId, const QString& playlistTypeString, QObject *parent)
     : Models::SubListedListItem(parent),
       m_playlistId(playlistId),
-      m_playlistType(playlistType)
+      m_playlistTypeString(playlistTypeString)
 {
     this->m_playlistItemsModel = new Models::ListModel(new PlayableItemModel(NULL));
+    qDebug() << "Type " << this->m_playlistTypeString;
+    qDebug() << "Id " << this->m_playlistId;
 }
 
 
@@ -37,8 +41,8 @@ QVariant PlaylistModelItem::data(int role) const
     {
     case playlistId:
         return this->id();
-    case playlistType:
-        return this->getPlaylistType();
+    case playlistTypeString:
+        return this->getPlaylistTypeString();
     default :
         return QVariant();
     }
@@ -49,23 +53,13 @@ QHash<int, QByteArray> PlaylistModelItem::roleNames() const
     QHash<int, QByteArray> roleNames;
 
     roleNames[playlistId] = "playlistId";
-    roleNames[playlistType] = "playlistType";
+    roleNames[playlistTypeString] = "playlistTypeString";
 
     return roleNames;
 }
 
-PlaylistModelItem::PlaylistTypes PlaylistModelItem::getPlaylistType() const
+QString PlaylistModelItem::getPlaylistTypeString() const
 {
-    return this->m_playlistType;
+    return this->m_playlistTypeString;
 }
 
-
-PlaylistModelItem::PlaylistTypes PlaylistModelItem::typeFromString(QString typeString)
-{
-    if (typeString.compare("audio") == 0)
-        return Audio;
-    if (typeString.compare("video") == 0)
-        return Video;
-    if (typeString.compare("picture") == 0)
-        return Pictures;
-}

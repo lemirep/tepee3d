@@ -110,20 +110,6 @@ Item
             bottomMargin : 50
         }
 
-
-
-        //        ItemParticle
-        //        {
-        //            system: particle_system
-        //            fade : true
-        //            delegate: Component {
-        //                Rectangle
-        //                {
-        //                    color : "orange"
-        //                }
-        //            }
-        //        }
-
         Rectangle
         {
             anchors.fill: parent

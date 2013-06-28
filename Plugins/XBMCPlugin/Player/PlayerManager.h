@@ -47,17 +47,21 @@ public:
     int                     getMajorIDRequestHandled() const;
     void                    receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
 
+    void                    playPlaylist(int playlistId, int position = 0);
     void                    addFileToPlayList(const QString &file, const int playlistId);
-    void                    addArtistToPlaylist(const int artistId, const int playlistId);
-    void                    addAlbumToPlaylist(const int albumId, const int playlistId);
-    void                    addMovieToPlaylist(const int movieId, const int playlistId);
-    void                    addEpisodeToPlaylist(const int episodeId, const int playlistId);
+    void                    addArtistToPlaylist(const int artistId);
+    void                    addAlbumToPlaylist(const int albumId);
+    void                    addMovieToPlaylist(const int movieId);
+    void                    addEpisodeToPlaylist(const int episodeId);
     void                    clearPlaylist(const int playlistId);
     void                    removeItemAtPositionFromPlaylist(const int position, const int playlistId);
     void                    reloadPlaylists();
     void                    addPlaylist();
     void                    removePlaylist();
 
+
+    int                     getAudioPlaylistId();
+    int                     getVideoPlaylistId();
 
     Models::ListModel*      getPlaylistsModel() const;
     Models::ListModel*      getCurrentlyPlayedItemModel() const;

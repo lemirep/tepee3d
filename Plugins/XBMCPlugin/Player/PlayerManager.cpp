@@ -64,8 +64,11 @@ void PlayerManager::addFileToPlayList(const QString &file, const int playlistId)
 }
 
 
-void PlayerManager::addArtistToPlaylist(const int artistId, const int playlistId)
+void PlayerManager::addArtistToPlaylist(const int artistId)
 {
+    int playlistId = this->getAudioPlaylistId();
+    if (playlistId == -1)
+        return ;
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
     requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
@@ -82,8 +85,11 @@ void PlayerManager::addArtistToPlaylist(const int artistId, const int playlistId
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
 }
 
-void PlayerManager::addAlbumToPlaylist(const int albumId, const int playlistId)
+void PlayerManager::addAlbumToPlaylist(const int albumId)
 {
+    int playlistId = this->getAudioPlaylistId();
+    if (playlistId == -1)
+        return ;
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
     requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
@@ -100,8 +106,11 @@ void PlayerManager::addAlbumToPlaylist(const int albumId, const int playlistId)
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
 }
 
-void PlayerManager::addMovieToPlaylist(const int movieId, const int playlistId)
+void PlayerManager::addMovieToPlaylist(const int movieId)
 {
+    int playlistId = this->getVideoPlaylistId();
+    if (playlistId == -1)
+        return ;
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
     requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
@@ -118,8 +127,11 @@ void PlayerManager::addMovieToPlaylist(const int movieId, const int playlistId)
     emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
 }
 
-void PlayerManager::addEpisodeToPlaylist(const int episodeId, const int playlistId)
+void PlayerManager::addEpisodeToPlaylist(const int episodeId)
 {
+    int playlistId = this->getVideoPlaylistId();
+    if (playlistId == -1)
+        return ;
     QJsonObject requestJson;
     requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
     requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
@@ -379,6 +391,25 @@ void PlayerManager::receiveResultFromHttpRequest(QNetworkReply *reply, int id, v
     (this->*this->webCallBacks[id])(reply, data);
 }
 
+void PlayerManager::playPlaylist(int playlistId, int position)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Player.Open")));
+
+    QJsonObject paramObj;
+    QJsonObject fileObj;
+
+    fileObj.insert("position", QJsonValue(position));
+    fileObj.insert("playlistId", QJsonValue(playlistId));
+    paramObj.insert("item", QJsonValue(fileObj));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GENERIC_CALLBACK));
+    this->getActivesPlayers();
+    this->reloadPlaylists();
+}
+
 Models::ListModel* PlayerManager::getCurrentlyPlayedItemModel() const
 {
     return this->currentlyPlayerItems;
@@ -495,7 +526,7 @@ void PlayerManager::getPlaylistsCallBack(QNetworkReply *reply, void *data)
                 if (!playlistObj.isEmpty())
                 {
                     PlaylistModelItem *playlistItem = new PlaylistModelItem(playlistObj.value("playlistid").toDouble(),
-                                                                            PlaylistModelItem::typeFromString(playlistObj.value("type").toString()),
+                                                                            playlistObj.value("type").toString(),
                                                                             NULL);
                     this->getPlaylistItems(playlistItem);
                     reinterpret_cast<Models::ListModel *>(data)->appendRow(playlistItem);
@@ -510,17 +541,55 @@ void PlayerManager::getPlaylistItemsCallBack(QNetworkReply *reply, void *data)
     if (reply != NULL && data != NULL)
     {
         QJsonDocument jsonRep = QJsonDocument::fromJson(reply->readAll());
-        qDebug() << "RESPONSE " << jsonRep.toJson();
+        if  (!jsonRep.isNull() &&
+             !jsonRep.isEmpty() &&
+             jsonRep.isObject())
+        {
+            QJsonObject resultObj = jsonRep.object().value("result").toObject();
+            QJsonArray itemsArray = resultObj.value("items").toArray();
+            foreach (QJsonValue itemElem, itemsArray)
+            {
+                QJsonObject item = itemElem.toObject();
+                PlayableItemModel *playableItem = this->playableItemModelFromType(item.value("type").toString());
+                if (playableItem != NULL)
+                {
+                    playableItem->setFile(item.value("file").toString());
+                    playableItem->setTitle(item.value("title").toString());
+                    playableItem->setRating(item.value("rating").toDouble());
+                    playableItem->setThumbnail(item.value("thumbnail").toString());
+                    playableItem->setRuntime(item.value("runtime").toDouble());
+                    reinterpret_cast<Models::ListModel *>(data)->appendRow(playableItem);
+                }
+            }
+        }
     }
 }
 
 void PlayerManager::playlistEditedCallBack(QNetworkReply *reply, void *data)
 {
     Q_UNUSED(data);
-
     if (reply != NULL)
-    {
-        qDebug() << "Reply -> " << reply->readAll();
-    }
+        qDebug() << reply->readAll();
     this->reloadPlaylists();
+}
+
+
+int PlayerManager::getAudioPlaylistId()
+{
+    foreach (Models::ListItem *item, this->playlistsModels->toList())
+    {
+        if (item->data(PlaylistModelItem::playlistTypeString).toString().compare("audio") == 0)
+            return item->id();
+    }
+    return -1;
+}
+
+int PlayerManager::getVideoPlaylistId()
+{
+    foreach (Models::ListItem *item, this->playlistsModels->toList())
+    {
+        if (item->data(PlaylistModelItem::playlistTypeString).toString().compare("video") == 0)
+            return item->id();
+    }
+    return -1;
 }

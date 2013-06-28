@@ -79,6 +79,7 @@ Item
             title : model.albumTitle
             onClicked:
             {
+                albumView.albumId = model.albumId
                 album_view.albumTitle = model.albumTitle + " (" + model.albumYear +")"
                 album_view.thumbnail = thumbnail
                 album_view.albumSummary = model.description

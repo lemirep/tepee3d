@@ -78,6 +78,7 @@ Item
             title : model.artistName
             onClicked:
             {
+                artist_view.artistId = model.artistId
                 artist_view.thumbnail = thumbnail
                 artist_view.artistName = model.artistName
                 artist_view.artistAlbumsModel = artists_library_gridview.model.subModelFromId(model.artistId)

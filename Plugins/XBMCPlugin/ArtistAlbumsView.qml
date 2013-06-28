@@ -3,6 +3,7 @@ import QtQuick 2.0
 Item
 {
     id : artist_view
+    property int artistId
     property alias thumbnail : artist_thumbnail.source
     property alias artistName : artist_title_text.text
     property alias artistAlbumsModel : artists_albums_listview.model
@@ -120,6 +121,17 @@ Item
                     horizontalCenter : parent.horizontalCenter
                 }
             }
+            AddButton
+            {
+                width : 50
+                scale : artist_thumbnail.scale
+                anchors
+                {
+                    right : artist_thumbnail.right
+                    bottom : artist_thumbnail.bottom
+                }
+                onClicked : {XBMCPlugin.addArtistToPlaylist(artistId)}
+            }
             Text
             {
                 id : artist_title_text
@@ -160,6 +172,7 @@ Item
                 onClicked:
                 {
                     albumDetailView = true;
+                    album_detail_view.albumId = albumId
                     album_detail_view.thumbnail = thumbnail
                     album_detail_view.albumTitle = title
                     album_detail_view.albumSummary = model.description
