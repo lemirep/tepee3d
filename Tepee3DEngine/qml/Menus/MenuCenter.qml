@@ -51,6 +51,8 @@ Item
                 obj.startDrag(savedX, savedY)
                 obj.isPressed = true
             }
+            else
+                mouse.accepted = false
         }
         onPositionChanged:
         {

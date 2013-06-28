@@ -9,6 +9,7 @@ PlayerManager::PlayerManager(QObject *parent) : QObject(parent)
     this->webCallBacks[GET_PLAYER_STATE] = &PlayerManager::getCurrentPlayerStateCallBack;
     this->webCallBacks[GET_PLAYLISTS] = &PlayerManager::getPlaylistsCallBack;
     this->webCallBacks[GET_PLAYLIST_ITEMS] = &PlayerManager::getPlaylistItemsCallBack;
+    this->webCallBacks[EDITED_PLAYLIST] = &PlayerManager::playlistEditedCallBack;
     this->currentActivePlayer = -1;
     this->currentlyPlayerItems = new Models::ListModel(new PlayableItemModel());
     this->playlistsModels = new Models::SubListedListModel(new PlaylistModelItem(NULL));
@@ -44,9 +45,124 @@ void PlayerManager::playFile(const QString &file)
     this->reloadPlaylists();
 }
 
-void PlayerManager::addToPlayList(const QString &file)
+void PlayerManager::addFileToPlayList(const QString &file, const int playlistId)
 {
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
 
+    QJsonObject paramObj;
+    QJsonObject fileObj;
+
+    fileObj.insert("file", QJsonValue(file));
+    paramObj.insert("item", QJsonValue(fileObj));
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+
+    requestJson.insert("params", QJsonValue(paramObj));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
+}
+
+
+void PlayerManager::addArtistToPlaylist(const int artistId, const int playlistId)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    QJsonObject paramObj;
+    QJsonObject fileObj;
+
+    fileObj.insert("artistid", QJsonValue(artistId));
+    paramObj.insert("item", QJsonValue(fileObj));
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+
+    requestJson.insert("params", QJsonValue(paramObj));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
+}
+
+void PlayerManager::addAlbumToPlaylist(const int albumId, const int playlistId)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    QJsonObject paramObj;
+    QJsonObject fileObj;
+
+    fileObj.insert("albumid", QJsonValue(albumId));
+    paramObj.insert("item", QJsonValue(fileObj));
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+
+    requestJson.insert("params", QJsonValue(paramObj));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
+}
+
+void PlayerManager::addMovieToPlaylist(const int movieId, const int playlistId)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    QJsonObject paramObj;
+    QJsonObject fileObj;
+
+    fileObj.insert("movieid", QJsonValue(movieId));
+    paramObj.insert("item", QJsonValue(fileObj));
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+
+    requestJson.insert("params", QJsonValue(paramObj));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
+}
+
+void PlayerManager::addEpisodeToPlaylist(const int episodeId, const int playlistId)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Add")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    QJsonObject paramObj;
+    QJsonObject fileObj;
+
+    fileObj.insert("episodedd", QJsonValue(episodeId));
+    paramObj.insert("item", QJsonValue(fileObj));
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+
+    requestJson.insert("params", QJsonValue(paramObj));
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
+}
+
+void PlayerManager::clearPlaylist(const int playlistId)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Clear")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    QJsonObject paramObj;
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
+}
+
+void PlayerManager::removeItemAtPositionFromPlaylist(const int position, const int playlistId)
+{
+    QJsonObject requestJson;
+    requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
+    requestJson.insert("method", QJsonValue(QString("Playlist.Remove")));
+    requestJson.insert("id", QJsonValue(QString("playlists")));
+
+    QJsonObject paramObj;
+    paramObj.insert("playlistid", QJsonValue(playlistId));
+    paramObj.insert("position", QJsonValue(position));
+    requestJson.insert("params", QJsonValue(paramObj));
+
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, EDITED_PLAYLIST));
 }
 
 void PlayerManager::reloadPlaylists()
@@ -57,7 +173,7 @@ void PlayerManager::reloadPlaylists()
     requestJson.insert("method", QJsonValue(QString("Playlist.GetPlaylists")));
     requestJson.insert("id", QJsonValue(QString("playlists")));
 
-//    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYLISTS), (void *)this->playlistsModels);
+    emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_PLAYER, GET_PLAYLISTS), (void *)this->playlistsModels);
 }
 
 void PlayerManager::getPlaylistItems(PlaylistModelItem *playlist)
@@ -396,4 +512,15 @@ void PlayerManager::getPlaylistItemsCallBack(QNetworkReply *reply, void *data)
         QJsonDocument jsonRep = QJsonDocument::fromJson(reply->readAll());
         qDebug() << "RESPONSE " << jsonRep.toJson();
     }
+}
+
+void PlayerManager::playlistEditedCallBack(QNetworkReply *reply, void *data)
+{
+    Q_UNUSED(data);
+
+    if (reply != NULL)
+    {
+        qDebug() << "Reply -> " << reply->readAll();
+    }
+    this->reloadPlaylists();
 }

@@ -21,6 +21,7 @@
 #define GET_PLAYER_STATE 3
 #define GET_PLAYLISTS 4
 #define GET_PLAYLIST_ITEMS 5
+#define EDITED_PLAYLIST 6
 
 class PlayerManager : public QObject, public IWebRequestDispatcher
 {
@@ -46,9 +47,13 @@ public:
     int                     getMajorIDRequestHandled() const;
     void                    receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
 
-
-
-    void                    addToPlayList(const QString &file);
+    void                    addFileToPlayList(const QString &file, const int playlistId);
+    void                    addArtistToPlaylist(const int artistId, const int playlistId);
+    void                    addAlbumToPlaylist(const int albumId, const int playlistId);
+    void                    addMovieToPlaylist(const int movieId, const int playlistId);
+    void                    addEpisodeToPlaylist(const int episodeId, const int playlistId);
+    void                    clearPlaylist(const int playlistId);
+    void                    removeItemAtPositionFromPlaylist(const int position, const int playlistId);
     void                    reloadPlaylists();
     void                    addPlaylist();
     void                    removePlaylist();
@@ -76,6 +81,7 @@ private:
     void                    getCurrentPlayerStateCallBack(QNetworkReply *reply, void *data);
     void                    getPlaylistsCallBack(QNetworkReply *reply, void *data);
     void                    getPlaylistItemsCallBack(QNetworkReply *reply, void *data);
+    void                    playlistEditedCallBack(QNetworkReply *reply, void *data);
 
     PlayableItemModel       *playableItemModelFromType(QString type);
 
