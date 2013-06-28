@@ -40,20 +40,16 @@ Item
             else if (savedX >= bottomMenu.x && savedX <= (bottomMenu.x + bottomMenu.width) &&
                      savedY >= bottomMenu.y && savedY <= (bottomMenu.y + bottomMenu.height))
                 obj = bottomMenu;
+            // ONE MENU CAN BE OPENED AT THE TIME
+            topMenu.isShown = false;
+            rightMenu.isShown = false;
+            leftMenu.isShown = false;
+            bottomMenu.isShown = false;
             if (obj)
             {
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE
                 obj.startDrag(savedX, savedY)
                 obj.isPressed = true
-            }
-            else
-            {
-                mouse.accepted = false;
-                // CLOSE ANY MENU THAT MIGHT BE OPEN
-                topMenu.isShown = false;
-                rightMenu.isShown = false;
-                leftMenu.isShown = false;
-                bottomMenu.isShown = false;
             }
         }
         onPositionChanged:
