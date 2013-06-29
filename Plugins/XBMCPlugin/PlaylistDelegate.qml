@@ -20,8 +20,37 @@ Item
     }
 
     // PLAY BUTTON
+    Image
+    {
+        id : play_playlist_buttom
+        height : parent.height / 4
+        fillMode: Image.PreserveAspectFit
+        scale : play_playlist_ma.pressed ? 0.9 : 1
+        source : "small_play.png"
+        MouseArea
+        {
+            id : play_playlist_ma
+            anchors.fill: parent
+            onClicked: XBMCPlugin.playPlaylist(idPlaylist, 0)
+        }
+        anchors
+        {
+            verticalCenter : parent.verticalCenter
+            right : parent.right
+        }
+    }
 
     // CLEAR BUTTON
+    CloseButton
+    {
+        height : parent.height / 4
+        onClicked : XBMCPlugin.clearPlaylist(idPlaylist)
+        anchors
+        {
+            bottom : parent.bottom
+            right : parent.right
+        }
+    }
 
     ListView
     {
@@ -43,18 +72,19 @@ Item
             Item
             {
                 width : playlist_listview.width
-                height : playlist_listview.height / 3
+                height : playlist_listview.height / 6
                 Rectangle
                 {
-                    anchors.fill: parent
-                    color : "transparent"
-                    radius : 2
-                    border
+                    height: 1
+                    anchors
                     {
-                        width : 1
-                        color : "white"
+                        bottom: parent.bottom
+                        left : parent.left
+                        right : parent.right
+                        leftMargin : 50
+                        rightMargin : 50
                     }
-                    opacity : 0.2
+                    color : "grey"
                 }
                 Text
                 {
@@ -66,6 +96,11 @@ Item
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: XBMCPlugin.playPlaylist(idPlaylist, index)
                 }
             }
         }

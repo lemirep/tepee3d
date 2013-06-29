@@ -34,6 +34,7 @@ OTHER_FILES += \
     cdbox.png \
     dvdbox.png \
     smoke.png \
+    small_play.png \
     shadow_separator_h.png \
     JoystickControl.png \
     ArtistLibrary.qml \

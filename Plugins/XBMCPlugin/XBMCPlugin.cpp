@@ -243,6 +243,11 @@ void XBMCPlugin::addAlbumToPlaylist(const int albumId)
     this->m_playerManager->addAlbumToPlaylist(albumId);
 }
 
+void XBMCPlugin::addSongToPlaylist(const int songId)
+{
+    this->m_playerManager->addSongToPlaylist(songId);
+}
+
 void XBMCPlugin::addMovieToPlaylist(const int movieId)
 {
     this->m_playerManager->addMovieToPlaylist(movieId);
@@ -251,6 +256,11 @@ void XBMCPlugin::addMovieToPlaylist(const int movieId)
 void XBMCPlugin::addEpisodeToPlaylist(const int episodeId)
 {
     this->m_playerManager->addEpisodeToPlaylist(episodeId);
+}
+
+void XBMCPlugin::clearPlaylist(const int playlistId)
+{
+    this->m_playerManager->clearPlaylist(playlistId);
 }
 
 void XBMCPlugin::genericDatabaseCallBack(QList<QSqlRecord> result, void *data)

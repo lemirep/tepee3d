@@ -22,6 +22,7 @@
 #define GET_PLAYLISTS 4
 #define GET_PLAYLIST_ITEMS 5
 #define EDITED_PLAYLIST 6
+#define PLAY_FILE 7
 
 class PlayerManager : public QObject, public IWebRequestDispatcher
 {
@@ -51,6 +52,7 @@ public:
     void                    addFileToPlayList(const QString &file, const int playlistId);
     void                    addArtistToPlaylist(const int artistId);
     void                    addAlbumToPlaylist(const int albumId);
+    void                    addSongToPlaylist(const int songId);
     void                    addMovieToPlaylist(const int movieId);
     void                    addEpisodeToPlaylist(const int episodeId);
     void                    clearPlaylist(const int playlistId);
@@ -86,6 +88,7 @@ private:
     void                    getPlaylistsCallBack(QNetworkReply *reply, void *data);
     void                    getPlaylistItemsCallBack(QNetworkReply *reply, void *data);
     void                    playlistEditedCallBack(QNetworkReply *reply, void *data);
+    void                    playFileCallBack(QNetworkReply *reply, void *data);
 
     PlayableItemModel       *playableItemModelFromType(QString type);
 

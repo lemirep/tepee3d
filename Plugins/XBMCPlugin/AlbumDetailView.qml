@@ -188,11 +188,11 @@ Item
                     id : play_button
                     height : Math.max(parent.height / 2, 75)
                     fillMode: Image.PreserveAspectFit
-                    source : "player_play.png"
+                    source : "small_play.png"
                     scale : play_button_ma.pressed ? 0.9 : 1
                     anchors
                     {
-                        right : parent.right
+                        right : add_playlist_button.left
                         verticalCenter : parent.verticalCenter
                     }
                     MouseArea
@@ -206,7 +206,21 @@ Item
                         }
                     }
                 }
+                AddButton
+                {
+                    id : add_playlist_button
+                    height : Math.max(parent.height / 2, 75)
+                    anchors
+                    {
+                        right : parent.right
+                        verticalCenter : parent.verticalCenter
+                    }
 
+                    onClicked :
+                    {
+                        XBMCPlugin.addSongToPlaylist(model.songId)
+                    }
+                }
             }
         }
     }

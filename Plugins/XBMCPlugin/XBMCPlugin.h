@@ -95,8 +95,10 @@ public:
     Q_INVOKABLE void               refreshLibraries();
     Q_INVOKABLE void               addArtistToPlaylist(const int artistId);
     Q_INVOKABLE void               addAlbumToPlaylist(const int albumId);
+    Q_INVOKABLE void               addSongToPlaylist(const int songId);
     Q_INVOKABLE void               addMovieToPlaylist(const int movieId);
     Q_INVOKABLE void               addEpisodeToPlaylist(const int episodeId);
+    Q_INVOKABLE void               clearPlaylist(const int playlistId);
 
     // FOCUS STATE HANDLERS
     void                        onIdleFocusState();

@@ -217,7 +217,7 @@ Item
             id : play_button
             width : 75
             fillMode: Image.PreserveAspectFit
-            source : "player_play.png"
+            source : "small_play.png"
             scale : play_button_ma.pressed ? 0.9 : 1
             anchors
             {
