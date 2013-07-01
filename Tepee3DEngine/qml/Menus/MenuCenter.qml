@@ -12,6 +12,7 @@ Item
         anchors.fill: parent
         color : "black"
         opacity : (topMenu.isShown || bottomMenu.isShown || leftMenu.isShown || rightMenu.isShown) ? 0.2 : 0
+        Behavior on opacity {NumberAnimation {duration: 500; easing.type: Easing.InOutQuad }}
     }
 
     MouseArea
@@ -41,10 +42,10 @@ Item
                      savedY >= bottomMenu.y && savedY <= (bottomMenu.y + bottomMenu.height))
                 obj = bottomMenu;
             // ONE MENU CAN BE OPENED AT THE TIME
-            topMenu.isShown = false;
-            rightMenu.isShown = false;
-            leftMenu.isShown = false;
-            bottomMenu.isShown = false;
+            topMenu.isShown = (obj === topMenu) ? topMenu.isShown : false;
+            rightMenu.isShown = (obj === rightMenu) ? rightMenu.isShown : false;
+            leftMenu.isShown = (obj === leftMenu) ? leftMenu.isShown : false
+            bottomMenu.isShown = (obj === bottomMenu) ? leftMenu.isShown : false;
             if (obj)
             {
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE

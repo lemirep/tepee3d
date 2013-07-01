@@ -9,7 +9,7 @@ Item
     property bool isShown : false
     property int  minMenuHeight : mainWindow.menuMinimumWidth
     property int  maxMenuHeight : mainWindow.height / 2
-    property int  minMenuWidth : mainWindow.width / 2
+    property int  minMenuWidth : mainWindow.width
     property int  maxMenuWidth : mainWindow.width
     property int  ySaved;
     property int  savedHeight;
@@ -35,9 +35,15 @@ Item
     {
         var oldstate = menuTopMain.isShown
         if ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
+        {
             menuTopMain.isShown = true;
+            menuTopMain.height = maxMenuHeight
+        }
         else
+        {
             menuTopMain.isShown = false;
+            menuTopMain.height = minMenuHeight
+        }
         if (oldstate == menuTopMain.isShown)
         {
             menuTopMain.state = ""
@@ -50,17 +56,15 @@ Item
     states :     [
         State     {
             name: "menuShown"
-            PropertyChanges
-            {
-                target: menuTopMain;
-                height : maxMenuHeight
-                width : maxMenuWidth
-            }
+//            PropertyChanges
+//            {
+//                target: menuTopMain;
+//                height : maxMenuHeight
+//                width : maxMenuWidth
+//            }
             PropertyChanges
             {
                 target: menuTopRec
-                height : maxMenuHeight
-                width : maxMenuWidth
                 opacity : mainWindow.menu_opacity_deployed
             }
             PropertyChanges
@@ -72,12 +76,12 @@ Item
         },
         State {
             name: "menuHidden"
-            PropertyChanges
-            {
-                target: menuTopMain
-                height : minMenuHeight
-                width : minMenuWidth
-            }
+//            PropertyChanges
+//            {
+//                target: menuTopMain
+//                height : minMenuHeight
+//                width : minMenuWidth
+//            }
             PropertyChanges
             {
                 target: menuTopRec
@@ -116,7 +120,6 @@ Item
         }
     ]
 
-
     BorderImage
     {
         id : menuTopRec
@@ -129,18 +132,18 @@ Item
             bottom : 1
         }
         QuitButton
+        {
+            anchors
             {
-                anchors
-                {
-                    left : room_faces_listview.right
-                    leftMargin : maxMenuWidth / 8
-                    right: parent.right
-                    rightMargin: maxMenuWidth / 8
-                    top :parent.top
-                    topMargin : maxMenuHeight / 5
-                    //verticalCenter: parent.verticalCenter
-                }
+                left : room_faces_listview.right
+                leftMargin : maxMenuWidth / 8
+                right: parent.right
+                rightMargin: maxMenuWidth / 8
+                top :parent.top
+                topMargin : maxMenuHeight / 5
+                //verticalCenter: parent.verticalCenter
             }
+        }
         GridView
         {
             id : room_faces_listview
