@@ -11,44 +11,39 @@ Item
     property int  maxMenuHeight : mainWindow.height / 2
     property int  minMenuWidth : mainWindow.width
     property int  maxMenuWidth : mainWindow.width
-    property int  ySaved;
+    property int  offsetSaved;
     property int  savedHeight;
     property bool isPressed;
 
     Component.onCompleted:    {mainWindow.roomFaceIdChanged.connect(setListIndex);}
+    onIsShownChanged: {menuTopMain.height = (menuTopMain.isShown) ? maxMenuHeight : minMenuHeight}
 
-    function startDrag(xPos, yPos)    {ySaved = yPos;savedHeight = menuTopMain.height}
+    Behavior on height {NumberAnimation {duration : 200}}
+
+    function startDrag(xPos, yPos)    {savedHeight = menuTopMain.height}
 
     function dragMoved(offsetX, offsetY)
     {
-        var offset = offsetY;
-        if ((savedHeight + offset) <=  maxMenuHeight &&
-                (savedHeight + offset) >= minMenuHeight)
-            menuTopMain.height = savedHeight + offset;
-        if ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
-            menuTopMain.isShown = true;
-        else
-            menuTopMain.isShown = false;
+        if ((savedHeight + offsetY) <=  maxMenuHeight &&
+                (savedHeight + offsetY) >= minMenuHeight)
+            menuTopMain.height = savedHeight + offsetY;
+        offsetSaved = offsetY;
     }
 
     function  dragEnd()
     {
         var oldstate = menuTopMain.isShown
-        if ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
-        {
-            menuTopMain.isShown = true;
-            menuTopMain.height = maxMenuHeight
-        }
+        var deployed = (menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4
+        var dragLength = 30
+
+        if (offsetSaved > dragLength)
+            menuTopMain.isShown = true
+        else if (offsetSaved < -dragLength)
+            menuTopMain.isShown = false
         else
-        {
-            menuTopMain.isShown = false;
-            menuTopMain.height = minMenuHeight
-        }
-        if (oldstate == menuTopMain.isShown)
-        {
-            menuTopMain.state = ""
-            menuTopMain.state = (oldstate) ? "menuShown" : "menuHidden"
-        }
+            menuTopMain.isShown = dragLength
+        if (oldstate === menuTopMain.isShown)
+            menuTopMain.height = (menuTopMain.isShown) ? maxMenuHeight : minMenuHeight
     }
 
     function setListIndex(wallId)    {room_faces_listview.currentIndex = wallId;}
@@ -56,67 +51,21 @@ Item
     states :     [
         State     {
             name: "menuShown"
-//            PropertyChanges
-//            {
-//                target: menuTopMain;
-//                height : maxMenuHeight
-//                width : maxMenuWidth
-//            }
-            PropertyChanges
-            {
-                target: menuTopRec
-                opacity : mainWindow.menu_opacity_deployed
-            }
-            PropertyChanges
-            {
-                target : arrow_image
-                opacity : 0
-            }
-            when: menuTopMain.isShown
+            PropertyChanges    {target: menuTopRec; opacity : mainWindow.menu_opacity_deployed}
+            PropertyChanges    {target : arrow_image; opacity : 0}
+            when: menuTopMain.isShown || ((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
         },
         State {
             name: "menuHidden"
-//            PropertyChanges
-//            {
-//                target: menuTopMain
-//                height : minMenuHeight
-//                width : minMenuWidth
-//            }
-            PropertyChanges
-            {
-                target: menuTopRec
-                opacity : mainWindow.menu_opacity_retracted
-            }
-            PropertyChanges
-            {
-                target : arrow_image
-                opacity : 0.8
-            }
-            when: !menuTopMain.isShown
+            PropertyChanges    {target: menuTopRec; opacity : mainWindow.menu_opacity_retracted}
+            PropertyChanges    {target : arrow_image; opacity : 0.8}
+            when: !menuTopMain.isShown || !((menuTopMain.height - minMenuHeight) / maxMenuHeight > 0.4)
         }]
 
     transitions :    [
         Transition
         {
-            from: "menuHidden"
-            to: "menuShown"
-            NumberAnimation
-            {
-                target : menuTopRec
-                properties : "height, opacity"
-                duration : 200
-            }
-        },
-        Transition
-        {
-            from: "menuShown"
-            to: "menuHidden"
-            NumberAnimation
-            {
-                target : menuTopRec
-                properties : "height, opacity"
-                duration : 200
-            }
+            NumberAnimation    {target : menuTopRec; properties : "opacity"; duration : 200}
         }
     ]
 
@@ -141,6 +90,7 @@ Item
                 rightMargin: maxMenuWidth / 8
                 top :parent.top
                 topMargin : maxMenuHeight / 5
+                bottom : parent.bottom
                 //verticalCenter: parent.verticalCenter
             }
         }

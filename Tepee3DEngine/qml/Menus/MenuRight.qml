@@ -6,7 +6,8 @@ Item
     id : menuRightMain
     width: minMenuWidth
     height: minMenuHeight
-    x : minMenuX
+
+    anchors.right: parent.right
 
     property bool isShown : false
     property int  minMenuWidth : mainWindow.menuMinimumWidth
@@ -14,14 +15,17 @@ Item
     property int  minMenuX : mainWindow.width - minMenuWidth
     property int  maxMenuX : mainWindow.width - maxMenuWidth
     property int  minMenuHeight : mainWindow.height
-    //    property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
+    property int  offsetSaved;
     property int  xSaved;
-    property int  savedWidth;
     property bool isPressed;
 
+    Behavior on width {NumberAnimation {duration : 200}}
+
     Component.onCompleted: {mainWindow.roomChanged.connect(unsetListIndex);
-                            mainWindow.roomFaceIdChanged.connect(unsetListIndex)}
+        mainWindow.roomFaceIdChanged.connect(unsetListIndex)}
+
+    onIsShownChanged: {menuRightMain.width = (menuRightMain.isShown) ? maxMenuWidth : minMenuWidth}
 
     function unsetListIndex()
     {
@@ -37,74 +41,56 @@ Item
     {
         var newX = offsetX + xSaved;
         if (newX <= minMenuX && newX >= maxMenuX)
-        {
-            menuRightMain.x = newX
             menuRightMain.width = mainWindow.width - newX;
-            savedWidth = mainWindow.width - newX;
-        }
-        if ((savedWidth) / maxMenuWidth > 0.4)
-            menuRightMain.isShown = true;
-        else
-            menuRightMain.isShown = false;
+        offsetSaved = offsetX
     }
 
     function dragEnd()
     {
         var oldstate = menuRightMain.isShown;
-        if ((savedWidth) / maxMenuWidth > 0.4)
-//        if ((savedWidth - minMenuWidth) / maxMenuWidth > 0.4)
+        var deployed = (menuRightMain.width - minMenuWidth) / maxMenuWidth > 0.4
+        var dragLength = 30
+        if (offsetSaved < -dragLength)
             menuRightMain.isShown = true;
-        else
+        else if (offsetSaved > dragLength)
             menuRightMain.isShown = false;
-        if (oldstate == menuRightMain.isShown)
-        {
-            menuRightMain.state = ""
-            menuRightMain.state = (oldstate) ? "menuShown" : "menuHidden"
-        }
+        else
+            menuRightMain.isShown = deployed
+        if (oldstate === menuRightMain.isShown)
+            menuRightMain.width = (menuRightMain.isShown) ? maxMenuWidth : minMenuWidth
     }
 
     states :     [
         State     {
             name: "menuShown"
-            PropertyChanges    {target: menuRightMain; width : maxMenuWidth; height : maxMenuHeight; x: maxMenuX}
             PropertyChanges    {target: menuRightRec; opacity : mainWindow.menu_opacity_deployed}
             PropertyChanges    {target : room_plugins_list_view; opacity : 1}
             PropertyChanges    {target : add_plugin_button; opacity : 1}
             PropertyChanges    {target: arrow_image; opacity : 0}
-            when: menuRightMain.isShown
+            when: menuRightMain.isShown || (menuRightMain.width - minMenuWidth) / maxMenuWidth > 0.4
         },
         State {
             name: "menuHidden"
-            PropertyChanges    {target: menuRightMain; x : minMenuX; height : minMenuHeight; width : minMenuWidth}
             PropertyChanges    {target: menuRightRec; opacity : mainWindow.menu_opacity_retracted}
             PropertyChanges    {target : add_plugin_button; opacity : 0}
             PropertyChanges    {target : room_plugins_list_view; opacity : 0}
             PropertyChanges    {target: arrow_image; opacity : 0.8}
-            when: !menuRightMain.isShown
+            when: !menuRightMain.isShown || !((menuRightMain.width - minMenuWidth) / maxMenuWidth > 0.4)
         }]
 
     transitions :    [
         Transition
         {
-            from: "menuHidden"
-            to: "menuShown"
-            SmoothedAnimation    {target : menuRightRec; properties : "x, width, opacity"; duration : -1; velocity : 1}
-            SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : -1; velocity : 1}
-        },
-        Transition
-        {
-            from: "menuShown"
-            to: "menuHidden"
-            SmoothedAnimation    {target : menuRightRec; properties : "x, width, opacity"; duration : 200; velocity : 10}
-            SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : 200; velocity : 10}
+            NumberAnimation    {target : menuRightRec; properties : "opacity"; duration : 200}
         }
     ]
 
     BorderImage
     {
         id : menuRightRec
-        width : parent.width
-        height : parent.height
+        //        width : parent.width
+        //        height : parent.height
+        anchors.fill: parent
         source : "../Resources/Pictures/panel_bg2.png"
         property bool add_plugins : false;
         opacity : 0

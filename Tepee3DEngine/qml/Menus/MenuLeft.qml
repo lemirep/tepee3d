@@ -14,50 +14,41 @@ Item
     property int  maxMenuWidth : mainWindow.width / 3
     property int  minMenuHeight : mainWindow.height
     property int  maxMenuHeight : mainWindow.height
-    property int  xSaved;
+    property int  offsetSaved;
     property int  savedWidth;
     property int  idx : 0;
     property bool isPressed;
     property bool isInEditMode : false;
 
+    Behavior on width {NumberAnimation {duration : 200}}
 
     Component.onCompleted:    {mainWindow.roomChanged.connect(setListIndex);}
-    onIsShownChanged:    {isInEditMode = false}
+    onIsShownChanged:    {isInEditMode = false; menuLeftMain.width = (isShown) ? maxMenuWidth : minMenuWidth}
 
-    function startDrag(xPos, yPos)
-    {
-        xSaved = xPos;
-        savedWidth = menuLeftMain.width
-        console.log("xSaved " + xSaved);
-    }
+    function startDrag(xPos, yPos)    {savedWidth = menuLeftMain.width}
 
     function dragMoved(offsetX, offsetY)
     {
-        var offset = offsetX;
-        if ((savedWidth + offset) <=  maxMenuWidth &&
-                (savedWidth + offset) >= minMenuWidth)
-            menuLeftMain.width = savedWidth + offset;
-//        if ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
-//            menuLeftMain.isShown = true;
-//        else
-//            menuLeftMain.isShown = false;
-        console.log("drag moved " + ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4))
+        if ((savedWidth + offsetX) <=  maxMenuWidth &&
+                (savedWidth + offsetX) >= minMenuWidth)
+            menuLeftMain.width = savedWidth + offsetX;
+        offsetSaved = offsetX
     }
 
     function dragEnd()
     {
-        var oldstate = menuLeftMain.isShown
-        if ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
-            menuLeftMain.isShown = true;
-        else
-            menuLeftMain.isShown = false;
+        var oldState = menuLeftMain.isShown
+        var deployed = (menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4
+        var dragLength = 30
 
-//        if (oldstate == menuLeftMain.isShown)
-//        {
-//            menuLeftMain.state = ""
-//            menuLeftMain.state = (oldstate) ? "menuShown" : "menuHidden"
-//        }
-        console.log("drag end")
+        if (offsetSaved > dragLength)
+            menuLeftMain.isShown = true
+        else if (offsetSaved < -dragLength)
+            menuLeftMain.isShown = false
+        else
+            menuLeftMain.isShown = deployed
+        if (oldState === menuLeftMain.isShown)
+            menuLeftMain.width = (menuLeftMain.isShown) ? maxMenuWidth : minMenuWidth;
     }
 
     function setListIndex(roomId)
@@ -82,66 +73,37 @@ Item
         rooms_list_view.lockList = false;
     }
 
-    states :     [
-        State     {
-            name: "menuShown"
-            PropertyChanges    {target: menuLeftMain; width : maxMenuWidth; height : maxMenuHeight}
-            when: menuLeftMain.isShown
-        },
-        State {
-            name: "menuHidden"
-            PropertyChanges    {target: menuLeftMain; width : minMenuWidth; height : minMenuHeight}
-            when: !menuLeftMain.isShown
+    states : [
+        State
+        {
+            name : "menuShown"
+            PropertyChanges    {target: menuLeftRec; opacity :  menu_opacity_deployed}
+            PropertyChanges    {target: edit_image_button; opacity : 1}
+            PropertyChanges    {target: add_room_button; opacity : 1}
+            PropertyChanges    {target: sky_room_view_button; opacity : 1}
+            PropertyChanges    {target: arrow_image; opacity : 0}
+            when : menuLeftMain.isShown || ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
         },
         State
         {
-            name : "menuInvisible"
+            name : "menuHidden"
             PropertyChanges    {target: menuLeftRec; opacity :  menu_opacity_retracted}
             PropertyChanges    {target: add_room_button; opacity : 0}
             PropertyChanges    {target: edit_image_button; opacity : 0}
             PropertyChanges    {target: add_room_button; opacity : 0}
             PropertyChanges    {target: sky_room_view_button; opacity : 0}
             PropertyChanges    {target: arrow_image; opacity : 0.8}
-            when : !((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
-        },
-        State
-        {
-            name : "menuVisible"
-            PropertyChanges    {target: menuLeftRec; opacity :  menu_opacity_deployed}
-            PropertyChanges    {target: edit_image_button; opacity : 1}
-            PropertyChanges    {target: add_room_button; opacity : 1}
-            PropertyChanges    {target: sky_room_view_button; opacity : 1}
-            PropertyChanges    {target: arrow_image; opacity : 0}
-            when : ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
+            when : !menuLeftMain.isShown || !((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
         }
     ]
 
-    transitions :    [
+    transitions : [
         Transition
         {
-            from: "menuHidden"
-            to: "menuShown"
-            NumberAnimation    {target : menuLeftRec; properties : "width, opacity"; duration : 800}
-        },
-        Transition
-        {
-            from: "menuShown"
-            to: "menuHidden"
-            NumberAnimation    {target : menuLeftRec; properties : "width, opacity"; duration : 200;}
-        },
-        Transition
-        {
-            from: "menuInvisible"
-            to: "menuVisible"
-            SmoothedAnimation    {target : menuLeftRec; properties : "width, opacity"; duration : -1; velocity : 1}
-        },
-        Transition
-        {
-            from: "menuVisible"
-            to: "menuInvisible"
-            SmoothedAnimation    {target : menuLeftRec; properties : "width, opacity"; duration : 200; velocity : 50}
+            NumberAnimation    {target : menuLeftRec; properties : "opacity"; duration : 200}
         }
     ]
+
 
     Item
     {

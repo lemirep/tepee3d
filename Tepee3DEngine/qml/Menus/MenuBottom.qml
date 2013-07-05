@@ -9,6 +9,7 @@ Item
 
     // BOTTOM MENU IS USED FOR PLUGIN SETTINGS WHEN FOCUSED ON A PLUGIN
     // WHEN NOT FOCUSED IT IS THE APPLICATION MAIN/SETTINGS MENU
+    anchors.bottom: parent.bottom
 
     property bool isShown : false
     property int  minMenuHeight : mainWindow.menuMinimumWidth
@@ -18,109 +19,68 @@ Item
     property int  minMenuY : mainWindow.height - minMenuHeight
     property int  maxMenuY : mainWindow.height - maxMenuHeight
     property int  ySaved;
-    property int  savedHeight;
+    property int offsetSaved;
     property alias pluginMenuSource : plugin_menu_loader.source
     property bool isPressed;
+
+    Behavior on height {NumberAnimation {duration : 200}}
+
+    onIsShownChanged: {menuBottomMain.height = (menuBottomMain.isShown) ? maxMenuHeight : minMenuHeight}
+
 
     function startDrag(xPos, yPos)
     {
         ySaved = yPos;
+        console.log("start")
     }
 
     function dragMoved(offsetX, offsetY)
     {
         var newY = offsetY + ySaved
+        console.log(newY)
         if (newY <= minMenuY && newY >= maxMenuY)
-        {
-            menuBottomMain.y = newY
             menuBottomMain.height = mainWindow.height - newY
-            savedHeight = mainWindow.height - newY;
-        }
-        if ((savedHeight - minMenuHeight) / maxMenuHeight > 0.4)
-            menuBottomMain.isShown = true;
-        else
-            menuBottomMain.isShown = false;
+        offsetSaved = offsetY
     }
 
     function dragEnd()
     {
         var oldstate = menuBottomMain.isShown
-        if ((savedHeight - minMenuHeight) / maxMenuHeight > 0.4)
+        var deployed = ((menuBottomMain.height - minMenuHeight) / maxMenuHeight > 0.4)
+        var dragLength = 30
+
+        if (offsetSaved < dragLength)
             menuBottomMain.isShown = true;
-        else
+        else if (offsetSaved > dragLength)
             menuBottomMain.isShown = false;
-        if (oldstate == menuBottomMain.isShown)
-        {
-            menuBottomMain.state = ""
-            menuBottomMain.state = (oldstate) ? "menuShown" : "menuHidden"
-        }
+        else
+            menuBottomMain.isShown = deployed;
+        if (oldstate === menuBottomMain.isShown)
+            menuBottomMain.height = (menuBottomMain.isShown) ? maxMenuHeight : minMenuHeight
+        console.log("end")
     }
-    //    function setListIndex(wallId)
-    //    {
-    //        console.log("Wall ID <><><><><><><><> " + wallId)
-    //        room_faces_listview.currentIndex = wallId;
-    //    }
 
     states : [
         State
         {
             name : "menuShown"
-            PropertyChanges
-            {
-                target: menuBottomMain
-                width : maxMenuWidth
-                height : maxMenuHeight
-                y : maxMenuY
-
-            }
-            PropertyChanges
-            {
-                target: menuBottomRec
-                opacity : mainWindow.menu_opacity_deployed
-            }
-            PropertyChanges
-            {
-                target: arrow_image
-                opacity : 0
-            }
-            when : menuBottomMain.isShown
+            PropertyChanges    {target: menuBottomRec; opacity : mainWindow.menu_opacity_deployed}
+            PropertyChanges    {target: arrow_image; opacity : 0}
+            when : menuBottomMain.isShown || ((menuBottomMain.height - minMenuHeight) / maxMenuHeight > 0.4)
         },
         State
         {
             name : "menuHidden"
-            PropertyChanges
-            {
-                target: menuBottomMain
-                width : minMenuWidth
-                height : minMenuHeight
-                y : minMenuY
-
-            }
-            PropertyChanges
-            {
-                target: menuBottomRec
-                opacity : mainWindow.menu_opacity_retracted
-            }
-            PropertyChanges
-            {
-                target: arrow_image
-                opacity : 0.8
-            }
-            when :!menuBottomMain.isShown
+            PropertyChanges    {target: menuBottomRec; opacity : mainWindow.menu_opacity_retracted}
+            PropertyChanges    {target: arrow_image; opacity : 0.8}
+            when :!menuBottomMain.isShown || !((menuBottomMain.height - minMenuHeight) / maxMenuHeight > 0.4)
         }
-
     ]
 
     transitions : [
         Transition
         {
-            from : "menuHidden"
-            to : "menuShown"
-        },
-        Transition
-        {
-            from : "menuShown"
-            to : "menuHidden"
+            NumberAnimation    {target : menuBottomRec; properties : "opacity"; duration : 200}
         }
     ]
 
@@ -128,7 +88,7 @@ Item
     {
         id: menuBottomRec
         source: "../Resources/Pictures/panel_bg2.png"
-        width: parent.width; height: parent.height;
+        anchors.fill: parent
         border.left: 2; border.bottom: 1
 
         Loader
@@ -141,47 +101,6 @@ Item
                 "Menu Loaded"
             }
         }
-//        Clock
-//        {
-//            anchors
-//            {
-//                verticalCenter : parent.verticalCenter
-//                left : parent.left
-//                leftMargin :  mainWindow.menuMinimumWidth
-//            }
-//        }
-//        Image
-//        {
-//            id : homeRoom_button
-//            anchors
-//            {
-//                verticalCenter : parent.verticalCenter
-//                right : parent.right
-//                rightMargin :  mainWindow.menuMinimumWidth
-//            }
-//            source : "../Resources/Pictures/home_buttom.png"
-//            opacity: (mainWindow.inRoom()) ? 1 : 0
-//            smooth : true
-//            scale : homeRoom_button_ma.pressed ? 0.5 :  1
-//            MouseArea
-//            {
-//                id : homeRoom_button_ma
-//                anchors.fill: parent
-//                onClicked: mainWindow.moveCameraHomeRoom()
-//            }
-//            Text
-//            {
-//                anchors
-//                {
-//                    bottomMargin:  homeRoom_button.height + mainWindow.menuMinimumWidth
-//                    horizontalCenter : parent.horizontalCenter
-//                    bottom: parent.bottom
-//                }
-//                color : "white"
-//                text: (mainWindow.inRoom()) ? "Your are in room " + mainWindow.getcurrentIdRoom() : "Your are in Global View"
-
-//            }
-//        }
     }
     Image
     {

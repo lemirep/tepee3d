@@ -45,7 +45,7 @@ Item
             topMenu.isShown = (obj === topMenu) ? topMenu.isShown : false;
             rightMenu.isShown = (obj === rightMenu) ? rightMenu.isShown : false;
             leftMenu.isShown = (obj === leftMenu) ? leftMenu.isShown : false
-            bottomMenu.isShown = (obj === bottomMenu) ? leftMenu.isShown : false;
+            bottomMenu.isShown = (obj === bottomMenu) ? bottomMenu.isShown : false;
             if (obj)
             {
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE
