@@ -10,6 +10,7 @@ FileDownloadJob::FileDownloadJob(QFile &file,
     sender(sender)
 {
     this->reply = NULL;
+    qDebug() << "File downloadJob instanciated";
 }
 
 
@@ -28,24 +29,33 @@ void    FileDownloadJob::abort()
 
 void    FileDownloadJob::downloadStarted()
 {
-    reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadStarted(this->file, this->requestId, this->data);
+    qDebug() << "Starting download";
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (fileDowloaderInterface != NULL)
+        fileDowloaderInterface->onDownloadStarted(this->file, this->requestId, this->data);
 }
 
 void    FileDownloadJob::onProgress(qint64 received, qint64 total)
 {
-    reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadProgress(this->file, (double)received / total * 100, this->requestId, this->data);
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (fileDowloaderInterface != NULL)
+        fileDowloaderInterface->onDownloadProgress(this->file, (double)received / total * 100, this->requestId, this->data);
 }
 
 void    FileDownloadJob::onError(QNetworkReply::NetworkError error)
 {
-    reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadError(this->file, this->requestId, this->data);
-    qWarning() << "Error number : " << error;
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    qWarning() << "Error number : " << error << " : " << reply->errorString();
+    if (fileDowloaderInterface != NULL)
+        fileDowloaderInterface->onDownloadError(this->file, this->requestId, this->data);
 }
 
 void    FileDownloadJob::onFinished()
 {
-    reinterpret_cast<Services::FileDownloaderServiceUserInterface *>(this->sender)->onDownloadFinished(this->file, this->requestId, this->data);
-    // DESTROYS THE OBJECT  
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (fileDowloaderInterface != NULL)
+        fileDowloaderInterface->onDownloadFinished(this->file, this->requestId, this->data);
+    // DESTROYS THE OBJECT
     delete this;
 }
 

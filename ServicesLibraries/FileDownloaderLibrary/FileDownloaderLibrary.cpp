@@ -114,6 +114,7 @@ void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob, con
     }
     if (reply != NULL)
     {
+        qDebug() << "File downloader reply not null";
         currentJob->setReply(reply);
         QObject::connect(reply, SIGNAL(finished()), currentJob, SLOT(onFinished()));
         QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), currentJob, SLOT(onProgress(qint64, qint64)));
@@ -135,7 +136,7 @@ void FileDownloaderLibrary::executeFileDownloader(const QNetworkRequest &request
                                                   requestId,
                                                   data,
                                                   sender);
-        this->executeFileDownload(newJob, request, requestType, multiPart);
+    this->executeFileDownload(newJob, request, requestType, multiPart);
 }
 
 QNetworkAccessManager* FileDownloaderLibrary::instance = NULL;

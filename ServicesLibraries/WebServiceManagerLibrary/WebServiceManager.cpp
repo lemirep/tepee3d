@@ -128,7 +128,7 @@ QNetworkAccessManager*  WebServiceManager::getInstance()
 void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multipart, QObject *sender, int requestId, void *data)
 {
     Q_UNUSED(multipart)
-    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data);
+    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multipart);
     QNetworkReply *reply = this->getInstance()->get(request);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
@@ -141,7 +141,7 @@ void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multip
 void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
 {
     Q_UNUSED(multipart)
-    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data);
+    NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multipart);
     QNetworkReply*reply = this->getInstance()->deleteResource(request);
     QObject::connect(reply, SIGNAL(finished()), repeater, SLOT(receiveNetworkReply()));
 }
