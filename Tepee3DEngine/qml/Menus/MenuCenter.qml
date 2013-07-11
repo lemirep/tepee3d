@@ -1,6 +1,5 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 
 Item
 {
@@ -51,6 +50,7 @@ Item
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE
                 obj.startDrag(savedX, savedY)
                 obj.isPressed = true
+                console.log("pressed on menu bar")
             }
             else
                 mouse.accepted = false
@@ -78,6 +78,7 @@ Item
                 mouse.accepted = true
                 obj.dragEnd();
                 obj.isPressed = false;
+                console.log("drag end")
             }
         }
     }

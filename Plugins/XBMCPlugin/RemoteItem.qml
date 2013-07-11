@@ -321,8 +321,9 @@ Item
                     lockedSlider = false;
                     main_listview.interactive = !lockedSlider
                     // ASK PLAYER TO CHANGE TO NEW VALUE OF time_slider.advance
-                    XBMCPlugin.seekAction(time_slider.tmp_advance * 100)
-                    console.log("Released ");
+//                    XBMCPlugin.seekAction(time_slider.tmp_advance * 100)
+                    console.log("Released " + (time_slider.tmp_advance * 100));
+                    time_slider.tmp_advance = 0
                 }
             }
             Item

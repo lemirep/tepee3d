@@ -25,7 +25,7 @@ Item
     Component.onCompleted: {mainWindow.roomChanged.connect(unsetListIndex);
         mainWindow.roomFaceIdChanged.connect(unsetListIndex)}
 
-    onIsShownChanged: {menuRightMain.width = (menuRightMain.isShown) ? maxMenuWidth : minMenuWidth}
+    onIsShownChanged: {menuRightMain.width = (menuRightMain.isShown) ? maxMenuWidth : minMenuWidth; menuRightRec.add_plugins = false}
 
     function unsetListIndex()
     {
@@ -64,7 +64,7 @@ Item
         State     {
             name: "menuShown"
             PropertyChanges    {target: menuRightRec; opacity : mainWindow.menu_opacity_deployed}
-            PropertyChanges    {target : room_plugins_list_view; opacity : 1}
+            PropertyChanges    {target : room_plugins_list_view_item; opacity : 1}
             PropertyChanges    {target : add_plugin_button; opacity : 1}
             PropertyChanges    {target: arrow_image; opacity : 0}
             when: menuRightMain.isShown || (menuRightMain.width - minMenuWidth) / maxMenuWidth > 0.4
@@ -73,7 +73,7 @@ Item
             name: "menuHidden"
             PropertyChanges    {target: menuRightRec; opacity : mainWindow.menu_opacity_retracted}
             PropertyChanges    {target : add_plugin_button; opacity : 0}
-            PropertyChanges    {target : room_plugins_list_view; opacity : 0}
+            PropertyChanges    {target : room_plugins_list_view_item; opacity : 0}
             PropertyChanges    {target: arrow_image; opacity : 0.8}
             when: !menuRightMain.isShown || !((menuRightMain.width - minMenuWidth) / maxMenuWidth > 0.4)
         }]
@@ -88,8 +88,6 @@ Item
     BorderImage
     {
         id : menuRightRec
-        //        width : parent.width
-        //        height : parent.height
         anchors.fill: parent
         source : "../Resources/Pictures/panel_bg2.png"
         property bool add_plugins : false;
@@ -106,14 +104,18 @@ Item
             {
                 name : "currentRoomPlugins"
                 AnchorChanges    {target : available_plugins_rect; anchors.left : menuRightRec.right}
-                PropertyChanges    {target: room_plugins_list_view; opacity : 1}
+                AnchorChanges    {target : room_plugins_list_view_item; anchors.right : menuRightRec.right}
+                PropertyChanges    {target: room_plugins_list_view_item; opacity : 1}
+                PropertyChanges    {target: available_plugins_rect; opacity : 0}
                 when : !menuRightRec.add_plugins
             },
             State
             {
                 name : "availablePlugins"
                 AnchorChanges    {target : available_plugins_rect; anchors.left : menuRightRec.left}
-                PropertyChanges    {target: room_plugins_list_view; opacity : 0}
+                AnchorChanges    {target : room_plugins_list_view_item; anchors.right : menuRightRec.left}
+                PropertyChanges    {target: room_plugins_list_view_item; opacity : 0}
+                PropertyChanges    {target: available_plugins_rect; opacity : 1}
                 when : menuRightRec.add_plugins
             }
         ]
@@ -123,64 +125,64 @@ Item
                 from: "currentRoomPlugins"
                 to: "availablePlugins"
                 AnchorAnimation    {duration : 500; easing.type: Easing.OutQuad}
-                SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : -1; velocity : 10}
+                NumberAnimation    {target : room_plugins_list_view_item; properties : "opacity"; duration : 100}
+                NumberAnimation    {target : available_plugins_rect; properties : "opacity"; duration : 1500}
             },
             Transition
             {
                 from: "availablePlugins"
                 to: "currentRoomPlugins"
-                AnchorAnimation    {duration : 500; easing.type: Easing.InQuart}
-                SmoothedAnimation    {target : room_plugins_list_view; properties : "opacity"; duration : -1; velocity : 0.5}
+                AnchorAnimation    {duration : 500; easing.type: Easing.OutQuart}
+                NumberAnimation    {target : room_plugins_list_view_item; properties : "opacity"; duration : 1500}
+                NumberAnimation    {target : available_plugins_rect; properties : "opacity"; duration : 100}
             }
         ]
 
-        ListView
+        Item
         {
-            id : room_plugins_list_view
-
-            property real delegate_width :  menuRightMain.width / 2;
-            property real delegate_height : menuRightMain.width / 3;
-
-            opacity : 0
-            enabled : (parent.opacity == 1)
-            clip: true
+            id : room_plugins_list_view_item
             anchors
             {
-                fill: parent
+                left : parent.left
+                top : parent.top
+                bottom : parent.bottom
                 margins : menuRightMain.width / 8
             }
-            orientation: ListView.Vertical
-            model : roomModel.subModelFromId(mainWindow.currentRoomId);
-            delegate: RoomPluginDelegate {
-                width : menuRightMain.width / 2
-                height : menuRightMain.width / 3
-                pluginName: model.pluginName
-                pluginId: model.pluginId
+            ListView
+            {
+                id : room_plugins_list_view
+                clip: true
+                anchors.fill: parent
+                orientation: ListView.Vertical
+                enabled : (parent.opacity === 1 && menuRightMain.isShown)
+                spacing: 10
+                model : roomModel.subModelFromId(mainWindow.currentRoomId);
+                delegate: RoomPluginDelegate {
+                    width : menuRightMain.width / 2
+                    height : menuRightMain.width / 3
+                    pluginName: model.pluginName
+                    pluginId: model.pluginId
+                }
             }
-            spacing: 10
         }
 
         Item
         {
             id : available_plugins_rect
-            width : parent.width
-            height : parent.height
-            enabled : menuRightRec.add_plugins
-            anchors.left : parent.right
-
+            anchors
+            {
+                right : parent.right
+                top : parent.top
+                bottom : parent.bottom
+                margins : menuRightMain.width / 8
+            }
             ListView
             {
                 id : available_plugins_list_view
-                opacity : 1
-                enabled : (parent.opacity == 1)
+                enabled : (parent.opacity === 1 && menuRightMain.isShown)
                 clip: true
                 spacing: 10
-                anchors
-                {
-                    fill: parent
-                    left : parent.right
-                    margins : menuRightMain.width / 8
-                }
+                anchors.fill: parent
                 orientation: ListView.Vertical
                 model : availablePluginsModel
                 delegate: NewPluginDelegate {

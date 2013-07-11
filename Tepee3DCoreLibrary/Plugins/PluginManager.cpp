@@ -366,6 +366,7 @@ void Plugins::PluginManager::loadLocalPlugins()
     PluginLoader::loadWidgetPlugins();
     foreach (Plugins::PluginBase*  plugin, PluginLoader::getWidgetPlugins())
     {
+        qDebug() << "Adding available plugin item";
         Plugins::PluginManager::locallyAvailablePluginsModel->appendRow(new Models::PluginModelItem(plugin, this));
         // DO PLUGIN CONNECTION TO SIGNAL MAPPER FOR SERVICES HERE
     }
@@ -426,7 +427,7 @@ void Plugins::PluginManager::cleanPluginBeforeRemoval(Plugins::PluginBase *roomP
  */
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {
-    context->setContextProperty("availablePluginsModel", this->locallyAvailablePluginsModel);
+    context->setContextProperty("availablePluginsModel", Plugins::PluginManager::locallyAvailablePluginsModel);
     qmlRegisterType<Plugins::PluginEnums>("Plugins", 1, 0, "PluginEnums");
     qmlRegisterType<Plugins::PluginQmlPluginProperties>("Plugins", 1, 0, "PluginProperties");
 }

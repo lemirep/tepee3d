@@ -31,13 +31,11 @@ Item
     function startDrag(xPos, yPos)
     {
         ySaved = yPos;
-        console.log("start")
     }
 
     function dragMoved(offsetX, offsetY)
     {
         var newY = offsetY + ySaved
-        console.log(newY)
         if (newY <= minMenuY && newY >= maxMenuY)
             menuBottomMain.height = mainWindow.height - newY
         offsetSaved = offsetY
@@ -48,7 +46,7 @@ Item
         var oldstate = menuBottomMain.isShown
         var deployed = ((menuBottomMain.height - minMenuHeight) / maxMenuHeight > 0.4)
         var dragLength = 30
-
+        console.log(offsetSaved)
         if (offsetSaved < dragLength)
             menuBottomMain.isShown = true;
         else if (offsetSaved > dragLength)
@@ -57,7 +55,6 @@ Item
             menuBottomMain.isShown = deployed;
         if (oldstate === menuBottomMain.isShown)
             menuBottomMain.height = (menuBottomMain.isShown) ? maxMenuHeight : minMenuHeight
-        console.log("end")
     }
 
     states : [

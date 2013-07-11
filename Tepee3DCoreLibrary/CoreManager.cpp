@@ -153,13 +153,12 @@ bool    CoreManager::initView()
 //    this->pluginsManager->checkForPluginsUpdates();
 //    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
 //    this->pluginsManager->downloadPluginFromServer(32);
-    this->pluginsManager->downloadFileFromServer("./test");
+//    this->pluginsManager->downloadFileFromServer("./test");
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
     QUrl localFile = QUrl::fromLocalFile(PlatformFactory::getPlatformInitializer()->getDataDirectory().absolutePath() + "/qml/main.qml");
-
     if (localFile.isValid())
     {
         qDebug() << "SETTING VIEW SOURCE";
