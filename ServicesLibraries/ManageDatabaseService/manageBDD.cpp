@@ -101,6 +101,9 @@ void ManageBDD::copyDatabaseToWritableDirectory(const QString &dbName)
         QDir dbDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
         this->databasePath = dbDir.absolutePath();
         qDebug() << this->databasePath;
+        if (!dbDir.exists())
+            dbDir.mkpath(dbDir.absolutePath());
+        qDebug() << "Data dir exists : " << dbDir.exists();
     }
     QFile dbFile(this->databasePath + "/" + dbName);
     qDebug() << dbFile.fileName();
@@ -111,6 +114,7 @@ void ManageBDD::copyDatabaseToWritableDirectory(const QString &dbName)
         qDebug() << "Trying to copy " << dbTemplate.fileName();
         if (dbTemplate.exists())
             dbTemplate.copy(dbFile.fileName());
+
     }
     else
         qDebug() << "File already exists";
