@@ -58,36 +58,17 @@ bool ManageBDD::openDatabase(const QString& dbName)
 #ifdef Q_OS_QNX
         // ON QNX, DATABASE HAVE TO BE COPIED TO THE data DIRECTORY
         // IN ORDER TO BE USED
-        if (this->databasePath.isEmpty())
-        {
-            QDir dbDir(this->applicationPath);
-            dbDir.cdUp();
-            dbDir.cdUp();
-            dbDir.cd("data");
-            this->databasePath = dbDir.absolutePath();
-        }
-        QFile dbFile(this->databasePath + "/" + dbName);
-        qDebug() << dbFile.fileName();
-        if (!dbFile.exists())
-        {
-            qDebug() << "File doesn't exist";
-            QFile dbTemplate(this->applicationPath + "/databases/" + dbName);
-            qDebug() << "Trying to copy " << dbTemplate.fileName();
-            if (dbTemplate.exists())
-               dbTemplate.copy(dbFile.fileName());
-        }
-        else
-            qDebug() << "File already exists";
-        // OPENED DB PATH IS SAVED IN HASH
-        this->nameToPathHash[dbName] = dbFile.fileName();
-        this->localDBName = this->nameToPathHash[dbName];
+        this->copyDatabaseToWritableDirectory(dbName);
 #endif
 
 #ifdef Q_OS_WIN32
         // ON WINDOWS THE SQL DATABASES MUST BE IN THE APPDATA DIRECTORY
         // OTHERWISE THE PROGRAM AS TO BE RUN AS ADMINISTRATOR TO SAVE IN THE BDD
+        this->copyDatabaseToWritableDirectory(dbName);
+#endif
 
-
+#ifdef Q_OS_WIN64
+        this->copyDatabaseToWritableDirectory(dbName);
 #endif
 
 #ifdef Q_OS_LINUX
@@ -111,6 +92,31 @@ bool ManageBDD::openDatabase(const QString& dbName)
     bool value = this->dataBase.open();
     qDebug() << "Database open " << value;
     return value;
+}
+
+void ManageBDD::copyDatabaseToWritableDirectory(const QString &dbName)
+{
+    if (this->databasePath.isEmpty())
+    {
+        QDir dbDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation));
+        this->databasePath = dbDir.absolutePath();
+        qDebug() << this->databasePath;
+    }
+    QFile dbFile(this->databasePath + "/" + dbName);
+    qDebug() << dbFile.fileName();
+    if (!dbFile.exists())
+    {
+        qDebug() << "File doesn't exist";
+        QFile dbTemplate(this->applicationPath + "/databases/" + dbName);
+        qDebug() << "Trying to copy " << dbTemplate.fileName();
+        if (dbTemplate.exists())
+            dbTemplate.copy(dbFile.fileName());
+    }
+    else
+        qDebug() << "File already exists";
+    // OPENED DB PATH IS SAVED IN HASH
+    this->nameToPathHash[dbName] = dbFile.fileName();
+    this->localDBName = this->nameToPathHash[dbName];
 }
 
 /*!

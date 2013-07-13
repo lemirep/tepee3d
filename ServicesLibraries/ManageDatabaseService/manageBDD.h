@@ -1,6 +1,7 @@
 #ifndef MANAGEBDD_H
 #define MANAGEBDD_H
 
+#include <QStandardPaths>
 #include <QCoreApplication>
 #include <QObject>
 #include <QString>
@@ -34,6 +35,8 @@ private :
     QString         applicationPath;
     QString         databasePath;
     QHash<QString, QString> nameToPathHash;
+
+    void    copyDatabaseToWritableDirectory(const QString& dbName);
 };
 
 #endif // MANAGEBDD_H
