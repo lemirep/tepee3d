@@ -25,7 +25,7 @@ CONFIG += ordered
 }
 
 android {
-#    DOC_EXTRAS += android/AndroidManifest.xml
+    DOC_EXTRAS += android/AndroidManifest.xml
     qml_folder.files += Tepee3DEngine/qml/
     qml_folder.files += Tepee3DEngine/plugins_qml/
     qml_folder.files += Tepee3DEngine/libraries/

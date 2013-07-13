@@ -54,7 +54,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     libDir = QDir("/data/data/org.qtproject.example.Tepee3D/lib");
     qDebug() << libDir.absolutePath();
     qDebug() << libDir.absoluteFilePath("libCoreLibrary.so");
-     loader.setFileName(libDir.absoluteFilePath("libCoreLibrary.so"));
+    loader.setFileName(libDir.absoluteFilePath("libCoreLibrary.so"));
 #endif
 
     qDebug() << "Trying to load Core Library";
