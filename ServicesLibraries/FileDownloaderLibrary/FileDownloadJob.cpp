@@ -1,6 +1,6 @@
 #include "FileDownloadJob.h"
 
-FileDownloadJob::FileDownloadJob(QFile &file,
+FileDownloadJob::FileDownloadJob(QFile *file,
                                  int requestId,
                                  void *data,
                                  QObject *sender):
@@ -10,7 +10,7 @@ FileDownloadJob::FileDownloadJob(QFile &file,
     sender(sender)
 {
     this->reply = NULL;
-    qDebug() << "File downloadJob instanciated";
+    qDebug() << "File downloadJob instanciated " << file->fileName();
 }
 
 
@@ -61,13 +61,14 @@ void    FileDownloadJob::onFinished()
 
 void    FileDownloadJob::onReadReady()
 {
-
+    qDebug() << "READING FILE DOWNLOAD";
     const int readBuffSize = 256;
     char buff[readBuffSize];
     int read = 0;
     memset(buff, 0,readBuffSize);
     while ((read = this->reply->read(buff, readBuffSize)) > 0)
-        this->file.write(buff, read);
+        this->file->write(buff, read);
+    this->file->flush();
 }
 
 QNetworkReply *FileDownloadJob::getReply() const

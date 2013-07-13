@@ -92,9 +92,9 @@ void Plugins::PluginManager::downloadFileFromServer(QString file)
 
     httpPart.setBody(QJsonDocument(requestObj).toJson());
     multiPart->append(httpPart);
-    QFile test("./test");
-    test.open(QIODevice::WriteOnly);
-    if (test.isOpen())
+    QFile *test = new QFile("./test");
+    test->open(QIODevice::WriteOnly);
+    if (test->isOpen())
     {
         qDebug() << "Test file is open";
         emit executeFileDownloader(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
@@ -103,6 +103,13 @@ void Plugins::PluginManager::downloadFileFromServer(QString file)
                                test,
                                this,
                                DOWNLOAD_FILE);
+
+//        emit executeFileDownloader(QNetworkRequest(QUrl("http://1584.ci")),
+//                                   FileDownloaderServiceUserInterface::Get,
+//                                   NULL,
+//                                   test,
+//                                   this,
+//                                   DOWNLOAD_FILE);
     }
 }
 
@@ -314,22 +321,23 @@ void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, 
     (this->*this->webServicesCallBacks[requestId])(reply, data);
 }
 
-void Plugins::PluginManager::onDownloadFinished(const QFile &, int requestId, void *data)
+void Plugins::PluginManager::onDownloadFinished(QFile *file, int requestId, void *data)
 {
     qDebug() << ">> download Finished";
+    file->close();
 }
 
-void Plugins::PluginManager::onDownloadProgress(const QFile &, int progress, int requestId, void *data)
+void Plugins::PluginManager::onDownloadProgress(QFile *, int progress, int requestId, void *data)
 {
-    qDebug() << ">> download Progress";
+    qDebug() << ">> download Progress " << progress;
 }
 
-void Plugins::PluginManager::onDownloadStarted(const QFile &, int requestId, void *data)
+void Plugins::PluginManager::onDownloadStarted(QFile *, int requestId, void *data)
 {
     qDebug() << ">> download Started";
 }
 
-void Plugins::PluginManager::onDownloadError(const QFile &, int requestId, void *data)
+void Plugins::PluginManager::onDownloadError(QFile *, int requestId, void *data)
 {
     qDebug() << ">> in onDownloadError";
 }

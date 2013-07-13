@@ -37,7 +37,7 @@ private slots:
     void                    executeFileDownloader(const QNetworkRequest&,
                                Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                QHttpMultiPart *multiPart,
-                               QFile &,
+                               QFile *,
                                QObject* sender,
                                int requestId,
                                void *data);

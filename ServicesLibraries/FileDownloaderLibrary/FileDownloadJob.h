@@ -11,7 +11,7 @@ class FileDownloadJob : public QObject
 {
     Q_OBJECT
 public :
-    FileDownloadJob(QFile &file,
+    FileDownloadJob(QFile *file,
                     int   requestId,
                     void  *data,
                     QObject* sender);
@@ -21,7 +21,7 @@ public :
     void setReply(QNetworkReply *value);
 
 private :
-    QFile& file;
+    QFile* file;
     int requestId;
     void *data;
     QObject *sender;

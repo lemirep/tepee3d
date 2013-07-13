@@ -111,10 +111,10 @@ private:
     void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 
     // FileDownloaderServiceUserInterface interface
-    void onDownloadFinished(const QFile &, int requestId, void *data);
-    void onDownloadProgress(const QFile &, int progress, int requestId, void *data);
-    void onDownloadStarted(const QFile &, int requestId, void *data);
-    void onDownloadError(const QFile &, int requestId, void *data);
+    void onDownloadFinished(QFile *, int requestId, void *data);
+    void onDownloadProgress(QFile *, int progress, int requestId, void *data);
+    void onDownloadStarted(QFile *, int requestId, void *data);
+    void onDownloadError(QFile *, int requestId, void *data);
 
     // CALLBACKS
     void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
@@ -132,7 +132,7 @@ signals :
     void executeFileDownloader(const QNetworkRequest,
                                Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                QHttpMultiPart *,
-                               QFile &,
+                               QFile *,
                                QObject* sender,
                                int requestId,
                                void *data = NULL);

@@ -28,14 +28,14 @@ bool  FileDownloaderLibrary::connectServiceToUser(QObject *user)
         return QObject::connect(user, SIGNAL(executeFileDownloader(const QNetworkRequest&,
                                                                    Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                                                    QHttpMultiPart *,
-                                                                   QFile &,
+                                                                   QFile *,
                                                                    QObject*,
                                                                    int,
                                                                    void *)),
                                 this, SLOT(executeFileDownloader(const QNetworkRequest&,
                                                                  Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                                                  QHttpMultiPart *,
-                                                                 QFile &,
+                                                                 QFile *,
                                                                  QObject* ,
                                                                  int ,
                                                                  void *)));
@@ -52,14 +52,14 @@ bool  FileDownloaderLibrary::disconnectServiceFromUser(QObject *user)
         return QObject::disconnect(user, SIGNAL(executeFileDownloader(const QNetworkRequest&,
                                                                       Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                                                       QHttpMultiPart *multiPart,
-                                                                      QFile &,
+                                                                      QFile *,
                                                                       QObject* sender,
                                                                       int requestId,
                                                                       void *data)),
                                    this, SLOT(executeFileDownloader(const QNetworkRequest&,
                                                                     Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                                                     QHttpMultiPart *multiPart,
-                                                                    QFile &,
+                                                                    QFile *,
                                                                     QObject* sender,
                                                                     int requestId,
                                                                     void *data)));
@@ -98,23 +98,31 @@ QString FileDownloaderLibrary::getServiceVersion() const
     return SERVICE_VERSION;
 }
 
-void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob, const QNetworkRequest &request, Services::FileDownloaderServiceUserInterface::FileDownloadRequestType type, QHttpMultiPart *multiPart)
+void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob,
+                                               const QNetworkRequest &request,
+                                                Services::FileDownloaderServiceUserInterface::FileDownloadRequestType type,
+                                                QHttpMultiPart *multiPart)
 {
     QNetworkReply *reply = NULL;
     switch (type)
     {
     case Services::FileDownloaderServiceUserInterface::Get:
         reply = this->getInstance()->get(request);
+        break;
     case Services::FileDownloaderServiceUserInterface::Delete:
         reply = this->getInstance()->deleteResource(request);
+        break;
     case Services::FileDownloaderServiceUserInterface::Post:
-        reply = this->getInstance()->post(request, multiPart);
+        if (multiPart != NULL)
+            reply = this->getInstance()->post(request, multiPart);
+        break;
     case Services::FileDownloaderServiceUserInterface::Put:
-        reply = this->getInstance()->put(request, multiPart);
+        if (multiPart != NULL)
+            reply = this->getInstance()->put(request, multiPart);
+        break;
     }
     if (reply != NULL)
     {
-        qDebug() << "File downloader reply not null";
         currentJob->setReply(reply);
         QObject::connect(reply, SIGNAL(finished()), currentJob, SLOT(onFinished()));
         QObject::connect(reply, SIGNAL(downloadProgress(qint64,qint64)), currentJob, SLOT(onProgress(qint64, qint64)));
@@ -127,7 +135,7 @@ void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob, con
 void FileDownloaderLibrary::executeFileDownloader(const QNetworkRequest &request,
                                                   Services::FileDownloaderServiceUserInterface::FileDownloadRequestType requestType,
                                                   QHttpMultiPart *multiPart,
-                                                  QFile &file,
+                                                  QFile *file,
                                                   QObject *sender,
                                                   int requestId,
                                                   void *data)
