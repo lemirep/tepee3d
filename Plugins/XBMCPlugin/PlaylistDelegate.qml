@@ -9,7 +9,7 @@ Item
     Image
     {
         id : playlist_img
-        height: parent.height / 4
+        height: 50
         fillMode: Image.PreserveAspectFit
         source : (stringType == "audio") ? "music.png" : "shows.png"
         anchors
@@ -23,7 +23,7 @@ Item
     Image
     {
         id : play_playlist_buttom
-        height : parent.height / 4
+        height : 50
         fillMode: Image.PreserveAspectFit
         scale : play_playlist_ma.pressed ? 0.9 : 1
         source : "small_play.png"
@@ -72,19 +72,17 @@ Item
             Item
             {
                 width : playlist_listview.width
-                height : playlist_listview.height / 6
+                height : playlist_listview.height / 10
                 Rectangle
                 {
                     height: 1
                     anchors
                     {
                         bottom: parent.bottom
-                        left : parent.left
-                        right : parent.right
-                        leftMargin : 50
-                        rightMargin : 50
+                        horizontalCenter : parent.horizontalCenter
                     }
-                    color : "grey"
+                    width : parent.width / 4
+                    color : "lightgrey"
                 }
                 Text
                 {

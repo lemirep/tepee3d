@@ -52,7 +52,11 @@ OTHER_FILES += \
     player_fbackward.png \
     AlbumDetailView.qml \
     ArtistAlbumsView.qml \
-    PlaylistDelegate.qml
+    PlaylistDelegate.qml \
+    simple_arrow.png \
+    ArrowButton.qml \
+    PlayerControls.qml \
+    RemoteControls.qml
 
 INCLUDEPATH += $$PWD
 
