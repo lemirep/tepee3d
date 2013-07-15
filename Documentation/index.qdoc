@@ -7,11 +7,11 @@
 
     All of our sources are hosted on git repositories in case you're interested and can be accessed at
     \list 1
-    \li Official Tepee3D Repository (Developer) \l {git@tepee3d.dyndns.org:tepee3d.git}
-    \li Gitorious \l {git://gitorious.org/tepee3d/tepee3d.git}
-    \li GitHub \l {https://github.com/lemirep/tepee3d.git}
-    \li Assembla \l {git://git.assembla.com/tepee3d.git}
-    \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code tepee3d-code}
+ \li Official Tepee3D Repository (Read Only) \l {git://tepee3d.dyndns.org/tepee3d.git}
+ \li Gitorious \l {git://gitorious.org/tepee3d/tepee3d.git}
+ \li GitHub \l {https://github.com/lemirep/tepee3d.git}
+ \li Assembla \l {git://git.assembla.com/tepee3d.git}
+ \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code}
     \endlist
 
     \section1 Installation

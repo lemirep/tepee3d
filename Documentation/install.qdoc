@@ -79,7 +79,7 @@
  \li Gitorious \l {git://gitorious.org/tepee3d/tepee3d.git}
  \li GitHub \l {https://github.com/lemirep/tepee3d.git}
  \li Assembla \l {git://git.assembla.com/tepee3d.git}
- \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code tepee3d-code}
+ \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code}
  \endlist
  You can use any of them to clone the sources except the official Tepee3D repository for developers
  which would require authentication.
