@@ -179,7 +179,6 @@ Item
             ListView
             {
                 id : available_plugins_list_view
-                enabled : (parent.opacity === 1 && menuRightMain.isShown)
                 clip: true
                 spacing: 10
                 anchors.fill: parent
