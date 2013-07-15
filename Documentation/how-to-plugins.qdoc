@@ -1,8 +1,10 @@
 /*!
 \page how_to_plugins.html
 \title Plugins How To
-The application's rooms will contain widgets. They are tri-dimensional models which provide information or services for the user.
+Tepee3D's rooms will contain widgets. They are tri-dimensional models which provide information or services for the user.
 The purpose of this page is to explain how to easily develop a widget.
+
+One way to view a Tepee3D plugin is like a small application within the application.
 
 \section1 Getting the Tepee3D Plugins API files
 If you want to create your widget, the first thing to do is to get the Development API files.

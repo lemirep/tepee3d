@@ -5,8 +5,14 @@
     The Tepee3D Reference Documention is here to help you get started with Tepee3D whether you
     just want to install it on a device or to contribute to the project.
 
-    All of our sources are hosted on gitorious in case you're interested and can be accessed at
-    \l {http://gitorious.org/tepee3d}
+    All of our sources are hosted on git repositories in case you're interested and can be accessed at
+    \list 1
+    \li Official Tepee3D Repository (Developer) \l {git@tepee3d.dyndns.org:tepee3d.git}
+    \li Gitorious \l {git://gitorious.org/tepee3d/tepee3d.git}
+    \li GitHub \l {https://github.com/lemirep/tepee3d.git}
+    \li Assembla \l {git://git.assembla.com/tepee3d.git}
+    \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code tepee3d-code}
+    \endlist
 
     \section1 Installation
 
@@ -15,12 +21,38 @@
     and reporting to us any inconvenience you might have encountered will help us improve
     future user's experience.
 
-    Detailed installation instructions can be found at \l {Installing Tepee3D}
+    The project can either be installed by downloading and running the installer corresponding
+    to the platform you're on or be build from sources.
+
+    To download the installed follow this link \l {http://tepee3d.dyndns.org/en/download}
+
+    Once you've downloaded the installer :
+
+    \section2 On Linux
+    \list 1
+    \li Move to where the installer was downloaded
+    \li Make it executable : \code chmod u+x Tepee3D_Installer... \endcode
+    \li Launch It : \code ./Tepee3D_Installer... \endcode
+    \li Install Tepee3D and the Qt5 Libraries (even if you have them already installed)
+    \li Move to where you installed Tepee3D and launch it : \code ./Tepee3DEngine.sh \endcode
+    \endlist
+
+
+    \section2 On Windows
+    \list 1
+    \li Launch the installer
+    \li Install Tepee3D and the Qt5 Libraries (even if you have them already installed)
+    \li Move to where you installed Tepee3D and launch it by clicking on Tepee3DEngine.bat
+    \endlist
+
+    If you're platform is listed in the download list, you must build Tepee3D from sources.
+
+    Detailed instructions for building Tepee3D from sources  can be found at \l {Building Tepee3D From Sources}
 
     \section1 Contribute to Tepee3D
 
     Tepee3D is an opensource project. Therefore, any kind of contribution is welcomed.
-    Below several ways of contributing are explained.
+    Below several ways of contributing are explained. You can make a difference !
 
     \section2 Developing Tepee3D Plugins
 
@@ -41,6 +73,11 @@
     If you wished to implement yourself new services plugins can register to, please have a look
     at \l {Service Library How To}
 
+    \section2 Help us on design and graphics
+
+    We're mostly a team of developers and none of us has strong design talents. Therefore, if this is an area you feel confortable,
+    we would be more than happy to receive design critics and let you help us integrating what you've created.
+
     \section2 Report Bugs
 
     In order to produce a high quality and stable application, gathering bug reports is one
@@ -48,8 +85,12 @@
     any king of event that doesn't seem right or logical to you, please take the time to fill
     a bug report.
 
+    You can do so either on our Trello Board at \l {https://trello.com/b/54ol9KCl} or by sending us a mail
+    at either \l {tepee3d_2014@labeip.epitech.eu} or \l {tepee3d@gmail.com}
+
+
     \section2 Talk About Tepee3D
 
-    One simple way to contribute to the project is simply by spreading the word to your friends, coworkers
+    One simple way of contributing to the project is simply by spreading the word to your friends, coworkers
     and family.
 */
