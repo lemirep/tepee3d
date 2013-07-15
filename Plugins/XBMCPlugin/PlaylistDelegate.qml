@@ -81,8 +81,9 @@ Item
                         bottom: parent.bottom
                         horizontalCenter : parent.horizontalCenter
                     }
-                    width : parent.width / 4
+                    width : parent.width / 3
                     color : "lightgrey"
+                    opacity: 0.7
                 }
                 Text
                 {
