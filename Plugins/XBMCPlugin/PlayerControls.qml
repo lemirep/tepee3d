@@ -96,6 +96,12 @@ Item
         ListView
         {
             id : playlist_listview
+            property int maxHeight : 0
+            onHeightChanged:
+            {
+                if (height > maxHeight)
+                    maxHeight = height
+            }
             clip : true
             anchors
             {
@@ -109,7 +115,7 @@ Item
             orientation : ListView.Horizontal
             delegate : PlaylistDelegate {
                 width : playlist_listview.width
-                height: playlist_listview.height
+                height: playlist_listview.maxHeight
                 idPlaylist: model.playlistId
                 stringType : model.playlistTypeString
                 itemModel : playlist_listview.model.subModelFromId(model.playlistId)
