@@ -45,7 +45,7 @@
     \li Move to where you installed Tepee3D and launch it by clicking on Tepee3DEngine.bat
     \endlist
 
-    If you're platform is listed in the download list, you must build Tepee3D from sources.
+    If you're platform isn't listed in the download list, you must build Tepee3D from sources.
 
     Detailed instructions for building Tepee3D from sources  can be found at \l {Building Tepee3D From Sources}
 
