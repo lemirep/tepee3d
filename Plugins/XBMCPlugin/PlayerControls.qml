@@ -288,6 +288,18 @@ Item
                     anchors.centerIn: parent
                 }
             }
+            Text
+            {
+                id : currentPlayedTime
+                color : "white"
+                anchors
+                {
+                    horizontalCenter : parent.horizontalCenter
+                    verticalCenter : advance_slide.verticalCenter
+                }
+                font.pixelSize: mainWindow.defaultFontSize
+                text : currently_playing_item.printDuration(time_slider.advance * XBMCPlugin.getCurrentlyPlayedItemModel().get(currently_playing_item.currentIndex).runtime)
+            }
         }
 
         Row

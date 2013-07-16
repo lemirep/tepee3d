@@ -329,6 +329,7 @@ TVShowEpisodeModel *VideoLibrary::parseTVShowEpisode(const QJsonObject &tvShowEp
         episode->setTVShowId(tvShowEpisodeObj.value("tvshowid").toDouble());
         episode->setAired(tvShowEpisodeObj.value("firstaired").toString());
         episode->setRuntime(tvShowEpisodeObj.value("runtime").toDouble());
+        episode->setEpisodeNum(tvShowEpisodeObj.value("episode").toDouble());
         return episode;
     }
     return NULL;

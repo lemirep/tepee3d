@@ -14,7 +14,8 @@ public:
         aired,
         summary,
         tvShowId,
-        season
+        season,
+        episodeNum
     };
 
     explicit TVShowEpisodeModel(QObject *parent = NULL, int episodeId = -1);
@@ -28,11 +29,14 @@ public:
     QString getSummary() const;
     int getSeason() const;
     int getTVShowId() const;
+    int getEpisodeNum() const;
 
     void setAired(const QString &aired);
     void setSummary(const QString &summary);
     void setSeason(int season);
     void setTVShowId(int tvShowId);
+    void setEpisodeNum(int episodeNum);
+
 
 private:
     QString m_aired;
@@ -40,6 +44,7 @@ private:
     int m_tvShowId;
     int m_season;
     int m_episodeId;
+    int m_episodeNum;
 };
 
 #endif // TVSHOWEPISODEMODEL_H

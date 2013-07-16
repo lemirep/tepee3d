@@ -190,7 +190,7 @@ Item
                                 {
                                     id : episode_title
                                     color : "white"
-                                    text : model.episodeId + " - " + model.title
+                                    text : model.episodeNum + " - " + model.title
                                     font.pixelSize: mainWindow.defaultFontSize
                                     anchors
                                     {
