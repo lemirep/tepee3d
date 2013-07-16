@@ -7,7 +7,7 @@ Item
     Item
     {
         id : joystick_item
-        width : 150
+        width : 250
         height : width
         anchors.centerIn: parent
 
@@ -23,11 +23,6 @@ Item
             width : joystick_item.width
             height : width
 
-            //            border
-            //            {
-            //                width : 1
-            //                color : "blue"
-            //            }
             transform: [Rotation { origin.x: 0; origin.y: joystick_elem.width / 2; axis { x: 1; y: 0; z: 0 } angle:  joystick_elem.x_angle},
                 Rotation { origin.x: joystick_elem.width / 2; origin.y:0; axis { x: 0; y: 1; z: 0 } angle:  joystick_elem.y_angle}]
 
@@ -73,13 +68,13 @@ Item
                 if (Math.max(Math.abs(sin_a), Math.abs(cos_a)) >= 0.995)
                 {
                     if (Math.abs(sin_a) > Math.abs(cos_a))
-                        XBMCPlugin.pressNavigationKey((sin_a > 0) ? XBMCPlugin.Up : XBMCPlugin.Down)
+                        XBMCPlugin.pressNavigationKey((sin_a > 0) ? 0 : 1)
                     else
-                        XBMCPlugin.pressNavigationKey((cos_a > 0) ? XBMCPlugin.Right : XBMCPlugin.Left)
+                        XBMCPlugin.pressNavigationKey((cos_a > 0) ? 3 : 2)
                 }
             }
-            onPressed:     {displaceCursor(mouseX - 75, mouseY - 75); main_listview.interactive = false}
-            onPositionChanged:    {displaceCursor(mouseX - 75, mouseY - 75)}
+            onPressed:     {displaceCursor(mouseX - (width / 2), mouseY - (width / 2)); main_listview.interactive = false}
+            onPositionChanged:    {displaceCursor(mouseX - (width / 2), mouseY - (width / 2))}
             onReleased:    {displaceCursor(0, 0); main_listview.interactive = true}
         }
     }
@@ -92,7 +87,7 @@ Item
             top : joystick_item.bottom
             right : joystick_item.left
         }
-        onClicked : {XBMCPlugin.pressNavigationKey(XBMCPlugin.Back)}
+        onClicked : {XBMCPlugin.pressNavigationKey(4)}
     }
 
     OkButton
@@ -103,7 +98,7 @@ Item
             top : joystick_item.bottom
             left : joystick_item.right
         }
-        onClicked : {XBMCPlugin.pressNavigationKey(XBMCPlugin.Select)}
+        onClicked : {XBMCPlugin.pressNavigationKey(5)}
     }
 
     ArrowButton

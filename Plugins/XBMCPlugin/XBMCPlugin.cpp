@@ -346,8 +346,36 @@ QUrl XBMCPlugin::getXBMCImageProviderUrl(const QString& imageUrl) const
 
 // REMOTE CONTROL ACTIONS
 
-void XBMCPlugin::pressNavigationKey(NavigationKeys key)
+void XBMCPlugin::pressNavigationKey(int keyVal)
 {
+    RemoteManager::NavigationKeys key;
+    switch (keyVal)
+    {
+    case 0:
+        key = RemoteManager::Up;
+        break;
+    case 1:
+        key = RemoteManager::Down;
+        break;
+    case 2:
+        key = RemoteManager::Left;
+        break;
+    case 3:
+        key = RemoteManager::Right;
+        break;
+    case 4:
+        key = RemoteManager::Back;
+        break;
+    case 5:
+        key = RemoteManager::Select;
+        break;
+    case 6:
+        key = RemoteManager::Home;
+        break;
+    default:
+        return ;
+    }
+
     this->m_remoteManager->moveKey(key);
 }
 

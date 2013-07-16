@@ -22,13 +22,12 @@
 #define GENERIC_DATABASE_CALLBACK 0
 #define RETRIEVE_XBMC_AUTH 1
 
-//class RemoteManager;
 
 class XBMCPlugin  : public Plugins::PluginBase
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.xbmcplugin")
-    Q_ENUMS(NavigationKeys)
+    Q_ENUMS(RemoteManager::NavigationKeys)
 
     Q_PROPERTY(int xbmcServerPort WRITE setXbmcServerPort READ xbmcServerPort NOTIFY xbmcServerPortChanged)
     Q_PROPERTY(QUrl xbmcServerUrl WRITE setXbmcServerUrl READ xbmcServerUrl NOTIFY xbmcServerUrlChanged)
@@ -57,19 +56,7 @@ public:
     Q_INVOKABLE QString         getPluginVersion() const;
     Q_INVOKABLE QString         getPluginDescription() const;
 
-    // REMOTE CONTROL ACTIONS
-    enum NavigationKeys
-    {
-        Up = 0,
-        Down,
-        Left,
-        Right,
-        Back,
-        Select,
-        Home
-    };
-
-    Q_INVOKABLE void               pressNavigationKey(NavigationKeys key);
+    Q_INVOKABLE void            pressNavigationKey(int key);
 
     // PLAYER ACTIONS
     Q_INVOKABLE void               playAction();

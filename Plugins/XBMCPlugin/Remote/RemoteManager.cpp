@@ -27,11 +27,12 @@ int RemoteManager::getMajorIDRequestHandled() const
     return MAJOR_ID_REQUEST_REMOTE;
 }
 
-void RemoteManager::moveKey(int key)
+void RemoteManager::moveKey(NavigationKeys key)
 {
      QJsonObject requestJson;
      requestJson.insert("jsonrpc", QJsonValue(QString("2.0")));
-     requestJson.insert("method", QJsonValue(this->webServiceMethods[(NavigationKeys)key]));
+     qDebug() << "Executing Key " << this->webServiceMethods[key];
+     requestJson.insert("method", QJsonValue(this->webServiceMethods[key]));
      emit performJsonRPCRequest(requestJson, REQUEST_ID_BUILDER(MAJOR_ID_REQUEST_REMOTE, KEY_PRESSED));
 }
 

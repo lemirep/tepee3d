@@ -10,10 +10,12 @@
 #define MAJOR_ID_REQUEST_REMOTE 3
 #define KEY_PRESSED 0
 
+
 class RemoteManager : public QObject, public IWebRequestDispatcher
 {
     Q_OBJECT
-private:
+public:
+    // REMOTE CONTROL ACTIONS
     enum NavigationKeys
     {
         Up = 0,
@@ -31,7 +33,7 @@ public:
     void            receiveResultFromHttpRequest(QNetworkReply *reply, int id, void *data);
     int             getMajorIDRequestHandled() const;
 
-    void            moveKey(int key);
+    void            moveKey(NavigationKeys key);
 
     void            rebootSystem();
     void            shutdownSystem();
