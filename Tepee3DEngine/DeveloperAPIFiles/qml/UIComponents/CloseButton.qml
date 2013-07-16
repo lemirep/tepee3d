@@ -4,6 +4,8 @@ Image
 {
     id : close_button
     signal clicked()
+    property bool pressed : close_button_ma.pressed
+
     height : 50
     width : 50
     scale : close_button_ma.pressed ? 0.9 : 1

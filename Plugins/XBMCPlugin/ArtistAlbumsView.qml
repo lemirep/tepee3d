@@ -124,7 +124,7 @@ Item
             AddButton
             {
                 width : 50
-                scale : artist_thumbnail.scale
+                scale : Math.min(artist_thumbnail.scale, pressed ? 0.9 : 1)
                 anchors
                 {
                     right : artist_thumbnail.right

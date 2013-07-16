@@ -4,6 +4,8 @@ Image
 {
     id : back_button
     signal clicked()
+    property bool pressed : back_button_ma.pressed
+
     height : 50
     width : 50
     scale : back_button_ma.pressed ? 0.9 : 1

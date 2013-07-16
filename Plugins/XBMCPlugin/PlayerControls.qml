@@ -29,9 +29,26 @@ Item
             }
         }
 
+
         ListView
         {
             id : currently_playing_item
+
+            function printDuration(duration)
+            {
+                var hours = Math.floor(duration / 3600)
+                var minutes = Math.floor((duration % 3600) / 60)
+                var secondes = Math.floor((duration % 3600) % 60)
+
+                if (hours < 10)
+                    hours = "0" + hours
+                if (minutes < 10)
+                    minutes = "0" + minutes
+                if (secondes < 10)
+                    secondes = "0" + secondes
+               return hours + ":" + minutes + ":" + secondes
+            }
+
             anchors
             {
                 left : parent.left
@@ -73,7 +90,7 @@ Item
                         }
                         color : "white"
                         font.pixelSize: mainWindow.defaultFontSize
-                        text : " (" + Math.floor(model.runtime / 3600) + ":" + Math.floor((model.runtime % 3600) / 60)  + ":" + Math.floor((model.runtime % 3600) % 60) + ")";
+                        text : currently_playing_item.printDuration(model.runtime)
                     }
 
                     Image
@@ -304,7 +321,8 @@ Item
                 {
                     id : fbackward_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.previousAction()}
+                    onClicked: {XBMCPlugin.smallBackward()}
+                    onPressAndHold: {XBMCPlugin.bigBackward()}
                 }
             }
 
@@ -349,7 +367,8 @@ Item
                 {
                     id : fforward_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.nextAction()}
+                    onClicked: {XBMCPlugin.smallForward()}
+                    onPressAndHold: {XBMCPlugin.bigForward()}
                 }
             }
 

@@ -401,6 +401,26 @@ void XBMCPlugin::previousAction()
     this->m_playerManager->playPrevious();
 }
 
+void XBMCPlugin::smallForward()
+{
+    this->m_playerManager->smallForward();
+}
+
+void XBMCPlugin::smallBackward()
+{
+    this->m_playerManager->smallBackward();
+}
+
+void XBMCPlugin::bigForward()
+{
+    this->m_playerManager->bigForward();
+}
+
+void XBMCPlugin::bigBackward()
+{
+    this->m_playerManager->bigBackward();
+}
+
 void XBMCPlugin::stopAction()
 {
     this->m_playerManager->stopCurrentPlayer();

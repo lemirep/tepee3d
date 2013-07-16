@@ -4,6 +4,8 @@ Image
 {
     id : forward_button
     signal clicked()
+    property bool pressed : forward_button_ma.pressed
+
     height : 50
     width : 50
     scale : forward_button_ma.pressed ? 0.9 : 1

@@ -4,6 +4,7 @@ Image
 {
     id : add_button
     signal clicked()
+    property bool pressed : add_button_ma.pressed
     height : 50
     width : 50
     scale : add_button_ma.pressed ? 0.9 : 1

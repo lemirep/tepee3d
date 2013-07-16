@@ -37,7 +37,7 @@ AudioLibrary::AudioLibrary(QObject *parent) : QObject(parent)
 
     this->artistsLibraryModel = new Models::SubListedListModel(new ArtistModel());
     this->albumsLibraryModel = new Models::SubListedListModel(new AlbumModel());
-    this->songsLibraryModel = new Models::ListModel(new PlayableItemModel());
+    this->songsLibraryModel = new Models::ListModel(new SongModel());
 
     this->m_asyncRequests = 0;
 
@@ -364,7 +364,7 @@ SongModel *AudioLibrary::parseJsonSong(const QJsonObject &jsonSong)
         SongModel *song = new SongModel(NULL, jsonSong.value("songid").toDouble());
         song->setAlbumId(jsonSong.value("albumid").toDouble());
         song->setArtistId(jsonSong.value("artistid").toArray().first().toDouble());
-        song->setDuration(jsonSong.value("duration").toDouble());
+     song->setDuration(jsonSong.value("duration").toDouble());
         song->setRuntime(jsonSong.value("duration").toDouble());
         song->setFile(jsonSong.value("file").toString());
         song->setGenre(jsonSong.value("genre").toArray().first().toString());

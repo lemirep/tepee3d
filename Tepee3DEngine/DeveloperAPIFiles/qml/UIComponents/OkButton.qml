@@ -4,6 +4,8 @@ Image
 {
     id : ok_button
     signal clicked()
+    property bool pressed : ok_button_ma.pressed
+
     height : 50
     width : 50
     scale : ok_button_ma.pressed ? 0.9 : 1

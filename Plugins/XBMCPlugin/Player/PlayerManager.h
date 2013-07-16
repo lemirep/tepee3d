@@ -38,6 +38,10 @@ public:
     void                    playPrevious();
     void                    stopCurrentPlayer();
     void                    seekCurrentPlayer(int advance);
+    void                    smallForward();
+    void                    smallBackward();
+    void                    bigForward();
+    void                    bigBackward();
     void                    getCurrentlyPlayedItem();
     void                    getCurrentPlayerState();
 

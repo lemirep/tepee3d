@@ -75,7 +75,7 @@ Item
         AddButton
         {
             width : 50
-            scale : album_thumbnail.scale
+            scale : Math.min(album_thumbnail.scale, pressed ? 0.9 : 1)
             anchors
             {
                 right : album_thumbnail.right
@@ -201,7 +201,6 @@ Item
                         anchors.fill: parent
                         onClicked:
                         {
-                            console.log("Play Button Pressed to play file " + model.file)
                             XBMCPlugin.playFile(model.file)
                         }
                     }

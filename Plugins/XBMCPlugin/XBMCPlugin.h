@@ -63,6 +63,10 @@ public:
     Q_INVOKABLE void               pauseAction();
     Q_INVOKABLE void               nextAction();
     Q_INVOKABLE void               previousAction();
+    Q_INVOKABLE void               smallForward();
+    Q_INVOKABLE void               smallBackward();
+    Q_INVOKABLE void               bigForward();
+    Q_INVOKABLE void               bigBackward();
     Q_INVOKABLE void               stopAction();
     Q_INVOKABLE void               seekAction(int durationPercent);
     Q_INVOKABLE void               playFile(const QString &file);
