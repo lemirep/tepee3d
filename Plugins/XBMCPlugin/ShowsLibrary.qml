@@ -146,6 +146,7 @@ Item
                         }
                         model : seasons_listview.model.subModelFromId(season)
                         clip : true
+                        spacing : 10
                         delegate : Component {
                             Item
                             {
@@ -190,6 +191,7 @@ Item
                                     id : episode_title
                                     color : "white"
                                     text : model.episodeId + " - " + model.title
+                                    font.pixelSize: mainWindow.defaultFontSize
                                     anchors
                                     {
                                         horizontalCenter : parent.horizontalCenter
@@ -202,7 +204,7 @@ Item
                                     anchors.fill: parent
                                     onClicked:
                                     {
-
+                                        XBMCPlugin.playFile(model.file)
                                     }
                                 }
                             }

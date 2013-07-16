@@ -511,7 +511,7 @@ PlayableItemModel *PlayerManager::playableItemModelFromType(QString type)
         return new MovieModel();
     else if (type.compare("song") == 0)
         return new SongModel();
-    else if (type.compare("show") == 0)
+    else if (type.compare("episode") == 0)
         return new TVShowEpisodeModel();
     else
         return NULL;
@@ -562,7 +562,6 @@ void PlayerManager::getCurrentlyPlayedItemCallBack(QNetworkReply *reply, void *d
         {
             this->currentlyPlayerItems->clear();
             QJsonObject item = jsonRep.object().value("result").toObject().value("item").toObject();
-//            qDebug() << QJsonDocument(item).toJson();
             PlayableItemModel *playableItem = this->playableItemModelFromType(item.value("type").toString());
             if (playableItem != NULL)
             {
@@ -570,7 +569,7 @@ void PlayerManager::getCurrentlyPlayedItemCallBack(QNetworkReply *reply, void *d
                 playableItem->setTitle(item.value("title").toString());
                 playableItem->setRating(item.value("rating").toDouble());
                 playableItem->setThumbnail(item.value("thumbnail").toString());
-                playableItem->setRuntime(item.value("duration").toDouble());
+                playableItem->setRuntime(qMax(item.value("duration").toDouble(), item.value("runtime").toDouble()));
                 this->currentlyPlayerItems->appendRow(playableItem);
             }
         }
