@@ -48,12 +48,15 @@ Item
             if (obj)
             {
                 mouse.accepted = true; // DO NOT PROPAGATE PRESSED EVENT TO UNDERLYING MOUSEAREA SO SETTING THE ACCEPTED VALUE
+                propagateComposedEvents = false;
                 obj.startDrag(savedX, savedY)
                 obj.isPressed = true
-                console.log("pressed on menu bar")
             }
             else
+            {
                 mouse.accepted = false
+                propagateComposedEvents = true
+            }
         }
         onPositionChanged:
         {
@@ -63,6 +66,7 @@ Item
                 var offsetX = mouseX - savedX;
                 obj.dragMoved(offsetX, offsetY);
                 mouse.accepted = true;
+                propagateComposedEvents = false;
             }
             else if (mainWindow.mouseObjectGrabber)
             {
@@ -79,7 +83,10 @@ Item
                 obj.dragEnd();
                 obj.isPressed = false;
                 console.log("drag end")
+                propagateComposedEvents = false
             }
+            else
+                propagateComposedEvents = true
         }
     }
 
