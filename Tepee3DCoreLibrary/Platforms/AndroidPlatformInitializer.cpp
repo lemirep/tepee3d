@@ -78,14 +78,17 @@ bool AndroidPlatformInitializer::initPlatform()
             {
                 qDebug() << "Dir doesn't exist, creating it " << dirEntry;
                 exists = getDataDirectory().mkdir(dirEntry);
-            }
-            if (exists)
-            {
-                QDir tmpDir(dirEntry);
-                foreach (QString entry, QDir("assets:/" + dirEntry).entryList(QDir::Files))
+                if (exists)
                 {
-                    if (!QFile::copy("assets:/" + dirEntry + "/" + entry, tmpDir.absolutePath() + "/" + entry))
-                        qDebug() << "Copy Failed for Entry " << dirEntry << " -- >" << entry << " to " << tmpDir.absolutePath() + "/" + entry;
+                    QDir tmpDir(dirEntry);
+                    foreach (QString entry, QDir("assets:/" + dirEntry).entryList(QDir::Files))
+                    {
+                        if (!QFile::copy("assets:/" + dirEntry + "/" + entry, tmpDir.absolutePath() + "/" + entry))
+                            qDebug() << "Copy Failed for Entry " << dirEntry << " -- >" << entry << " to " << tmpDir.absolutePath() + "/" + entry;
+                        // Give Write access to databases
+                        if (dirEntry == "databases")
+                            QFile::setPermissions(tmpDir.absolutePath() + "/" + entry, QFile::ReadOwner|QFile::WriteOwner);
+                    }
                 }
             }
         }
@@ -95,18 +98,20 @@ bool AndroidPlatformInitializer::initPlatform()
     qDebug() << "Service DIr Lib " << tmpServicesLibDir.absolutePath();
     bool exists = false;
     if (!(exists = tmpServicesLibDir.exists()))
-        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_SERVICES_DIR);
-    if (exists)
     {
-        qDebug() << "Service Lib Dir Created";
-        QList<QString> serviceLibs;
-        serviceLibs.prepend("libManageDatabaseServiceLibrary.so");
-        serviceLibs.prepend("libWebServiceManagerLibrary.so");
-        serviceLibs.prepend("libFileDownloaderLibrary.so");
-        foreach (QString serviceLib, serviceLibs)
+        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_SERVICES_DIR);
+        if (exists)
         {
-            this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + serviceLib,
-                               tmpServicesLibDir.absolutePath() + "/" + serviceLib);
+            qDebug() << "Service Lib Dir Created";
+            QList<QString> serviceLibs;
+            serviceLibs.prepend("libManageDatabaseServiceLibrary.so");
+            serviceLibs.prepend("libWebServiceManagerLibrary.so");
+            serviceLibs.prepend("libFileDownloaderLibrary.so");
+            foreach (QString serviceLib, serviceLibs)
+            {
+                this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + serviceLib,
+                                   tmpServicesLibDir.absolutePath() + "/" + serviceLib);
+            }
         }
     }
 
@@ -114,12 +119,14 @@ bool AndroidPlatformInitializer::initPlatform()
     QDir tmpRoomLibDir = AndroidPlatformInitializer::getRoomSharedLibraryDirectory();
     qDebug() << "RoomDIr Lib " << tmpRoomLibDir.absolutePath();
     if (!(exists = tmpRoomLibDir.exists()))
-        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_ROOM_DIR);
-    if (exists)
     {
-        QString libName = "libRoomLibrary.so";
-        this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
-                           tmpRoomLibDir.absolutePath() + "/" + libName);
+        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_ROOM_DIR);
+        if (exists)
+        {
+            QString libName = "libRoomLibrary.so";
+            this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
+                               tmpRoomLibDir.absolutePath() + "/" + libName);
+        }
     }
 
     // WIDGET LIBRARY
@@ -127,22 +134,24 @@ bool AndroidPlatformInitializer::initPlatform()
     QDir tmpWidgetLibDir = AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory();
     qDebug() << "Widget DIr Lib " << tmpWidgetLibDir.absolutePath();
     if (!(exists = tmpWidgetLibDir.exists()))
+    {
         exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_WIDGETS_DIR);
-    if (exists)
-        foreach (QString widgetLib, this->getSharedLibraryDirectory().entryList())
-        {
-            if (widgetLib.compare("libCoreLibrary.so") != 0 &&
-                    widgetLib.compare("libRoomLibrary.so") != 0 &&
-                    widgetLib.compare("libManageDatabaseServiceLibrary.so") != 0 &&
-                    widgetLib.compare("libWebServiceManagerLibrary.so") != 0 &&
-                    widgetLib.compare("libFileDownloaderLibrary.so") != 0 &&
-                    widgetLib.compare("gdbserver") != 0 &&
-                    widgetLib.compare("libgnustl_shared.so") != 0 &&
-                    !widgetLib.startsWith("libQt5") &&
-                    !widgetLib.startsWith("lib--Managed_by_Qt_Creator"))
-                this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + widgetLib,
-                                   this->getWidgetSharedLibrariesDirectory().absolutePath() + "/" + widgetLib);
-        }
+        if (exists)
+            foreach (QString widgetLib, this->getSharedLibraryDirectory().entryList())
+            {
+                if (widgetLib.compare("libCoreLibrary.so") != 0 &&
+                        widgetLib.compare("libRoomLibrary.so") != 0 &&
+                        widgetLib.compare("libManageDatabaseServiceLibrary.so") != 0 &&
+                        widgetLib.compare("libWebServiceManagerLibrary.so") != 0 &&
+                        widgetLib.compare("libFileDownloaderLibrary.so") != 0 &&
+                        widgetLib.compare("gdbserver") != 0 &&
+                        widgetLib.compare("libgnustl_shared.so") != 0 &&
+                        !widgetLib.startsWith("libQt5") &&
+                        !widgetLib.startsWith("lib--Managed_by_Qt_Creator"))
+                    this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + widgetLib,
+                                       this->getWidgetSharedLibrariesDirectory().absolutePath() + "/" + widgetLib);
+            }
+    }
     qDebug() << "Copying Files Done";
     return true;
 }
