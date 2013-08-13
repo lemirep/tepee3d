@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.1
 import "../js/NotificationManagement.js" as NotificationManagement
 
 Item
@@ -298,8 +298,6 @@ Item
                    return this.getCallBack();
               }
           }
-
-
 
           MouseArea {
               id : testButtonAction

@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.1
 
 // MUST CONTAIN ONLY QtQuick 2 elements, no 3D
 

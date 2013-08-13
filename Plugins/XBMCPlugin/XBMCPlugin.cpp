@@ -57,8 +57,9 @@ void XBMCPlugin::updatePlugin()
     static char i = 0;
 
     // Update Player State Frequently
-    this->m_playerManager->getCurrentPlayerState();
-    if (i == 15)
+    if (this->m_playerManager->getIsPlaying() || i == 15)
+        this->m_playerManager->getCurrentPlayerState();
+    if (i == 15 && this->m_playerManager->getIsPlaying())
     {
         i = 0;
         this->m_playerManager->getCurrentlyPlayedItem();

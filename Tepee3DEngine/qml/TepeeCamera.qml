@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.1
 import Qt3D 2.0
 
 Camera  // OPENGL CAMERA

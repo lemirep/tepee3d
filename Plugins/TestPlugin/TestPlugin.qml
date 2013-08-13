@@ -1,6 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick.LocalStorage 2.0
-import QtQuick 2.0
+import QtQuick 2.1
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
 import QtQuick.Particles 2.0

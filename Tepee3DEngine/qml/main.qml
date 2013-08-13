@@ -1,8 +1,8 @@
 //// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
-import QtQuick 2.0
+import QtQuick 2.1
 import Qt3D 2.0
 import Qt3D.Shapes 2.0
-import QtQuick.Window 2.0
+import QtQuick.Window 2.1
 import "js/RoomManagement.js" as RoomManagement
 import "js/Walls.js" as Walls
 import "../DeveloperAPIFiles/js/CameraManagement.js" as CameraManagement
@@ -71,8 +71,8 @@ Viewport
 
 
     //                anchors.fill: parent
-//        width : 1024
-//        height : 600
+//        width : 1280
+//        height : 800
 
     width : Screen.width
     height : Screen.height
