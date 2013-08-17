@@ -149,9 +149,9 @@ bool    CoreManager::initView()
 
     qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
+    // CHECKS IF LOCAL PLUGINS HAVE BEEN UPDAPTED AND DOWNLOADS NEW REQUEST IF SO
+    this->pluginsManager->checkForPluginsUpdates();
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- >>>>";
-//    this->pluginsManager->checkForPluginsUpdates();
-//    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
 //    this->pluginsManager->downloadPluginFromServer(32);
 //    this->pluginsManager->downloadFileFromServer("./test");
     qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";

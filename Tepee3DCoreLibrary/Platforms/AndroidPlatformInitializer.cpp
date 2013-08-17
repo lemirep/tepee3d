@@ -183,7 +183,11 @@ QDir AndroidPlatformInitializer::getDataDirectory() const
 
 QString AndroidPlatformInitializer::getPlatformName() const
 {
-    return ANDROID_PLATFORM;
+#if defined(__arm__) || defined(__TARGET_ARCH_ARM) || defined(_M_ARM)
+    return ANDROID_PLATFORM_ARM;
+#elif defined(__i386__) || defined(_M_IX86)
+    return ANDROID_PLATFORM_X86
+#endif
 }
 
 bool AndroidPlatformInitializer::copyLibToDir(QString src, QString dst)

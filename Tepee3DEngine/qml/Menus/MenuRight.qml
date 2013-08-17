@@ -174,20 +174,112 @@ Item
                 right : parent.right
                 top : parent.top
                 bottom : parent.bottom
-                margins : menuRightMain.width / 8
+                bottomMargin : menuRightMain.width / 8
+                leftMargin : menuRightMain.width / 8
+                rightMargin : menuRightMain.width / 8
             }
+
+
+            ListModel
+            {
+                id : add_plugin_listview_model
+                ListElement
+                {
+                    title : "Downloaded Plugins"
+                    idx : 0
+                }
+                ListElement
+                {
+                    title : "Online Plugins"
+                    idx : 1
+                }
+            }
+
             ListView
             {
-                id : available_plugins_list_view
-                clip: true
-                spacing: 10
-                anchors.fill: parent
-                orientation: ListView.Vertical
-                model : availablePluginsModel
-                delegate: NewPluginDelegate {
-                    width : menuRightMain.width / 2
-                    height : menuRightMain.width / 3
-                    pluginName: model.pluginName
+                id : available_plugins_title_listview
+                orientation: ListView.Horizontal
+                model : add_plugin_listview_model
+                interactive: false
+                anchors
+                {
+                    left : parent.left
+                    right : parent.right
+                    top : parent.top
+                    bottom : available_plugins_master_list_view.top
+                }
+                delegate : Component {
+                    Item
+                    {
+                        width : available_plugins_title_listview.width / 2
+                        height : available_plugins_title_listview.height
+                        Text
+                        {
+                            text : model.title
+                            color : "white"
+                            anchors.centerIn: parent
+                        }
+                        Rectangle
+                        {
+                            opacity : (index === available_plugins_master_list_view.currentIndex) ? 1 : 0
+                            Behavior on opacity {NumberAnimation {duration : 200}}
+                            color : "#0099ff"
+                            anchors
+                            {
+                                left : parent.left
+                                right : parent.right
+                                bottom : parent.bottom
+                            }
+                            height : 4
+                        }
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked: available_plugins_master_list_view.currentIndex = index
+                        }
+                    }
+                }
+            }
+
+            ListView
+            {
+                id : available_plugins_master_list_view
+                anchors
+                {
+                    left : parent.left
+                    right : parent.right
+                    bottom : parent.bottom
+                    top : parent.top
+                    topMargin : 50
+
+                }
+                model : add_plugin_listview_model
+                orientation: ListView.Horizontal
+                clip : true
+                snapMode : ListView.SnapOneItem
+                highlightRangeMode: ListView.StrictlyEnforceRange
+                delegate : Component {
+                    Item
+                    {
+                        width : available_plugins_rect.width
+                        height : available_plugins_rect.height
+                        ListView
+                        {
+                            id : available_plugins_list_view
+                            clip: true
+                            spacing: 10
+                            anchors.fill: parent
+                            orientation: ListView.Vertical
+                            model : idx === 0 ? availablePluginsModel : onlinePluginsModel
+                            delegate: NewPluginDelegate {
+                                width : menuRightMain.width / 2
+                                height : menuRightMain.width / 3
+                                pluginName: model.pluginName
+                                downloaded: model.pluginDownloaded ? model.pluginDownloaded : false
+                                downloading : model.pluginDownloading ? model.pluginDownloading : false
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -214,7 +306,7 @@ Item
                 }
             }
 
-            source : "../Resources/Pictures/plus.png"
+            source : (!menuRightRec.add_plugins) ? "../Resources/Pictures/plus.png" : "../Resources/Pictures/back_curved_arrow.png"
         }
 
         //        Component

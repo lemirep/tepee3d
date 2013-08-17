@@ -70,7 +70,7 @@ Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
     this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack;
     this->webServicesCallBacks[DOWNLOAD_PLUGIN] = &Plugins::PluginManager::downloadPluginFromServerCallback;
-
+    this->webServicesCallBacks[GET_PLUGINS_UPDATES] = &Plugins::PluginManager::checkForPluginsUpdatesCallBack;
     this->loadLocalPlugins();
 }
 
@@ -98,18 +98,18 @@ void Plugins::PluginManager::downloadFileFromServer(QString file)
     {
         qDebug() << "Test file is open";
         emit executeFileDownloader(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-                             FileDownloaderServiceUserInterface::Post,
-                               multiPart,
-                               test,
-                               this,
-                               DOWNLOAD_FILE);
+                                   FileDownloaderServiceUserInterface::Post,
+                                   multiPart,
+                                   test,
+                                   this,
+                                   DOWNLOAD_FILE);
 
-//        emit executeFileDownloader(QNetworkRequest(QUrl("http://1584.ci")),
-//                                   FileDownloaderServiceUserInterface::Get,
-//                                   NULL,
-//                                   test,
-//                                   this,
-//                                   DOWNLOAD_FILE);
+        //        emit executeFileDownloader(QNetworkRequest(QUrl("http://1584.ci")),
+        //                                   FileDownloaderServiceUserInterface::Get,
+        //                                   NULL,
+        //                                   test,
+        //                                   this,
+        //                                   DOWNLOAD_FILE);
     }
 }
 
@@ -118,28 +118,18 @@ void Plugins::PluginManager::downloadFileFromServer(QString file)
  */
 void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatform()
 {
-    // CREATE A JSON FOR THE REQUEST
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QHttpPart httpPart;
-    httpPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
-    httpPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"json\""));
-
-    QJsonObject requestObj;
-    QJsonObject commandObj;
-
-    commandObj.insert("command", QJsonValue(QString("getAvailablePluginsForPlatform")));
-    commandObj.insert("plateform", QJsonValue(PlatformFactory::getPlatformInitializer()->getPlatformName()));
-    requestObj.insert("request", QJsonValue(commandObj));
-
-    httpPart.setBody(QJsonDocument(requestObj).toJson());
-    multiPart->append(httpPart);
-
-    // EXECUTE THE REQUEST
-    emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-                            WebServiceUserInterface::Post,
-                            multiPart,
+    //TEPEE3D_ONLINE_API + widgets
+    emit executeHttpRequest(QNetworkRequest(QUrl(QString(TEPEE3D_ONLINE_API)
+                                                 + "widgets/?platforms__name__in="
+                                                 + PlatformFactory::getPlatformInitializer()->getPlatformName())),
+                            WebServiceUserInterface::Get,
+                            NULL,
                             this,
                             GET_ONLINE_PLUGINS);
+
+    qDebug() << "<><><><><><><><><><><><><><><><><>" + QString(TEPEE3D_ONLINE_API)
+                + "widgets/?platforms__name__in="
+                + PlatformFactory::getPlatformInitializer()->getPlatformName();
 }
 
 /*!
@@ -173,17 +163,17 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
     multiPart->append(httpPart);
 
     // EXECUTE THE REQUEST
-  emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-                          WebServiceUserInterface::Post,
+    emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
+                            WebServiceUserInterface::Post,
                             multiPart,
                             this,
                             DOWNLOAD_PLUGIN);
-   // QDataStream *content = new QDataStream();
+    // QDataStream *content = new QDataStream();
     //emit executeStreamRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-      //                        1,
-        //                      content,
-          //                    this,
-            //                  STREAM_PLUGIN);
+    //                        1,
+    //                      content,
+    //                    this,
+    //                  STREAM_PLUGIN);
 }
 
 
@@ -192,41 +182,26 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
  */
 void Plugins::PluginManager::checkForPluginsUpdates()
 {
-    // CREATE A JSON FOR THE REQUEST
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QHttpPart httpPart;
-    httpPart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
-    httpPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"json\""));
-
-    QJsonObject requestObj;
-    QJsonObject commandObj;
-
-    QJsonArray pluginsArray;
-
     foreach (Models::ListItem *pluginItem, this->locallyAvailablePluginsModel->toList())
     {
-        Plugins::PluginBase*plugin = reinterpret_cast<Models::PluginModelItem*>(pluginItem)->getPlugin();
-        QJsonObject pluginObj = plugin->toJsonRepresentation();
-        pluginObj.remove("description");
-        pluginObj.insert("platform", PlatformFactory::getPlatformInitializer()->getPlatformName());
-        pluginsArray.append(QJsonValue(pluginObj));
+        Plugins::PluginBase *plugin = reinterpret_cast<Models::PluginModelItem *>(pluginItem)->getPlugin();
+
+        // EXECUTE THE REQUEST
+        emit executeHttpRequest(QNetworkRequest(QUrl(QString(TEPEE3D_ONLINE_API)
+                                                     + "widgets/"
+                                                     + QString::number(plugin->getPluginId())
+                                                     + "/")),
+                                WebServiceUserInterface::Get,
+                                NULL,
+                                this,
+                                GET_PLUGINS_UPDATES,
+                                plugin);
+
+        qDebug() << "<<<<<<<<<<<<<<<<<<<<< " + QString(TEPEE3D_ONLINE_API)
+                    + "widgets/"
+                    + QString::number(plugin->getPluginId());
     }
 
-    commandObj.insert("command", QJsonValue(QString("getPluginsVersion")));
-    commandObj.insert("plugins", QJsonValue(pluginsArray));
-    requestObj.insert("request", QJsonValue(commandObj));
-
-    httpPart.setBody(QJsonDocument(requestObj).toJson());
-    multiPart->append(httpPart);
-
-    qDebug() << "JSON " << QJsonDocument(requestObj).toJson();
-
-    // EXECUTE THE REQUEST
-    emit executeHttpRequest(QNetworkRequest(QUrl("http://tepee3d.dyndns.org:3000")),
-                            WebServiceUserInterface::Post,
-                            multiPart,
-                            this,
-                            GET_PLUGINS_UPDATES);
 }
 
 Models::ListModel *Plugins::PluginManager::getLocallyAvailablePlugins() const
@@ -234,8 +209,12 @@ Models::ListModel *Plugins::PluginManager::getLocallyAvailablePlugins() const
     return Plugins::PluginManager::locallyAvailablePluginsModel;
 }
 
-Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins() const
+Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins()
 {
+    if (Plugins::PluginManager::onlineAvailablePluginsModel == NULL)
+        Plugins::PluginManager::onlineAvailablePluginsModel = new Models::ListModel(new Models::PluginOnlineModelItem(-1));
+    if (Plugins::PluginManager::onlineAvailablePluginsModel->rowCount() == 0)
+        this->retrieveOnlinePluginsForCurrentPlatform();
     return Plugins::PluginManager::onlineAvailablePluginsModel;
 }
 
@@ -248,15 +227,32 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
     {
         QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
         delete reply;
-
-        qDebug() << ">>>>>Tepee3D Serveur Response <<" << jsonDoc.toJson() << ">>";
-
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
-            this->onlineAvailablePluginsModel->clear();
-            // PARSE JSON ARRAY HERE
-            // WAITING FOR THE SERVER TO BE READY TO PURSUE
-            // DO NOT FORGET TO RESDTORE retrieveOnlinePluginsForCurrentPlatform as private
+            QJsonObject resultObj = jsonDoc.object();
+            if (resultObj.contains("objects"))
+            {
+                QJsonArray pluginsArray = resultObj.value("objects").toArray();
+                if (!pluginsArray.isEmpty())
+                {
+                    Plugins::PluginManager::onlineAvailablePluginsModel->clear();
+                    foreach (QJsonValue pluginValue, pluginsArray)
+                    {
+                        QJsonObject pluginObj = pluginValue.toObject();
+                        qDebug() << "asdasd " <<  QJsonDocument(pluginObj).toJson();
+                        Models::PluginOnlineModelItem *pluginOnlineItem = new Models::PluginOnlineModelItem(pluginObj.value("widget_id").toDouble());
+                        pluginOnlineItem->setPluginName(pluginObj.value("name").toString());
+                        pluginOnlineItem->setPluginDescription(pluginObj.value("description").toString());
+                        if (Plugins::PluginManager::locallyAvailablePluginsModel != NULL &&
+                                Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginOnlineItem->id()) != NULL)
+                            pluginOnlineItem->setPluginDownloaded(true);
+                        Plugins::PluginManager::onlineAvailablePluginsModel->appendRow(pluginOnlineItem);
+                    }
+                    // PARSE JSON ARRAY HERE
+                    // WAITING FOR THE SERVER TO BE READY TO PURSUE
+                    // DO NOT FORGET TO RESDTORE retrieveOnlinePluginsForCurrentPlatform as private
+                }
+            }
         }
     }
 }
@@ -267,8 +263,8 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
 void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *reply, void *data)
 {
     if (reply != NULL)
-    {      
-        QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);   
+    {
+        QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
         delete reply;
         qDebug() << ">>>>>Tepee3D Serveur Response <<" << jsonDoc.toJson() << ">>";
 
@@ -280,10 +276,10 @@ void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *rep
             QFile file(mainObjet.value("libname").toString());
             if(file.open(QIODevice::WriteOnly))
             {
-            file.write(by);
-            file.close();
+                file.write(by);
+                file.close();
             }
-           qDebug() << "json valid";
+            qDebug() << "json valid";
 
         }
         else
@@ -299,16 +295,25 @@ void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *rep
  */
 void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data)
 {
-    if (reply != NULL)
+    if (reply != NULL && data != NULL)
     {
         QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
         delete reply;
 
-        qDebug() << ">>>>>Tepee3D Serveur Response <<" << jsonDoc.toJson() << ">>";
-
         if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
         {
-
+            QJsonObject pluginObj = jsonDoc.object();
+            if (pluginObj.contains("version"))
+            {
+                QString onlineVersion = pluginObj.value("version").toString();
+                Plugins::PluginBase *localInstance = reinterpret_cast<Plugins::PluginBase *>(data);
+                qDebug() << "Online version = " << onlineVersion;
+                if (onlineVersion.compare(localInstance->getPluginVersion()) != 0)
+                {
+                    // SEND REQUEST TO DOWNLOAD PLUGIN UPDATE
+                    ;
+                }
+            }
         }
     }
 }
@@ -440,7 +445,8 @@ void Plugins::PluginManager::cleanPluginBeforeRemoval(Plugins::PluginBase *roomP
  */
 void    Plugins::PluginManager::exposeContentToQml(QQmlContext *context)
 {
-    context->setContextProperty("availablePluginsModel", Plugins::PluginManager::locallyAvailablePluginsModel);
+    context->setContextProperty("availablePluginsModel", this->getLocallyAvailablePlugins());
+    context->setContextProperty("onlinePluginsModel", this->getOnlineAvailablePlugins());
     qmlRegisterType<Plugins::PluginEnums>("Plugins", 1, 0, "PluginEnums");
     qmlRegisterType<Plugins::PluginQmlPluginProperties>("Plugins", 1, 0, "PluginProperties");
 }

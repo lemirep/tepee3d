@@ -1,6 +1,7 @@
 
 SOURCES += $$PWD/Plugins/PluginBase.cpp         \
            $$PWD/Plugins/PluginModelItem.cpp    \
+           $$PWD/Plugins/PluginOnlineModelItem.cpp \
            $$PWD/Rooms/RoomBase.cpp             \
            $$PWD/Rooms/RoomProperties.cpp       \
            $$PWD/Rooms/RoomModelItem.cpp        \
@@ -10,6 +11,7 @@ SOURCES += $$PWD/Plugins/PluginBase.cpp         \
 
 HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Plugins/PluginModelItem.h	\
+           $$PWD/Plugins/PluginOnlineModelItem.h \
            $$PWD/Plugins/PluginBase.h		\
            $$PWD/Services/ServiceInterface.h    \
            $$PWD/Services/DatabaseServiceUserInterface.h \

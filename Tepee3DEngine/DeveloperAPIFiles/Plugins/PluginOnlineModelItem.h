@@ -25,33 +25,49 @@
 **
 ****************************************************************************/
 
-#ifndef IPLATFORMINITIALIZER_H
-#define IPLATFORMINITIALIZER_H
+#ifndef PLUGINONLINEMODELITEM_H
+#define PLUGINONLINEMODELITEM_H
 
-#include <QString>
-#include <QDir>
+#include <ListItem.h>
 
-#define QNX_PLATFORM "qnx"
-#define IOS_PLATFORM "ios"
-#define MAC_PLATFORM "mac"
-#define LINUX_32_PLATFORM "linux_x86"
-#define LINUX_64_PLATFORM "linux_x86_64"
-#define WINDOWS_32_PLATFORM "windows_x86"
-#define WINDOWS_64_PLATFORM "windows_x86_64"
-#define ANDROID_PLATFORM_ARM "android_arm"
-#define ANDROID_PLATFORM_X86 "android_x86"
-
-
-class IPlatformInitializer
+namespace Models
 {
-public :
-    virtual bool            initPlatform() = 0;
-    virtual QDir            getDataDirectory() const = 0;
-    virtual QDir            getWidgetSharedLibrariesDirectory() const = 0;
-    virtual QDir            getServicesSharedLibrariesDirectory() const = 0;
-    virtual QDir            getRoomSharedLibraryDirectory() const = 0;
-    virtual QDir            getSharedLibraryDirectory() const = 0;
-    virtual QString         getPlatformName() const = 0;
-};
+class PluginOnlineModelItem : public Models::ListItem
+{
+    Q_OBJECT
+public:
 
-#endif // IPLATFORMINITIALIZER_H
+    enum PluginOnlineModelItemRoles
+    {
+        pluginId = Qt::UserRole + 1,
+        pluginName,
+        pluginDescription,
+        pluginDownloaded,
+        pluginDownloading
+    };
+
+    explicit PluginOnlineModelItem(int pluginId, QObject *parent = 0);
+    ~PluginOnlineModelItem();
+
+    int                     id() const;
+    QVariant                data(int role) const;
+    QHash<int, QByteArray>  roleNames() const;
+
+    QString getPluginName() const;
+    QString getPluginDescription() const;
+
+    void setPluginName(const QString &pluginName);
+    void setPluginDescription(const QString &pluginDescription);
+    void setPluginDownloaded(bool downloaded);
+    void setPluginDownloading(bool downloading);
+
+private:
+    int     m_pluginId;
+    QString m_pluginName;
+    QString m_pluginDescription;
+    bool    m_pluginDownloaded;
+    bool    m_pluginDownloading;
+};
+}
+
+#endif // PLUGINONLINEMODELITEM_H

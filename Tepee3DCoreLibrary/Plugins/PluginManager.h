@@ -37,6 +37,7 @@
 #include <FileDownloaderServiceUserInterface.h>
 #include <ListModel.h>
 #include <PluginModelItem.h>
+#include <PluginOnlineModelItem.h>
 #include <ListItem.h>
 #include "PluginLoader.h"
 #include "PluginQmlPluginProperties.h"
@@ -63,6 +64,7 @@
 #define DOWNLOAD_PLUGIN 2
 #define STREAM_PLUGIN 3
 #define DOWNLOAD_FILE 4
+#define TEPEE3D_ONLINE_API "http://tepee3d.dyndns.org/api/v1/"
 namespace Plugins
 {
 class PluginManager : public QObject,
@@ -90,14 +92,14 @@ public:
     // WEB SERVICES
     void                        retrieveOnlinePluginsForCurrentPlatform();
     void                        downloadPluginFromServer(int pluginId);
+    void                        checkForPluginsUpdates();
 
     // FILE DOWNLPAD SERVICE
     void                        downloadFileFromServer(QString file);
 
-    void                        checkForPluginsUpdates();
 
     Models::ListModel*          getLocallyAvailablePlugins() const;
-    Models::ListModel*          getOnlineAvailablePlugins() const;
+    Models::ListModel*          getOnlineAvailablePlugins();
 
 private:
 
@@ -108,7 +110,7 @@ private:
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    streamServicesCallBacks;
 
-    void                        receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 
     // FileDownloaderServiceUserInterface interface
     void onDownloadFinished(QFile *, int requestId, void *data);
@@ -117,10 +119,9 @@ private:
     void onDownloadError(QFile *, int requestId, void *data);
 
     // CALLBACKS
-    void                        retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
-    void                        downloadPluginFromServerCallback(QNetworkReply *reply, void *data);
-
-    void                        checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
+    void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
+    void downloadPluginFromServerCallback(QNetworkReply *reply, void *data);
+    void checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
 
 signals :
     void executeHttpRequest(const QNetworkRequest&,

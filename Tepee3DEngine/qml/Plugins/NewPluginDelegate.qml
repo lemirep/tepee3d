@@ -4,6 +4,8 @@ Item
 {
     id : item_plugin_del
     property string pluginName : ""
+    property bool downloaded : false;
+    property bool downloading : false;
 
     anchors.horizontalCenter: parent.horizontalCenter
     scale : plugin_delegate_mouse_area.pressed ? 0.9 : 1.0

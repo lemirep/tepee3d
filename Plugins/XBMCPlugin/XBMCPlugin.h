@@ -15,7 +15,7 @@
 #include "RemoteManager.h"
 #include "PlayerManager.h"
 
-#define PLUGIN_ID 12
+#define PLUGIN_ID 15
 #define PLUGIN_VERSION "1.0.0"
 
 #define DATABASE_NAME "XBMCPlugin.sql"

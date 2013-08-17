@@ -152,12 +152,6 @@ QString GenericPlatformInitializer::getPlatformName() const
     #else
         return LINUX_32_PLATFORM;
     #endif
-#elif defined Q_OS_UNIX
-    #if define Q_PROCESSOR_X86_64
-        return UNIX_64_PLATFORM;
-    #else
-        return UNIX_32_PLATFORM;
-    #endif
 #elif defined Q_OS_WIN32
     return WINDOWS_32_PLATFORM;
 #elif defined Q_OS_WIN64
