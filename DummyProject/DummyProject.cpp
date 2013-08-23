@@ -4,35 +4,28 @@ DummyProject::DummyProject() : PluginBase()
 {
     this->initPlugin();
 }
-// ALL the function should be implemented
 
-int DummyProject::getPluginId()
+int DummyProject::getPluginId() const
 {
     return 1;
 }
 
 void DummyProject::initPlugin()
 {
-    this->executeHttpGetRequest(QNetworkRequest(QUrl("http://127.0.0.1/RESTphp/index.php")),1);
 }
 
 void DummyProject::clearPluginBeforeRemoval()
 {
 }
 
-QString DummyProject::getPluginName()
+QString DummyProject::getPluginName() const
 {
     return QString("DummyProject");
 }
 
-QString DummyProject::getPluginDescription()
+QString DummyProject::getPluginDescription() const
 {
-    return QString("DummyProject.qml");
-}
-
-Plugins::PluginBase* DummyProject::getPluginBase()
-{
-    return this;
+    return QString("DummyProject description");
 }
 
 QString DummyProject::getRoomPluginQmlFile() const
@@ -59,3 +52,14 @@ void    DummyProject::receiveResultFromHttpRequest(QNetworkReply *reply, int , v
     qDebug() << reply->readAll();
 }
 
+void	DummyProject::onIdleFocusState()
+{
+}
+
+void	DummyProject::onSelectedFocusState()
+{
+}
+
+void	DummyProject::onFocusedFocusState()
+{
+}

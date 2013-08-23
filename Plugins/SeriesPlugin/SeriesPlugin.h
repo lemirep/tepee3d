@@ -82,7 +82,6 @@ public:
     Q_INVOKABLE QString                 getPluginName() const;
     Q_INVOKABLE QString                 getPluginDescription() const;
     Q_INVOKABLE QString                 getPluginVersion() const;
-    PluginBase*                         getPluginBase();
     PluginBase*                         createNewInstance();
     QString                             getRoomPluginQmlFile() const;
     QString                             getMenuPluginQmlFile() const;

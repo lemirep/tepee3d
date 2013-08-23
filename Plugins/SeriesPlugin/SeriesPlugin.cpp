@@ -92,11 +92,6 @@ QString SeriesPlugin::getPluginVersion() const
     return PLUGIN_VERSION;
 }
 
-Plugins::PluginBase* SeriesPlugin::getPluginBase()
-{
-    return this;
-}
-
 QString SeriesPlugin::getRoomPluginQmlFile() const
 {
     return QString("SeriesPlugin.qml");

@@ -82,11 +82,6 @@ QString XBMCPlugin::getPluginDescription() const
     return QString("XBMCPlugin.qml");
 }
 
-Plugins::PluginBase* XBMCPlugin::getPluginBase()
-{
-    return this;
-}
-
 QString XBMCPlugin::getRoomPluginQmlFile() const
 {
     return QString("XBMCPlugin.qml");

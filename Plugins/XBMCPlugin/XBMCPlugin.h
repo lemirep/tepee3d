@@ -46,7 +46,6 @@ public:
     void                        clearPluginBeforeRemoval();
     void                        updatePlugin();
 
-    PluginBase*                 getPluginBase();
     PluginBase*                 createNewInstance();
 
     QString                     getRoomPluginQmlFile() const;

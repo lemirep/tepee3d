@@ -34,11 +34,6 @@ QString HarlemShake::getPluginVersion() const
     return PLUGIN_VERSION;
 }
 
-Plugins::PluginBase* HarlemShake::getPluginBase()
-{
-    return this;
-}
-
 QString HarlemShake::getRoomPluginQmlFile() const
 {
     return QString("HarlemShake.qml");

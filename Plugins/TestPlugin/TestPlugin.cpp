@@ -38,11 +38,6 @@ QString TestPlugin::getPluginVersion() const
     return PLUGIN_VERSION;
 }
 
-Plugins::PluginBase* TestPlugin::getPluginBase()
-{
-    return this;
-}
-
 QString TestPlugin::getRoomPluginQmlFile() const
 {
     return QString("TestPlugin.qml");
