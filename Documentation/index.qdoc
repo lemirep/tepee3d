@@ -24,7 +24,7 @@
     The project can either be installed by downloading and running the installer corresponding
     to the platform you're on or be build from sources.
 
-    To download the installed follow this link \l {http://tepee3d.dyndns.org/en/download}
+    To download the installed follow this \l {http://tepee3d.dyndns.org/download} {link}
 
     Once you've downloaded the installer :
 
@@ -54,7 +54,7 @@
     Tepee3D is an opensource project. Therefore, any kind of contribution is welcomed.
     Below several ways of contributing are explained. You can make a difference !
 
-    \section2 Developing Tepee3D Plugins
+    \section2 Develop Tepee3D Widgets
 
     One of the greatest feature of Tepee3D is the ability to customize your environnement
     by adding new plugins. In order to propose a wide variety of plugins, we encourage developpers
@@ -70,7 +70,7 @@
 
     All classes in the public API have been documented : \l {All Tepee3D Classes}
 
-    If you wished to implement yourself new services plugins can register to, please have a look
+    If you wished to implement yourself new services, plugins can register to, please have a look
     at \l {Service Library How To}
 
     \section2 Help us on design and graphics

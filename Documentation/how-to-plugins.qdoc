@@ -1,117 +1,91 @@
 /*!
 \page how_to_plugins.html
 \title Plugins How To
-Tepee3D's rooms will contain widgets. They are tri-dimensional models which provide information or services for the user.
-The purpose of this page is to explain how to easily develop a widget.
-
-One way to view a Tepee3D plugin is like a small application within the application.
+Target many platforms
 
 \section1 Getting the Tepee3D Plugins API files
-If you want to create your widget, the first thing to do is to get the Development API files.
-you can dowload them at this address : \l {https://gitorious.org/tepee3d/tepee3d/archive-tarball/master}
+If you want to create your widget, create and account and in your profile, select the widgets page.
+There, you'll be able to create a new Tepee3D widget by providing a name, a description and the supported platforms you
+which to target.
 
-\section1 Creating a new plugin with Qtcreator
- \list 1
- \li \c Using QtCreator start a new project (Ctrl + N) or File -> New File or Project.
- \li \c Choose the template Other Project (in the Projects tab) and Empty Qt Project and press next.
- \li \c Give the project a name and choose the path were the project will be saved.
- \li \c You should disable the shadow build in the project setting
- \endlist
+\b{Note :} By using the remote compilation service provided, your project can be compiled on all platforms supported by Tepee3D without having you setting up anything.
 
+\section1 Developping a Widget
+\section2 What you need
+\section3 Git
 
- \section1 Edition the .pro file
+\section3 Editor
+You can use any editor you like from emacs to notepad but we recommend QtCreator as it as proven to be efficient.
+It can be downloaded along with the Qt5 libraries \l {http://qt-project.org/downloads} {here}
 
- Select your .pro file and copy the content of the template below
- \code
-  qml_folder.source = PATH_WHERE_YOUR_SAVE_YOUR_PLUGIN_LIB
-  qml_folder.target = ./
+\section3 Obtaining a widget template
+When creating a new widget, a git repository is provided and a widget template is automatically uploaded into it so that you can start developping quickly.
+The template is an empty shell that you'll have to fill with a business logic and a user interface.
 
-  TEMPLATE        = lib
-  CONFIG         += qt plugin
-  QT             += quick
-  QT             += gui
- 
- #include development files
-    include (../DeveloperAPIFiles/DevelopmentFiles.pri)
+\section2 Structure of a Widget
 
- TARGET          = NAME_OF_THE_PLUGIN_LIBRARY
- DESTDIR         = WHERE_TO_PUT_THE LIBRARY
- DESTDIRQML      = qml_folder
-# Copies the given files to the destination directory
-defineTest(copyToDestDir) {
-    files = $$1
-    unix {
-        QMAKE_POST_LINK  += rm -fr PATH_TO_SAVE_YOUR_FILE/$$TARGET $$escape_expand(\\n\\t)
-        QMAKE_POST_LINK  += mkdir PATH_TO_SAVE_YOUR_FILE/$$TARGET $$escape_expand(\\n\\t)
-    }
-    win32 {
-        DDIR = PATH_TO_SAVE_YOUR_FILE/$${TARGET}
-        DESTDIR_WIN = $${DDIR}
-        DESTDIR_WIN ~= s,/,\\,g
-       QMAKE_POST_LINK +=$$quote(cmd /c del /s /f  /q  $${DESTDIR_WIN}$$escape_expand(\n\t))
-     #   QMAKE_POST_LINK +=$$quote(cmd /c mkdir /y $${DDIR}escape_expand(\n\t))
-    }
-    for(FILE, files) {
-         DDIR = PATH_TO_SAVE_YOUR_FILE/$$TARGET/
-        # Replace slashes in paths with backslashes for Windows
-        win32{
-        DDIR = PATH_TO_SAVE_YOUR_FILE/$${TARGET}
-        DESTDIR_WIN = $${DDIR}
-        DESTDIR_WIN ~= s,/,\\,g
-        PWD_WIN = $${PWD}
-        PWD_WIN ~= s,/,\\,g
-        for(FILE, OTHER_FILES){
-            QMAKE_POST_LINK += $$quote(cmd /c copy /y $${PWD_WIN}\\$${FILE} $${DESTDIR_WIN}$$escape_expand(\\n\\t))
-    }
-}
+A widget is essentially a class that inherits from \l {Plugins::PluginBase} and has to implement several methods.
 
-        unix:QMAKE_POST_LINK += $$QMAKE_COPY $$quote($$FILE) $$quote($$DDIR) $$escape_expand(\\n\\t)
-        win32:QMAKE_POST_LINK +=$$quote(cmd /c copy /y $${FILE} $${DDIR}$$escape_expand(\n\t))
+\b{Note :} The widget template provided on the git repository contains that class, you just need to
+complete it.
 
-    }
-    message($$QMAKE_POST_LINK)
-    export(QMAKE_POST_LINK)
-}
-
-# deploy qml files to correct dir
-copyToDestDir($$OTHER_FILES)
-
- \endcode
- 
- \section1 Add your class
- Now, your are ready to start developing your own widget. You should create your main class that inherits from \l {Plugins::PluginBase}.
-
-In your header file :
 \code
-class ClassName : public Plugins::PluginBase                // MANDATORY FOR PLUGIN DEVELOPMENT
-{
-    Q_OBJECT                                                // NECESSARY FOR QOBJECT INHERITANCE
-    Q_PLUGIN_METADATA(IID "com.tepee3d.plugins.YourPlugin") // REPLACE testplugin BY YOUR PLUGIN NAME
-
-...
-  \endcode
-
-
-In your cpp file :
-\code
- ClassName:: ClassName() : PluginBase()
-...
- \endcode
-
-This class should implemente this list of methods :
-\code
-    int                     getPluginId();
+    int                     getPluginId()          const;
     void                    initPlugin();
-    Q_INVOKABLE QString     getPluginName();
-    Q_INVOKABLE QString     getPluginDescription();
-    PluginBase*             getPluginBase();
-    PluginBase*             createNewInstance();
+    QString                 getPluginName()        const;
+    QString                 getPluginVersion()     const;
+    QString                 getPluginDescription() const;
     QString                 getRoomPluginQmlFile() const;
     QString                 getMenuPluginQmlFile() const;
+    PluginBase*             createNewInstance();
     // DatabaseServiceUserInterface
     void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
     // WebServiceUserInterface
     void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
+\endcode
+
+For a complete description of these method please read \l {Plugins::PluginBase}
+
+\section3 The Business Logic
+
+It is recommended that the business logic of a widget (models, data manipulation, webservices, database access) be implemented in C++ although you could do it in
+javascript.
+
+In order to ease that process, various classes are provided.
+
+\section3 Using Tepee3D Services
+
+\section3 Models
+
+\section2 The User Interface
+
+The User Interface of the widget is composed of QML files.
+\b {Note :} If you don't know QML, it is a javascript/css like language used to describe user interfaces. You might want to take a look at \l {http://qt-project.org/doc/qt-5.0/qtdoc/gettingstartedqml.html} {this} first.
+
+\section2 The States of a Widget
+
+A Widget can have 3 different states, each corresponding to a view in the application.
+
+\section3 The Idle State
+
+This corresponds to the view in the room where
+
+\section3 The Selected State
+
+\section3 The Focused State
+
+\section2 Editing the .pro file
+
+The .pro file in your widget files is used to create the Makefile that will build your files.
+When you add a class to your widget's project, you should add the .cpp and the .h to the .pro
+
+\section2 Compiling and Testing your Widget locally
+
+Although a remote compilation service is available to compile your widget, compiling it locally for a given platform might make you gain some time.
+For that you'll need to have build Tepee3D from sources with Qt5 and the Tepee3DQt3D module like explained \l {Building Tepee3D From Sources} {here}
+
+If you want to skip that step, you can use the compilation service to have your widget compiled. You can then download the produced library and resources if the build succeeded by visiting \l {http://tepee3d.dyndns.org/builds}
+
 
 \section1 Add your qml 
 When your create your qml file, you can link your main qml file with function getRoomPluginQmlFile(). In this example, Widget.qml is your qml file.
@@ -123,20 +97,8 @@ QString YourClass::getRoomPluginQmlFile() const
 }
 \endcode
 \section1 Tips
-\section2 Interacting with c++ class and qml
-The plugin C++ class is exposed to the qml context by default.
-You have an element "PluginName" in your qml file and you can call every invokable function from your cpp class in your qml.
-In order to call a qml function from your cpp class, you should process as described below :
-\code
-QQmlComponent component(this->context->engine(), PATH_TO_YOUR_WIDGETFILE);
-        QObject *object = component.create();
-        QVariant returnedValue;
-        QVariant msg = "example"
-        QMetaObject::invokeMethod(object, QML_FUNCTION_NAME,
-                Q_RETURN_ARG(QVariant, returnedValue),
-                Q_ARG(QVariant, msg));
-        delete object;
-\endcode
+
+\section2
 
 \section2 Interaction with the database
 If you want execute a query in the database of the application, you just have to use the signal executeSQLQuery in this way :
@@ -145,8 +107,6 @@ If you want execute a query in the database of the application, you just have to
 \endcode
 N.B : "data" is a callback parameter that will be transmitted along with the result of the query.
 You will receive the answer of your query in the function receiveResultFromSQLQuery
-\section1 Results
-When you have compiled your project, if you are under linux you will have a file .so or .dll under windows. Now you just have to upload your file on tepee website in order for it to be tested by the tepee team.
 
 \section1 Plugins exemple
 You can download the source of a start plugin at \l{https://gitorious.org/tepee3d/tepee3d/trees/master/DummyProject}

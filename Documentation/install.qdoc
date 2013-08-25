@@ -53,7 +53,7 @@
  \li \c Launch QtCreator and open the qt3d.pro file in the tepee3d-qt3d directory using either the menu File -> Open File or Project or Ctrl + O
  \li \c Go to the Projects tab on the left of QtCreator's main window
  \li \c In the build settings deselect the shadow build checkbox.
- \li \c In the build settings add a Build Step Make and give enter install in the argument textbox
+ \li \c In the build settings add a Build Step Make and enter "install" in the arguments textbox
  \li \c Press play on the left or Ctrl + R
 
  \section3 On Windows
@@ -65,7 +65,7 @@
  \li \c Launch QtCreator and open the qt3d.pro file in the tepee3d-qt3d directory using either the menu File -> Open File or Project or Ctrl + O
  \li \c Go to the Projects tab on the left of QtCreator's main window
  \li \c In the build settings deselect the shadow build checkbox.
- \li \c In the build settings add a Build Step Make and give enter install in the argument textbox
+ \li \c In the build settings add a Build Step Make and enter "install" in the arguments textbox
  \li \c Press play on the left or Ctrl + R
  \endlist
 
@@ -96,6 +96,7 @@
  \li \c Open tepee3d.pro in the Tepee3D sources directory
  \li \c Go to the Projects tab on the left of QtCreator's main window
  \li \c In the build settings deselect the shadow build checkbox.
+ \li \c In the build settings add a Build Step Make and enter "install" in the arguments textbox
  \li \c Press play on the left of Ctrl + R
  \endlist
 
