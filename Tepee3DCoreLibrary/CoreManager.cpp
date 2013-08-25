@@ -147,7 +147,7 @@ bool    CoreManager::initView()
     // TELLS ROOM MANAGER TO RESTORE ROOMS
     this->roomManager->restoreRooms();
 
-    qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
+//    qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 
     // CHECKS IF LOCAL PLUGINS HAVE BEEN UPDAPTED AND DOWNLOADS NEW REQUEST IF SO
     this->pluginsManager->checkForPluginsUpdates();

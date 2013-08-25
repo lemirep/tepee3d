@@ -149,6 +149,8 @@ QString GenericPlatformInitializer::getPlatformName() const
 #elif defined Q_OS_LINUX
     #if defined Q_PROCESSOR_X86_64
         return LINUX_64_PLATFORM;
+    #elif defined(__arm__) || defined(__TARGET_ARCH_ARM) || defined(_M_ARM)
+        return LINUX_ARM_PLATFORM;
     #else
         return LINUX_32_PLATFORM;
     #endif

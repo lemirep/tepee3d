@@ -36,6 +36,7 @@
 #define MAC_PLATFORM "mac"
 #define LINUX_32_PLATFORM "linux_x86"
 #define LINUX_64_PLATFORM "linux_x86_64"
+#define LINUX_ARM_PLATFORM "linux_arm" // RASPBERRY PI
 #define WINDOWS_32_PLATFORM "windows_x86"
 #define WINDOWS_64_PLATFORM "windows_x86_64"
 #define ANDROID_PLATFORM_ARM "android_arm"

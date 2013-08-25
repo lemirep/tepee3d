@@ -185,8 +185,9 @@ QString AndroidPlatformInitializer::getPlatformName() const
 {
 #if defined(__arm__) || defined(__TARGET_ARCH_ARM) || defined(_M_ARM)
     return ANDROID_PLATFORM_ARM;
-#elif defined(__i386__) || defined(_M_IX86)
-    return ANDROID_PLATFORM_X86
+//#elif defined(__i386__) || defined(_M_IX86)
+#else
+    return ANDROID_PLATFORM_X86;
 #endif
 }
 

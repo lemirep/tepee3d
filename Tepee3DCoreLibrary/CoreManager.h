@@ -37,7 +37,7 @@
 #include "PluginManager.h"
 #include "RoomManager.h"
 #include "ServicesManager.h"
-#include "QmlAsTexture.h"
+//#include "QmlAsTexture.h"
 #include "PlatformFactory.h"
 #include <CoreLibraryInterface.h>
 
