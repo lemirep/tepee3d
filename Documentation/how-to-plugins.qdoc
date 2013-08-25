@@ -1,7 +1,7 @@
 /*!
 \page how_to_plugins.html
 \title Plugins How To
-Target many platforms
+Target many platforms without worrying about deployment. Develop a full application within Tepee3D !
 
 \section1 Getting the Tepee3D Plugins API files
 If you want to create your widget, create and account and in your profile, select the widgets page.
@@ -11,13 +11,13 @@ which to target.
 \b{Note :} By using the remote compilation service provided, your project can be compiled on all platforms supported by Tepee3D without having you setting up anything.
 
 \section1 Developping a Widget
-\section2 What you need
+\section2 What do you need ?
 \section3 Git
-
+You'll need to be able to access your git repository so you'll have to install git on your system.
+In addition, to make sure only you can access your repository, you'll have to provide us with a ssh-key.
 \section3 Editor
 You can use any editor you like from emacs to notepad but we recommend QtCreator as it as proven to be efficient.
 It can be downloaded along with the Qt5 libraries \l {http://qt-project.org/downloads} {here}
-
 \section3 Obtaining a widget template
 When creating a new widget, a git repository is provided and a widget template is automatically uploaded into it so that you can start developping quickly.
 The template is an empty shell that you'll have to fill with a business logic and a user interface.
@@ -60,6 +60,7 @@ In order to ease that process, various classes are provided.
 \section2 The User Interface
 
 The User Interface of the widget is composed of QML files.
+
 \b {Note :} If you don't know QML, it is a javascript/css like language used to describe user interfaces. You might want to take a look at \l {http://qt-project.org/doc/qt-5.0/qtdoc/gettingstartedqml.html} {this} first.
 
 \section2 The States of a Widget
@@ -68,11 +69,21 @@ A Widget can have 3 different states, each corresponding to a view in the applic
 
 \section3 The Idle State
 
-This corresponds to the view in the room where
+This corresponds to the view of the widget in the room when no action has been performed.
+This is a simple view that the user will click on to enter your widget.
 
 \section3 The Selected State
 
+As of now, this view is not implemented but in the future, it should be a view in between the idle and the focused states views.
+
 \section3 The Focused State
+
+This is the state in which a becomes is after having been selected by the user. This is where you show your full app and take the complete
+control of the display.
+
+\section3 The Menu
+In addition to the 3 views mentionned above, you're widget can add its own settings view in the bottom menu of the Tepee3D Application.
+This view is then automatically loaded once the widget enters the focused state.
 
 \section2 Editing the .pro file
 
@@ -100,15 +111,11 @@ QString YourClass::getRoomPluginQmlFile() const
 
 \section2
 
-\section2 Interaction with the database
-If you want execute a query in the database of the application, you just have to use the signal executeSQLQuery in this way :
-\code
-    emit executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data = NULL);
-\endcode
-N.B : "data" is a callback parameter that will be transmitted along with the result of the query.
-You will receive the answer of your query in the function receiveResultFromSQLQuery
+\section1
+If you'd like to get to the practice now, follow the \l Tepee3D Widget Tutorial
 
-\section1 Plugins exemple
-You can download the source of a start plugin at \l{https://gitorious.org/tepee3d/tepee3d/trees/master/DummyProject}
+\section1 Plugins examples
+Several plugins have already been developped and might help you with yours.
+You can access their sources \l {http://tepee3d.dyndns.org/gitweb} {here}
 
 */
