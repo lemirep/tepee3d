@@ -33,6 +33,11 @@ QString     WatchPlugin::getPluginName() const
     return QString("WatchPlugin");
 }
 
+QString WatchPlugin::getPluginRepoName() const
+{
+    return QString("watch_plugin");
+}
+
 QString     WatchPlugin::getPluginDescription() const
 {
     return QString("WatchPlugin Description");

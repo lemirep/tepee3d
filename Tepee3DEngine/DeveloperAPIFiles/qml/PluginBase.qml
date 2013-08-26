@@ -12,6 +12,7 @@ Item3D
     property string roomQmlFile : ""
     property string menuQmlFile : ""
     property string pluginName : ""
+    property string pluginRepoName : ""
     property vector3d pluginPosition : Qt.vector3d(0, 0, 0)
 
     // TO ASK FOR A GIVEN FOCUS STATE CALL
@@ -54,7 +55,7 @@ Item3D
             console.log("v State " + newFocusStateValue + "  "  + focusState);
             // IF THE PLUGIN HAS NEVER BEEN LOADED WE LOAD IT
             if (newFocusStateValue === 0 && !plugin_loader.item)
-                plugin_loader.source =  "../../plugins_qml/" + pluginName + "/" + roomQmlFile;
+                plugin_loader.source =  "../../plugins_qml/" + pluginRepoName + "/" + roomQmlFile;
             if (!plugin_loader.item)
                 return ;
             // CALL THE FOCUS HANDLER MATCHING THE NEW FOCUS STATE
@@ -63,7 +64,7 @@ Item3D
                 // TELL THE PARENT ROOM THERE IS A PLUGIN FOCUSED
                 room_item.isAPluginFocused = true;
                 console.log("MENU IS >>>> " + menuQmlFile)
-                mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginName + "/" + menuQmlFile;
+                mainWindow.pluginMenuSource = "../../plugins_qml/" + pluginRepoName + "/" + menuQmlFile;
                 plugin_loader.item.switchToFocusedView();
             }
             else

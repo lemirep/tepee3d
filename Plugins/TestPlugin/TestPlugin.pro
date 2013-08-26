@@ -20,7 +20,7 @@ HEADERS         = \
 #include development files
 include (../../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = TestPlugin                    #NAME OF THE PLUGIN LIBRAY
+ TARGET          = test_plugin                    #NAME OF THE PLUGIN LIBRAY
  DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries             #WHERE TO PUT THE LIBRARY
  DESTDIRQML      = qml_folder
 
@@ -74,7 +74,7 @@ OTHER_FILES += \
 
 # deploy qml files to correct dir
 qml_folder.files = $$OTHER_FILES
-qml_folder.path = ../../Tepee3DEngine/plugins_qml/TestPlugin
+qml_folder.path = ../../Tepee3DEngine/plugins_qml/test_plugin
 
 DEPLOYMENT += qml_folder
 INSTALLS += qml_folder

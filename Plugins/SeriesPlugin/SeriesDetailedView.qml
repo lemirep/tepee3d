@@ -159,7 +159,7 @@ Item
         }
         onClicked:
         {
-            SeriesPlugin.removeShowFromFollowedModel(serie_id)
+            series_plugin.removeShowFromFollowedModel(serie_id)
             season_pathview_container.model = null
             episodes_pathview_container.model = null;
         }

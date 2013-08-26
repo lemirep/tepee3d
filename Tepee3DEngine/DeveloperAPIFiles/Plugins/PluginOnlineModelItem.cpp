@@ -33,6 +33,7 @@ Models::PluginOnlineModelItem::PluginOnlineModelItem(int pluginId, QObject *pare
 {
     this->m_pluginName = "";
     this->m_pluginDescription = "";
+    this->m_pluginRepoName = "";
     this->m_pluginDownloaded = false;
     this->m_pluginDownloading = false;
 }
@@ -60,6 +61,8 @@ QVariant Models::PluginOnlineModelItem::data(int role) const
         return this->m_pluginDownloaded;
     case pluginDownloading:
         return this->m_pluginDownloading;
+    case pluginRepoName:
+        return this->getPluginRepoName();
     default :
         return QVariant();
     }
@@ -72,6 +75,7 @@ QHash<int, QByteArray> Models::PluginOnlineModelItem::roleNames() const
     roles[pluginId] = "pluginId";
     roles[pluginName] = "pluginName";
     roles[pluginDescription] = "pluginDescription";
+    roles[pluginRepoName] = "pluginRepoName";
 
     return roles;
 }
@@ -81,9 +85,19 @@ QString Models::PluginOnlineModelItem::getPluginName() const
     return this->m_pluginName;
 }
 
+QString Models::PluginOnlineModelItem::getPluginRepoName() const
+{
+    return this->m_pluginRepoName;
+}
+
 QString Models::PluginOnlineModelItem::getPluginDescription() const
 {
     return this->m_pluginDescription;
+}
+
+int Models::PluginOnlineModelItem::getPluginFileToDownload() const
+{
+    return this->m_filetoDownloadCount;
 }
 
 void Models::PluginOnlineModelItem::setPluginName(const QString &pluginName)
@@ -104,4 +118,14 @@ void Models::PluginOnlineModelItem::setPluginDownloaded(bool downloaded)
 void Models::PluginOnlineModelItem::setPluginDownloading(bool downloading)
 {
     this->m_pluginDownloading = downloading;
+}
+
+void Models::PluginOnlineModelItem::setPluginRepoName(const QString &pluginRepoName)
+{
+    this->m_pluginRepoName = pluginRepoName;
+}
+
+void Models::PluginOnlineModelItem::setPluginFileToDownloadCount(int fileToDownloadCount)
+{
+    this->m_filetoDownloadCount = fileToDownloadCount;
 }

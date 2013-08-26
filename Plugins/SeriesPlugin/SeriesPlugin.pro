@@ -6,7 +6,7 @@
  #include development files
     include (../../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = SeriesPlugin
+ TARGET          = series_plugin
  DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries
  DESTDIRQML      = qml_folder
 
@@ -52,7 +52,7 @@ OTHER_FILES += \
 
 # deploy qml files to correct dir
 qml_folder.files = $$OTHER_FILES
-qml_folder.path = ../../Tepee3DEngine/plugins_qml/SeriesPlugin
+qml_folder.path = ../../Tepee3DEngine/plugins_qml/series_plugin
 
 DEPLOYMENT += qml_folder
 INSTALLS += qml_folder

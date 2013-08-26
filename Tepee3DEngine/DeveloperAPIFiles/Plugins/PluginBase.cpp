@@ -333,7 +333,7 @@ QJsonObject Plugins::PluginBase::toJsonRepresentation() const
  */
 void Plugins::PluginBase::exposeContentToQml(QQmlContext *context)
 {
-    context->setContextProperty(this->getPluginName(), this);
+    context->setContextProperty(this->getPluginRepoName(), this);
 }
 
 /*!

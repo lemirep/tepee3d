@@ -126,7 +126,7 @@ Item
             anchors.fill: parent
             onClicked:
             {
-                SeriesPlugin.searchSickBeardEpisode(show_pathview_item.currentItem.serieId,
+                series_plugin.searchSickBeardEpisode(show_pathview_item.currentItem.serieId,
                                                     season_pathview_container.currentItem.season,
                                                     episodes_pathview_container.currentItem.episodeId);
             }

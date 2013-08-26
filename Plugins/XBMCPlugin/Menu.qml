@@ -29,22 +29,22 @@ Item
                 Column
                 {
                     Text {text : "Url"; color : "white"; font.pixelSize: mainWindow.defaultFontSize}
-                    TextInputComponent {id : url_input; width : xbmc_auth.width; text : XBMCPlugin.xbmcServerUrl}
+                    TextInputComponent {id : url_input; width : xbmc_auth.width; text : xbmc_plugin.xbmcServerUrl}
                 }
                 Column
                 {
                     Text {text : "Port"; color : "white"; font.pixelSize: mainWindow.defaultFontSize}
-                    TextInputComponent {id : port_input; width : xbmc_auth.width; text : XBMCPlugin.xbmcServerPort}
+                    TextInputComponent {id : port_input; width : xbmc_auth.width; text : xbmc_plugin.xbmcServerPort}
                 }
                 Column
                 {
                     Text {text : "Username"; color : "white"; font.pixelSize: mainWindow.defaultFontSize}
-                    TextInputComponent {id : username_input; width : xbmc_auth.width; text : XBMCPlugin.xbmcServerUserName}
+                    TextInputComponent {id : username_input; width : xbmc_auth.width; text : xbmc_plugin.xbmcServerUserName}
                 }
                 Column
                 {
                     Text {text : "Password"; color : "white"; font.pixelSize: mainWindow.defaultFontSize}
-                    TextInputComponent {id : password_input; width : xbmc_auth.width; text : XBMCPlugin.xbmcServerPassword}
+                    TextInputComponent {id : password_input; width : xbmc_auth.width; text : xbmc_plugin.xbmcServerPassword}
                 }
                 OkButton
                 {
@@ -52,11 +52,11 @@ Item
                     anchors.horizontalCenter: parent.horizontalCenter
                     onClicked :
                     {
-                        XBMCPlugin.xbmcServerUrl = url_input.text
-                        XBMCPlugin.xbmcServerPort = port_input.text
-                        XBMCPlugin.xbmcServerUserName = username_input.text
-                        XBMCPlugin.xbmcServerPassword = password_input.text
-                        XBMCPlugin.saveXBMCAuthToDatabase()
+                        xbmc_plugin.xbmcServerUrl = url_input.text
+                        xbmc_plugin.xbmcServerPort = port_input.text
+                        xbmc_plugin.xbmcServerUserName = username_input.text
+                        xbmc_plugin.xbmcServerPassword = password_input.text
+                        xbmc_plugin.saveXBMCAuthToDatabase()
                     }
                 }
             }
@@ -76,7 +76,7 @@ Item
                 }
                 onClicked :
                 {
-                    XBMCPlugin.refreshLibraries();
+                    xbmc_plugin.refreshLibraries();
                 }
             }
             Text

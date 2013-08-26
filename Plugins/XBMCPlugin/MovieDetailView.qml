@@ -232,7 +232,7 @@ Item
                 onClicked:
                 {
                     console.log("Play Button Pressed to play file " + movieFile)
-                    XBMCPlugin.playFile(movieFile)
+                    xbmc_plugin.playFile(movieFile)
                 }
             }
         }
@@ -242,7 +242,7 @@ Item
     PathView
     {
         id : movie_pathview
-        model : XBMCPlugin.getMoviesLibrary();
+        model : xbmc_plugin.getMoviesLibrary();
         pathItemCount: 10
         preferredHighlightBegin: 0.47
         preferredHighlightEnd: 0.47
@@ -312,7 +312,7 @@ Item
                 scale : (PathView.onPath) ? PathView.delScale * ((movie_pathview.height - 40) / height) : 0
                 property int rAngle : PathView.onPath ? (!isCurrentItem) ? PathView.delAngle : 0 : 0
                 transform: [Rotation { origin.x: width / 2; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: rAngle}]
-                source : XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail)
+                source : xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail)
                 MouseArea
                 {
                     anchors.fill: parent

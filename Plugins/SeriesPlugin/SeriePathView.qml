@@ -13,7 +13,7 @@ Item
          smooth : true
          anchors.fill : parent
          focus : true
-         model : SeriesPlugin.getFollowedSeriesModel();
+         model : series_plugin.getFollowedSeriesModel();
          flickDeceleration : 200
          pathItemCount : 8
          cacheItemCount : 8

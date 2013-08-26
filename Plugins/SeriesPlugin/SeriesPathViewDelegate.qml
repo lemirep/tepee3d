@@ -98,7 +98,7 @@ Item
             {
                 console.log("serieId " + serieId)
                 followed_series_view.state = "seasons_shows_view"
-                season_episode_item.seasonModel = SeriesPlugin.getSeasonsModelFromSerieId(serieId)
+                season_episode_item.seasonModel = series_plugin.getSeasonsModelFromSerieId(serieId)
                 season_episode_item.episodeModel = null;
             }
             else

@@ -43,7 +43,8 @@ public:
         pluginName,
         pluginDescription,
         pluginDownloaded,
-        pluginDownloading
+        pluginDownloading,
+        pluginRepoName
     };
 
     explicit PluginOnlineModelItem(int pluginId, QObject *parent = 0);
@@ -54,19 +55,25 @@ public:
     QHash<int, QByteArray>  roleNames() const;
 
     QString getPluginName() const;
+    QString getPluginRepoName() const;
     QString getPluginDescription() const;
+    int     getPluginFileToDownload() const;
 
     void setPluginName(const QString &pluginName);
     void setPluginDescription(const QString &pluginDescription);
     void setPluginDownloaded(bool downloaded);
     void setPluginDownloading(bool downloading);
+    void setPluginRepoName(const QString& pluginRepoName);
+    void setPluginFileToDownloadCount(int fileToDownloadCount);
 
 private:
     int     m_pluginId;
     QString m_pluginName;
     QString m_pluginDescription;
+    QString m_pluginRepoName;
     bool    m_pluginDownloaded;
     bool    m_pluginDownloading;
+    int     m_filetoDownloadCount;
 };
 }
 

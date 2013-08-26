@@ -11,16 +11,16 @@ Rectangle
     {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        text:"Remove " + WatchPlugin.currentItemChangedCity
+        text:"Remove " + watch_plugin.currentItemChangedCity
     }
     MouseArea{
         id : remove_ma
         anchors.fill: parent
         onClicked:
         {
-            WatchPlugin.deleteClockDB(WatchPlugin.getCurrentId());
-            WatchPlugin.reInitModel();
-            WatchPlugin.pluginState = "clocks_view"
+            watch_plugin.deleteClockDB(watch_plugin.getCurrentId());
+            watch_plugin.reInitModel();
+            watch_plugin.pluginState = "clocks_view"
         }
     }
 }

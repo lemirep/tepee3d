@@ -7,12 +7,12 @@ Item
     onEnabledChanged:
     {
         if (enabled)
-            SeriesPlugin.refreshShowsInPlanning(scheduleType)
+            series_plugin.refreshShowsInPlanning(scheduleType)
     }
 
     onScheduleTypeChanged:
     {
-        SeriesPlugin.refreshShowsInPlanning(scheduleType)
+        series_plugin.refreshShowsInPlanning(scheduleType)
     }
 
     Rectangle
@@ -157,7 +157,7 @@ Item
     GridView
     {
         id : planned_show_gridview
-        model : SeriesPlugin.getShowsToAppearInTheWeek()
+        model : series_plugin.getShowsToAppearInTheWeek()
         anchors
         {
             left : parent.left
@@ -182,7 +182,7 @@ Item
             right : background_rec.right
             bottom : background_rec.bottom
         }
-        onClicked : {SeriesPlugin.pluginState = "shows_view"}
+        onClicked : {series_plugin.pluginState = "shows_view"}
     }
 
     Component

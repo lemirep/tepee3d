@@ -44,7 +44,7 @@ Item
             }
             color : "white"
             font.pointSize: mainWindow.defaultFontSize
-            onAccepted:    {SeriesPlugin.searchForShow(search_input.text); search_result.focus = true; search_input.text = ""}
+            onAccepted:    {series_plugin.searchForShow(search_input.text); search_result.focus = true; search_input.text = ""}
         }
 
         Image
@@ -62,7 +62,7 @@ Item
             {
                 id : search_button_ma
                 anchors.fill: parent
-                onClicked:    {SeriesPlugin.searchForShow(search_input.text); search_result.focus = true; search_input.text = ""}
+                onClicked:    {series_plugin.searchForShow(search_input.text); search_result.focus = true; search_input.text = ""}
             }
         }
     }
@@ -83,7 +83,7 @@ Item
             id : search_result_listview
             clip : true
             anchors.fill: parent
-            model : SeriesPlugin.getSearchSeriesModel()
+            model : series_plugin.getSearchSeriesModel()
             delegate : SeriesSearchListViewDelegate {
 //                slug : model.slug
                 serieId : model.serieTvdbId
@@ -100,7 +100,7 @@ Item
                 top : search_result_listview.bottom
                 horizontalCenter : search_result_listview.horizontalCenter
             }
-            onClicked : { SeriesPlugin.pluginState = "shows_view"; }
+            onClicked : { series_plugin.pluginState = "shows_view"; }
         }
     }
 }

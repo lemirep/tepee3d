@@ -6,12 +6,12 @@ GridView
     anchors.fill: parent
     cellWidth : width / 5
     cellHeight : cellWidth
-    model : XBMCPlugin.getSongsLibrary();
+    model : xbmc_plugin.getSongsLibrary();
     delegate : LibraryGridViewDelegate {
         id : song_delegate
         width : songs_library_gridview.cellWidth
         height :songs_library_gridview.cellHeight
-        thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+        thumbnail: (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
         title : model.title
 
         AddButton
@@ -24,7 +24,7 @@ GridView
                 bottom : song_delegate.bottom
                 bottomMargin : 10
             }
-            onClicked : {XBMCPlugin.addSongToPlaylist(model.songId); console.log(model.songId)}
+            onClicked : {xbmc_plugin.addSongToPlaylist(model.songId); console.log(model.songId)}
         }
 
         Image
@@ -46,7 +46,7 @@ GridView
                 anchors.fill: parent
                 onClicked:
                 {
-                    XBMCPlugin.playFile(model.file)
+                    xbmc_plugin.playFile(model.file)
                 }
             }
         }

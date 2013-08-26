@@ -24,6 +24,11 @@ QString HarlemShake::getPluginName() const
     return QString("HarlemShake");
 }
 
+QString HarlemShake::getPluginRepoName() const
+{
+    return QString("harlem_shake");
+}
+
 QString HarlemShake::getPluginDescription() const
 {
     return QString("HarlemShake Description");

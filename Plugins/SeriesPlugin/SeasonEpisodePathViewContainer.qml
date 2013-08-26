@@ -82,7 +82,7 @@ Item
             {
                 id : check_all_button_ma
                 anchors.fill: parent
-                onClicked: {SeriesPlugin.markSeasonAsSeen(show_pathview_item.currentItem.serieId, season_pathview_container.currentItem.season)}
+                onClicked: {series_plugin.markSeasonAsSeen(show_pathview_item.currentItem.serieId, season_pathview_container.currentItem.season)}
             }
             anchors
             {

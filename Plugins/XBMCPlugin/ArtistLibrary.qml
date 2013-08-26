@@ -70,11 +70,11 @@ Item
         clip : true
         cellWidth : width / 5
         cellHeight : cellWidth
-        model : XBMCPlugin.getArtistsLibrary();
+        model : xbmc_plugin.getArtistsLibrary();
         delegate : LibraryGridViewDelegate {
             width : artists_library_gridview.cellWidth
             height :artists_library_gridview.cellHeight
-            thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+            thumbnail: (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
             title : model.artistName
             onClicked:
             {

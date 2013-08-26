@@ -33,6 +33,11 @@ QString AgendaPlugin::getPluginName() const
     return QString("AgendaPlugin");
 }
 
+QString AgendaPlugin::getPluginRepoName() const
+{
+    return QString("agenda_plugin");
+}
+
 QString AgendaPlugin::getPluginDescription() const
 {
     return QString("AgendaPlugin.qml");

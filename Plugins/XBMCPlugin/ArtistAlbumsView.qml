@@ -130,7 +130,7 @@ Item
                     right : artist_thumbnail.right
                     bottom : artist_thumbnail.bottom
                 }
-                onClicked : {XBMCPlugin.addArtistToPlaylist(artistId)}
+                onClicked : {xbmc_plugin.addArtistToPlaylist(artistId)}
             }
             Text
             {
@@ -167,7 +167,7 @@ Item
             delegate : LibraryGridViewDelegate {
                 width : artists_albums_listview.cellWidth
                 height : artists_albums_listview.cellHeight
-                thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+                thumbnail: (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
                 title : model.albumTitle
                 onClicked:
                 {

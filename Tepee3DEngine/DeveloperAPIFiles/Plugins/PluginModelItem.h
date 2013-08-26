@@ -44,6 +44,7 @@ public:
     {
         pluginId    =   Qt::UserRole + 1,
         pluginName,
+        pluginRepoName,
         pluginRoomQmlFile,
         pluginMenuQmlFile,
         pluginPosition

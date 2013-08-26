@@ -114,7 +114,7 @@ Item
                             id : season_thumbnail
                             height: parent.height - 50
                             fillMode: Image.PreserveAspectFit
-                            source : (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+                            source : (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
                             Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
                             scale : (status == Image.Ready) ? 1 : 0
                             anchors.centerIn: parent
@@ -181,7 +181,7 @@ Item
                                     height: parent.height - 50
                                     width : parent.width - 10
                                     fillMode: Image.PreserveAspectFit
-                                    source : (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+                                    source : (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
                                     Behavior on scale {NumberAnimation {duration : 1200; easing.type: Easing.InOutBack}}
                                     scale : (status == Image.Ready) ? 1 : 0
                                     anchors.centerIn: parent
@@ -204,7 +204,7 @@ Item
                                     anchors.fill: parent
                                     onClicked:
                                     {
-                                        XBMCPlugin.playFile(model.file)
+                                        xbmc_plugin.playFile(model.file)
                                     }
                                 }
                             }
@@ -238,12 +238,12 @@ Item
 
         cellWidth : width / 5
         cellHeight : cellWidth
-        model : XBMCPlugin.getTVShowsLibrary();
+        model : xbmc_plugin.getTVShowsLibrary();
         clip : true
         delegate : LibraryGridViewDelegate {
             width : shows_library_gridview.cellWidth
             height :shows_library_gridview.cellHeight
-            thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+            thumbnail: (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
             title : model.title
             onClicked:
             {

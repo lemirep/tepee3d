@@ -3,7 +3,7 @@ import QtQuick 2.1
 Item
 {
     anchors.fill: parent
-    state : SeriesPlugin.pluginState
+    state : series_plugin.pluginState
 
     states : [
         State
@@ -42,7 +42,7 @@ Item
                 left: parent.left
                 leftMargin : 50
             }
-            onClicked : {SeriesPlugin.pluginState = "shows_view"; menuBottomMain.isShown = false}
+            onClicked : {series_plugin.pluginState = "shows_view"; menuBottomMain.isShown = false}
         }
         Text
         {
@@ -80,7 +80,7 @@ Item
                     verticalCenter: parent.verticalCenter
                     horizontalCenter : add_show_button_text.horizontalCenter
                 }
-                onClicked : {SeriesPlugin.pluginState = "search_shows"; menuBottomMain.isShown = false}
+                onClicked : {series_plugin.pluginState = "search_shows"; menuBottomMain.isShown = false}
             }
 
             Text
@@ -113,7 +113,7 @@ Item
                     verticalCenter: parent.verticalCenter
                     horizontalCenter : refresh_show_button_text.horizontalCenter
                 }
-                onClicked : {SeriesPlugin.updateFollowedShows(); menuBottomMain.isShown = false}
+                onClicked : {series_plugin.updateFollowedShows(); menuBottomMain.isShown = false}
             }
 
             Text
@@ -146,7 +146,7 @@ Item
                     verticalCenter : parent.verticalCenter
                     horizontalCenter : sync_with_sickbeard_text.horizontalCenter
                 }
-                onClicked : {SeriesPlugin.retrieveSickBeardShows(); menuBottomMain.isShown = false}
+                onClicked : {series_plugin.retrieveSickBeardShows(); menuBottomMain.isShown = false}
             }
 
             Text
@@ -178,7 +178,7 @@ Item
                     verticalCenter : parent.verticalCenter
                     horizontalCenter : set_sickbeard_config_text.horizontalCenter
                 }
-                onClicked : {SeriesPlugin.pluginState = "configure_sickbeard"; menuBottomMain.isShown = false}
+                onClicked : {series_plugin.pluginState = "configure_sickbeard"; menuBottomMain.isShown = false}
             }
             Text
             {

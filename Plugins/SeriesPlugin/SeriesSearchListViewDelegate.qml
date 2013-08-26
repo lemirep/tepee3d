@@ -34,8 +34,8 @@ Item
         onClicked :
         {
             console.log("Adding show with id " + serieId)
-            SeriesPlugin.addShowToFollow(serieId)
-            SeriesPlugin.removeShowFromSearchResult(serieId)
+            series_plugin.addShowToFollow(serieId)
+            series_plugin.removeShowFromSearchResult(serieId)
         }
     }
 

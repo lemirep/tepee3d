@@ -79,9 +79,10 @@ public:
     int                                 getPluginId() const;
     void                                initPlugin();
     void                                clearPluginBeforeRemoval();
-    Q_INVOKABLE QString                 getPluginName() const;
-    Q_INVOKABLE QString                 getPluginDescription() const;
-    Q_INVOKABLE QString                 getPluginVersion() const;
+    Q_INVOKABLE  QString                getPluginName() const;
+    Q_INVOKABLE  QString                getPluginRepoName() const;
+    Q_INVOKABLE  QString                getPluginDescription() const;
+    Q_INVOKABLE  QString                getPluginVersion() const;
     PluginBase*                         createNewInstance();
     QString                             getRoomPluginQmlFile() const;
     QString                             getMenuPluginQmlFile() const;

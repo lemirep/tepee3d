@@ -10,7 +10,7 @@ Item3D
 
     property bool isFocused : false;
     property bool consultingEpisode : false
-    property bool synchingWeb : SeriesPlugin.synchingWebServices
+    property bool synchingWeb : series_plugin.synchingWebServices
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}
@@ -163,7 +163,7 @@ Item3D
         opacity : isFocused ? 1 : 0
         width : mainWindow.width
         height : mainWindow.height
-        state : SeriesPlugin.pluginState
+        state : series_plugin.pluginState
 
         states : [
             State

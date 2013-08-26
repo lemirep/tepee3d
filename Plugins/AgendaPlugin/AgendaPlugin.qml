@@ -10,7 +10,7 @@ Item3D
 
     property bool isFocused : false;
     property bool consultingEpisode : false
-    property bool synchingWeb : AgendaPlugin.synchingWebServices
+    property bool synchingWeb : agenda_plugin.synchingWebServices
 
     // HAS TO BE IMPLEMENTED
     function roomEntered()    {}

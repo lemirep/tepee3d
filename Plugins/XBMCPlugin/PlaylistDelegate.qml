@@ -31,7 +31,7 @@ Item
         {
             id : play_playlist_ma
             anchors.fill: parent
-            onClicked: XBMCPlugin.playPlaylist(idPlaylist, 0)
+            onClicked: xbmc_plugin.playPlaylist(idPlaylist, 0)
         }
         anchors
         {
@@ -44,7 +44,7 @@ Item
     CloseButton
     {
         height : parent.height / 4
-        onClicked : XBMCPlugin.clearPlaylist(idPlaylist)
+        onClicked : xbmc_plugin.clearPlaylist(idPlaylist)
         anchors
         {
             bottom : parent.bottom
@@ -99,7 +99,7 @@ Item
                 MouseArea
                 {
                     anchors.fill: parent
-                    onClicked: XBMCPlugin.playPlaylist(idPlaylist, index)
+                    onClicked: xbmc_plugin.playPlaylist(idPlaylist, index)
                 }
             }
         }

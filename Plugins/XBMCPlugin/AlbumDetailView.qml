@@ -81,7 +81,7 @@ Item
                 right : album_thumbnail.right
                 bottom : album_thumbnail.bottom
             }
-            onClicked : {XBMCPlugin.addAlbumToPlaylist(albumId)}
+            onClicked : {xbmc_plugin.addAlbumToPlaylist(albumId)}
         }
         Text
         {
@@ -152,7 +152,7 @@ Item
                         verticalCenter : parent.verticalCenter
                     }
                     smooth : true
-                    source : (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+                    source : (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
                 }
                 Text
                 {
@@ -201,7 +201,7 @@ Item
                         anchors.fill: parent
                         onClicked:
                         {
-                            XBMCPlugin.playFile(model.file)
+                            xbmc_plugin.playFile(model.file)
                         }
                     }
                 }
@@ -217,7 +217,7 @@ Item
 
                     onClicked :
                     {
-                        XBMCPlugin.addSongToPlaylist(model.songId)
+                        xbmc_plugin.addSongToPlaylist(model.songId)
                     }
                 }
             }

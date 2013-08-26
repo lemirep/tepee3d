@@ -251,7 +251,6 @@ Item
                     bottom : parent.bottom
                     top : parent.top
                     topMargin : 50
-
                 }
                 model : add_plugin_listview_model
                 orientation: ListView.Horizontal
@@ -269,6 +268,7 @@ Item
                             clip: true
                             spacing: 10
                             anchors.fill: parent
+                            anchors.bottomMargin : menuRightMain.width / 8
                             orientation: ListView.Vertical
                             model : idx === 0 ? availablePluginsModel : onlinePluginsModel
                             delegate: NewPluginDelegate {
@@ -277,6 +277,7 @@ Item
                                 pluginName: model.pluginName
                                 downloaded: model.pluginDownloaded ? model.pluginDownloaded : false
                                 downloading : model.pluginDownloading ? model.pluginDownloading : false
+                                online : !(idx === 0)
                             }
                         }
                     }

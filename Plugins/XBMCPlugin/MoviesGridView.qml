@@ -6,11 +6,11 @@ GridView
     anchors.fill: parent
     cellWidth : width / 5
     cellHeight : cellWidth
-    model : XBMCPlugin.getMoviesLibrary();
+    model : xbmc_plugin.getMoviesLibrary();
     delegate : LibraryGridViewDelegate {
         width : movie_library_gridview.cellWidth
         height :movie_library_gridview.cellHeight
-        thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+        thumbnail: (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
         title : model.title
         onClicked:
         {

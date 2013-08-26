@@ -35,6 +35,8 @@
 #define ANDROID_SERVICES_DIR "services_lib"
 #define ANDROID_WIDGETS_DIR "widget_libraries"
 #define ANDROID_ROOM_DIR "room_library"
+#define ANDROID_WIDGETS_RESOURCE_DIR "plugin_qml"
+#define ANDROID_DATABASE_DIR "databases"
 
 
 class AndroidPlatformInitializer : public IPlatformInitializer
@@ -44,10 +46,12 @@ public:
     bool initPlatform();
     virtual QDir           getDataDirectory() const;
     virtual QDir           getWidgetSharedLibrariesDirectory() const;
+    virtual QDir           getWidgetsResourceDirectory() const;
     virtual QDir           getServicesSharedLibrariesDirectory() const;
     virtual QDir           getRoomSharedLibraryDirectory() const;
     virtual QDir           getSharedLibraryDirectory() const;
-    virtual QString      getPlatformName() const;
+    virtual QDir           getDatabaseDirectory() const;
+    virtual QString        getPlatformName() const;
 
     bool                      copyLibToDir(QString src, QString dst);
 };

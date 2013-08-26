@@ -9,12 +9,14 @@ Item3D
     property string roomQmlFile : ""
     property string focusedQmlFile : ""
     property string pluginName : ""
+    property string pluginRepoName : ""
 
     Loader
     {
         id : widget_loader
 
         function getPluginName() {return plugin_loader_item.pluginName}
+        function getPluginRepoName() {return plugin_loader_item.pluginRepoName}
         function getPluginId()   {return plugin_loader_item.pluginId}
         function getPluginRoomQmlFile() {return plugin_loader_item.roomQmlFile}
         function getPluginFocusedQmlFile() {return plugin_loader_item.focusedQmlFile}

@@ -5,7 +5,7 @@
  #include development files
     include (../../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = XBMCPlugin
+ TARGET          = xbmc_plugin
  DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries
  DESTDIRQML      = qml_folder
 
@@ -67,7 +67,7 @@ include (./Remote/Remote.pri)
 
 # deploy qml files to correct dir
 qml_folder.files = $$OTHER_FILES
-qml_folder.path = ../../Tepee3DEngine/plugins_qml/XBMCPlugin
+qml_folder.path = ../../Tepee3DEngine/plugins_qml/xbmc_plugin
 
 DEPLOYMENT += qml_folder
 INSTALLS += qml_folder

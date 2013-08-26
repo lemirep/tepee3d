@@ -174,7 +174,7 @@ Item
         }
         onPressAndHold:
         {
-            SeriesPlugin.markEpisodeAsSeen(show_pathview_item.currentItem.serieId, season_pathview_container.currentItem.season, episodeId, !episodeSeen)
+            series_plugin.markEpisodeAsSeen(show_pathview_item.currentItem.serieId, season_pathview_container.currentItem.season, episodeId, !episodeSeen)
         }
     }
 }

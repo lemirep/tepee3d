@@ -78,12 +78,12 @@ Item3D
             preferredHighlightEnd: 0.5
             pathItemCount : 4
             cacheItemCount : 8
-            model:  WatchPlugin.getClockModel();            
+            model:  watch_plugin.getClockModel();
             onCurrentItemChanged :
             {
-                WatchPlugin.setCurrentCity(view.currentIndex + 1);
-                WatchPlugin.setCurrentUtc(view.currentIndex + 1);
-                WatchPlugin.setCurrentId(view.currentIndex + 1);              
+                watch_plugin.setCurrentCity(view.currentIndex + 1);
+                watch_plugin.setCurrentUtc(view.currentIndex + 1);
+                watch_plugin.setCurrentId(view.currentIndex + 1);
             }
             delegate: ClockDelegate
             {

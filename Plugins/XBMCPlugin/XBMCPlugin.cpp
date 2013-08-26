@@ -82,6 +82,11 @@ QString XBMCPlugin::getPluginDescription() const
     return QString("XBMCPlugin.qml");
 }
 
+QString XBMCPlugin::getPluginRepoName() const
+{
+    return QString("xbmc_plugin");
+}
+
 QString XBMCPlugin::getRoomPluginQmlFile() const
 {
     return QString("XBMCPlugin.qml");

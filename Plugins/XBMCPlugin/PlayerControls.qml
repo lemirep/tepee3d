@@ -2,7 +2,7 @@ import QtQuick 2.1
 
 Item
 {
-    property bool isPlaying : XBMCPlugin.playing
+    property bool isPlaying : xbmc_plugin.playing
 
     Item
     {
@@ -56,7 +56,7 @@ Item
                 top : parent.top
                 bottom : parent.bottom
             }
-            model : XBMCPlugin.getCurrentlyPlayedItemModel()
+            model : xbmc_plugin.getCurrentlyPlayedItemModel()
             interactive : false
             delegate : Component {
                 Item
@@ -104,7 +104,7 @@ Item
                             leftMargin : 15
                         }
                         fillMode: Image.PreserveAspectFit
-                        source : XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail)
+                        source : xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail)
                     }
                 }
             }
@@ -128,7 +128,7 @@ Item
                 bottom : parent.bottom
             }
             snapMode : ListView.SnapOneItem
-            model : XBMCPlugin.getPlaylists();
+            model : xbmc_plugin.getPlaylists();
             orientation : ListView.Horizontal
             delegate : PlaylistDelegate {
                 width : playlist_listview.width
@@ -172,7 +172,7 @@ Item
             height : 40
             property bool sliding : false
             property real tmp_advance : 0;
-            property real advance : sliding ? tmp_advance : XBMCPlugin.playerAdvance
+            property real advance : sliding ? tmp_advance : xbmc_plugin.playerAdvance
             enabled : isPlaying
             anchors
             {
@@ -240,7 +240,7 @@ Item
                     lockedSlider = false;
                     main_listview.interactive = !lockedSlider
                     // ASK PLAYER TO CHANGE TO NEW VALUE OF time_slider.advance
-                    //                    XBMCPlugin.seekAction(time_slider.tmp_advance * 100)
+                    //                    xbmc_plugin.seekAction(time_slider.tmp_advance * 100)
                     console.log("Released " + (time_slider.tmp_advance * 100));
                     time_slider.tmp_advance = 0
                 }
@@ -298,7 +298,7 @@ Item
                     verticalCenter : advance_slide.verticalCenter
                 }
                 font.pixelSize: mainWindow.defaultFontSize
-                text : currently_playing_item.printDuration(time_slider.advance * XBMCPlugin.getCurrentlyPlayedItemModel().get(currently_playing_item.currentIndex).runtime)
+                text : currently_playing_item.printDuration(time_slider.advance * xbmc_plugin.getCurrentlyPlayedItemModel().get(currently_playing_item.currentIndex).runtime)
             }
         }
 
@@ -318,7 +318,7 @@ Item
                 {
                     id : backward_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.previousAction()}
+                    onClicked: {xbmc_plugin.previousAction()}
                 }
             }
 
@@ -333,8 +333,8 @@ Item
                 {
                     id : fbackward_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.smallBackward()}
-                    onPressAndHold: {XBMCPlugin.bigBackward()}
+                    onClicked: {xbmc_plugin.smallBackward()}
+                    onPressAndHold: {xbmc_plugin.bigBackward()}
                 }
             }
 
@@ -349,7 +349,7 @@ Item
                 {
                     id : stop_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.stopAction()}
+                    onClicked: {xbmc_plugin.stopAction()}
                 }
             }
 
@@ -364,7 +364,7 @@ Item
                 {
                     id : play_button_ma
                     anchors.fill: parent
-                    onClicked: {isPlaying ? XBMCPlugin.pauseAction() : XBMCPlugin.playAction(); isPlaying = !isPlaying}
+                    onClicked: {isPlaying ? xbmc_plugin.pauseAction() : xbmc_plugin.playAction(); isPlaying = !isPlaying}
                 }
             }
 
@@ -379,8 +379,8 @@ Item
                 {
                     id : fforward_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.smallForward()}
-                    onPressAndHold: {XBMCPlugin.bigForward()}
+                    onClicked: {xbmc_plugin.smallForward()}
+                    onPressAndHold: {xbmc_plugin.bigForward()}
                 }
             }
 
@@ -395,7 +395,7 @@ Item
                 {
                     id : forward_button_ma
                     anchors.fill: parent
-                    onClicked: {XBMCPlugin.nextAction()}
+                    onClicked: {xbmc_plugin.nextAction()}
                 }
             }
         }

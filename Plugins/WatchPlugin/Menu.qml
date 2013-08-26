@@ -3,7 +3,7 @@ import QtQuick 2.1
 Item
 {
     anchors.fill: parent
-    state : WatchPlugin.pluginState
+    state : watch_plugin.pluginState
 
     states : [
         State
@@ -54,7 +54,7 @@ Item
                 left: parent.left
                 leftMargin : parent.height / 3
             }
-            //onClicked : {WatchPlugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
+            //onClicked : {watch_plugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
         }
 
     }
@@ -72,7 +72,7 @@ Item
                 left: parent.left
                 leftMargin : parent.height / 3
             }
-            //onClicked : {WatchPlugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
+            //onClicked : {watch_plugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
         }
 
     }
@@ -91,7 +91,7 @@ Item
                 left: parent.left
                 leftMargin : parent.height / 3
             }
-            //onClicked : {WatchPlugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
+            //onClicked : {watch_plugin.pluginState = "clocks_view"; menuBottomMain.isShown = false}
         }
 
     }
@@ -125,7 +125,7 @@ Item
                 {
                     id : add_clock_button_ma
                     anchors.fill : parent
-                    onClicked : WatchPlugin.pluginState = "add_clocks";
+                    onClicked : watch_plugin.pluginState = "add_clocks";
                 }
                 source : "./plus.png"
             }
@@ -164,7 +164,7 @@ Item
                 {
                     id : edit_clock_button_ma
                     anchors.fill : parent
-                    onClicked : WatchPlugin.pluginState = "edit_clocks";
+                    onClicked : watch_plugin.pluginState = "edit_clocks";
                 }
                 source : "./edit.png"
             }
@@ -205,7 +205,7 @@ Item
                     onClicked :
                     {
 
-                        WatchPlugin.pluginState = "remove_clocks";
+                        watch_plugin.pluginState = "remove_clocks";
                     }
                 }
                 source : "./red_cross.png"

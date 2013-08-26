@@ -144,7 +144,7 @@ Item
             {
                 id : planning_button_ma
                 anchors.fill: parent
-                onClicked: {SeriesPlugin.pluginState = "show_planning_view"}
+                onClicked: {series_plugin.pluginState = "show_planning_view"}
             }
             anchors
             {

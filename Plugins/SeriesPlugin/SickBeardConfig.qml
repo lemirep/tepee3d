@@ -32,8 +32,8 @@ Item
             leftMargin : 10
             rightMargin : 10
         }
-        text : SeriesPlugin.sickBeardUrl
-        onAccepted : {SeriesPlugin.sickBeardUrl = sb_url_input.text}
+        text : series_plugin.sickBeardUrl
+        onAccepted : {series_plugin.sickBeardUrl = sb_url_input.text}
     }
 
     Text
@@ -64,8 +64,8 @@ Item
             leftMargin : 10
             rightMargin : 10
         }
-        text : SeriesPlugin.sickBeardApi
-        onAccepted : {SeriesPlugin.sickBeardApi = sb_key_input.text}
+        text : series_plugin.sickBeardApi
+        onAccepted : {series_plugin.sickBeardApi = sb_key_input.text}
     }
 
     Text
@@ -89,11 +89,11 @@ Item
     CheckBox
     {
         id : add_show_sickbeard
-        checked : SeriesPlugin.addToSickBeard
+        checked : series_plugin.addToSickBeard
         onToggle :
         {
             console.log("Checked Changed " + checked);
-             SeriesPlugin.addToSickBeard = checked
+             series_plugin.addToSickBeard = checked
         }
         anchors
         {
@@ -120,8 +120,8 @@ Item
         {
             sb_url_input.accepted();
             sb_key_input.accepted();
-            SeriesPlugin.saveSickBeardConfig();
-            SeriesPlugin.pluginState = "shows_view";
+            series_plugin.saveSickBeardConfig();
+            series_plugin.pluginState = "shows_view";
         }
     }
 
@@ -137,7 +137,7 @@ Item
         }
         onClicked :
         {
-            SeriesPlugin.pluginState = "shows_view";
+            series_plugin.pluginState = "shows_view";
         }
     }
 }

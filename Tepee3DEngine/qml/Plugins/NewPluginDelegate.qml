@@ -6,6 +6,7 @@ Item
     property string pluginName : ""
     property bool downloaded : false;
     property bool downloading : false;
+    property bool online : false
 
     anchors.horizontalCenter: parent.horizontalCenter
     scale : plugin_delegate_mouse_area.pressed ? 0.9 : 1.0
@@ -17,10 +18,17 @@ Item
         anchors.fill : parent
         onClicked :
         {
-            room_plugins_list_view.currentIndex = index;
-            console.log("Plugin ID " + model.pluginId)
-            roomManager.addNewPluginToCurrentRoom(model.pluginId)
-            menuRightRec.add_plugins = !menuRightRec.add_plugins
+            if (!online)
+            {
+                room_plugins_list_view.currentIndex = index;
+                console.log("Plugin ID " + model.pluginId)
+                roomManager.addNewPluginToCurrentRoom(model.pluginId)
+                menuRightRec.add_plugins = !menuRightRec.add_plugins
+            }
+            else
+            {
+                pluginManager.downloadPluginFromServer(model.pluginId)
+            }
         }
     }
 

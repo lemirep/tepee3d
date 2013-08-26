@@ -115,6 +115,29 @@ QDir GenericPlatformInitializer::getSharedLibraryDirectory() const
     return dir;
 }
 
+QDir GenericPlatformInitializer::getDatabaseDirectory() const
+{
+    QDir    dir = QCoreApplication::applicationDirPath();
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug" || dir.dirName().toLower() == "release")
+       dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS")
+    {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+    }
+#endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
+#endif
+    dir.cd(GENERIC_DATABASE_DIRECTORY);
+    return dir;
+}
+
 QDir GenericPlatformInitializer::getWidgetSharedLibrariesDirectory() const
 {
     QDir    dir = QCoreApplication::applicationDirPath();
@@ -135,6 +158,29 @@ QDir GenericPlatformInitializer::getWidgetSharedLibrariesDirectory() const
     dir.cd("Tepee3DEngine");
 #endif
     dir.cd(GENERIC_WIDGET_LIBRARIES_DIR);
+    return dir;
+}
+
+QDir GenericPlatformInitializer::getWidgetsResourceDirectory() const
+{
+    QDir    dir = QCoreApplication::applicationDirPath();
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug" || dir.dirName().toLower() == "release")
+       dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS")
+    {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+    }
+#endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
+#endif
+    dir.cd(GENERIC_WIDGET_RESOURCE_DIR);
     return dir;
 }
 

@@ -64,7 +64,12 @@
 #define DOWNLOAD_PLUGIN 2
 #define STREAM_PLUGIN 3
 #define DOWNLOAD_FILE 4
+#define DOWNLOAD_PLUGIN_INDEX 5
+#define DOWNLOAD_PLUGIN_FILE 6
 #define TEPEE3D_ONLINE_API "http://tepee3d.dyndns.org/api/v1/"
+#define TEPEE3D_WIDGETS_STORE "http://tepee3d.dyndns.org/builds/"
+#define PLUGINS_QML_DIR "plugin_qml"
+
 namespace Plugins
 {
 class PluginManager : public QObject,
@@ -91,13 +96,11 @@ public:
 
     // WEB SERVICES
     void                        retrieveOnlinePluginsForCurrentPlatform();
-    void                        downloadPluginFromServer(int pluginId);
     void                        checkForPluginsUpdates();
+    // FILE DOWNLOADER SERVICE
+    Q_INVOKABLE void            downloadPluginFromServer(int pluginId);
 
-    // FILE DOWNLPAD SERVICE
-    void                        downloadFileFromServer(QString file);
-
-
+    //MODELS
     Models::ListModel*          getLocallyAvailablePlugins() const;
     Models::ListModel*          getOnlineAvailablePlugins();
 
@@ -108,7 +111,7 @@ private:
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
     QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
-    QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    streamServicesCallBacks;
+    QHash<int, void (PluginManager::*)(QFile *, void *data)>            streamServicesCallBacks;
 
     void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 
@@ -122,6 +125,8 @@ private:
     void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void downloadPluginFromServerCallback(QNetworkReply *reply, void *data);
     void checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
+    void downloadPluginIndexCallBack(QFile *file, void *data);
+    void downloadPluginFileCallBack(QFile *file, void *data);
 
 signals :
     void executeHttpRequest(const QNetworkRequest&,

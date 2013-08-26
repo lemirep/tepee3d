@@ -80,6 +80,8 @@ QVariant    Models::PluginModelItem::data(int role)    const
         return this->id();
     case pluginName :
         return this->plugin->getPluginName();
+    case pluginRepoName:
+        return this->plugin->getPluginRepoName();
     case pluginRoomQmlFile :
         return this->plugin->getRoomPluginQmlFile();
     case pluginMenuQmlFile :
@@ -100,6 +102,7 @@ QHash<int, QByteArray> Models::PluginModelItem::roleNames()   const
 
     roles[pluginId]   = "pluginId";
     roles[pluginName] = "pluginName";
+    roles[pluginRepoName] = "pluginRepoName";
     roles[pluginRoomQmlFile] = "pluginRoomQmlFile";
     roles[pluginMenuQmlFile] = "pluginMenuQmlFile";
     roles[pluginPosition] = "pluginPosition";

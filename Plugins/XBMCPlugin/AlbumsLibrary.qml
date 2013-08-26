@@ -70,12 +70,12 @@ Item
         }
         cellWidth : width / 5
         cellHeight : cellWidth
-        model : XBMCPlugin.getAlbumsLibrary();
+        model : xbmc_plugin.getAlbumsLibrary();
         clip : true
         delegate : LibraryGridViewDelegate {
             width : albums_library_gridview.cellWidth
             height :albums_library_gridview.cellHeight
-            thumbnail: (model.thumbnail !== "") ? XBMCPlugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
+            thumbnail: (model.thumbnail !== "") ? xbmc_plugin.getXBMCImageProviderUrl(model.thumbnail) : "empty_cd.png"
             title : model.albumTitle
             onClicked:
             {

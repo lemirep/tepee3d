@@ -10,8 +10,8 @@ Item
     width : (mainWindow.width * 0.8)
     height : (mainWindow.height * 0.9)
 
-    property int daybeginning_month : {AgendaPlugin.getBeginDayOfTheMonth(); }
-    property int monthlength : {AgendaPlugin.getMonthLength(); }
+    property int daybeginning_month : {agenda_plugin.getBeginDayOfTheMonth(); }
+    property int monthlength : {agenda_plugin.getMonthLength(); }
 
     Item
     {
@@ -617,11 +617,11 @@ Item
                 }
                 onClicked:
                 {
-                    AgendaPlugin.prevMonth()
-                    month_name.text = AgendaPlugin.getMonth()
-                    monthly_view.monthlength = AgendaPlugin.getMonthLength()
-                    monthly_view.daybeginning_month = AgendaPlugin.getBeginDayOfTheMonth()
-                    console.log(AgendaPlugin.getMonth());
+                    agenda_plugin.prevMonth()
+                    month_name.text = agenda_plugin.getMonth()
+                    monthly_view.monthlength = agenda_plugin.getMonthLength()
+                    monthly_view.daybeginning_month = agenda_plugin.getBeginDayOfTheMonth()
+                    console.log(agenda_plugin.getMonth());
                 }
             }
 
@@ -635,7 +635,7 @@ Item
           height : (mainWindow.height * 0.1)
           verticalAlignment: Text.AlignVCenter
           horizontalAlignment: Text.AlignHCenter
-          text : {AgendaPlugin.getMonth();}
+          text : {agenda_plugin.getMonth();}
           font.family : "Helvetica"
           font.pointSize : 24
           color : "white"
@@ -655,11 +655,11 @@ Item
                 }
                 onClicked:
                 {
-                    AgendaPlugin.nextMonth()
-                    month_name.text = AgendaPlugin.getMonth()
-                    monthly_view.monthlength = AgendaPlugin.getMonthLength()
-                    monthly_view.daybeginning_month = AgendaPlugin.getBeginDayOfTheMonth()
-                    console.log(AgendaPlugin.getMonth());
+                    agenda_plugin.nextMonth()
+                    month_name.text = agenda_plugin.getMonth()
+                    monthly_view.monthlength = agenda_plugin.getMonthLength()
+                    monthly_view.daybeginning_month = agenda_plugin.getBeginDayOfTheMonth()
+                    console.log(agenda_plugin.getMonth());
                 }
             }
 

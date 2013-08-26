@@ -82,6 +82,11 @@ QString SeriesPlugin::getPluginName() const
     return QString("SeriesPlugin");
 }
 
+QString SeriesPlugin::getPluginRepoName() const
+{
+    return QString("series_plugin");
+}
+
 QString SeriesPlugin::getPluginDescription() const
 {
     return QString("SeriesPlugin.qml");

@@ -96,9 +96,9 @@ Item {
             onClicked:
             {
                 menuBottomMain.isShown = false
-                WatchPlugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
-                WatchPlugin.reInitModel();
-                WatchPlugin.pluginState = "clocks_view"
+                watch_plugin.addClockToDB(cityNameInpout.text,cityUtcInpout.text);
+                watch_plugin.reInitModel();
+                watch_plugin.pluginState = "clocks_view"
             }
         }
     }
