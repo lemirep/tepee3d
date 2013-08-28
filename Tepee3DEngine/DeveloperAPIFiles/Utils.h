@@ -42,7 +42,7 @@ public:
     Utils();
     static  QJsonDocument QJsonDocumentFromReply(QNetworkReply *reply);
     static  QString &     escapeSqlQuery(QString query);
-    static  int           getDeveloperFilesVersion() const;
+    static  int           getDeveloperFilesVersion();
 };
 
 #endif // UTILS_H
