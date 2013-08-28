@@ -151,6 +151,7 @@ bool    CoreManager::initView()
 
     // CHECKS IF LOCAL PLUGINS HAVE BEEN UPDAPTED AND DOWNLOADS NEW REQUEST IF SO
     this->pluginsManager->checkForPluginsUpdates();
+    this->pluginsManager->retrieveOnlinePluginsForCurrentPlatform();
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM

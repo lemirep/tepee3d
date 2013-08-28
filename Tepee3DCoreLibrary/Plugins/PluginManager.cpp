@@ -105,7 +105,8 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
     // OTHERWISE IT ISN'T
 
     Models::ListItem* pluginItem = this->onlineAvailablePluginsModel->find(pluginId);
-    if (pluginItem != NULL)
+    if (pluginItem != NULL &&
+            !reinterpret_cast<Models::PluginOnlineModelItem *>(pluginItem)->getPluginDownloading())
     {
         Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(pluginItem);
         QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName()));
@@ -176,12 +177,10 @@ Models::ListModel *Plugins::PluginManager::getLocallyAvailablePlugins() const
  * If the models has not been initialized, it is done here.
  */
 
-Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins()
+Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins() const
 {
     if (Plugins::PluginManager::onlineAvailablePluginsModel == NULL)
         Plugins::PluginManager::onlineAvailablePluginsModel = new Models::ListModel(new Models::PluginOnlineModelItem(-1));
-    if (Plugins::PluginManager::onlineAvailablePluginsModel->rowCount() == 0)
-        this->retrieveOnlinePluginsForCurrentPlatform();
     return Plugins::PluginManager::onlineAvailablePluginsModel;
 }
 
@@ -263,19 +262,22 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
         Models::PluginOnlineModelItem *pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data);
         qDebug() << "File Index downloaded";
         file->reset();
+        pluginOnlineItem->setPluginDownloading(true);
         while (!file->atEnd())
         {
             QString fileName = file->readLine();
             fileName.chop(1);
-            qDebug() << "File << " << fileName;
-            qDebug() << pluginOnlineItem->getPluginRepoName();
             QFile *itemFile;
-            QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName()));
+            QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->
+                                    getWidgetsResourceDirectory().absoluteFilePath(
+                                        pluginOnlineItem->getPluginRepoName()));
             qDebug() << pluginDir.absolutePath();
             if (fileName.endsWith(".sql")) // WE HAVE A DATABASE FILE
-                itemFile = new QFile(PlatformFactory::getPlatformInitializer()->getDatabaseDirectory().absoluteFilePath(fileName));
+                itemFile = new QFile(PlatformFactory::getPlatformInitializer()->
+                                        getDatabaseDirectory().absoluteFilePath(fileName));
             else if (fileName.endsWith(".so") || fileName.endsWith(".ddl")) // WE HAVE THE PLUGIN LIBRARY
-                itemFile = new QFile(PlatformFactory::getPlatformInitializer()->getWidgetSharedLibrariesDirectory().absoluteFilePath(fileName));
+                itemFile = new QFile(PlatformFactory::getPlatformInitializer()->
+                                        getWidgetSharedLibrariesDirectory().absoluteFilePath(fileName));
             else
                 itemFile = new QFile(pluginDir.absoluteFilePath(fileName));
             if (itemFile->open(QIODevice::WriteOnly))
@@ -310,6 +312,7 @@ void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data)
     {
         Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data);
         pluginOnlineItem->setPluginFileToDownloadCount(pluginOnlineItem->getPluginFileToDownload() - 1);
+        qDebug() << pluginOnlineItem->getPluginFileToDownload() << " Files Remaining";
         if (pluginOnlineItem->getPluginFileToDownload() == 0)
         {
             qDebug() << "Plugin Downloaded, reloading models";
@@ -341,7 +344,6 @@ void Plugins::PluginManager::onDownloadFinished(QFile *file, int requestId, void
 void Plugins::PluginManager::onDownloadProgress(QFile *, int progress, int requestId, void *data)
 {
     qDebug() << ">> download Progress " << progress;
-
 }
 
 void Plugins::PluginManager::onDownloadStarted(QFile *, int requestId, void *data)

@@ -58,6 +58,8 @@ public:
     QString getPluginRepoName() const;
     QString getPluginDescription() const;
     int     getPluginFileToDownload() const;
+    bool    getPluginDownloaded() const;
+    bool    getPluginDownloading() const;
 
     void setPluginName(const QString &pluginName);
     void setPluginDescription(const QString &pluginDescription);

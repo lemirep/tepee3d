@@ -25,7 +25,7 @@
 
  As an illustration purpose we created a new project named ExampleService.
 
- \section1 Edition the .pro file
+ \section1 The .pro file
  The .pro files is used to define several variables that will be used to create a Makefile.
  By default, QtCreator creates and empty .pro file for you that should be named after your
  project's name (in our case ExampleService.pro)

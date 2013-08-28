@@ -36,6 +36,7 @@ Models::PluginOnlineModelItem::PluginOnlineModelItem(int pluginId, QObject *pare
     this->m_pluginRepoName = "";
     this->m_pluginDownloaded = false;
     this->m_pluginDownloading = false;
+    this->m_filetoDownloadCount = 0;
 }
 
 Models::PluginOnlineModelItem::~PluginOnlineModelItem()
@@ -98,6 +99,16 @@ QString Models::PluginOnlineModelItem::getPluginDescription() const
 int Models::PluginOnlineModelItem::getPluginFileToDownload() const
 {
     return this->m_filetoDownloadCount;
+}
+
+bool Models::PluginOnlineModelItem::getPluginDownloaded() const
+{
+    return this->m_pluginDownloaded;
+}
+
+bool Models::PluginOnlineModelItem::getPluginDownloading() const
+{
+    return this->m_pluginDownloading;
 }
 
 void Models::PluginOnlineModelItem::setPluginName(const QString &pluginName)

@@ -101,7 +101,7 @@ public:
 
     //MODELS
     Models::ListModel*          getLocallyAvailablePlugins() const;
-    Models::ListModel*          getOnlineAvailablePlugins();
+    Models::ListModel*          getOnlineAvailablePlugins() const;
 
 private:
 
