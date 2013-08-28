@@ -21,6 +21,7 @@ CONFIG += ordered
                  Documentation/vm_instruction.qdoc \
                  Documentation/how-to-plugins.qdoc \
                  Documentation/all_classes.qdoc \
+                 Documentation/plugin_tutorial.qdoc \
                  Documentation/index.qdoc
 }
 

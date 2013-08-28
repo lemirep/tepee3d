@@ -69,7 +69,6 @@ Plugins::PluginManager* Plugins::PluginManager::instance = NULL;
 Plugins::PluginManager::PluginManager(QObject *parent) : QObject(parent)
 {
     this->webServicesCallBacks[GET_ONLINE_PLUGINS] = &Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack;
-    this->webServicesCallBacks[DOWNLOAD_PLUGIN] = &Plugins::PluginManager::downloadPluginFromServerCallback;
     this->webServicesCallBacks[GET_PLUGINS_UPDATES] = &Plugins::PluginManager::checkForPluginsUpdatesCallBack;
     this->streamServicesCallBacks[DOWNLOAD_PLUGIN_INDEX] = &Plugins::PluginManager::downloadPluginIndexCallBack;
     this->streamServicesCallBacks[DOWNLOAD_PLUGIN_FILE] = &Plugins::PluginManager::downloadPluginFileCallBack;
@@ -162,10 +161,19 @@ void Plugins::PluginManager::checkForPluginsUpdates()
     }
 }
 
+/*!
+ * Returns the model containing widgets already downloaded by the application.
+ */
+
 Models::ListModel *Plugins::PluginManager::getLocallyAvailablePlugins() const
 {
     return Plugins::PluginManager::locallyAvailablePluginsModel;
 }
+
+/*!
+ * Returns a model containing a list of widgets available to download for the application on the platforms on whichi it runs.
+ * If the models has not been initialized, it is done here.
+ */
 
 Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins()
 {
@@ -181,6 +189,7 @@ Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins()
  */
 void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data)
 {
+    Q_UNUSED(data)
     if (reply != NULL)
     {
         QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
@@ -207,47 +216,11 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
                             pluginOnlineItem->setPluginDownloaded(true);
                         Plugins::PluginManager::onlineAvailablePluginsModel->appendRow(pluginOnlineItem);
                     }
-                    // PARSE JSON ARRAY HERE
-                    // WAITING FOR THE SERVER TO BE READY TO PURSUE
-                    // DO NOT FORGET TO RESDTORE retrieveOnlinePluginsForCurrentPlatform as private
                 }
             }
         }
     }
 }
-
-/*!
- * Callback that contains the \a reply of the server concerning the request to download a plugin.
- */
-void Plugins::PluginManager::downloadPluginFromServerCallback(QNetworkReply *reply, void *data)
-{
-    if (reply != NULL)
-    {
-        QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
-        delete reply;
-        qDebug() << ">>>>>Tepee3D Serveur Response <<" << jsonDoc.toJson() << ">>";
-
-        if (!jsonDoc.isNull() && !jsonDoc.isEmpty() && jsonDoc.isObject())
-        {
-            QJsonObject mainObjet = jsonDoc.object();
-            QString re =   mainObjet.value("file").toString();
-            QByteArray by = QByteArray::fromBase64(re.toLocal8Bit());
-            QFile file(mainObjet.value("libname").toString());
-            if(file.open(QIODevice::WriteOnly))
-            {
-                file.write(by);
-                file.close();
-            }
-            qDebug() << "json valid";
-
-        }
-        else
-            qDebug() << "json problem";
-    }
-    else
-        qDebug() << "reply NULL";
-}
-
 
 /*!
  * Callback triggered when checking if downloaded plugins are up to date.
@@ -276,6 +249,12 @@ void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply
         }
     }
 }
+
+/*!
+ * Triggered when the download of the index \a file for a plugin is complete.
+ * The corresponding model item is transmitted in the \a data parameter.
+ * The index file is then read, so that each of the files required by the plugin can be downloaded.
+ */
 
 void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data)
 {
@@ -318,6 +297,10 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
         qDebug() << "Reading done";
     }
 }
+
+/*
+ *
+ */
 
 void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data)
 {

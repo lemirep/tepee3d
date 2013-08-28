@@ -34,12 +34,15 @@
 #include <QDir>
 #include <QCoreApplication>
 
+#define DEVELOPER_FILES_VERSION 1
+
 class Utils
 {
 public:
     Utils();
     static  QJsonDocument QJsonDocumentFromReply(QNetworkReply *reply);
     static  QString &     escapeSqlQuery(QString query);
+    static  int           getDeveloperFilesVersion() const;
 };
 
 #endif // UTILS_H

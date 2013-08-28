@@ -89,6 +89,9 @@ Item
         text: roomName
         anchors.centerIn : delRect
         color :  "white"
+//        width : delRect.width
+        elide : Text.ElideMiddle
+        font.pixelSize: mainWindow.defaultFontSize
     }
 
     Image

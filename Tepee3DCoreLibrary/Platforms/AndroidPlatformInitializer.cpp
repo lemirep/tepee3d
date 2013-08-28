@@ -64,11 +64,11 @@ bool AndroidPlatformInitializer::initPlatform()
         pathsList.prepend("DeveloperAPIFiles/js");
         pathsList.prepend("DeveloperAPIFiles");
 
-        pathsList.prepend("plugins_qml/SeriesPlugin");
-        pathsList.prepend("plugins_qml/WatchPlugin");
+//        pathsList.prepend("plugins_qml/SeriesPlugin");
+//        pathsList.prepend("plugins_qml/WatchPlugin");
         pathsList.prepend("plugins_qml/TestPlugin");
-        pathsList.prepend("plugins_qml/XBMCPlugin");
-        pathsList.prepend("plugins_qml/HarlemShake");
+//        pathsList.prepend("plugins_qml/XBMCPlugin");
+//        pathsList.prepend("plugins_qml/HarlemShake");
         pathsList.prepend("plugins_qml");
 
         foreach (QString dirEntry, pathsList)

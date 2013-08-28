@@ -43,3 +43,7 @@ QString & Utils::escapeSqlQuery(QString query)
     return query.replace("'", "''");
 }
 
+int     Utils::getDeveloperFilesVersion()
+{
+    return DEVELOPER_FILES_VERSION;
+}

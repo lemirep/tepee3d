@@ -151,10 +151,6 @@ bool    CoreManager::initView()
 
     // CHECKS IF LOCAL PLUGINS HAVE BEEN UPDAPTED AND DOWNLOADS NEW REQUEST IF SO
     this->pluginsManager->checkForPluginsUpdates();
-    qDebug() << "Testing TEPEE3D WEBSERVICES ------------- >>>>";
-//    this->pluginsManager->downloadPluginFromServer(32);
-//    this->pluginsManager->downloadFileFromServer("./test");
-    qDebug() << "Testing TEPEE3D WEBSERVICES ------------- <<<<";
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM

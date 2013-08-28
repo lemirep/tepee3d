@@ -61,7 +61,6 @@
 
 #define GET_ONLINE_PLUGINS 0
 #define GET_PLUGINS_UPDATES 1
-#define DOWNLOAD_PLUGIN 2
 #define STREAM_PLUGIN 3
 #define DOWNLOAD_FILE 4
 #define DOWNLOAD_PLUGIN_INDEX 5
@@ -123,7 +122,6 @@ private:
 
     // CALLBACKS
     void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
-    void downloadPluginFromServerCallback(QNetworkReply *reply, void *data);
     void checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
     void downloadPluginIndexCallBack(QFile *file, void *data);
     void downloadPluginFileCallBack(QFile *file, void *data);

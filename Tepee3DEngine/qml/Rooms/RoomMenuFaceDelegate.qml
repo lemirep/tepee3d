@@ -30,6 +30,9 @@ Item
     Text
     {
         anchors.centerIn : parent
+//        width : delRect.width
+        font.pixelSize: mainWindow.defaultFontSize
+        elide : Text.ElideMiddle
         text : roomName
         color :  "white"
     }

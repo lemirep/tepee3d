@@ -44,6 +44,9 @@ Item
     {
         id: plugin_title
         text: pluginName
+//        width : delRect.width
+        elide : Text.ElideMiddle
+        font.pixelSize: mainWindow.defaultFontSize
         anchors.centerIn: delRect
         color :  "white"
     }
