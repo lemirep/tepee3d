@@ -111,6 +111,7 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
         QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName()));
         qDebug() << pluginDir.absolutePath();
         qDebug() << pluginDir.dirName();
+        qDebug() << "Repo Name " << pluginOnlineItem->getPluginRepoName();
         if (pluginDir.exists() ||
                 (!pluginDir.exists() && PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().mkdir(pluginDir.dirName())))
         {
@@ -202,11 +203,10 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
                 QJsonArray pluginsArray = resultObj.value("objects").toArray();
                 if (!pluginsArray.isEmpty())
                 {
-                    Plugins::PluginManager::onlineAvailablePluginsModel->clear();
+                    this->getOnlineAvailablePlugins()->clear();
                     foreach (QJsonValue pluginValue, pluginsArray)
                     {
                         QJsonObject pluginObj = pluginValue.toObject();
-                        qDebug() << "asdasd " <<  QJsonDocument(pluginObj).toJson();
                         Models::PluginOnlineModelItem *pluginOnlineItem = new Models::PluginOnlineModelItem(pluginObj.value("widget_id").toDouble());
                         pluginOnlineItem->setPluginName(pluginObj.value("name").toString());
                         pluginOnlineItem->setPluginDescription(pluginObj.value("description").toString());
@@ -214,7 +214,7 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
                         if (Plugins::PluginManager::locallyAvailablePluginsModel != NULL &&
                                 Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginOnlineItem->id()) != NULL)
                             pluginOnlineItem->setPluginDownloaded(true);
-                        Plugins::PluginManager::onlineAvailablePluginsModel->appendRow(pluginOnlineItem);
+                        this->getOnlineAvailablePlugins()->appendRow(pluginOnlineItem);
                     }
                 }
             }
@@ -268,8 +268,10 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
             QString fileName = file->readLine();
             fileName.chop(1);
             qDebug() << "File << " << fileName;
+            qDebug() << pluginOnlineItem->getPluginRepoName();
             QFile *itemFile;
             QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName()));
+            qDebug() << pluginDir.absolutePath();
             if (fileName.endsWith(".sql")) // WE HAVE A DATABASE FILE
                 itemFile = new QFile(PlatformFactory::getPlatformInitializer()->getDatabaseDirectory().absoluteFilePath(fileName));
             else if (fileName.endsWith(".so") || fileName.endsWith(".ddl")) // WE HAVE THE PLUGIN LIBRARY
@@ -298,10 +300,10 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
     }
 }
 
-/*
- *
+/*!
+ * Called after a plugin \a file has been downloaded. The \a data parameters which is a plugin online model instance is
+ *then updated to reflect the count of downloaded files.
  */
-
 void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data)
 {
     if (file != NULL && data != NULL)
@@ -315,13 +317,11 @@ void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data)
             pluginOnlineItem->setPluginDownloaded(true);
             this->loadLocalPlugins();
             Plugins::PluginManager::onlineAvailablePluginsModel->
-                        removeRow(Plugins::PluginManager::onlineAvailablePluginsModel->
-                                    rowIndexFromId(pluginOnlineItem->id()));
+                    removeRow(Plugins::PluginManager::onlineAvailablePluginsModel->
+                              rowIndexFromId(pluginOnlineItem->id()));
         }
     }
 }
-
-
 
 /*!
  * Receives results from the webservice worker.

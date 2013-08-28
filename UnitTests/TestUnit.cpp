@@ -260,8 +260,8 @@ void TestUnit::initCoreManager()
     QVERIFY(this->pluginManager != NULL);
     this->roomManager = Room::RoomManager::getInstance(this);
     QVERIFY(this->roomManager != NULL);
-//    this->viewManager = View::QmlViewProperties::getInstance(this);
-//    QVERIFY(this->viewManager != NULL);
+    //    this->viewManager = View::QmlViewProperties::getInstance(this);
+    //    QVERIFY(this->viewManager != NULL);
     QSignalSpy initializedSignalSpy(this->servicesManager, SIGNAL(librariesInitialized()));
     this->servicesManager->loadServicesLibraries();
     while (true)
@@ -306,6 +306,40 @@ void TestUnit::initManagers()
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginManager);
 }
+
+
+//void TestUnit::testOnlinePluginModelsRetrieval()
+//{
+//    this->pluginManager->retrieveOnlinePluginsForCurrentPlatform();
+//    qDebug() << "toto";
+//    // WAIT 30 Seconds for results
+////    QEventLoop loop;
+////    QTimer timer;
+////    timer.setInterval(30000);
+////    timer.setSingleShot(true);
+////    loop.connect(&timer, SIGNAL(timeout()), SLOT(quit()));
+////    timer.start();
+////    loop.exec();
+//    QTime dieTime= QTime::currentTime().addSecs(30);
+//    while( QTime::currentTime() < dieTime )
+//    {
+////        qApp->processEvents();
+//    }
+//    QVERIFY(this->pluginManager->getOnlineAvailablePlugins()->rowCount() > 0);
+//}
+
+//void TestUnit::testOnlinePluginDownload()
+//{
+//    int oldCountOnline = this->pluginManager->getOnlineAvailablePlugins()->rowCount();
+//    int oldCountLocal = this->pluginManager->getLocallyAvailablePlugins()->rowCount();
+//    this->pluginManager->downloadPluginFromServer(this->pluginManager->getOnlineAvailablePlugins()->toList().first()->id());
+//    // Allow 60s to download plugin
+//    QTime dieTime= QTime::currentTime().addSecs(60);
+//    while( QTime::currentTime() < dieTime )
+//        QCoreApplication::processEvents(QEventLoop::AllEvents);
+//    QCOMPARE(this->pluginManager->getOnlineAvailablePlugins()->rowCount(), oldCountOnline - 1);
+//    QCOMPARE(this->pluginManager->getLocallyAvailablePlugins()->rowCount(), oldCountLocal + 1);
+//}
 
 void TestUnit::testAdditionOfPluginsToRooms()
 {
@@ -352,6 +386,10 @@ void TestUnit::testPluginFocusStates()
         plugin->askForFocusState(Plugins::PluginEnums::pluginIdleState);
         QCOMPARE(spy.count(), 5);
     }
+
+    if (this->roomManager->getCurrentRoom()->getRoomPluginsModel()->rowCount() == 1)
+        return ;
+
 
     Plugins::PluginBase *plugin1 = reinterpret_cast<Models::PluginModelItem *>(this->roomManager->getCurrentRoom()->getRoomPluginsModel()->toList().first())->getPlugin();
     Plugins::PluginBase *plugin2 = reinterpret_cast<Models::PluginModelItem *>(this->roomManager->getCurrentRoom()->getRoomPluginsModel()->toList().last())->getPlugin();
@@ -411,9 +449,9 @@ void TestUnit::launchViewTesting()
                 + "/qml/main.qml");
 
     QVERIFY(localFile.isValid());
-//    this->viewManager->setViewerSource(localFile);
-//    this->viewManager->showView();
-//    this->viewManager->showView();
+    //    this->viewManager->setViewerSource(localFile);
+    //    this->viewManager->showView();
+    //    this->viewManager->showView();
 }
 
 void TestUnit::launchRoomViewTesting()
@@ -428,7 +466,7 @@ void TestUnit::launchPluginsViewTesting()
 
 void TestUnit::closeView()
 {
-//    this->viewManager->closeView();
+    //    this->viewManager->closeView();
 }
 
 void TestUnit::releaseCoreManager()
@@ -436,7 +474,7 @@ void TestUnit::releaseCoreManager()
     delete this->roomManager;
     delete this->pluginManager;
     delete this->servicesManager;
-//    delete this->viewManager;
+    //    delete this->viewManager;
 }
 
 // TEST ROOM DataBase Saving

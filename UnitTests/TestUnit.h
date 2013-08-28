@@ -69,6 +69,8 @@ private slots:
     void    initCoreManager();
     void    testRoomLoadingDestroying();
     void    initManagers();
+//    void    testOnlinePluginModelsRetrieval();
+//    void    testOnlinePluginDownload();
     void    testAdditionOfPluginsToRooms();
     void    testPluginFocusStates();
     void    testRoomEnteringLeavingSignals();
