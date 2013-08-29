@@ -158,8 +158,8 @@ Item
                 spacing: 10
                 model : roomModel.subModelFromId(mainWindow.currentRoomId);
                 delegate: RoomPluginDelegate {
-                    width : menuRightMain.width / 2
-                    height : menuRightMain.width / 3
+                    width : maxMenuWidth / 2
+                    height : maxMenuWidth / 3
                     pluginName: model.pluginName
                     pluginId: model.pluginId
                 }
@@ -272,11 +272,12 @@ Item
                             orientation: ListView.Vertical
                             model : idx === 0 ? availablePluginsModel : onlinePluginsModel
                             delegate: NewPluginDelegate {
-                                width : menuRightMain.width / 2
-                                height : menuRightMain.width / 3
+                                width : maxMenuWidth / 2
+                                height : maxMenuWidth / 3
                                 pluginName: model.pluginName
-                                downloaded: model.pluginDownloaded ? model.pluginDownloaded : false
-                                downloading : model.pluginDownloading ? model.pluginDownloading : false
+                                downloaded: !(idx === 0) ? model.pluginDownloaded : false
+                                downloading : !(idx === 0) ? model.pluginDownloading : false
+                                error : !(idx === 0) ? model.pluginDownloadError : false
                                 online : !(idx === 0)
                             }
                         }

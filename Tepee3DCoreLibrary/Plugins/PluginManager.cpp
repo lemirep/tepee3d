@@ -52,6 +52,7 @@
  * initialized the same way as room plugins. Then, a plugin instance can be initialized
  * for use inside a room by connecting it to the various services and exposing eventual
  * Qml content to the Qml Engine.
+ * Furthermore, it also handles the downloads of new and updated plugins.
  *
  * \since 1.0
  * \sa Plugins::PluginsLoader
@@ -105,10 +106,13 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
     // OTHERWISE IT ISN'T
 
     Models::ListItem* pluginItem = this->onlineAvailablePluginsModel->find(pluginId);
-    if (pluginItem != NULL &&
-            !reinterpret_cast<Models::PluginOnlineModelItem *>(pluginItem)->getPluginDownloading())
+    Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(pluginItem);
+
+    if (pluginOnlineItem != NULL &&
+            !pluginOnlineItem->getPluginDownloaded() &&
+            !pluginOnlineItem->getPluginDownloading())
     {
-        Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(pluginItem);
+        pluginOnlineItem->setPluginDownloadError(false);
         QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName()));
         qDebug() << pluginDir.absolutePath();
         qDebug() << pluginDir.dirName();
@@ -210,8 +214,7 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
                         pluginOnlineItem->setPluginName(pluginObj.value("name").toString());
                         pluginOnlineItem->setPluginDescription(pluginObj.value("description").toString());
                         pluginOnlineItem->setPluginRepoName(pluginObj.value("repo_name").toString());
-                        if (Plugins::PluginManager::locallyAvailablePluginsModel != NULL &&
-                                Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginOnlineItem->id()) != NULL)
+                        if (Plugins::PluginManager::locallyAvailablePluginsModel->find(pluginOnlineItem->id()) != NULL)
                             pluginOnlineItem->setPluginDownloaded(true);
                         this->getOnlineAvailablePlugins()->appendRow(pluginOnlineItem);
                     }
@@ -255,11 +258,27 @@ void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply
  * The index file is then read, so that each of the files required by the plugin can be downloaded.
  */
 
-void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data)
+void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data, bool error)
 {
     if (file != NULL && data != NULL)
     {
         Models::PluginOnlineModelItem *pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data);
+        if (error)
+        {
+            pluginOnlineItem->setPluginDownloadError(error);
+            return ;
+        }
+        if (pluginOnlineItem->getPluginDownloadError())
+        {
+            file->close();
+            qWarning() << "Error while trying to dowload plugin File file";
+            qWarning() << "Removing Plugin Directory";
+            QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->
+                                  getWidgetsResourceDirectory().absoluteFilePath(
+                                      pluginOnlineItem->getPluginRepoName()));
+            pluginDir.removeRecursively();
+            return ;
+        }
         qDebug() << "File Index downloaded";
         file->reset();
         pluginOnlineItem->setPluginDownloading(true);
@@ -269,15 +288,15 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
             fileName.chop(1);
             QFile *itemFile;
             QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->
-                                    getWidgetsResourceDirectory().absoluteFilePath(
-                                        pluginOnlineItem->getPluginRepoName()));
+                                  getWidgetsResourceDirectory().absoluteFilePath(
+                                      pluginOnlineItem->getPluginRepoName()));
             qDebug() << pluginDir.absolutePath();
             if (fileName.endsWith(".sql")) // WE HAVE A DATABASE FILE
                 itemFile = new QFile(PlatformFactory::getPlatformInitializer()->
-                                        getDatabaseDirectory().absoluteFilePath(fileName));
+                                     getDatabaseDirectory().absoluteFilePath(fileName));
             else if (fileName.endsWith(".so") || fileName.endsWith(".ddl")) // WE HAVE THE PLUGIN LIBRARY
                 itemFile = new QFile(PlatformFactory::getPlatformInitializer()->
-                                        getWidgetSharedLibrariesDirectory().absoluteFilePath(fileName));
+                                     getWidgetSharedLibrariesDirectory().absoluteFilePath(fileName));
             else
                 itemFile = new QFile(pluginDir.absoluteFilePath(fileName));
             if (itemFile->open(QIODevice::WriteOnly))
@@ -304,24 +323,40 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
 
 /*!
  * Called after a plugin \a file has been downloaded. The \a data parameters which is a plugin online model instance is
- *then updated to reflect the count of downloaded files.
+ * then updated to reflect the count of downloaded files. If \a error is true, an error occured in the download process and the
+ * plugin will be marked as so.
  */
-void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data)
+void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data, bool error)
 {
     if (file != NULL && data != NULL)
     {
         Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data);
+        if (error)
+        {
+            pluginOnlineItem->setPluginDownloadError(error);
+            return ;
+        }
         pluginOnlineItem->setPluginFileToDownloadCount(pluginOnlineItem->getPluginFileToDownload() - 1);
         qDebug() << pluginOnlineItem->getPluginFileToDownload() << " Files Remaining";
         if (pluginOnlineItem->getPluginFileToDownload() == 0)
         {
+            if (pluginOnlineItem->getPluginDownloadError())
+            {
+                file->close();
+                qWarning() << "Error while trying to dowload plugin File file";
+                qWarning() << "Removing Plugin Directory";
+                QDir pluginDir = QDir(PlatformFactory::getPlatformInitializer()->
+                                      getWidgetsResourceDirectory().absoluteFilePath(
+                                          pluginOnlineItem->getPluginRepoName()));
+                pluginDir.removeRecursively();
+                pluginOnlineItem->setPluginDownloaded(false);
+                pluginOnlineItem->setPluginDownloading(false);
+                return ;
+            }
             qDebug() << "Plugin Downloaded, reloading models";
             pluginOnlineItem->setPluginDownloading(false);
             pluginOnlineItem->setPluginDownloaded(true);
             this->loadLocalPlugins();
-            Plugins::PluginManager::onlineAvailablePluginsModel->
-                    removeRow(Plugins::PluginManager::onlineAvailablePluginsModel->
-                              rowIndexFromId(pluginOnlineItem->id()));
         }
     }
 }
@@ -337,23 +372,22 @@ void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, 
 void Plugins::PluginManager::onDownloadFinished(QFile *file, int requestId, void *data)
 {
     qDebug() << ">> download Finished";
-    (this->*this->streamServicesCallBacks[requestId])(file, data);
+    (this->*this->streamServicesCallBacks[requestId])(file, data, false);
     file->close();
 }
 
-void Plugins::PluginManager::onDownloadProgress(QFile *, int progress, int requestId, void *data)
+void Plugins::PluginManager::onDownloadProgress(QFile *, int , int , void *)
 {
-    qDebug() << ">> download Progress " << progress;
 }
 
-void Plugins::PluginManager::onDownloadStarted(QFile *, int requestId, void *data)
+void Plugins::PluginManager::onDownloadStarted(QFile *, int , void *)
 {
-    qDebug() << ">> download Started";
 }
 
-void Plugins::PluginManager::onDownloadError(QFile *, int requestId, void *data)
+void Plugins::PluginManager::onDownloadError(QFile *file, int requestId, void *data)
 {
     qDebug() << ">> in onDownloadError";
+    (this->*this->streamServicesCallBacks[requestId])(file, data, true);
 }
 
 /*!

@@ -109,8 +109,8 @@ private:
     static PluginManager*               instance;
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
-    QHash<int, void (PluginManager::*)(QNetworkReply *, void *data)>    webServicesCallBacks;
-    QHash<int, void (PluginManager::*)(QFile *, void *data)>            streamServicesCallBacks;
+    QHash<int, void (PluginManager::*)(QNetworkReply *, void *)>    webServicesCallBacks;
+    QHash<int, void (PluginManager::*)(QFile *, void *, bool)>            streamServicesCallBacks;
 
     void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
 
@@ -123,8 +123,8 @@ private:
     // CALLBACKS
     void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
     void checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
-    void downloadPluginIndexCallBack(QFile *file, void *data);
-    void downloadPluginFileCallBack(QFile *file, void *data);
+    void downloadPluginIndexCallBack(QFile *file, void *data, bool error = false);
+    void downloadPluginFileCallBack(QFile *file, void *data, bool error = false);
 
 signals :
     void executeHttpRequest(const QNetworkRequest&,

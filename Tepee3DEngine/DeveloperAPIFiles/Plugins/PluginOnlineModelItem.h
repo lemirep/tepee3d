@@ -44,7 +44,8 @@ public:
         pluginDescription,
         pluginDownloaded,
         pluginDownloading,
-        pluginRepoName
+        pluginRepoName,
+        pluginDownloadError
     };
 
     explicit PluginOnlineModelItem(int pluginId, QObject *parent = 0);
@@ -60,6 +61,7 @@ public:
     int     getPluginFileToDownload() const;
     bool    getPluginDownloaded() const;
     bool    getPluginDownloading() const;
+    bool    getPluginDownloadError() const;
 
     void setPluginName(const QString &pluginName);
     void setPluginDescription(const QString &pluginDescription);
@@ -67,6 +69,7 @@ public:
     void setPluginDownloading(bool downloading);
     void setPluginRepoName(const QString& pluginRepoName);
     void setPluginFileToDownloadCount(int fileToDownloadCount);
+    void setPluginDownloadError(bool error);
 
 private:
     int     m_pluginId;
@@ -75,6 +78,7 @@ private:
     QString m_pluginRepoName;
     bool    m_pluginDownloaded;
     bool    m_pluginDownloading;
+    bool    m_pluginDownloadError;
     int     m_filetoDownloadCount;
 };
 }

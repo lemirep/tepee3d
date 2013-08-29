@@ -7,10 +7,21 @@ Item
     property bool downloaded : false;
     property bool downloading : false;
     property bool online : false
+    property bool error : false;
 
     anchors.horizontalCenter: parent.horizontalCenter
     scale : plugin_delegate_mouse_area.pressed ? 0.9 : 1.0
     Behavior on scale {SmoothedAnimation {velocity : 1; duration : -1}}
+
+    onDownloadedChanged:
+    {
+        console.log("<<<<<<<<<<< DOWNLOADED CHANGED " << downloaded);
+    }
+
+    onDownloadingChanged:
+    {
+        console.log("<<<<<<<<<<< DOWNLOADED CHANGED " << downloading);
+    }
 
     MouseArea
     {
@@ -44,10 +55,52 @@ Item
     {
         id: plugin_title
         text: pluginName
-//        width : delRect.width
+        //        width : delRect.width
         elide : Text.ElideMiddle
         font.pixelSize: mainWindow.defaultFontSize
         anchors.centerIn: delRect
         color :  "white"
     }
+
+
+    Image
+    {
+        Rectangle
+        {
+            color : "red"
+            anchors.fill: parent
+            opacity : (error) ? 1 : 0
+        }
+
+        id : download_arrow
+        fillMode: Image.PreserveAspectFit
+        opacity : (downloaded || downloading) ? 1.0 : 0
+        y : delRect.height / 2
+        height : delRect.height / 2
+        scale : downloaded ? 0.7 : 1
+        Behavior on scale {SmoothedAnimation {velocity : 1; duration : -1}}
+        Behavior on opacity {SmoothedAnimation {velocity : 1; duration : -1}}
+        anchors
+        {
+            right : parent.right
+            rightMargin : 5
+        }
+        source : "../Resources/Pictures/download_arrow.png"
+
+        SequentialAnimation
+        {
+            loops: Animation.Infinite
+            running : downloading && menuRightMain.isShown
+            alwaysRunToEnd: true
+            ParallelAnimation
+            {
+                NumberAnimation { target: download_arrow; property: "opacity"; to : 0; duration: 1000; easing.type: Easing.InOutQuad }
+                NumberAnimation { id : end_animation; target: download_arrow; property: "y"; to : delRect.height / 2 + 30; duration: 1000; easing.type: Easing.InOutQuad }
+            }
+            NumberAnimation { id : beg_animation; target: download_arrow; property: "y"; to : delRect.height / 2; duration: 100; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: download_arrow; property: "opacity"; to : 1; duration: 100; easing.type: Easing.InOutQuad }
+        }
+    }
+
 }
+

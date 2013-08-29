@@ -48,9 +48,9 @@
 
   HEADERS +=
 
-  DESTDIR      = PATH_TO_TEPEE3D_SOURCES_DIRECTORY/libraries/services_lib
+  DESTDIR      = PATH_TO_TEPEE3D_SOURCES_DIRECTORY/Tepee3DEngine/libraries/services_lib
 
-  INCLUDEPATH += PATH_TO_TEPEE3D_SOURCES_DIRECTORY/DeveloperAPIFiles/Services
+  INCLUDEPATH += PATH_TO_TEPEE3D_SOURCES_DIRECTORY/Tepee3DEngine/DeveloperAPIFiles/Services
 
  \endcode
  Next you should replace every occurence of YOUR_PROJECT_NAME by your project's name and
@@ -64,9 +64,9 @@
 
   DEFINES += EXAMPLE_SERVICE_LIBRARY
 
-  DESTDIR      = /home/user/work/tepee3d/libraries/services_lib
+  DESTDIR      = /home/user/work/tepee3d/Tepee3DEngine/libraries/services_lib
 
-  INCLUDEPATH += /home/user/work/tepee3d/DeveloperAPIFiles/Services
+  INCLUDEPATH += /home/user/work/tepee3d/Tepee3DEngine/DeveloperAPIFiles/Services
  \endcode
 
  \section1 Adding classes to the project
@@ -103,9 +103,9 @@
  HEADERS += \
              ExampleServiceManager.h
 
- DESTDIR      = /home/user/work/tepee3d/libraries/services_lib
+ DESTDIR      = /home/user/work/tepee3d/Tepee3DEngine/libraries/services_lib
 
- INCLUDEPATH += /home/user/work/tepee3d/DeveloperAPIFiles/Services
+ INCLUDEPATH += /home/user/work/tepee3d/Tepee3DEngine/DeveloperAPIFiles/Services
 
  \endcode
 
@@ -121,22 +121,9 @@
  We will first fill the header file and then pursue with the source file.
 
  All Services Libraries have to implement the \l {ServiceInterface} of the \l {Services} namespace.
- \code
- namespace Services
- {
 
- class ServiceInterface
- {
+ \quotefromfile ../../Tepee3DEngine/DeveloperAPIFiles/Services/ServiceInterface.h
 
- public :
-     virtual void        initLibraryConnection(QObject *parent) = 0;
-     virtual bool        connectServiceToUser(QObject *user) = 0;
-     virtual bool        disconnectServiceFromUser(QObject *user) = 0;
-     virtual QObject*    getLibraryQObject() = 0;
- };
-
- }
- \endcode
  That means the header file for our ExampleServiceManager class should look like the sample below :
 
  \code

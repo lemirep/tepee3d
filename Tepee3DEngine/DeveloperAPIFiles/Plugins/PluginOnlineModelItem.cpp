@@ -37,6 +37,7 @@ Models::PluginOnlineModelItem::PluginOnlineModelItem(int pluginId, QObject *pare
     this->m_pluginDownloaded = false;
     this->m_pluginDownloading = false;
     this->m_filetoDownloadCount = 0;
+    this->m_pluginDownloadError = false;
 }
 
 Models::PluginOnlineModelItem::~PluginOnlineModelItem()
@@ -59,11 +60,13 @@ QVariant Models::PluginOnlineModelItem::data(int role) const
     case pluginDescription:
         return this->getPluginDescription();
     case pluginDownloaded:
-        return this->m_pluginDownloaded;
+        return this->getPluginDownloaded();
     case pluginDownloading:
-        return this->m_pluginDownloading;
+        return this->getPluginDownloading();
     case pluginRepoName:
         return this->getPluginRepoName();
+    case pluginDownloadError:
+        return this->getPluginDownloadError();
     default :
         return QVariant();
     }
@@ -77,6 +80,9 @@ QHash<int, QByteArray> Models::PluginOnlineModelItem::roleNames() const
     roles[pluginName] = "pluginName";
     roles[pluginDescription] = "pluginDescription";
     roles[pluginRepoName] = "pluginRepoName";
+    roles[pluginDownloaded] = "pluginDownloaded";
+    roles[pluginDownloading] = "pluginDownloading";
+    roles[pluginDownloadError] = "pluginDownloadError";
 
     return roles;
 }
@@ -111,6 +117,11 @@ bool Models::PluginOnlineModelItem::getPluginDownloading() const
     return this->m_pluginDownloading;
 }
 
+bool Models::PluginOnlineModelItem::getPluginDownloadError() const
+{
+    return this->m_pluginDownloadError;
+}
+
 void Models::PluginOnlineModelItem::setPluginName(const QString &pluginName)
 {
     this->m_pluginName = pluginName;
@@ -124,11 +135,13 @@ void Models::PluginOnlineModelItem::setPluginDescription(const QString &pluginDe
 void Models::PluginOnlineModelItem::setPluginDownloaded(bool downloaded)
 {
     this->m_pluginDownloaded = downloaded;
+    this->triggerItemUpdate();
 }
 
 void Models::PluginOnlineModelItem::setPluginDownloading(bool downloading)
 {
     this->m_pluginDownloading = downloading;
+    this->triggerItemUpdate();
 }
 
 void Models::PluginOnlineModelItem::setPluginRepoName(const QString &pluginRepoName)
@@ -139,4 +152,10 @@ void Models::PluginOnlineModelItem::setPluginRepoName(const QString &pluginRepoN
 void Models::PluginOnlineModelItem::setPluginFileToDownloadCount(int fileToDownloadCount)
 {
     this->m_filetoDownloadCount = fileToDownloadCount;
+}
+
+void Models::PluginOnlineModelItem::setPluginDownloadError(bool error)
+{
+    this->m_pluginDownloadError = error;
+    this->triggerItemUpdate();
 }
