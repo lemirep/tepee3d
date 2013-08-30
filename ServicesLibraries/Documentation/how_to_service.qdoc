@@ -122,7 +122,7 @@
 
  All Services Libraries have to implement the \l {ServiceInterface} of the \l {Services} namespace.
 
- \quotefromfile ../../Tepee3DEngine/DeveloperAPIFiles/Services/ServiceInterface.h
+ \quotefile Tepee3DEngine/DeveloperAPIFiles/Services/ServiceInterface.h
 
  That means the header file for our ExampleServiceManager class should look like the sample below :
 
@@ -247,7 +247,7 @@
  Now you just have to test it and you can submit it on gitorious if you'd like
  to contribute to Tepee3D.
 
- In any case if the you need help, are struggling on a small point or anyother problem, please
+ In any case if the you need help, are struggling on a small point or encounter any other problem, please
  contact us as tepee3d_2014@labeip.epitech.eu
 
 */

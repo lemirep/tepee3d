@@ -189,6 +189,36 @@ Models::ListModel *Plugins::PluginManager::getOnlineAvailablePlugins() const
 }
 
 /*!
+ * Removes all the qml files, libraries, resources and databases associated with the downloaded plugin of id \a pluginId.
+ */
+void Plugins::PluginManager::removeDownloadedPlugin(int pluginId)
+{
+    Models::ListItem *pluginItem = this->locallyAvailablePluginsModel->find(pluginId);
+    if (pluginItem != NULL)
+    {
+        Models::PluginOnlineModelItem *pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(pluginItem);
+
+        // NEEDS TO BE REMOVED FROM ALL ROOMS PRIOR TO THIS
+
+        // REMOVE QML & RESOURCES DIR
+        QDir qmlDir = QDir(PlatformFactory::getPlatformInitializer()->getWidgetsResourceDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName()));
+        qDebug() << "removing " << qmlDir.absolutePath();
+        qmlDir.removeRecursively();
+        // REMOVE LIBRARY
+        QFile libFileUnix(PlatformFactory::getPlatformInitializer()->getWidgetSharedLibrariesDirectory().absoluteFilePath("lib" + pluginOnlineItem->getPluginRepoName() + ".so"));
+        if (libFileUnix.exists())
+            libFileUnix.remove();
+        QFile libFileWin(PlatformFactory::getPlatformInitializer()->getWidgetSharedLibrariesDirectory().absoluteFilePath("lib" + pluginOnlineItem->getPluginRepoName() + ".dll"));
+        if (libFileWin.exists())
+            libFileWin.remove();
+        // REMOVE DATABASES
+        QFile dbFile(PlatformFactory::getPlatformInitializer()->getDatabaseDirectory().absoluteFilePath(pluginOnlineItem->getPluginRepoName() + ".sql"));
+        if (dbFile.exists())
+            dbFile.remove();
+    }
+}
+
+/*!
  * Parses the json list of plugins returned by the Tepee3D server that are available for the current platform.
  */
 void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data)
@@ -291,7 +321,7 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
                                   getWidgetsResourceDirectory().absoluteFilePath(
                                       pluginOnlineItem->getPluginRepoName()));
             qDebug() << pluginDir.absolutePath();
-            if (fileName.endsWith(".sql")) // WE HAVE A DATABASE FILE
+            if (fileName.compare(pluginOnlineItem->getPluginRepoName() + ".sql") == 0) // WE HAVE A DATABASE FILE
                 itemFile = new QFile(PlatformFactory::getPlatformInitializer()->
                                      getDatabaseDirectory().absoluteFilePath(fileName));
             else if (fileName.endsWith(".so") || fileName.endsWith(".ddl")) // WE HAVE THE PLUGIN LIBRARY

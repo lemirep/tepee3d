@@ -103,6 +103,10 @@ public:
     Models::ListModel*          getLocallyAvailablePlugins() const;
     Models::ListModel*          getOnlineAvailablePlugins() const;
 
+    // UTILITY METHOD
+    Q_INVOKABLE void            removeDownloadedPlugin(int pluginId);
+
+
 private:
 
     explicit PluginManager(QObject *parent = 0);

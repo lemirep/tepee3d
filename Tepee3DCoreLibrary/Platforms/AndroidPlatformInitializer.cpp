@@ -64,11 +64,11 @@ bool AndroidPlatformInitializer::initPlatform()
         pathsList.prepend("DeveloperAPIFiles/js");
         pathsList.prepend("DeveloperAPIFiles");
 
-//        pathsList.prepend("plugins_qml/SeriesPlugin");
-//        pathsList.prepend("plugins_qml/WatchPlugin");
+        //        pathsList.prepend("plugins_qml/SeriesPlugin");
+        //        pathsList.prepend("plugins_qml/WatchPlugin");
         pathsList.prepend("plugins_qml/TestPlugin");
-//        pathsList.prepend("plugins_qml/XBMCPlugin");
-//        pathsList.prepend("plugins_qml/HarlemShake");
+        //        pathsList.prepend("plugins_qml/XBMCPlugin");
+        //        pathsList.prepend("plugins_qml/HarlemShake");
         pathsList.prepend("plugins_qml");
 
         foreach (QString dirEntry, pathsList)
@@ -96,61 +96,52 @@ bool AndroidPlatformInitializer::initPlatform()
 
     QDir tmpServicesLibDir = AndroidPlatformInitializer::getServicesSharedLibrariesDirectory();
     qDebug() << "Service DIr Lib " << tmpServicesLibDir.absolutePath();
-    bool exists = false;
-    if (!(exists = tmpServicesLibDir.exists()))
+    if (!tmpServicesLibDir.exists() &&
+            AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_SERVICES_DIR))
     {
-        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_SERVICES_DIR);
-        if (exists)
+        qDebug() << "Service Lib Dir Created";
+        QList<QString> serviceLibs;
+        serviceLibs.prepend("libManageDatabaseServiceLibrary.so");
+        serviceLibs.prepend("libWebServiceManagerLibrary.so");
+        serviceLibs.prepend("libFileDownloaderLibrary.so");
+        foreach (QString serviceLib, serviceLibs)
         {
-            qDebug() << "Service Lib Dir Created";
-            QList<QString> serviceLibs;
-            serviceLibs.prepend("libManageDatabaseServiceLibrary.so");
-            serviceLibs.prepend("libWebServiceManagerLibrary.so");
-            serviceLibs.prepend("libFileDownloaderLibrary.so");
-            foreach (QString serviceLib, serviceLibs)
-            {
-                this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + serviceLib,
-                                   tmpServicesLibDir.absolutePath() + "/" + serviceLib);
-            }
+            this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + serviceLib,
+                               tmpServicesLibDir.absolutePath() + "/" + serviceLib);
         }
     }
 
     // ROOM LIBRARY
     QDir tmpRoomLibDir = AndroidPlatformInitializer::getRoomSharedLibraryDirectory();
     qDebug() << "RoomDIr Lib " << tmpRoomLibDir.absolutePath();
-    if (!(exists = tmpRoomLibDir.exists()))
+    if (!tmpRoomLibDir.exists() &&
+            AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_ROOM_DIR))
     {
-        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_ROOM_DIR);
-        if (exists)
-        {
-            QString libName = "libRoomLibrary.so";
-            this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
-                               tmpRoomLibDir.absolutePath() + "/" + libName);
-        }
+        QString libName = "libRoomLibrary.so";
+        this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
+                           tmpRoomLibDir.absolutePath() + "/" + libName);
     }
 
-    // WIDGET LIBRARY
-
+    // WIDGET LIBRARIES
     QDir tmpWidgetLibDir = AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory();
     qDebug() << "Widget DIr Lib " << tmpWidgetLibDir.absolutePath();
-    if (!(exists = tmpWidgetLibDir.exists()))
+    if (!tmpWidgetLibDir.exists() &&
+            AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_WIDGETS_DIR))
     {
-        exists = AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_WIDGETS_DIR);
-        if (exists)
-            foreach (QString widgetLib, this->getSharedLibraryDirectory().entryList())
-            {
-                if (widgetLib.compare("libCoreLibrary.so") != 0 &&
-                        widgetLib.compare("libRoomLibrary.so") != 0 &&
-                        widgetLib.compare("libManageDatabaseServiceLibrary.so") != 0 &&
-                        widgetLib.compare("libWebServiceManagerLibrary.so") != 0 &&
-                        widgetLib.compare("libFileDownloaderLibrary.so") != 0 &&
-                        widgetLib.compare("gdbserver") != 0 &&
-                        widgetLib.compare("libgnustl_shared.so") != 0 &&
-                        !widgetLib.startsWith("libQt5") &&
-                        !widgetLib.startsWith("lib--Managed_by_Qt_Creator"))
-                    this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + widgetLib,
-                                       this->getWidgetSharedLibrariesDirectory().absolutePath() + "/" + widgetLib);
-            }
+        foreach (QString widgetLib, this->getSharedLibraryDirectory().entryList())
+        {
+            if (widgetLib.compare("libCoreLibrary.so") != 0 &&
+                    widgetLib.compare("libRoomLibrary.so") != 0 &&
+                    widgetLib.compare("libManageDatabaseServiceLibrary.so") != 0 &&
+                    widgetLib.compare("libWebServiceManagerLibrary.so") != 0 &&
+                    widgetLib.compare("libFileDownloaderLibrary.so") != 0 &&
+                    widgetLib.compare("gdbserver") != 0 &&
+                    widgetLib.compare("libgnustl_shared.so") != 0 &&
+                    !widgetLib.startsWith("libQt5") &&
+                    !widgetLib.startsWith("lib--Managed_by_Qt_Creator"))
+                this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + widgetLib,
+                                   this->getWidgetSharedLibrariesDirectory().absolutePath() + "/" + widgetLib);
+        }
     }
     qDebug() << "Copying Files Done";
     return true;
@@ -195,7 +186,7 @@ QString AndroidPlatformInitializer::getPlatformName() const
 {
 #if defined(__arm__) || defined(__TARGET_ARCH_ARM) || defined(_M_ARM)
     return ANDROID_PLATFORM_ARM;
-//#elif defined(__i386__) || defined(_M_IX86)
+    //#elif defined(__i386__) || defined(_M_IX86)
 #else
     return ANDROID_PLATFORM_X86;
 #endif

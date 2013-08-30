@@ -217,6 +217,7 @@ Item
                         {
                             text : model.title
                             color : "white"
+                            font.pixelSize: mainWindow.defaultFontSize
                             anchors.centerIn: parent
                         }
                         Rectangle

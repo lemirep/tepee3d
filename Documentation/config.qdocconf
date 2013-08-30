@@ -73,6 +73,8 @@ headerdirs 		  = ../
 
 sourcedirs		  = ../
 
+exampledirs 		  = ../
+
 sources.fileextensions  = "*.cpp *.qdoc *.doc" 
 headers.fileextensions 	= "*.h"
 
