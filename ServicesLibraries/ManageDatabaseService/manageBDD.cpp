@@ -61,13 +61,9 @@ bool ManageBDD::openDatabase(const QString& dbName)
         this->copyDatabaseToWritableDirectory(dbName);
 #endif
 
-#ifdef Q_OS_WIN32
+#if defined Q_OS_WIN32 || defined Q_OS_WIN64
         // ON WINDOWS THE SQL DATABASES MUST BE IN THE APPDATA DIRECTORY
         // OTHERWISE THE PROGRAM AS TO BE RUN AS ADMINISTRATOR TO SAVE IN THE BDD
-        this->copyDatabaseToWritableDirectory(dbName);
-#endif
-
-#ifdef Q_OS_WIN64
         this->copyDatabaseToWritableDirectory(dbName);
 #endif
 
@@ -133,26 +129,18 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, c
     QList<QSqlRecord> results;
     if (dbName != this->previousDbName)
     {
-        qDebug() << "1";
         this->dataBase.close();
-        qDebug() << "2";
         this->openDatabase(dbName);
-        qDebug() << "3";
         this->previousDbName = dbName;
-        qDebug() << "4";
         QSqlQuery sqlQuery(this->dataBase);
-        qDebug() << "5";
         sqlQuery.exec("PRAGMA synchronous=OFF;");
-        qDebug() << "6";
     }
     if (this->dataBase.isOpen())
     {
         qDebug() << "Received query : {" << query << "}";
         QSqlQuery sqlQuery(this->dataBase);
         sqlQuery.prepare(query);
-        if (sqlQuery.exec())
-            qDebug() << "Query Execution Succeeded";
-        else
+        if (!sqlQuery.exec())
             qDebug() << "YOU SHOULD CHECK YOUR QUERY";
         results.push_back(sqlQuery.record());
         while (sqlQuery.next())
