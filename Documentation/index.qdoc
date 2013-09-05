@@ -19,12 +19,12 @@
     Installing Tepee3D is the first step that can be taken to contribute to the project.
     While waiting for the official release to come up, taking the time to install Tepee3D
     and reporting to us any inconvenience you might have encountered will help us improve
-    future user's experience.
+    future users' experience.
 
     The project can either be installed by downloading and running the installer corresponding
-    to the platform you're on or be build from sources.
+    to the platform you're on or be built from sources.
 
-    To download the installed follow this \l {http://tepee3d.dyndns.org/download} {link}
+    To download the installers follow this \l {http://tepee3d.dyndns.org/download} {link}
 
     Once you've downloaded the installer :
 
@@ -76,7 +76,7 @@
     \section2 Help us on design and graphics
 
     We're mostly a team of developers and none of us has strong design talents. Therefore, if this is an area you feel confortable,
-    we would be more than happy to receive design critics and let you help us integrating what you've created.
+    we would be more than happy to receive design critics and let you help us integrate what you've created.
 
     \section2 Report Bugs
 
