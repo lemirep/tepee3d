@@ -8,18 +8,9 @@ Quad
 
     property color wallIndicatorColor : "yellow"
     property string wallIndicatorTexture;
-    property real  rotationAngle : 0;
-    property vector3d rotationAxis : Qt.vector3d(0, 0, 0);
-    property vector3d translationVector: Qt.vector3d(0, 0, 0);
-    property real   panelRotationAngle : 0;
-    property vector3d panelRotationAxis : Qt.vector3d(0, 0, 0);
-
 
     scale : 1
     position : Qt.vector3d(0, 0, 0)
-    transform :
-        [Rotation3D {angle : rotationAngle; axis: rotationAxis},
-        Translation3D {translate : translationVector}]
 
     Behavior on z {NumberAnimation {duration : 30000}}
     Behavior on y {NumberAnimation {duration : 30000}}
@@ -45,7 +36,6 @@ Quad
         enabled : (scale > 0.1)
         position : Qt.vector3d(0, faceIndicatorDistance, 0)
         inheritEvents : true
-        transform : [Rotation3D {angle : panelRotationAngle; axis: panelRotationAxis}]
         effect : Effect {
            texture : wallIndicatorTexture
             blending : true

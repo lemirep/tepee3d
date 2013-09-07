@@ -45,6 +45,7 @@ class RoomProperties : public QObject
 private :
 
     QString                         roomName;
+    QString                         roomTextureFolder;
     QVector3D                       position;
     QVector3D                       scale;
 
@@ -57,8 +58,10 @@ public:
     void                            setScale(const QVector3D& scale);
     void                            setRoomName(const QString& name);
     void                            setPosition(const QVector3D& position);
+    void                            setRoomTextureFolder(const QString &folderName);
 
     QString                         getRoomName()      const;
+    QString                         getRoomTextureFolder() const;
 
     QVector3D                       getPosition()      const;
     QVector3D                       getScale()         const;

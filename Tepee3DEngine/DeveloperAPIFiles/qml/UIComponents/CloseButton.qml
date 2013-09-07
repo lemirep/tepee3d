@@ -9,7 +9,7 @@ Image
     height : 50
     width : 50
     scale : close_button_ma.pressed ? 0.9 : 1
-    source : "red_cross.png"
+    source : "../Resources/Pictures/red_cross.png"
     fillMode: Image.PreserveAspectFit
     MouseArea
     {

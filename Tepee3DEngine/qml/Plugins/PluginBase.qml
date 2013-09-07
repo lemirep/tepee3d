@@ -35,7 +35,6 @@ Item3D
     function postNotification(message, type)   {mainWindow.postNotification(message, type)}
     function showPopUp(popupUrl)               {mainWindow.showPopUp(url)}
 
-
     PluginProperties
     {
         id : plugin_properties

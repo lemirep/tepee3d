@@ -49,13 +49,14 @@ class RoomManager : public QObject, public View::QmlContentExposerInterface
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
+    Q_PROPERTY(QString skyboxPath WRITE setSkyboxPath READ getSkyboxPath NOTIFY skyboxPathChanged)
 
 public:
     ~RoomManager();
     static RoomManager*             getInstance(QObject *parent = NULL);
     static Room::RoomBase*          getNewRoomInstance();
 
-    void                            restoreRooms();
+    void                            restoreViewProperties();
 
     Models::ListModel*              getRoomModel() const;
     static void                     addRoomToModel(Room::RoomBase *room);
@@ -64,6 +65,10 @@ public:
 
     void                            setCurrentRoom(RoomBase *room);
     RoomBase*                       getCurrentRoom()    const;
+
+
+    void                            setSkyboxPath(const QString &skyboxPath);
+    QString                         getSkyboxPath() const;
 
     // QmlContentExposer
     void                            exposeContentToQml(QQmlContext *context);
@@ -77,6 +82,7 @@ public:
     Q_INVOKABLE    void     editRoom(int roomModelId, QString roomName, QVector3D roomPosition, QVector3D roomScale);
     Q_INVOKABLE    void     askFocusStateForPlugin(int pluginId, int focusState);
     Q_INVOKABLE    void     unsetFocusPluginsFromRoom();
+    Q_INVOKABLE    void     saveSkyboxPath();
 
 private:
     RoomManager(QObject *parent = 0);
@@ -88,10 +94,14 @@ private:
     RoomBase                           *currentRoom;   // ROOM IN WHICH WE CURRENTLY ARE
     QTimer                             *roomUpdateTimer; // TIMER THAT WILL UPDATE ALL OF THE ROOM'S WIDGETS
     Models::SubListedListModel         *roomModel;
+    QString                            skyboxPath;
 
     void                    loadRoomLibrary();
     void                    placeNewRoomInSpace();
     void                    prepareWidgetsForRemoval();
+
+signals:
+    void                    skyboxPathChanged();
 };
 
 }

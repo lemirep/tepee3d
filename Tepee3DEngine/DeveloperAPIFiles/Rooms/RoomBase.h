@@ -80,6 +80,7 @@ public:
 
     virtual QString                         getRoomName()      const;
     virtual QString                         getRoomQmlFile()   const;
+    virtual QString                         getRoomTextureFolderName() const;
 
     virtual QVector3D                       getPosition()      const;
     virtual QVector3D                       getScale()         const;
@@ -89,6 +90,7 @@ public:
     virtual void                            setScale(const QVector3D& scale);
     virtual void                            setRoomName(const QString& name);
     virtual void                            setPosition(const QVector3D& position);
+    virtual void                            setRoomTextureFolderName(const QString &folderName);
 
     virtual RoomBase*                       createNewInstance() = 0;
     virtual QObject*                        getObject()         = 0;

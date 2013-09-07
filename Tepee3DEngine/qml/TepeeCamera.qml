@@ -18,7 +18,7 @@ Camera  // OPENGL CAMERA
     farPlane : 1000 // FARTHEST VISIBLE VIEW DISTANCE DEF : 1000
     nearPlane : 5 // NEAREST VISIBLE DISTANCE DEF : 5
     eyeSeparation : 0 // FOR STEREO RENDERING AKA 3D
-//    adjustForAspectRatio : false;
+    adjustForAspectRatio : true;
 
     Behavior on eyeX      {SmoothedAnimation {velocity : mainWindow.camera_movement_velocity}}
     Behavior on eyeY      {SmoothedAnimation {velocity : mainWindow.camera_movement_velocity}}

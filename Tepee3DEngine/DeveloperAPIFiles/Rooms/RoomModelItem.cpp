@@ -85,6 +85,8 @@ QVariant    Models::RoomModelItem::data(int role) const
         return this->room->getScale();
     case roomQmlFile :
         return this->room->getRoomQmlFile();
+    case roomTextureFolder:
+        return this->room->getRoomTextureFolderName();
     default :
         return QVariant();
     }
@@ -102,6 +104,7 @@ QHash<int, QByteArray>  Models::RoomModelItem::roleNames()  const
     roles[roomScale]    = "roomScale";
     roles[roomPosition] = "roomPosition";
     roles[roomQmlFile]  = "roomQmlFile";
+    roles[roomQmlFile]  = "roomTextureFolder";
 
     return roles;
 }

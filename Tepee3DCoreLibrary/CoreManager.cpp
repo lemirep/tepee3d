@@ -144,8 +144,8 @@ bool    CoreManager::initView()
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginsManager);
 
-    // TELLS ROOM MANAGER TO RESTORE ROOMS
-    this->roomManager->restoreRooms();
+    // TELLS ROOM MANAGER TO RESTORE ROOMS AND SETTINGS ACCORDING TO DATA IN SQLITE DATABASE
+    this->roomManager->restoreViewProperties();
 
 //    qmlRegisterType<QmlAsTexture>("View", 1, 0, "QmlAsTexture");
 

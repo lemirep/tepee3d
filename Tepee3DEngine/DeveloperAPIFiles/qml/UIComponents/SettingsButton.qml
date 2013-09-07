@@ -9,7 +9,7 @@ Image
     height : 50
     width : 50
     scale : settings_button_ma.pressed ? 0.9 : 1
-    source : "spanner.png"
+    source : "../Resources/Pictures/spanner.png"
     fillMode: Image.PreserveAspectFit
     MouseArea
     {

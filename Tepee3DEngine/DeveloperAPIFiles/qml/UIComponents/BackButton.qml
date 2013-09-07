@@ -9,7 +9,7 @@ Image
     height : 50
     width : 50
     scale : back_button_ma.pressed ? 0.9 : 1
-    source : "back_curved_arrow.png"
+    source : "../Resources/Pictures/back_curved_arrow.png"
     fillMode: Image.PreserveAspectFit
     MouseArea
     {

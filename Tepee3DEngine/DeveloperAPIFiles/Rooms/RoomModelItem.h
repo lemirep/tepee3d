@@ -45,7 +45,8 @@ public:
         roomPosition,
         roomScale,
         roomName,
-        roomQmlFile
+        roomQmlFile,
+        roomTextureFolder
     };
 
 

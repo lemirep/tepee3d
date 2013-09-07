@@ -41,6 +41,7 @@ OTHER_FILES += \
     qml/Rooms/RoomWall.qml \
     qml/Rooms/RoomMenuFaceDelegate.qml \
     qml/Plugins/qmldir \
+    qml/Plugins/PluginBase.qml \
     qml/Plugins/RoomPluginDelegate.qml \
     qml/Plugins/PluginLoader.qml \
     qml/Plugins/NewPluginDelegate.qml \
@@ -49,6 +50,7 @@ OTHER_FILES += \
     qml/js/Walls.js \
     qml/js/RoomManagement.js \
     qml/js/NotificationManagement.js \
+    qml/js/CameraManagement.js \
     qml/FpsCounter.qml \
     qml/Resources/Pictures/arrow.png \
     qml/Resources/Pictures/delegate.png \

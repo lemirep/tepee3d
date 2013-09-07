@@ -13,7 +13,7 @@ Item
     BorderImage
     {
         id: border
-        source: "text_input_border.png"
+        source: "../Resources/Pictures/text_input_border.png"
         anchors.fill: parent
         border.left: 5; border.top: 5
         border.right: 5; border.bottom: 5
@@ -21,7 +21,7 @@ Item
     BorderImage
     {
         id: border_selected
-        source: "text_input_border_selected.png"
+        source: "../Resources/Pictures/text_input_border_selected.png"
         anchors.fill: parent
         border.left: 5; border.top: 5
         border.right: 5; border.bottom: 5

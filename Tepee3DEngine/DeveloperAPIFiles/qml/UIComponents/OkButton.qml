@@ -9,7 +9,7 @@ Image
     height : 50
     width : 50
     scale : ok_button_ma.pressed ? 0.9 : 1
-    source : "ok.png"
+    source : "../Resources/Pictures/ok.png"
     fillMode: Image.PreserveAspectFit
     MouseArea
     {

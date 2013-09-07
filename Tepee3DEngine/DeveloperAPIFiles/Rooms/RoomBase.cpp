@@ -175,6 +175,14 @@ QString     Room::RoomBase::getRoomQmlFile() const
 }
 
 /*!
+ * Returns the name of the folder where the room's texture are stored.
+ */
+QString Room::RoomBase::getRoomTextureFolderName() const
+{
+    return this->roomProperties->getRoomTextureFolder();
+}
+
+/*!
  * Returns a 3D vector containing the room's position.
  */
 QVector3D   Room::RoomBase::getPosition() const
@@ -246,6 +254,14 @@ void        Room::RoomBase::setRoomName(const QString &name)
 void        Room::RoomBase::setPosition(const QVector3D &position)
 {
     this->roomProperties->setPosition(position);
+}
+
+/*!
+ * Sets the \a folderName where the textures for the room are stored.
+ */
+void        Room::RoomBase::setRoomTextureFolderName(const QString &folderName)
+{
+    this->roomProperties->setRoomTextureFolder(folderName);
 }
 
 /*!

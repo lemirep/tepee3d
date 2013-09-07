@@ -37,7 +37,6 @@ Item
         PathAttribute {name : "opacity"; value : 1}
         PathAttribute {name : "delZ"; value : 1}
         PathAttribute {name : "delScale"; value : 1}
-
     }
 
     PathView

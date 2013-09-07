@@ -5,7 +5,8 @@ import Qt3D.Shapes 2.0
 import QtQuick.Window 2.1
 import "js/RoomManagement.js" as RoomManagement
 import "js/Walls.js" as Walls
-import "../DeveloperAPIFiles/js/CameraManagement.js" as CameraManagement
+import "js/CameraManagement.js" as CameraManagement
+
 
 Viewport
 {
@@ -33,7 +34,8 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
-    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+//    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 100, -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 1, 0))}
     function getcurrentIdRoom()              {roomChanged(currentRoomId); return currentRoomId}
     function moveCameraHomeRoom()            {Walls.moveCameraToWall(0)}
     function inRoom()                        {if(currentRoomId <= 0) return false;return true}
@@ -122,7 +124,7 @@ Viewport
     //    Keys.onUpPressed:    {}
     //    Keys.onDownPressed:    {}
 
-    Skybox            {source : "Resources/Textures/skybox"}
+    Skybox            {source : "Resources/Textures/skyboxes/" + roomManager.skyboxPath}
     RoomsContainer    {id : roomContainer}
     NotificationManager    {id : notification}
     FpsCounter {}

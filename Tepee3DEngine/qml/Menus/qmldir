@@ -1,15 +1,10 @@
 # QML FILES FOR PLUGINS
-PluginBase 1.0 ../DeveloperAPIFiles/qml/PluginBase.qml
 
-Room 1.0 ../Rooms/Room.qml
-RoomDelegate 1.0 ../Rooms/RoomDelegate.qml
-RoomLoader 1.0 ../Rooms/RoomLoader.qml
-RoomsContainer 1.0 ../Rooms/RoomsContainer.qml
-RoomWall 1.0 ../Rooms/RoomWall.qml
-RoomMenuFaceDelegate 1.0 ../Rooms/RoomMenuFaceDelegate.qml
+Room ../Rooms/Room.qml
+RoomDelegate ../Rooms/RoomDelegate.qml
+RoomMenuFaceDelegate ../Rooms/RoomMenuFaceDelegate.qml
 
 NewPluginDelegate 1.0 ../Plugins/NewPluginDelegate.qml
-PluginLoader 1.0 ../Plugins/PluginLoader.qml
 RoomPluginDelegate 1.0 ../Plugins/RoomPluginDelegate.qml
 
 #JS FILES

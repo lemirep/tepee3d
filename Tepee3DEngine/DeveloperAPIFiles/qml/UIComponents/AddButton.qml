@@ -8,7 +8,7 @@ Image
     height : 50
     width : 50
     scale : add_button_ma.pressed ? 0.9 : 1
-    source : "plus.png"
+    source : "../Resources/Pictures/plus.png"
     fillMode: Image.PreserveAspectFit
     MouseArea
     {

@@ -1,1 +1,16 @@
-# QML DIR FOR UI COMPONENTS
+module DeveloperAPIFiles.qml.UIComponents
+AddButton 1.0 AddButton.qml
+BackButton 1.0 BackButton.qml
+CheckBox 1.0 CheckBox.qml
+CloseButton 1.0 CloseButton.qml
+ForwardButton 1.0 ForwardButton.qml
+OkButton 1.0 OkButton.qml
+RefreshButton 1.0 RefreshButton.qml
+SettingsButton 1.0 SettingsButton.qml
+TextInputComponent 1.0 TextInputComponent.qml
+ReflectedImage 1.0 ReflectedImage.qml
+Carousel 1.0 Carousel.qml
+FileDelegate 1.0 FileDelegate.qml
+FileExplorer 1.0 FileExplorer.qml
+FileLoader 1.0 FileLoader.qml
+FolderDelegate 1.0 FolderDelegate.qml

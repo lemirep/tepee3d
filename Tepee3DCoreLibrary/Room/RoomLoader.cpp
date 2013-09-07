@@ -46,6 +46,7 @@ Room::RoomLoader::RoomLoader(QObject *parent) : QObject(parent)
     this->pFunc[GENERIC_RESULT] = &Room::RoomLoader::genericResultCallback;
     this->pFunc[RESTORE_ROOMS] = &Room::RoomLoader::restoreRoomsCallback;
     this->pFunc[RESTORE_PLUGINS_TO_ROOM] = &Room::RoomLoader::restoreWidgetsForRoomCallback;
+    this->pFunc[RESTORE_SKYBOX] = &Room::RoomLoader::restoreSkyboxPathCallBack;
 }
 
 Room::RoomLoader::~RoomLoader()
@@ -79,6 +80,16 @@ void    Room::RoomLoader::deleteRoomFromDatabase(Room::RoomBase *room)
 void    Room::RoomLoader::restoreRoomsFromDatabase()
 {
     Room::RoomLoader::getInstance()->restoreRooms();
+}
+
+void Room::RoomLoader::restoreSkyboxPathFromDatabase()
+{
+    Room::RoomLoader::getInstance()->restoreSkyboxPath();
+}
+
+void Room::RoomLoader::updateSkyboxPathToDatabase(const QString &skyboxPath)
+{
+    Room::RoomLoader::getInstance()->saveSkyboxPath(skyboxPath);
 }
 
 //////////////// CALLBACKS /////////////////////
@@ -115,6 +126,16 @@ void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, v
     }
 }
 
+void Room::RoomLoader::restoreSkyboxPathCallBack(QList<QSqlRecord> result, void *data)
+{
+    if (result.size() > 1)
+    {
+        result.pop_front();
+        QSqlRecord record = result.first();
+        Room::RoomManager::getInstance()->setSkyboxPath(record.value(0).toString());
+    }
+}
+
 void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data)
 {
     if (result.size() > 2)
@@ -140,6 +161,7 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, void *d
             newroom->setScale(QVector3D(record.value(6).toDouble(),
                                         record.value(7).toDouble(),
                                         record.value(8).toDouble()));
+//            newroom->setScale(QVector3D(60, 50, 60));
             qDebug() << "NEW ROOM : " << newroom->getRoomName() << " " << newroom->getPosition() << " " << newroom->getScale();
             Room::RoomManager::addRoomToModel(newroom);
             // ADD ALL PLUGINS OF THE ROOM
@@ -215,6 +237,19 @@ void Room::RoomLoader::insertOrReplacePluginsForRoom(Room::RoomBase *room)
 void    Room::RoomLoader::restoreRooms()
 {
     emit executeSQLQuery("SELECT * FROM room;", this, RESTORE_ROOMS, DB_NAME, NULL);
+}
+
+void Room::RoomLoader::restoreSkyboxPath()
+{
+    emit executeSQLQuery("SELECT skybox_path FROM skybox_properties WHERE id=0;", this, RESTORE_SKYBOX, DB_NAME, NULL);
+}
+
+void Room::RoomLoader::saveSkyboxPath(const QString &skyboxPath)
+{
+    QString query = QString("INSERT OR REPLACE INTO skybox_properties (id, skybox_path) VALUES (%1, '%2');")
+            .arg(QString::number(0),
+                 skyboxPath);
+    emit executeSQLQuery(query, this, GENERIC_RESULT, DB_NAME);
 }
 
 void    Room::RoomLoader::deleteRoom(Room::RoomBase *room)

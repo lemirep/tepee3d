@@ -9,7 +9,7 @@ Image
     height : 50
     width : 50
     scale : refresh_button_ma.pressed ? 0.9 : 1
-    source : "refresh.png"
+    source : "../Resources/Pictures/refresh.png"
     fillMode: Image.PreserveAspectFit
     MouseArea
     {

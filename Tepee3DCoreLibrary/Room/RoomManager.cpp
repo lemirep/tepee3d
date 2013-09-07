@@ -90,6 +90,7 @@ Room::RoomManager::RoomManager(QObject *parent) : QObject(parent)
     this->roomPrototype = NULL;
     this->roomUpdateTimer = new QTimer();
     this->roomModel = new Models::SubListedListModel(new Models::RoomModelItem(NULL, NULL));
+    this->skyboxPath = "";
     this->loadRoomLibrary();
 }
 
@@ -114,7 +115,7 @@ Room::RoomBase* Room::RoomManager::getNewRoomInstance()
 /*!
  * Restores Room that were saved in the Database.
  */
-void Room::RoomManager::restoreRooms()
+void Room::RoomManager::restoreViewProperties()
 {
     qDebug() << "RoomManager::Restoring Rooms";
     Room::RoomLoader::restoreRoomsFromDatabase();
@@ -157,6 +158,21 @@ Room::RoomBase*  Room::RoomManager::getCurrentRoom()   const
     return this->currentRoom;
 }
 
+void Room::RoomManager::setSkyboxPath(const QString &skyboxPath)
+{
+    if (skyboxPath != this->skyboxPath)
+    {
+        this->skyboxPath = skyboxPath;
+        emit skyboxPathChanged();
+    }
+}
+
+QString Room::RoomManager::getSkyboxPath() const
+{
+    if (this->skyboxPath.isEmpty())
+        Room::RoomLoader::restoreSkyboxPathFromDatabase();
+    return this->skyboxPath;
+}
 
 /*!
  * Returns the plugin identified by \a pluginId from the room identified by \a roomId.
@@ -189,9 +205,9 @@ void        Room::RoomManager::placeNewRoomInSpace()
     {
         qreal roomPosAngle = posAngle * idx++;
         Room::RoomBase* room = reinterpret_cast<Models::RoomModelItem *>(item)->getRoom();
-        room->setPosition(QVector3D(qCos(roomPosAngle) * radius,
+        room->setPosition(QVector3D(qCos(roomPosAngle) * (radius + idx),
                                     qCos(M_PI * idx) * 10,
-                                    qSin(roomPosAngle) * radius));
+                                    qSin(roomPosAngle) * (radius + idx)));
         // UPDATE ITEM IN MODEL TO REFLECT CHANGES
         item->triggerItemUpdate();
     }
@@ -355,6 +371,11 @@ void        Room::RoomManager::unsetFocusPluginsFromRoom()
         Plugins::PluginBase* plugin = ((Models::PluginModelItem *)(pluginItem))->getPlugin();
         plugin->setFocusState(Plugins::PluginEnums::pluginIdleState);
     }
+}
+
+void Room::RoomManager::saveSkyboxPath()
+{
+    Room::RoomLoader::updateSkyboxPathToDatabase(skyboxPath);
 }
 
 /*!

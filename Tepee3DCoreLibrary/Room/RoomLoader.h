@@ -42,6 +42,7 @@
 #define GENERIC_RESULT 2
 #define RESTORE_ROOMS 3
 #define RESTORE_PLUGINS_TO_ROOM 4
+#define RESTORE_SKYBOX 5
 #define DB_NAME "Tepee3D.sql"
 
  namespace Room
@@ -65,11 +66,14 @@
         void                        deleteRoom(RoomBase *room);
         void                        saveRoom(RoomBase *room);
         void                        restoreRooms();
+        void                        restoreSkyboxPath();
+        void                        saveSkyboxPath(const QString &skyboxPath);
 
         void                        searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data);
         void                        restoreRoomsCallback(QList<QSqlRecord> result, void *data);
         void                        genericResultCallback(QList<QSqlRecord> result, void *data);
         void                        restoreWidgetsForRoomCallback(QList<QSqlRecord> result, void *data);
+        void                        restoreSkyboxPathCallBack(QList<QSqlRecord> result, void *data);
 
         QHash<int, void (RoomLoader::*)(QList<QSqlRecord> result, void *data)>   pFunc;
 
@@ -81,6 +85,8 @@
          static void                deleteRoomFromDatabase(Room::RoomBase *room);
          static void                restoreRoomsFromDatabase();
          static void                addNewPluginToDatabase(Plugins::PluginBase *plugin);
+         static void                restoreSkyboxPathFromDatabase();
+         static void                updateSkyboxPathToDatabase(const QString &skyboxPath);
 
          void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
 

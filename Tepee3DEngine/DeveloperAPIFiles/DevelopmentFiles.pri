@@ -38,20 +38,18 @@ INCLUDEPATH += $$PWD/Models
 INCLUDEPATH += $$PWD/Rooms
 INCLUDEPATH += $$PWD/View
 
-OTHER_FILES +=  $$PWD/qml/Carousel.qml \
-                $$PWD/qml/PluginBase.qml \
+OTHER_FILES +=  $$PWD/qml/UIComponents/Carousel.qml \
                 $$PWD/qml/qmldir \
-                $$PWD/js/CameraManagement.js \
                 $$PWD/qml/UIComponents/qmldir \
                 $$PWD/qml/UIComponents/TextInputComponent.qml \
                 $$PWD/qml/Resources/Pictures/text_input_border.png \
                 $$PWD/qml/Resources/Pictures/text_input_border_selected.png \
                 $$PWD/qml/Resources/Pictures/small_arrow.png \
                 $$PWD/qml/Resources/Pictures/back_curved_arrow.png \
-                $$PWD/qml/FileExplorer.qml \
-                $$PWD/qml/FileDelegate.qml \
-                $$PWD/qml/FolderDelegate.qml \
-                $$PWD/qml/FileLoader.qml \
+                $$PWD/qml/UIComponents/FileExplorer.qml \
+                $$PWD/qml/UIComponents/FileDelegate.qml \
+                $$PWD/qml/UIComponents/FolderDelegate.qml \
+                $$PWD/qml/UIComponents/FileLoader.qml \
                 $$PWD/qml/Resources/Pictures/plus.png \
                 $$PWD/qml/Resources/Pictures/ok.png \
                 $$PWD/qml/Resources/Pictures/spanner.png \

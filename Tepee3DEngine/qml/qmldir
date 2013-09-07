@@ -1,46 +1,24 @@
-# QMLDIR File for BufferedTextureSourcePlugin
-#module BufferedTextureSource
-#plugin BufferedTextureSource ../../qml_extension_plugins/
-#plugin RoomLibrary ../../libraries/room_library/
-
 # QML FILES FOR GENERAL USE
-Carousel 1.0 ../DeveloperAPIFiles/qml/Carousel.qml
+# Carousel 1.0 ../DeveloperAPIFiles/qml/Carousel.qml
 # FOR FILE BROWSER
-FileExplorer 1.0 ../DeveloperAPIFiles/qml/FileExplorer.qml
-FileLoader 1.0 ../DeveloperAPIFiles/qml/FileLoader.qml
-FileDelegate 1.0 ../DeveloperAPIFiles/qml/FileDelegate.qml
-FolderDelegate 1.0 ../DeveloperAPIFiles/qml/FolderDelegate.qml
-
-# QML FILES FOR PLUGINS
-PluginBase 1.0 ../DeveloperAPIFiles/qml/PluginBase.qml
+# FileExplorer 1.0 ../DeveloperAPIFiles/qml/FileExplorer.qml
+# FileLoader 1.0 ../DeveloperAPIFiles/qml/FileLoader.qml
+# FileDelegate 1.0 ../DeveloperAPIFiles/qml/FileDelegate.qml
+# FolderDelegate 1.0 ../DeveloperAPIFiles/qml/FolderDelegate.qml
 
 # QML FOR MENUS
-MenuBottom 1.0 Menus/MenuBottom.qml
-MenuCenter 1.0 Menus/MenuCenter.qml
-MenuLeft 1.0 Menus/MenuLeft.qml
-MenuRight 1.0 Menus/MenuRight.qml
-MenuTop 1.0 Menus/MenuTop.qml
+MenuCenter Menus/MenuCenter.qml
 
 # QML FOR ROOMS
-Room 1.0 Rooms/Room.qml
-RoomDelegate 1.0 Rooms/RoomDelegate.qml
-RoomLoader 1.0 Rooms/RoomLoader.qml
-RoomsContainer 1.0 Rooms/RoomsContainer.qml
-RoomWall 1.0 Rooms/RoomWall.qml
-RoomMenuFaceDelegate 1.0 ../Rooms/RoomMenuFaceDelegate.qml
-
-# QML FOR PLUGINS
-NewPluginDelegate 1.0 Plugins/NewPluginDelegate.qml
-PluginLoader 1.0 Plugins/PluginLoader.qml
-RoomPluginDelegate 1.0 Plugins/RoomPluginDelegate.qml
+RoomsContainer Rooms/RoomsContainer.qml
 
 # QML FOR NOTIFICATIONS POP UP
-NotificationManager 1.0 Notifications/NotificationManager.qml
+NotificationManager Notifications/NotificationManager.qml
 
 # QML FOR UICOMPONENTS
-TextInputComponent 1.0 ../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
+TextInputComponent ../DeveloperAPIFiles/qml/UIComponents/TextInputComponent.qml
 
 # JS FILES
-RoomManagement 1.0 js/RoomManagement.js
-Walls 1.0 js/Walls.js
-CameraManagement 1.0 ../DeveloperAPIFiles/js/CameraManagement.js
+# RoomManagement js/RoomManagement.js
+# Walls js/Walls.js
+# CameraManagement ../DeveloperAPIFiles/js/CameraManagement.js
