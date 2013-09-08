@@ -124,7 +124,7 @@ void ManageBDD::copyDatabaseToWritableDirectory(const QString &dbName)
  * along with the given \a id and \a data parameters.
  */
 //execute a query in database and send the result by a signal
-void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data)
+void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data)
 {
     QList<QSqlRecord> results;
     if (dbName != this->previousDbName)

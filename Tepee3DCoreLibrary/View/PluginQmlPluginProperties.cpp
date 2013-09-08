@@ -70,12 +70,12 @@ Plugins::PluginQmlPluginProperties::PluginQmlPluginProperties() : QQuickItem()
  */
 Plugins::PluginQmlPluginProperties::~PluginQmlPluginProperties()
 {
-    // PLUGIN IS NOT OWNED BY THIS CLASS
+    // PLUGIN IS NOT OWNED BY THIS CLASS AND MAY HAVE ALDREADY BEEN DELETED
     if (this->plugin != NULL)
     {
-        QObject::disconnect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));
-        QObject::disconnect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
-        QObject::disconnect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
+//        QObject::disconnect(this->plugin, SIGNAL(focusStateChanged(QVariant, QVariant)), this, SIGNAL(focusStateChanged(QVariant, QVariant)));
+//        QObject::disconnect(this->plugin, SIGNAL(roomEntered()), this, SIGNAL(roomEntered()));
+//        QObject::disconnect(this->plugin, SIGNAL(roomLeft()), this, SIGNAL(roomLeft()));
     }
 }
 

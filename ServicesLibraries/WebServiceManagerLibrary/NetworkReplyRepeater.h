@@ -30,17 +30,18 @@
 
 #include <QNetworkReply>
 #include <QObject>
+#include <QPointer>
 
 class NetworkReplyRepeater : public QObject
 {
     Q_OBJECT
 public:
-    NetworkReplyRepeater(QObject *receiver, int requestId, void *data, QHttpMultiPart *multiPart = NULL);
+    NetworkReplyRepeater(QPointer<QObject> receiver, int requestId, QPointer<QObject> data, QHttpMultiPart *multiPart = NULL);
     ~NetworkReplyRepeater();
 
 private:
-    QObject *receiver;
-    void    *data;
+    QPointer<QObject> receiver;
+    QPointer<QObject> data;
     int     requestId;
     QHttpMultiPart *multiPart;
 

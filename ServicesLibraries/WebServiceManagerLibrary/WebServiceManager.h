@@ -48,10 +48,10 @@ class WebServiceManager : public QObject, Services::ServiceInterface
 public:
     WebServiceManager();
     ~WebServiceManager();
-    void          httpGet(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId, void *data);
-    void          httpDelete(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId, void *data);
-    void          httpPost(QNetworkRequest& request, QHttpMultiPart*  multiPart, QObject *sender, int requestId, void *data);
-    void          httpPut(QNetworkRequest& request, QHttpMultiPart* multiPart, QObject *sender, int requestId, void *data);
+    void          httpGet(QNetworkRequest& request, QHttpMultiPart*  multiPart, QPointer<QObject> ender, int requestId, QPointer<QObject>);
+    void          httpDelete(QNetworkRequest& request, QHttpMultiPart*  multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject>);
+    void          httpPost(QNetworkRequest& request, QHttpMultiPart*  multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject>);
+    void          httpPut(QNetworkRequest& request, QHttpMultiPart* multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject>);
 
     static  QJsonObject*    QJsonFromReply(QNetworkReply* reply);
 
@@ -65,11 +65,11 @@ public:
 private:
     static  QNetworkAccessManager*  instance;
     QNetworkAccessManager*          getInstance();
-    QHash<Services::WebServiceUserInterface::WebServiceRequestType, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QObject*, int, void *)>       httpMethods;
+    QHash<Services::WebServiceUserInterface::WebServiceRequestType, void (WebServiceManager::*)(QNetworkRequest&, QHttpMultiPart*, QPointer<QObject>, int, QPointer<QObject>)>       httpMethods;
 
 private slots:
     void executeHttpRequest(QNetworkRequest request, Services::WebServiceUserInterface::WebServiceRequestType requestType,
-                            QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data);
+                            QHttpMultiPart *multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject> data);
 signals:
     void initialized();
 };

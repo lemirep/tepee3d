@@ -94,22 +94,22 @@ void Room::RoomLoader::updateSkyboxPathToDatabase(const QString &skyboxPath)
 
 //////////////// CALLBACKS /////////////////////
 
-void    Room::RoomLoader::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
+void    Room::RoomLoader::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data)
 {
     (this->*this->pFunc[id])(result, data);
 }
 
-void    Room::RoomLoader::genericResultCallback(QList<QSqlRecord> result, void *data)
+void    Room::RoomLoader::genericResultCallback(QList<QSqlRecord> result, QPointer<QObject> data)
 {
     Q_UNUSED(result)
     Q_UNUSED(data)
 }
 
-void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, void *data)
+void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, QPointer<QObject> data)
 {
-    if (result.size() > 1 && data != NULL)
+    if (result.size() > 1 && !data.isNull())
     {
-        Room::RoomBase *room = reinterpret_cast<Room::RoomBase*>(data);
+        Room::RoomBase *room = reinterpret_cast<Room::RoomBase*>(data.data());
         result.pop_front();
         foreach (QSqlRecord record, result)
         {
@@ -126,7 +126,7 @@ void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, v
     }
 }
 
-void Room::RoomLoader::restoreSkyboxPathCallBack(QList<QSqlRecord> result, void *data)
+void Room::RoomLoader::restoreSkyboxPathCallBack(QList<QSqlRecord> result, QPointer<QObject> data)
 {
     if (result.size() > 1)
     {
@@ -136,15 +136,17 @@ void Room::RoomLoader::restoreSkyboxPathCallBack(QList<QSqlRecord> result, void 
     }
 }
 
-void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data)
+void    Room::RoomLoader::searchForRoomEditUpdateCallback(QList<QSqlRecord> result,QPointer<QObject> data)
 {
+    if (data.isNull())
+        return ;
     if (result.size() > 2)
-        this->updateExistingRoom(reinterpret_cast<Room::RoomBase*>(data));
+        this->updateExistingRoom(reinterpret_cast<Room::RoomBase*>(data.data()));
     else
-        this->insertNewRoom(reinterpret_cast<Room::RoomBase*>(data));
+        this->insertNewRoom(reinterpret_cast<Room::RoomBase*>(data.data()));
 }
 
-void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, void *data)
+void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, QPointer<QObject> data)
 {
     Q_UNUSED(data)
     if (result.size() > 1) // FIRST RECORD IS STATUS COUNT OF RECORDINGS
@@ -166,7 +168,7 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, void *d
             Room::RoomManager::addRoomToModel(newroom);
             // ADD ALL PLUGINS OF THE ROOM
             emit executeSQLQuery(Plugins::PluginLoader::loadAllPluginForRoom(newroom),
-                                 this, RESTORE_PLUGINS_TO_ROOM, DB_NAME, (void *)newroom);
+                                 this, RESTORE_PLUGINS_TO_ROOM, DB_NAME, QPointer<QObject>(newroom));
         }
     }
 }
@@ -177,7 +179,7 @@ void    Room::RoomLoader::saveRoom(Room::RoomBase *room)
 {
     QString request = QString("SELECT * FROM room WHERE name= '%1';")
             .arg(Utils::escapeSqlQuery(room->getRoomName()));
-    emit executeSQLQuery(request, this, SEARCH_FOR_ROOM, DB_NAME, (void *)room);
+    emit executeSQLQuery(request, this, SEARCH_FOR_ROOM, DB_NAME, QPointer<QObject>(room));
 }
 
 void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)

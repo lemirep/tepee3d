@@ -42,7 +42,7 @@
 /*!
  * Constructs a new NetworkReplyRepeater instance given a \a receiver and \a requestId.
  */
-NetworkReplyRepeater::NetworkReplyRepeater(QObject *receiver, int requestId, void *data, QHttpMultiPart *multiPart)
+NetworkReplyRepeater::NetworkReplyRepeater(QPointer<QObject> receiver, int requestId, QPointer<QObject> data, QHttpMultiPart *multiPart)
     : QObject()
 {
     this->receiver = receiver;
@@ -63,7 +63,9 @@ NetworkReplyRepeater::~NetworkReplyRepeater()
 void    NetworkReplyRepeater::receiveNetworkReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    Services::WebServiceUserInterface* wbUser = qobject_cast<Services::WebServiceUserInterface*>(this->receiver);
+    Services::WebServiceUserInterface* wbUser = NULL;
+    if (!this->receiver.isNull())
+         wbUser = qobject_cast<Services::WebServiceUserInterface*>(this->receiver.data());
     if (wbUser)
         wbUser->receiveResultFromHttpRequest(reply, this->requestId, this->data);
     else

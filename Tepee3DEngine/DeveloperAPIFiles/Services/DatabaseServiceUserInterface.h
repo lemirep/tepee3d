@@ -28,6 +28,7 @@
 #ifndef DATABASEUSER_H
 #define DATABASEUSER_H
 
+#include <QPointer>
 #include <QSqlRecord>
 #include <QList>
 
@@ -37,9 +38,9 @@ namespace Services
 class   DatabaseServiceUserInterface
 {
 public :
-    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data) = 0;
+    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data) = 0;
 // SIGNAL
-    //void        executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data);
+    //void        executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data);
 
 };
 }

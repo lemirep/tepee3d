@@ -84,7 +84,8 @@ OTHER_FILES += \
     qml/content/background.png \
     qml/Rooms/AddNewRoomDialog.qml \
     qml/Resources/Pictures/home_buttom.png \
-    qml/Resources/Pictures/refresh.png
+    qml/Resources/Pictures/refresh.png \
+    qml/Menus/SkyboxPicker.qml
 
 qnx {
     OTHER_FILES += bar-descriptor.xml

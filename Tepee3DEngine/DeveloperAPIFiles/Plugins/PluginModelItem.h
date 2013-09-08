@@ -28,6 +28,7 @@
 #ifndef PLUGINMODELITEM_H
 #define PLUGINMODELITEM_H
 
+#include <QPointer>
 #include "ListItem.h"
 #include "PluginBase.h"
 
@@ -56,10 +57,10 @@ public:
     int                     id()                const;
     QVariant                data(int role)      const;
     QHash<int, QByteArray>  roleNames()         const;
-    Plugins::PluginBase*    getPlugin()         const;
+    QPointer<Plugins::PluginBase>    getPlugin()         const;
 
 private:
-    Plugins::PluginBase*    plugin;
+    QPointer<Plugins::PluginBase>    plugin;
 
 };
 

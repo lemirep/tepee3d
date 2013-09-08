@@ -1,6 +1,7 @@
 #ifndef MANAGEBDD_H
 #define MANAGEBDD_H
 
+#include <QPointer>
 #include <QStandardPaths>
 #include <QCoreApplication>
 #include <QObject>
@@ -21,9 +22,9 @@ public:
 
     bool    openDatabase(const QString& dbName);
 signals:
-    void    resultFromSQLQuery(QList<QSqlRecord>, QObject *receiver, int id, void *data);
+    void    resultFromSQLQuery(QList<QSqlRecord>, QObject *receiver, int id, QPointer<QObject> data);
 public slots:
-    void    executeSQLQuery(const QString& Query, QObject *sender, int id, const QString &dbName, void *data);
+    void    executeSQLQuery(const QString& Query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data);
 private :
     QString         localDBName;
     QString         previousDbName;

@@ -125,7 +125,7 @@ QNetworkAccessManager*  WebServiceManager::getInstance()
 
 // NETWORK REPLYREPEATER HAS TO BE DELETED IN PLUGIN
 // QNETWORKREPLY HAS TO BE DELETED USING DELETELATER
-void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multipart, QObject *sender, int requestId, void *data)
+void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multipart, QPointer<QObject> sender, int requestId, QPointer<QObject> data)
 {
     Q_UNUSED(multipart)
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multipart);
@@ -138,7 +138,7 @@ void  WebServiceManager::httpGet(QNetworkRequest &request, QHttpMultiPart*multip
  * \a multipart is not used but has to be present the the prototype of the method which is generic for all HTTP requests
  * method.
  */
-void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
+void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *multipart, QPointer<QObject> sender, int requestId, QPointer<QObject>data)
 {
     Q_UNUSED(multipart)
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multipart);
@@ -150,7 +150,7 @@ void  WebServiceManager::httpDelete(QNetworkRequest &request, QHttpMultiPart *mu
  * Performs a POST Http \a request, the reply will be transmitted to \a sender along with \a requestId and \a data. If \a multiPart is not NULL
  * its data will be transmitted with the request.
  */
-void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
+void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject> data)
 {
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multiPart);
     QNetworkReply *reply = this->getInstance()->post(request, multiPart);
@@ -161,7 +161,7 @@ void  WebServiceManager::httpPost(QNetworkRequest &request, QHttpMultiPart *mult
  * Performs a PUT Http \a request, the reply will be transmitted to \a sender along with \a requestId and \a data. If \a multiPart is not NULL
  * its data will be transmitted with the request.
  */
-void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
+void  WebServiceManager::httpPut(QNetworkRequest &request, QHttpMultiPart *multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject> data)
 {
     NetworkReplyRepeater *repeater = new NetworkReplyRepeater(sender, requestId, data, multiPart);
     QNetworkReply *reply = this->getInstance()->put(request, multiPart);
@@ -179,15 +179,15 @@ bool  WebServiceManager::connectServiceToUser(QObject *user)
         return QObject::connect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&,
                                                                 Services::WebServiceUserInterface::WebServiceRequestType,
                                                                 QHttpMultiPart*,
-                                                                QObject*,
+                                                                QPointer<QObject>,
                                                                 int,
-                                                                void*)),
+                                                                QPointer<QObject>)),
                          this, SLOT(executeHttpRequest(QNetworkRequest,
                                                        Services::WebServiceUserInterface::WebServiceRequestType,
                                                        QHttpMultiPart*,
-                                                       QObject*,
+                                                       QPointer<QObject>,
                                                        int,
-                                                       void*)));
+                                                       QPointer<QObject>)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
 }
@@ -202,15 +202,15 @@ bool  WebServiceManager::disconnectServiceFromUser(QObject *user)
         return QObject::disconnect(user, SIGNAL(executeHttpRequest(const QNetworkRequest&,
                                                                    Services::WebServiceUserInterface::WebServiceRequestType,
                                                                    QHttpMultiPart*,
-                                                                   QObject*,
+                                                                   QPointer<QObject>,
                                                                    int,
-                                                                   void*)),
+                                                                   QPointer<QObject>)),
                          this, SLOT(executeHttpRequest(QNetworkRequest,
                                                        Services::WebServiceUserInterface::WebServiceRequestType,
                                                        QHttpMultiPart*,
-                                                       QObject*,
+                                                       QPointer<QObject>,
                                                        int,
-                                                       void*)));
+                                                       QPointer<QObject>)));
     qWarning() << "Object does not implement WebServiceUserInterface";
     return false;
 }
@@ -240,7 +240,7 @@ void            WebServiceManager::initLibraryConnection(QObject *parent)
  * request it was.
  */
 void            WebServiceManager::executeHttpRequest(QNetworkRequest request, Services::WebServiceUserInterface::WebServiceRequestType requestType,
-                                                      QHttpMultiPart *multiPart, QObject *sender, int requestId, void *data)
+                                                      QHttpMultiPart *multiPart, QPointer<QObject> sender, int requestId, QPointer<QObject> data)
 {
     (this->*this->httpMethods[requestType])(request, multiPart, sender, requestId, data);
 }

@@ -263,33 +263,33 @@ void Plugins::PluginBase::onFocusedFocusState()
 /*!
  * Sends Http Get \a request to network manager, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId, void *data)
+void    Plugins::PluginBase::executeHttpGetRequest(const QNetworkRequest &request, int requestId, QPointer<QObject> data)
 {
-    emit executeHttpRequest(request, Get, NULL, this, requestId, data);
+    emit executeHttpRequest(request, Get, NULL, QPointer<QObject>(this), requestId, data);
 }
 
 /*!
  * Sends Http Delete \a request to network manager, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId, void *data)
+void    Plugins::PluginBase::executeHttpDeleteRequest(const QNetworkRequest &request, int requestId, QPointer<QObject> data)
 {
-    emit executeHttpRequest(request, Delete, NULL, this, requestId, data);
+    emit executeHttpRequest(request, Delete, NULL, QPointer<QObject>(this), requestId, data);
 }
 
 /*!
  * Sends Http Post \a request to network manager with \a multiPart for data, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, void *data)
+void    Plugins::PluginBase::executeHttpPostRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, QPointer<QObject> data)
 {
-    emit executeHttpRequest(request, Post, multiPart, this, requestId, data);
+    emit executeHttpRequest(request, Post, multiPart, QPointer<QObject>(this), requestId, data);
 }
 
 /*!
  * Sends Http Put \a request to network manager with \a multiPart for data, \a requestId and \a data will be transmitted with the reply to identify the request.
  */
-void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, void *data)
+void    Plugins::PluginBase::executeHttpPutRequest(const QNetworkRequest &request, QHttpMultiPart* multiPart, int requestId, QPointer<QObject> data)
 {
-    emit executeHttpRequest(request, Put, multiPart, this, requestId, data);
+    emit executeHttpRequest(request, Put, multiPart, QPointer<QObject>(this), requestId, data);
 }
 
 /*!

@@ -28,6 +28,7 @@
 #ifndef PLUGINBASE_H
 #define PLUGINBASE_H
 
+#include <QPointer>
 #include <QQuickItem>
 #include <QNetworkRequest>
 #include <QQmlExtensionPlugin>
@@ -98,26 +99,26 @@ private:
     QVector3D                   m_position;
     // SQL
 protected:
-    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data) = 0;
+    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data) = 0;
 
     // WEB SERVICES
 protected:
-    void    executeHttpGetRequest(const QNetworkRequest& request, int requestId, void *data = 0);
-    void    executeHttpDeleteRequest(const QNetworkRequest& request, int requestId, void *data = 0);
-    void    executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data = 0);
-    void    executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data = 0);
+    void    executeHttpGetRequest(const QNetworkRequest& request, int requestId, QPointer<QObject> data = QPointer<QObject>());
+    void    executeHttpDeleteRequest(const QNetworkRequest& request, int requestId, QPointer<QObject> data = QPointer<QObject>());
+    void    executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, QPointer<QObject> data = QPointer<QObject>());
+    void    executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, QPointer<QObject> data = QPointer<QObject>());
 
-    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data) = 0;
 
     // Defines all signals that a plugin can emit or receive
 signals :
-    void    executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, void *data = NULL);
+    void    executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data = QPointer<QObject>());
     void    executeHttpRequest(const QNetworkRequest &request,
                                Services::WebServiceUserInterface::WebServiceRequestType requestType,
                                QHttpMultiPart *multipart,
-                               QObject *sender,
+                               QPointer<QObject> sender,
                                int requestId,
-                               void *data);
+                               QPointer<QObject> data);
     void    askForFocusState(Plugins::PluginEnums::PluginState requestedState, QObject *sender);
     void    focusStateChanged(QVariant focusState, QVariant previousFocusState);
     void    roomEntered();

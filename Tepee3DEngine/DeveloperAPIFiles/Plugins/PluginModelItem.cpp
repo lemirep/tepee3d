@@ -46,7 +46,7 @@
 
 Models::PluginModelItem::PluginModelItem(Plugins::PluginBase* plugin, QObject *parent) : ListItem(parent)
 {
-    this->plugin = plugin;
+    this->plugin = QPointer<Plugins::PluginBase>(plugin);
 }
 
 /*!
@@ -57,8 +57,9 @@ Models::PluginModelItem::~PluginModelItem()
     // ENSURE THAT THE PLUGIN ABOUT TO BE DELETED IS A PLUGIN CREATED FROM AN INSTANCE OF
     // A PLUGIN FROM THE PLUGIN LOADER LIST AND NOT A PLUGIN LOADER PLUGIN ITSELF
     qDebug() << "DELETING PLUGIN MODEL ITEM";
-    if (this->plugin != NULL)
-        delete this->plugin;
+    if (!this->plugin.isNull())
+        this->plugin.clear();
+    this->plugin = NULL;
 }
 
 /*!
@@ -79,15 +80,15 @@ QVariant    Models::PluginModelItem::data(int role)    const
     case pluginId :
         return this->id();
     case pluginName :
-        return this->plugin->getPluginName();
+        return this->plugin.data()->getPluginName();
     case pluginRepoName:
-        return this->plugin->getPluginRepoName();
+        return this->plugin.data()->getPluginRepoName();
     case pluginRoomQmlFile :
-        return this->plugin->getRoomPluginQmlFile();
+        return this->plugin.data()->getRoomPluginQmlFile();
     case pluginMenuQmlFile :
-        return this->plugin->getMenuPluginQmlFile();
+        return this->plugin.data()->getMenuPluginQmlFile();
     case pluginPosition :
-        return this->plugin->getPluginPosition();
+        return this->plugin.data()->getPluginPosition();
     default :
         return QVariant();
     }
@@ -114,7 +115,7 @@ QHash<int, QByteArray> Models::PluginModelItem::roleNames()   const
  * Returns the instance of the plugin the PluginModelItem is a description of.
  */
 
-Plugins::PluginBase*    Models::PluginModelItem::getPlugin()   const
+QPointer<Plugins::PluginBase>    Models::PluginModelItem::getPlugin()   const
 {
     return this->plugin;
 }

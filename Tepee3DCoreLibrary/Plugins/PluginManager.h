@@ -113,10 +113,10 @@ private:
     static PluginManager*               instance;
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
-    QHash<int, void (PluginManager::*)(QNetworkReply *, void *)>    webServicesCallBacks;
+    QHash<int, void (PluginManager::*)(QNetworkReply *,QPointer<QObject>)>    webServicesCallBacks;
     QHash<int, void (PluginManager::*)(QFile *, void *, bool)>            streamServicesCallBacks;
 
-    void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data);
 
     // FileDownloaderServiceUserInterface interface
     void onDownloadFinished(QFile *, int requestId, void *data);
@@ -125,8 +125,8 @@ private:
     void onDownloadError(QFile *, int requestId, void *data);
 
     // CALLBACKS
-    void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data);
-    void checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data);
+    void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, QPointer<QObject> data);
+    void checkForPluginsUpdatesCallBack(QNetworkReply *reply, QPointer<QObject> data);
     void downloadPluginIndexCallBack(QFile *file, void *data, bool error = false);
     void downloadPluginFileCallBack(QFile *file, void *data, bool error = false);
 
@@ -134,9 +134,9 @@ signals :
     void executeHttpRequest(const QNetworkRequest&,
                             Services::WebServiceUserInterface::WebServiceRequestType,
                             QHttpMultiPart*,
-                            QObject* sender,
+                            QPointer<QObject> sender,
                             int requestId,
-                            void *data = NULL);
+                            QPointer<QObject> data = QPointer<QObject>());
     void executeFileDownloader(const QNetworkRequest,
                                Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                QHttpMultiPart *,

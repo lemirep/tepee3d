@@ -157,7 +157,7 @@ void Plugins::PluginManager::checkForPluginsUpdates()
                                                      + "/")),
                                 WebServiceUserInterface::Get,
                                 NULL,
-                                this,
+                                QPointer<QObject>(this),
                                 GET_PLUGINS_UPDATES,
                                 plugin);
 
@@ -221,7 +221,7 @@ void Plugins::PluginManager::removeDownloadedPlugin(int pluginId)
 /*!
  * Parses the json list of plugins returned by the Tepee3D server that are available for the current platform.
  */
-void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, void *data)
+void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, QPointer<QObject> data)
 {
     Q_UNUSED(data)
     if (reply != NULL)
@@ -257,9 +257,9 @@ void Plugins::PluginManager::retrieveOnlinePluginsForCurrentPlatformCallBack(QNe
 /*!
  * Callback triggered when checking if downloaded plugins are up to date.
  */
-void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply, void *data)
+void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply, QPointer<QObject> data)
 {
-    if (reply != NULL && data != NULL)
+    if (reply != NULL && !data.isNull())
     {
         QJsonDocument jsonDoc = Utils::QJsonDocumentFromReply(reply);
         delete reply;
@@ -270,7 +270,7 @@ void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply
             if (pluginObj.contains("version"))
             {
                 QString onlineVersion = pluginObj.value("version").toString();
-                Plugins::PluginBase *localInstance = reinterpret_cast<Plugins::PluginBase *>(data);
+                Plugins::PluginBase *localInstance = reinterpret_cast<Plugins::PluginBase *>(data.data());
                 qDebug() << "Online version = " << onlineVersion;
                 if (onlineVersion.compare(localInstance->getPluginVersion()) != 0)
                 {
@@ -394,7 +394,7 @@ void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data,
 /*!
  * Receives results from the webservice worker.
  */
-void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
+void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data)
 {
     (this->*this->webServicesCallBacks[requestId])(reply, data);
 }

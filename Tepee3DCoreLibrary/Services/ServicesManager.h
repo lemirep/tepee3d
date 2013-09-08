@@ -74,7 +74,7 @@ public:
     static  void                    disconnectObjectFromServices(QObject *serviceUser);
     void                            loadServicesLibraries();
 
-    void                            receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data);
+    void                            receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data);
     void                            checkForServicesUpdates();
     void                            downloadServiceFromServer(int serviceId);
 
@@ -82,10 +82,10 @@ private:
     static ServicesManager          *instance;
     ServicesManager(QObject *parent = 0);
     QList<ServiceInterface*>        services;
-    QHash<int, void (ServicesManager::*)(QNetworkReply *, void *)>      webServicesCallBacks;
+    QHash<int, void (ServicesManager::*)(QNetworkReply *, QPointer<QObject>)>      webServicesCallBacks;
 
-    void                            checkForServicesUpdatesCallBack(QNetworkReply *reply, void *data);
-    void                            dowloadServiceFromServerCallBack(QNetworkReply *reply, void *data);
+    void                            checkForServicesUpdatesCallBack(QNetworkReply *reply, QPointer<QObject>data);
+    void                            dowloadServiceFromServerCallBack(QNetworkReply *reply, QPointer<QObject>data);
 
 public slots :
     void                            connectObjectToServicesSlot(QObject *serviceUser);
@@ -97,9 +97,9 @@ signals :
     void executeHttpRequest(const QNetworkRequest&,
                             Services::WebServiceUserInterface::WebServiceRequestType,
                             QHttpMultiPart*,
-                            QObject* sender,
+                            QPointer<QObject> sender,
                             int requestId,
-                            void *data = NULL);
+                            QPointer<QObject> data = QPointer<QObject>());
 };
 
 }

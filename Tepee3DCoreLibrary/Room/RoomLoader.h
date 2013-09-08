@@ -69,13 +69,13 @@
         void                        restoreSkyboxPath();
         void                        saveSkyboxPath(const QString &skyboxPath);
 
-        void                        searchForRoomEditUpdateCallback(QList<QSqlRecord> result, void *data);
-        void                        restoreRoomsCallback(QList<QSqlRecord> result, void *data);
-        void                        genericResultCallback(QList<QSqlRecord> result, void *data);
-        void                        restoreWidgetsForRoomCallback(QList<QSqlRecord> result, void *data);
-        void                        restoreSkyboxPathCallBack(QList<QSqlRecord> result, void *data);
+        void                        searchForRoomEditUpdateCallback(QList<QSqlRecord> result, QPointer<QObject> data);
+        void                        restoreRoomsCallback(QList<QSqlRecord> result, QPointer<QObject> data);
+        void                        genericResultCallback(QList<QSqlRecord> result, QPointer<QObject> data);
+        void                        restoreWidgetsForRoomCallback(QList<QSqlRecord> result, QPointer<QObject> data);
+        void                        restoreSkyboxPathCallBack(QList<QSqlRecord> result,QPointer<QObject> data);
 
-        QHash<int, void (RoomLoader::*)(QList<QSqlRecord> result, void *data)>   pFunc;
+        QHash<int, void (RoomLoader::*)(QList<QSqlRecord> result, QPointer<QObject> data)>   pFunc;
 
     public :
         static RoomLoader*          getInstance(QObject *parent = 0);
@@ -88,10 +88,10 @@
          static void                restoreSkyboxPathFromDatabase();
          static void                updateSkyboxPathToDatabase(const QString &skyboxPath);
 
-         void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
+         void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data);
 
     signals :
-         void                       executeSQLQuery(const QString &query, QObject *sender, int id, const QString &dbName, void *data = NULL);
+         void                       executeSQLQuery(const QString &query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data = QPointer<QObject>());
     };
  }
 

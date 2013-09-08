@@ -28,6 +28,7 @@
 #ifndef WEBSERVICEUSERINTERFACE_H
 #define WEBSERVICEUSERINTERFACE_H
 
+#include <QPointer>
 #include <QNetworkReply>
 #include <QHttpMultiPart>
 #include <QNetworkRequest>
@@ -40,12 +41,12 @@ class   WebServiceUserInterface
 {
 public :
     enum WebServiceRequestType{Get = 1, Post, Delete, Put};
-    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data) = 0;
+    virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId,QPointer<QObject> data) = 0;
     // SIGNAL
     //void executeHttpRequest(const QNetworkRequest&,
     //                       Services::WebServiceUserInterface::WebServiceRequestType,
     //                       QHttpMultiPart*,
-    //                       QObject* sender,
+    //                       QPointer<QObject> sender,
     //                       int requestId,
     //                       void *data);
 };
