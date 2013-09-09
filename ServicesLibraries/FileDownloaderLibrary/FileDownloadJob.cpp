@@ -1,9 +1,9 @@
 #include "FileDownloadJob.h"
 
-FileDownloadJob::FileDownloadJob(QFile *file,
+FileDownloadJob::FileDownloadJob(QPointer<QFile> file,
                                  int requestId,
-                                 void *data,
-                                 QObject *sender):
+                                 QPointer<QObject> data,
+                                 QPointer<QObject> sender):
     file(file),
     requestId(requestId),
     data(data),
@@ -30,21 +30,27 @@ void    FileDownloadJob::abort()
 void    FileDownloadJob::downloadStarted()
 {
     qDebug() << "Starting download";
-    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (this->sender.isNull())
+        return ;
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender.data());
     if (fileDowloaderInterface != NULL)
         fileDowloaderInterface->onDownloadStarted(this->file, this->requestId, this->data);
 }
 
 void    FileDownloadJob::onProgress(qint64 received, qint64 total)
 {
-    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (this->sender.isNull())
+        return ;
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender.data());
     if (fileDowloaderInterface != NULL)
         fileDowloaderInterface->onDownloadProgress(this->file, (double)received / total * 100, this->requestId, this->data);
 }
 
 void    FileDownloadJob::onError(QNetworkReply::NetworkError error)
 {
-    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (this->sender.isNull())
+        return ;
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender.data());
     qWarning() << "Error number : " << error << " : " << reply->errorString();
     if (fileDowloaderInterface != NULL)
         fileDowloaderInterface->onDownloadError(this->file, this->requestId, this->data);
@@ -52,7 +58,9 @@ void    FileDownloadJob::onError(QNetworkReply::NetworkError error)
 
 void    FileDownloadJob::onFinished()
 {
-    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender);
+    if (this->sender.isNull())
+        return ;
+    Services::FileDownloaderServiceUserInterface *fileDowloaderInterface = qobject_cast<Services::FileDownloaderServiceUserInterface *>(this->sender.data());
     if (fileDowloaderInterface != NULL)
         fileDowloaderInterface->onDownloadFinished(this->file, this->requestId, this->data);
     // DESTROYS THE OBJECT
@@ -61,6 +69,8 @@ void    FileDownloadJob::onFinished()
 
 void    FileDownloadJob::onReadReady()
 {
+    if (this->file.isNull())
+        return ;
     qDebug() << "READING FILE DOWNLOAD";
     const int readBuffSize = 256;
     char buff[readBuffSize];

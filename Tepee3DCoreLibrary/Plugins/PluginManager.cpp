@@ -131,10 +131,10 @@ void Plugins::PluginManager::downloadPluginFromServer(int pluginId)
                                                                 + "/index")),
                                            Services::FileDownloaderServiceUserInterface::Get,
                                            NULL,
-                                           indexFile,
-                                           this,
+                                           QPointer<QFile>(indexFile),
+                                           QPointer<QObject>(this),
                                            DOWNLOAD_PLUGIN_INDEX,
-                                           pluginOnlineItem);
+                                           QPointer<QObject>(pluginOnlineItem));
             }
         }
     }
@@ -159,7 +159,7 @@ void Plugins::PluginManager::checkForPluginsUpdates()
                                 NULL,
                                 QPointer<QObject>(this),
                                 GET_PLUGINS_UPDATES,
-                                plugin);
+                                QPointer<QObject>(plugin));
 
         qDebug() << "<<<<<<<<<<<<<<<<<<<<< " + QString(TEPEE3D_ONLINE_API)
                     + "widgets/"
@@ -288,11 +288,11 @@ void Plugins::PluginManager::checkForPluginsUpdatesCallBack(QNetworkReply *reply
  * The index file is then read, so that each of the files required by the plugin can be downloaded.
  */
 
-void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data, bool error)
+void Plugins::PluginManager::downloadPluginIndexCallBack(QPointer<QFile> file, QPointer<QObject> data, bool error)
 {
-    if (file != NULL && data != NULL)
+    if (!file.isNull() && !data.isNull())
     {
-        Models::PluginOnlineModelItem *pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data);
+        Models::PluginOnlineModelItem *pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data.data());
         if (error)
         {
             pluginOnlineItem->setPluginDownloadError(error);
@@ -341,10 +341,10 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
                                                                 + fileName)),
                                            Services::FileDownloaderServiceUserInterface::Get,
                                            NULL,
-                                           itemFile,
-                                           this,
+                                           QPointer<QFile>(itemFile),
+                                           QPointer<QObject>(this),
                                            DOWNLOAD_PLUGIN_FILE,
-                                           pluginOnlineItem);
+                                           QPointer<QObject>(pluginOnlineItem));
             }
         }
         qDebug() << "Reading done";
@@ -356,11 +356,11 @@ void Plugins::PluginManager::downloadPluginIndexCallBack(QFile *file, void *data
  * then updated to reflect the count of downloaded files. If \a error is true, an error occured in the download process and the
  * plugin will be marked as so.
  */
-void Plugins::PluginManager::downloadPluginFileCallBack(QFile *file, void *data, bool error)
+void Plugins::PluginManager::downloadPluginFileCallBack(QPointer<QFile> file, QPointer<QObject> data, bool error)
 {
-    if (file != NULL && data != NULL)
+    if (!file.isNull() && !data.isNull())
     {
-        Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data);
+        Models::PluginOnlineModelItem* pluginOnlineItem = reinterpret_cast<Models::PluginOnlineModelItem *>(data.data());
         if (error)
         {
             pluginOnlineItem->setPluginDownloadError(error);
@@ -399,22 +399,22 @@ void Plugins::PluginManager::receiveResultFromHttpRequest(QNetworkReply *reply, 
     (this->*this->webServicesCallBacks[requestId])(reply, data);
 }
 
-void Plugins::PluginManager::onDownloadFinished(QFile *file, int requestId, void *data)
+void Plugins::PluginManager::onDownloadFinished(QPointer<QFile> file, int requestId, QPointer<QObject> data)
 {
     qDebug() << ">> download Finished";
     (this->*this->streamServicesCallBacks[requestId])(file, data, false);
     file->close();
 }
 
-void Plugins::PluginManager::onDownloadProgress(QFile *, int , int , void *)
+void Plugins::PluginManager::onDownloadProgress(QPointer<QFile>, int , int , QPointer<QObject>)
 {
 }
 
-void Plugins::PluginManager::onDownloadStarted(QFile *, int , void *)
+void Plugins::PluginManager::onDownloadStarted(QPointer<QFile>, int , QPointer<QObject>)
 {
 }
 
-void Plugins::PluginManager::onDownloadError(QFile *file, int requestId, void *data)
+void Plugins::PluginManager::onDownloadError(QPointer<QFile> file, int requestId, QPointer<QObject> data)
 {
     qDebug() << ">> in onDownloadError";
     (this->*this->streamServicesCallBacks[requestId])(file, data, true);

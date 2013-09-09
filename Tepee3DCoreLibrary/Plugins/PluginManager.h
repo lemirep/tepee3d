@@ -114,21 +114,21 @@ private:
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
     QHash<int, void (PluginManager::*)(QNetworkReply *,QPointer<QObject>)>    webServicesCallBacks;
-    QHash<int, void (PluginManager::*)(QFile *, void *, bool)>            streamServicesCallBacks;
+    QHash<int, void (PluginManager::*)(QPointer<QFile>, QPointer<QObject>, bool)>            streamServicesCallBacks;
 
     void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data);
 
     // FileDownloaderServiceUserInterface interface
-    void onDownloadFinished(QFile *, int requestId, void *data);
-    void onDownloadProgress(QFile *, int progress, int requestId, void *data);
-    void onDownloadStarted(QFile *, int requestId, void *data);
-    void onDownloadError(QFile *, int requestId, void *data);
+    void onDownloadFinished(QPointer<QFile>, int requestId, QPointer<QObject> data);
+    void onDownloadProgress(QPointer<QFile>, int progress, int requestId, QPointer<QObject> data);
+    void onDownloadStarted(QPointer<QFile>, int requestId, QPointer<QObject> data);
+    void onDownloadError(QPointer<QFile>, int requestId, QPointer<QObject> data);
 
     // CALLBACKS
     void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, QPointer<QObject> data);
     void checkForPluginsUpdatesCallBack(QNetworkReply *reply, QPointer<QObject> data);
-    void downloadPluginIndexCallBack(QFile *file, void *data, bool error = false);
-    void downloadPluginFileCallBack(QFile *file, void *data, bool error = false);
+    void downloadPluginIndexCallBack(QPointer<QFile> file, QPointer<QObject> data, bool error = false);
+    void downloadPluginFileCallBack(QPointer<QFile> file, QPointer<QObject> data, bool error = false);
 
 signals :
     void executeHttpRequest(const QNetworkRequest&,
@@ -140,10 +140,10 @@ signals :
     void executeFileDownloader(const QNetworkRequest,
                                Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                QHttpMultiPart *,
-                               QFile *,
-                               QObject* sender,
+                               QPointer<QFile>,
+                               QPointer<QObject> sender,
                                int requestId,
-                               void *data = NULL);
+                               QPointer<QObject> data = NULL);
 
 };
 }
