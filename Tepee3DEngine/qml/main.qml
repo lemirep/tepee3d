@@ -44,7 +44,12 @@ Viewport
     function postNotification(message)       {notification.sendMessage(message)}
 
 
-    Component.onCompleted:    {RoomManagement.initialize(camera, roomModel, currentRoomFacesModel); moveCameraToSkyView(); console.log("<><><><><>Width " + width + " Height " + height)}
+    Component.onCompleted:
+    {
+        RoomManagement.initialize(camera, roomModel, currentRoomFacesModel);
+        moveCameraToSkyView();
+        pluginMenuSource = "./Menus/SkyboxPicker.qml"
+    }
 
     onCurrentRoomIdChanged:
     {
@@ -57,7 +62,10 @@ Viewport
             light.position = room.roomPosition;
         }
         else
+        {
             light.position = Qt.vector3d(0, 0, 0);
+            pluginMenuSource = "./Menus/SkyboxPicker.qml"
+        }
         roomChanged(currentRoomId)
         currentRoomFaceId = 0;
     }
