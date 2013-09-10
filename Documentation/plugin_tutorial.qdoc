@@ -1,8 +1,160 @@
 /*!
  \page plugin_tutorial.html
- \title Tepee3D Widget Tutorial
+ \title Tepee3D Widget Tutorial-test ADDDDDD MODIFASDFASD
  A sample widget to get you started !
 
- \section1
+
+Welcome to this new tutorial about our project Tepee3D. The purpose of this article is to guide and show you how it is easily to create a plugin. We will take for exemple a watch plugins.  Before,  You should prepare your development environement by follow our link : http://tepee3d.dyndns.org/doc/how-to-plugins.html.
+
+    \table
+    \header
+        \li 3D
+        \li 2D
+    \row
+        \li \inlineimage ./images/pic1.png 3d view
+        \li \inlineimage ./images/pic2.png 2d view
+    \endtable
+
+ \section1 How to use  all environement of developement that provide tepee3d team.
+
+
+-Creation of your plugin  on Tepee3d website ;
+When your have create your account,  you have to go to account->widget->add a widget and you just have to fill a name, description and on witch platforms you want your plugins.  A git repository has been created with a preconfigured plugin (think to add your public ssh key in your account setting in order to have all acces to your repository ). You can also see some plugin informations like id(unique id in order to recognize your application), name of your sql database (it’s highly recommended to save your data here in tepee3d application for your plugins), plugin name and repository name
+
+
+
+\section2
+	Before to start, , you should have in your qt creator something like this :
+
+
+
+The fisrt thing to do is to declare your 3D model in  watchplugin.qml. In qml, you can use “ Item3d” witch is qml element specialy for 3d model.  a  Now when an user calls your plugin (in the left menu of tepee3d), a 3d watch appears in the room. In this element, you can specify scale , positions,  source of your 3d model , etc.
+\code
+
+  Item3D
+    {
+        id : modelAlarm
+        mesh: Mesh { source: "./AlarmClock-2.dae" }
+        scale : 5
+        position : Qt.vector3d(-4, 2, 7)
+        transform : [Rotation3D { angle : 180; axis : Qt.vector3d(1, 0, 0)}]
+
+     }
+\endcode
+
+The second important element to declare is a “pathview” and his “delegate”witch is use when  watchplugin is focused by application. it’s this list of clock you can see below. In this exemple , “Pathview” and “Path” are  group in “listview_contenair”
+
+
+picture watch list
+
+\code
+
+    Item {
+        id : listview_container
+        visible  : isFocused
+        width: mainWindow.width / 1.4
+        height: 250
+        x : (mainWindow.width / 8)
+        y : (mainWindow.height / 4)
+        PathView {
+            id: view
+            model:  watch_plugin.getClockModel();
+            delegate: ClockDelegate
+            {
+            clockId     : model.clockId
+            clockCity   : model.clockCity
+            clockUtc    : model.clockUtc
+        }
+\endcode
+
+
+
+This is path description
+\code
+
+        path: Path {
+            startX: 0; startY: 0
+            PathQuad { x:listview_container.width ; y: 0; controlX: (listview_container.width / 2); controlY: (listview_container.height /2) }
+            }
+        }
+
+\endcode
+
+
+The other qml that you can find in source of this exemple like clock.qml or addBox are  different description of object that you can see in the plugin
+
+
+exemple  : the remove box is decribe like this  in qml  :
+
+\code
+
+Rectangle
+{
+    height : parent.height / 8
+    width:  parent.width / 8
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
+    scale : remove_ma.pressed ? 0.9 : 1.0
+    Text
+    {
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        text:"Remove " + watch_plugin.currentItemChangedCity
+    }
+    MouseArea{
+        id : remove_ma
+        anchors.fill: parent
+        onClicked:
+        {
+            watch_plugin.deleteClockDB(watch_plugin.getCurrentId());
+            watch_plugin.reInitModel();
+            watch_plugin.pluginState = "clocks_view"
+        }
+    }
+}
+\endcode
+
+\section3
+Now, we have seen all about front office of this plugin by qml. we will see back office by cpp file.
+
+You should complete  this different methods with information you have  received when you have created plugins , in our case :
+
+ \code
+
+int WatchPlugin::getPluginId() const
+{
+    return 34;
+}
+
+QString     WatchPlugin::getPluginName() const
+{
+    return QString("WatchPlugin");
+}
+
+QString WatchPlugin::getPluginRepoName() const
+{
+    return QString("watch_plugin");
+}
+/endcode
+
+With clocklistitem.cpp, we have create a way to plugin back office  to have acces to qml listview in order to add or remove clock easily. In order to realy understand why it’s so usefull, i will take this example : When  user adds a clock from paris and london, he wants retreived  them the next time  he launh this plugins. For this we saved in database by using .  So we plugin is launched, function retreive this clock and add them. This object is created like this
+this->clockModel = new Models::ListModel(new ClockListItem());
+To add a clock
+ ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(1).toDouble(),record.value(2).toString());
+            this->clockModel->appendRow(clock);
+
+
+Now you hace seen all the important point about this plugins, For more details, you can download source available.
+
+
+Watch Plugin is finished now, but we have a big issue, this   plugin is available only on the platforms where you develop it. Now you should compile for all pthetr plaform and it will take a lot of hour  …  or you just have to use our solution of remote compilation. Go to account->widget->developement. Choose all platforms where you want  your application () android, linux, windows , qnx ….) and click on Build . A remote compilation is launched on tepee3d server.  You can follow your compilation and your build log and YES , it is the only thing you have to do.
+
+
+
+
+
+
+
+
 
 */
