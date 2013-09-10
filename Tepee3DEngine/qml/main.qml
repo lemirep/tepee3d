@@ -132,7 +132,7 @@ Viewport
     //    Keys.onUpPressed:    {}
     //    Keys.onDownPressed:    {}
 
-    Skybox            {source : "Resources/Textures/skyboxes/" + roomManager.skyboxPath}
+    Skybox            {source : "Resources/Textures/skyboxes/" + ((roomManager.skyboxPath == "") ? "bridge" : roomManager.skyboxPath)}
     RoomsContainer    {id : roomContainer}
     NotificationManager    {id : notification}
     FpsCounter {}

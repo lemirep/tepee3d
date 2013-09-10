@@ -1,6 +1,7 @@
 #ifndef FILEDOWNLOADLIBRARY_H
 #define FILEDOWNLOADERLIBRARY_H
 
+#include <QPointer>
 #include <QDebug>
 #include <QList>
 #include <QNetworkAccessManager>
