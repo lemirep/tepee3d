@@ -1,34 +1,34 @@
 /*!
  \page plugin_tutorial.html
- \title Tepee3D Widget Tutorial-test ADDDDDD MODIFASDFASD
+ \title Tepee3D Widget Tutorial
  A sample widget to get you started !
 
 
-Welcome to this new tutorial about our project Tepee3D. The purpose of this article is to guide and show you how it is easily to create a plugin. We will take for exemple a watch plugins.  Before,  You should prepare your development environement by follow our link : http://tepee3d.dyndns.org/doc/how-to-plugins.html.
+Welcome to this new tutorial about our project Tepee3D. The purpose of this article is to guide and show you how it is easy to create a plugin. We will take for example a watch plugins.  Before,  You should prepare your development environment \l {http://tepee3d.dyndns.org/doc/how-to-plugins.html} {here}.
 
     \table
     \header
         \li 3D
         \li 2D
     \row
-        \li \inlineimage ./images/pic1.png 3d view
-        \li \inlineimage ./images/pic2.png 2d view
+        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic2.png 3d view
+        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic1.png 2d view
     \endtable
 
- \section1 How to use  all environement of developement that provide tepee3d team.
+ \section1 Creation of your plugin on Tepee3d website
+ How to use  all environment of development that provide tepee3d team.
 
-
--Creation of your plugin  on Tepee3d website ;
-When your have create your account,  you have to go to account->widget->add a widget and you just have to fill a name, description and on witch platforms you want your plugins.  A git repository has been created with a preconfigured plugin (think to add your public ssh key in your account setting in order to have all acces to your repository ). You can also see some plugin informations like id(unique id in order to recognize your application), name of your sql database (it’s highly recommended to save your data here in tepee3d application for your plugins), plugin name and repository name
-
-
-
-\section2
-	Before to start, , you should have in your qt creator something like this :
+When your have created your account,  you have to go to account->widget->add a widget and you just have to fill a name, description and on which platforms you want your plugins.  A git repository has been created with a preconfigured plugin (think to add your public ssh key in your account setting in order to have all access to your repository ). You can also see some plugin information like id(unique id in order to recognize your application), name of your SQL database (it’s highly recommended to save your data here in tepee3d application for your plugins), plugin name and repository name
 
 
 
-The fisrt thing to do is to declare your 3D model in  watchplugin.qml. In qml, you can use “ Item3d” witch is qml element specialy for 3d model.  a  Now when an user calls your plugin (in the left menu of tepee3d), a 3d watch appears in the room. In this element, you can specify scale , positions,  source of your 3d model , etc.
+\section2 First step : Front office
+	Before starting, you should have in your qt creator something like this :
+     \inlineimage /home/exploit/tepee3d/Documentation/images/pic3.png qt creator menu
+
+
+
+The first thing to do is to declare your 3D model in  watchplugin.qml. In qml, you can use “ Item3d” which is qml element especially for 3d model. Now when a user calls your plugin (in the left menu of tepee3d), a 3d watch appears in the room. In this element, you can specify scale , positions,  source of your 3d model , etc.
 \code
 
   Item3D
@@ -42,10 +42,10 @@ The fisrt thing to do is to declare your 3D model in  watchplugin.qml. In qml, y
      }
 \endcode
 
-The second important element to declare is a “pathview” and his “delegate”witch is use when  watchplugin is focused by application. it’s this list of clock you can see below. In this exemple , “Pathview” and “Path” are  group in “listview_contenair”
+The second important element to declare is a “pathview” and his “delegate” which is use when  watchplugin is focused by application. it’s this list of clock you can see below. In this example , “Pathview” and “Path” are  grouped in “listview_contenair”
 
+     \inlineimage /home/exploit/tepee3d/Documentation/images/pic4.png
 
-picture watch list
 
 \code
 
@@ -81,10 +81,10 @@ This is path description
 \endcode
 
 
-The other qml that you can find in source of this exemple like clock.qml or addBox are  different description of object that you can see in the plugin
+The other qml that you can find in the source of this example like clock.qml or addBox are  different descriptions of an object that you can see in the plugin
 
 
-exemple  : the remove box is decribe like this  in qml  :
+example  : the remove box is decribed like this  in qml  :
 
 \code
 
@@ -114,10 +114,10 @@ Rectangle
 }
 \endcode
 
-\section3
+\section3 Second step  : Back office
 Now, we have seen all about front office of this plugin by qml. we will see back office by cpp file.
 
-You should complete  this different methods with information you have  received when you have created plugins , in our case :
+You should complete  these different methods with information you have  received when you have created plugins , in our case :
 
  \code
 
@@ -137,17 +137,24 @@ QString WatchPlugin::getPluginRepoName() const
 }
 /endcode
 
-With clocklistitem.cpp, we have create a way to plugin back office  to have acces to qml listview in order to add or remove clock easily. In order to realy understand why it’s so usefull, i will take this example : When  user adds a clock from paris and london, he wants retreived  them the next time  he launh this plugins. For this we saved in database by using .  So we plugin is launched, function retreive this clock and add them. This object is created like this
+With clocklistitem.cpp, we have created a way to plugin back office  to have access to qml listview in order to add or remove clock easily. In order to really understand why it’s so useful, i will take this example : When  a user adds a clock from Paris and London, he wants to retreive  them the next time  he launches this plugins. For this we saved in the database by using clocklistitem.  So our plugin is launched, the function retreives this clock and add them. This object is created like this
+\code
 this->clockModel = new Models::ListModel(new ClockListItem());
-To add a clock
+\endcode
+Add a clock :
+\code
  ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(1).toDouble(),record.value(2).toString());
             this->clockModel->appendRow(clock);
+\endcode
+
+\section4 Deployment
+Now you have seen all the important point about this plugins, For more details, you can download source available.
 
 
-Now you hace seen all the important point about this plugins, For more details, you can download source available.
+Watch Plugin is finished now, but we have a big issue, this   plugin is available only on the platforms where you develop it. Now you should compile for all plaforms and it will take a lot of hours  …  or you just have to use our solution of remote compilation. Go to account->widget->development. Choose all platforms where you want  your application () android, Linux, Windows , Qnx ….) and click on Build . A remote compilation is launched on tepee3d server.  You can follow your compilation and your build log and YES , it is the only thing you have to do.
 
-
-Watch Plugin is finished now, but we have a big issue, this   plugin is available only on the platforms where you develop it. Now you should compile for all pthetr plaform and it will take a lot of hour  …  or you just have to use our solution of remote compilation. Go to account->widget->developement. Choose all platforms where you want  your application () android, linux, windows , qnx ….) and click on Build . A remote compilation is launched on tepee3d server.  You can follow your compilation and your build log and YES , it is the only thing you have to do.
+        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic4.png
+        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic5.png
 
 
 
