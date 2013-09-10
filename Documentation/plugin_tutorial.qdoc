@@ -135,7 +135,7 @@ QString WatchPlugin::getPluginRepoName() const
 {
     return QString("watch_plugin");
 }
-/endcode
+\endcode
 
 With clocklistitem.cpp, we have created a way to plugin back office  to have access to qml listview in order to add or remove clock easily. In order to really understand why it’s so useful, i will take this example : When  a user adds a clock from Paris and London, he wants to retreive  them the next time  he launches this plugins. For this we saved in the database by using clocklistitem.  So our plugin is launched, the function retreives this clock and add them. This object is created like this
 \code
@@ -143,8 +143,7 @@ this->clockModel = new Models::ListModel(new ClockListItem());
 \endcode
 Add a clock :
 \code
- ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(1).toDouble(),record.value(2).toString());
-            this->clockModel->appendRow(clock);
+ ClockListItem *clock = new ClockListItem(record.value(0).toInt(), record.value(1).toDouble(),record.value(2).toString());this->clockModel->appendRow(clock);
 \endcode
 
 \section4 Deployment
