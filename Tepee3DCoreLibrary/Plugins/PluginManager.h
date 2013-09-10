@@ -137,13 +137,13 @@ signals :
                             QPointer<QObject> sender,
                             int requestId,
                             QPointer<QObject> data = QPointer<QObject>());
-    void executeFileDownloader(const QNetworkRequest,
+    void executeFileDownloader(const QNetworkRequest&,
                                Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
                                QHttpMultiPart *,
                                QPointer<QFile>,
-                               QPointer<QObject> sender,
-                               int requestId,
-                               QPointer<QObject> data = NULL);
+                               QPointer<QObject>,
+                               int,
+                               QPointer<QObject> = QPointer<QObject>());
 
 };
 }
