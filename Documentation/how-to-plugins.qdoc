@@ -112,7 +112,7 @@ QString YourClass::getRoomPluginQmlFile() const
 \section2
 
 \section1
-If you'd like to get to the practice now, follow the \l Tepee3D Widget Tutorial
+If you'd like to get to the practice now, click \l {Tepee3D Widget Tutorial} {here}
 
 \section1 Plugins examples
 Several plugins have already been developped and might help you with yours.
