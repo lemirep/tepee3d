@@ -114,6 +114,7 @@ void ManageBDD::copyDatabaseToWritableDirectory(const QString &dbName)
     }
     else
         qDebug() << "File already exists";
+    dbFile.setPermissions(QFile::ReadOwner|QFile::WriteOwner);
     // OPENED DB PATH IS SAVED IN HASH
     this->nameToPathHash[dbName] = dbFile.fileName();
     this->localDBName = this->nameToPathHash[dbName];
