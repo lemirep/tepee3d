@@ -39,10 +39,11 @@
 #include <PluginModelItem.h>
 #include <PluginOnlineModelItem.h>
 #include <ListItem.h>
-#include "PluginLoader.h"
-#include "PluginQmlPluginProperties.h"
-#include "QmlViewProperties.h"
-#include "ServicesManager.h"
+#include <PluginDownloader.h>
+#include <PluginLoader.h>
+#include <PluginQmlPluginProperties.h>
+#include <QmlViewProperties.h>
+#include <ServicesManager.h>
 
 
 // PLUGINS IN THE LOCAL DIRECTORY ARE ALL LOADED ON STARTUP
@@ -63,28 +64,22 @@
 #define GET_PLUGINS_UPDATES 1
 #define STREAM_PLUGIN 3
 #define DOWNLOAD_FILE 4
-#define DOWNLOAD_PLUGIN_INDEX 5
-#define DOWNLOAD_PLUGIN_FILE 6
 #define TEPEE3D_ONLINE_API "http://tepee3d.dyndns.org/api/v1/"
-#define TEPEE3D_WIDGETS_STORE "http://tepee3d.dyndns.org/builds/"
 #define PLUGINS_QML_DIR "plugin_qml"
 
 namespace Plugins
 {
 class PluginManager : public QObject,
         public View::QmlContentExposerInterface,
-        public Services::WebServiceUserInterface,
-        public Services::FileDownloaderServiceUserInterface
+        public Services::WebServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(View::QmlContentExposerInterface)
     Q_INTERFACES(Services::WebServiceUserInterface)
-    Q_INTERFACES(Services::FileDownloaderServiceUserInterface)
 
 public:
     ~PluginManager();
 
-    void                        loadLocalPlugins();
     void                        exposeContentToQml(QQmlContext *context);
 
     static PluginManager*       getInstance(QObject *parent = 0);
@@ -96,7 +91,7 @@ public:
     // WEB SERVICES
     void                        retrieveOnlinePluginsForCurrentPlatform();
     void                        checkForPluginsUpdates();
-    // FILE DOWNLOADER SERVICE
+
     Q_INVOKABLE void            downloadPluginFromServer(int pluginId);
 
     //MODELS
@@ -106,6 +101,8 @@ public:
     // UTILITY METHOD
     Q_INVOKABLE void            removeDownloadedPlugin(int pluginId);
 
+public slots:
+    void                        loadLocalPlugins();
 
 private:
 
@@ -113,22 +110,16 @@ private:
     static PluginManager*               instance;
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;
+
+    PluginDownloader* pluginDownloader;
+
     QHash<int, void (PluginManager::*)(QNetworkReply *,QPointer<QObject>)>    webServicesCallBacks;
-    QHash<int, void (PluginManager::*)(QPointer<QFile>, QPointer<QObject>, bool)>            streamServicesCallBacks;
 
     void  receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data);
-
-    // FileDownloaderServiceUserInterface interface
-    void onDownloadFinished(QPointer<QFile>, int requestId, QPointer<QObject> data);
-    void onDownloadProgress(QPointer<QFile>, int progress, int requestId, QPointer<QObject> data);
-    void onDownloadStarted(QPointer<QFile>, int requestId, QPointer<QObject> data);
-    void onDownloadError(QPointer<QFile>, int requestId, QPointer<QObject> data);
 
     // CALLBACKS
     void retrieveOnlinePluginsForCurrentPlatformCallBack(QNetworkReply *reply, QPointer<QObject> data);
     void checkForPluginsUpdatesCallBack(QNetworkReply *reply, QPointer<QObject> data);
-    void downloadPluginIndexCallBack(QPointer<QFile> file, QPointer<QObject> data, bool error = false);
-    void downloadPluginFileCallBack(QPointer<QFile> file, QPointer<QObject> data, bool error = false);
 
 signals :
     void executeHttpRequest(const QNetworkRequest&,
@@ -137,13 +128,6 @@ signals :
                             QPointer<QObject> sender,
                             int requestId,
                             QPointer<QObject> data = QPointer<QObject>());
-    void executeFileDownloader(const QNetworkRequest&,
-                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                               QHttpMultiPart *,
-                               QPointer<QFile>,
-                               QPointer<QObject>,
-                               int,
-                               QPointer<QObject> = QPointer<QObject>());
 
 };
 }

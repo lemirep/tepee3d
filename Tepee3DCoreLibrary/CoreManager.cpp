@@ -111,10 +111,7 @@ QObject *CoreManager::getObject()
  * the Room Manager, the Plugin Manager and the View.
  */
 CoreManager::~CoreManager()
-{
-    Services::ServicesManager::disconnectObjectFromServices(this->pluginsManager);
-    Services::ServicesManager::disconnectObjectFromServices(this->roomManager);
-    Services::ServicesManager::disconnectObjectFromServices(this->servicesManager);
+{  
 }
 
 QString CoreManager::getCoreVersion()
@@ -169,6 +166,9 @@ bool    CoreManager::initView()
 void CoreManager::cleanBeforeClosing()
 {
     qDebug() << "CLEANING BEFORE CLOSING";
+    Services::ServicesManager::disconnectObjectFromServices(this->pluginsManager);
+    Services::ServicesManager::disconnectObjectFromServices(this->roomManager);
+    Services::ServicesManager::disconnectObjectFromServices(this->servicesManager);
     delete this->viewProperties;
     delete this->roomManager;
     delete this->pluginsManager;

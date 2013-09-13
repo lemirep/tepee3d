@@ -51,18 +51,18 @@ bool  FileDownloaderLibrary::disconnectServiceFromUser(QObject *user)
     if (qobject_cast<Services::FileDownloaderServiceUserInterface*>(user) != NULL)
         return QObject::disconnect(user, SIGNAL(executeFileDownloader(const QNetworkRequest&,
                                                                       Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                      QHttpMultiPart *multiPart,
+                                                                      QHttpMultiPart *,
                                                                       QPointer<QObject>,
-                                                                      QPointer<QObject> sender,
-                                                                      int requestId,
-                                                                      QPointer<QObject>data)),
+                                                                      QPointer<QObject>,
+                                                                      int ,
+                                                                      QPointer<QObject>)),
                                    this, SLOT(executeFileDownloader(const QNetworkRequest&,
                                                                     Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                    QHttpMultiPart *multiPart,
+                                                                    QHttpMultiPart *,
                                                                     QPointer<QFile>,
-                                                                    QPointer<QObject> sender,
-                                                                    int requestId,
-                                                                    QPointer<QObject>data)));
+                                                                    QPointer<QObject>,
+                                                                    int ,
+                                                                    QPointer<QObject>)));
     qWarning() << "Object does not implement FileDownloaderServiceUserInterface";
     return false;
 }
