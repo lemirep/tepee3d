@@ -275,10 +275,12 @@ Plugins::PluginManager::~PluginManager()
     delete this->onlineAvailablePluginsModel;
     Plugins::PluginManager::locallyAvailablePluginsModel = NULL;
     Plugins::PluginManager::onlineAvailablePluginsModel = NULL;
-    Plugins::PluginManager::instance = NULL;
     Plugins::PluginLoader::unloadPlugins();
+
     Services::ServicesManager::disconnectObjectFromServices(this->pluginDownloader);
     delete this->pluginDownloader;
+
+    Plugins::PluginManager::instance = NULL;
 }
 
 /*!

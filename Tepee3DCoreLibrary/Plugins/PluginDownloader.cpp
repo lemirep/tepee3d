@@ -39,7 +39,7 @@ Plugins::PluginDownloader* Plugins::PluginDownloader::instance = NULL;
  */
 Plugins::PluginDownloader::~PluginDownloader()
 {
-
+    Plugins::PluginDownloader::instance = NULL;
 }
 
 /*!
