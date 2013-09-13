@@ -30,7 +30,7 @@ private :
     QString         previousDbName;
     QString         field;
     QString         username;
-    QSqlDatabase    dataBase;
+    QSqlDatabase    *dataBase;
     QList<QString>  fieldName ;
     QList<QString>  value;
     QString         applicationPath;

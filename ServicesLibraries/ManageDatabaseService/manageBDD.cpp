@@ -25,8 +25,8 @@
  */
 ManageBDD::ManageBDD() : QObject()
 {
-    this->dataBase = QSqlDatabase::addDatabase("QSQLITE");
-    qDebug() << "DB CONNECTION VALID ? " << this->dataBase.isValid();
+    this->dataBase = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+    qDebug() << "DB CONNECTION VALID ? " << this->dataBase->isValid();
     this->applicationPath = QCoreApplication::applicationDirPath();
     this->localDBName = "";
     this->databasePath = "";
@@ -38,9 +38,12 @@ ManageBDD::ManageBDD() : QObject()
  */
 ManageBDD::~ManageBDD()
 {
-    if (this->dataBase.isOpen())
-        this->dataBase.close();
-    this->dataBase.removeDatabase(this->dataBase.connectionName());
+    if (this->dataBase->isOpen())
+        this->dataBase->close();
+    QString connectionName = this->dataBase->connectionName();
+//    delete &this->dataBase;
+    delete this->dataBase;
+    QSqlDatabase::removeDatabase(connectionName);
 }
 
 /*!
@@ -78,14 +81,14 @@ bool ManageBDD::openDatabase(const QString& dbName)
     }
 
     qDebug() << localDBName;
-    this->dataBase.setHostName("localhost");
-    this->dataBase.setDatabaseName(localDBName);
+    this->dataBase->setHostName("localhost");
+    this->dataBase->setDatabaseName(localDBName);
 
     // THE DATABASE IS NOW CONTAINED IN THE TEPEE3DENGINE
     // THIS ALLOWS US TO PROVIDE A DATABASE SCHEMA WITHOUT HAVING TO
     // CREATE IT ON THE FIRST BOOT
     qDebug() << "Trying to open db";
-    bool value = this->dataBase.open();
+    bool value = this->dataBase->open();
     qDebug() << "Database open " << value;
     return value;
 }
@@ -130,16 +133,16 @@ void ManageBDD::executeSQLQuery(const QString& query, QObject *sender, int id, c
     QList<QSqlRecord> results;
     if (dbName != this->previousDbName)
     {
-        this->dataBase.close();
+        this->dataBase->close();
         this->openDatabase(dbName);
         this->previousDbName = dbName;
-        QSqlQuery sqlQuery(this->dataBase);
+        QSqlQuery sqlQuery(*this->dataBase);
         sqlQuery.exec("PRAGMA synchronous=OFF;");
     }
-    if (this->dataBase.isOpen())
+    if (this->dataBase->isOpen())
     {
         qDebug() << "Received query : {" << query << "}";
-        QSqlQuery sqlQuery(this->dataBase);
+        QSqlQuery sqlQuery(*this->dataBase);
         sqlQuery.prepare(query);
         if (!sqlQuery.exec())
             qDebug() << "YOU SHOULD CHECK YOUR QUERY";
