@@ -11,7 +11,7 @@ message($$QMAKESPEC)
 CONFIG += ordered
 
 # FOR LOG ON WINDOWS
-windows {
+win32:win64 {
 CONFIG += console
 }
 

@@ -112,10 +112,9 @@ QObject *CoreManager::getObject()
  */
 CoreManager::~CoreManager()
 {
-    delete this->servicesManager;
-    delete this->roomManager;
-    delete this->pluginsManager;
-    delete this->viewProperties;
+    Services::ServicesManager::disconnectObjectFromServices(this->pluginsManager);
+    Services::ServicesManager::disconnectObjectFromServices(this->roomManager);
+    Services::ServicesManager::disconnectObjectFromServices(this->servicesManager);
 }
 
 QString CoreManager::getCoreVersion()

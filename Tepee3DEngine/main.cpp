@@ -31,14 +31,15 @@
 #include <QFile>
 #include <QDebug>
 #include <QUrl>
+#include <QScopedPointer>
 #include <CoreLibraryInterface.h>
 
 #define CORE_LIBRARY_DIRECTORY "libraries/core"
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
-    QGuiApplication *app = new QGuiApplication(argc, argv);
-    CoreLibraryInterface *coreEngine = NULL;
+    QScopedPointer<QGuiApplication> app(new QGuiApplication(argc, argv));
+    CoreLibraryInterface* coreEngine = NULL;
     QDir libDir;
     QPluginLoader loader;
 
@@ -58,11 +59,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 #endif
 
     qDebug() << "Trying to load Core Library";
+
     if ((coreEngine = qobject_cast<CoreLibraryInterface *>(loader.instance())) != NULL)
     {
         qDebug() << "Core Library Loaded";
         coreEngine->initCoreEngine();
-        QObject::connect(coreEngine->getObject(), SIGNAL(quit()), app, SLOT(quit()));
+        QObject::connect(coreEngine->getObject(), SIGNAL(quit()), app.data(), SLOT(quit()));
     }
     else
     {
