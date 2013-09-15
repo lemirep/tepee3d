@@ -36,12 +36,12 @@ private :
 
 private slots:
     void                    executeFileDownloader(const QNetworkRequest&,
-                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                               QHttpMultiPart *multiPart,
-                               QPointer<QFile>,
-                               QPointer<QObject> sender,
-                               int requestId,
-                               QPointer<QObject> data);
+                                                  Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
+                                                  int requestId,
+                                                  QPointer<QFile>,
+                                                  QPointer<QObject> sender,
+                                                  QHttpMultiPart *multiPart,
+                                                  QPointer<QObject> data);
 
 private:
     static  QNetworkAccessManager*  instance;

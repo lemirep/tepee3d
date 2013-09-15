@@ -27,17 +27,17 @@ bool  FileDownloaderLibrary::connectServiceToUser(QObject *user)
     if (qobject_cast<Services::FileDownloaderServiceUserInterface*>(user) != NULL)
         return QObject::connect(user, SIGNAL(executeFileDownloader(const QNetworkRequest&,
                                                                    Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                   QHttpMultiPart *,
+                                                                   int,
                                                                    QPointer<QFile>,
                                                                    QPointer<QObject>,
-                                                                   int,
+                                                                   QHttpMultiPart *,
                                                                    QPointer<QObject>)),
                                 this, SLOT(executeFileDownloader(const QNetworkRequest&,
                                                                  Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                 QHttpMultiPart *,
+                                                                 int ,
                                                                  QPointer<QFile>,
                                                                  QPointer<QObject>,
-                                                                 int ,
+                                                                 QHttpMultiPart *,
                                                                  QPointer<QObject>)));
     qWarning() << "Object does not implement FileDownloaderServiceUserInterface";
     return false;
@@ -50,19 +50,19 @@ bool  FileDownloaderLibrary::disconnectServiceFromUser(QObject *user)
 {
     if (qobject_cast<Services::FileDownloaderServiceUserInterface*>(user) != NULL)
         return QObject::disconnect(user, SIGNAL(executeFileDownloader(const QNetworkRequest&,
-                                                                   Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                   QHttpMultiPart *,
-                                                                   QPointer<QFile>,
-                                                                   QPointer<QObject>,
-                                                                   int,
-                                                                   QPointer<QObject>)),
-                                this, SLOT(executeFileDownloader(const QNetworkRequest&,
-                                                                 Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                                                                 QHttpMultiPart *,
-                                                                 QPointer<QFile>,
-                                                                 QPointer<QObject>,
-                                                                 int ,
-                                                                 QPointer<QObject>)));
+                                                                      Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
+                                                                      int,
+                                                                      QPointer<QFile>,
+                                                                      QPointer<QObject>,
+                                                                      QHttpMultiPart *,
+                                                                      QPointer<QObject>)),
+                                   this, SLOT(executeFileDownloader(const QNetworkRequest&,
+                                                                    Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
+                                                                    int ,
+                                                                    QPointer<QFile>,
+                                                                    QPointer<QObject>,
+                                                                    QHttpMultiPart *,
+                                                                    QPointer<QObject>)));
     qWarning() << "Object does not implement FileDownloaderServiceUserInterface";
     return false;
 }
@@ -134,10 +134,10 @@ void FileDownloaderLibrary::executeFileDownload(FileDownloadJob *currentJob,
 
 void FileDownloaderLibrary::executeFileDownloader(const QNetworkRequest &request,
                                                   Services::FileDownloaderServiceUserInterface::FileDownloadRequestType requestType,
-                                                  QHttpMultiPart *multiPart,
+                                                  int requestId,
                                                   QPointer<QFile> file,
                                                   QPointer<QObject> sender,
-                                                  int requestId,
+                                                  QHttpMultiPart *multiPart,
                                                   QPointer<QObject> data)
 {
     FileDownloadJob *newJob = new FileDownloadJob(file,

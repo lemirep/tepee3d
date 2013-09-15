@@ -115,7 +115,7 @@
 
  \section1 Filling the class
 
- Now that the project is correctly configured we can focus on filling our class.
+ Now that the project is correctly configured we can focus on filling our class with the service logic.
 
  \section2 The Header File
  We will first fill the header file and then pursue with the source file.
@@ -154,7 +154,7 @@
  \section2 The Service User Interface
 
  In order to ensure that the objects that will be registering to our service have
- the necessary methods, you should create an interface file for your Service.
+ the necessary methods and signals, you should create an interface file for your Service.
 
  This file should directly be inserted in the Tepee3D Services include directory which
  is located at DevelopmentFiles/Services/.
@@ -168,11 +168,17 @@
  #ifndef EXAMPLESERVICEUSERINTERFACE_H
  #define EXAMPLESERVICEUSERINTERFACE_H
 
+ #include <QPointer>
+ #include <QObject>
+
  namespace Services
  {
  class   ExampleServiceUserInterface
  {
  public :
+    virtual void exampleServiceCallBack() = 0;
+    // SIGNAL
+    virtual void callExampleServiceSignal(QPointer<QObject> sender) = 0;
 
  };
  }
@@ -195,13 +201,35 @@
 
  \section2 Service Signals
 
- Moreover, you should document the SIGNALS used to make a request to your Service.
- Comment in the interface are sufficient thought a declaration in the interface would be better
- but impossible as an Interface cannot inherit from QObject. Therefore comments are the only
- available option.
+ Moreover, you should document the SIGNALS used to call or to make a request to your Service.
+ The signal can only be declared as a pure virtual method in the interface. At least this ensures that the classes that will
+ implement the interface will have to declare properly the method. However, the method should be implemented as a signal and not a simple public method.
+
+ \code
+
+ #include <ExampleServiceUserInterface>
+
+ class   MyServiceUser : public QObject,
+                         public ExampleServiceUserInterface
+ {
+ Q_OBJECT
+ Q_INTERFACES(Services::ExampleServiceUserInterface)
+ public :
+    MyServiceUser(QObject *parent);
+    ~MyServiceUser();
+    ...
+    void exampleServiceCallBack();
+ signals:
+    // SIGNAL TO CALL SERVICE
+    virtual void callExampleServiceSignal(QPointer<QObject> sender) = 0;
+
+ };
+ }
+
+ \endcode
 
  \section2 The Source File
- Once our header file and our interface have been properly created we can fill the class source file.
+ Once our header file and our interface have been properly created we can fill the service class' source file.
  A minimum source file should look like the one below :
 
  \code
@@ -222,6 +250,7 @@
     if (qobject_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
     {
         // DO SIGNAL CONNECTIONS HERE
+        // CONNECT callExampleServiceSignal(QPointer<QObject> sender)
         ...
     }
  }
@@ -232,6 +261,7 @@
     if (qobject_cast<Services::ExampleServiceUserInterface*>(user) != NULL)
     {
         // DO SIGNAL DISCONNECTION HERE
+        // DISCONNECT callExampleServiceSignal(QPointer<QObject> sender)
         ...
     }
  }

@@ -91,7 +91,8 @@
          void                       receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data);
 
     signals :
-         void                       executeSQLQuery(const QString &query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data = QPointer<QObject>());
+         void                       executeSQLQuery(const QString &query, QPointer<QObject> sender,
+                                                    int id, const QString &dbName, QPointer<QObject> data = QPointer<QObject>());
     };
  }
 

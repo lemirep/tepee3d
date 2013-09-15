@@ -168,7 +168,10 @@ void    Room::RoomLoader::restoreRoomsCallback(QList<QSqlRecord> result, QPointe
             Room::RoomManager::addRoomToModel(newroom);
             // ADD ALL PLUGINS OF THE ROOM
             emit executeSQLQuery(Plugins::PluginLoader::loadAllPluginForRoom(newroom),
-                                 this, RESTORE_PLUGINS_TO_ROOM, DB_NAME, QPointer<QObject>(newroom));
+                                 QPointer<QObject>(this),
+                                 RESTORE_PLUGINS_TO_ROOM,
+                                 QString(DB_NAME),
+                                 QPointer<QObject>(newroom));
         }
     }
 }
@@ -199,7 +202,7 @@ void    Room::RoomLoader::updateExistingRoom(Room::RoomBase *room)
                  QString::number(room->getScale().y()),
                  QString::number(room->getScale().z()),
                  Utils::escapeSqlQuery(room->getRoomName()));
-    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME);
+    emit executeSQLQuery(request, QPointer<QObject>(this), GENERIC_RESULT, DB_NAME);
     this->insertOrReplacePluginsForRoom(room);
 }
 
@@ -218,32 +221,32 @@ void    Room::RoomLoader::insertNewRoom(Room::RoomBase *room)
                  QString::number(room->getScale().x()),
                  QString::number(room->getScale().y()),
                  QString::number(room->getScale().z()));
-    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME);
+    emit executeSQLQuery(request, QPointer<QObject>(this), GENERIC_RESULT, DB_NAME);
     this->insertOrReplacePluginsForRoom(room);
 }
 
 void Room::RoomLoader::insertOrReplacePluginsForRoom(Room::RoomBase *room)
 {
     emit executeSQLQuery(Plugins::PluginLoader::removeAllPluginsFromRoom(room),
-                         this, GENERIC_RESULT, DB_NAME);
+                         QPointer<QObject>(this), GENERIC_RESULT, DB_NAME);
     foreach (Models::ListItem *pluginItem, room->getRoomPluginsModel()->toList())
     {
         Plugins::PluginBase *plugin = NULL;
         if ((plugin = reinterpret_cast<Models::PluginModelItem *>
              (pluginItem)->getPlugin()) != NULL)
             emit executeSQLQuery(Plugins::PluginLoader::addOrReplacePluginImpl(
-                                     plugin, room), this, GENERIC_RESULT, DB_NAME);
+                                     plugin, room), QPointer<QObject>(this), GENERIC_RESULT, DB_NAME);
     }
 }
 
 void    Room::RoomLoader::restoreRooms()
 {
-    emit executeSQLQuery("SELECT * FROM room;", this, RESTORE_ROOMS, DB_NAME, NULL);
+    emit executeSQLQuery("SELECT * FROM room;", QPointer<QObject>(this), RESTORE_ROOMS, DB_NAME, NULL);
 }
 
 void Room::RoomLoader::restoreSkyboxPath()
 {
-    emit executeSQLQuery("SELECT skybox_path FROM skybox_properties WHERE id=0;", this, RESTORE_SKYBOX, DB_NAME, NULL);
+    emit executeSQLQuery("SELECT skybox_path FROM skybox_properties WHERE id=0;", QPointer<QObject>(this), RESTORE_SKYBOX, DB_NAME, NULL);
 }
 
 void Room::RoomLoader::saveSkyboxPath(const QString &skyboxPath)
@@ -251,12 +254,12 @@ void Room::RoomLoader::saveSkyboxPath(const QString &skyboxPath)
     QString query = QString("INSERT OR REPLACE INTO skybox_properties (id, skybox_path) VALUES (%1, '%2');")
             .arg(QString::number(0),
                  skyboxPath);
-    emit executeSQLQuery(query, this, GENERIC_RESULT, DB_NAME);
+    emit executeSQLQuery(query, QPointer<QObject>(this), GENERIC_RESULT, DB_NAME);
 }
 
 void    Room::RoomLoader::deleteRoom(Room::RoomBase *room)
 {
     QString request = QString("DELETE FROM room WHERE name = '%1';")
             .arg(Utils::escapeSqlQuery(room->getRoomName()));
-    emit executeSQLQuery(request, this, GENERIC_RESULT, DB_NAME, NULL);
+    emit executeSQLQuery(request, QPointer<QObject>(this), GENERIC_RESULT, DB_NAME, NULL);
 }

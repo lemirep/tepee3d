@@ -6,7 +6,7 @@ Target many platforms without worrying about deployment. Develop a full applicat
 \section1 Getting the Tepee3D Plugins API files
 If you want to create your widget, create and account and in your profile, select the widgets page.
 There, you'll be able to create a new Tepee3D widget by providing a name, a description and the supported platforms you
-which to target.
+wish to target.
 
 \b{Note :} By using the remote compilation service provided, your project can be compiled on all platforms supported by Tepee3D without having you setting up anything.
 
@@ -38,10 +38,6 @@ complete it.
     QString                 getRoomPluginQmlFile() const;
     QString                 getMenuPluginQmlFile() const;
     PluginBase*             createNewInstance();
-    // DatabaseServiceUserInterface
-    void                    receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
-    // WebServiceUserInterface
-    void                    receiveResultFromHttpRequest(QNetworkReply * reply, int requestId, void *data);
 \endcode
 
 For a complete description of these method please read \l {Plugins::PluginBase}

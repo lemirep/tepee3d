@@ -43,7 +43,7 @@
 namespace Plugins
 {
 class PluginDownloader : public QObject,
-                         public Services::FileDownloaderServiceUserInterface
+        public Services::FileDownloaderServiceUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(Services::FileDownloaderServiceUserInterface)
@@ -70,13 +70,13 @@ public:
     void downloadPluginFromServer(QPointer<QObject> plugin);
 
 signals:
-    void executeFileDownloader(const QNetworkRequest&,
-                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-                               QHttpMultiPart *,
-                               QPointer<QFile>,
-                               QPointer<QObject>,
-                               int,
-                               QPointer<QObject> = QPointer<QObject>());
+    void executeFileDownloader(const QNetworkRequest& request,
+                               Services::FileDownloaderServiceUserInterface::FileDownloadRequestType type,
+                               int requestId,
+                               QPointer<QFile> file,
+                               QPointer<QObject> sender,
+                               QHttpMultiPart * multipart = NULL,
+                               QPointer<QObject> data = QPointer<QObject>());
     void newPluginDownloaded();
 };
 }

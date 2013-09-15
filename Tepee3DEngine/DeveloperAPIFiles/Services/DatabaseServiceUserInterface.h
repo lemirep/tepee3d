@@ -40,7 +40,8 @@ class   DatabaseServiceUserInterface
 public :
     virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data) = 0;
 // SIGNAL
-    //void        executeSQLQuery(const QString& query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data);
+    virtual void executeSQLQuery(const QString& query, QPointer<QObject> sender, int id,
+                                 const QString &dbName, QPointer<QObject> data = QPointer<QObject>()) = 0;
 
 };
 }

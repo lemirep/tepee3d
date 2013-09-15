@@ -22,9 +22,9 @@ public:
 
     bool    openDatabase(const QString& dbName);
 signals:
-    void    resultFromSQLQuery(QList<QSqlRecord>, QObject *receiver, int id, QPointer<QObject> data);
+    void    resultFromSQLQuery(QList<QSqlRecord>, QPointer<QObject> receiver, int id, QPointer<QObject> data);
 public slots:
-    void    executeSQLQuery(const QString& Query, QObject *sender, int id, const QString &dbName, QPointer<QObject> data);
+    void    executeSQLQuery(const QString& Query, QPointer<QObject> sender, int id, const QString &dbName, QPointer<QObject> data);
 private :
     QString         localDBName;
     QString         previousDbName;

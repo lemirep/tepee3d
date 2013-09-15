@@ -17,13 +17,13 @@ public :
     virtual void onDownloadStarted(QPointer<QFile> file, int requestId, QPointer<QObject> data) = 0;
     virtual void onDownloadError(QPointer<QFile> file, int requestId, QPointer<QObject> data) = 0;
     // SIGNAL
-    //void executeFileDownloader(const QNetworkRequest&,
-    //                           Services::FileDownloaderServiceUserInterface::FileDownloadRequestType,
-    //                           QHttpMultiPart *,
-    //                           QPointer<QFile> ,
-    //                           QPointer<QObject>,
-    //                           int ,
-    //                           QPointer<QObject>);
+    virtual void executeFileDownloader(const QNetworkRequest& request,
+                                       Services::FileDownloaderServiceUserInterface::FileDownloadRequestType type,
+                                       int requestId,
+                                       QPointer<QFile> file,
+                                       QPointer<QObject> sender,
+                                       QHttpMultiPart * multipart = NULL,
+                                       QPointer<QObject> data = QPointer<QObject>()) = 0;
 };
 }
 Q_DECLARE_INTERFACE(Services::FileDownloaderServiceUserInterface, "com.tepee3d.Services.FileDownloaderServiceUserInterface/1.0")

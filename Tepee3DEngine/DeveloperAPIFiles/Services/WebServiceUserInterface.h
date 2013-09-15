@@ -43,12 +43,12 @@ public :
     enum WebServiceRequestType{Get = 1, Post, Delete, Put};
     virtual void receiveResultFromHttpRequest(QNetworkReply *reply, int requestId,QPointer<QObject> data) = 0;
     // SIGNAL
-    //void executeHttpRequest(const QNetworkRequest&,
-    //                       Services::WebServiceUserInterface::WebServiceRequestType,
-    //                       QHttpMultiPart*,
-    //                       QPointer<QObject> sender,
-    //                       int requestId,
-    //                       void *data);
+    virtual void executeHttpRequest(const QNetworkRequest& request,
+                                    Services::WebServiceUserInterface::WebServiceRequestType type,
+                                    QHttpMultiPart*,
+                                    QPointer<QObject> sender,
+                                    int requestId,
+                                    QPointer<QObject> data = QPointer<QObject>()) = 0;
 };
 }
 Q_DECLARE_INTERFACE(Services::WebServiceUserInterface, "com.tepee3d.Services.WebServiceUserInterface/1.0")

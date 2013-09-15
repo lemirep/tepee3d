@@ -118,10 +118,10 @@ void Plugins::PluginDownloader::downloadPluginIndexCallBack(QPointer<QFile> file
                                                                 + "/"
                                                                 + fileName)),
                                            Services::FileDownloaderServiceUserInterface::Get,
-                                           NULL,
+                                           DOWNLOAD_PLUGIN_FILE,
                                            QPointer<QFile>(itemFile),
                                            QPointer<QObject>(this),
-                                           DOWNLOAD_PLUGIN_FILE,
+                                           NULL,
                                            QPointer<QObject>(pluginOnlineItem));
             }
         }
@@ -230,10 +230,10 @@ void Plugins::PluginDownloader::downloadPluginFromServer(QPointer<QObject> plugi
                                                             + pluginOnlineItem->getPluginRepoName()
                                                             + "/index")),
                                        Services::FileDownloaderServiceUserInterface::Get,
-                                       NULL,
+                                       DOWNLOAD_PLUGIN_INDEX,
                                        QPointer<QFile>(indexFile),
                                        QPointer<QObject>(this),
-                                       DOWNLOAD_PLUGIN_INDEX,
+                                       NULL,
                                        QPointer<QObject>(pluginOnlineItem));
         }
     }
