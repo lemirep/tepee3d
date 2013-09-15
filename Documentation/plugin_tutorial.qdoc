@@ -4,15 +4,16 @@
  A sample widget to get you started !
 
 
-Welcome to this new tutorial about our project Tepee3D. The purpose of this article is to guide and show you how it is easy to create a plugin. We will take for example a watch plugins.  Before,  You should prepare your development environment \l {http://tepee3d.dyndns.org/doc/how-to-plugins.html} {here}.
+Welcome to this new tutorial about our project Tepee3D. The purpose of this article is to guide you and show you how easy it it to create a plugin. We will take for example a watch plugin.
+But first, you should set up your development environment which is explained \l {Plugins How To} {here}.
 
     \table
     \header
         \li 3D
         \li 2D
     \row
-        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic2.png 3d view
-        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic1.png 2d view
+        \li \inlineimage pic2.png 3d view
+        \li \inlineimage pic1.png 2d view
     \endtable
 
  \section1 Creation of your plugin on Tepee3d website
@@ -22,13 +23,13 @@ When your have created your account,  you have to go to account->widget->add a w
 
 
 
-\section2 First step : Front office
+\section2 First step : The User Interface
 	Before starting, you should have in your qt creator something like this :
-     \inlineimage /home/exploit/tepee3d/Documentation/images/pic3.png qt creator menu
+     \inlineimage pic3.png qt creator menu
 
 
 
-The first thing to do is to declare your 3D model in  watchplugin.qml. In qml, you can use “ Item3d” which is qml element especially for 3d model. Now when a user calls your plugin (in the left menu of tepee3d), a 3d watch appears in the room. In this element, you can specify scale , positions,  source of your 3d model , etc.
+The first thing to do is to declare your 3D model in  watchplugin.qml. In qml, you can use Item3D which is qml element especially for 3d model. Now when a user calls your plugin (in the left menu of tepee3d), a 3d watch appears in the room. In this element, you can specify scale , positions,  source of your 3d model , etc.
 \code
 
   Item3D
@@ -42,9 +43,9 @@ The first thing to do is to declare your 3D model in  watchplugin.qml. In qml, y
      }
 \endcode
 
-The second important element to declare is a “pathview” and his “delegate” which is use when  watchplugin is focused by application. it’s this list of clock you can see below. In this example , “Pathview” and “Path” are  grouped in “listview_contenair”
+The second important element to declare is a PathView and its delegate which is used when watchplugin is focused by application. it's this list of clock you can see below. In this example , Pathview and Path are  grouped in listview_container
 
-     \inlineimage /home/exploit/tepee3d/Documentation/images/pic4.png
+     \inlineimage pic4.png
 
 
 \code
@@ -69,7 +70,7 @@ The second important element to declare is a “pathview” and his “delegate” which
 
 
 
-This is path description
+This is path description which will guide how our clocks will move.
 \code
 
         path: Path {
@@ -152,8 +153,8 @@ Now you have seen all the important point about this plugins, For more details, 
 
 Watch Plugin is finished now, but we have a big issue, this   plugin is available only on the platforms where you develop it. Now you should compile for all plaforms and it will take a lot of hours  …  or you just have to use our solution of remote compilation. Go to account->widget->development. Choose all platforms where you want  your application () android, Linux, Windows , Qnx ….) and click on Build . A remote compilation is launched on tepee3d server.  You can follow your compilation and your build log and YES , it is the only thing you have to do.
 
-        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic4.png
-        \li \inlineimage /home/exploit/tepee3d/Documentation/images/pic5.png
+        \li \inlineimage pic4.png
+        \li \inlineimage pic5.png
 
 
 

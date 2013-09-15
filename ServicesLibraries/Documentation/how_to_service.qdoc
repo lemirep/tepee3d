@@ -120,7 +120,7 @@
  \section2 The Header File
  We will first fill the header file and then pursue with the source file.
 
- All Services Libraries have to implement the \l {ServiceInterface} of the \l {Services} namespace.
+ All Services Libraries have to implement the \l {Services::ServiceInterface} of the \l {Services} namespace.
 
  \quotefile Tepee3DEngine/DeveloperAPIFiles/Services/ServiceInterface.h
 

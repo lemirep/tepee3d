@@ -38,34 +38,36 @@ HTML.footer = \
     " </div> \n" \
     "</div> \n" 
 
-indexes 		= $QTDIR/doc/qtscripttools/qtscripttools.index \
-			  $QTDIR/doc/qtdoc/qtdoc.index \
+indexes 		= $QTDIR/doc/qtdoc/qtdoc.index \
 			  $QTDIR/doc/qtconcurrent/qtconcurrent.index \
 			  $QTDIR/doc/qthelp/qthelp.index \
-			  $QTDIR/doc/qtscript/qtscript.index \
-			  $QTDIR/doc/qtwebkitexamples/qtwebkitexamples.index \
 			  $QTDIR/doc/qtquick/qtquick.index \
 			  $QTDIR/doc/qtcore/qtcore.index \
-			  $QTDIR/doc/qtassistant/qtassistant.index \
-			  $QTDIR/doc/qtxml/qtxml.index \
-			  $QTDIR/doc/qtuitools/qtuitools.index \
-			  $QTDIR/doc/qtimageformats/qtimageformats.index \
 			  $QTDIR/doc/qtgui/qtgui.index \
 			  $QTDIR/doc/qtnetwork/qtnetwork.index \
-			  $QTDIR/doc/qtwebkit/qtwebkit.index \
-			  $QTDIR/doc/qtwidgets/qtwidgets.index \
 			  $QTDIR/doc/qttestlib/qttestlib.index \
-			  $QTDIR/doc/qtprintsupport/qtprintsupport.index \
-			  $QTDIR/doc/qtlinguist/qtlinguist.index \
 			  $QTDIR/doc/qtmultimedia/qtmultimedia.index \
 			  $QTDIR/doc/qtsql/qtsql.index \
-			  $QTDIR/doc/qtopengl/qtopengl.index \
-			  $QTDIR/doc/qtdbus/qtdbus.index \
 			  $QTDIR/doc/qtsvg/qtsvg.index \
-			  $QTDIR/doc/qtxmlpatterns/qtxmlpatterns.index \
-			  $QTDIR/doc/qtdesigner/qtdesigner.index \
 			  $QTDIR/doc/qtqml/qtqml.index \
 			  $QTDIR/doc/qtgraphicaleffects/qtgraphicaleffects.index 
+
+# INDEXES NOT USED ARE NOT INSERTED
+#			  $QTDIR/doc/qtopengl/qtopengl.index \
+# 	      	       	  $QTDIR/doc/qtscripttools/qtscripttools.index \
+#			  $QTDIR/doc/qtxmlpatterns/qtxmlpatterns.index \
+#			  $QTDIR/doc/qtdesigner/qtdesigner.index \
+#			  $QTDIR/doc/qtdbus/qtdbus.index \
+#			  $QTDIR/doc/qtprintsupport/qtprintsupport.index \
+#			  $QTDIR/doc/qtlinguist/qtlinguist.index \
+#			  $QTDIR/doc/qtwebkit/qtwebkit.index \
+#			  $QTDIR/doc/qtwidgets/qtwidgets.index \
+#			  $QTDIR/doc/qtassistant/qtassistant.index \
+#			  $QTDIR/doc/qtxml/qtxml.index \
+#			  $QTDIR/doc/qtuitools/qtuitools.index \
+#			  $QTDIR/doc/qtimageformats/qtimageformats.index \
+#			  $QTDIR/doc/qtscript/qtscript.index \
+#			  $QTDIR/doc/qtwebkitexamples/qtwebkitexamples.index \
 
 outputdir               = Tepee3D_Doc
 
