@@ -26,19 +26,19 @@ Item
 
         path : Path {
             // LEFT
-            startX: parent.x
-            startY: parent.y + parent.height / 4
+            startX: skyboxes_view.x
+            startY: skyboxes_view.y + skyboxes_view.height / 4
             PathPercent {value : 0}
             PathAttribute {name : "delScale"; value : 0.6}
             PathAttribute {name : "delAngle"; value : 60}
 
 
             // CENTER
-            PathCurve {x : parent.width / 2; y : parent.y + parent.height / 5}
+            PathCurve {x : skyboxes_view.width / 2; y : skyboxes_view.y + skyboxes_view.height / 5}
             PathAttribute {name : "delScale"; value : 1}
 
             // RIGHT
-            PathCurve {x : parent.width; y : parent.y + parent.height / 4}
+            PathCurve {x : skyboxes_view.width; y : skyboxes_view.y + skyboxes_view.height / 4}
             PathAttribute {name : "delScale"; value : 0.6}
             PathAttribute {name : "delAngle"; value : -60}
 

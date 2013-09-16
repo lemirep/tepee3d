@@ -141,11 +141,11 @@ void ManageBDD::executeSQLQuery(const QString& query, QPointer<QObject> sender, 
     }
     if (this->dataBase->isOpen())
     {
-        qDebug() << "Received query : {" << query << "}";
+//        qDebug() << "Received query : {" << query << "}";
         QSqlQuery sqlQuery(*this->dataBase);
         sqlQuery.prepare(query);
         if (!sqlQuery.exec())
-            qDebug() << "YOU SHOULD CHECK YOUR QUERY";
+            qDebug() << "YOU SHOULD CHECK YOUR SQL QUERY FOR REQUEST " << id;
         results.push_back(sqlQuery.record());
         while (sqlQuery.next())
             results.push_back(sqlQuery.record());

@@ -56,6 +56,57 @@
  \li \c In the build settings add a Build Step Make and enter "install" in the arguments textbox
  \li \c Press play on the left or Ctrl + R
 
+ \section3 Common Errors
+ \section4 Qt platform plugin "xcb" not found
+
+ \code
+This application failed to start because it could not find or load the Qt platform plugin "xcb".
+
+Available platform plugins are: linuxfb (from /home/lemire_p/Programs/Tepee3D/Qt_Libraries/plugins/platforms), minimal (from /home/lemire_p/Programs/Tepee3D/Qt_Libraries/plugins/platforms), offscreen (from /home/lemire_p/Programs/Tepee3D/Qt_Libraries/plugins/platforms), xcb (from /home/lemire_p/Programs/Tepee3D/Qt_Libraries/plugins/platforms), linuxfb, minimal, offscreen.
+
+Reinstalling the application may fix this problem.
+Aborted
+\endcode
+Please go to where Tepee3D was installed, then move into Qt_Libraries/plugins/platforms.
+There perform ldd ./libqxcb.so which should output something like
+\code
+linux-vdso.so.1 (0x00007fffa5f14000)
+        libX11-xcb.so.1 => /usr/lib64/libX11-xcb.so.1 (0x00007fb0b7317000)
+        libXi.so.6 => /usr/lib64/libXi.so.6 (0x00007fb0b7106000)
+        libdl.so.2 => /lib64/libdl.so.2 (0x00007fb0b6f02000)
+        libxcb.so.1 => /usr/lib64/libxcb.so.1 (0x00007fb0b6ce2000)
+        libxkbcommon.so.0 => not found
+        libfontconfig.so.1 => /usr/lib64/libfontconfig.so.1 (0x00007fb0b6aa6000)
+        libfreetype.so.6 => /usr/lib64/libfreetype.so.6 (0x00007fb0b6818000)
+        libXext.so.6 => /usr/lib64/libXext.so.6 (0x00007fb0b6605000)
+        libX11.so.6 => /usr/lib64/libX11.so.6 (0x00007fb0b62c9000)
+        libXrender.so.1 => /usr/lib64/libXrender.so.1 (0x00007fb0b60bf000)
+        libudev.so.1 => /usr/lib64/libudev.so.1 (0x00007fb0b5eae000)
+        librt.so.1 => /lib64/librt.so.1 (0x00007fb0b5ca6000)
+        libQt5Gui.so.5 => /home/lemire_p/Programs/Tepee3D/Qt_Libraries/libQt5Gui.so.5 (0x00007fb0b5659000)
+        libQt5Core.so.5 => /home/lemire_p/Programs/Tepee3D/Qt_Libraries/libQt5Core.so.5 (0x00007fb0b4f5d000)
+        libGL.so.1 => /usr/lib64/libGL.so.1 (0x00007fb0b4cf9000)
+        libpthread.so.0 => /lib64/libpthread.so.0 (0x00007fb0b4add000)
+        libstdc++.so.6 => /usr/lib64/libstdc++.so.6 (0x00007fb0b47d6000)
+        libm.so.6 => /lib64/libm.so.6 (0x00007fb0b44d8000)
+        libgcc_s.so.1 => /lib64/libgcc_s.so.1 (0x00007fb0b42c2000)
+        libc.so.6 => /lib64/libc.so.6 (0x00007fb0b3f14000)
+        /lib64/ld-linux-x86-64.so.2 (0x00007fb0b77ec000)
+        libXau.so.6 => /usr/lib64/libXau.so.6 (0x00007fb0b3d10000)
+        libexpat.so.1 => /usr/lib64/libexpat.so.1 (0x00007fb0b3ae7000)
+        libz.so.1 => /lib64/libz.so.1 (0x00007fb0b38d0000)
+        libglapi.so.0 => /usr/lib64/libglapi.so.0 (0x00007fb0b36aa000)
+        libXdamage.so.1 => /usr/lib64/libXdamage.so.1 (0x00007fb0b34a6000)
+        libXfixes.so.3 => /usr/lib64/libXfixes.so.3 (0x00007fb0b32a0000)
+        libxcb-glx.so.0 => /usr/lib64/libxcb-glx.so.0 (0x00007fb0b3088000)
+        libXxf86vm.so.1 => /usr/lib64/libXxf86vm.so.1 (0x00007fb0b2e81000)
+        libdrm.so.2 => /usr/lib64/libdrm.so.2 (0x00007fb0b2c75000)
+\endcode
+Then, install all the libraries which have not been found and you should the issue should be resolved.
+
+\b {Note : } You might want to source Tepee3DEngine.sh first in order to have the libraries bundled with Tepee3D in your path.
+
+
  \section3 On Windows
  \list 1
  \li \c Install ActivePerl \l {http://www.activestate.com/activeperl/downloads}

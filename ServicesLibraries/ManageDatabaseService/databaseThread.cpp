@@ -154,17 +154,12 @@ void DatabaseThread::run()
  */
 void    DatabaseThread::transmitSQLResult(QList<QSqlRecord> result, QPointer<QObject> receiver, int id, QPointer<QObject> data)
 {
-    qDebug() << "SQL Query Result Received";
     // TO RECEIVE RESULT OBJECT MUST IMPLEMENT
     Services::DatabaseServiceUserInterface * user;
     if (!receiver.isNull() && (user = qobject_cast<Services::DatabaseServiceUserInterface *>(receiver.data())) != NULL)
-    {
-        qDebug() << "Transmitting results";
         user->receiveResultFromSQLQuery(result, id, data);
-        qDebug() << "Results transmitted";
-    }
     else
-        qDebug() << "Object is not an instance of DatabaseUserInterface";
+        qDebug() << "Object is not an instance of DatabaseUserInterface. Results cannot be transmitted";
 }
 
 /*!
