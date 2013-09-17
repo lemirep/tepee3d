@@ -67,8 +67,8 @@ public:
     virtual void                        updatePlugin();
     virtual void                        initPlugin()                            = 0;        //PERFORM NECESSARY INITIALIZATION HERE (HelperClasses, QmlModelClasses ...)
     virtual void                        clearPluginBeforeRemoval()              = 0;
-    virtual QString                     getPluginVersion()               const  = 0;
     virtual QString                     getPluginName()                  const  = 0;
+    virtual QString                     getPluginVersion()               const  = 0;
     virtual QString                     getPluginRepoName()              const  = 0;
     virtual QString                     getPluginDescription()           const  = 0;
     virtual QString                     getRoomPluginQmlFile()           const  = 0;

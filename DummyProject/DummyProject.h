@@ -2,13 +2,7 @@
 #define DUMMYPROJECT_H
 
 #include <QObject>
-#include <QtGui>
-#include "QtQml"
-#include <QQuickView>
-#include <QQuickItem>
-#include "PluginBase.h"
-#include "DatabaseServiceUserInterface.h"
-#include "WebServiceUserInterface.h"
+#include <PluginBase.h>
 
 class DummyProject  : public Plugins::PluginBase
 {
@@ -21,11 +15,12 @@ class DummyProject  : public Plugins::PluginBase
     int                         getPluginId() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();
-    QString			getPluginName() const;
+    QString                     getPluginName() const;
+    QString                     getPluginVersion() const;
+    QString                     getPluginRepoName() const;
     QString                     getPluginDescription() const;
     QString                     getRoomPluginQmlFile() const;
     QString                     getMenuPluginQmlFile() const;
-    QString			getPluginVersion() const;
     PluginBase*                 createNewInstance();
 
     // DatabaseServiceUserInterface

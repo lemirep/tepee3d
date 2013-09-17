@@ -28,6 +28,11 @@ CONFIG += console
                  Documentation/all_classes.qdoc \
                  Documentation/plugin_tutorial.qdoc \
                  Documentation/index.qdoc
+
+    DOC_EXTRAS += DummyProject/DummyProject.cpp \
+                  DummyProject/DummyProject.h \
+                  DummyProject/DummyProject.pro \
+                  DummyProject/DummyProject.qml
 }
 
 android {

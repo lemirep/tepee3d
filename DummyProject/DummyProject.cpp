@@ -7,7 +7,7 @@ DummyProject::DummyProject() : PluginBase()
 
 int DummyProject::getPluginId() const
 {
-    return 1;
+    return ;
 }
 
 void DummyProject::initPlugin()
@@ -19,6 +19,16 @@ void DummyProject::clearPluginBeforeRemoval()
 }
 
 QString DummyProject::getPluginName() const
+{
+    return QString("DummyProject");
+}
+
+QString DummyProject::getPluginVersion() const
+{
+    return QString("0.0.1");
+}
+
+QString DummyProject::getPluginRepoName() const
 {
     return QString("DummyProject");
 }
