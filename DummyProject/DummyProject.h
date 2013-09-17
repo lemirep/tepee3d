@@ -24,9 +24,9 @@ class DummyProject  : public Plugins::PluginBase
     PluginBase*                 createNewInstance();
 
     // DatabaseServiceUserInterface
-    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data);
+    void                        receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data);
     // WebServiceUserInterface
-    void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, void *data);
+    void                        receiveResultFromHttpRequest(QNetworkReply * reply,int id, QPointer<QObject> data);
 
  protected:
     void                onIdleFocusState();
