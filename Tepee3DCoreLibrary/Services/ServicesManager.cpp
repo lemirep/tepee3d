@@ -103,7 +103,8 @@ Services::ServicesManager::ServicesManager(QObject *parent) : QObject(parent)
     this->services = QList<ServiceInterface*>();
     this->webServicesCallBacks[DOWNLOAD_SERVICE] = &Services::ServicesManager::dowloadServiceFromServerCallBack;
     this->webServicesCallBacks[CHECK_SERVICES_VERSION] = &Services::ServicesManager::checkForServicesUpdatesCallBack;
-    //    this->loadServicesLibraries();
+    // PRELOAD ALL 3RD_PARTY LIBRARIES
+    this->preloadThirdPartyLibraries();
 }
 
 Services::ServicesManager::~ServicesManager()
@@ -242,4 +243,20 @@ void Services::ServicesManager::checkForServicesUpdatesCallBack(QNetworkReply *r
 
 void Services::ServicesManager::dowloadServiceFromServerCallBack(QNetworkReply *reply, QPointer<QObject> data)
 {
+}
+
+void Services::ServicesManager::preloadThirdPartyLibraries()
+{
+    // PRELOAD ALL 3RD_PARTY LIBRARIES THAT NEED TO BE LOADED FOR THE SERVICES REQUIRING THEM
+    // TO BE PROPERLY LOADED
+    QDir    thirdPartyLibrariesDir = PlatformFactory::getPlatformInitializer()->getThirdPartiesLibrariesDirectory();
+
+    qDebug() << "3RD PARTY DIR " << thirdPartyLibrariesDir.absolutePath();
+    foreach (const QString &filename, thirdPartyLibrariesDir.entryList(QDir::Files))
+    {
+        qDebug() << "3RD PARTY LIBRARY " << filename;
+        QLibrary lib(thirdPartyLibrariesDir.absoluteFilePath(filename));
+        if (!lib.load())
+            qDebug() << "Couldn't load 3rd party library";
+    }
 }

@@ -33,6 +33,7 @@
 
 #define GENERIC_DATA_DIR ""
 #define GENERIC_SHARED_LIBRARIES_DIR "libraries"
+#define GENERIC_THIRDPARTY_LIBRARIES_DIR "libraries/3rd_party"
 #define GENERIC_WIDGET_LIBRARIES_DIR "libraries/widget_libraries"
 #define GENERIC_ROOM_LIBRARY_DIR "libraries/room_library"
 #define GENERIC_SERVICES_LIBRARIES_DIR "libraries/services_lib"
@@ -47,6 +48,7 @@ public:
     QDir        getDataDirectory() const;
     QDir        getWidgetSharedLibrariesDirectory() const;
     QDir        getWidgetsResourceDirectory() const;
+    QDir        getThirdPartiesLibrariesDirectory() const;
     QDir        getServicesSharedLibrariesDirectory() const;
     QDir        getRoomSharedLibraryDirectory() const;
     QDir        getSharedLibraryDirectory() const;

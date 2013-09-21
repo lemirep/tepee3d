@@ -86,6 +86,8 @@ private:
 
     void                            checkForServicesUpdatesCallBack(QNetworkReply *reply, QPointer<QObject>data);
     void                            dowloadServiceFromServerCallBack(QNetworkReply *reply, QPointer<QObject>data);
+    void                            preloadThirdPartyLibraries();
+
 
 public slots :
     void                            connectObjectToServicesSlot(QObject *serviceUser);

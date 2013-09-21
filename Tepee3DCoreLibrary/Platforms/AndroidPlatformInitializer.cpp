@@ -157,6 +157,11 @@ QDir AndroidPlatformInitializer::getWidgetsResourceDirectory() const
     return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_WIDGETS_RESOURCE_DIR));
 }
 
+QDir AndroidPlatformInitializer::getThirdPartiesLibrariesDirectory() const
+{
+    return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_THIRDPARTY_DIR));
+}
+
 QDir AndroidPlatformInitializer::getServicesSharedLibrariesDirectory() const
 {
     return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_SERVICES_DIR));

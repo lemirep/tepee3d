@@ -32,6 +32,7 @@
 
 #define ANDROID_LIB_DIR "/data/data/org.qtproject.example.Tepee3D/lib"
 #define ANDROID_DATA_DIR "./"
+#define ANDROID_THIRDPARTY_DIR "3rd_party"
 #define ANDROID_SERVICES_DIR "services_lib"
 #define ANDROID_WIDGETS_DIR "widget_libraries"
 #define ANDROID_ROOM_DIR "room_library"
@@ -47,6 +48,7 @@ public:
     virtual QDir           getDataDirectory() const;
     virtual QDir           getWidgetSharedLibrariesDirectory() const;
     virtual QDir           getWidgetsResourceDirectory() const;
+    virtual QDir           getThirdPartiesLibrariesDirectory() const;
     virtual QDir           getServicesSharedLibrariesDirectory() const;
     virtual QDir           getRoomSharedLibraryDirectory() const;
     virtual QDir           getSharedLibraryDirectory() const;

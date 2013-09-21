@@ -17,6 +17,7 @@ HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Services/DatabaseServiceUserInterface.h \
            $$PWD/Services/WebServiceUserInterface.h      \
            $$PWD/Services/FileDownloaderServiceUserInterface.h \
+           $$PWD/Services/LeapMotionServiceUserInterface.h \
            $$PWD/Rooms/RoomInterface.h          \
            $$PWD/Rooms/RoomBase.h               \
            $$PWD/Rooms/RoomProperties.h         \

@@ -184,6 +184,29 @@ QDir GenericPlatformInitializer::getWidgetsResourceDirectory() const
     return dir;
 }
 
+QDir GenericPlatformInitializer::getThirdPartiesLibrariesDirectory() const
+{
+    QDir    dir = QCoreApplication::applicationDirPath();
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug" || dir.dirName().toLower() == "release")
+       dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS")
+    {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+    }
+#endif
+#ifdef COVERAGE_AND_UNITTESTS
+    dir.cdUp();
+    dir.cd("Tepee3DEngine");
+#endif
+    dir.cd(GENERIC_THIRDPARTY_LIBRARIES_DIR);
+    return dir;
+}
+
 QString GenericPlatformInitializer::getPlatformName() const
 {
 #if defined Q_OS_QNX
