@@ -138,8 +138,10 @@ void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
  */
 void    View::QmlViewProperties::showView()
 {
-//    this->viewer->show();
-    this->viewer->showFullScreen();
+    emit registerToLeapMotionInputs(this->viewer);
+    this->viewer->show();
+//    this->viewer->showFullScreen();
+
 }
 
 /*!

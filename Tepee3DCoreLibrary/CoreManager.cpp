@@ -98,6 +98,7 @@ void CoreManager::initCoreEngine()
     }
 }
 
+
 /*!
  * Return this instance as a QObject so that it can be connected to signals
  */
@@ -126,14 +127,14 @@ QString CoreManager::getCoreVersion()
  */
 bool    CoreManager::initView()
 {
-    qDebug() << "Init View";
-
     // CONNECT THE SERVICE MANAGER TO THE SERVICES
     Services::ServicesManager::connectObjectToServices(this->servicesManager);
     // CONNECT THE ROOM MANAGER TO THE SERVICE MANAGER
     Services::ServicesManager::connectObjectToServices(this->roomManager);
     // CONNECT THE PLUGIN MANAGER TO THE SERVICE MANAGER
     Services::ServicesManager::connectObjectToServices(this->pluginsManager);
+//    // CONNECT VIEW MANAGER TO SERVICES (FOR LEAP MOTION SUPPORT)
+    Services::ServicesManager::connectObjectToServices(this->viewProperties);
 
     // SET QML PROPERTIES THAT CAN BE ACCESSED DIRECTLY FROM QML
     View::QmlViewProperties::exposeContentToQml(this->roomManager);
@@ -154,7 +155,6 @@ bool    CoreManager::initView()
     QUrl localFile = QUrl::fromLocalFile(PlatformFactory::getPlatformInitializer()->getDataDirectory().absolutePath() + "/qml/main.qml");
     if (localFile.isValid())
     {
-        qDebug() << "SETTING VIEW SOURCE";
         this->viewProperties->setViewerSource(localFile);
         this->viewProperties->showView();
         return true;

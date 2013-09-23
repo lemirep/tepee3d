@@ -7,9 +7,7 @@ class LeapMotionServiceUserInterface
 {
 public :
     // REGISTER SIGNAL
-    void    registerToLeapMotionInputs(QObject *targetListener);
-    // UNREGISTER SIGNAL
-    void    unregisterFromLeapMotionInputs(QObject *targetListener);
+    virtual void    registerToLeapMotionInputs(QObject *targetListener) = 0;
 };
 }
 Q_DECLARE_INTERFACE(Services::LeapMotionServiceUserInterface, "com.tepee3d.Services.LeapMotionServiceUserInterface/1.0")

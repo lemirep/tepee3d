@@ -4,6 +4,8 @@
 LeapMotionManagerLibrary::LeapMotionManagerLibrary() : QObject()
 {
     this->leapMotionController = NULL;
+    // SHOULD BE CALLED TO REGISTER LEAP MOTION AS TOUCH DEVICE BUT INCLUDE NOT RESOLVED
+//    QWindowSystemInterface::registerTouchDevice(LeapMotionTouchDevice::getInstance());
 }
 
 LeapMotionManagerLibrary::~LeapMotionManagerLibrary()
@@ -25,8 +27,6 @@ bool LeapMotionManagerLibrary::connectServiceToUser(QObject *user)
     {
         QObject::connect(user, SIGNAL(registerToLeapMotionInputs(QObject*)),
                          this->leapMotionController, SLOT(registerTargetListenerToLeapMotionInputs(QObject*)));
-        QObject::connect(user, SIGNAL(unregisterFromLeapMotionInputs(QObject*)),
-                         this->leapMotionController, SLOT(unregisterTargetListenerFromLeapMotionInputs(QObject*)));
         return true;
     }
     else
@@ -40,8 +40,6 @@ bool LeapMotionManagerLibrary::disconnectServiceFromUser(QObject *user)
     {
         QObject::disconnect(user, SIGNAL(registerToLeapMotionInputs(QObject*)),
                          this->leapMotionController, SLOT(registerTargetListenerToLeapMotionInputs(QObject*)));
-        QObject::disconnect(user, SIGNAL(unregisterFromLeapMotionInputs(QObject*)),
-                         this->leapMotionController, SLOT(unregisterTargetListenerFromLeapMotionInputs(QObject*)));
         return true;
     }
     else

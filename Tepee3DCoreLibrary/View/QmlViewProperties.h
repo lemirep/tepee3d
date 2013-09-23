@@ -34,12 +34,15 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include "QmlContentExposerInterface.h"
+#include "LeapMotionServiceUserInterface.h"
+
 
 namespace View
 {
-class QmlViewProperties : public QObject
+class QmlViewProperties : public QObject, public Services::LeapMotionServiceUserInterface
 {
     Q_OBJECT
+    Q_INTERFACES(Services::LeapMotionServiceUserInterface)
 
 private:
     QQuickView                  *viewer;
@@ -49,6 +52,7 @@ private:
     explicit QmlViewProperties(QObject *parent = 0);
 
     static QmlViewProperties    *instance;
+
 
 public:
     ~QmlViewProperties();
@@ -63,6 +67,10 @@ signals:
     void                        quit();
 public slots:
     
+
+    // LeapMotionServiceUserInterface interface
+signals:
+    void registerToLeapMotionInputs(QObject *targetListener);
 };
 }
 #endif // QMLVIEWPROPERTIES_H

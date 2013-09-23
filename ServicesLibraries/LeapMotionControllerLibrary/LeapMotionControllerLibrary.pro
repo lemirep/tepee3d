@@ -1,8 +1,7 @@
 
 TEMPLATE = lib
 
-QT       += widgets
-
+QT       += quick
 CONFIG += qt plugin
 
 TARGET = LeapMotionControllerLibrary
@@ -11,11 +10,13 @@ DEFINES += LEAPMOTIONCONTROLLERLIBRARY_LIBRARY
 
 SOURCES += LeapMotionController.cpp \
            LeapMotionListener.cpp \ 
-           LeapMotionManagerLibrary.cpp
+           LeapMotionManagerLibrary.cpp \
+           LeapMotionTouchDevice.cpp
 
 HEADERS += LeapMotionController.h \
            LeapMotionListener.h \
-           LeapMotionManagerLibrary.h
+           LeapMotionManagerLibrary.h \
+           LeapMotionTouchDevice.h
 
 DESTDIR = ../../Tepee3DEngine/libraries/services_lib
 

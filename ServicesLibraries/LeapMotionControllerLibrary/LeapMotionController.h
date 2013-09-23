@@ -24,7 +24,6 @@ public:
 
 public slots:
     void    registerTargetListenerToLeapMotionInputs(QObject *targetListener);
-    void    unregisterTargetListenerFromLeapMotionInputs(QObject *targetListener);
 };
 
 #endif // LEAPMOTIONCONTROLLER_H

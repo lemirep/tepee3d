@@ -78,9 +78,9 @@ Item
         {
             name : "menuShown"
             PropertyChanges    {target: menuLeftRec; opacity :  menu_opacity_deployed}
-            PropertyChanges    {target: edit_image_button; opacity : 1}
-            PropertyChanges    {target: add_room_button; opacity : 1}
-            PropertyChanges    {target: sky_room_view_button; opacity : 1}
+            PropertyChanges    {target: edit_image_button; opacity : 1; enabled : true}
+            PropertyChanges    {target: add_room_button; opacity : 1; enabled : true}
+            PropertyChanges    {target: sky_room_view_button; opacity : 1; enabled : true}
             PropertyChanges    {target: arrow_image; opacity : 0}
             when : menuLeftMain.isShown || ((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
         },
@@ -88,10 +88,9 @@ Item
         {
             name : "menuHidden"
             PropertyChanges    {target: menuLeftRec; opacity :  menu_opacity_retracted}
-            PropertyChanges    {target: add_room_button; opacity : 0}
-            PropertyChanges    {target: edit_image_button; opacity : 0}
-            PropertyChanges    {target: add_room_button; opacity : 0}
-            PropertyChanges    {target: sky_room_view_button; opacity : 0}
+            PropertyChanges    {target: add_room_button; opacity : 0; enabled : false}
+            PropertyChanges    {target: edit_image_button; opacity : 0; enabled : false}
+            PropertyChanges    {target: sky_room_view_button; opacity : 0; enabled : false}
             PropertyChanges    {target: arrow_image; opacity : 0.8}
             when : !menuLeftMain.isShown || !((menuLeftMain.width - minMenuWidth) / maxMenuWidth > 0.4)
         }

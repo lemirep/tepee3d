@@ -3,8 +3,11 @@
 
 #include <QObject>
 #include <QList>
-#include <QWidget>
+#include <QCoreApplication>
 #include <QWindow>
+#include <QTouchEvent>
+#include <QMouseEvent>
+#include "LeapMotionTouchDevice.h"
 #include "Leap.h"
 
 class LeapMotionListener : public QObject, public Leap::Listener
@@ -16,8 +19,16 @@ public :
     ~LeapMotionListener();
 
 private :
-    QList<QObject*> targetListeners;
+    QWindow* targetListener;
+    QList<QTouchEvent::TouchPoint> touchPoints;
+    bool                           mousePressed;
 
+    void handleMouseEvents(const Leap::Frame &frame);
+    void handleTouchEvents(const Leap::Frame &frame);
+    QPointF convertPointablePosToScreenPos(const Leap::InteractionBox &interactionBox,
+                                        const Leap::Pointable &pointable);
+    QPointF convertPointablePosToScreenPos(const Leap::Vector &normalizedPos);
+    QPointF convertGlobalPosToLocalPos(const QPointF &globalPos);
     // Listener interface
 public:
     void onInit(const Leap::Controller &);
@@ -29,8 +40,7 @@ public:
     void onFocusLost(const Leap::Controller &);
 
 public:
-    void    addTargetListener(QObject *target);
-    void    removeTargetListener(QObject *target);
+    void    setTargetListener(QObject *target);
 };
 
 #endif // LEAPMOTIONLISTENER_H

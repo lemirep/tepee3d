@@ -32,10 +32,5 @@ LeapMotionController *LeapMotionController::getInstance()
 
 void LeapMotionController::registerTargetListenerToLeapMotionInputs(QObject *targetListener)
 {
-    this->leapListener->addTargetListener(targetListener);
-}
-
-void LeapMotionController::unregisterTargetListenerFromLeapMotionInputs(QObject *targetListener)
-{
-    this->leapListener->removeTargetListener(targetListener);
+    this->leapListener->setTargetListener(targetListener);
 }
