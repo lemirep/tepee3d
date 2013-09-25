@@ -23,7 +23,10 @@ public:
     static LeapMotionController *getInstance();
 
 public slots:
-    void    registerTargetListenerToLeapMotionInputs(QObject *targetListener);
+    void    registerTargetListenerToLeapMotionInputs(QObject *listener);
+    void    registerTargetListenerToLeapMotionGestures(QObject *listener);
+    void    unregisterTargetListenerFromLeapMotionInputs(QObject *listener);
+    void    unregisterTargetListenerFromLeapMotionGestures(QObject *listener);
 };
 
 #endif // LEAPMOTIONCONTROLLER_H

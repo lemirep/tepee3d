@@ -42,7 +42,12 @@ bool AndroidPlatformInitializer::initPlatform()
 
         QList<QString> pathsList;
 
-        pathsList.prepend("qml/Resources/Textures/skybox");
+        pathsList.prepend("qml/Resources/Textures/skyboxes/bridge");
+        pathsList.prepend("qml/Resources/Textures/skyboxes/cloud");
+        pathsList.prepend("qml/Resources/Textures/skyboxes/hotel");
+        pathsList.prepend("qml/Resources/Textures/skyboxes/moutain");
+        pathsList.prepend("qml/Resources/Textures/skyboxes/palmtrees");
+        pathsList.prepend("qml/Resources/Textures/skyboxes");
         pathsList.prepend("qml/Resources/Pictures");
         pathsList.prepend("qml/Resources/Textures");
         pathsList.prepend("qml/Resources/Models");
@@ -53,6 +58,8 @@ bool AndroidPlatformInitializer::initPlatform()
         pathsList.prepend("qml/Plugins");
         pathsList.prepend("qml/content");
         pathsList.prepend("qml/js");
+        pathsList.prepend("qml/extensions/Tepee3DTouchArea");
+        pathsList.prepend("qml/extensions");
         pathsList.prepend("qml");
 
         pathsList.prepend("databases");
@@ -64,11 +71,7 @@ bool AndroidPlatformInitializer::initPlatform()
         pathsList.prepend("DeveloperAPIFiles/js");
         pathsList.prepend("DeveloperAPIFiles");
 
-        //        pathsList.prepend("plugins_qml/SeriesPlugin");
-        //        pathsList.prepend("plugins_qml/WatchPlugin");
         pathsList.prepend("plugins_qml/TestPlugin");
-        //        pathsList.prepend("plugins_qml/XBMCPlugin");
-        //        pathsList.prepend("plugins_qml/HarlemShake");
         pathsList.prepend("plugins_qml");
 
         foreach (QString dirEntry, pathsList)
@@ -83,6 +86,7 @@ bool AndroidPlatformInitializer::initPlatform()
                     QDir tmpDir(dirEntry);
                     foreach (QString entry, QDir("assets:/" + dirEntry).entryList(QDir::Files))
                     {
+                         qDebug() << "Copying " << dirEntry << " -- >" << entry << " to " << tmpDir.absolutePath() + "/" + entry;
                         if (!QFile::copy("assets:/" + dirEntry + "/" + entry, tmpDir.absolutePath() + "/" + entry))
                             qDebug() << "Copy Failed for Entry " << dirEntry << " -- >" << entry << " to " << tmpDir.absolutePath() + "/" + entry;
                         // Give Write access to databases
@@ -125,9 +129,15 @@ bool AndroidPlatformInitializer::initPlatform()
     // WIDGET LIBRARIES
     QDir tmpWidgetLibDir = AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory();
     qDebug() << "Widget DIr Lib " << tmpWidgetLibDir.absolutePath();
+    if (tmpWidgetLibDir.exists())
+    {
+        qDebug() << "Removing Widget Dir";
+        tmpWidgetLibDir.removeRecursively();
+    }
     if (!tmpWidgetLibDir.exists() &&
             AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_WIDGETS_DIR))
     {
+        qDebug() << "Created Widget Directory";
         foreach (QString widgetLib, this->getSharedLibraryDirectory().entryList())
         {
             if (widgetLib.compare("libCoreLibrary.so") != 0 &&
@@ -185,6 +195,11 @@ QDir AndroidPlatformInitializer::getDatabaseDirectory() const
 QDir AndroidPlatformInitializer::getDataDirectory() const
 {
     return QDir(ANDROID_DATA_DIR);
+}
+
+QDir AndroidPlatformInitializer::getQmlDirectory() const
+{
+    return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_QML_DIR));
 }
 
 QString AndroidPlatformInitializer::getPlatformName() const

@@ -9,6 +9,10 @@ QT += sql
 
 SOURCES += main.cpp
 
+OBJECTS_DIR = tmp
+
+MOC_DIR = tmp
+
 win32:DESTDIR = ./
 
 # Include Shared Development Files

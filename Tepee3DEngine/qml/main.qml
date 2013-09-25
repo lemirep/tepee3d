@@ -7,7 +7,6 @@ import "js/RoomManagement.js" as RoomManagement
 import "js/Walls.js" as Walls
 import "js/CameraManagement.js" as CameraManagement
 
-
 Viewport
 {
     id : mainWindow
@@ -79,13 +78,11 @@ Viewport
         roomManager.unsetFocusPluginsFromRoom();
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
 
+    width : (DEBUG) ? 1280 : Screen.width
+    height : (DEBUG) ? 800 : Screen.height
 
-    //                anchors.fill: parent
-//        width : 1280
-//        height : 800
-
-    width : Screen.width
-    height : Screen.height
+//    width : Screen.width
+//    height : Screen.height
 
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS
@@ -133,9 +130,9 @@ Viewport
     //    Keys.onDownPressed:    {}
 
     Skybox            {source : "Resources/Textures/skyboxes/" + ((roomManager.skyboxPath == "") ? "bridge" : roomManager.skyboxPath)}
+    MenuCenter        {id : menu_center; anchors.fill : parent}
     RoomsContainer    {id : roomContainer}
     NotificationManager    {id : notification}
     FpsCounter {}
-    MenuCenter        {id : menu_center; anchors.fill : parent}
 }
 

@@ -6,11 +6,6 @@ LeapMotionController::LeapMotionController(QObject *parent) : QObject(parent)
 {
     this->leapController = new Leap::Controller();
     this->leapListener = new LeapMotionListener();
-    // SET SUPPORTED GESTURES WE WANT TO HANDLE
-    this->leapController->enableGesture(Leap::Gesture::TYPE_CIRCLE, true);
-    this->leapController->enableGesture(Leap::Gesture::TYPE_SWIPE, true);
-    this->leapController->enableGesture(Leap::Gesture::TYPE_SCREEN_TAP, true);
-    this->leapController->enableGesture(Leap::Gesture::TYPE_KEY_TAP, true);
     // ADD LISTENER TO LEAP CONTROLLER
     this->leapController->addListener(*this->leapListener);
 }
@@ -30,7 +25,22 @@ LeapMotionController *LeapMotionController::getInstance()
     return LeapMotionController::instance;
 }
 
-void LeapMotionController::registerTargetListenerToLeapMotionInputs(QObject *targetListener)
+void LeapMotionController::registerTargetListenerToLeapMotionInputs(QObject *listener)
 {
-    this->leapListener->setTargetListener(targetListener);
+    this->leapListener->addInputListener(listener);
+}
+
+void LeapMotionController::registerTargetListenerToLeapMotionGestures(QObject *listener)
+{
+    this->leapListener->addGestureListener(listener);
+}
+
+void LeapMotionController::unregisterTargetListenerFromLeapMotionInputs(QObject *listener)
+{
+    this->leapListener->removeInputListener(listener);
+}
+
+void LeapMotionController::unregisterTargetListenerFromLeapMotionGestures(QObject *listener)
+{
+    this->leapListener->removeGestureListener(listener);
 }

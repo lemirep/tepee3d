@@ -129,6 +129,7 @@ Services::ServicesManager*   Services::ServicesManager::getInstance(QObject *par
  */
 void    Services::ServicesManager::exposeContentToQml(QQmlContext *context)
 {
+    context->setContextProperty("serviceManager", this);
     foreach (ServiceInterface* service, this->services)
     {
         View::QmlContentExposerInterface *exposer = NULL;

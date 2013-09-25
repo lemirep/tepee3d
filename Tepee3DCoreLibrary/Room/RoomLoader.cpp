@@ -128,6 +128,7 @@ void Room::RoomLoader::restoreWidgetsForRoomCallback(QList<QSqlRecord> result, Q
 
 void Room::RoomLoader::restoreSkyboxPathCallBack(QList<QSqlRecord> result, QPointer<QObject> data)
 {
+    Q_UNUSED(data)
     if (result.size() > 1)
     {
         result.pop_front();

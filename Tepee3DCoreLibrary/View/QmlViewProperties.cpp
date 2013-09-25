@@ -88,8 +88,24 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     this->qmlEngine = this->viewer->engine();            //RETRIEVED FROM THE VIEWER USED TO INSTANCIATE AND INSERT NEW QML COMPONENTS FROM PLUGINS
     this->qmlContext = this->viewer->rootContext();      //USED TO SET PROPERTIES TO QML FOR MODELS
     this->qmlEngine->setIncubationController(NULL);
+    // ADD IMPORT PATH FOR QML PLUGIN EXTENSIONS
+    this->qmlEngine->addImportPath(PlatformFactory::getPlatformInitializer()->getQmlDirectory().absolutePath() + "/extensions");
+    this->qmlEngine->addImportPath(PlatformFactory::getPlatformInitializer()->getQmlDirectory().absolutePath() + "/extensions/Tepee3DTouchArea");
+
+    foreach (QString path, this->qmlEngine->importPathList())
+    {
+        qDebug() << "Import Path " << path;
+    }
+
     QObject::connect((QObject*)this->qmlEngine, SIGNAL(quit()), this, SIGNAL(quit()));
     QObject::connect(this->viewer, SIGNAL(closing(QQuickCloseEvent*)), this, SIGNAL(quit()));
+
+#if defined(QT_DEBUG) && !defined(Q_OS_QNX) && !defined(Q_OS_ANDROID)
+    qDebug() << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
+    this->viewer->rootContext()->setContextProperty("DEBUG", true);
+#else
+    this->viewer->rootContext()->setContextProperty("DEBUG", false);
+#endif
 }
 
 /*!
@@ -139,8 +155,11 @@ void    View::QmlViewProperties::setViewerSource(const QUrl &sourceFile)
 void    View::QmlViewProperties::showView()
 {
     emit registerToLeapMotionInputs(this->viewer);
+#if defined(QT_DEBUG)
     this->viewer->show();
-//    this->viewer->showFullScreen();
+#else
+    this->viewer->showFullScreen();
+#endif
 
 }
 

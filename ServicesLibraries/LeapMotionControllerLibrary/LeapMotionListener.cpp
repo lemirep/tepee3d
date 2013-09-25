@@ -3,13 +3,53 @@
 
 LeapMotionListener::LeapMotionListener() : QObject(), Leap::Listener()
 {
-    this->targetListener = NULL;
     this->touchPoints = QList<QTouchEvent::TouchPoint>();
     this->mousePressed = false;
+    this->primaryScreen = QGuiApplication::primaryScreen();
 }
 
 LeapMotionListener::~LeapMotionListener()
 {
+}
+
+void LeapMotionListener::swipeGestureHandler(const Leap::Gesture &gesture, const Leap::Frame &frame)
+{
+    Leap::SwipeGesture swipe = gesture;
+    qDebug() << "Swipe Gesture >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+}
+
+void LeapMotionListener::circleGestureHandler(const Leap::Gesture &gesture, const Leap::Frame &frame)
+{
+    Leap::CircleGesture circle = gesture;
+    qDebug() << "Circle Gesture >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+}
+
+void LeapMotionListener::keyTapGestureHandler(const Leap::Gesture &gesture, const Leap::Frame &frame)
+{
+    Leap::KeyTapGesture keyTap = gesture;
+    qDebug() << "KeyTap Gesture >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+}
+
+void LeapMotionListener::screenTapGestureHandler(const Leap::Gesture &gesture, const Leap::Frame &frame)
+{
+    qDebug() << "ScreenTap Gesture >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
+    Leap::ScreenTapGesture screenTap = gesture;
+    QPointF globalPointerPos = this->convertPointablePosToScreenPos(frame.interactionBox(), screenTap.pointable());
+    QPointF localPointerPos = this->convertGlobalPosToLocalPos(globalPointerPos);
+
+    QCursor ::setPos(globalPointerPos.toPoint());
+    //    QCoreApplication::postEvent(this->targetListener, new QMouseEvent(QMouseEvent::MouseButtonPress,
+    //                                                                      localPointerPos,
+    //                                                                      globalPointerPos,
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::NoModifier));
+    //    QCoreApplication::postEvent(this->targetListener, new QMouseEvent(QMouseEvent::MouseButtonRelease,
+    //                                                                      localPointerPos,
+    //                                                                      globalPointerPos,
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::NoModifier));
 }
 
 void LeapMotionListener::handleMouseEvents(const Leap::Frame &frame)
@@ -23,8 +63,9 @@ void LeapMotionListener::handleMouseEvents(const Leap::Frame &frame)
     // MOUSE BUTTON RELEASED
     // MOUSE MOVE
 
-    if (this->targetListener == NULL)
+    if (this->inputListeners.empty())
         return ;
+
 
     Leap::Pointable pointer = frame.fingers().frontmost();
 
@@ -34,36 +75,54 @@ void LeapMotionListener::handleMouseEvents(const Leap::Frame &frame)
     QMouseEvent::Type frameMouseEvent = QMouseEvent::None;
     QPointF globalPointerPos = this->convertPointablePosToScreenPos(frame.interactionBox(), pointer);
     QPointF localPointerPos = this->convertGlobalPosToLocalPos(globalPointerPos);
+    Qt::MouseButton button = Qt::NoButton;
 
     // FINGER TOUCHING AND NO PREVIOUS PRESS -> SETTING BUTTON PRESS
     if (pointer.touchDistance() <= 0 &&
             pointer.touchZone() == Leap::Pointable::ZONE_TOUCHING &&
-            !mousePressed)
+            !this->mousePressed)
+    {
+        qDebug() << "Press";
+        this->mousePressed = true;
         frameMouseEvent = QMouseEvent::MouseButtonPress;
+        button = Qt::LeftButton;
+    }
 
     // FINGER NOT TOUCHING AND PREVIOUS PRESS -> RELEASING BUTTON PRESS
     if (pointer.touchDistance() > 0 &&
             pointer.touchZone() == Leap::Pointable::ZONE_HOVERING &&
-            mousePressed)
+            this->mousePressed)
+    {
+        qDebug() << "Release";
         frameMouseEvent = QMouseEvent::MouseButtonRelease;
+        this->mousePressed = false;
+        button = Qt::LeftButton;
+    }
 
     // FINGER IN TOUCHING OR HOVERING ZONE AND NO BUTTON PRESS / RELEASE CHANGE -> MouseMove
     if (pointer.touchZone() != Leap::Pointable::ZONE_NONE &&
             frameMouseEvent == QMouseEvent::None)
+    {
+        //        qDebug() << "Move";
         frameMouseEvent = QMouseEvent::MouseMove;
+        QCursor ::setPos(globalPointerPos.toPoint());
+    }
 
     if (frameMouseEvent != QMouseEvent::None)
-        QCoreApplication::postEvent(this->targetListener, new QMouseEvent(frameMouseEvent,
-                                                                          localPointerPos,
-                                                                          globalPointerPos,
-                                                                          Qt::LeftButton,
-                                                                          Qt::LeftButton,
-                                                                          Qt::NoModifier));
+    {
+        foreach (QObject *listener, this->inputListeners)
+            QCoreApplication::postEvent(listener, new QMouseEvent(frameMouseEvent,
+                                                                  localPointerPos,
+                                                                  globalPointerPos,
+                                                                  button,
+                                                                  button,
+                                                                  Qt::NoModifier));
+    }
 }
 
 void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
 {
-    if (this->targetListener == NULL)
+    if (this->inputListeners.empty())
         return ;
     /////// TOUCH EVENTS /////////
     // TOUCHBEGIN
@@ -78,23 +137,40 @@ void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
     for (int i = 0; i < frame.pointables().count(); i++)
     {
         const Leap::Pointable pointer = frame.pointables()[i];
-        if (pointer.touchDistance() <= 0 && // IF TOO SENSISBLE CHANGE 0 FOR A VALUE LIKE 0.5 OR 0.75
-                pointer.touchZone() == Leap::Pointable::ZONE_TOUCHING &&
+        if (pointer.touchDistance() <= 0.5 && // IF TOO SENSISBLE CHANGE 0 FOR A VALUE LIKE 0.5 OR 0.75
+                pointer.touchZone() != Leap::Pointable::ZONE_NONE &&
                 pointer.isValid())
             touchingPointables.append(pointer);
     }
 
     int pointCountDiff = touchingPointables.count() - this->touchPoints.size();
 
+    //    qDebug() << "Points : " << touchingPointables.size();
+    //    qDebug() << "Diff " << pointCountDiff;
+
     if (pointCountDiff == 0 && !this->touchPoints.empty()) // SAME AMOUT OF POINTS AS PREVIOUS FRAME AND MORE THAN 0 POINTS
+    {
+        qDebug() << "Touch Update";
         frameTouchEvent = QTouchEvent::TouchUpdate;
+    }
     else if (pointCountDiff < 0) // LESS POINTS PRESSED THAN PREVIOUS FRAME
+    {
         if (touchingPointables.count() == 0) // NO MORE TOUCHING POINTS
+        {
+            qDebug() << "Touch End";
             frameTouchEvent = QTouchEvent::TouchEnd;
+        }
         else
+        {
+            qDebug() << "Touch Cancel";
             frameTouchEvent = QTouchEvent::TouchCancel;
-    else if (this->touchPoints.empty()) // MORE POINTS IN CURRENT FRAME THAN PREVIOUS
+        }
+    }
+    else if (pointCountDiff > 0 && this->touchPoints.empty()) // MORE POINTS IN CURRENT FRAME THAN PREVIOUS
+    {
+        qDebug() << "Touch Begin";
         frameTouchEvent = QTouchEvent::TouchBegin;
+    }
 
     // SET TOUCH POINTS LIST IF TOUCHBEGIN OR TOUCHUPDATE
     if (frameTouchEvent != QTouchEvent::TouchCancel) // NO NEED TO TEST FOR TOUCHEND AS touchPointables == 0 IN THAT CASE
@@ -114,7 +190,7 @@ void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
                     touchPoint = this->touchPoints.takeAt(j);
                     touchPoint.setLastPos(touchPoint.pos());
                     touchPoint.setLastScreenPos(touchPoint.screenPos());
-                    touchPoint.setLastNormalizedPos(touchPoint.normalizedPos());
+                    //                    touchPoint.setLastNormalizedPos(touchPoint.normalizedPos());
                 }
             }
 
@@ -123,7 +199,7 @@ void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
             {
                 touchPoint.setStartPos(localPointerPos);
                 touchPoint.setStartScreenPos(globalPointerPos);
-                touchPoint.setStartNormalizedPos(QPointF(normalizedPointerPos.x, normalizedPointerPos.y));
+                //                touchPoint.setStartNormalizedPos(QPointF(normalizedPointerPos.x, normalizedPointerPos.y));
                 //                if (frame.pointables().frontmost() == pointer)
                 //                    touchPoint.setPrimary(true);
             }
@@ -131,7 +207,8 @@ void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
             touchPoint.setPos(localPointerPos);
             touchPoint.setScreenPos(globalPointerPos);
             touchPoint.setPressure(pointer.touchDistance());
-            touchPoint.setNormalizedPos(QPointF(normalizedPointerPos.x, normalizedPointerPos.y));
+            this->touchPoints.prepend(touchPoint);
+            //            touchPoint.setNormalizedPos(QPointF(normalizedPointerPos.x, normalizedPointerPos.y));
         }
 
     // CLEAR TOUCH POINTS ON TOUCHEND OR TOUCHCANCEL
@@ -140,36 +217,50 @@ void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
 
     // TRANSMIT EVENT TO TARGETLISTENER IF THE EVENT IS VALID
     if (frameTouchEvent != QTouchEvent::None)
-        QCoreApplication::postEvent(this->targetListener,
-                                    new QTouchEvent(frameTouchEvent,
-                                                    LeapMotionTouchDevice::getInstance(),
-                                                    Qt::NoModifier,
-                                                    0,
-                                                    touchPoints));
+        foreach (QObject *listener, this->inputListeners)
+            QCoreApplication::postEvent(listener,
+                                        new QTouchEvent(frameTouchEvent,
+                                                        NULL,
+                                                        //                                                        LeapMotionTouchDevice::getInstance(),
+                                                        Qt::NoModifier,
+                                                        0,
+                                                        touchPoints));
 }
 
 QPointF LeapMotionListener::convertPointablePosToScreenPos(const Leap::InteractionBox &interactionBox,
                                                            const Leap::Pointable &pointable)
 {
     Leap::Vector normalizedPos = interactionBox.normalizePoint(pointable.stabilizedTipPosition());
-    return QPointF(normalizedPos.x * this->targetListener->width(),
-                   this->targetListener->height() - normalizedPos.y * this->targetListener->height());
+    return this->convertPointablePosToScreenPos(normalizedPos);
 }
 
 QPointF LeapMotionListener::convertPointablePosToScreenPos(const Leap::Vector &normalizedPos)
 {
-    return QPointF(normalizedPos.x * this->targetListener->width(),
-                   this->targetListener->height() - normalizedPos.y * this->targetListener->height());
+    return QPointF(normalizedPos.x * 1920,
+                   (1 - normalizedPos.y) * 1080);
+    //    return QPointF(normalizedPos.x * this->primaryScreen->geometry().x(),
+    //                   (1 - normalizedPos.y) * this->primaryScreen->geometry().y());
 }
 
 QPointF LeapMotionListener::convertGlobalPosToLocalPos(const QPointF &globalPos)
 {
-    return QPointF(this->targetListener->mapFromGlobal(globalPos.toPoint()));
+    //    return QPointF(this->primaryScreen->m(globalPos.toPoint()));
+    return globalPos;
 }
 
-void LeapMotionListener::onInit(const Leap::Controller &)
+void LeapMotionListener::onInit(const Leap::Controller &controller)
 {
     qDebug() << "On Listener Init";
+    // SET SUPPORTED GESTURES WE WANT TO HANDLE
+    controller.enableGesture(Leap::Gesture::TYPE_CIRCLE, true);
+    controller.enableGesture(Leap::Gesture::TYPE_SWIPE, true);
+    controller.enableGesture(Leap::Gesture::TYPE_SCREEN_TAP, true);
+    controller.enableGesture(Leap::Gesture::TYPE_KEY_TAP, true);
+
+    this->gestureHandlers[Leap::Gesture::TYPE_SWIPE] = &LeapMotionListener::swipeGestureHandler;
+    this->gestureHandlers[Leap::Gesture::TYPE_CIRCLE] = &LeapMotionListener::circleGestureHandler;
+    this->gestureHandlers[Leap::Gesture::TYPE_KEY_TAP] = &LeapMotionListener::keyTapGestureHandler;
+    this->gestureHandlers[Leap::Gesture::TYPE_SCREEN_TAP] = &LeapMotionListener::screenTapGestureHandler;
 }
 
 void LeapMotionListener::onConnect(const Leap::Controller &)
@@ -191,12 +282,23 @@ void LeapMotionListener::onFrame(const Leap::Controller &controller)
 {
     Leap::Frame frame = controller.frame();
 
-    qDebug() << "On Listener Frame";
+    //    QCoreApplication::postEvent(this->targetListener, new QMouseEvent(QMouseEvent::MouseButtonPress,
+    //                                                                      QPointF(50, 400),
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::NoModifier));
+    //    QCoreApplication::postEvent(this->targetListener, new QMouseEvent(QMouseEvent::MouseButtonRelease,
+    //                                                                      QPointF(50, 400),
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::LeftButton,
+    //                                                                      Qt::NoModifier));
+
+    //    qDebug() << "On Listener Frame";
     if (frame.isValid())
     {
         // RETRIEVE FINGER INFORMATIONS AND CONVERT THEM TO MOUSE AND TOUCH EVENTS
         this->handleMouseEvents(frame);
-        this->handleTouchEvents(frame);
+        //        this->handleTouchEvents(frame);
 
         // ANALYSE FRAME GESTURES AND CALL TARGETS THAT ARE QTQUICK PLUGINS
         // CREATE FOR QTQUICK PLUGINS (ONE FOR EACH GESTURE)
@@ -209,6 +311,12 @@ void LeapMotionListener::onFrame(const Leap::Controller &controller)
         // CIRCLE
         // KEY TAP
         // frame.gestures CONTAINS ALL GESTURES OF THE CURRENT FRAME
+        for (int i = 0; i < frame.gestures().count(); i++)
+        {
+            Leap::Gesture gesture = frame.gestures()[i];
+            if (gesture.isValid() && this->gestureHandlers.contains(gesture.type()))
+                (this->*this->gestureHandlers[gesture.type()])(gesture, frame);
+        }
     }
 }
 
@@ -222,9 +330,32 @@ void LeapMotionListener::onFocusLost(const Leap::Controller &)
     qDebug() << "On Listener FocusLost";
 }
 
-void LeapMotionListener::setTargetListener(QObject *target)
+void LeapMotionListener::addInputListener(QObject *target)
 {
-    this->targetListener = qobject_cast<QWindow*>(target);
+    if ((qobject_cast<QQuickItem *>(target) != NULL ||
+         qobject_cast<QWindow*>(target) != NULL) &&
+            !this->inputListeners.contains(target))
+        this->inputListeners.append(target);
+}
+
+void LeapMotionListener::removeInputListener(QObject *target)
+{
+    if (target != NULL && this->inputListeners.contains(target))
+        this->inputListeners.removeAll(target);
+}
+
+void LeapMotionListener::addGestureListener(QObject *listener)
+{
+    if ((qobject_cast<QQuickItem *>(listener) != NULL ||
+         qobject_cast<QWindow*>(listener) != NULL) &&
+            !this->inputListeners.contains(listener))
+        this->inputListeners.append(listener);
+}
+
+void LeapMotionListener::removeGestureListener(QObject *listener)
+{
+    if (listener != NULL && this->inputListeners.contains(listener))
+        this->inputListeners.removeAll(listener);
 }
 
 

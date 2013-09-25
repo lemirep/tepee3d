@@ -18,6 +18,10 @@ HEADERS += CoreManager.h
 
 SOURCES += CoreManager.cpp
 
+OBJECTS_DIR = tmp
+
+MOC_DIR = tmp
+
 # Include Shared Development Files
 include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 # Include QmlViewManagement

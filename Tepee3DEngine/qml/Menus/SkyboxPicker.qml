@@ -31,18 +31,20 @@ Item
             PathPercent {value : 0}
             PathAttribute {name : "delScale"; value : 0.6}
             PathAttribute {name : "delAngle"; value : 60}
+            PathAttribute {name : "delZ"; value : 0}
 
 
             // CENTER
             PathCurve {x : skyboxes_view.width / 2; y : skyboxes_view.y + skyboxes_view.height / 5}
             PathAttribute {name : "delScale"; value : 1}
+            PathAttribute {name : "delZ"; value : 1}
+
 
             // RIGHT
             PathCurve {x : skyboxes_view.width; y : skyboxes_view.y + skyboxes_view.height / 4}
             PathAttribute {name : "delScale"; value : 0.6}
             PathAttribute {name : "delAngle"; value : -60}
-
-
+            PathAttribute {name : "delZ"; value : 0}
         }
 
         delegate : Component {
@@ -54,6 +56,7 @@ Item
                 width : skyboxes_view.width / 4
                 height : skyboxes_view.height
                 scale : PathView.onPath ? PathView.delScale : 1
+                z :  PathView.onPath ? PathView.delZ : 0
                 transform: [Rotation { origin.x: width / 2; origin.y: 0; axis { x: 0; y: 1; z: 0 } angle: rAngle}]
 
                 property variant fileModel : FolderListModel {
@@ -71,6 +74,7 @@ Item
                             width : skyboxes_view.width / 4
                             height : skyboxes_view.height
                             fillMode : Image.PreserveAspectFit
+                            asynchronous: true
                             source : "../Resources/Textures/skyboxes/" + path + "/_north.jpg"
                         }
                     }

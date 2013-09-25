@@ -32,11 +32,12 @@
 
 #define ANDROID_LIB_DIR "/data/data/org.qtproject.example.Tepee3D/lib"
 #define ANDROID_DATA_DIR "./"
+#define ANDROID_QML_DIR "qml"
 #define ANDROID_THIRDPARTY_DIR "3rd_party"
 #define ANDROID_SERVICES_DIR "services_lib"
 #define ANDROID_WIDGETS_DIR "widget_libraries"
 #define ANDROID_ROOM_DIR "room_library"
-#define ANDROID_WIDGETS_RESOURCE_DIR "plugin_qml"
+#define ANDROID_WIDGETS_RESOURCE_DIR "plugins_qml"
 #define ANDROID_DATABASE_DIR "databases"
 
 
@@ -46,6 +47,7 @@ public:
     AndroidPlatformInitializer();
     bool initPlatform();
     virtual QDir           getDataDirectory() const;
+    virtual QDir           getQmlDirectory() const;
     virtual QDir           getWidgetSharedLibrariesDirectory() const;
     virtual QDir           getWidgetsResourceDirectory() const;
     virtual QDir           getThirdPartiesLibrariesDirectory() const;
@@ -56,6 +58,7 @@ public:
     virtual QString        getPlatformName() const;
 
     bool                      copyLibToDir(QString src, QString dst);
+
 };
 
 #endif // ANDROIDPLATFORMINITIALIZER_H

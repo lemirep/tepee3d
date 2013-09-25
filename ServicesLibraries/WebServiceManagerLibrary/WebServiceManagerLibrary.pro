@@ -23,6 +23,10 @@ SOURCES += WebServiceManager.cpp \
 HEADERS += WebServiceManager.h \
     NetworkReplyRepeater.h
 
+OBJECTS_DIR = tmp
+
+MOC_DIR = tmp
+
 DESTDIR = ../../Tepee3DEngine/libraries/services_lib
 
 INCLUDEPATH += ../../Tepee3DEngine/DeveloperAPIFiles/Services

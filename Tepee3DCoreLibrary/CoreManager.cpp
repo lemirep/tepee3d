@@ -140,6 +140,7 @@ bool    CoreManager::initView()
     View::QmlViewProperties::exposeContentToQml(this->roomManager);
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginsManager);
+    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
 
     // TELLS ROOM MANAGER TO RESTORE ROOMS AND SETTINGS ACCORDING TO DATA IN SQLITE DATABASE
     this->roomManager->restoreViewProperties();
@@ -152,7 +153,7 @@ bool    CoreManager::initView()
 
     // SET STARTING QML FILE
     // RETRIEVE APP DIRECTORY TO LOAD QML INDEPENDANTLY FROM PLATFORM
-    QUrl localFile = QUrl::fromLocalFile(PlatformFactory::getPlatformInitializer()->getDataDirectory().absolutePath() + "/qml/main.qml");
+    QUrl localFile = QUrl::fromLocalFile(PlatformFactory::getPlatformInitializer()->getQmlDirectory().absolutePath() + "/main.qml");
     if (localFile.isValid())
     {
         this->viewProperties->setViewerSource(localFile);

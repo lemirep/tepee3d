@@ -3,13 +3,25 @@
 
 namespace Services
 {
-class LeapMotionServiceUserInterface
+
+class LeapMotionServiceInputUserInterface
 {
 public :
     // REGISTER SIGNAL
-    virtual void    registerToLeapMotionInputs(QObject *targetListener) = 0;
+    virtual void    registerToLeapMotionInputs(QObject *listener) = 0;
+    virtual void    unregisterFromLeapMotionInputs(QObject *listener) = 0;
 };
+
+class LeapMotionServiceGestureUserInterface
+{
+public :
+    // REGISTER SIGNAL
+    virtual void    registerToLeapMotionGestures(QObject *listener) = 0;
+    virtual void    unregisterFromLeapMotionGestures(QObject *listener) = 0;
+};
+
 }
-Q_DECLARE_INTERFACE(Services::LeapMotionServiceUserInterface, "com.tepee3d.Services.LeapMotionServiceUserInterface/1.0")
+Q_DECLARE_INTERFACE(Services::LeapMotionServiceInputUserInterface, "com.tepee3d.Services.LeapMotionServiceInputUserInterface/1.0")
+Q_DECLARE_INTERFACE(Services::LeapMotionServiceGestureUserInterface, "com.tepee3d.Services.LeapMotionServiceGestureUserInterface/1.0")
 
 #endif // LEAPMOTIONSERVICEUSERINTERFACE_H

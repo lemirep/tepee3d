@@ -70,8 +70,8 @@ public:
     ~ServicesManager();
     void    exposeContentToQml(QQmlContext *context);
     static  ServicesManager*        getInstance(QObject *parent = 0);
-    static  void                    connectObjectToServices(QObject *serviceUser);
-    static  void                    disconnectObjectFromServices(QObject *serviceUser);
+    Q_INVOKABLE static  void        connectObjectToServices(QObject *serviceUser);
+    Q_INVOKABLE static  void        disconnectObjectFromServices(QObject *serviceUser);
     void                            loadServicesLibraries();
 
     void                            receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, QPointer<QObject> data);

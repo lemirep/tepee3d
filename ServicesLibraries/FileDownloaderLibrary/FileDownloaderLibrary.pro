@@ -9,6 +9,10 @@ TARGET = FileDownloaderLibrary
 
 DEFINES += FILEDOWNLOADERLIBRARY_LIBRARY
 
+OBJECTS_DIR = tmp
+
+MOC_DIR = tmp
+
 HEADERS += \
     FileDownloaderLibrary.h \
     FileDownloadJob.h

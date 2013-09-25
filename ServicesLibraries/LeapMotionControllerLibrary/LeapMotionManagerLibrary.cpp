@@ -5,7 +5,7 @@ LeapMotionManagerLibrary::LeapMotionManagerLibrary() : QObject()
 {
     this->leapMotionController = NULL;
     // SHOULD BE CALLED TO REGISTER LEAP MOTION AS TOUCH DEVICE BUT INCLUDE NOT RESOLVED
-//    QWindowSystemInterface::registerTouchDevice(LeapMotionTouchDevice::getInstance());
+    //    QWindowSystemInterface::registerTouchDevice(LeapMotionTouchDevice::getInstance());
 }
 
 LeapMotionManagerLibrary::~LeapMotionManagerLibrary()
@@ -23,28 +23,50 @@ void LeapMotionManagerLibrary::initLibraryConnection(QObject *parent)
 
 bool LeapMotionManagerLibrary::connectServiceToUser(QObject *user)
 {
-    if(qobject_cast<Services::LeapMotionServiceUserInterface *>(user) != NULL)
+    bool connected = false;
+    if(qobject_cast<Services::LeapMotionServiceInputUserInterface *>(user) != NULL)
     {
         QObject::connect(user, SIGNAL(registerToLeapMotionInputs(QObject*)),
                          this->leapMotionController, SLOT(registerTargetListenerToLeapMotionInputs(QObject*)));
-        return true;
+        QObject::connect(user, SIGNAL(unregisterFromLeapMotionInputs(QObject*)),
+                         this->leapMotionController, SLOT(unregisterTargetListenerFromLeapMotionInputs(QObject*)));
+        connected = true;
     }
-    else
+    if(qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(user) != NULL)
+    {
+        QObject::connect(user, SIGNAL(registerToLeapMotionGestures(QObject*)),
+                         this->leapMotionController, SLOT(registerTargetListenerToLeapMotionGestures(QObject*)));
+        QObject::connect(user, SIGNAL(unregisterFromLeapMotionGestures(QObject*)),
+                         this->leapMotionController, SLOT(unregisterTargetListenerFromLeapMotionGestures(QObject*)));
+        connected = true;
+    }
+    if (!connected)
         qDebug() << "Object doesn't implement LeapMotionServiceUserInterface";
-    return false;
+    return connected;
 }
 
 bool LeapMotionManagerLibrary::disconnectServiceFromUser(QObject *user)
 {
-    if(qobject_cast<Services::LeapMotionServiceUserInterface *>(user) != NULL)
+    bool connected = false;
+    if(qobject_cast<Services::LeapMotionServiceInputUserInterface *>(user) != NULL)
     {
         QObject::disconnect(user, SIGNAL(registerToLeapMotionInputs(QObject*)),
                          this->leapMotionController, SLOT(registerTargetListenerToLeapMotionInputs(QObject*)));
-        return true;
+        QObject::disconnect(user, SIGNAL(unregisterFromLeapMotionInputs(QObject*)),
+                         this->leapMotionController, SLOT(unregisterTargetListenerFromLeapMotionInputs(QObject*)));
+        connected = true;
     }
-    else
+    if(qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(user) != NULL)
+    {
+        QObject::disconnect(user, SIGNAL(registerToLeapMotionGestures(QObject*)),
+                         this->leapMotionController, SLOT(registerTargetListenerToLeapMotionGestures(QObject*)));
+        QObject::connect(user, SIGNAL(unregisterFromLeapMotionGestures(QObject*)),
+                         this->leapMotionController, SLOT(unregisterTargetListenerFromLeapMotionGestures(QObject*)));
+        connected = true;
+    }
+    if (!connected)
         qDebug() << "Object doesn't implement LeapMotionServiceUserInterface";
-    return false;
+    return connected;
 }
 
 int LeapMotionManagerLibrary::getServiceId() const

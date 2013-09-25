@@ -16,6 +16,10 @@ HEADERS += BasicRoom.h
 
 DESTDIR = ../Tepee3DEngine/libraries/room_library
 
+OBJECTS_DIR = tmp
+
+MOC_DIR = tmp
+
 include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
 linux {

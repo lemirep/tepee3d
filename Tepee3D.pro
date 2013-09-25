@@ -1,6 +1,7 @@
 TEMPLATE    = subdirs
 SUBDIRS     =  RoomLibrary       \
                ServicesLibraries \
+               Tepee3DQmlExtensionPlugins \
                Tepee3DCoreLibrary \
                Tepee3DEngine \
                Plugins

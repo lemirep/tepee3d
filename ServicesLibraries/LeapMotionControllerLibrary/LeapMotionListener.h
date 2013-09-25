@@ -4,9 +4,13 @@
 #include <QObject>
 #include <QList>
 #include <QCoreApplication>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QWindow>
 #include <QTouchEvent>
 #include <QMouseEvent>
+#include <QHash>
+#include <QQuickItem>
 #include "LeapMotionTouchDevice.h"
 #include "Leap.h"
 
@@ -19,9 +23,18 @@ public :
     ~LeapMotionListener();
 
 private :
-    QWindow* targetListener;
+    QList<QObject*> inputListeners;
+    QList<QObject*> gesturesListeners;
+    QScreen         *primaryScreen;
+
     QList<QTouchEvent::TouchPoint> touchPoints;
     bool                           mousePressed;
+    QHash<Leap::Gesture::Type, void (LeapMotionListener::*)(const Leap::Gesture &gesture, const Leap::Frame &frame)> gestureHandlers;
+
+    void swipeGestureHandler(const Leap::Gesture &gesture, const Leap::Frame & frame);
+    void circleGestureHandler(const Leap::Gesture &gesture, const Leap::Frame & frame);
+    void keyTapGestureHandler(const Leap::Gesture &gesture, const Leap::Frame & frame);
+    void screenTapGestureHandler(const Leap::Gesture &gesture, const Leap::Frame & frame);
 
     void handleMouseEvents(const Leap::Frame &frame);
     void handleTouchEvents(const Leap::Frame &frame);
@@ -40,7 +53,10 @@ public:
     void onFocusLost(const Leap::Controller &);
 
 public:
-    void    setTargetListener(QObject *target);
+    void    addInputListener(QObject *target);
+    void    removeInputListener(QObject *target);
+    void    addGestureListener(QObject *listener);
+    void    removeGestureListener(QObject *listener);
 };
 
 #endif // LEAPMOTIONLISTENER_H

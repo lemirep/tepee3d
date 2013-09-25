@@ -1,5 +1,6 @@
 // import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.1
+import Tepee3DTouchArea 1.0
 
 Item
 {
@@ -14,6 +15,18 @@ Item
         Behavior on opacity {NumberAnimation {duration: 500; easing.type: Easing.InOutQuad }}
     }
 
+    // HANDLE TOUCH EVENTS EXCLUSIVELY
+    Tepee3DTouchArea
+    {
+        anchors.fill: parent
+        minimumTouchPoints: 1
+        onPressed:
+        {
+            console.log("multi touch pressed");
+        }
+    }
+
+    // HANDLE MOUSE AND SINGLE TOUCH EVENTS
     MouseArea
     {
         property int savedX;
@@ -26,6 +39,8 @@ Item
             savedX = mouseX;
             savedY = mouseY;
             obj = null;
+
+            console.log("x : " + savedX + " y : " + savedY)
 
             // CHECK ON WHICH MENU WE CLICKED
             if (savedX >= topMenu.x && savedX <= (topMenu.x + topMenu.width) &&

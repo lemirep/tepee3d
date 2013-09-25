@@ -14,15 +14,19 @@
 HEADERS         = \
     TestPlugin.h
 
- SOURCES         = \
+SOURCES         = \
     TestPlugin.cpp
 
 #include development files
 include (../../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = test_plugin                    #NAME OF THE PLUGIN LIBRAY
- DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries             #WHERE TO PUT THE LIBRARY
- DESTDIRQML      = qml_folder
+TARGET          = test_plugin                    #NAME OF THE PLUGIN LIBRAY
+DESTDIR         = ../../Tepee3DEngine/libraries/widget_libraries             #WHERE TO PUT THE LIBRARY
+DESTDIRQML      = qml_folder
+
+OBJECTS_DIR = tmp
+
+MOC_DIR = tmp
 
 # # install
 # target.path = plugins/build
