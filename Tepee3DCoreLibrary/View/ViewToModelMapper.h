@@ -29,7 +29,8 @@
 #define VIEWTOMODELMAPPER_H
 
 #include <QObject>
-#include "RoomManager.h"
+#include <RoomManager.h>
+#include <ServicesManager.h>
 
 namespace View
 {
@@ -43,7 +44,8 @@ public:
     explicit ViewToModelMapper(QObject *parent = 0);
     
     static Plugins::PluginBase* getPluginFromRoom(int roomId, int pluginId);
-
+    static void                 connectQQuickItemToServices(QQuickItem *item);
+    static void                 disconnectQQuickItemFromServices(QQuickItem *item);
 
 signals:
     

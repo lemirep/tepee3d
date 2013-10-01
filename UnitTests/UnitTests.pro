@@ -17,6 +17,7 @@ include(./TestClasses/TestClasses.pri);
 # Include Shared Development Files
 include(../Tepee3DEngine/DeveloperAPIFiles/DevelopmentFiles.pri)
 include(../Tepee3DCoreLibrary/Platforms/Platforms.pri)
+include(../Tepee3DCoreLibrary/CustomQmlComponents/CustomQmlComponents.pri)
 include(../Tepee3DCoreLibrary/Services/Services.pri)
 include(../Tepee3DCoreLibrary/Room/Room.pri)
 include(../Tepee3DCoreLibrary/Plugins/Plugins.pri)

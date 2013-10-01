@@ -52,6 +52,7 @@ public :
     virtual QDir            getWidgetsResourceDirectory() const = 0;
     virtual QDir            getThirdPartiesLibrariesDirectory() const = 0;
     virtual QDir            getQmlDirectory() const = 0;
+    virtual QDir            getQmlExtensionsDirectory() const = 0;
     virtual QDir            getServicesSharedLibrariesDirectory() const = 0;
     virtual QDir            getRoomSharedLibraryDirectory() const = 0;
     virtual QDir            getSharedLibraryDirectory() const = 0;

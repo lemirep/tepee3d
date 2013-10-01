@@ -34,4 +34,6 @@ include(Services/Services.pri)
 include(Plugins/Plugins.pri)
 # Include Platform Specific Sources
 include(Platforms/Platforms.pri)
+# Include Custom QML Components
+include(CustomQmlComponents/CustomQmlComponents.pri)
 

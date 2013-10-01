@@ -140,7 +140,6 @@ bool    CoreManager::initView()
     View::QmlViewProperties::exposeContentToQml(this->roomManager);
     View::QmlViewProperties::exposeContentToQml(this->servicesManager);
     View::QmlViewProperties::exposeContentToQml(this->pluginsManager);
-    View::QmlViewProperties::exposeContentToQml(this->servicesManager);
 
     // TELLS ROOM MANAGER TO RESTORE ROOMS AND SETTINGS ACCORDING TO DATA IN SQLITE DATABASE
     this->roomManager->restoreViewProperties();

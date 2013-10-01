@@ -130,9 +130,9 @@ Viewport
     //    Keys.onDownPressed:    {}
 
     Skybox            {source : "Resources/Textures/skyboxes/" + ((roomManager.skyboxPath == "") ? "bridge" : roomManager.skyboxPath)}
-    MenuCenter        {id : menu_center; anchors.fill : parent}
     RoomsContainer    {id : roomContainer}
     NotificationManager    {id : notification}
+    MenuCenter        {id : menu_center; anchors.fill : parent}
     FpsCounter {}
 }
 

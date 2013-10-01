@@ -36,7 +36,8 @@
 #include "PlatformFactory.h"
 #include "QmlContentExposerInterface.h"
 #include "LeapMotionServiceUserInterface.h"
-
+#include "Tepee3DTouchArea.h"
+#include "LeapGestureArea.h"
 
 namespace View
 {

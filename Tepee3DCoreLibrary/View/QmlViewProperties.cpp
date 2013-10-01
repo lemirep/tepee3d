@@ -88,24 +88,21 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     this->qmlEngine = this->viewer->engine();            //RETRIEVED FROM THE VIEWER USED TO INSTANCIATE AND INSERT NEW QML COMPONENTS FROM PLUGINS
     this->qmlContext = this->viewer->rootContext();      //USED TO SET PROPERTIES TO QML FOR MODELS
     this->qmlEngine->setIncubationController(NULL);
-    // ADD IMPORT PATH FOR QML PLUGIN EXTENSIONS
-    this->qmlEngine->addImportPath(PlatformFactory::getPlatformInitializer()->getQmlDirectory().absolutePath() + "/extensions");
-    this->qmlEngine->addImportPath(PlatformFactory::getPlatformInitializer()->getQmlDirectory().absolutePath() + "/extensions/Tepee3DTouchArea");
-
-    foreach (QString path, this->qmlEngine->importPathList())
-    {
-        qDebug() << "Import Path " << path;
-    }
-
     QObject::connect((QObject*)this->qmlEngine, SIGNAL(quit()), this, SIGNAL(quit()));
     QObject::connect(this->viewer, SIGNAL(closing(QQuickCloseEvent*)), this, SIGNAL(quit()));
 
 #if defined(QT_DEBUG) && !defined(Q_OS_QNX) && !defined(Q_OS_ANDROID)
-    qDebug() << "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++";
     this->viewer->rootContext()->setContextProperty("DEBUG", true);
 #else
     this->viewer->rootContext()->setContextProperty("DEBUG", false);
 #endif
+
+    // REGISTER CUSTOM QML ELEMENTS
+    qmlRegisterType<Tepee3DQmlExtensions::LeapGestureArea>("Tepee3D", 1, 0, "LeapGestureArea");
+    qmlRegisterType<Tepee3DQmlExtensions::QQuickMultiPointTouchArea>("Tepee3D", 1, 0, "Tepee3DTouchArea");
+    qmlRegisterType<Tepee3DQmlExtensions::QQuickTouchPoint>("Tepee3D", 1, 0, "Tepee3DTouchPoint");
+    qmlRegisterType<Tepee3DQmlExtensions::QQuickGrabGestureEvent>("Tepee3D", 1, 0, "Tepee3DGrabGestureEvent");
+
 }
 
 /*!

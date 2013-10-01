@@ -129,6 +129,7 @@ Models::ListModel::ListModel(Models::ListItem *prototype, QObject *parent) : QAb
 {
     this->prototype = prototype;
     this->sortEnabled = false;
+    this->items = QList<Models::ListItem*>();
 }
 
 /*!
@@ -171,7 +172,7 @@ QVariant    Models::ListModel::data(const QModelIndex &index, int role) const
  */
 QHash<int, QByteArray>  Models::ListModel::roleNames() const
 {
-    return this->prototype->roleNames();
+        return this->prototype->roleNames();
 }
 
 /*!
@@ -314,6 +315,8 @@ bool        Models::ListModel::removeRows(int row, int count, const QModelIndex 
  */
 void        Models::ListModel::clear()
 {    
+    if (this->items.size() == 0)
+        return ;
     this->removeRows(0, this->items.size());
     emit (countChanged(this->rowCount()));
 }

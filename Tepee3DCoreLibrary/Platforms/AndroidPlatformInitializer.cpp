@@ -58,8 +58,8 @@ bool AndroidPlatformInitializer::initPlatform()
         pathsList.prepend("qml/Plugins");
         pathsList.prepend("qml/content");
         pathsList.prepend("qml/js");
-        pathsList.prepend("qml/extensions/Tepee3DTouchArea");
-        pathsList.prepend("qml/extensions");
+//        pathsList.prepend("qml/extensions/Tepee3DTouchArea");
+//        pathsList.prepend("qml/extensions");
         pathsList.prepend("qml");
 
         pathsList.prepend("databases");
@@ -98,6 +98,7 @@ bool AndroidPlatformInitializer::initPlatform()
         }
     }
 
+    // SERVICES LIBRARIES
     QDir tmpServicesLibDir = AndroidPlatformInitializer::getServicesSharedLibrariesDirectory();
     qDebug() << "Service DIr Lib " << tmpServicesLibDir.absolutePath();
     if (!tmpServicesLibDir.exists() &&
@@ -124,6 +125,22 @@ bool AndroidPlatformInitializer::initPlatform()
         QString libName = "libRoomLibrary.so";
         this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
                            tmpRoomLibDir.absolutePath() + "/" + libName);
+    }
+
+    // EXTENSION_LIBRARIES
+    QDir tmpExtensionsLibDir = AndroidPlatformInitializer::getQmlExtensionsDirectory();
+    qDebug() << "Extensions Lib " << tmpExtensionsLibDir.absolutePath();
+    if (!tmpExtensionsLibDir.exists() &&
+            AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_QML_DIR))
+    {
+        QList<QString> extensionLibs;
+        extensionLibs.prepend("libLeapGestureArea.so");
+        extensionLibs.prepend("libTepee3DTouchArea.so");
+        foreach (QString libName, extensionLibs)
+        {
+        this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
+                           tmpExtensionsLibDir.absolutePath() + "/" + libName);
+        }
     }
 
     // WIDGET LIBRARIES
@@ -200,6 +217,11 @@ QDir AndroidPlatformInitializer::getDataDirectory() const
 QDir AndroidPlatformInitializer::getQmlDirectory() const
 {
     return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_QML_DIR));
+}
+
+QDir AndroidPlatformInitializer::getQmlExtensionsDirectory() const
+{
+    return QDir(QString(ANDROID_DATA_DIR) + "/" + QString(ANDROID_QML_EXTENSIONS_DIR));
 }
 
 QString AndroidPlatformInitializer::getPlatformName() const

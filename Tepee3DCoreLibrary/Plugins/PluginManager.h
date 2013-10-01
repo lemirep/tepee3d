@@ -42,7 +42,7 @@
 #include <PluginDownloader.h>
 #include <PluginLoader.h>
 #include <PluginQmlPluginProperties.h>
-#include <QmlViewProperties.h>
+ #include <QmlViewProperties.h>
 #include <ServicesManager.h>
 
 

@@ -58,3 +58,19 @@ Plugins::PluginBase*    View::ViewToModelMapper::getPluginFromRoom(int roomId, i
 {
     return Room::RoomManager::getInstance()->getPluginFromRoom(roomId, pluginId);
 }
+
+/*!
+ * Utility method allowing custom C++ items to register to the services offered by the engine.
+ */
+void View::ViewToModelMapper::connectQQuickItemToServices(QQuickItem *item)
+{
+    return Services::ServicesManager::getInstance()->connectObjectToServices(item);
+}
+
+/*!
+ * Utility method allowing custom C++ items to unregister from the services offered by the engine.
+ */
+void View::ViewToModelMapper::disconnectQQuickItemFromServices(QQuickItem *item)
+{
+    return Services::ServicesManager::getInstance()->disconnectObjectFromServices(item);
+}

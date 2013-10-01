@@ -31,7 +31,6 @@ HEADERS += $$PWD/Plugins/PluginInterface.h	\
            $$PWD/Utils.h \
            $$PWD/CoreLibraryInterface.h
 
-
 INCLUDEPATH += $$PWD
 INCLUDEPATH += $$PWD/Plugins
 INCLUDEPATH += $$PWD/Services

@@ -33,6 +33,7 @@
 
 #define GENERIC_DATA_DIR ""
 #define GENERIC_QML_DIR "qml"
+#define GENERIC_QML_EXTENSIONS_DIR "libraries/qml_extensions"
 #define GENERIC_SHARED_LIBRARIES_DIR "libraries"
 #define GENERIC_THIRDPARTY_LIBRARIES_DIR "libraries/3rd_party"
 #define GENERIC_WIDGET_LIBRARIES_DIR "libraries/widget_libraries"
@@ -48,6 +49,7 @@ public:
     bool        initPlatform();
     QDir        getDataDirectory() const;
     QDir        getQmlDirectory() const;
+    QDir        getQmlExtensionsDirectory() const;
     QDir        getWidgetSharedLibrariesDirectory() const;
     QDir        getWidgetsResourceDirectory() const;
     QDir        getThirdPartiesLibrariesDirectory() const;

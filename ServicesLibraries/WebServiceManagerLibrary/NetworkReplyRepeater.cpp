@@ -64,6 +64,8 @@ void    NetworkReplyRepeater::receiveNetworkReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     Services::WebServiceUserInterface* wbUser = NULL;
+    if (reply == NULL)
+        return ;
     if (!this->receiver.isNull())
          wbUser = qobject_cast<Services::WebServiceUserInterface*>(this->receiver.data());
     if (wbUser)
