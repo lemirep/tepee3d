@@ -91,7 +91,8 @@ When you add a class to your widget's project, you should add the .cpp and the .
 Although a remote compilation service is available to compile your widget, compiling it locally for a given platform might make you gain some time.
 For that you'll need to have built Tepee3D from sources with Qt5 and the Tepee3DQt3D module like explained \l {Building Tepee3D From Sources} {here}
 
-If you want to skip that step, you can use the compilation service to have your widget compiled. You can then download the produced library and resources if the build succeeded by visiting \l {http://tepee3d.dyndns.org/builds}
+If you want to skip that step, you can use the compilation service to have your widget compiled. You can then download the produced library and resources
+if the build succeeded by visiting the \l {http://tepee3d.dyndns.org/builds/} {builds}.
 
 
 \section1 Add your qml 
