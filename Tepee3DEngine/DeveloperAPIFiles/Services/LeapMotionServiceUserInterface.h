@@ -28,20 +28,24 @@ public :
     };
 
 
-    virtual void    onCircleGestureCallBack(const QVector3D &cicrcleCenter,
-                                            const QVector3D &circleNormal,
+    virtual void    onCircleGestureCallBack(int gestureId,
+                                            const QVector3D cicrcleCenter,
+                                            const QVector3D circleNormal,
                                             const float circleRadius,
                                             const float circleTurns,
                                             const GestureState circleGestureState) = 0;
-    virtual void    onScreenTapGestureCallBack(const QVector3D& screenTapDirection,
-                                               const QVector3D &screenTapPosition,
+    virtual void    onScreenTapGestureCallBack(int gestureId,
+                                               const QVector3D screenTapDirection,
+                                               const QVector3D screenTapPosition,
                                                const GestureState screenTapGestureState = DoneState) = 0;
-    virtual void    onKeyTapGestureCallBack(const QVector3D &keyTapDirection,
-                                            const QVector3D &keyTapPosition,
+    virtual void    onKeyTapGestureCallBack(int gestureId,
+                                            const QVector3D keyTapDirection,
+                                            const QVector3D keyTapPosition,
                                             const GestureState keyTapGestureState = DoneState) = 0;
-    virtual void    onSwipeGestureCallBack(const QVector3D &swipeDirection,
-                                           const QVector3D &swipePosition,
-                                           const QVector3D &swipeStartPosition,
+    virtual void    onSwipeGestureCallBack(int gestureId,
+                                           const QVector3D swipeDirection,
+                                           const QVector3D swipePosition,
+                                           const QVector3D swipeStartPosition,
                                            const float swipeSpeed,
                                            const GestureState swipeGestureState) = 0;
 

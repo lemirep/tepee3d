@@ -60,7 +60,8 @@ void LeapMotionListener::swipeGestureHandler(const Leap::Gesture &gesture, const
     // IF SWIPE IS CONTAINED IN THE LISTENER AREA, THIS IS CHECKED BY LeapGestureArea IF THIS IS THE LISTENER
     foreach (QObject *listener, this->gesturesListeners)
         qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener)->
-                onSwipeGestureCallBack(swipeDirection,
+                onSwipeGestureCallBack(swipe.id(),
+                                       swipeDirection,
                                        swipeGlobalPos,
                                        swipeStartPos,
                                        swipe.speed(),
@@ -71,14 +72,15 @@ void LeapMotionListener::circleGestureHandler(const Leap::Gesture &gesture, cons
 {
     Leap::CircleGesture circle = gesture;
     QVector3D circleCenter = this->convertVectorToNormalizedScreenVector(frame.interactionBox(), circle.center());
-    QVector3D circleNormal(circle.normal().x, circle.normal().y, circle.normal().z);
+    QVector3D circleNormal = QVector3D(circle.normal().x, circle.normal().y, circle.normal().z);
     Services::LeapMotionServiceGestureUserInterface::GestureState state = this->gestureStateMatcher[gesture.state()];
 
 
     // IF SWIPE IS CONTAINED IN THE LISTENER AREA, THIS IS CHECKED BY LeapGestureArea IF THIS IS THE LISTENER
     foreach (QObject *listener, this->gesturesListeners)
         qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener)->
-                onCircleGestureCallBack(circleCenter,
+                onCircleGestureCallBack(circle.id(),
+                                        circleCenter,
                                         circleNormal,
                                         circle.radius(),
                                         circle.progress(),
@@ -93,7 +95,7 @@ void LeapMotionListener::keyTapGestureHandler(const Leap::Gesture &gesture, cons
     // IF SWIPE IS CONTAINED IN THE LISTENER AREA, THIS IS CHECKED BY LeapGestureArea IF THIS IS THE LISTENER
     foreach (QObject *listener, this->gesturesListeners)
         qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener)->
-                onKeyTapGestureCallBack(tapDirection, tapPos);
+                onKeyTapGestureCallBack(keyTap.id(), tapDirection, tapPos);
 }
 
 void LeapMotionListener::screenTapGestureHandler(const Leap::Gesture &gesture, const Leap::Frame &frame)
@@ -106,7 +108,7 @@ void LeapMotionListener::screenTapGestureHandler(const Leap::Gesture &gesture, c
     // IF SWIPE IS CONTAINED IN THE LISTENER AREA, THIS IS CHECKED BY LeapGestureArea IF THIS IS THE LISTENER
     foreach (QObject *listener, this->gesturesListeners)
         qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener)->
-                onScreenTapGestureCallBack(tapDirection, screenTap3DPos);
+                onScreenTapGestureCallBack(screenTap.id(), tapDirection, screenTap3DPos);
 }
 
 void LeapMotionListener::handleMouseEvents(const Leap::Frame &frame)
@@ -349,7 +351,8 @@ QVector3D LeapMotionListener::convertVectorToNormalizedScreenVector(const Leap::
 {
     Leap::Vector normalizedPos = interactionBox.normalizePoint(rawPos);
     QPointF screenPos = this->convertPointablePosToScreenPos(normalizedPos);
-    return QVector3D(screenPos.x(), screenPos.y(), normalizedPos.z);
+    QVector3D ret = QVector3D(screenPos.x(), screenPos.y(), normalizedPos.z);
+    return ret;
 }
 
 QPointF LeapMotionListener::convertGlobalPosToLocalPos(const QPointF &globalPos)

@@ -1,7 +1,5 @@
-// import QtQuick 1.0 // to target S60 5th Edition or Maemo 5
 import QtQuick 2.1
 import Tepee3D 1.0
-//import LeapGestureArea 1.0
 
 Item
 {
@@ -41,7 +39,7 @@ Item
         id : multitoucharea
         anchors.fill: parent
         minimumTouchPoints: 2
-        maximumTouchPoints: 5
+        maximumTouchPoints: 15
 
         property var points : [];
 
@@ -81,14 +79,6 @@ Item
     {
         id : leap_gesture_area
         anchors.fill: parent
-        //        width : parent.width
-        //        height : parent.height
-
-        Rectangle
-        {
-            color : "red"
-            anchors.fill: parent
-        }
 
         onSwipeGesture :
         {
@@ -109,7 +99,6 @@ Item
         {
             console.log("KeyTap Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;");
         }
-
     }
 
     // HANDLE MOUSE AND SINGLE TOUCH EVENTS

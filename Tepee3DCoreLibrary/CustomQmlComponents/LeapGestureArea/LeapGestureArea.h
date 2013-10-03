@@ -35,6 +35,142 @@
 
 namespace Tepee3DQmlExtensions
 {
+
+class LeapGesture
+{
+public :
+    virtual int    getId() const = 0;
+    virtual void   setId(int id) = 0;
+};
+
+
+class LeapCircleGesture : public QObject, public LeapGesture
+{
+    Q_OBJECT
+    Q_PROPERTY(int id READ getId)
+    Q_PROPERTY(QVector3D center READ getCenter NOTIFY centerChanged)
+    Q_PROPERTY(QVector3D normal READ getNormal NOTIFY normalChanged)
+    Q_PROPERTY(qreal radius READ getRadius NOTIFY radiusChanged)
+    Q_PROPERTY(qreal turns READ getTurns NOTIFY turnsChanged)
+    Q_PROPERTY(CircleGestureState state READ getState NOTIFY stateChanged)
+
+public:
+    enum CircleGestureState {CircleGestureStart = 1, CircleGestureUpdated, CircleGestureDone };
+
+private:
+    int m_id;
+    QVector3D m_center;
+    QVector3D m_normal;
+    qreal m_radius;
+    qreal m_turns;
+    CircleGestureState m_state;
+
+public :
+
+
+    LeapCircleGesture();
+
+    CircleGestureState getState() const;
+    QVector3D getCenter() const;
+    QVector3D getNormal() const;
+    qreal     getRadius() const;
+    qreal     getTurns() const;
+    int       getId() const;
+
+    void      setId(int id);
+    void      setState(CircleGestureState state);
+    void      setCenter(const QVector3D &center);
+    void      setNormal(const QVector3D &normal);
+    void      setRadius(qreal radius);
+    void      setTurns(qreal turns);
+
+signals :
+    void    stateChanged();
+    void    centerChanged();
+    void    normalChanged();
+    void    radiusChanged();
+    void    turnsChanged();
+};
+
+class LeapSwipeGesture : public QObject, public LeapGesture
+{
+    Q_OBJECT
+    Q_PROPERTY(int id READ getId)
+    Q_PROPERTY(QVector3D direction READ getDirection NOTIFY directionChanged)
+    Q_PROPERTY(QVector3D position READ getPosition NOTIFY positionChanged)
+    Q_PROPERTY(QVector3D startPosition READ getStartPosition NOTIFY startPositionChanged)
+    Q_PROPERTY(qreal speed READ getSpeed NOTIFY speedChanged)
+    Q_PROPERTY(SwipeGestureState state READ getState NOTIFY stateChanged)
+
+public :
+    enum SwipeGestureState {SwipeGestureStart = 1, SwipeGestureUpdated, SwipeGestureDone };
+
+private:
+    SwipeGestureState m_state;
+    QVector3D m_direction;
+    QVector3D m_position;
+    QVector3D m_startPosition;
+    qreal     m_speed;
+    int       m_id;
+
+public :
+
+
+    LeapSwipeGesture();
+
+    SwipeGestureState getState() const;
+    QVector3D getDirection() const;
+    QVector3D getPosition() const;
+    QVector3D getStartPosition() const;
+    qreal     getSpeed() const;
+    int       getId() const;
+
+    void      setId(int id);
+    void      setState(SwipeGestureState state);
+    void      setDirection(const QVector3D &direction);
+    void      setPosition(const QVector3D &position);
+    void      setStartPosition(const QVector3D &startPosition);
+    void      setSpeed(qreal speed);
+
+signals :
+    void directionChanged();
+    void positionChanged();
+    void startPositionChanged();
+    void speedChanged();
+    void stateChanged();
+};
+
+
+class LeapTapGesture : public QObject, public LeapGesture
+{
+    Q_OBJECT
+    Q_PROPERTY(int id READ getId)
+    Q_PROPERTY(QVector3D direction READ getDirection NOTIFY directionChanged)
+    Q_PROPERTY(QVector3D position READ getPosition NOTIFY positionChanged)
+
+private:
+    int m_id;
+    QVector3D m_direction;
+    QVector3D m_position;
+
+public :
+    LeapTapGesture();
+
+    int       getId() const;
+    QVector3D getDirection() const;
+    QVector3D getPosition() const;
+
+    void      setId(int id);
+    void      setPosition(const QVector3D position);
+    void      setDirection(const QVector3D direction);
+
+signals:
+    void      directionChanged();
+    void      positionChanged();
+};
+
+
+
 class LeapGestureArea : public QQuickItem, public Services::LeapMotionServiceGestureUserInterface
 {
     Q_OBJECT
@@ -44,38 +180,44 @@ public:
     LeapGestureArea(QQuickItem *parent = 0);
     ~LeapGestureArea();
 
+private :
+   QHash<int, Tepee3DQmlExtensions::LeapGesture*> savedGestures;
+
 protected :
-    void    touchEvent(QTouchEvent *event);
     QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *data);
     // QQmlParserStatus interface
     void componentComplete();
 
     // LeapMotionServiceGestureUserInterface interface
 public:
-    void onCircleGestureCallBack(const QVector3D &cicrcleCenter,
-                                 const QVector3D &circleNormal,
+    void onCircleGestureCallBack(int gestureId,
+                                 const QVector3D cicrcleCenter,
+                                 const QVector3D circleNormal,
                                  const float circleRadius,
                                  const float circleTurns,
                                  const GestureState circleGestureState);
-    void onScreenTapGestureCallBack(const QVector3D &screenTapDirection,
-                                    const QVector3D &screenTapPosition,
+    void onScreenTapGestureCallBack(int gestureId,
+                                    const QVector3D screenTapDirection,
+                                    const QVector3D screenTapPosition,
                                     const GestureState screenTapGestureState);
-    void onKeyTapGestureCallBack(const QVector3D &keyTapDirection,
-                                 const QVector3D &keyTapPosition,
+    void onKeyTapGestureCallBack(int gestureId,
+                                 const QVector3D keyTapDirection,
+                                 const QVector3D keyTapPosition,
                                  const GestureState keyTapGestureState);
-    void onSwipeGestureCallBack(const QVector3D &swipeDirection,
-                                const QVector3D &swipePosition,
-                                const QVector3D &swipeStartPosition,
+    void onSwipeGestureCallBack(int gestureId,
+                                const QVector3D swipeDirection,
+                                const QVector3D swipePosition,
+                                const QVector3D swipeStartPosition,
                                 const float swipeSpeed,
                                 const GestureState swipeGestureState);
 
 signals:
     void registerToLeapMotionGestures(QObject *listener);
     void unregisterFromLeapMotionGestures(QObject *listener);
-    void circleGesture();
-    void swipeGesture();
-    void keyTapGesture();
-    void screenTapGesture();
+    void circleGesture(LeapCircleGesture *);
+    void swipeGesture(LeapSwipeGesture *);
+    void keyTapGesture(LeapTapGesture *);
+    void screenTapGesture(LeapTapGesture *);
 
 
 };

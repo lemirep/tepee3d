@@ -107,6 +107,7 @@ public slots:
 private:
 
     explicit PluginManager(QObject *parent = 0);
+
     static PluginManager*               instance;
     static Models::ListModel*           locallyAvailablePluginsModel;
     static Models::ListModel*           onlineAvailablePluginsModel;

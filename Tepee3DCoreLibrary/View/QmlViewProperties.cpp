@@ -99,6 +99,9 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
 
     // REGISTER CUSTOM QML ELEMENTS
     qmlRegisterType<Tepee3DQmlExtensions::LeapGestureArea>("Tepee3D", 1, 0, "LeapGestureArea");
+    qmlRegisterType<Tepee3DQmlExtensions::LeapCircleGesture>("Tepee3D", 1, 0, "LeapCircleGesture");
+    qmlRegisterType<Tepee3DQmlExtensions::LeapSwipeGesture>("Tepee3D", 1, 0, "LeapSwipeGesture");
+    qmlRegisterType<Tepee3DQmlExtensions::LeapTapGesture>("Tepee3D", 1, 0, "LeapTapGesture");
     qmlRegisterType<Tepee3DQmlExtensions::QQuickMultiPointTouchArea>("Tepee3D", 1, 0, "Tepee3DTouchArea");
     qmlRegisterType<Tepee3DQmlExtensions::QQuickTouchPoint>("Tepee3D", 1, 0, "Tepee3DTouchPoint");
     qmlRegisterType<Tepee3DQmlExtensions::QQuickGrabGestureEvent>("Tepee3D", 1, 0, "Tepee3DGrabGestureEvent");
