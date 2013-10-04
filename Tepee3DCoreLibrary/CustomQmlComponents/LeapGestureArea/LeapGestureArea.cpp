@@ -256,12 +256,12 @@ void Tepee3DQmlExtensions::LeapCircleGesture::setTurns(qreal turns)
 
 Tepee3DQmlExtensions::LeapSwipeGesture::LeapSwipeGesture() :
     QObject(),
-    m_id(0),
+    m_state(Tepee3DQmlExtensions::LeapSwipeGesture::SwipeGestureStart),
     m_direction(0,0,0),
     m_position(0,0,0),
     m_startPosition(0,0,0),
     m_speed(0),
-    m_state(Tepee3DQmlExtensions::LeapSwipeGesture::SwipeGestureStart)
+    m_id(0)
 
 {
 }

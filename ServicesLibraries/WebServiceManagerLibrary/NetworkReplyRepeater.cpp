@@ -66,9 +66,8 @@ void    NetworkReplyRepeater::receiveNetworkReply()
     Services::WebServiceUserInterface* wbUser = NULL;
     if (reply == NULL)
         return ;
-    if (!this->receiver.isNull())
-         wbUser = qobject_cast<Services::WebServiceUserInterface*>(this->receiver.data());
-    if (wbUser)
+    if (!this->receiver.isNull() &&
+            (wbUser = qobject_cast<Services::WebServiceUserInterface*>(this->receiver.data())) != NULL)
         wbUser->receiveResultFromHttpRequest(reply, this->requestId, this->data);
     else
         qDebug() << " Not an instance of WebServiceUser";

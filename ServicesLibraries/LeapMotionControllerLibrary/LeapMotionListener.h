@@ -72,7 +72,7 @@ private :
     QPointF convertPointablePosToScreenPos(const Leap::InteractionBox &interactionBox,
                                         const Leap::Pointable &pointable);
     QPointF convertPointablePosToScreenPos(const Leap::Vector &normalizedPos);
-    QPointF convertGlobalPosToLocalPos(const QPointF &globalPos);
+    QPointF convertGlobalPosToLocalPos(QObject *container, const QPointF &globalPos);
     QVector3D convertVectorToNormalizedScreenVector(const Leap::InteractionBox &interactionBox,
                                         const Leap::Vector &rawPos);
     // Listener interface
