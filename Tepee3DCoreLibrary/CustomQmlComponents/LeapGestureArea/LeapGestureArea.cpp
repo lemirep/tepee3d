@@ -65,6 +65,7 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onCircleGestureCallBack(int gesture
                                                                      const QVector3D circleNormal,
                                                                      const float circleRadius,
                                                                      const float circleTurns,
+                                                                     const bool clockwise,
                                                                      const Services::LeapMotionServiceGestureUserInterface::GestureState circleGestureState)
 {
     //    qDebug() << "LeapGextureArea Circle " << circleCenter;
@@ -89,6 +90,7 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onCircleGestureCallBack(int gesture
         gesture->setNormal(circleNormal);
         gesture->setRadius(circleRadius);
         gesture->setTurns(circleTurns);
+        gesture->setClockwise(clockwise);
         if (circleGestureState != Services::LeapMotionServiceGestureUserInterface::DoneState)
             this->savedGestures[gestureId] = gesture;
         emit circleGesture(gesture);
@@ -167,7 +169,8 @@ Tepee3DQmlExtensions::LeapCircleGesture::LeapCircleGesture() :
     m_normal(0,0,0),
     m_radius(0),
     m_turns(0),
-    m_state(Tepee3DQmlExtensions::LeapCircleGesture::CircleGestureStart)
+    m_state(Tepee3DQmlExtensions::LeapCircleGesture::CircleGestureStart),
+    m_clockwise(true)
 {
 }
 
@@ -196,6 +199,11 @@ qreal Tepee3DQmlExtensions::LeapCircleGesture::getTurns() const
     return this->m_turns;
 }
 
+bool Tepee3DQmlExtensions::LeapCircleGesture::getClockwise() const
+{
+    return this->m_clockwise;
+}
+
 int Tepee3DQmlExtensions::LeapCircleGesture::getId() const
 {
     return this->m_id;
@@ -204,6 +212,15 @@ int Tepee3DQmlExtensions::LeapCircleGesture::getId() const
 void Tepee3DQmlExtensions::LeapCircleGesture::setId(int id)
 {
     this->m_id = id;
+}
+
+void Tepee3DQmlExtensions::LeapCircleGesture::setClockwise(bool clockwise)
+{
+    if (clockwise != this->m_clockwise)
+    {
+        this->m_clockwise = clockwise;
+        emit clockwiseChanged();
+    }
 }
 
 void Tepee3DQmlExtensions::LeapCircleGesture::setState(Tepee3DQmlExtensions::LeapCircleGesture::CircleGestureState state)

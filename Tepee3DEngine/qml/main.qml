@@ -18,6 +18,7 @@ Viewport
     property color plugin_list_selected_component_color : "#0066cc";
     property real  menu_opacity_deployed : 1.0;
     property real  menu_opacity_retracted : 0;
+    property real  cameraZoom : 1
     property int   camera_movement_velocity : 250;
     property int   menuMinimumWidth : 40
     property int   currentRoomId : -1;
@@ -33,7 +34,7 @@ Viewport
     signal roomChanged(int roomId);
     signal roomFaceIdChanged(int roomFaceId);
 
-//    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
+    //    function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 300 + (150 * Math.floor(roomModel.count/ 10)), -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 0, 1))}
     function moveCameraToSkyView()           {CameraManagement.moveCamera(camera, Qt.vector3d(0, 100, -200), Qt.vector3d(0, 1, 1), Qt.vector3d(0, 1, 0))}
     function getcurrentIdRoom()              {roomChanged(currentRoomId); return currentRoomId}
     function moveCameraHomeRoom()            {Walls.moveCameraToWall(0)}
@@ -48,6 +49,14 @@ Viewport
         RoomManagement.initialize(camera, roomModel, currentRoomFacesModel);
         moveCameraToSkyView();
         pluginMenuSource = "./Menus/SkyboxPicker.qml"
+    }
+
+    onCameraZoomChanged:
+    {
+        if (inRoom())
+        {
+            Walls.zoomOnWall(cameraZoom, currentRoomFaceId)
+        }
     }
 
     onCurrentRoomIdChanged:
@@ -81,8 +90,8 @@ Viewport
     width : (DEBUG) ? 1280 : Screen.width
     height : (DEBUG) ? 800 : Screen.height
 
-//    width : Screen.width
-//    height : Screen.height
+    //    width : Screen.width
+    //    height : Screen.height
 
     navigation : false
     picking : true     // TO ALLOW MOUSE EVENTS ON 3D ITEMS

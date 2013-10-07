@@ -14,25 +14,6 @@ Item
         Behavior on opacity {NumberAnimation {duration: 500; easing.type: Easing.InOutQuad }}
     }
 
-    Repeater
-    {
-        model : multitoucharea.points
-        delegate : Component {
-            Rectangle
-            {
-                z : 100
-                width : 25
-                height : 25
-                radius : 180
-                color : "lightsteelblue"
-                Behavior on scale {NumberAnimation {duration : 500;}}
-                x : modelData.x
-                y : modelData.y
-            }
-        }
-    }
-
-
     // HANDLE TOUCH EVENTS EXCLUSIVELY
     Tepee3DTouchArea
     {
@@ -43,35 +24,68 @@ Item
 
         property var points : [];
 
+        Repeater
+        {
+            model : multitoucharea.points
+            delegate : Component {
+                Rectangle
+                {
+                    z : 100
+                    width : 25
+                    height : 25
+                    radius : 180
+                    color : "lightsteelblue"
+                    Behavior on scale {NumberAnimation {duration : 500;}}
+                    x : modelData.x
+                    y : modelData.y
+                }
+            }
+        }
+
         onPressed:
         {
             // LIST OF NEW PRESSED POINTS
             multitoucharea.points = touchPoints;
-            console.log("multi touch pressed");
         }
 
         onReleased:
         {
             // LIST OF RELEASE POINTS
             multitoucharea.points = touchPoints;
-            console.log("multi touch RELEASED");
         }
 
         onUpdated:
         {
             // LIST OF UPDATED POINTS
             multitoucharea.points = touchPoints;
-            //            updatePoints(touchPoints);
-            //            console.log("multi touch updated");
         }
 
         onTouchUpdated:
         {
             // LIST OF CURRENT TOUCH POINT UPDATED
             multitoucharea.points = touchPoints;
-            //            updatePoints(touchPoints);
-            //            console.log("multi touch touch updated");
         }
+
+        // HANDLE ZOOM AND ROTATION WITH MULTITOUCH IN A ROOM
+        PinchArea
+        {
+            id : pincharea
+            anchors.fill: parent
+            property real oldZoom;
+            enabled: multitoucharea.points.length === 2
+
+            function zoomDelta(zoom, scale)    {return zoom - (Math.log(scale) / Math.log(4))}
+
+            onPinchStarted:    {oldZoom = mainWindow.cameraZoom}
+
+            onPinchUpdated:
+            {
+                var newZoom = zoomDelta(oldZoom, pinch.scale);
+                mainWindow.cameraZoom = (newZoom > 1) ? 1 : (newZoom < 0.2) ? 0.2 : newZoom
+            }
+            onPinchFinished : {}
+        }
+
     }
 
     // LEAP GESTURE AREA
@@ -87,17 +101,27 @@ Item
 
         onCircleGesture:
         {
-            console.log("Circle Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+            if (gesture.state === LeapCircleGesture.CircleGestureDone && gesture.turns >= 2 && mainWindow.inRoom())
+            {
+                var nextWallIdx = mainWindow.currentRoomFaceId;
+                nextWallIdx += (gesture.clockwise) ? 1 : -1
+                if (nextWallIdx < 0)
+                    nextWallIdx = 3
+                else if (nextWallIdx > 3)
+                    nextWallIdx = 0;
+                mainWindow.currentRoomFaceId = nextWallIdx;
+            }
+//            console.log("Circle Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; " + gesture.turns);
         }
 
         onScreenTapGesture:
         {
-            console.log("ScreenTap Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+//            console.log("ScreenTap Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
         }
 
         onKeyTapGesture:
         {
-            console.log("KeyTap Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;");
+//            console.log("KeyTap Gesture Detected;;;;;;;;;;;;;;;;;;;;;;;;;;;");
         }
     }
 
@@ -106,7 +130,7 @@ Item
     {
         Rectangle
         {
-            property bool isPressing : main_mouse_area.pressed
+            property bool isPressing : false;
             id : pointer
             width : 50
             height : width
@@ -130,6 +154,7 @@ Item
             savedX = mouseX;
             savedY = mouseY;
             obj = null;
+            pointer.isPressing = true;
             console.log("Mouse Area Pressed")
 
             // CHECK ON WHICH MENU WE CLICKED
@@ -181,6 +206,7 @@ Item
         }
         onReleased :
         {
+            pointer.isPressing = false;
             console.log("Mouse Area released")
             if (obj)
             {
@@ -192,7 +218,48 @@ Item
                 obj = null;
             }
         }
+        onCanceled:
+        {
+            pointer.isPressing = false;
+        }
     }
+
+
+    //    MouseArea
+    //    {
+    //        anchors.fill: parent
+    //        propagateComposedEvents: true
+    //        onPressed:
+    //        {
+    //            console.log("Mouse 1 Pressed")
+    //        }
+    //        onClicked:
+    //        {
+    //            console.log("Mouse 1 Clicked")
+    //        }
+    //        onReleased:
+    //        {
+    //            console.log("Mouse 1 Released")
+    //        }
+    //    }
+
+    //    MouseArea
+    //    {
+    //        anchors.fill: parent
+    //        propagateComposedEvents: true
+    //        onPressed:
+    //        {
+    //            console.log("Mouse 2 Pressed")
+    //        }
+    //        onClicked:
+    //        {
+    //            console.log("Mouse 2 Clicked")
+    //        }
+    //        onReleased:
+    //        {
+    //            console.log("Mouse 2 Released")
+    //        }
+    //    }
 
     MenuTop // TOP MENU
     {

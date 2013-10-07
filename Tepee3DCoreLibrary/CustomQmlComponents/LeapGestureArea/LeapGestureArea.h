@@ -48,11 +48,13 @@ class LeapCircleGesture : public QObject, public LeapGesture
 {
     Q_OBJECT
     Q_PROPERTY(int id READ getId)
+    Q_PROPERTY(bool clockwise READ getClockwise NOTIFY clockwiseChanged)
     Q_PROPERTY(QVector3D center READ getCenter NOTIFY centerChanged)
     Q_PROPERTY(QVector3D normal READ getNormal NOTIFY normalChanged)
     Q_PROPERTY(qreal radius READ getRadius NOTIFY radiusChanged)
     Q_PROPERTY(qreal turns READ getTurns NOTIFY turnsChanged)
     Q_PROPERTY(CircleGestureState state READ getState NOTIFY stateChanged)
+    Q_ENUMS(CircleGestureState)
 
 public:
     enum CircleGestureState {CircleGestureStart = 1, CircleGestureUpdated, CircleGestureDone };
@@ -64,6 +66,7 @@ private:
     qreal m_radius;
     qreal m_turns;
     CircleGestureState m_state;
+    bool m_clockwise;
 
 public :
 
@@ -75,9 +78,11 @@ public :
     QVector3D getNormal() const;
     qreal     getRadius() const;
     qreal     getTurns() const;
+    bool      getClockwise() const;
     int       getId() const;
 
     void      setId(int id);
+    void      setClockwise(bool clockwise);
     void      setState(CircleGestureState state);
     void      setCenter(const QVector3D &center);
     void      setNormal(const QVector3D &normal);
@@ -90,6 +95,7 @@ signals :
     void    normalChanged();
     void    radiusChanged();
     void    turnsChanged();
+    void    clockwiseChanged();
 };
 
 class LeapSwipeGesture : public QObject, public LeapGesture
@@ -101,6 +107,7 @@ class LeapSwipeGesture : public QObject, public LeapGesture
     Q_PROPERTY(QVector3D startPosition READ getStartPosition NOTIFY startPositionChanged)
     Q_PROPERTY(qreal speed READ getSpeed NOTIFY speedChanged)
     Q_PROPERTY(SwipeGestureState state READ getState NOTIFY stateChanged)
+    Q_ENUMS(SwipeGestureState)
 
 public :
     enum SwipeGestureState {SwipeGestureStart = 1, SwipeGestureUpdated, SwipeGestureDone };
@@ -195,6 +202,7 @@ public:
                                  const QVector3D circleNormal,
                                  const float circleRadius,
                                  const float circleTurns,
+                                 const bool clockwise,
                                  const GestureState circleGestureState);
     void onScreenTapGestureCallBack(int gestureId,
                                     const QVector3D screenTapDirection,
@@ -214,10 +222,10 @@ public:
 signals:
     void registerToLeapMotionGestures(QObject *listener);
     void unregisterFromLeapMotionGestures(QObject *listener);
-    void circleGesture(LeapCircleGesture *);
-    void swipeGesture(LeapSwipeGesture *);
-    void keyTapGesture(LeapTapGesture *);
-    void screenTapGesture(LeapTapGesture *);
+    void circleGesture(LeapCircleGesture *gesture);
+    void swipeGesture(LeapSwipeGesture *gesture);
+    void keyTapGesture(LeapTapGesture *gesture);
+    void screenTapGesture(LeapTapGesture *gesture);
 
 
 };

@@ -41,6 +41,7 @@
 #include "LeapMotionTouchDevice.h"
 #include "LeapMotionServiceUserInterface.h"
 #include "Leap.h"
+#include <qmath.h>
 
 class LeapMotionListener : public QObject, public Leap::Listener
 {
@@ -55,6 +56,7 @@ private :
     QList<QObject*> gesturesListeners;
     QScreen         *primaryScreen;
     QHash<Leap::Gesture::State, Services::LeapMotionServiceGestureUserInterface::GestureState> gestureStateMatcher;
+    int savedMousePointableId;
 
     QList<QTouchEvent::TouchPoint> touchPoints;
 //    QList<QWindowSystemInterface::TouchPoint> touchPoints;
@@ -69,13 +71,14 @@ private :
 
     void handleMouseEvents(const Leap::Frame &frame);
     void handleTouchEvents(const Leap::Frame &frame);
+    QPointF convertHandPosToScreenPos(const Leap::InteractionBox &interactionBox,
+                                      const Leap::Hand &hand);
     QPointF convertPointablePosToScreenPos(const Leap::InteractionBox &interactionBox,
                                         const Leap::Pointable &pointable);
     QPointF convertPointablePosToScreenPos(const Leap::Vector &normalizedPos);
     QPointF convertGlobalPosToLocalPos(QObject *container, const QPointF &globalPos);
     QVector3D convertVectorToNormalizedScreenVector(const Leap::InteractionBox &interactionBox,
                                         const Leap::Vector &rawPos);
-    // Listener interface
 public:
     void onInit(const Leap::Controller &);
     void onConnect(const Leap::Controller &);

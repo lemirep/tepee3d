@@ -36,5 +36,5 @@ function setWalls(roomPosition, roomScale)
     Walls.roomCenter = roomPosition;
     Walls.roomScale = roomScale;
     Walls.preComputeWalls();
-    Walls.preComputeCenters();
+    Walls.preComputeEyes();
 }

@@ -33,6 +33,7 @@ public :
                                             const QVector3D circleNormal,
                                             const float circleRadius,
                                             const float circleTurns,
+                                            const bool clockwise,
                                             const GestureState circleGestureState) = 0;
     virtual void    onScreenTapGestureCallBack(int gestureId,
                                                const QVector3D screenTapDirection,
