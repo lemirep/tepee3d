@@ -254,9 +254,12 @@ void Services::ServicesManager::preloadThirdPartyLibraries()
     qDebug() << "3RD PARTY DIR " << thirdPartyLibrariesDir.absolutePath();
     foreach (const QString &filename, thirdPartyLibrariesDir.entryList(QDir::Files))
     {
-        qDebug() << "3RD PARTY LIBRARY " << filename;
-        QLibrary lib(thirdPartyLibrariesDir.absoluteFilePath(filename));
-        if (!lib.load())
-            qDebug() << "Couldn't load 3rd party library";
+        if (QLibrary::isLibrary(thirdPartyLibrariesDir.absoluteFilePath(filename)))
+        {
+            QLibrary lib(thirdPartyLibrariesDir.absoluteFilePath(filename));
+            qDebug() << "3RD PARTY LIBRARY " << filename;
+            if (!lib.load())
+                qDebug() << "Couldn't load 3rd party library";
+        }
     }
 }

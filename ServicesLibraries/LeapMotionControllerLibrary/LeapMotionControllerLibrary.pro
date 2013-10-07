@@ -28,23 +28,31 @@ INCLUDEPATH += ../../Tepee3DEngine/DeveloperAPIFiles/Services
 INCLUDEPATH += ../../Tepee3DEngine/DeveloperAPIFiles/View
 INCLUDEPATH += ./Leap/include
 
-win32 {
-    LIBS += ./Leap/x86/
-}
+win32: {
+ !contains(QMAKE_HOST.arch, x86_64) {
+        message("x86 build")
+        LIBS += ./Leap/x86/Leap.lib
+        install_folder.files += ./Leap/x86/Leap.dll
+    } else {
+        message("x86_64 build")
 
-win64 {
-    LIBS += ./Leap/x64/
+#        LIBS += ./Leap/x64/Leapd.lib
+        LIBS += ./Leap/x64/Leap.lib
+        install_folder.files += ./Leap/x64/Leap.dll
+#        install_folder.files += ./Leap/x64/Leapd.dll
+    }
 }
 
 linux-g++-32 {
     LIBS += ./Leap/x86/libLeap.so
+    install_folder.files += $$LIBS
 }
 
 linux-g++-64 {
     LIBS += ./Leap/x64/libLeap.so
+    install_folder.files += $$LIBS
 }
 
-install_folder.files = $$LIBS
 install_folder.path = ../../Tepee3DEngine/libraries/3rd_party/
 
 INSTALLS += install_folder
