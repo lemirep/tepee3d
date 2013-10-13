@@ -42,7 +42,7 @@ Item3D
     onCurrentFaceIdChanged:    {if (isCurrentRoom) showWallsIndicator()}
     // CHANGE THE LIGHT TO BE IN CURRENT ROOM WHEN ROOM IS SELECTED
     onIsCurrentRoomChanged:    {if (isCurrentRoom) showWallsIndicator();}
-    onIsAPluginFocusedChanged:    {console.log((isAPluginFocused) ? "A Plugin in the room is focused" : "No Plugin in the room is focused")}
+    onIsAPluginFocusedChanged:    {console.log((isAPluginFocused) ? "A Plugin in the room is focused" : "No Plugin in the room is focused"); mainWindow.isAPluginFocused = isAPluginFocused}
 
     Item3D
     {

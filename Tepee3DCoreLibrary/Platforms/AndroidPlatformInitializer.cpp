@@ -35,12 +35,15 @@ AndroidPlatformInitializer::AndroidPlatformInitializer() : IPlatformInitializer(
 bool AndroidPlatformInitializer::initPlatform()
 {
     // Copy files from assets to data dir
+    QDir tmpWidgetLibDir = AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory();
 
     if (QFile("assets:/qml/main.qml").exists())
     {
         qDebug() << "Copying Files Android";
 
         QList<QString> pathsList;
+        // WIDGET LIBRARIES
+
 
         pathsList.prepend("qml/Resources/Textures/skyboxes/bridge");
         pathsList.prepend("qml/Resources/Textures/skyboxes/cloud");
@@ -58,8 +61,6 @@ bool AndroidPlatformInitializer::initPlatform()
         pathsList.prepend("qml/Plugins");
         pathsList.prepend("qml/content");
         pathsList.prepend("qml/js");
-//        pathsList.prepend("qml/extensions/Tepee3DTouchArea");
-//        pathsList.prepend("qml/extensions");
         pathsList.prepend("qml");
 
         pathsList.prepend("databases");
@@ -94,6 +95,13 @@ bool AndroidPlatformInitializer::initPlatform()
                             QFile::setPermissions(tmpDir.absolutePath() + "/" + entry, QFile::ReadOwner|QFile::WriteOwner);
                     }
                 }
+
+                qDebug() << "Widget DIr Lib " << tmpWidgetLibDir.absolutePath();
+                if (tmpWidgetLibDir.exists())
+                {
+                    qDebug() << "Removing Widget Dir";
+                    tmpWidgetLibDir.removeRecursively();
+                }
             }
         }
     }
@@ -127,30 +135,6 @@ bool AndroidPlatformInitializer::initPlatform()
                            tmpRoomLibDir.absolutePath() + "/" + libName);
     }
 
-    // EXTENSION_LIBRARIES
-    QDir tmpExtensionsLibDir = AndroidPlatformInitializer::getQmlExtensionsDirectory();
-    qDebug() << "Extensions Lib " << tmpExtensionsLibDir.absolutePath();
-    if (!tmpExtensionsLibDir.exists() &&
-            AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_QML_DIR))
-    {
-        QList<QString> extensionLibs;
-        extensionLibs.prepend("libLeapGestureArea.so");
-        extensionLibs.prepend("libTepee3DTouchArea.so");
-        foreach (QString libName, extensionLibs)
-        {
-        this->copyLibToDir(this->getSharedLibraryDirectory().absolutePath() + "/" + libName,
-                           tmpExtensionsLibDir.absolutePath() + "/" + libName);
-        }
-    }
-
-    // WIDGET LIBRARIES
-    QDir tmpWidgetLibDir = AndroidPlatformInitializer::getWidgetSharedLibrariesDirectory();
-    qDebug() << "Widget DIr Lib " << tmpWidgetLibDir.absolutePath();
-    if (tmpWidgetLibDir.exists())
-    {
-        qDebug() << "Removing Widget Dir";
-        tmpWidgetLibDir.removeRecursively();
-    }
     if (!tmpWidgetLibDir.exists() &&
             AndroidPlatformInitializer::getDataDirectory().mkdir(ANDROID_WIDGETS_DIR))
     {

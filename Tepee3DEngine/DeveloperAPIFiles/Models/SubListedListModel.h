@@ -4,7 +4,6 @@
 #include "ListModel.h"
 #include "SubListedListItem.h"
 
-
 namespace Models
 {
 

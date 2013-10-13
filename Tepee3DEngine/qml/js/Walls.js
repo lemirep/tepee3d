@@ -8,6 +8,7 @@ var walls = null;
 var computedEyes = null;
 var facesNames = ["North", "South", "East", "West", "Down", "Up"];
 var facesComputeVectors = [Qt.vector3d(0, 0, -1), Qt.vector3d(0, 0, 1), Qt.vector3d(1, 0, 0), Qt.vector3d(-1, 0, 0), Qt.vector3d(0, -1, 0), Qt.vector3d(0, 1, 0)]
+var facesRotateVectors = [Qt.vector3d(0, -1, 0), Qt.vector3d(0, -1, 0), Qt.vector3d(0, -1, 0), Qt.vector3d(0, 1, 0), Qt.vector3d(0, 0, 1), Qt.vector3d(0, 0, -1)]
 var idx = 0;
 var roomCenter = null;
 var roomScale = null;
@@ -27,6 +28,42 @@ function zoomOnWall(zoomFactor, wallIdx)
     camera.setCameraEye(Qt.vector3d(roomCenter.x + (facesComputeVectors[wallIdx].x * roomScale.x * zoomFactor),
                                     roomCenter.y + (facesComputeVectors[wallIdx].y * roomScale.y * zoomFactor),
                                     roomCenter.z + (facesComputeVectors[wallIdx].z * roomScale.z * zoomFactor)));
+}
+
+function rotateOnWall(rotAngle, wallIdx)
+{
+    camera.setCameraCenter(rotateCenterPoint(walls[wallIdx], facesRotateVectors[wallIdx], (Math.PI * rotAngle) / 180))
+}
+
+function xAxisRotation(point, angle)
+{
+    return Qt.vector3d(point.x,
+                       Math.cos(angle) * point.y - point.z * Math.sin(angle),
+                       Math.sin(angle) * point.y + point.z * Math.cos(angle))
+}
+
+function yAxisRotation(point, angle)
+{
+    return Qt.vector3d(Math.sin(angle) * point.z + point.x * Math.cos(angle),
+                       point.y,
+                       Math.cos(angle) * point.z - point.x * Math.sin(angle))
+}
+
+function zAxisRotation(point, angle)
+{
+    return Qt.vector3d(Math.cos(angle) * point.x - point.y * Math.sin(angle),
+                       Math.sin(angle) * point.x + point.y * Math.cos(angle),
+                       point.z)
+}
+
+function rotateCenterPoint(centerPoint, axis, angle)
+{
+    if (axis.x !== 0)
+        return xAxisRotation(centerPoint, axis.x * angle)
+    else if (axis.y !== 0)
+        return yAxisRotation(centerPoint, axis.y * angle)
+    else
+        return zAxisRotation(centerPoint, axis.z * angle);
 }
 
 function preComputeEyes(factor)

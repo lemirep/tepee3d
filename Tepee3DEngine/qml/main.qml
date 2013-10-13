@@ -6,6 +6,7 @@ import QtQuick.Window 2.1
 import "js/RoomManagement.js" as RoomManagement
 import "js/Walls.js" as Walls
 import "js/CameraManagement.js" as CameraManagement
+import QtQuick.Particles 2.0
 
 Viewport
 {
@@ -19,10 +20,12 @@ Viewport
     property real  menu_opacity_deployed : 1.0;
     property real  menu_opacity_retracted : 0;
     property real  cameraZoom : 1
+    property real  cameraRotation : 0
     property int   camera_movement_velocity : 250;
     property int   menuMinimumWidth : 40
     property int   currentRoomId : -1;
     property int   currentRoomFaceId : 0;
+    property bool  isAPluginFocused : false;
 
     property real   defaultFontSize : 14
     property real   smallFontSize : 12
@@ -53,9 +56,17 @@ Viewport
 
     onCameraZoomChanged:
     {
-        if (inRoom())
+        if (inRoom() && !isAPluginFocused)
         {
             Walls.zoomOnWall(cameraZoom, currentRoomFaceId)
+        }
+    }
+
+    onCameraRotationChanged:
+    {
+        if (inRoom() && !isAPluginFocused)
+        {
+            Walls.rotateOnWall(cameraRotation, currentRoomFaceId)
         }
     }
 
@@ -85,7 +96,10 @@ Viewport
         roomFaceIdChanged(currentRoomFaceId)
         // UNSET FOCUS STATE OF PLUGINS
         roomManager.unsetFocusPluginsFromRoom();
+        cameraZoom = 1;
+        cameraRotation = 0;
     } // NORTH FACE BY DEFAULT, USE FOR CULLING
+
 
     width : (DEBUG) ? 1280 : Screen.width
     height : (DEBUG) ? 800 : Screen.height
@@ -143,5 +157,74 @@ Viewport
     NotificationManager    {id : notification}
     MenuCenter        {id : menu_center; anchors.fill : parent}
     FpsCounter {}
+
+//    ParticleSystem
+//    {
+//        id : tepee3d_particle_system
+//        ImageParticle
+//        {
+//            source: "Resources/Pictures/smoke.png"
+//            color: "dodgerblue"
+//            alpha: 0.9
+//            opacity: 0.5
+//            rotationVariation: 180
+//            groups: ["tepee3d_particles"]
+//        }
+//        ItemParticle
+//        {
+//            delegate : Component {
+//                Rectangle
+//                {
+//                    width : 10
+//                    height : 10
+//                    color : "lawngreen"
+//                }
+//            }
+//            groups: ["tepee3d_particles_click"]
+//        }
+//        ImageParticle
+//        {
+//            source: "Resources/Pictures/smoke.png"
+//            color: "chartreuse"
+//            alpha: 0.9
+//            opacity: 0.5
+//            rotationVariation: 180
+//            groups: ["tepee3d_particles_click"]
+//        }
+//    }
+
+//    Emitter
+//    {
+//        id : tepee3d_particle_emitter
+//        height: 50
+//        width: height
+//        shape : EllipseShape
+//        size: 30
+//        sizeVariation: 30
+//        lifeSpan: 2000
+//        lifeSpanVariation: 1000
+//        system: tepee3d_particle_system
+//        emitRate: 20
+//        group : "tepee3d_particles"
+//        acceleration: AngleDirection{angle: 30}
+//        velocity: PointDirection{xVariation: 50; yVariation: 50}
+//        enabled : true
+//    }
+//    Emitter
+//    {
+//        id : tepee3d_particle_click_emitter
+//        height: 50
+//        width: height
+//        shape : EllipseShape
+//        size: 30
+//        //        sizeVariation: 5
+//        lifeSpan: 1000
+//        //        lifeSpanVariation: 500
+//        system: tepee3d_particle_system
+//        group : "tepee3d_particles_click"
+//        acceleration: AngleDirection{angle: 0}
+//        velocity: PointDirection{xVariation: 70; yVariation: 70}
+//        enabled : false
+//    }
 }
 

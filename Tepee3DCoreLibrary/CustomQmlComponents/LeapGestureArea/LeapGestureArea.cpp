@@ -102,6 +102,7 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onScreenTapGestureCallBack(int gest
                                                                         const QVector3D screenTapPosition,
                                                                         const Services::LeapMotionServiceGestureUserInterface::GestureState screenTapGestureState)
 {
+    Q_UNUSED(screenTapGestureState)
     if (this->contains(QPointF(screenTapPosition.x(), screenTapPosition.y())))
     {
         Tepee3DQmlExtensions::LeapTapGesture *gesture = new Tepee3DQmlExtensions::LeapTapGesture();
@@ -117,6 +118,7 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onKeyTapGestureCallBack(int gesture
                                                                      const QVector3D keyTapPosition,
                                                                      const Services::LeapMotionServiceGestureUserInterface::GestureState keyTapGestureState)
 {
+    Q_UNUSED(keyTapGestureState)
     if (this->contains(QPointF(keyTapPosition.x(), keyTapPosition.y())))
     {
         Tepee3DQmlExtensions::LeapTapGesture *gesture = new Tepee3DQmlExtensions::LeapTapGesture();

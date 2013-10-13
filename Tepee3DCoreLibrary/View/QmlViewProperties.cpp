@@ -91,6 +91,9 @@ View::QmlViewProperties::QmlViewProperties(QObject *parent) : QObject(parent)
     QObject::connect((QObject*)this->qmlEngine, SIGNAL(quit()), this, SIGNAL(quit()));
     QObject::connect(this->viewer, SIGNAL(closing(QQuickCloseEvent*)), this, SIGNAL(quit()));
 
+    this->qmlEngine->addImportPath(PlatformFactory::getPlatformInitializer()->getQmlDirectory().absolutePath());
+    this->qmlEngine->addImportPath(PlatformFactory::getPlatformInitializer()->getDataDirectory().absolutePath());
+
 #if defined(QT_DEBUG) && !defined(Q_OS_QNX) && !defined(Q_OS_ANDROID)
     this->viewer->rootContext()->setContextProperty("DEBUG", true);
 #else

@@ -61,6 +61,7 @@ OTHER_FILES += \
     qml/Resources/Pictures/delegate_selected.png \
     qml/Resources/Pictures/panel_bg2.png \
     qml/Resources/Pictures/spinner.png \
+    qml/Resources/Pictures/smoke.png \
     qml/Resources/Pictures/plus.png \
     qml/Resources/Textures/wood.jpg \
     qml/Resources/Textures/wall_indicator_north.png \

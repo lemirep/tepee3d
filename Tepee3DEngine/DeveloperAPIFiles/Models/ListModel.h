@@ -7,6 +7,7 @@
 #include <QHash>
 #include <QByteArray>
 #include <QtAlgorithms>
+#include <QQmlEngine>
 #include "ListItem.h"
 
 bool compareFunc(void *a, void *b);

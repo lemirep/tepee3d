@@ -1,5 +1,6 @@
 import QtQuick 2.1
 import Tepee3D 1.0
+import QtQuick.Particles 2.0
 
 Item
 {
@@ -24,6 +25,16 @@ Item
 
         property var points : [];
 
+//        onPointsChanged:
+//        {
+//            for(var i = 0; i < points.length; i++)
+//            {
+//                var p = points[i];
+//                console.log(p.x + " " + p.y)
+//                tepee3d_particle_emitter.burst(p.x, p.y, 1)
+//            }
+//        }
+
         Repeater
         {
             model : multitoucharea.points
@@ -38,6 +49,23 @@ Item
                     Behavior on scale {NumberAnimation {duration : 500;}}
                     x : modelData.x
                     y : modelData.y
+
+//                    Emitter
+//                    {
+////                        shape : EllipseShape
+//                        height: 50
+//                        width: height
+//                        size: 80
+//                        sizeVariation: 30
+//                        lifeSpan: 2000
+//                        lifeSpanVariation: 1000
+//                        system: tepee3d_particle_system
+//                        emitRate: 200
+//                        group : "tepee3d_particles"
+//                        acceleration: AngleDirection{angle: 30}
+//                        velocity: PointDirection{xVariation: 50; yVariation: 50}
+//                        enabled : true
+//                    }
                 }
             }
         }
@@ -66,22 +94,28 @@ Item
             multitoucharea.points = touchPoints;
         }
 
+
         // HANDLE ZOOM AND ROTATION WITH MULTITOUCH IN A ROOM
         PinchArea
         {
             id : pincharea
             anchors.fill: parent
             property real oldZoom;
-            enabled: multitoucharea.points.length === 2
+            property real oldRotation;
+//            enabled: multitoucharea.points.length === 2
 
             function zoomDelta(zoom, scale)    {return zoom - (Math.log(scale) / Math.log(4))}
 
-            onPinchStarted:    {oldZoom = mainWindow.cameraZoom}
+            onPinchStarted:    {oldZoom = mainWindow.cameraZoom; oldRotation = mainWindow.cameraRotation;}
 
             onPinchUpdated:
             {
                 var newZoom = zoomDelta(oldZoom, pinch.scale);
+                var newRotation = oldRotation + pinch.rotation
+                newRotation = (newRotation > 10) ? 10 : (newRotation < -10) ? -10 : newRotation
                 mainWindow.cameraZoom = (newZoom > 1) ? 1 : (newZoom < 0.2) ? 0.2 : newZoom
+                mainWindow.cameraRotation = newRotation
+//                console.log(mainWindow.cameraRotation)
             }
             onPinchFinished : {}
         }
@@ -128,17 +162,17 @@ Item
     // HANDLE MOUSE AND SINGLE TOUCH EVENTS
     MouseArea
     {
-        Rectangle
-        {
-            property bool isPressing : false;
-            id : pointer
-            width : 50
-            height : width
-            color : isPressing ? "red" : "orange"
-            scale : isPressing ? 1.5 : 1
-            radius : 180
-            Behavior on scale {NumberAnimation {duration : 250}}
-        }
+//        Rectangle
+//        {
+//            property bool isPressing : false;
+//            id : pointer
+//            width : 50
+//            height : width
+//            color : isPressing ? "red" : "orange"
+//            scale : isPressing ? 1.5 : 1
+//            radius : 180
+//            Behavior on scale {NumberAnimation {duration : 250}}
+//        }
 
 
         id : main_mouse_area
@@ -146,15 +180,20 @@ Item
         property int savedY;
         property variant obj;
         anchors.fill: parent
-        propagateComposedEvents: (obj !== null) // PROPAGATE COMPOSE EVENTS (CLICK, DBCLICK ...)
+        propagateComposedEvents: (obj === null) // PROPAGATE COMPOSE EVENTS (CLICK, DBCLICK ...)
         hoverEnabled: true
+
 
         onPressed:
         {
             savedX = mouseX;
             savedY = mouseY;
             obj = null;
-            pointer.isPressing = true;
+//            tepee3d_particle_click_emitter.burst(50)
+//            tepee3d_particle_click_emitter.x = mouseX
+//            tepee3d_particle_click_emitter.y = mouseY
+
+//            pointer.isPressing = true;
             console.log("Mouse Area Pressed")
 
             // CHECK ON WHICH MENU WE CLICKED
@@ -188,8 +227,11 @@ Item
         }
         onPositionChanged:
         {
-            pointer.x = mouseX
-            pointer.y = mouseY
+//            pointer.x = mouseX
+//            pointer.y = mouseY
+//            tepee3d_particle_emitter.x = mouseX
+//            tepee3d_particle_emitter.y = mouseY
+//            tepee3d_particle_emitter.burst(1)
             if (obj)
             {
                 var offsetY = mouseY - savedY;
@@ -206,7 +248,7 @@ Item
         }
         onReleased :
         {
-            pointer.isPressing = false;
+//            pointer.isPressing = false;
             console.log("Mouse Area released")
             if (obj)
             {
@@ -220,46 +262,14 @@ Item
         }
         onCanceled:
         {
-            pointer.isPressing = false;
+//            pointer.isPressing = false;
+        }
+
+        onClicked:
+        {
+            console.log("CLICKEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
         }
     }
-
-
-    //    MouseArea
-    //    {
-    //        anchors.fill: parent
-    //        propagateComposedEvents: true
-    //        onPressed:
-    //        {
-    //            console.log("Mouse 1 Pressed")
-    //        }
-    //        onClicked:
-    //        {
-    //            console.log("Mouse 1 Clicked")
-    //        }
-    //        onReleased:
-    //        {
-    //            console.log("Mouse 1 Released")
-    //        }
-    //    }
-
-    //    MouseArea
-    //    {
-    //        anchors.fill: parent
-    //        propagateComposedEvents: true
-    //        onPressed:
-    //        {
-    //            console.log("Mouse 2 Pressed")
-    //        }
-    //        onClicked:
-    //        {
-    //            console.log("Mouse 2 Clicked")
-    //        }
-    //        onReleased:
-    //        {
-    //            console.log("Mouse 2 Released")
-    //        }
-    //    }
 
     MenuTop // TOP MENU
     {

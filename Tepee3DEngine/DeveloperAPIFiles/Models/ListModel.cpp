@@ -127,6 +127,7 @@
  */
 Models::ListModel::ListModel(Models::ListItem *prototype, QObject *parent) : QAbstractListModel(parent)
 {
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
     this->prototype = prototype;
     this->sortEnabled = false;
     this->items = QList<Models::ListItem*>();
