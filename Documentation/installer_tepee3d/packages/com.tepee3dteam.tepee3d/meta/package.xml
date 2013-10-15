@@ -13,4 +13,5 @@
      </Translations>
      <Default>script</Default>
      <Script>installscript.qs</Script>
+     <ForcedInstallation>true</ForcedInstallation>
  </Package>

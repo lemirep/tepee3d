@@ -2,8 +2,8 @@
  <Package>
      <DisplayName>Qt5 Shared Libraries</DisplayName>
      <Description>Contains the Qt5 shared libraries need by Tepee3D as well as the custom built Qt3D fork Tepee3D-Qt3D</Description>
-     <Version>5.0.2</Version>
-     <ReleaseDate>2013-05-25</ReleaseDate>
+     <Version>5.1.1</Version>
+     <ReleaseDate>2013-08-25</ReleaseDate>
      <Name>com.qt_project.qt5</Name>
      <Licenses>
          <License name="GNU License Agreement" file="license.txt" />
@@ -13,4 +13,5 @@
      </Translations>
      <Default>script</Default>
      <Script>installscript.qs</Script>
+     <ForcedInstallation>true</ForcedInstallation>
  </Package>

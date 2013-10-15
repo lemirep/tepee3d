@@ -2,9 +2,14 @@
 <Installer>
      <Name>Tepee3D</Name>
      <Version>1.0.0</Version>
-     <Title>The Tepee3D Installer</Title>
+     <Title>The Tepee3D Engine Installer</Title>
      <Publisher>The Tepee3DTeam</Publisher>
      <ProductUrl>http://tepee3d.dyndns.org</ProductUrl>
+     <Logo>tepee3d_logo.png</Logo>
+     <LogoSmall>tepee3d_logo_small.png</LogoSmall>
+     <Icon>tepee3d_icon</Icon>
+     <InstallerApplicationIcon>tepee3d_icon</InstallerApplicationIcon>
+     <InstallerWindowIcon>tepee3d_logo.png</InstallerWindowIcon>
      <StartMenuDir>Tepee3D</StartMenuDir>
      <TargetDir>@homeDir@/Programs/Tepee3D</TargetDir>
  </Installer>
