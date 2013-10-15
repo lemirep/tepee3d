@@ -6,7 +6,6 @@
      <Publisher>The Tepee3DTeam</Publisher>
      <ProductUrl>http://tepee3d.dyndns.org</ProductUrl>
      <Logo>tepee3d_logo.png</Logo>
-     <LogoSmall>tepee3d_logo_small.png</LogoSmall>
      <InstallerApplicationIcon>tepee3d_icon</InstallerApplicationIcon>
      <InstallerWindowIcon>tepee3d_logo.png</InstallerWindowIcon>
      <StartMenuDir>Tepee3D</StartMenuDir>
