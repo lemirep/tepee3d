@@ -7,7 +7,6 @@
      <ProductUrl>http://tepee3d.dyndns.org</ProductUrl>
      <Logo>tepee3d_logo.png</Logo>
      <Icon>tepee3d_icon</Icon>
-     <InstallerWindowIcon>tepee3d_logo.png</InstallerWindowIcon>
      <StartMenuDir>Tepee3D</StartMenuDir>
      <TargetDir>@homeDir@/Programs/Tepee3D</TargetDir>
  </Installer>
