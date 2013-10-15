@@ -9,4 +9,6 @@
      <Icon>tepee3d_icon</Icon>
      <StartMenuDir>Tepee3D</StartMenuDir>
      <TargetDir>@homeDir@/Programs/Tepee3D</TargetDir>
+     <AllowSpaceInPath>true</AllowSpaceInPath>
+     <AllowNonAsciiCharacters>true</AllowNonAsciiCharacters>
  </Installer>
