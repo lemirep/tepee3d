@@ -1,12 +1,26 @@
 
 TEMPLATE = subdirs
+
 SUBDIRS = ManageDatabaseService \
           WebServiceManagerLibrary \
           FileDownloaderLibrary
 
 
-win32:win64:linux-g++-32:linux-g++-64 {
-    SUBDIRS += LeapMotionControllerLibrary
+message($$QMAKESPEC)
+
+linux-g++-64 {
+          SUBDIRS += LeapMotionControllerLibrary
 }
+
+linux-g++-32 {
+          SUBDIRS += LeapMotionControllerLibrary
+}
+
+win32: {
+    contains(QMAKE_HOST.arch, x86_64) {
+          SUBDIRS += LeapMotionControllerLibrary
+    }
+}
+
 
 OTHER_FILES += Documentation/how_to_service.qdoc
