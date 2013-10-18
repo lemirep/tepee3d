@@ -27,6 +27,8 @@
  \li \c Install everything (sources are optionnal) (Try to choose a path that you can easily remember)
  \li \c Download this sample project \l {http://quitcoding.com/download/Qt5_CinematicExperience_rpi_1.0.tgz}
  \li \c Open the .pro file contained in the extracted archive with QtCreator and in the Project tab disable Shadow Build
+ \li \c If you're on Windows add the following line in your .pro (without the quotes) "win32:DESTDIR = ./"
+ \li \c If you're on Windows, in the build settings add a Build Step Make and enter "install" in the arguments' textbox
  \li \c Run the project. If you see a nice demo with particle effects you have installed Qt 5 correctly.
 \endlist
 
