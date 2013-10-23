@@ -3,7 +3,7 @@ import Qt3D 2.0
 
 Item3D
 {
-    ListView
+    Repeater
     {
         model : roomModel
         delegate : roomDelegate

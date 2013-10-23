@@ -2,6 +2,7 @@ import QtQuick 2.1
 import Qt3D 2.0
 import Plugins 1.0
 import "../js/CameraManagement.js" as CameraManagement
+import "../js/Walls.js" as Walls
 
 Item3D
 {
@@ -34,6 +35,34 @@ Item3D
     // TO DISPLAY NOTIFICATION MESSAGE AND POP UP
     function postNotification(message, type)   {mainWindow.postNotification(message, type)}
     function showPopUp(popupUrl)               {mainWindow.showPopUp(url)}
+
+    // RETURNS THE DISTANCE BETWEEN TWO POINTS
+    function computeDistance(pointA, pointB)
+    {
+        return Math.sqrt(Math.pow((pointA.x - pointB.x), 2) +
+                         Math.pow((pointA.y - pointB.y), 2) +
+                         Math.pow((pointA.z - pointB.z), 2))
+    }
+
+    // RETURNS ROTATION OF A POINT AROUND AN ORIGIN POINT AND AN ANGLE
+    function computeRotation(originPoint, rotPoint, rotAxis, rotAngle)
+    {
+        var radAngle = Math.PI * rotAngle / 180;
+        var translatedOrigin = Qt.vector3d(rotPoint.x -originPoint.x,
+                                           rotPoint.y -originPoint.y,
+                                           rotPoint.z -originPoint.z);
+        var rotatedPoint;
+        if (rotAxis.x !== 0)
+            rotatedPoint = Walls.xAxisRotation(translatedOrigin, rotAxis.x * radAngle)
+        else if (rotAxis.y !== 0)
+            rotatedPoint = Walls.yAxisRotation(translatedOrigin, rotAxis.y * radAngle)
+        else
+            rotatedPoint = Walls.zAxisRotation(translatedOrigin, rotAxis.z * radAngle);
+        rotatedPoint.x += originPoint.x;
+        rotatedPoint.y += originPoint.y;
+        rotatedPoint.z += originPoint.z;
+        return rotatedPoint;
+    }
 
     PluginProperties
     {

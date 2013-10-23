@@ -135,7 +135,7 @@ Item
 
         onCircleGesture:
         {
-            if (gesture.state === LeapCircleGesture.CircleGestureDone && gesture.turns >= 2 && mainWindow.inRoom())
+            if (gesture.state === LeapCircleGesture.CircleGestureDone && gesture.turns >= 2 && !mainWindow.isAPluginFocused && mainWindow.inRoom())
             {
                 var nextWallIdx = mainWindow.currentRoomFaceId;
                 nextWallIdx += (gesture.clockwise) ? 1 : -1
