@@ -71,6 +71,9 @@ private :
 
     void handleMouseEvents(const Leap::Frame &frame);
     void handleTouchEvents(const Leap::Frame &frame);
+    void handleHandEvents(const Leap::Frame &frame);
+
+
     QPointF convertHandPosToScreenPos(const Leap::InteractionBox &interactionBox,
                                       const Leap::Hand &hand);
     QPointF convertPointablePosToScreenPos(const Leap::InteractionBox &interactionBox,

@@ -9,3 +9,7 @@ HEADERS += $$PWD/LeapGestureArea/LeapGestureArea.h \
 INCLUDEPATH += $$PWD/LeapGestureArea
 INCLUDEPATH += $$PWD/Tepee3DTouchArea
 INCLUDEPATH += $$PWD
+
+mac :{
+QT += quick-private
+}

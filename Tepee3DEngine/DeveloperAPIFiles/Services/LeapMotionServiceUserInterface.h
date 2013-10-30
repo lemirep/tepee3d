@@ -27,6 +27,17 @@ public :
         DoneState
     };
 
+    struct HandObject
+    {
+        QVector3D direction;
+        qreal     yaw;
+        qreal     pitch;
+        qreal     roll;
+        int       id;
+    };
+
+
+    virtual void    onHandCallBack(const QList<HandObject> &hands) = 0;
 
     virtual void    onCircleGestureCallBack(int gestureId,
                                             const QVector3D cicrcleCenter,

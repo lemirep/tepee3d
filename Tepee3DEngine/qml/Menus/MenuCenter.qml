@@ -102,7 +102,7 @@ Item
             anchors.fill: parent
             property real oldZoom;
             property real oldRotation;
-//            enabled: multitoucharea.points.length === 2
+            enabled: multitoucharea.points.length <= 2
 
             function zoomDelta(zoom, scale)    {return zoom - (Math.log(scale) / Math.log(4))}
 
@@ -127,6 +127,18 @@ Item
     {
         id : leap_gesture_area
         anchors.fill: parent
+        enabled : !mainWindow.isAPluginFocused && mainWindow.inRoom()
+
+        property var handsList : [];
+
+        onHandsUpdated:
+        {
+            handsList = hands;
+            if (hands.length === 1)
+            {
+                console.log("Hand pitch " + (180 * hands[0].pitch / Math.PI) + " roll " + (180 * hands[0].roll / Math.PI) + " yaw " + (180 * hands[0].yaw / Math.PI))
+            }
+        }
 
         onSwipeGesture :
         {
@@ -135,7 +147,7 @@ Item
 
         onCircleGesture:
         {
-            if (gesture.state === LeapCircleGesture.CircleGestureDone && gesture.turns >= 2 && !mainWindow.isAPluginFocused && mainWindow.inRoom())
+            if (gesture.state === LeapCircleGesture.CircleGestureDone && gesture.turns >= 2)
             {
                 var nextWallIdx = mainWindow.currentRoomFaceId;
                 nextWallIdx += (gesture.clockwise) ? 1 : -1

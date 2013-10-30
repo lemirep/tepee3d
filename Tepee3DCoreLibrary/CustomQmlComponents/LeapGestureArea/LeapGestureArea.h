@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) Paul Lemire, Tepee3DTeam and/or its subsidiary(-ies).
 ** Contact: paul.lemire@epitech.eu
@@ -176,12 +176,54 @@ signals:
     void      positionChanged();
 };
 
+class LeapFinger : public QObject
+{
 
+};
+
+class LeapHand : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QVector3D direction READ getDirection NOTIFY directionChanged)
+    Q_PROPERTY(qreal pitch READ getPitch NOTIFY pitchChanged)
+    Q_PROPERTY(qreal roll READ getRoll NOTIFY rollChanged)
+    Q_PROPERTY(qreal yaw READ getYaw NOTIFY yawChanged)
+    Q_PROPERTY(int handID READ getHandID)
+
+private:
+    int   m_handID;
+    QVector3D m_direction;
+    qreal m_pitch;
+    qreal m_roll;
+    qreal m_yaw;
+public :
+
+    explicit LeapHand(int handId = -1);
+    ~LeapHand();
+
+    QVector3D getDirection() const;
+    qreal     getPitch() const;
+    qreal     getRoll() const;
+    qreal     getYaw() const;
+    int       getHandID() const;
+
+    void      setDirection(const QVector3D &direction);
+    void      setPitch(qreal pitch);
+    void      setRoll(qreal roll);
+    void      setYaw(qreal yaw);
+
+signals:
+    void directionChanged();
+    void pitchChanged();
+    void rollChanged();
+    void yawChanged();
+};
 
 class LeapGestureArea : public QQuickItem, public Services::LeapMotionServiceGestureUserInterface
 {
     Q_OBJECT
     Q_INTERFACES(Services::LeapMotionServiceGestureUserInterface)
+    Q_PROPERTY(QQmlListProperty<LeapHand> hands READ getHands)
 //     QQmlParserStatus interface
 public:
     LeapGestureArea(QQuickItem *parent = 0);
@@ -189,6 +231,7 @@ public:
 
 private :
    QHash<int, Tepee3DQmlExtensions::LeapGesture*> savedGestures;
+   QHash<int, QObject *> m_hands;
 
 protected :
     QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *data);
@@ -219,6 +262,14 @@ public:
                                 const float swipeSpeed,
                                 const GestureState swipeGestureState);
 
+    void onHandCallBack(const QList<HandObject> &hands);
+
+public:
+    QQmlListProperty<LeapHand> getHands();
+    static void appendHand(QQmlListProperty<LeapHand> *list, LeapHand *hand);
+    static int handCount(QQmlListProperty<LeapHand> *list);
+    static LeapHand* handAt(QQmlListProperty<LeapHand> *list, int index);
+
 signals:
     void registerToLeapMotionGestures(QObject *listener);
     void unregisterFromLeapMotionGestures(QObject *listener);
@@ -226,7 +277,7 @@ signals:
     void swipeGesture(LeapSwipeGesture *gesture);
     void keyTapGesture(LeapTapGesture *gesture);
     void screenTapGesture(LeapTapGesture *gesture);
-
+    void handsUpdated(QList<QObject *> hands);
 
 };
 }

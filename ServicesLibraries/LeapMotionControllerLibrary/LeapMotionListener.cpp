@@ -335,6 +335,28 @@ void LeapMotionListener::handleTouchEvents(const Leap::Frame &frame)
         }
 }
 
+void LeapMotionListener::handleHandEvents(const Leap::Frame &frame)
+{
+    if (frame.isValid())
+    {
+        QList<Services::LeapMotionServiceGestureUserInterface::HandObject> handsList;
+        for (int i = 0; i < frame.hands().count(); i++)
+        {
+            Leap::Hand hand = frame.hands()[i];
+            Services::LeapMotionServiceGestureUserInterface::HandObject handObj;
+            handObj.id = hand.id();
+            handObj.direction = QVector3D(hand.direction().x, hand.direction().y, hand.direction().z);
+            handObj.pitch = hand.direction().pitch();
+            handObj.yaw = hand.direction().yaw();
+            handObj.roll = hand.palmNormal().roll();
+            handsList.append(handObj);
+        }
+        foreach (QObject *listener, this->gesturesListeners)
+            qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener)->
+                    onHandCallBack(handsList);
+    }
+}
+
 QPointF LeapMotionListener::convertHandPosToScreenPos(const Leap::InteractionBox &interactionBox,
                                                       const Leap::Hand &hand)
 {
@@ -410,6 +432,7 @@ void LeapMotionListener::onFrame(const Leap::Controller &controller)
         // RETRIEVE FINGER INFORMATIONS AND CONVERT THEM TO MOUSE AND TOUCH EVENTS
         this->handleMouseEvents(frame);
         this->handleTouchEvents(frame);
+        this->handleHandEvents(frame);
         // ANALYSE FRAME GESTURES AND CALL TARGETS THAT ARE QTQUICK PLUGINS
         // CREATE QTQUICK PLUGINS LeapGestureArea (FOR GESTURES)
         // FOR EACH GESTURE IN A FRAME, CHECK IF QTQUICK PLUGIN HAS IMPLEMENTED GESTURE TYPE AND IF GESTURE OCCURED WITHIN THE QTQUICK PLUGIN AREA

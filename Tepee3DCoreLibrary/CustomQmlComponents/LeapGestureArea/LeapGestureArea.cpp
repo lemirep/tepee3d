@@ -77,7 +77,10 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onCircleGestureCallBack(int gesture
         {
             gesture = static_cast<Tepee3DQmlExtensions::LeapCircleGesture *>(this->savedGestures.take(gestureId));
             if (circleGestureState == Services::LeapMotionServiceGestureUserInterface::DoneState)
+            {
                 gesture->setState(Tepee3DQmlExtensions::LeapCircleGesture::CircleGestureDone);
+                this->savedGestures.remove(gestureId);
+            }
             else
                 gesture->setState(Tepee3DQmlExtensions::LeapCircleGesture::CircleGestureUpdated);
         }
@@ -144,7 +147,10 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onSwipeGestureCallBack(int gestureI
         {
             gesture = static_cast<Tepee3DQmlExtensions::LeapSwipeGesture *>(this->savedGestures.take(gestureId));
             if (swipeGestureState == Services::LeapMotionServiceGestureUserInterface::DoneState)
+            {
                 gesture->setState(Tepee3DQmlExtensions::LeapSwipeGesture::SwipeGestureDone);
+                this->savedGestures.remove(gestureId);
+            }
             else
                 gesture->setState(Tepee3DQmlExtensions::LeapSwipeGesture::SwipeGestureUpdated);
         }
@@ -161,6 +167,58 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onSwipeGestureCallBack(int gestureI
             this->savedGestures[gestureId] = gesture;
         emit swipeGesture(gesture);
     }
+}
+
+void Tepee3DQmlExtensions::LeapGestureArea::onHandCallBack(const QList<Services::LeapMotionServiceGestureUserInterface::HandObject> &hands)
+{
+    QList<int> savedHandIDs = this->m_hands.keys();
+
+    foreach (const Services::LeapMotionServiceGestureUserInterface::HandObject &hand, hands)
+    {
+        LeapHand *handObj;
+        if (this->m_hands.contains(hand.id))
+            handObj = reinterpret_cast<LeapHand *>(this->m_hands[hand.id]);
+        else
+        {
+            handObj = new LeapHand(hand.id);
+            this->m_hands[hand.id] = handObj;
+        }
+        savedHandIDs.removeAll(hand.id);
+        handObj->setDirection(hand.direction);
+        handObj->setPitch(hand.pitch);
+        handObj->setRoll(hand.roll);
+        handObj->setYaw(hand.yaw);
+    }
+    // REMOVE HANDS THAT HAVE NOT BEEN UPDATED OR ADDED
+    foreach (int leftHandId, savedHandIDs)
+        this->m_hands.remove(leftHandId);
+    emit handsUpdated(this->m_hands.values());
+}
+
+QQmlListProperty<Tepee3DQmlExtensions::LeapHand> Tepee3DQmlExtensions::LeapGestureArea::getHands()
+{
+    return QQmlListProperty<LeapHand>(this, NULL, &Tepee3DQmlExtensions::LeapGestureArea::appendHand,
+                                      &Tepee3DQmlExtensions::LeapGestureArea::handCount,
+                                      &Tepee3DQmlExtensions::LeapGestureArea::handAt,
+                                      NULL);
+}
+
+void Tepee3DQmlExtensions::LeapGestureArea::appendHand(QQmlListProperty<Tepee3DQmlExtensions::LeapHand> *list, Tepee3DQmlExtensions::LeapHand *hand)
+{
+    LeapGestureArea *area = static_cast<LeapGestureArea *>(list->object);
+    area->m_hands[hand->getHandID()] = hand;
+}
+
+int Tepee3DQmlExtensions::LeapGestureArea::handCount(QQmlListProperty<Tepee3DQmlExtensions::LeapHand> *list)
+{
+    LeapGestureArea *area = static_cast<LeapGestureArea *>(list->object);
+    return area->m_hands.count();
+}
+
+Tepee3DQmlExtensions::LeapHand *Tepee3DQmlExtensions::LeapGestureArea::handAt(QQmlListProperty<Tepee3DQmlExtensions::LeapHand> *list, int index)
+{
+    LeapGestureArea *area = static_cast<LeapGestureArea *>(list->object);
+    return reinterpret_cast<LeapHand *>(area->m_hands[index]);
 }
 
 
@@ -409,5 +467,75 @@ void Tepee3DQmlExtensions::LeapTapGesture::setDirection(const QVector3D directio
     {
         this->m_direction = direction;
         emit directionChanged();
+    }
+}
+
+
+Tepee3DQmlExtensions::LeapHand::LeapHand(int handID) : QObject(), m_handID(handID)
+{
+}
+
+Tepee3DQmlExtensions::LeapHand::~LeapHand()
+{
+}
+
+QVector3D Tepee3DQmlExtensions::LeapHand::getDirection() const
+{
+    return this->m_direction;
+}
+
+qreal Tepee3DQmlExtensions::LeapHand::getPitch() const
+{
+    return this->m_pitch;
+}
+
+qreal Tepee3DQmlExtensions::LeapHand::getRoll() const
+{
+    return this->m_roll;
+}
+
+qreal Tepee3DQmlExtensions::LeapHand::getYaw() const
+{
+    return this->m_yaw;
+}
+
+int Tepee3DQmlExtensions::LeapHand::getHandID() const
+{
+    return this->m_handID;
+}
+
+void Tepee3DQmlExtensions::LeapHand::setDirection(const QVector3D &direction)
+{
+    if (this->m_direction != direction)
+    {
+        this->m_direction = direction;
+        emit directionChanged();
+    }
+}
+
+void Tepee3DQmlExtensions::LeapHand::setPitch(qreal pitch)
+{
+    if (this->m_pitch != pitch)
+    {
+        this->m_pitch = pitch;
+        emit pitchChanged();
+    }
+}
+
+void Tepee3DQmlExtensions::LeapHand::setRoll(qreal roll)
+{
+    if (this->m_roll != roll)
+    {
+        this->m_roll = roll;
+        emit rollChanged();
+    }
+}
+
+void Tepee3DQmlExtensions::LeapHand::setYaw(qreal yaw)
+{
+    if (this->m_yaw != yaw)
+    {
+        this->m_yaw = yaw;
+        emit yawChanged();
     }
 }
