@@ -16,7 +16,7 @@ Camera  // OPENGL CAMERA
     upVector :   Qt.vector3d(0, 1, 0)
     fieldOfView : 58 // 60 FOR 4/3 IS FINE BUT 58 IS NEEDED FOR 16/9
     farPlane : 1000 // FARTHEST VISIBLE VIEW DISTANCE DEF : 1000
-    nearPlane : 5 // NEAREST VISIBLE DISTANCE DEF : 5
+    nearPlane : 1 // NEAREST VISIBLE DISTANCE DEF : 5
     eyeSeparation : 0 // FOR STEREO RENDERING AKA 3D
     adjustForAspectRatio : true;
 

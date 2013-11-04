@@ -11,7 +11,7 @@ class DummyProject  : public Plugins::PluginBase
 
  public:
     DummyProject();
-    virtual ~DummyProject();
+    ~DummyProject();
     int                         getPluginId() const;
     void                        initPlugin();
     void                        clearPluginBeforeRemoval();

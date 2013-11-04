@@ -20,11 +20,15 @@ Item3D
     {
         var eyePos = plugin_base.getRoomPosition();
         eyePos.z += (-10)
-
         var widgetPos = plugin_base.getRoomPosition();
-        widgetPos.x += testplugin_container.x
-        widgetPos.y += testplugin_container.y
-        widgetPos.z += testplugin_container.z
+        widgetPos.x += DummyProject_container.x
+        widgetPos.y += DummyProject_container.y
+        widgetPos.z += DummyProject_container.z
         plugin_base.moveCamera(eyePos, widgetPos);
+    }
+
+    Item3D
+    {
+        id : DummyProject_container
     }
 }

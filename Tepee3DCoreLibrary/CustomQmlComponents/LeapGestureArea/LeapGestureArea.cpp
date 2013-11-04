@@ -69,7 +69,8 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onCircleGestureCallBack(int gesture
                                                                      const Services::LeapMotionServiceGestureUserInterface::GestureState circleGestureState)
 {
     //    qDebug() << "LeapGextureArea Circle " << circleCenter;
-
+    if (!isEnabled())
+        return ;
     if (this->contains(QPointF(circleCenter.x(), circleCenter.y())))
     {
         Tepee3DQmlExtensions::LeapCircleGesture *gesture = NULL;
@@ -106,6 +107,8 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onScreenTapGestureCallBack(int gest
                                                                         const Services::LeapMotionServiceGestureUserInterface::GestureState screenTapGestureState)
 {
     Q_UNUSED(screenTapGestureState)
+    if (!isEnabled())
+        return ;
     if (this->contains(QPointF(screenTapPosition.x(), screenTapPosition.y())))
     {
         Tepee3DQmlExtensions::LeapTapGesture *gesture = new Tepee3DQmlExtensions::LeapTapGesture();
@@ -122,6 +125,8 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onKeyTapGestureCallBack(int gesture
                                                                      const Services::LeapMotionServiceGestureUserInterface::GestureState keyTapGestureState)
 {
     Q_UNUSED(keyTapGestureState)
+    if (!isEnabled())
+        return ;
     if (this->contains(QPointF(keyTapPosition.x(), keyTapPosition.y())))
     {
         Tepee3DQmlExtensions::LeapTapGesture *gesture = new Tepee3DQmlExtensions::LeapTapGesture();
@@ -139,6 +144,8 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onSwipeGestureCallBack(int gestureI
                                                                     const float swipeSpeed,
                                                                     const Services::LeapMotionServiceGestureUserInterface::GestureState swipeGestureState)
 {
+    if (!isEnabled())
+        return ;
     if (this->contains(QPointF(swipeStartPosition.x(), swipeStartPosition.y()))
             || this->contains(QPointF(swipePosition.x(), swipePosition.y())))
     {
@@ -171,6 +178,8 @@ void  Tepee3DQmlExtensions::LeapGestureArea::onSwipeGestureCallBack(int gestureI
 
 void Tepee3DQmlExtensions::LeapGestureArea::onHandCallBack(const QList<Services::LeapMotionServiceGestureUserInterface::HandObject> &hands)
 {
+    if (!isEnabled())
+        return ;
     QList<int> savedHandIDs = this->m_hands.keys();
 
     foreach (const Services::LeapMotionServiceGestureUserInterface::HandObject &hand, hands)

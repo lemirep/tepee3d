@@ -2,7 +2,10 @@
 
 DummyProject::DummyProject() : PluginBase()
 {
-    this->initPlugin();
+}
+
+DummyProject::~DummyProject()
+{
 }
 
 int DummyProject::getPluginId() const

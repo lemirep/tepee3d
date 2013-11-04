@@ -1,13 +1,13 @@
 
-  TEMPLATE        = lib
-  CONFIG         += qt plugin
-  QT             += quick
+TEMPLATE        = lib
+CONFIG         += qt plugin
+QT             += quick
 
  #include development files
-    include (DeveloperAPIFiles/DevelopmentFiles.pri)
+include (DeveloperAPIFiles/DevelopmentFiles.pri)
 
- TARGET          = DummyProject
- DESTDIR         = DummyProject_Library
+TARGET          = DummyProject
+DESTDIR         = DummyProject_Library
 
 HEADERS += \
     DummyProject.h
@@ -16,10 +16,10 @@ SOURCES += \
     DummyProject.cpp
 
 # QML and Resources
-
 OTHER_FILES += \
     DummyProject.qml \
     Menu.qml
+
 
 # deploy qml files to correct dir
 qml_folder.files = $$OTHER_FILES
