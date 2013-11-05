@@ -1,9 +1,33 @@
-Tepee3D - Alpha Release - May 31, 2013
+Tepee3D - Alpha 2.0 Release - November 5, 2013
 
 This is the first release of the Tepee3D application.
 
-It is bundled with the Qt 5.1.0 - beta libraries as well as a custom fork of
+It is bundled with the Qt 5.2.0 - beta 1 libraries as well as a custom fork of
 Qt3D - tepee3d-qt3d available at https://qt.gitorious.org/qt/tepee3d-qt3d.
+
+To install the application :
+
+On Linux :
+
+chmod u+x ./Tepee3D_Installer_*.run
+./Tepee3D_Installer_*.run
+
+Once the program has been installed, you can lauch it by running
+./Tepee3DEngine.sh
+
+On Windows :
+
+Run the installer and launch Tepee3DEngine.bat either by going into the
+install folder or by using the shortcut created in the menu
+
+On Mac :
+
+Install Tepee3DEngine.dmg
+
+Right-Click and select Show Package Content
+Move to MacOS/
+chmod u+x ./Tepee3DEngine.sh
+run ./Tepee3DEngine.sh
 
 All sources of the project are open source. You can freely use it, hack it and
 distribute it as long as you comply with the license below.
