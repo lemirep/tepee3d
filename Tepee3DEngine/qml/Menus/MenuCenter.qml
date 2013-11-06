@@ -194,7 +194,7 @@ Item
         anchors.fill: parent
         propagateComposedEvents: (obj === null) // PROPAGATE COMPOSE EVENTS (CLICK, DBCLICK ...)
         hoverEnabled: true
-
+        enabled : !mainWindow.menuLocked
 
         onPressed:
         {

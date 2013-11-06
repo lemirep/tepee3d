@@ -26,6 +26,7 @@ Viewport
     property int   currentRoomId : -1;
     property int   currentRoomFaceId : 0;
     property bool  isAPluginFocused : false;
+    property bool  menuLocked : false;
 
     property real   defaultFontSize : 14
     property real   smallFontSize : 12
