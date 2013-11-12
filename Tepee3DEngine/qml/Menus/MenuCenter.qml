@@ -134,10 +134,10 @@ Item
         onHandsUpdated:
         {
             handsList = hands;
-            if (hands.length === 1)
-            {
-                console.log("Hand pitch " + (180 * hands[0].pitch / Math.PI) + " roll " + (180 * hands[0].roll / Math.PI) + " yaw " + (180 * hands[0].yaw / Math.PI))
-            }
+//            if (hands.length === 1)
+//            {
+//                console.log("Hand pitch " + (180 * hands[0].pitch / Math.PI) + " roll " + (180 * hands[0].roll / Math.PI) + " yaw " + (180 * hands[0].yaw / Math.PI))
+//            }
         }
 
         onSwipeGesture :
