@@ -352,8 +352,12 @@ void LeapMotionListener::handleHandEvents(const Leap::Frame &frame)
             handsList.append(handObj);
         }
         foreach (QObject *listener, this->gesturesListeners)
-            qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener)->
-                    onHandCallBack(handsList);
+        {
+            Services::LeapMotionServiceGestureUserInterface *serviceListener =
+                    qobject_cast<Services::LeapMotionServiceGestureUserInterface *>(listener);
+            if (serviceListener != NULL)
+                serviceListener->onHandCallBack(handsList);
+        }
     }
 }
 
