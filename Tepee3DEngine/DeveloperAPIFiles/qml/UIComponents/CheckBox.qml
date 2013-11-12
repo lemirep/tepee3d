@@ -1,8 +1,36 @@
 import QtQuick 2.1
 
+/*
+\qmlType SettingsButton
+\inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
+\inherits Rectangle
+\brief Provides a checkbox.
+
+By the default, the height and the width are set to 50.
+
+\qml
+import QtQuick 2.1
+import DeveloperAPIFiles.qml.UIComponents 1.0 as UIComponents
+
+UIComponents.CheckBox
+{
+    onToggle :
+    {
+        console.log("Settings button was pressed");
+    }
+}
+\endqml
+
+*/
+
 Rectangle
 {
     property bool checked : false
+
+    /*
+        This signal is emitted when the user clicks the checkbox. The corresponding handler is
+        \c onToggle.
+    */
     signal toggle();
 
     onCheckedChanged:
