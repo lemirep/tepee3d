@@ -1,20 +1,13 @@
 /*!
     \page index.html
-    \title Tepee3D Reference Documentation
+    \title Tepee3D Documentation
 
     The Tepee3D Reference Documention is here to help you get started with Tepee3D whether you
     just want to install it on a device or to contribute to the project.
 
-    All of our sources are hosted on git repositories in case you're interested and can be accessed at
-    \list 1
- \li Official Tepee3D Repository (Read Only) \l {git://tepee3d.dyndns.org/tepee3d.git}
- \li Gitorious \l {git://gitorious.org/tepee3d/tepee3d.git}
- \li GitHub \l {https://github.com/lemirep/tepee3d.git}
- \li Assembla \l {git://git.assembla.com/tepee3d.git}
- \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code}
-    \endlist
+    \section1 Getting Started
 
-    \section1 Installation
+    \section2 Installation
 
     Installing Tepee3D is the first step that can be taken to contribute to the project.
     While waiting for the official release to come up, taking the time to install Tepee3D
@@ -27,7 +20,7 @@
     Download the installer for your platform \l {http://tepee3d.dyndns.org/download}
     Once you've downloaded the installer :
 
-    \section2 On Linux
+    \section3 On Linux
     \list 1
     \li Move to where the installer was downloaded
     \li Make it executable : \code chmod u+x Tepee3D_Installer... \endcode
@@ -37,12 +30,19 @@
     \endlist
 
 
-    \section2 On Windows
+    \section3 On Windows
     \list 1
     \li Launch the installer
     \li Install Tepee3D and the Qt5 Libraries (even if you have them already installed)
     \li Move to where you installed Tepee3D and launch it by clicking on Tepee3DEngine.bat
     \endlist
+
+    \section3 On Mac
+
+
+    \section3 On Android
+
+    \section3 Other Platforms
 
     If you're platform isn't listed in the download list, you must build Tepee3D from sources.
 
@@ -59,13 +59,45 @@
     by adding new plugins. In order to propose a wide variety of plugins, we encourage developpers
     to try and implement new features by creating new plugins.
 
-    The following link will guide you through the plugin creation process : \l {Plugins How To}
+    You can start right now !
+    \list
+    \l {Plugins How To} {Widget structure and concepts}
+    \l {Tepee3D Widget Tutorial} {The Tepee3D Widget Tutorial}
+    \l {The video tutorial}
+    \endlist
 
     \section2 Public API
 
     We tried to offer a comprehensive yet complete API to extend Tepee3D. If you see areas of
     improvement, aspects that lack cohesion or features you wish to see implemented, do no hesitate
     to let us know.
+
+    The API contains several elements that will ease the development process of your widgets.
+
+    \table
+    \header
+        \li API Feature
+        \li Description
+    \row
+        \li {The Database Service} {Database Access}
+        \li Allows you to save and retrieve content from a local SQLite database.
+    \row
+        \li {The Web Service} {WebServices}
+        \li Allows you to remotely access.
+    \row
+        \li {The FileDownloader Service} {File Downloader}
+        \li Retrieve and download files.
+    \row
+        \li {The LeapMotion Service} {LeapMotion Input}
+        \li Use a Leap Motion to add interaction to your widgets.
+    \row
+        \li {Tepee3D UI Components} {Qml UI Components}
+        \li Reuse UI components and
+    \row
+        \li \l {Models} {Data Models}
+        \li Store and fill model classes that can be used with your Qml.
+    \endtable
+
 
     All classes in the public API have been documented : \l {All Tepee3D Classes}
 
@@ -92,4 +124,17 @@
 
     One simple way of contributing to the project is simply by spreading the word to your friends, coworkers
     and family.
+
+
+    \section1 The Sources
+
+    All of our sources are hosted on git repositories in case you're interested and can be accessed at
+    \list 1
+    \li Official Tepee3D Repository (Read Only) \l {git://tepee3d.dyndns.org/tepee3d.git}
+    \li Gitorious \l {git://gitorious.org/tepee3d/tepee3d.git}
+    \li GitHub \l {https://github.com/lemirep/tepee3d.git}
+    \li Assembla \l {git://git.assembla.com/tepee3d.git}
+    \li SourceForge \l {git://git.code.sf.net/p/tepee3d/code}
+    \endlist
+
 */

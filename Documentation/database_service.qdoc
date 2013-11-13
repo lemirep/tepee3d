@@ -1,0 +1,9 @@
+/*!
+
+
+  \page database_service.html
+  \title The Database Service
+
+  \brief This services allows you to perform SQL queries to a local SQLite database.
+
+*/

@@ -22,11 +22,11 @@ HTML.postheader = \
     "<div class=\"container\">\n" \
     " <div class=\"row\">\n"	\
     "  <div class=\"span12 banner_tp3\">\n" \
-    "   <h2 class=\"title\">Tepee3D Reference Documentation</h2>" \
+    "   <h2 class=\"title\">Tepee3D Documentation</h2>" \
     "  </div> \n" \
     " </div> \n" \
     " <div class=\"row\">\n"	\
-    "  <div class=\"span12 well\">\n" \
+    "  <div class=\"span12\">\n" \
     "   <ul class=\"breadcrumb\">\n" \
     "    <!--  Breadcrumbs go here -->\n"
 
