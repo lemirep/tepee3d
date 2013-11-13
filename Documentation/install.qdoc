@@ -49,6 +49,7 @@
  \endlist
 
  \section4 Using QtCreator
+ \list 1
  \li \c Move to the path were Qt 5 was installed ex: \code cd ~/QtSQK/Qt5 \endcode
  \li \c Move to the sub directory containing Qt 5 ex: \code cd ~/QtSQK/Qt5/5.0.0/gcc_64 \endcode
  \li \c Download the Tepee3D Qt3D Module's sources using the command: \code git clone git://gitorious.org/~lemirep/qt/tepee3d-qt3d.git \endcode
@@ -57,6 +58,7 @@
  \li \c In the build settings deselect the shadow build checkbox.
  \li \c In the build settings add a Build Step Make and enter "install" in the arguments textbox
  \li \c Press play on the left or Ctrl + R
+ \endlist
 
  \section3 Common Errors
  \section4 Qt platform plugin "xcb" not found

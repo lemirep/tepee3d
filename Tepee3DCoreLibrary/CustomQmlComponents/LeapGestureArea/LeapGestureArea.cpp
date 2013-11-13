@@ -29,7 +29,7 @@
 
 /*!
  * \qmltype LeapGestureArea
- * \instanciate Tepee3DQmlExtensions::LeapGestureArea
+ * \instantiates Tepee3DQmlExtensions::LeapGestureArea
  * \inqmlmodule Tepee3D 1
  * \inherits Item
  * \brief Retrieve gesture and hand information from a LeapMotion input.
