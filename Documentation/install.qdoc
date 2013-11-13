@@ -106,7 +106,7 @@ linux-vdso.so.1 (0x00007fffa5f14000)
         libXxf86vm.so.1 => /usr/lib64/libXxf86vm.so.1 (0x00007fb0b2e81000)
         libdrm.so.2 => /usr/lib64/libdrm.so.2 (0x00007fb0b2c75000)
 \endcode
-Then, install all the libraries which have not been found and you should the issue should be resolved.
+Then, install all the libraries which have not been found and the issue should be resolved.
 
 \b {Note : } You might want to source Tepee3DEngine.sh first in order to have the libraries bundled with Tepee3D in your path.
 
