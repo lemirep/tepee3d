@@ -1,8 +1,9 @@
 /*!
-
   \page ui_components.html
   \title Tepee3D UI Components
-
+  \qmlmodule DeveloperAPIFiles.qml.UIComponents
   \brief A list of reusable UI components that you can easily integrate in your qml files.
+
+  Here is a listing of reusable components that can easily be inserted in Tepee3D widgets.
 
 */
