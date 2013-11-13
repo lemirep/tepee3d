@@ -5,5 +5,113 @@
 
   \brief This service gives access to a LeapMotion sensor.
 
+  The LeapMotion sensors allows another dimension of interactions to be added to a widget.
+  The LeapMotion service allows 3 types of interactions with the sensors :
+
+  \list
+  \li Mouse/Touch emulation
+  \li Gestures
+  \li Hands
+  \endlist
+
+  \section2 Mouse and Touch emulation
+
+  The LeapMotion service was developped with the idea in mind of adding inputs to an application without having to rewrite any part of it.
+  Therefore, it was decided to gather fingers'positions and simulate touch point or mouse Qt events. In other word that means that any touch or mouse based QtQuick component
+  will interact with the LeapMotion natively.
+
+  Here is a list of usual mouse/touch based QtQuick components : MouseArea, MultiPointTouchArea, ListView, GridView, Flickable, PinchArea, etc...
+
+  Mouse events are triggered when a single finger is detected. When the finger tip is pointed forward, a press event is triggered. When the finger tip moves backward,
+  a release event is triggered thus generating a click.
+
+  Regarding touch points, there is as many touch points generated as there is fingers over the LeapMotion.
+
+  \section2 Hands and Gestures
+
+  If you want to add interactions only a LeapMotion can produce, a dedicated QtQuick component \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea} is available.
+
+  \section3 Gestures
+
+  At the moment the following gestures are handled :
+  \table
+  \header
+    \li Gesture Type
+    \li Associated QtQuick object
+  \row
+    \li Swipe
+    \li \l {Tepee3DQmlExtensions::LeapSwipeGesture} {LeapSwipeGesture}
+  \row
+    \li Circle
+    \li \l {Tepee3DQmlExtensions::LeapCircleGesture} {LeapCircleGesture}
+  \row
+    \li ScreenTap
+    \li \l {Tepee3DQmlExtensions::LeapTapGesture} {LeapTapGesture}
+  \row
+    \li KeyTap
+    \li \l {Tepee3DQmlExtensions::LeapTapGesture} {LeapTapGesture}
+  \endtable
+
+  When a gesture is recognized, the proper gesture callback of the \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea} is triggered.
+
+  \section3 Hands
+
+  Hands information can be easily retrieved by. Among those information you'll have :
+  \list
+  \li Hand Pitch
+  \li Hand Roll
+  \li Hand Yaw
+  \li Hand Position
+  \endlist
+
+  Hands information can be obtained by the onHandsUpdated callback of the \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea}.
+  Each hand's data is store in an instance of \l {Tepee3DQmlExtensions::LeapHand} {LeapHand} object.
+
+  A quick overview of how to use the \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea}:
+
+  \code
+
+  import QtQuick 2.1
+  import Tepee3D 1.0
+
+  Item
+  {
+    width : 400
+    height : 400
+
+    LeapGestureArea
+    {
+        anchors.fill : parent
+
+        property var handsList : [];
+
+        onHandsUpdated:
+        {
+            handsList = hands;
+        }
+
+        onSwipeGesture :
+        {
+            console.log("Swipe Gesture Detected");
+        }
+
+        onCircleGesture:
+        {
+            console.log("Circle Gesture Detected");
+        }
+
+        onScreenTapGesture:
+        {
+            console.log("ScreenTap Gesture Detected");
+        }
+
+        onKeyTapGesture:
+        {
+            console.log("KeyTap Gesture Detected");
+        }
+    }
+  }
+
+  \endcode
 
 */

@@ -26,37 +26,37 @@ Item3D
     id : plugin_base
 
     /*!
-    \qmlproperty PluginBase::pluginId
+    \qmlproperty int PluginBase::pluginId
     Holds the identifier of the plugin in the room in which it is loaded.
     */
     property int pluginId : -1
     /*!
-    \qmlproperty PluginBase::pluginRoomId
+    \qmlproperty int PluginBase::pluginRoomId
     Holds the identifier of the room in which the plugin is loaded.
     */
     property int pluginRoomId :-1
     /*!
-    \qmlproperty PluginBase::roomQmlFile
+    \qmlproperty string PluginBase::roomQmlFile
     Contains the name of the qml file that is the entry point of the widget.
     */
     property string roomQmlFile : ""
     /*!
-    \qmlproperty PluginBase::menuQmlFile
+    \qmlproperty string PluginBase::menuQmlFile
     Contains the name of the qml file that contains the widget's menu.
     */
     property string menuQmlFile : ""
     /*!
-    \qmlproperty PluginBase::pluginName
+    \qmlproperty string PluginBase::pluginName
     Contains the name of the plugin.
     */
     property string pluginName : ""
     /*!
-    \qmlproperty PluginBase::pluginRepoName
+    \qmlproperty string PluginBase::pluginRepoName
     Contains the repo_name of the plugin. It matches the one in the C++ plugin file.
     */
     property string pluginRepoName : ""
     /*!
-    \qmlproperty PluginBase::pluginPostion
+    \qmlproperty vector3d PluginBase::pluginPosition
     Holds a vector containing the 3D position of the widget relative to the room's position.
     */
     property vector3d pluginPosition : Qt.vector3d(0, 0, 0)

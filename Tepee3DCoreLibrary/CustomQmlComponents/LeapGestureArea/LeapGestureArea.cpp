@@ -27,6 +27,15 @@
 
 #include "LeapGestureArea.h"
 
+/*!
+ * \qmltype LeapGestureArea
+ * \instanciate Tepee3DQmlExtensions::LeapGestureArea
+ * \inqmlmodule Tepee3D 1
+ * \inherits Item
+ * \brief Retrieve gesture and hand information from a LeapMotion input.
+ */
+
+
 Tepee3DQmlExtensions::LeapGestureArea::LeapGestureArea(QQuickItem *parent) : QQuickItem(parent)
 {
     // REGISTER THE OBJECT TO TEPEE3D SERVICES
@@ -479,6 +488,14 @@ void Tepee3DQmlExtensions::LeapTapGesture::setDirection(const QVector3D directio
     }
 }
 
+
+/*!
+ * \qmltype LeapHand
+ * \instanciate Tepee3DQmlExtensions::LeapHand
+ * \inqmlmodule Tepee3D 1
+ * \inherits QObject
+ * \brief Contains informations about a hand.
+ */
 
 Tepee3DQmlExtensions::LeapHand::LeapHand(int handID) : QObject(), m_handID(handID)
 {

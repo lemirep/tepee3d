@@ -29,12 +29,12 @@ Item
     id : textFocusScope
 
     /*!
-    \qmlproperty TextInputComponent::placeHolder
+    \qmlproperty alias TextInputComponent::placeHolder
     Holds the text to show when no input is done.
     */
     property alias placeHolder : placeHolderText.text
     /*!
-    \qmlproperty TextInputComponent::echoMode
+    \qmlproperty alias TextInputComponent::echoMode
     Sets the type of echo mode :
     \list
     \li TextInput.Normal
@@ -46,7 +46,7 @@ Item
     */
     property alias echoMode : textInput.echoMode
     /*!
-    \qmlproperty TextInputComponent::text
+    \qmlproperty alias TextInputComponent::text
     Contains the current text in the input. (Not including the place holder)
     */
     property alias text : textInput.text

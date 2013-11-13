@@ -1,13 +1,12 @@
 /*!
     \page index.html
-    \title Tepee3D Documentation
+    \title Getting Started
 
     The Tepee3D Reference Documention is here to help you get started with Tepee3D whether you
     just want to install it on a device or to contribute to the project.
 
-    \section1 Getting Started
 
-    \section2 Installation
+    \section1 Installation
 
     Installing Tepee3D is the first step that can be taken to contribute to the project.
     While waiting for the official release to come up, taking the time to install Tepee3D
@@ -17,7 +16,7 @@
     The project can either be installed by downloading and running the installer corresponding
     to the platform you're on or be built from sources.
 
-    Download the installer for your platform \l {http://tepee3d.dyndns.org/download}
+    \l {http://tepee3d.dyndns.org/download} {Download} the installer for your platform
     Once you've downloaded the installer :
 
     \section3 On Linux
@@ -79,27 +78,26 @@
         \li API Feature
         \li Description
     \row
-        \li {The Database Service} {Database Access}
+        \li \l {The Database Service} {Database Access}
         \li Allows you to save and retrieve content from a local SQLite database.
     \row
-        \li {The Web Service} {WebServices}
+        \li \l {The Web Service} {WebServices}
         \li Allows you to remotely access.
     \row
-        \li {The FileDownloader Service} {File Downloader}
+        \li \l {The FileDownloader Service} {File Downloader}
         \li Retrieve and download files.
     \row
-        \li {The LeapMotion Service} {LeapMotion Input}
+        \li \l {The LeapMotion Service} {LeapMotion Input}
         \li Use a Leap Motion to add interaction to your widgets.
     \row
-        \li {Tepee3D UI Components} {Qml UI Components}
+        \li \l {Tepee3D UI Components} {Qml UI Components}
         \li Reuse UI components and
     \row
         \li \l {Models} {Data Models}
         \li Store and fill model classes that can be used with your Qml.
     \endtable
 
-
-    All classes in the public API have been documented : \l {All Tepee3D Classes}
+    If you want to dig into the full API, all classes API have been documented : \l {All Tepee3D Classes}
 
     If you wished to implement yourself new services, plugins can register to, please have a look
     at \l {Service Library How To}
