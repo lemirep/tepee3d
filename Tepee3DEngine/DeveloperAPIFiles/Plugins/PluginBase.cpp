@@ -71,7 +71,13 @@
 /*!
  * \fn QString Plugins::PluginBase::getPluginName() const
  *
- * Returns the name of the plugins.
+ * Returns the name of the plugin, it doesn't have to be exactly the same as the name provided during the plugin creation process.
+ */
+
+/*!
+ * \fn QString Plugins::PluginBase::getPluginRepoName() const
+ *
+ * Returns the repo_name of the plugin provided during the plugin creation process.
  */
 
 /*!
@@ -112,7 +118,7 @@
  */
 
 /*!
- * \fn void Plugins::PluginBase::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
+ * \fn void Plugins::PluginBase::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data)
  *
  * Triggered when the \a reply of a previously executed network request is received.
  * The \a requestId and the \a data parameter that might have optionaly been passed when executing the request, are forwarded
@@ -120,14 +126,23 @@
  */
 
 /*!
- * \fn void Plugins::PluginBase::executeSQLQuery(const QString& query, QObject *sender, int id, const QString& dbName, void *data = NULL)
+ * \fn void Plugins::PluginBase::executeSQLQuery(const QString& query,
+                            QPointer<QObject> sender,
+                            int id,
+                            const QString &dbName,
+                            QPointer<QObject> data = QPointer<QObject>());
  *
  * Emitted when a database \a query needs to be executed on a the database names \a dbName. The result of its execution will be transmitted to the \a sender
  * along with an \a id to recognize the query. Note that an optional \a data pointer can be passed and will be retransmitted with the result of the query.
  */
 
 /*!
- * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request, Services::WebServiceUserInterface::WebServiceRequestType requestType, QHttpMultiPart *multipart, QObject *sender, int requestId, void *data)
+ * \fn void Plugins::PluginBase::executeHttpRequest(const QNetworkRequest &request,
+                               Services::WebServiceUserInterface::WebServiceRequestType requestType,
+                               QHttpMultiPart *multipart,
+                               QPointer<QObject> sender,
+                               int requestId,
+                               QPointer<QObject> data);
  *
  * Emitted when a network \a request needs to be performed, with the \a requestType to identify the type HTTP request and a \a multipart which can be null to transmit
  * data through the request. The reply will be transmitted to \a sender along with the \a data pointer and \a requestId of his choice.
@@ -144,7 +159,6 @@
  *
  * Emitted when the \a focusState of a plugin has changed with the \a previousState in which the plugin was.
  */
-
 
 /*!
  * \fn void Plugins::PluginBase::roomEntered()

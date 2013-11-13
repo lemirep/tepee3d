@@ -41,13 +41,6 @@
  * \inmodule Tepee3D
  */
 
-
-/*!
- * This methods loads all the local libraries found in the Tepee3D plugin forlder.
- * Each library is checked to see whether it is a valid plugin or not, if it´s the
- * case an instance of the given plugin is saved in a list.
- */
-
 QList<Plugins::PluginBase *> Plugins::PluginLoader::widgetPlugins = QList<Plugins::PluginBase *>();
 
 Plugins::PluginLoader::PluginLoader(QObject *parent) : QObject(parent)
@@ -59,6 +52,9 @@ void Plugins::PluginLoader::unloadPlugins()
    Plugins::PluginLoader::widgetPlugins.clear();
 }
 
+/*!
+ * Initializes \a plugin and adds it to \a room.
+ */
 void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::RoomBase *room)
 {
     if (room != NULL && plugin != NULL)
@@ -69,6 +65,11 @@ void Plugins::PluginLoader::addPluginToRoom(Plugins::PluginBase *plugin, Room::R
     }
 }
 
+/*!
+ * This methods loads all the local libraries found in the Tepee3D plugin folder.
+ * Each library is checked to see whether it is a valid plugin or not, if it´s the
+ * case an instance of the given plugin is saved in a list.
+ */
 void    Plugins::PluginLoader::loadWidgetPlugins()
 {
     // RM PREVIOUSLY LOADED WIDGETS

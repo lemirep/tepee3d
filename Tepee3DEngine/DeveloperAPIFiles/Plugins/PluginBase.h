@@ -112,7 +112,11 @@ protected:
 
     // Defines all signals that a plugin can emit or receive
 signals :
-    void    executeSQLQuery(const QString& query, QPointer<QObject> sender, int id, const QString &dbName, QPointer<QObject> data = QPointer<QObject>());
+    void    executeSQLQuery(const QString& query,
+                            QPointer<QObject> sender,
+                            int id,
+                            const QString &dbName,
+                            QPointer<QObject> data = QPointer<QObject>());
     void    executeHttpRequest(const QNetworkRequest &request,
                                Services::WebServiceUserInterface::WebServiceRequestType requestType,
                                QHttpMultiPart *multipart,

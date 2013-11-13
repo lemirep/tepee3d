@@ -1,6 +1,6 @@
 import QtQuick 2.1
 
-/*
+/*!
 \qmlType SettingsButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
 \inherits Rectangle
@@ -27,7 +27,7 @@ Rectangle
 {
     property bool checked : false
 
-    /*
+    /*!
         This signal is emitted when the user clicks the checkbox. The corresponding handler is
         \c onToggle.
     */

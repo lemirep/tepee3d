@@ -39,7 +39,7 @@
  */
 
 /*!
- * \fn void DatabaseServiceUserInterface::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, void *data)
+ * \fn void DatabaseServiceUserInterface::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data)
  *
  * Method that will be called when a the SQL query has been executed to pass on the obtained \a result.
  * The \a id and the \a data parameters that have been passed to the executeSqlQuery signal are forwarded.

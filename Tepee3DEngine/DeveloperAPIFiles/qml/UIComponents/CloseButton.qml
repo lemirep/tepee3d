@@ -1,6 +1,6 @@
 import QtQuick 2.1
 
-/*
+/*!
 \qmlType CloseButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
 \inherits Image
@@ -27,7 +27,7 @@ Image
 {
     id : close_button
 
-    /*
+    /*!
         This signal is emitted when the user clicks the button. A click is defined
         as a press followed by a release. The corresponding handler is
         \c onClicked.

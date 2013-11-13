@@ -57,34 +57,21 @@
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId, void *data)
+ * \fn void Services::WebServiceUserInterface::receiveResultFromHttpRequest(QNetworkReply *reply, int requestId,QPointer<QObject> data)
  *
  * Receives the \a reply of the last executed request and forward the \a requestId and \a data parameters that were passed
  * when executing the request.
  */
 
 /*!
- * \fn void Services::WebServiceUserInterface::executeHttpGetRequest(const QNetworkRequest& request, int requestId, void *data)
+ * \fn void Services::WebServiceUserInterface::executeHttpRequest(const QNetworkRequest& request,
+                                    Services::WebServiceUserInterface::WebServiceRequestType type,
+                                    QHttpMultiPart*,
+                                    QPointer<QObject> sender,
+                                    int requestId,
+                                    QPointer<QObject> data = QPointer<QObject>())
  *
- * Performs a GET Http \a request. \a requestId and \a data will be transmitted along with the result of the request.
- */
-
-/*!
- * \fn void Services::WebServiceUserInterface::executeHttpDeleteRequest(const QNetworkRequest& request, int requestId, void *data)
- *
- * Performs a DELETE Http \a request. \a requestId and \a data will be transmitted along with the result of the request.
- */
-
-/*!
- * \fn void Services::WebServiceUserInterface::executeHttpPutRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data)
- *
- * Performs a PUT Http \a request. If \a multiPart is not NULL its data will be transmitted with the request. \a requestId and \a data will be transmitted along with the result of the request.
- */
-
-/*!
- * \fn void Services::WebServiceUserInterface::executeHttpPostRequest(const QNetworkRequest& request, QHttpMultiPart* multiPart, int requestId, void *data)
- *
- * Performs a POST Http \a request. If \a multiPart is not NULL its data will be transmitted with the request. \a requestId and \a data will be transmitted along with the result of the request.
+ * Performs a Http \a request of type \a type. \a requestId and \a data will be transmitted along to \a sender with the result of the request.
  */
 
 

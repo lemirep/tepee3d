@@ -28,7 +28,7 @@
 #include "PluginDownloader.h"
 
 /*!
- * \class PluginDownloader
+ * \class Plugins::PluginDownloader
  * \brief Utility class handling the download of plugin libraries from the Tepee3D remote server.
  */
 

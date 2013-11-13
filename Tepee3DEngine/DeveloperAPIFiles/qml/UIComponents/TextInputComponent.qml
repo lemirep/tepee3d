@@ -1,6 +1,6 @@
 import QtQuick 2.1
 
-/*
+/*!
 \qmlType TextInputComponent
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
 \inherits Item
@@ -50,7 +50,7 @@ Item
     Contains the current text in the input. (Not including the place holder)
     */
     property alias text : textInput.text
-    /*
+    /*!
         This signal is emitted when the validates the input. The corresponding handler is
         \c onAccepted.
     */

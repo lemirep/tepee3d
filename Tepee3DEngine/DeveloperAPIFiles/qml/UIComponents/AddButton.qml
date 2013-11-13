@@ -1,6 +1,6 @@
 import QtQuick 2.1
 
-/*
+/*!
 \qmlType AddButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
 \inherits Image

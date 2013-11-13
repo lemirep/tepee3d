@@ -30,7 +30,7 @@
 /*!
  * \qmltype LeapGestureArea
  * \instantiates Tepee3DQmlExtensions::LeapGestureArea
- * \inqmlmodule Tepee3D 1
+ * \inqmlmodule Tepee3D
  * \inherits Item
  * \brief Retrieve gesture and hand information from a LeapMotion input.
  */
@@ -241,7 +241,7 @@ Tepee3DQmlExtensions::LeapHand *Tepee3DQmlExtensions::LeapGestureArea::handAt(QQ
 
 /*!
  * \qmltype LeapCircleGesture
- * \inqmlmodule Tepee3D 1
+ * \inqmlmodule Tepee3D
  * \inherits QObject
  * \brief Represents a Circle gesture
  */
@@ -355,7 +355,7 @@ void Tepee3DQmlExtensions::LeapCircleGesture::setTurns(qreal turns)
 
 /*!
  * \qmltype LeapSwipeGesture
- * \inqmlmodule Tepee3D 1
+ * \inqmlmodule Tepee3D
  * \inherits QObject
  * \brief Represents a Swipe gesture
  */
@@ -454,8 +454,8 @@ void Tepee3DQmlExtensions::LeapSwipeGesture::setSpeed(qreal speed)
 
 
 /*!
- * \qmltype LeapTagGesture
- * \inqmlmodule Tepee3D 1
+ * \qmltype LeapTapGesture
+ * \inqmlmodule Tepee3D
  * \inherits QObject
  * \brief Represents a Tap gesture
  */
