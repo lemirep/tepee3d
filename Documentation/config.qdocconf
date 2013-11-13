@@ -80,7 +80,7 @@ exampledirs 		  = ../ \
 
 imagedirs		  = ./images/
 
-sources.fileextensions  = "*.cpp *.qdoc *.doc" 
+sources.fileextensions  = "*.cpp *.qdoc *.doc *.qml" 
 headers.fileextensions 	= "*.h"
 
 generateIndex 		= true 
