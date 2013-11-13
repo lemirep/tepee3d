@@ -40,19 +40,19 @@
     \li Associated QtQuick object
   \row
     \li Swipe
-    \li \l {Tepee3DQmlExtensions::LeapSwipeGesture} {LeapSwipeGesture}
+    \li \l {LeapSwipeGesture}
   \row
     \li Circle
-    \li \l {Tepee3DQmlExtensions::LeapCircleGesture} {LeapCircleGesture}
+    \li \l  {LeapCircleGesture}
   \row
     \li ScreenTap
-    \li \l {Tepee3DQmlExtensions::LeapTapGesture} {LeapTapGesture}
+    \li \l {LeapTapGesture}
   \row
     \li KeyTap
-    \li \l {Tepee3DQmlExtensions::LeapTapGesture} {LeapTapGesture}
+    \li \l {LeapTapGesture}
   \endtable
 
-  When a gesture is recognized, the proper gesture callback of the \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea} is triggered.
+  When a gesture is recognized, the proper gesture callback of the \l {LeapGestureArea} is triggered.
 
   \section3 Hands
 
@@ -64,10 +64,10 @@
   \li Hand Position
   \endlist
 
-  Hands information can be obtained by the onHandsUpdated callback of the \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea}.
-  Each hand's data is store in an instance of \l {Tepee3DQmlExtensions::LeapHand} {LeapHand} object.
+  Hands information can be obtained by the onHandsUpdated callback of the \l {LeapGestureArea}.
+  Each hand's data is store in an instance of \l {LeapHand} object.
 
-  A quick overview of how to use the \l {Tepee3DQmlExtensions::LeapGestureArea} {LeapGestureArea}:
+  A quick overview of how to use the \l {LeapGestureArea}:
 
   \code
 

@@ -239,6 +239,12 @@ Tepee3DQmlExtensions::LeapHand *Tepee3DQmlExtensions::LeapGestureArea::handAt(QQ
     return reinterpret_cast<LeapHand *>(area->m_hands[index]);
 }
 
+/*!
+ * \qmltype LeapCircleGesture
+ * \inqmlmodule Tepee3D 1
+ * \inherits QObject
+ * \brief Represents a Circle gesture
+ */
 
 Tepee3DQmlExtensions::LeapCircleGesture::LeapCircleGesture() :
     QObject(),
@@ -347,7 +353,12 @@ void Tepee3DQmlExtensions::LeapCircleGesture::setTurns(qreal turns)
 }
 
 
-
+/*!
+ * \qmltype LeapSwipeGesture
+ * \inqmlmodule Tepee3D 1
+ * \inherits QObject
+ * \brief Represents a Swipe gesture
+ */
 
 Tepee3DQmlExtensions::LeapSwipeGesture::LeapSwipeGesture() :
     QObject(),
@@ -442,6 +453,13 @@ void Tepee3DQmlExtensions::LeapSwipeGesture::setSpeed(qreal speed)
 }
 
 
+/*!
+ * \qmltype LeapTagGesture
+ * \inqmlmodule Tepee3D 1
+ * \inherits QObject
+ * \brief Represents a Tap gesture
+ */
+
 Tepee3DQmlExtensions::LeapTapGesture::LeapTapGesture() :
     QObject(),
     m_id(0),
@@ -491,7 +509,6 @@ void Tepee3DQmlExtensions::LeapTapGesture::setDirection(const QVector3D directio
 
 /*!
  * \qmltype LeapHand
- * \instanciate Tepee3DQmlExtensions::LeapHand
  * \inqmlmodule Tepee3D 1
  * \inherits QObject
  * \brief Contains informations about a hand.
