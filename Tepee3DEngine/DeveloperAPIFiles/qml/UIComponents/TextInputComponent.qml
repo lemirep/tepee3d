@@ -3,7 +3,7 @@ import QtQuick 2.1
 /*!
 \qmltype TextInputComponent
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
-\inherits QtQuick::Item
+\inherits QtQuick2::Item
 \brief Provides a text input.
 
 By the default, the height is set to 28.

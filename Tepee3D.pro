@@ -27,6 +27,11 @@ CONFIG += console
                  Documentation/how-to-plugins.qdoc \
                  Documentation/all_classes.qdoc \
                  Documentation/plugin_tutorial.qdoc \
+                 Documentation/database_service.qdoc \
+                 Documentation/web_service.qdoc \
+                 Documentation/file_downloader_service.qdoc \
+                 Documentation/leap_motion_service.qdoc \
+                 Documentation/ui_components.qdoc \
                  Documentation/index.qdoc
 
     DOC_EXTRAS += DummyProject/DummyProject.cpp \

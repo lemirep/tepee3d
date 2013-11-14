@@ -1,9 +1,97 @@
 /*!
-
-
   \page database_service.html
   \title The Database Service
 
   \brief This services allows you to perform SQL queries to a local SQLite database.
+
+
+  Being considered as an essential service, \l {Plugins::PluginBase} which is the base class of all widget implementations
+  already implements the necessary interface \l {Services::DatabaseServiceUserInterface}.
+
+  That means, all you have to do is write the requests and your callback methods to be able to interact with a local SQLite database.
+
+  \b {Note :} When registering for a new widget, your are given a database name. You should only perform queries on that database. In addition as this
+  database is dedicated to your own widget, you can either provide it with an already generated schema. Otherwise you can handle the schema creation by performing
+  raw SQL queries.
+
+  \section2 Performing a SQL query
+
+
+  A SQL query can easily be performed by emitting the signal :
+
+  \code
+    virtual void executeSQLQuery(const QString& query, QPointer<QObject> sender, int id,
+                                 const QString &dbName, QPointer<QObject> data = QPointer<QObject>())
+  \endcode
+
+  \code
+
+    #define DB_NAME "database.sql"
+    #define GENRIC_RESULT 1
+
+    ....
+
+    QString query = QString("SELECT id, name FROM rooms WHERE
+                              "WHERE name = '%1';")
+            .arg("Titi");
+
+    // DB_NAME is the name a define of the name of our database
+    // GENRIC_RESULT is an integer id that we will use to retrieve the result set returned by the query.
+    emit executeSQLQuery(query, QPointer<QObject>(this), GENERIC_RESULT, DB_NAME);
+
+  \endcode
+
+  \b {Note :} Watch the logs, they will tell you if your query syntax is wrong.
+
+  \section2 Retrieving the result of a query
+
+  SQL queries are performed asynchronously, that means you can't know when you will receive a response.
+
+  When a result is received, it will trigger the following method in your widget :
+
+  \code
+    virtual void receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data)
+  \endcode
+
+  You receive the result set, the id you passed when calling the request as well as an eventual data pointer you might have passed.
+
+  In order to have a clean structure, we recommend using member function pointers. That way, an id can be assigned with a given call back which allows to
+  easily separate the handling of SQL queries and their results.
+
+  \code
+
+  #include <QHash>
+  #include <QDebug>
+  #define DB_NAME "database.sql"
+  #define GENRIC_RESULT 1
+
+  ...
+
+  // DECLARE THE HASH AS AN INSTANCE VARIABLE IN YOUR HEADER
+  QHash<int, void (MyWidgetClass::*)(QList<QSqlRecord> result, QPointer<QObject> data)> databaseCallBack;
+  ...
+
+  MyWidgetClass::MyWidgetClass() : Plugins::PluginBase()
+  {
+  databaseCallBack[GENERIC_RESULT] = &MyWidgetClass::genericCallBack(QList<QSqlRecord> result, QPointer<QObject> data);
+  }
+  ...
+
+ void MyWidgetClass::receiveResultFromSQLQuery(QList<QSqlRecord> result, int id, QPointer<QObject> data)
+  {
+    // WE ASSUME YOU WILL NEVER PASS AN ID THAT HAS NO CALLBACK
+    (this->*this->databaseCallBack[id])(result, data);
+  }
+  ...
+
+ void MyWidgetClass::genericCallBack(QList<QSqlRecord> result, QPointer<QObject> data)
+ {
+    qDebug() << "Result received";
+ }
+  ...
+
+  \endcode
+
+
 
 */

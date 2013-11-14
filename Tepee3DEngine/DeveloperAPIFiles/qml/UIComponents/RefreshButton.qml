@@ -3,7 +3,7 @@ import QtQuick 2.1
 /*!
 \qmltype RefreshButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
-\inherits QtQuick::Image
+\inherits QtQuick2::Image
 \brief Provides a refresh button.
 
 By the default, the height and the width are set to 50.

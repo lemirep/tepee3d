@@ -1,9 +1,9 @@
 import QtQuick 2.1
 
 /*!
-\qmlType SettingsButton
+\qmltype SettingsButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
-\inherits Rectangle
+\inherits QtQuick2::Rectangle
 \brief Provides a checkbox.
 
 By the default, the height and the width are set to 50.

@@ -3,7 +3,7 @@ import QtQuick 2.1
 /*!
 \qmltype AddButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
-\inherits Image
+\inherits QtQuick2::Image
 \brief Provides a plus sign button.
 
 By the default, the height and the width are set to 50.
