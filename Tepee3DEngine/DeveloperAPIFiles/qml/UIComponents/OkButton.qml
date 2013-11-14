@@ -1,9 +1,9 @@
 import QtQuick 2.1
 
 /*!
-\qmlType OkButton
+\qmltype OkButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
-\inherits Image
+\inherits QtQuick::Image
 \brief Provides a validate sign button.
 
 By the default, the height and the width are set to 50.

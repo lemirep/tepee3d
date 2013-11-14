@@ -1,9 +1,9 @@
 import QtQuick 2.1
 
 /*!
-\qmlType BackButton
+\qmltype BackButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
-\inherits Image
+\inherits QtQuick::Image
 \brief Provides a back button.
 
 By the default, the height and the width are set to 50.

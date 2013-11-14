@@ -1,7 +1,7 @@
 import QtQuick 2.1
 
 /*!
-\qmlType AddButton
+\qmltype AddButton
 \inqmlmodule DeveloperAPIFiles.qml.UIComponents 1.0
 \inherits Image
 \brief Provides a plus sign button.
